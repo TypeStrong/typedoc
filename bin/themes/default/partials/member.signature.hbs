@@ -1,0 +1,41 @@
+<h3 class="tsd-kind-icon">{{#compact}}
+    {{name}}(
+    {{#each children}}
+        {{#if @index}},&nbsp;{{/if}}
+        {{name}}{{#if isOptional}}?{{/if}}
+        :&nbsp;{{#with type}}{{>type}}{{/with}}
+        {{#if defaultValue}}&nbsp;=&nbsp;{{defaultValue}}{{/if}}
+    {{/each}}
+    ){{#if type}}
+        :&nbsp;{{#with type}}{{>type}}{{/with}}
+    {{/if}}
+{{/compact}}</h3>
+
+{{> member.sources}}
+{{> comment}}
+
+{{#if children}}
+    <h4>Parameters</h4>
+    <ul>
+        {{#each children}}
+            <li>
+                <h5>{{#compact}}
+                    {{name}}{{#if isOptional}}?{{/if}}:&nbsp;{{#with type}}{{>type}}{{/with}}
+
+                    {{#each flagsArray}}
+                        &nbsp;<span class="tsd-flag ts-flag{{this}}">{{this}}</span>
+                    {{/each}}
+                {{/compact}}</h5>
+                {{> comment}}
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+{{#if type}}
+    <h4>Returns</h4>
+    <p>{{#with type}}{{>type}}{{/with}}</p>
+    {{#if comment.returns}}
+        {{#markdown}}{{{comment.returns}}}{{/markdown}}
+    {{/if}}
+{{/if}}

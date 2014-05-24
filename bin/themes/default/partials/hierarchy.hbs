@@ -1,0 +1,10 @@
+<li>
+    {{#with type}}{{>type}}{{/with}}
+    {{#if children}}
+        <ul>
+            {{#each children}}
+                {{>hierarchy}}
+            {{/each}}
+        </ul>
+    {{/if}}
+</li>

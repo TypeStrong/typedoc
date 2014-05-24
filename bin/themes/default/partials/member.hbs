@@ -1,0 +1,18 @@
+<section class="tsd-member {{cssClasses}}">
+    <a name="{{alias}}"></a>
+    {{#if signatures}}
+        {{#each signatures}}
+            {{> member.signature}}
+        {{/each}}
+    {{else}}
+        {{> member.declaration}}
+    {{/if}}
+
+    {{#each groups}}
+        {{#each children}}
+            {{#unless hasOwnDocument}}
+                {{> member}}
+            {{/unless}}
+        {{/each}}
+    {{/each}}
+</section>

@@ -1,0 +1,9 @@
+{{#if this}}
+    {{#if reflection}}
+        <a href="{{relativeURL reflection.url}}">{{reflection.name}}</a>{{#if isArray}}[]{{/if}}
+    {{else}}
+        {{this}}
+    {{/if}}
+{{else}}
+    void
+{{/if}}

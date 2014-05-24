@@ -1,0 +1,15 @@
+<aside class="tsd-sources">
+    {{#if inheritedFrom}}
+        <p>Inherited from {{#with inheritedFrom}}{{> typeAndParent}}{{/with}}</p>
+    {{/if}}
+    {{#if overwrites}}
+        <p>Overwrites {{#with overwrites}}{{> typeAndParent}}{{/with}}</p>
+    {{/if}}
+    {{#if sources}}
+        <ul>
+            {{#each sources}}
+                <li>Defined in {{fileName}}:{{line}}</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+</aside>

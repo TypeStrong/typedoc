@@ -1,0 +1,14 @@
+@mixin vendors($property, $value...)
+    -webkit-#{$property}: $value
+    -moz-#{$property}: $value
+    -ms-#{$property}: $value
+    -o-#{$property}: $value
+    #{$property}: $value
+
+@mixin clearfix
+    &:after
+        visibility: hidden
+        display: block
+        content: ""
+        clear: both
+        height: 0

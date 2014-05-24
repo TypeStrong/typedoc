@@ -1,0 +1,29 @@
+@mixin size-mobile
+    @media (max-width: 767px)
+        &
+            @content
+
+.container
+    max-width: 1200px
+    margin: 0 auto
+    padding: 0 40px
+
+    +size-mobile
+        padding: 0 20px
+
+.row
+    +clearfix
+    margin: 0 -10px
+
+.column
+    +vendors(box-sizing, border-box)
+    float: left
+    padding: 0 10px
+
+@for $width from 1 to 12
+    .col-#{$width}
+        @extend .column
+        width: $width / 12 * 100%
+
+    .offset-#{$width}
+        margin-left: $width / 12 * 100%

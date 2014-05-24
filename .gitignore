@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+.sass-cache
+node_modules
+etc
+test/*/doc

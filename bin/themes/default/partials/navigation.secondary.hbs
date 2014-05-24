@@ -1,0 +1,14 @@
+{{#if isInPath}}
+{{#if children}}
+    <ul>
+        {{#each children}}
+            {{#unless isPrimary}}
+                <li class="{{#if isInPath}}current{{/if}} {{cssClasses}}">
+                    <a href="{{relativeURL url}}" class="tsd-kind-icon">{{title}}</a>
+                    {{> navigation.secondary}}
+                </li>
+            {{/unless}}
+        {{/each}}
+    </ul>
+{{/if}}
+{{/if}}

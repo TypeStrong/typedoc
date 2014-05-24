@@ -1,0 +1,14 @@
+<li class="{{#if isInPath}}current{{/if}} {{cssClasses}}">
+    <a href="{{relativeURL url}}">{{title}}</a>
+    {{#if isInPath}}
+        {{#if children}}
+            <ul>
+                {{#each children}}
+                    {{#if isPrimary}}
+                        {{> navigation.primary}}
+                    {{/if}}
+                {{/each}}
+            </ul>
+        {{/if}}
+    {{/if}}
+</li>

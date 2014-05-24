@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{relativeURL "assets/css/main.css"}}">
+</head>
+<body>
+
+<header>
+    <div class="tsd-page-toolbar">
+        <div class="container">
+            <div id="tsd-filter">
+                <input type="checkbox" id="tsd-filter-inherited" checked />
+                <label for="tsd-filter-inherited">Inherited</label>
+
+                <input type="checkbox" id="tsd-filter-private" checked />
+                <label for="tsd-filter-private">Private</label>
+
+                <input type="checkbox" id="tsd-filter-only-exported" />
+                <label for="tsd-filter-only-exported">Only exported</label>
+            </div>
+
+            TypeDoc Documentation
+        </div>
+    </div>
+    <div class="tsd-page-title">
+        <div class="container">
+            <ul class="breadcrumb">
+                {{#with model}}{{> breadcrumb}}{{/with}}
+            </ul>
+            <h1>{{model.kindString}} {{model.name}}</h1>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {{{contents}}}
+        </div>
+        <div class="offset-1 col-3">
+            <nav class="tsd-navigation primary">
+                <ul>
+                    {{#each navigation.children}}
+                        {{> navigation.primary}}
+                    {{/each}}
+                </ul>
+            </nav>
+
+            <nav class="tsd-navigation secondary">
+                {{#each secondary}}
+                    {{> navigation.secondary}}
+                {{/each}}
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script src="{{relativeURL "assets/js/main.js"}}"></script>
+
+</body>
+</html>

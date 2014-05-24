@@ -1,0 +1,16 @@
+{{#if comment.shortText}}
+    {{#markdown}}{{{comment.shortText}}}{{/markdown}}
+{{/if}}
+
+{{#if comment.text}}
+    {{#markdown}}{{{comment.text}}}{{/markdown}}
+{{/if}}
+
+{{#if comment.tags}}
+    <dl class="tsd-comment-tags">
+        {{#each comment.tags}}
+            <dt>{{tagName}}</dt>
+            <dd>{{#markdown}}{{{text}}}{{/markdown}}</dd>
+        {{/each}}
+    </dl>
+{{/if}}

@@ -1,0 +1,17 @@
+{{#with model}}
+    {{> comment}}
+{{/with}}
+
+{{#if model.typeHierarchy}}
+    <h2>Hierarchy</h2>
+    <ul>
+        {{#with model.typeHierarchy}}
+            {{>hierarchy}}
+        {{/with}}
+    </ul>
+{{/if}}
+
+{{#with model}}
+    {{> index}}
+    {{> members}}
+{{/with}}
