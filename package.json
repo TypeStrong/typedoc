@@ -2,7 +2,9 @@
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
   "version": "0.0.1",
-  "bin": "bin/tsd",
+  "bin": {
+      "tsd" : "bin/tsd"
+  },
   "author": {
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
