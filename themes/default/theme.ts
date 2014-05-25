@@ -56,6 +56,43 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
     }
 
 
+    initialize() {
+        this.project.reflections.forEach((reflection:TypeDoc.Models.DeclarationReflection) => {
+            var classes = [];
+            /*
+            var flags = <any>Flags, classes = [];
+            classes.push(classify('ts-kind-'+ Kind[this.kind]));
+
+            if (this.parent && this.parent instanceof DeclarationReflection) {
+                classes.push(classify('ts-parent-kind-'+ Kind[(<DeclarationReflection>this.parent).kind]));
+            }
+
+            for (var key in flags) {
+                var num = +key;
+                if (num != key || num == 0 || !flags.hasOwnProperty(key)) continue;
+                if ((this.flags & num) != num) continue;
+                classes.push(classify('ts-flag-'+ flags[+key]));
+            }
+            */
+
+            if (reflection.inheritedFrom) classes.push('tsd-is-inherited');
+            if (reflection.isPrivate)     classes.push('tsd-is-private');
+            if (!reflection.isExported)   classes.push('tsd-is-not-exported');
+            reflection.cssClasses = classes.join(' ');
+
+            if (reflection.groups) {
+                reflection.groups.forEach((group:TypeDoc.Models.ReflectionGroup) => {
+                    var classes = [];
+                    if (group.allChildrenAreInherited) classes.push('tsd-is-inherited');
+                    if (group.allChildrenArePrivate)   classes.push('tsd-is-private');
+                    if (!group.allChildrenAreExported) classes.push('tsd-is-not-exported');
+                    group.cssClasses = classes.join(' ');
+                });
+            }
+        });
+    }
+
+
     /**
      * Build the urls for the current project.
      *
@@ -120,7 +157,7 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
             var name = parent == root ? reflection.getFullName() : reflection.name;
             var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
             item.isPrimary = (parent == root);
-            item.cssClasses = reflection.getCssClasses();
+            item.cssClasses = reflection.cssClasses;
 
             reflection.children.forEach((child) => {
                 if (child.kindOf(TypeDoc.Models.Kind.SomeContainer)) return;
@@ -130,7 +167,7 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
 
 
         var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-        new TypeDoc.Models.NavigationItem('Globals', 'modules/_globals.html', root);
+        new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'modules/_globals.html', root);
 
         var modules = this.project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
         modules.forEach((container) => walkReflection(container, root));

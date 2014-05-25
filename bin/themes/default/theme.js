@@ -34,6 +34,33 @@ var Theme = (function (_super) {
         return null;
     };
 
+    Theme.prototype.initialize = function () {
+        this.project.reflections.forEach(function (reflection) {
+            var classes = [];
+
+            if (reflection.inheritedFrom)
+                classes.push('tsd-is-inherited');
+            if (reflection.isPrivate)
+                classes.push('tsd-is-private');
+            if (!reflection.isExported)
+                classes.push('tsd-is-not-exported');
+            reflection.cssClasses = classes.join(' ');
+
+            if (reflection.groups) {
+                reflection.groups.forEach(function (group) {
+                    var classes = [];
+                    if (group.allChildrenAreInherited)
+                        classes.push('tsd-is-inherited');
+                    if (group.allChildrenArePrivate)
+                        classes.push('tsd-is-private');
+                    if (!group.allChildrenAreExported)
+                        classes.push('tsd-is-not-exported');
+                    group.cssClasses = classes.join(' ');
+                });
+            }
+        });
+    };
+
     Theme.prototype.getUrls = function () {
         var _this = this;
         var urls = [];
@@ -92,7 +119,7 @@ var Theme = (function (_super) {
             var name = parent == root ? reflection.getFullName() : reflection.name;
             var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
             item.isPrimary = (parent == root);
-            item.cssClasses = reflection.getCssClasses();
+            item.cssClasses = reflection.cssClasses;
 
             reflection.children.forEach(function (child) {
                 if (child.kindOf(TypeDoc.Models.Kind.SomeContainer))
@@ -102,7 +129,7 @@ var Theme = (function (_super) {
         }
 
         var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-        new TypeDoc.Models.NavigationItem('Globals', 'modules/_globals.html', root);
+        new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'modules/_globals.html', root);
 
         var modules = this.project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
         modules.forEach(function (container) {
