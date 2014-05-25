@@ -37,11 +37,22 @@ var Theme = (function (_super) {
     Theme.prototype.initialize = function () {
         this.project.reflections.forEach(function (reflection) {
             var classes = [];
+            var kind = TypeDoc.Models.Kind[reflection.kind];
+            classes.push(Theme.classify('tsd-kind-' + kind));
 
+            if (reflection.parent && reflection.parent instanceof TypeDoc.Models.DeclarationReflection) {
+                kind = TypeDoc.Models.Kind[reflection.parent.kind];
+                classes.push(Theme.classify('tsd-parent-kind-' + kind));
+            }
+
+            if (reflection.overwrites)
+                classes.push('tsd-is-overwrite');
             if (reflection.inheritedFrom)
                 classes.push('tsd-is-inherited');
             if (reflection.isPrivate)
                 classes.push('tsd-is-private');
+            if (reflection.isStatic)
+                classes.push('tsd-is-static');
             if (!reflection.isExported)
                 classes.push('tsd-is-not-exported');
             reflection.cssClasses = classes.join(' ');
@@ -137,6 +148,12 @@ var Theme = (function (_super) {
         });
 
         return root;
+    };
+
+    Theme.classify = function (str) {
+        return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) {
+            return m1 + '-' + m2;
+        }).toLowerCase();
     };
     Theme.MAPPINGS = [
         {

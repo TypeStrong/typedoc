@@ -59,24 +59,18 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
     initialize() {
         this.project.reflections.forEach((reflection:TypeDoc.Models.DeclarationReflection) => {
             var classes = [];
-            /*
-            var flags = <any>Flags, classes = [];
-            classes.push(classify('ts-kind-'+ Kind[this.kind]));
+            var kind = TypeDoc.Models.Kind[reflection.kind];
+            classes.push(Theme.classify('tsd-kind-' + kind));
 
-            if (this.parent && this.parent instanceof DeclarationReflection) {
-                classes.push(classify('ts-parent-kind-'+ Kind[(<DeclarationReflection>this.parent).kind]));
+            if (reflection.parent && reflection.parent instanceof TypeDoc.Models.DeclarationReflection) {
+                kind = TypeDoc.Models.Kind[(<TypeDoc.Models.DeclarationReflection>reflection.parent).kind];
+                classes.push(Theme.classify('tsd-parent-kind-'+ kind));
             }
 
-            for (var key in flags) {
-                var num = +key;
-                if (num != key || num == 0 || !flags.hasOwnProperty(key)) continue;
-                if ((this.flags & num) != num) continue;
-                classes.push(classify('ts-flag-'+ flags[+key]));
-            }
-            */
-
+            if (reflection.overwrites)    classes.push('tsd-is-overwrite');
             if (reflection.inheritedFrom) classes.push('tsd-is-inherited');
             if (reflection.isPrivate)     classes.push('tsd-is-private');
+            if (reflection.isStatic)      classes.push('tsd-is-static');
             if (!reflection.isExported)   classes.push('tsd-is-not-exported');
             reflection.cssClasses = classes.join(' ');
 
@@ -173,5 +167,13 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
         modules.forEach((container) => walkReflection(container, root));
 
         return root;
+    }
+
+
+    /**
+     * Transform a space separated string into a string suitable to be used as a css class.
+     */
+    static classify(str:string) {
+        return str.replace(/(\w)([A-Z])/g, (m, m1, m2) => m1 + '-' + m2).toLowerCase();
     }
 }

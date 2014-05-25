@@ -91,7 +91,7 @@ module TypeDoc.Factories
                 });
             }
 
-            item = {type:new Models.ReflectionType(reflection, false)};
+            item = {type:new Models.ReflectionType(reflection, false), isTarget:true};
             push(item);
 
             if (reflection.extendedBy) {

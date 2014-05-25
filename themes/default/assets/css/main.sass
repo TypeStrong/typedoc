@@ -1,73 +1,17 @@
-@import 'normalize'
-@import 'mixins'
 @import 'constants'
-@import 'grid'
-@import 'highlight.js'
+@import 'normalize'
+
+@import 'setup/mixins'
+@import 'setup/grid'
+@import 'setup/icons'
+@import 'setup/typography'
 
 @import 'layouts/default'
 
+@import 'partials/hierarchy'
 @import 'partials/index'
 @import 'partials/member'
 @import 'partials/member.sources'
+@import 'partials/members.group'
 
-
-
-$KINDS: function, module, class, static-member, static-function, property, method, constructor-method, interface, member, interface-function, interface-constructor, enum, enum-member
-
-ul
-    list-style: square
-    padding: 0 0 0 20px
-    margin: 0
-
-nav
-    ul
-        list-style: none
-        line-height: 17px
-        padding: 0
-
-    ul ul
-        padding: 0 0 0 20px
-
-    li
-        padding: 2px 0
-
-    a
-        color: #333
-
-.tsd-kind-icon:before
-    content: ''
-    display: inline-block
-    vertical-align: middle
-    width: 17px
-    height: 17px
-    margin: 0 3px 0 0
-    background-image: url(../images/kinds.png)
-
-@for $INDEX from 1 through length($KINDS)
-    .ts-kind-#{nth($KINDS, $INDEX)} .tsd-kind-icon:before
-        background-position: 0 -#{17 * $INDEX}px
-
-.ts-kind-property.ts-parent-kind-interface .tsd-kind-icon:before
-    background-position: 0 (10 * -17px)
-
-.tsd-flag
-    background-color: #ccc
-    border-radius: 4px
-
-%tsd-main-section
-    margin-top: 90px
-
-    &:first-child
-        margin-top: 0
-
-    h2
-        margin-top: 0
-        padding-bottom: 5px
-        border-bottom: 1px solid #ddd
-
-
-section.tsd-member-group
-    @extend %tsd-main-section
-
-
-
+@import 'vendors/highlight.js'

@@ -2,15 +2,24 @@
     {{#each flagsArray}}
         <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
     {{/each}}
-    {{name}}(
+    {{name}}<span class="tsd-signature-symbols">(</span>
     {{#each children}}
         {{#if @index}},&nbsp;{{/if}}
-        {{name}}{{#if isOptional}}?{{/if}}
-        :&nbsp;{{#with type}}{{>type}}{{/with}}
-        {{#if defaultValue}}&nbsp;=&nbsp;{{defaultValue}}{{/if}}
+        {{name}}
+        <span class="tsd-signature-symbols">
+            {{#if isOptional}}?{{/if}}
+            :&nbsp;
+        </span>
+        {{#with type}}{{>type}}{{/with}}
+        {{#if defaultValue}}
+            <span class="tsd-signature-symbols">&nbsp;=&nbsp;</span>
+            {{defaultValue}}
+        {{/if}}
     {{/each}}
-    ){{#if type}}
-        :&nbsp;{{#with type}}{{>type}}{{/with}}
+    <span class="tsd-signature-symbols">)</span>
+    {{#if type}}
+        <span class="tsd-signature-symbols">:&nbsp;</span>
+        {{#with type}}{{>type}}{{/with}}
     {{/if}}
 {{/compact}}</h3>
 

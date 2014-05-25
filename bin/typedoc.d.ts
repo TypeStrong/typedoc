@@ -753,7 +753,6 @@ declare module TypeDoc.Models {
     * @resolve
     */
     var Flags: typeof TypeScript.PullElementFlags;
-    function classify(str: string): string;
     /**
     * Stores hierarchical type data.
     *
@@ -768,6 +767,10 @@ declare module TypeDoc.Models {
         * A list of a children of this node.
         */
         children?: IDeclarationHierarchy[];
+        /**
+        * Is this the entry within the type hierarchy of the target type?
+        */
+        isTarget?: boolean;
     }
     /**
     * Represents references of reflections to their defining source files.

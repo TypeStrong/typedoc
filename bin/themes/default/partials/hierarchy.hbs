@@ -1,5 +1,10 @@
-<li>
-    {{#with type}}{{>type}}{{/with}}
+<li {{#if isTarget}}class="target"{{/if}}>
+    {{#if isTarget}}
+        {{type}}
+    {{else}}
+        {{#with type}}{{>type}}{{/with}}
+    {{/if}}
+
     {{#if children}}
         <ul>
             {{#each children}}

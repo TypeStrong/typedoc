@@ -3085,7 +3085,7 @@ var TypeDoc;
                     });
                 }
 
-                item = { type: new TypeDoc.Models.ReflectionType(reflection, false) };
+                item = { type: new TypeDoc.Models.ReflectionType(reflection, false), isTarget: true };
                 push(item);
 
                 if (reflection.extendedBy) {
@@ -3487,13 +3487,6 @@ var TypeDoc;
         * @resolve
         */
         Models.Flags = TypeScript.PullElementFlags;
-
-        function classify(str) {
-            return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) {
-                return m1 + '-' + m2;
-            }).toLowerCase();
-        }
-        Models.classify = classify;
 
         
 

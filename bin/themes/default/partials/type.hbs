@@ -1,9 +1,9 @@
 {{#if this}}
     {{#if reflection}}
-        <a href="{{relativeURL reflection.url}}">{{reflection.name}}</a>{{#if isArray}}[]{{/if}}
+        <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">{{reflection.name}}</a>{{#if isArray}}<span class="tsd-signature-symbols">[]</span>{{/if}}
     {{else}}
-        {{this}}
+        <span class="tsd-signature-type">{{this}}</span>
     {{/if}}
 {{else}}
-    void
+    <span class="tsd-signature-type">void</span>
 {{/if}}

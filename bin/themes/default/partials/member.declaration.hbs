@@ -1,9 +1,9 @@
-<h3>
-    <span class="signature tsd-kind-icon">{{#compact}}{{#each flagsArray}}
+<h3 class="tsd-kind-icon">{{#compact}}
+    {{#each flagsArray}}
         <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
-    {{/each}}{{/compact}}
-    {{name}}{{#if isOptional}}?{{/if}}: {{#with type}}{{>type}}{{/with}}</span>
-</h3>
+    {{/each}}
+    {{name}}<span class="tsd-signature-symbols">{{#if isOptional}}?{{/if}}:</span>&nbsp;{{#with type}}{{>type}}{{/with}}
+{{/compact}}</h3>
 
 {{> member.sources}}
 {{> comment}}

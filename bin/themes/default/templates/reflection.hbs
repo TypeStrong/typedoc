@@ -3,12 +3,14 @@
 {{/with}}
 
 {{#if model.typeHierarchy}}
-    <h2>Hierarchy</h2>
-    <ul>
-        {{#with model.typeHierarchy}}
-            {{>hierarchy}}
-        {{/with}}
-    </ul>
+    <section class="tsd-hierarchy">
+        <h2>Hierarchy</h2>
+        <ul>
+            {{#with model.typeHierarchy}}
+                {{>hierarchy}}
+            {{/with}}
+        </ul>
+    </section>
 {{/if}}
 
 {{#with model}}

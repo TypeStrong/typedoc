@@ -15,11 +15,6 @@ module TypeDoc.Models
     export var Flags = TypeScript.PullElementFlags;
 
 
-    export function classify(str:string) {
-        return str.replace(/(\w)([A-Z])/g, (m, m1, m2) => m1 + '-' + m2).toLowerCase();
-    }
-
-
     /**
      * Stores hierarchical type data.
      *
@@ -36,6 +31,11 @@ module TypeDoc.Models
          * A list of a children of this node.
          */
         children?:IDeclarationHierarchy[];
+
+        /**
+         * Is this the entry within the type hierarchy of the target type?
+         */
+        isTarget?:boolean;
     }
 
 

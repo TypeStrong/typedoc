@@ -62,8 +62,8 @@ module.exports = function(grunt)
         copy: {
             themeDefault: {
                 files: {
-                    'etc/doc/assets/css/main.css': 'bin/themes/default/assets/css/main.css',
-                    'etc/doc/assets/js/main.js': 'bin/themes/default/assets/js/main.js'
+                    'test/self/doc/assets/css/main.css': 'bin/themes/default/assets/css/main.css',
+                    'test/self/doc/assets/js/main.js': 'bin/themes/default/assets/js/main.js'
                 }
             }
         },
