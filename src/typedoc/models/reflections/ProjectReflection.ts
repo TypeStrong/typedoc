@@ -8,6 +8,10 @@ module TypeDoc.Models
 
         files:SourceFile[] = [];
 
+        readme:string;
+
+        package:any;
+
 
         /**
          * Return a list of all reflections in this project of a certain kind.
