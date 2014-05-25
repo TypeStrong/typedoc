@@ -1680,6 +1680,16 @@ var TypeDoc;
                     _this.renderer.dirName = _this.resolvePath(str);
                 }
             });
+
+            opts.option('name', {
+                usage: {
+                    locCode: 'Set the name of the project that will be used in the header of the template.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.project.name = str;
+                }
+            });
         };
 
         Application.prototype.postOptionsParse = function () {
@@ -2222,23 +2232,27 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * A handler that sorts and groups the found reflections in the resolving phase.
+        *
+        * The handler sets the ´groups´ property of all reflections.
+        */
         var GroupHandler = (function () {
+            /**
+            * Create a new GroupHandler instance.
+            *
+            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function GroupHandler(dispatcher) {
                 this.dispatcher = dispatcher;
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
                 dispatcher.on('leaveResolve', this.onLeaveResolve, this);
             }
-            GroupHandler.prototype.onResolveReflection = function (reflection) {
-                if (reflection.kindOf(TypeDoc.Models.Kind.SomeSignature))
-                    return;
-                if (!reflection.children || reflection.children.length == 0)
-                    return;
-
-                reflection.children.sort(GroupHandler.sortCallback);
-                reflection.kindString = GroupHandler.getKindSingular(reflection.kind);
-                reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
-            };
-
+            /**
+            * Triggered once after all documents have been read and the dispatcher
+            * leaves the resolving phase.
+            */
             GroupHandler.prototype.onLeaveResolve = function () {
                 function walkDirectory(directory) {
                     directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
@@ -2250,12 +2264,37 @@ var TypeDoc;
                     }
                 }
 
+                var project = this.dispatcher.project;
+                if (project.children && project.children.length > 0) {
+                    project.children.sort(GroupHandler.sortCallback);
+                    project.groups = GroupHandler.getReflectionGroups(project.children);
+                }
+
+                project.reflections.forEach(function (reflection) {
+                    if (reflection.kindOf(TypeDoc.Models.Kind.SomeSignature))
+                        return;
+                    if (!reflection.children || reflection.children.length == 0)
+                        return;
+
+                    reflection.children.sort(GroupHandler.sortCallback);
+                    reflection.kindString = GroupHandler.getKindSingular(reflection.kind);
+                    reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
+                });
+
                 walkDirectory(this.dispatcher.project.directory);
-                this.dispatcher.project.files.forEach(function (file) {
+                project.files.forEach(function (file) {
                     file.groups = GroupHandler.getReflectionGroups(file.reflections);
                 });
             };
 
+            /**
+            * Create a grouped representation of the given list of reflections.
+            *
+            * Reflections are grouped by kind and sorted by weight and name.
+            *
+            * @param reflections  The reflections that should be grouped.
+            * @returns An array containing all children of the given reflection grouped by their kind.
+            */
             GroupHandler.getReflectionGroups = function (reflections) {
                 var groups = [];
                 reflections.forEach(function (child) {
@@ -2274,9 +2313,28 @@ var TypeDoc;
                     groups.push(group);
                 });
 
+                groups.forEach(function (group) {
+                    var allExported = true, allInherited = true, allPrivate = true;
+                    group.children.forEach(function (child) {
+                        allExported = child.isExported && allExported;
+                        allInherited = child.inheritedFrom && allInherited;
+                        allPrivate = child.isPrivate && allPrivate;
+                    });
+
+                    group.allChildrenAreExported = allExported;
+                    group.allChildrenAreInherited = allInherited;
+                    group.allChildrenArePrivate = allPrivate;
+                });
+
                 return groups;
             };
 
+            /**
+            * Transform the internal typescript kind identifier into a human readable version.
+            *
+            * @param kind  The original typescript kind identifier.
+            * @returns A human readable version of the given typescript kind identifier.
+            */
             GroupHandler.getKindString = function (kind) {
                 var str = TypeScript.PullElementKind[kind];
                 str = str.replace(/(.)([A-Z])/g, function (m, a, b) {
@@ -2285,6 +2343,12 @@ var TypeDoc;
                 return str;
             };
 
+            /**
+            * Return the singular name of a internal typescript kind identifier.
+            *
+            * @param kind The original internal typescript kind identifier.
+            * @returns The singular name of the given internal typescript kind identifier
+            */
             GroupHandler.getKindSingular = function (kind) {
                 if (GroupHandler.SINGULARS[kind]) {
                     return GroupHandler.SINGULARS[kind];
@@ -2293,6 +2357,12 @@ var TypeDoc;
                 }
             };
 
+            /**
+            * Return the plural name of a internal typescript kind identifier.
+            *
+            * @param kind The original internal typescript kind identifier.
+            * @returns The plural name of the given internal typescript kind identifier
+            */
             GroupHandler.getKindPlural = function (kind) {
                 if (GroupHandler.PLURALS[kind]) {
                     return GroupHandler.PLURALS[kind];
@@ -2301,6 +2371,13 @@ var TypeDoc;
                 }
             };
 
+            /**
+            * Callback used to sort reflections by weight defined by ´GroupHandler.WEIGHTS´ and name.
+            *
+            * @param a The left reflection to sort.
+            * @param b The right reflection to sort.
+            * @returns The sorting weight.
+            */
             GroupHandler.sortCallback = function (a, b) {
                 var aWeight = GroupHandler.WEIGHTS.indexOf(a.kind);
                 var bWeight = GroupHandler.WEIGHTS.indexOf(b.kind);
@@ -2347,6 +2424,9 @@ var TypeDoc;
         })();
         Factories.GroupHandler = GroupHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.FACTORIES.push(GroupHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -2471,6 +2551,98 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
+        * A handler that tries to find the package.json and readme.md files of the
+        * current project.
+        *
+        * The handler traverses the file tree upwards for each file processed by the processor
+        * and records the nearest package info files it can find. Within the resolve files, the
+        * contents of the found files will be read and appended to the ProjectReflection.
+        */
+        var PackageHandler = (function () {
+            /**
+            * Create a new PackageHandler instance.
+            *
+            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function PackageHandler(dispatcher) {
+                this.dispatcher = dispatcher;
+                /**
+                * List of directories the handler already inspected.
+                */
+                this.visited = [];
+                dispatcher.on('enterDocument', this.onEnterDocument, this);
+                dispatcher.on('enterResolve', this.onEnterResolve, this);
+            }
+            /**
+            * Triggered when the dispatcher begins processing a typescript document.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            PackageHandler.prototype.onEnterDocument = function (state) {
+                var _this = this;
+                if (this.readmeFile && this.packageFile) {
+                    return;
+                }
+
+                var fileName = state.document.fileName;
+                var dirName, parentDir = Path.resolve(Path.dirname(fileName));
+                do {
+                    dirName = parentDir;
+                    if (this.visited.indexOf(dirName) != -1) {
+                        break;
+                    }
+
+                    FS.readdirSync(dirName).forEach(function (file) {
+                        var lfile = file.toLowerCase();
+                        if (!_this.readmeFile && lfile == 'readme.md') {
+                            _this.readmeFile = Path.join(dirName, file);
+                        }
+
+                        if (!_this.packageFile && lfile == 'package.json') {
+                            _this.packageFile = Path.join(dirName, file);
+                        }
+                    });
+
+                    this.visited.push(dirName);
+                    parentDir = Path.resolve(Path.join(dirName, '..'));
+                } while(dirName != parentDir);
+            };
+
+            /**
+            * Triggered once after all documents have been read and the dispatcher
+            * enters the resolving phase.
+            */
+            PackageHandler.prototype.onEnterResolve = function () {
+                var project = this.dispatcher.project;
+
+                if (this.readmeFile) {
+                    project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
+                }
+
+                if (this.packageFile) {
+                    project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+                    if (!project.name) {
+                        project.name = project.packageInfo.name;
+                    }
+                }
+            };
+            return PackageHandler;
+        })();
+        Factories.PackageHandler = PackageHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.FACTORIES.push(PackageHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
         * A factory that copies basic values from declarations to reflections.
         *
         * This factory sets the following values on reflection models:
@@ -2486,6 +2658,7 @@ var TypeDoc;
                 this.dispatcher = dispatcher;
                 dispatcher.on('createReflection', this.onCreateReflection, this);
                 dispatcher.on('mergeReflection', this.onMergeReflection, this);
+                dispatcher.on('resolveReflection', this.onResolveReflection, this);
             }
             ReflectionHandler.prototype.onCreateReflection = function (state) {
                 var _this = this;
@@ -2504,8 +2677,6 @@ var TypeDoc;
                             var typeState = state.createChildState(declaration);
                             typeState.isFlattened = true;
                             typeState.flattenedName = state.getName();
-
-                            // typeState.parentState   = state.parentState;
                             _this.dispatcher.processState(typeState);
                         });
                     }
@@ -2529,6 +2700,46 @@ var TypeDoc;
                     state.reflection.kind = state.declaration.kind;
                 }
             };
+
+            /**
+            * Triggered by the dispatcher for each reflection in the resolving phase.
+            *
+            * @param reflection  The final generated reflection.
+            */
+            ReflectionHandler.prototype.onResolveReflection = function (reflection) {
+                var flagsArray = [];
+                var flags = reflection.kindOf(TypeDoc.Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
+                flags.forEach(function (key) {
+                    if ((reflection.flags & key) == key) {
+                        flagsArray.push(TypeScript.PullElementFlags[key].toLowerCase());
+                    }
+                });
+
+                var isExported = false, target = reflection;
+                if (target.kindOf(TypeDoc.Models.Kind.SomeContainer))
+                    isExported = true;
+                while (!isExported && target && target instanceof TypeDoc.Models.DeclarationReflection) {
+                    if (target.kindOf(TypeDoc.Models.Kind.SomeContainer))
+                        break;
+                    isExported = ((target.flags & 1 /* Exported */) == 1 /* Exported */);
+                    target = target.parent;
+                }
+
+                reflection.flagsArray = flagsArray;
+                reflection.isExported = isExported;
+                reflection.isStatic = ((reflection.flags & TypeDoc.Models.Flags.Static) == TypeDoc.Models.Flags.Static);
+                reflection.isPrivate = ((reflection.flags & TypeDoc.Models.Flags.Private) == TypeDoc.Models.Flags.Private);
+            };
+            ReflectionHandler.RELEVANT_FLAGS = [
+                TypeScript.PullElementFlags.Optional,
+                TypeScript.PullElementFlags.Public,
+                TypeScript.PullElementFlags.Private,
+                TypeScript.PullElementFlags.Static
+            ];
+
+            ReflectionHandler.RELEVANT_PARAMETER_FLAGS = [
+                TypeScript.PullElementFlags.Optional
+            ];
             return ReflectionHandler;
         })();
         Factories.ReflectionHandler = ReflectionHandler;
@@ -2797,6 +3008,7 @@ var TypeDoc;
                 reflection.overwrites = this.resolveType(reflection.overwrites);
                 reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes);
                 reflection.extendedBy = this.resolveTypes(reflection.extendedBy);
+                reflection.typeHierarchy = TypeHandler.buildTypeHierarchy(reflection);
             };
 
             TypeHandler.prototype.resolveTypes = function (types) {
@@ -2841,6 +3053,49 @@ var TypeDoc;
                         return new TypeDoc.Models.NamedType(symbol.fullName());
                     }
                 }
+            };
+
+            /**
+            * Return the simplified type hierarchy for the given reflection.
+            *
+            * @TODO Type hierarchies for interfaces with multiple parent interfaces.
+            *
+            * @param reflection The reflection whose type hierarchy should be generated.
+            * @returns The root of the generated type hierarchy.
+            */
+            TypeHandler.buildTypeHierarchy = function (reflection) {
+                if (!reflection.extendedTypes && !reflection.extendedBy)
+                    return null;
+                var root = null;
+                var item;
+                var hierarchy;
+
+                function push(item) {
+                    if (hierarchy) {
+                        hierarchy.children = [item];
+                        hierarchy = item;
+                    } else {
+                        root = hierarchy = item;
+                    }
+                }
+
+                if (reflection.extendedTypes) {
+                    reflection.extendedTypes.forEach(function (type) {
+                        push({ type: type });
+                    });
+                }
+
+                item = { type: new TypeDoc.Models.ReflectionType(reflection, false) };
+                push(item);
+
+                if (reflection.extendedBy) {
+                    item.children = [];
+                    reflection.extendedBy.forEach(function (type) {
+                        item.children.push({ type: type });
+                    });
+                }
+
+                return root;
             };
             return TypeHandler;
         })();
@@ -3106,64 +3361,13 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
         /**
-        * Check whether the given flag is set in the given value.
+        * Base class for all reflection classes.
         *
-        * @param value  The value that should be tested.
-        * @param flag   The flag that should be looked for.
-        */
-        function hasFlag(value, flag) {
-            return (value & flag) !== 0;
-        }
-        Models.hasFlag = hasFlag;
-
-        function hasModifier(modifiers, flag) {
-            for (var i = 0, n = modifiers.length; i < n; i++) {
-                if (hasFlag(modifiers[i], flag)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        Models.hasModifier = hasModifier;
-
-        function classify(str) {
-            return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) {
-                return m1 + '-' + m2;
-            }).toLowerCase();
-        }
-        Models.classify = classify;
-
-        /**
-        * Return a string representation of the given value based upon the given enumeration.
-        *
-        * @param value        The value that contains the bit mask that should be explained.
-        * @param enumeration  The enumeration the bits in the value correspond to.
-        * @param separator    A string used to concat the found flags.
-        * @returns            A string representation of the given value.
-        */
-        function flagsToString(value, enumeration, separator) {
-            if (typeof separator === "undefined") { separator = ', '; }
-            var values = [];
-            for (var key in enumeration) {
-                var num = +key;
-                if (num != key || num == 0 || !enumeration.hasOwnProperty(key))
-                    continue;
-                if ((value & num) != num)
-                    continue;
-                values.push(enumeration[+key]);
-            }
-            return values.join(separator);
-        }
-        Models.flagsToString = flagsToString;
-
-        /**
-        * Base class for all our reflection classes.
+        * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+        * as the root for all reflections within the project. All other reflections are represented
+        * by the DeclarationReflection class.
         */
         var BaseReflection = (function () {
-            /**
-            * Create a new BaseReflection instance.
-            */
             function BaseReflection() {
                 /**
                 * The children of this reflection.
@@ -3173,8 +3377,21 @@ var TypeDoc;
                 * The symbol name of this reflection.
                 */
                 this.name = '';
+                /**
+                * Is the url pointing to an individual document?
+                *
+                * When FALSE, the url points to an anchor tag on a page of a different reflection.
+                */
                 this.hasOwnDocument = false;
             }
+            /**
+            * Return the full name of this reflection.
+            *
+            * The full name contains the name of this reflection and the names of all parent reflections.
+            *
+            * @param separator  Separator used to join the names of the reflections.
+            * @returns The full name of this reflection.
+            */
             BaseReflection.prototype.getFullName = function (separator) {
                 if (typeof separator === "undefined") { separator = '.'; }
                 if (this.parent && !(this.parent instanceof Models.ProjectReflection)) {
@@ -3271,23 +3488,39 @@ var TypeDoc;
         */
         Models.Flags = TypeScript.PullElementFlags;
 
+        function classify(str) {
+            return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) {
+                return m1 + '-' + m2;
+            }).toLowerCase();
+        }
+        Models.classify = classify;
+
+        
+
+        
+
+        /**
+        * A reflection that represents a single declaration emitted by the TypeScript compiler.
+        *
+        * All parts of a project are represented by DeclarationReflection instances. The actual
+        * kind of a reflection is stored in its ´kind´ member.
+        */
         var DeclarationReflection = (function (_super) {
             __extends(DeclarationReflection, _super);
             function DeclarationReflection() {
-                var _this = this;
-                _super.call(this);
-                this.kind = 0 /* None */;
+                _super.apply(this, arguments);
+                /**
+                * A bitmask containing the flags of this reflection as returned by the compiler.
+                */
                 this.flags = 0 /* None */;
+                /**
+                * The kind of this reflection as returned by the compiler.
+                */
+                this.kind = 0 /* None */;
+                /**
+                * A list of all source files that contributed to this reflection.
+                */
                 this.sources = [];
-                this.cssClasses = function () {
-                    return _this.getCssClasses();
-                };
-                this.flagsArray = function () {
-                    return _this.getFlagsArray();
-                };
-                this.typeHierarchy = function () {
-                    return _this.getTypeHierarchy();
-                };
             }
             /**
             * Test whether this reflection is of the given kind.
@@ -3305,101 +3538,13 @@ var TypeDoc;
                 }
             };
 
-            DeclarationReflection.prototype.getTypeHierarchy = function () {
-                if (!this.extendedTypes && !this.extendedBy)
-                    return null;
-                var root, item, hierarchy;
-
-                function push(item) {
-                    if (hierarchy) {
-                        hierarchy.children = [item];
-                        hierarchy = item;
-                    } else {
-                        root = hierarchy = item;
-                    }
-                }
-
-                if (this.extendedTypes) {
-                    this.extendedTypes.forEach(function (type) {
-                        push({ type: type });
-                    });
-                }
-
-                item = { type: new Models.ReflectionType(this, false) };
-                if (this.extendedBy) {
-                    item.children = [];
-                    this.extendedBy.forEach(function (type) {
-                        item.children.push({ type: type });
-                    });
-                }
-                push(item);
-
-                return root;
-            };
-
-            DeclarationReflection.prototype.getCssClasses = function () {
-                var flags = Models.Flags, classes = [];
-                classes.push(Models.classify('ts-kind-' + Models.Kind[this.kind]));
-
-                if (this.parent && this.parent instanceof DeclarationReflection) {
-                    classes.push(Models.classify('ts-parent-kind-' + Models.Kind[this.parent.kind]));
-                }
-
-                for (var key in flags) {
-                    var num = +key;
-                    if (num != key || num == 0 || !flags.hasOwnProperty(key))
-                        continue;
-                    if ((this.flags & num) != num)
-                        continue;
-                    classes.push(Models.classify('ts-flag-' + flags[+key]));
-                }
-
-                if (this.inheritedFrom) {
-                    classes.push('tsd-is-inherited');
-                }
-
-                if (this.flags & Models.Flags.Private) {
-                    classes.push('tsd-is-private');
-                }
-
-                var isExported = false, reflection = this;
-                if (reflection.kindOf(Models.Kind.SomeContainer))
-                    isExported = true;
-                while (!isExported && reflection && reflection instanceof DeclarationReflection) {
-                    if (reflection.kindOf(Models.Kind.SomeContainer))
-                        break;
-                    isExported = ((reflection.flags & 1 /* Exported */) == 1 /* Exported */);
-                    reflection = reflection.parent;
-                }
-
-                if (!isExported) {
-                    classes.push('tsd-is-not-exported');
-                }
-
-                return classes.join(' ');
-            };
-
-            DeclarationReflection.prototype.getFlagsArray = function () {
-                var flags = Models.Flags, array = [];
-                for (var key in flags) {
-                    var num = +key;
-                    if (num != key || num == 0 || !flags.hasOwnProperty(key))
-                        continue;
-                    if ((this.flags & num) != num)
-                        continue;
-                    array.push(Models.classify(flags[+key]));
-                }
-
-                return array;
-            };
-
             /**
             * Return a string representation of this reflection.
             */
             DeclarationReflection.prototype.toString = function () {
                 var str = TypeScript.PullElementKind[this.kind] + ': ' + this.name;
                 if (this.flags)
-                    str += ' [' + Models.flagsToString(this.flags, TypeScript.PullElementFlags) + ']';
+                    str += ' [' + DeclarationReflection.flagsToString(this.flags, TypeScript.PullElementFlags) + ']';
                 if (this.type)
                     str += ': ' + this.type.toString();
                 return str;
@@ -3427,6 +3572,28 @@ var TypeDoc;
 
                 return str;
             };
+
+            /**
+            * Return a string representation of the given value based upon the given enumeration.
+            *
+            * @param value        The value that contains the bit mask that should be explained.
+            * @param enumeration  The enumeration the bits in the value correspond to.
+            * @param separator    A string used to concat the found flags.
+            * @returns            A string representation of the given value.
+            */
+            DeclarationReflection.flagsToString = function (value, enumeration, separator) {
+                if (typeof separator === "undefined") { separator = ', '; }
+                var values = [];
+                for (var key in enumeration) {
+                    var num = +key;
+                    if (num != key || num == 0 || !enumeration.hasOwnProperty(key))
+                        continue;
+                    if ((value & num) != num)
+                        continue;
+                    values.push(enumeration[+key]);
+                }
+                return values.join(separator);
+            };
             return DeclarationReflection;
         })(Models.BaseReflection);
         Models.DeclarationReflection = DeclarationReflection;
@@ -3436,12 +3603,27 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * A reflection that represents the root of the project.
+        *
+        * The project reflection acts as a global index, one may receive all reflections
+        * and source files of the processed project through this reflection.
+        */
         var ProjectReflection = (function (_super) {
             __extends(ProjectReflection, _super);
             function ProjectReflection() {
                 _super.apply(this, arguments);
+                /**
+                * A list of all reflections within the project.
+                */
                 this.reflections = [];
+                /**
+                * The root directory of the project.
+                */
                 this.directory = new Models.SourceDirectory();
+                /**
+                * A list of all source files within the project.
+                */
                 this.files = [];
             }
             /**
@@ -3468,24 +3650,42 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * A group of reflections. All reflections in a group are of the same kind.
+        *
+        * Reflection groups are created by the ´GroupHandler´ in the resolving phase
+        * of the dispatcher. The main purpose of groups is to be able to more easily
+        * render human readable children lists in templates.
+        */
         var ReflectionGroup = (function () {
+            /**
+            * Create a new ReflectionGroup instance.
+            *
+            * @param title The title of this group.
+            * @param kind  The original typescript kind of the children of this group.
+            */
             function ReflectionGroup(title, kind) {
                 var _this = this;
+                /**
+                * All reflections of this group.
+                */
                 this.children = [];
                 this.title = title;
                 this.kind = kind;
 
                 this.allChildrenHaveOwnDocument = (function () {
-                    var res = _this.getAllChildrenHaveOwnDocument();
-                    _this.allChildrenHaveOwnDocument = res;
-                    return res;
+                    return _this.getAllChildrenHaveOwnDocument();
                 });
             }
+            /**
+            * Do all children of this group have a separate document?
+            */
             ReflectionGroup.prototype.getAllChildrenHaveOwnDocument = function () {
                 var onlyOwnDocuments = true;
                 this.children.forEach(function (child) {
                     onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
                 });
+
                 return onlyOwnDocuments;
             };
             return ReflectionGroup;
@@ -3539,7 +3739,12 @@ var TypeDoc;
             return SourceDirectory;
         })();
         Models.SourceDirectory = SourceDirectory;
-
+    })(TypeDoc.Models || (TypeDoc.Models = {}));
+    var Models = TypeDoc.Models;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Models) {
         var SourceFile = (function () {
             function SourceFile(fileName) {
                 this.reflections = [];
@@ -3860,7 +4065,6 @@ var TypeDoc;
                     return;
 
                 this.renderTarget(target);
-
                 this.dispatch('endTarget', target);
             };
 
@@ -3868,6 +4072,7 @@ var TypeDoc;
                 var _this = this;
                 target.urls.forEach(function (mapping) {
                     var output = new TypeDoc.Models.RenderOutput(target);
+                    output.project = target.project;
                     output.url = mapping.url;
                     output.model = mapping.model;
                     output.templateName = mapping.template;

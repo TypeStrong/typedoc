@@ -217,7 +217,7 @@ declare module TypeDoc.Factories {
         * The project instance this dispatcher should push the created reflections to.
         */
         public project: Models.ProjectReflection;
-        public compiler: TypeScript.BatchCompiler;
+        public compiler: Application;
         public idMap: {
             [id: number]: Models.DeclarationReflection;
         };
@@ -233,7 +233,7 @@ declare module TypeDoc.Factories {
         *
         * @param project  The target project instance.
         */
-        constructor(project: Models.ProjectReflection, compiler: TypeScript.BatchCompiler);
+        constructor(project: Models.ProjectReflection, compiler: Application);
         /**
         * Return the snapshot of the given filename.
         *
@@ -290,18 +290,75 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Factories {
+    /**
+    * A handler that sorts and groups the found reflections in the resolving phase.
+    *
+    * The handler sets the ´groups´ property of all reflections.
+    */
     class GroupHandler {
         private dispatcher;
+        /**
+        * Define the sort order of reflections.
+        */
         static WEIGHTS: TypeScript.PullElementKind[];
+        /**
+        * Define the singular name of individual reflection kinds.
+        */
         static SINGULARS: {};
+        /**
+        * Define the plural name of individual reflection kinds.
+        */
         static PLURALS: {};
+        /**
+        * Create a new GroupHandler instance.
+        *
+        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        private onResolveReflection(reflection);
-        public onLeaveResolve(): void;
+        /**
+        * Triggered once after all documents have been read and the dispatcher
+        * leaves the resolving phase.
+        */
+        private onLeaveResolve();
+        /**
+        * Create a grouped representation of the given list of reflections.
+        *
+        * Reflections are grouped by kind and sorted by weight and name.
+        *
+        * @param reflections  The reflections that should be grouped.
+        * @returns An array containing all children of the given reflection grouped by their kind.
+        */
         static getReflectionGroups(reflections: Models.DeclarationReflection[]): Models.ReflectionGroup[];
-        static getKindString(kind: TypeScript.PullElementKind): string;
+        /**
+        * Transform the internal typescript kind identifier into a human readable version.
+        *
+        * @param kind  The original typescript kind identifier.
+        * @returns A human readable version of the given typescript kind identifier.
+        */
+        private static getKindString(kind);
+        /**
+        * Return the singular name of a internal typescript kind identifier.
+        *
+        * @param kind The original internal typescript kind identifier.
+        * @returns The singular name of the given internal typescript kind identifier
+        */
         static getKindSingular(kind: TypeScript.PullElementKind): string;
+        /**
+        * Return the plural name of a internal typescript kind identifier.
+        *
+        * @param kind The original internal typescript kind identifier.
+        * @returns The plural name of the given internal typescript kind identifier
+        */
         static getKindPlural(kind: TypeScript.PullElementKind): string;
+        /**
+        * Callback used to sort reflections by weight defined by ´GroupHandler.WEIGHTS´ and name.
+        *
+        * @param a The left reflection to sort.
+        * @param b The right reflection to sort.
+        * @returns The sorting weight.
+        */
         static sortCallback(a: Models.DeclarationReflection, b: Models.DeclarationReflection): number;
     }
 }
@@ -331,6 +388,50 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
+    * A handler that tries to find the package.json and readme.md files of the
+    * current project.
+    *
+    * The handler traverses the file tree upwards for each file processed by the processor
+    * and records the nearest package info files it can find. Within the resolve files, the
+    * contents of the found files will be read and appended to the ProjectReflection.
+    */
+    class PackageHandler {
+        private dispatcher;
+        /**
+        * The file name of the found readme.md file.
+        */
+        private readmeFile;
+        /**
+        * The file name of the found package.json file.
+        */
+        private packageFile;
+        /**
+        * List of directories the handler already inspected.
+        */
+        private visited;
+        /**
+        * Create a new PackageHandler instance.
+        *
+        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher begins processing a typescript document.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        public onEnterDocument(state: DocumentState): void;
+        /**
+        * Triggered once after all documents have been read and the dispatcher
+        * enters the resolving phase.
+        */
+        public onEnterResolve(): void;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
     * A factory that copies basic values from declarations to reflections.
     *
     * This factory sets the following values on reflection models:
@@ -343,9 +444,23 @@ declare module TypeDoc.Factories {
     */
     class ReflectionHandler {
         private dispatcher;
+        /**
+        * A list of fags that should be exported to the flagsArray property.
+        */
+        static RELEVANT_FLAGS: TypeScript.PullElementFlags[];
+        /**
+        * A list of fags that should be exported to the flagsArray property for parameter reflections.
+        */
+        static RELEVANT_PARAMETER_FLAGS: TypeScript.PullElementFlags[];
         constructor(dispatcher: Dispatcher);
         private onCreateReflection(state);
         private onMergeReflection(state);
+        /**
+        * Triggered by the dispatcher for each reflection in the resolving phase.
+        *
+        * @param reflection  The final generated reflection.
+        */
+        private onResolveReflection(reflection);
     }
 }
 declare module TypeDoc.Factories {
@@ -393,6 +508,15 @@ declare module TypeDoc.Factories {
         public onResolveReflection(reflection: Models.DeclarationReflection): void;
         private resolveTypes(types);
         private resolveType(type);
+        /**
+        * Return the simplified type hierarchy for the given reflection.
+        *
+        * @TODO Type hierarchies for interfaces with multiple parent interfaces.
+        *
+        * @param reflection The reflection whose type hierarchy should be generated.
+        * @returns The root of the generated type hierarchy.
+        */
+        static buildTypeHierarchy(reflection: Models.DeclarationReflection): Models.IDeclarationHierarchy;
     }
 }
 declare module TypeDoc.Factories {
@@ -534,25 +658,11 @@ declare module TypeDoc.Models {
 }
 declare module TypeDoc.Models {
     /**
-    * Check whether the given flag is set in the given value.
+    * Base class for all reflection classes.
     *
-    * @param value  The value that should be tested.
-    * @param flag   The flag that should be looked for.
-    */
-    function hasFlag(value: number, flag: number): boolean;
-    function hasModifier(modifiers: TypeScript.PullElementFlags[], flag: TypeScript.PullElementFlags): boolean;
-    function classify(str: string): string;
-    /**
-    * Return a string representation of the given value based upon the given enumeration.
-    *
-    * @param value        The value that contains the bit mask that should be explained.
-    * @param enumeration  The enumeration the bits in the value correspond to.
-    * @param separator    A string used to concat the found flags.
-    * @returns            A string representation of the given value.
-    */
-    function flagsToString(value: number, enumeration: any, separator?: string): string;
-    /**
-    * Base class for all our reflection classes.
+    * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+    * as the root for all reflections within the project. All other reflections are represented
+    * by the DeclarationReflection class.
     */
     class BaseReflection {
         /**
@@ -563,19 +673,42 @@ declare module TypeDoc.Models {
         * The children of this reflection.
         */
         public children: DeclarationReflection[];
+        /**
+        * All children grouped by their kind.
+        */
         public groups: ReflectionGroup[];
         /**
         * The symbol name of this reflection.
         */
         public name: string;
+        /**
+        * The parsed documentation comment attached to this reflection.
+        */
         public comment: Comment;
+        /**
+        * The url of this reflection in the generated documentation.
+        */
         public url: string;
+        /**
+        * Is the url pointing to an individual document?
+        *
+        * When FALSE, the url points to an anchor tag on a page of a different reflection.
+        */
         public hasOwnDocument: boolean;
+        /**
+        * Url safe alias for this reflection.
+        *
+        * @see BaseReflection.getAlias
+        */
         private alias;
         /**
-        * Create a new BaseReflection instance.
+        * Return the full name of this reflection.
+        *
+        * The full name contains the name of this reflection and the names of all parent reflections.
+        *
+        * @param separator  Separator used to join the names of the reflections.
+        * @returns The full name of this reflection.
         */
-        constructor();
         public getFullName(separator?: string): string;
         /**
         * Return a child by its name.
@@ -620,33 +753,143 @@ declare module TypeDoc.Models {
     * @resolve
     */
     var Flags: typeof TypeScript.PullElementFlags;
-    interface IHierarchy {
+    function classify(str: string): string;
+    /**
+    * Stores hierarchical type data.
+    *
+    * @see DeclarationReflection.typeHierarchy
+    */
+    interface IDeclarationHierarchy {
+        /**
+        * The type represented by this node in the hierarchy.
+        */
         type: BaseType;
-        children?: IHierarchy[];
+        /**
+        * A list of a children of this node.
+        */
+        children?: IDeclarationHierarchy[];
     }
-    interface ISource {
-        fileName: string;
+    /**
+    * Represents references of reflections to their defining source files.
+    *
+    * @see DeclarationReflection.sources
+    */
+    interface IDeclarationSource {
+        /**
+        * A reference to the corresponding file instance.
+        */
         file?: SourceFile;
+        /**
+        * The filename of the source file.
+        */
+        fileName: string;
+        /**
+        * The number of the line that emitted the declaration.
+        */
         line: number;
     }
+    /**
+    * A reflection that represents a single declaration emitted by the TypeScript compiler.
+    *
+    * All parts of a project are represented by DeclarationReflection instances. The actual
+    * kind of a reflection is stored in its ´kind´ member.
+    */
     class DeclarationReflection extends BaseReflection {
+        /**
+        * The definition of the underlying symbol.
+        *
+        * This is a string representation of the declaration which can be used
+        * in templates, when no other presentation of this declaration is available.
+        */
         public definition: string;
+        /**
+        * A list of function signatures attached to this declaration.
+        *
+        * TypeDoc creates one declaration per function that may contain ore or more
+        * signature reflections.
+        */
         public signatures: DeclarationReflection[];
+        /**
+        * The type of the reflection.
+        *
+        * If the reflection represents a variable or a property, this is the value type.<br />
+        * If the reflection represents a signature, this is the return type.
+        */
         public type: BaseType;
+        /**
+        * A list of all types this reflection extends (e.g. the parent classes).
+        */
         public extendedTypes: BaseType[];
+        /**
+        * A list of all types that extend this reflection (e.g. the subclasses).
+        */
         public extendedBy: BaseType[];
-        public kind: TypeScript.PullElementKind;
-        public kindString: string;
+        /**
+        * A bitmask containing the flags of this reflection as returned by the compiler.
+        */
         public flags: TypeScript.PullElementFlags;
-        public sources: ISource[];
-        public defaultValue: string;
-        public isOptional: boolean;
-        public overwrites: BaseType;
-        public inheritedFrom: BaseType;
+        /**
+        * An array representation of the flags bitmask, containing only the flags relevant for documentation.
+        */
         public flagsArray: any;
-        public typeHierarchy: any;
-        public cssClasses: any;
-        constructor();
+        /**
+        * The kind of this reflection as returned by the compiler.
+        */
+        public kind: TypeScript.PullElementKind;
+        /**
+        * The human readable string representation of the kind of this reflection.
+        */
+        public kindString: string;
+        /**
+        * A list of all source files that contributed to this reflection.
+        */
+        public sources: IDeclarationSource[];
+        /**
+        * The default value of this reflection.
+        *
+        * Applies to function parameters.
+        */
+        public defaultValue: string;
+        /**
+        * Whether this reflection is an optional component or not.
+        *
+        * Applies to function parameters and object members.
+        */
+        public isOptional: boolean;
+        /**
+        * Is this a private member?
+        */
+        public isPrivate: boolean;
+        /**
+        * Is this a static member?
+        */
+        public isStatic: boolean;
+        /**
+        * Is this member exported?
+        */
+        public isExported: boolean;
+        /**
+        * Contains a simplified representation of the type hierarchy suitable for being
+        * rendered in templates.
+        */
+        public typeHierarchy: IDeclarationHierarchy;
+        /**
+        * A type that points to the reflection that has been overwritten by this reflection.
+        *
+        * Applies to interface and class members.
+        */
+        public overwrites: BaseType;
+        /**
+        * A type that points to the reflection this reflection has been inherited from.
+        *
+        * Applies to interface and class members.
+        */
+        public inheritedFrom: BaseType;
+        /**
+        * A list of generated css classes that should be applied to representations of this
+        * reflection in the generated markup.
+        */
+        public cssClasses: string;
         /**
         * @param kind  The kind to test for.
         */
@@ -655,9 +898,6 @@ declare module TypeDoc.Models {
         * @param kind  An array of kinds to test for.
         */
         public kindOf(kind: TypeScript.PullElementKind[]): boolean;
-        public getTypeHierarchy(): IHierarchy;
-        public getCssClasses(): string;
-        public getFlagsArray(): any[];
         /**
         * Return a string representation of this reflection.
         */
@@ -668,13 +908,51 @@ declare module TypeDoc.Models {
         * @param indent  Used internally to indent child reflections.
         */
         public toReflectionString(indent?: string): string;
+        /**
+        * Return a string representation of the given value based upon the given enumeration.
+        *
+        * @param value        The value that contains the bit mask that should be explained.
+        * @param enumeration  The enumeration the bits in the value correspond to.
+        * @param separator    A string used to concat the found flags.
+        * @returns            A string representation of the given value.
+        */
+        static flagsToString(value: number, enumeration: any, separator?: string): string;
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * A reflection that represents the root of the project.
+    *
+    * The project reflection acts as a global index, one may receive all reflections
+    * and source files of the processed project through this reflection.
+    */
     class ProjectReflection extends BaseReflection {
+        /**
+        * A list of all reflections within the project.
+        */
         public reflections: DeclarationReflection[];
+        /**
+        * The root directory of the project.
+        */
         public directory: SourceDirectory;
+        /**
+        * A list of all source files within the project.
+        */
         public files: SourceFile[];
+        /**
+        * The name of the project.
+        *
+        * The name can be passed as a commandline argument or it is read from the package info.
+        */
+        public name: string;
+        /**
+        * The contents of the readme.md file of the project when found.
+        */
+        public readme: string;
+        /**
+        * The parsed data of the package.json file of the project when found.
+        */
+        public packageInfo: any;
         /**
         * Return a list of all reflections in this project of a certain kind.
         *
@@ -685,12 +963,60 @@ declare module TypeDoc.Models {
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * A group of reflections. All reflections in a group are of the same kind.
+    *
+    * Reflection groups are created by the ´GroupHandler´ in the resolving phase
+    * of the dispatcher. The main purpose of groups is to be able to more easily
+    * render human readable children lists in templates.
+    */
     class ReflectionGroup {
+        /**
+        * The title, a string representation of the typescript kind, of this group.
+        */
         public title: string;
+        /**
+        * The original typescript kind of the children of this group.
+        */
         public kind: TypeScript.PullElementKind;
+        /**
+        * All reflections of this group.
+        */
         public children: DeclarationReflection[];
-        public allChildrenHaveOwnDocument: any;
+        /**
+        * A list of generated css classes that should be applied to representations of this
+        * group in the generated markup.
+        */
+        public cssClasses: string;
+        /**
+        * Do all children of this group have a separate document?
+        *
+        * A bound representation of the ´ReflectionGroup.getAllChildrenHaveOwnDocument´
+        * that can be used within templates.
+        */
+        public allChildrenHaveOwnDocument: Function;
+        /**
+        * Are all children inherited members?
+        */
+        public allChildrenAreInherited: boolean;
+        /**
+        * Are all children private members?
+        */
+        public allChildrenArePrivate: boolean;
+        /**
+        * Are all children exported declarations?
+        */
+        public allChildrenAreExported: boolean;
+        /**
+        * Create a new ReflectionGroup instance.
+        *
+        * @param title The title of this group.
+        * @param kind  The original typescript kind of the children of this group.
+        */
         constructor(title: string, kind: TypeScript.PullElementKind);
+        /**
+        * Do all children of this group have a separate document?
+        */
         private getAllChildrenHaveOwnDocument();
     }
 }
@@ -709,6 +1035,8 @@ declare module TypeDoc.Models {
         public toString(indent?: string): string;
         public getAllReflections(): DeclarationReflection[];
     }
+}
+declare module TypeDoc.Models {
     class SourceFile {
         public name: string;
         public fileName: string;
@@ -737,6 +1065,7 @@ declare module TypeDoc.Models {
         public target: RenderTarget;
         public filename: string;
         public url: string;
+        public project: any;
         public model: any;
         public template: (context: any) => string;
         public templateName: string;
