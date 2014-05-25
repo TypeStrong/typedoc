@@ -75,7 +75,8 @@ module TypeDoc.Factories
 
 
         /**
-         * Triggered once after all documents have been read and the dispatcher enters the resolving pahse.
+         * Triggered once after all documents have been read and the dispatcher
+         * enters the resolving phase.
          */
         onEnterResolve() {
             var project = this.dispatcher.project;
@@ -85,9 +86,9 @@ module TypeDoc.Factories
             }
 
             if (this.packageFile) {
-                project.package = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+                project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
                 if (!project.name) {
-                    project.name = project.package.name;
+                    project.name = project.packageInfo.name;
                 }
             }
         }

@@ -61,7 +61,7 @@ module TypeDoc.Factories
          */
         project:Models.ProjectReflection;
 
-        compiler:TypeScript.BatchCompiler;
+        compiler:TypeDoc.Application;
 
         idMap:{[id:number]:Models.DeclarationReflection} = {};
 
@@ -78,7 +78,7 @@ module TypeDoc.Factories
          *
          * @param project  The target project instance.
          */
-        constructor(project:Models.ProjectReflection, compiler:TypeScript.BatchCompiler) {
+        constructor(project:Models.ProjectReflection, compiler:TypeDoc.Application) {
             super();
             this.project  = project;
             this.compiler = compiler;

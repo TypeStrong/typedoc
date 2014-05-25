@@ -16,6 +16,7 @@ module TypeDoc.Factories
             reflection.overwrites    = this.resolveType(reflection.overwrites);
             reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes);
             reflection.extendedBy    = this.resolveTypes(reflection.extendedBy);
+            reflection.typeHierarchy = TypeHandler.buildTypeHierarchy(reflection);
         }
 
 
@@ -58,6 +59,49 @@ module TypeDoc.Factories
                     return new Models.NamedType(symbol.fullName());
                 }
             }
+        }
+
+
+        /**
+         * Return the simplified type hierarchy for the given reflection.
+         *
+         * @TODO Type hierarchies for interfaces with multiple parent interfaces.
+         *
+         * @param reflection The reflection whose type hierarchy should be generated.
+         * @returns The root of the generated type hierarchy.
+         */
+        static buildTypeHierarchy(reflection:Models.DeclarationReflection):Models.IDeclarationHierarchy {
+            if (!reflection.extendedTypes && !reflection.extendedBy) return null;
+            var root:Models.IDeclarationHierarchy = null;
+            var item:Models.IDeclarationHierarchy;
+            var hierarchy:Models.IDeclarationHierarchy;
+
+            function push(item:Models.IDeclarationHierarchy) {
+                if (hierarchy) {
+                    hierarchy.children = [item];
+                    hierarchy = item;
+                } else {
+                    root = hierarchy = item;
+                }
+            }
+
+            if (reflection.extendedTypes) {
+                reflection.extendedTypes.forEach((type) => {
+                    push({type:type});
+                });
+            }
+
+            item = {type:new Models.ReflectionType(reflection, false)};
+            push(item);
+
+            if (reflection.extendedBy) {
+                item.children = [];
+                reflection.extendedBy.forEach((type) => {
+                    item.children.push({type:type})
+                });
+            }
+
+            return root;
         }
     }
 

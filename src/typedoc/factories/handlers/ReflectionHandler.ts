@@ -13,9 +13,28 @@ module TypeDoc.Factories
      */
     export class ReflectionHandler
     {
+        /**
+         * A list of fags that should be exported to the flagsArray property.
+         */
+        static RELEVANT_FLAGS = [
+            TypeScript.PullElementFlags.Optional,
+            TypeScript.PullElementFlags.Public,
+            TypeScript.PullElementFlags.Private,
+            TypeScript.PullElementFlags.Static
+        ];
+
+        /**
+         * A list of fags that should be exported to the flagsArray property for parameter reflections.
+         */
+        static RELEVANT_PARAMETER_FLAGS = [
+            TypeScript.PullElementFlags.Optional
+        ];
+
+
         constructor(private dispatcher:Dispatcher) {
             dispatcher.on('createReflection', this.onCreateReflection, this);
             dispatcher.on('mergeReflection', this.onMergeReflection, this);
+            dispatcher.on('resolveReflection', this.onResolveReflection, this);
         }
 
 
@@ -35,7 +54,6 @@ module TypeDoc.Factories
                         var typeState = state.createChildState(declaration);
                         typeState.isFlattened   = true;
                         typeState.flattenedName = state.getName();
-                        // typeState.parentState   = state.parentState;
                         this.dispatcher.processState(typeState);
                     });
                 }
@@ -59,6 +77,35 @@ module TypeDoc.Factories
             if (state.declaration.kind != Models.Kind.Container) {
                 state.reflection.kind = state.declaration.kind;
             }
+        }
+
+
+        /**
+         * Triggered by the dispatcher for each reflection in the resolving phase.
+         *
+         * @param reflection  The final generated reflection.
+         */
+        private onResolveReflection(reflection:Models.DeclarationReflection) {
+            var flagsArray = [];
+            var flags = reflection.kindOf(Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
+            flags.forEach((key) => {
+                if ((reflection.flags & key) == key) {
+                    flagsArray.push(TypeScript.PullElementFlags[key].toLowerCase());
+                }
+            });
+
+            var isExported = false, target = reflection;
+            if (target.kindOf(Models.Kind.SomeContainer)) isExported = true;
+            while (!isExported && target && target instanceof Models.DeclarationReflection) {
+                if (target.kindOf(Models.Kind.SomeContainer)) break;
+                isExported = ((target.flags & Models.Flags.Exported) == Models.Flags.Exported);
+                target = <Models.DeclarationReflection>target.parent;
+            }
+
+            reflection.flagsArray = flagsArray;
+            reflection.isExported = isExported;
+            reflection.isStatic   = ((reflection.flags & Models.Flags.Static)  == Models.Flags.Static);
+            reflection.isPrivate  = ((reflection.flags & Models.Flags.Private) == Models.Flags.Private);
         }
     }
 
