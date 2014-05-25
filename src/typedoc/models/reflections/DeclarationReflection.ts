@@ -15,60 +15,176 @@ module TypeDoc.Models
     export var Flags = TypeScript.PullElementFlags;
 
 
-    export interface IHierarchy {
-        type:BaseType;
-        children?:IHierarchy[];
+    export function classify(str:string) {
+        return str.replace(/(\w)([A-Z])/g, (m, m1, m2) => m1 + '-' + m2).toLowerCase();
     }
 
 
-    export interface ISource {
-        fileName:string;
+    /**
+     * Stores hierarchical type data.
+     *
+     * @see DeclarationReflection.typeHierarchy
+     */
+    export interface IDeclarationHierarchy
+    {
+        /**
+         * The type represented by this node in the hierarchy.
+         */
+        type:BaseType;
+
+        /**
+         * A list of a children of this node.
+         */
+        children?:IDeclarationHierarchy[];
+    }
+
+
+    /**
+     * Represents references of reflections to their defining source files.
+     *
+     * @see DeclarationReflection.sources
+     */
+    export interface IDeclarationSource
+    {
+        /**
+         * A reference to the corresponding file instance.
+         */
         file?:SourceFile;
+
+        /**
+         * The filename of the source file.
+         */
+        fileName:string;
+
+        /**
+         * The number of the line that emitted the declaration.
+         */
         line:number;
     }
 
 
+    /**
+     * A reflection that represents a single declaration emitted by the TypeScript compiler.
+     *
+     * All parts of a project are represented by DeclarationReflection instances. The actual
+     * kind of a reflection is stored in its ´kind´ member.
+     */
     export class DeclarationReflection extends BaseReflection
     {
+        /**
+         * The definition of the underlying symbol.
+         *
+         * This is a string representation of the declaration which can be used
+         * in templates, when no other presentation of this declaration is available.
+         */
         definition:string;
 
+        /**
+         * A list of function signatures attached to this declaration.
+         *
+         * TypeDoc creates one declaration per function that may contain ore or more
+         * signature reflections.
+         */
         signatures:DeclarationReflection[];
 
+        /**
+         * The type of the reflection.
+         *
+         * If the reflection represents a variable or a property, this is the value type.<br />
+         * If the reflection represents a signature, this is the return type.
+         */
         type:BaseType;
 
+        /**
+         * A list of all types this reflection extends (e.g. the parent classes).
+         */
         extendedTypes:BaseType[];
 
+        /**
+         * A list of all types that extend this reflection (e.g. the subclasses).
+         */
         extendedBy:BaseType[];
 
-        kind:TypeScript.PullElementKind = Kind.None;
-
-        kindString:string;
-
+        /**
+         * A bitmask containing the flags of this reflection as returned by the compiler.
+         */
         flags:TypeScript.PullElementFlags = Flags.None;
 
-        sources:ISource[] = [];
-
-        defaultValue:string;
-
-        isOptional:boolean;
-
-        overwrites:BaseType;
-
-        inheritedFrom:BaseType;
-
+        /**
+         * An array representation of the flags bitmask, containing only the flags relevant for documentation.
+         */
         flagsArray:any;
 
-        typeHierarchy:any;
+        /**
+         * The kind of this reflection as returned by the compiler.
+         */
+        kind:TypeScript.PullElementKind = Kind.None;
 
-        cssClasses:any;
+        /**
+         * The human readable string representation of the kind of this reflection.
+         */
+        kindString:string;
 
+        /**
+         * A list of all source files that contributed to this reflection.
+         */
+        sources:IDeclarationSource[] = [];
 
-        constructor() {
-            super();
-            this.cssClasses    = () => this.getCssClasses();
-            this.flagsArray    = () => this.getFlagsArray();
-            this.typeHierarchy = () => this.getTypeHierarchy();
-        }
+        /**
+         * The default value of this reflection.
+         *
+         * Applies to function parameters.
+         */
+        defaultValue:string;
+
+        /**
+         * Whether this reflection is an optional component or not.
+         *
+         * Applies to function parameters and object members.
+         */
+        isOptional:boolean;
+
+        /**
+         * Is this a private member?
+         */
+        isPrivate:boolean;
+
+        /**
+         * Is this a static member?
+         */
+        isStatic:boolean;
+
+        /**
+         * Is this member exported?
+         */
+        isExported:boolean;
+
+        /**
+         * Contains a simplified representation of the type hierarchy suitable for being
+         * rendered in templates.
+         */
+        typeHierarchy:IDeclarationHierarchy;
+
+        /**
+         * A type that points to the reflection that has been overwritten by this reflection.
+         *
+         * Applies to interface and class members.
+         */
+        overwrites:BaseType;
+
+        /**
+         * A type that points to the reflection this reflection has been inherited from.
+         *
+         * Applies to interface and class members.
+         */
+        inheritedFrom:BaseType;
+
+        /**
+         * A list of generated css classes that should be applied to representations of this
+         * reflection in the generated markup.
+         */
+        cssClasses:string;
+
 
 
         /**
@@ -98,96 +214,12 @@ module TypeDoc.Models
         }
 
 
-        getTypeHierarchy() {
-            if (!this.extendedTypes && !this.extendedBy) return null;
-            var root:IHierarchy, item:IHierarchy, hierarchy:IHierarchy;
-
-            function push(item:IHierarchy) {
-                if (hierarchy) {
-                    hierarchy.children = [item];
-                    hierarchy = item;
-                } else {
-                    root = hierarchy = item;
-                }
-            }
-
-            if (this.extendedTypes) {
-                this.extendedTypes.forEach((type) => {
-                    push({type:type});
-                });
-            }
-
-            item = {type:new ReflectionType(this, false)};
-            if (this.extendedBy) {
-                item.children = [];
-                this.extendedBy.forEach((type) => {
-                    item.children.push({type:type})
-                });
-            }
-            push(item);
-
-            return root;
-        }
-
-
-        getCssClasses():string {
-            var flags = <any>Flags, classes = [];
-            classes.push(classify('ts-kind-'+ Kind[this.kind]));
-
-            if (this.parent && this.parent instanceof DeclarationReflection) {
-                classes.push(classify('ts-parent-kind-'+ Kind[(<DeclarationReflection>this.parent).kind]));
-            }
-
-            for (var key in flags) {
-                var num = +key;
-                if (num != key || num == 0 || !flags.hasOwnProperty(key)) continue;
-                if ((this.flags & num) != num) continue;
-                classes.push(classify('ts-flag-'+ flags[+key]));
-            }
-
-            if (this.inheritedFrom) {
-                classes.push('tsd-is-inherited');
-            }
-
-            if (this.flags & Flags.Private) {
-                classes.push('tsd-is-private');
-            }
-
-            var isExported = false, reflection = this;
-            if (reflection.kindOf(Kind.SomeContainer)) isExported = true;
-            while (!isExported && reflection && reflection instanceof DeclarationReflection) {
-                if (reflection.kindOf(Kind.SomeContainer)) break;
-                isExported = ((reflection.flags & Flags.Exported) == Flags.Exported);
-                reflection = <DeclarationReflection>reflection.parent;
-            }
-
-            if (!isExported) {
-                classes.push('tsd-is-not-exported');
-            }
-
-            return classes.join(' ');
-        }
-
-
-        getFlagsArray() {
-            var flags = <any>Flags, array = [];
-            for (var key in flags) {
-                var num = +key;
-                if (num != key || num == 0 || !flags.hasOwnProperty(key)) continue;
-                if ((this.flags & num) != num) continue;
-                array.push(classify(flags[+key]));
-            }
-
-            return array;
-        }
-
-
         /**
          * Return a string representation of this reflection.
          */
         toString():string {
             var str = TypeScript.PullElementKind[this.kind] + ': ' + this.name;
-            if (this.flags) str += ' [' + flagsToString(this.flags, TypeScript.PullElementFlags) + ']';
+            if (this.flags) str += ' [' + DeclarationReflection.flagsToString(this.flags, TypeScript.PullElementFlags) + ']';
             if (this.type) str += ': ' + this.type.toString();
             return str;
         }
@@ -213,6 +245,26 @@ module TypeDoc.Models
             }
 
             return str;
+        }
+
+
+        /**
+         * Return a string representation of the given value based upon the given enumeration.
+         *
+         * @param value        The value that contains the bit mask that should be explained.
+         * @param enumeration  The enumeration the bits in the value correspond to.
+         * @param separator    A string used to concat the found flags.
+         * @returns            A string representation of the given value.
+         */
+        static flagsToString(value:number, enumeration:any, separator:string = ', '):string {
+            var values = [];
+            for (var key in enumeration) {
+                var num = +key;
+                if (num != key || num == 0 || !enumeration.hasOwnProperty(key)) continue;
+                if ((value & num) != num) continue;
+                values.push(enumeration[+key]);
+            }
+            return values.join(separator);
         }
     }
 }

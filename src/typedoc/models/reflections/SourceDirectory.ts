@@ -13,7 +13,7 @@ module TypeDoc.Models
         directories:{[name:string]:SourceDirectory} = {};
 
         files:SourceFile[] = [];
-        
+
         groups:ReflectionGroup[];
 
 
@@ -50,28 +50,6 @@ module TypeDoc.Models
 
             reflections.sort(Factories.GroupHandler.sortCallback);
             return reflections;
-        }
-    }
-
-
-    export class SourceFile
-    {
-        name:string;
-
-        fileName:string;
-
-        url:string;
-
-        parent:SourceDirectory;
-
-        reflections:DeclarationReflection[] = [];
-
-        groups:ReflectionGroup[];
-
-
-        constructor(fileName:string) {
-            this.fileName = fileName;
-            this.name = Path.basename(fileName);
         }
     }
 }

@@ -1,55 +1,11 @@
 module TypeDoc.Models
 {
     /**
-     * Check whether the given flag is set in the given value.
+     * Base class for all reflection classes.
      *
-     * @param value  The value that should be tested.
-     * @param flag   The flag that should be looked for.
-     */
-    export function hasFlag(value:number, flag:number):boolean {
-        return (value & flag) !== 0;
-    }
-
-
-    export function hasModifier(modifiers:TypeScript.PullElementFlags[], flag:TypeScript.PullElementFlags):boolean {
-        for (var i = 0, n = modifiers.length; i < n; i++) {
-            if (hasFlag(modifiers[i], flag)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    export function classify(str:string) {
-        return str.replace(/(\w)([A-Z])/g, (m, m1, m2) => m1 + '-' + m2).toLowerCase();
-    }
-
-
-    /**
-     * Return a string representation of the given value based upon the given enumeration.
-     *
-     * @param value        The value that contains the bit mask that should be explained.
-     * @param enumeration  The enumeration the bits in the value correspond to.
-     * @param separator    A string used to concat the found flags.
-     * @returns            A string representation of the given value.
-     */
-    export function flagsToString(value:number, enumeration:any, separator:string = ', '):string
-    {
-        var values = [];
-        for (var key in enumeration) {
-            var num = +key;
-            if (num != key || num == 0 || !enumeration.hasOwnProperty(key)) continue;
-            if ((value & num) != num) continue;
-            values.push(enumeration[+key]);
-        }
-        return values.join(separator);
-    }
-
-
-    /**
-     * Base class for all our reflection classes.
+     * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+     * as the root for all reflections within the project. All other reflections are represented
+     * by the DeclarationReflection class.
      */
     export class BaseReflection
     {
@@ -63,6 +19,9 @@ module TypeDoc.Models
          */
         children:DeclarationReflection[] = [];
 
+        /**
+         * All children grouped by their kind.
+         */
         groups:ReflectionGroup[];
 
         /**
@@ -70,23 +29,40 @@ module TypeDoc.Models
          */
         name:string = '';
 
+        /**
+         * The parsed documentation comment attached to this reflection.
+         */
         comment:Comment;
 
+        /**
+         * The url of this reflection in the generated documentation.
+         */
         url:string;
 
+        /**
+         * Is the url pointing to an individual document?
+         *
+         * When FALSE, the url points to an anchor tag on a page of a different reflection.
+         */
         hasOwnDocument:boolean = false;
 
-
+        /**
+         * Url safe alias for this reflection.
+         *
+         * @see BaseReflection.getAlias
+         */
         private alias:string;
 
 
+
         /**
-         * Create a new BaseReflection instance.
+         * Return the full name of this reflection.
+         *
+         * The full name contains the name of this reflection and the names of all parent reflections.
+         *
+         * @param separator  Separator used to join the names of the reflections.
+         * @returns The full name of this reflection.
          */
-            constructor() {
-        }
-
-
         getFullName(separator:string = '.'):string {
             if (this.parent && !(this.parent instanceof ProjectReflection)) {
                 return this.parent.getFullName(separator) + separator + this.name;
