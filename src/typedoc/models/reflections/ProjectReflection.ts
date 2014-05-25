@@ -8,6 +8,8 @@ module TypeDoc.Models
 
         files:SourceFile[] = [];
 
+        name:string;
+
         readme:string;
 
         package:any;

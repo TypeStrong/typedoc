@@ -117,7 +117,6 @@ module TypeDoc.Renderer
             if (target.isDefaultPrevented) return;
 
             this.renderTarget(target);
-
             this.dispatch('endTarget', target);
         }
 
@@ -125,6 +124,7 @@ module TypeDoc.Renderer
         private renderTarget(target:Models.RenderTarget) {
             target.urls.forEach((mapping:Models.UrlMapping) => {
                 var output          = new Models.RenderOutput(target);
+                output.project      = target.project
                 output.url          = mapping.url;
                 output.model        = mapping.model;
                 output.templateName = mapping.template;

@@ -78,12 +78,17 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher enters the resolving pahse.
          */
         onEnterResolve() {
+            var project = this.dispatcher.project;
+
             if (this.readmeFile) {
-                this.dispatcher.project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
+                project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }
 
             if (this.packageFile) {
-                this.dispatcher.project.package = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+                project.package = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+                if (!project.name) {
+                    project.name = project.package.name;
+                }
             }
         }
     }

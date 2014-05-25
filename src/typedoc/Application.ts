@@ -44,6 +44,16 @@ module TypeDoc
                     this.renderer.dirName = this.resolvePath(str);
                 }
             });
+
+            opts.option('name', {
+                usage: {
+                    locCode: 'Set the name of the project that will be used in the header of the template.',
+                    args: null
+                },
+                set: (str) => {
+                    this.project.name = str;
+                }
+            });
         }
 
 

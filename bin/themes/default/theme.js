@@ -11,7 +11,13 @@ var Theme = (function (_super) {
         _super.apply(this, arguments);
     }
     Theme.prototype.isOutputDirectory = function (dirname) {
+        if (!FS.existsSync(Path.join(dirname, 'index.html')))
+            return false;
         if (!FS.existsSync(Path.join(dirname, 'assets')))
+            return false;
+        if (!FS.existsSync(Path.join(dirname, 'assets', 'js', 'main.js')))
+            return false;
+        if (!FS.existsSync(Path.join(dirname, 'assets', 'images', 'icons.png')))
             return false;
 
         return true;
@@ -74,6 +80,7 @@ var Theme = (function (_super) {
 
         this.project.url = 'modules/_globals.html';
         urls.push(new TypeDoc.Models.UrlMapping('modules/_globals.html', this.project, 'reflection.hbs'));
+        urls.push(new TypeDoc.Models.UrlMapping('index.html', this.project, 'index.hbs'));
 
         walkReflection(this.project, this.project);
 
@@ -95,7 +102,7 @@ var Theme = (function (_super) {
         }
 
         var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-        new TypeDoc.Models.NavigationItem('Globals', 'globals.html', root);
+        new TypeDoc.Models.NavigationItem('Globals', 'modules/_globals.html', root);
 
         var modules = this.project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
         modules.forEach(function (container) {

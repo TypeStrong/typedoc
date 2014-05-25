@@ -8,6 +8,8 @@ module TypeDoc.Models
 
         url:string;
 
+        project:any;
+
         model:any;
 
         template:{(context:any):string};
