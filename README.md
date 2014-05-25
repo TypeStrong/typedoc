@@ -21,6 +21,15 @@ $ tsd
 ```
 
 
+## Preview
+
+If you want to know what a documentation created with TypeDoc looks like, head over
+to the GitHub page of the project. It contains an api documentation of TypeDoc generated with
+TypeDoc:
+
+http://sebastian-lenz.github.io/typedoc
+
+
 ## Usage
 
 TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. One major
