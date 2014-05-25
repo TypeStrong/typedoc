@@ -1,4 +1,7 @@
 <h3 class="tsd-kind-icon">{{#compact}}
+    {{#each flagsArray}}
+        <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
+    {{/each}}
     {{name}}(
     {{#each children}}
         {{#if @index}},&nbsp;{{/if}}
