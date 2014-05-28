@@ -148,7 +148,7 @@ module TypeDoc.Factories
 
             var currentTag:Models.CommentTag;
             var shortText:number = 0;
-            var lines = text.split(/\r\n/);
+            var lines = text.split(/\n/);
             lines.forEach((line) => {
                 line = line.replace(/^\s*\*? ?/, '');
                 line = line.replace(/\s*$/, '');
