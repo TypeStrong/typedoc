@@ -2138,7 +2138,7 @@ var TypeDoc;
 
                 var currentTag;
                 var shortText = 0;
-                var lines = text.split(/\r\n/);
+                var lines = text.split(/\r\n?|\n/);
                 lines.forEach(function (line) {
                     line = line.replace(/^\s*\*? ?/, '');
                     line = line.replace(/\s*$/, '');
