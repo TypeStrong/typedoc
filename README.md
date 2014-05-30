@@ -13,11 +13,11 @@ $ npm install typedoc --save-dev
 ```
 
 Like the TypeScript compiler, TypeDoc comes with a binary that can be called from anywhere
-if you install TypeDoc as a global module. The name of the executable is ``tsd``.
+if you install TypeDoc as a global module. The name of the executable is ``typedoc``.
 
 ```shell
 $ npm install typedoc --global
-$ tsd
+$ typedoc
 ```
 
 
@@ -37,5 +37,5 @@ difference is the fact that one may pass an entire directory instead of individu
 generator. So in order to create a documentation for an entire project you simply type:
 
 ```shell
-$ tsd --out path\to\documentation\ path\to\typescript\project\
+$ typedoc --out path\to\documentation\ path\to\typescript\project\
 ```

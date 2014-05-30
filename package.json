@@ -3,7 +3,7 @@
   "description": "Create api documentations for typescript projects.",
   "version": "0.0.2",
   "bin": {
-      "tsd" : "bin/tsd"
+      "typedoc" : "bin/typedoc"
   },
   "author": {
     "name": "Sebastian Lenz",
