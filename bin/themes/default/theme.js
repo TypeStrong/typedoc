@@ -116,8 +116,8 @@ var Theme = (function (_super) {
             });
         };
 
-        this.project.url = 'modules/_globals.html';
-        urls.push(new TypeDoc.Models.UrlMapping('modules/_globals.html', this.project, 'reflection.hbs'));
+        this.project.url = 'globals.html';
+        urls.push(new TypeDoc.Models.UrlMapping('globals.html', this.project, 'reflection.hbs'));
         urls.push(new TypeDoc.Models.UrlMapping('index.html', this.project, 'index.hbs'));
 
         walkReflection(this.project, this.project);
@@ -140,7 +140,7 @@ var Theme = (function (_super) {
         }
 
         var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-        new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'modules/_globals.html', root);
+        new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
 
         var modules = this.project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
         modules.forEach(function (container) {
