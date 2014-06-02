@@ -32,18 +32,46 @@ http://sebastian-lenz.github.io/typedoc
 
 ## Usage
 
-### Commandline
+### Shell
 
 TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. One major
 difference is the fact that one may pass an entire directory instead of individual files to the documentation
 generator. So in order to create a documentation for an entire project you simply type:
 
 ```shell
-$ typedoc --out path\to\documentation\ path\to\typescript\project\
+$ typedoc --out path/to/documentation/ path/to/typescript/project/
 ```
+
+### Arguments
+
+#### ```--out <path/to/documentation/>```
+Specifies the location the documentation should be written to.
+
+#### ```--title <Documentation title>```
+Set the name of the project that will be used in the header of the template.
+
+#### ```--module <commonjs or amd>```
+Specify module code generation: "commonjs" or "amd"
+
+#### ```--target <ES3 or ES5>```
+Specify ECMAScript target version: "ES3" (default), or "ES5"
 
 
 ### Gulp
 
-There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten. You can find it on NPM:  
+There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten. You can find it on NPM:
 https://www.npmjs.org/package/gulp-typedoc/
+
+
+## Document your code
+
+TypeDoc runs the TypeScript compiler and extracts type information from the generated compiler symbols.
+Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
+like classes, enumerations or property types and access modifiers will be automatically detected.
+
+The documentation generator currently understands these javadoc tags:
+
+ * ```@param <param name>```
+ * ```@retrun(s)```
+
+All other tags will be rendered as definition lists, so they are not lost.
