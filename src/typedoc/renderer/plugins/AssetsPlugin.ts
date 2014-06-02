@@ -14,7 +14,7 @@ module TypeDoc.Renderer
             if (this.renderer.ioHost.fileExists(from)) {
                 var to = Path.join(target.dirname, 'assets');
                 FS.mkdirRecursiveSync(to);
-                FS.copyRecursive(from, to, (e) => { console.log('finished!'); });
+                FS.copyRecursive(from, to, (e) => {  });
             }
         }
     }

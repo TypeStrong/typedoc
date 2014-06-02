@@ -19,6 +19,13 @@ module TypeDoc
             if (this.parseOptions()) {
                 this.batchCompile();
                 this.renderer.render();
+            } else {
+                this.ioHost.printLine('Error: Could not parse commandline arguments');
+                this.hasErrors = true;
+            }
+
+            if (!this.hasErrors) {
+                this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
             }
 
             // this.ioHost.quit(this.hasErrors ? 1 : 0);
