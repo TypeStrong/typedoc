@@ -206,5 +206,49 @@ module TypeDoc.Factories
 
             this.dispatch('leaveResolve');
         }
+
+
+        /**
+         * Print debug information of the given declaration to the console.
+         *
+         * @param declaration  The declaration that should be printed.
+         * @param indent  Used internally to indent child declarations.
+         */
+        static explainDeclaration(declaration:TypeScript.PullDecl, indent:string = '') {
+            var flags = [];
+            for (var flag in TypeScript.PullElementFlags) {
+                if (!TypeScript.PullElementFlags.hasOwnProperty(flag)) continue;
+                if (flag != +flag) continue;
+                if (declaration.flags & flag) flags.push(TypeScript.PullElementFlags[flag]);
+            }
+
+            var str = indent + declaration.name;
+            str += ' ' + TypeScript.PullElementKind[declaration.kind];
+            str += ' (' + Dispatcher.flagsToString(declaration) + ')';
+            console.log(str);
+
+            indent += '  ';
+            declaration.getChildDecls().forEach((decl) => {
+                Dispatcher.explainDeclaration(decl, indent);
+            })
+        }
+
+
+        /**
+         * Return a string that explains the given flag bit mask.
+         *
+         * @param flags  A bit mask containing TypeScript.PullElementFlags bits.
+         * @returns A string describing the given bit mask.
+         */
+        static flagsToString(flags:any):string {
+            var items = [];
+            for (var flag in TypeScript.PullElementFlags) {
+                if (!TypeScript.PullElementFlags.hasOwnProperty(flag)) continue;
+                if (flag != +flag) continue;
+                if (flags & flag) items.push(TypeScript.PullElementFlags[flag]);
+            }
+
+            return items.join(', ');
+        }
     }
 }
