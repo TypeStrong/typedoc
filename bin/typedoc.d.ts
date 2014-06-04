@@ -266,6 +266,45 @@ declare module TypeDoc.Factories {
         */
         public attachDocument(document: TypeScript.Document): void;
         public resolve(): void;
+        /**
+        * Print debug information of the given declaration to the console.
+        *
+        * @param declaration  The declaration that should be printed.
+        * @param indent  Used internally to indent child declarations.
+        */
+        static explainDeclaration(declaration: TypeScript.PullDecl, indent?: string): void;
+        /**
+        * Return a string that explains the given flag bit mask.
+        *
+        * @param flags  A bit mask containing TypeScript.PullElementFlags bits.
+        * @returns A string describing the given bit mask.
+        */
+        static flagsToString(flags: any): string;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that analyzes the AST and extracts data not represented by declarations.
+    */
+    class AstHandler {
+        /**
+        * The ast walker factory.
+        */
+        private factory;
+        /**
+        * Create a new AstHandler instance.
+        *
+        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher has finished processing a typescript declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        public onLeaveDeclaration(state: DeclarationState): void;
     }
 }
 declare module TypeDoc.Factories {

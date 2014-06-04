@@ -498,11 +498,11 @@ var TypeScript;
 
             var optionsWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.options, null);
             var fileWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.file1, null);
-            var tscSyntax = "tsd [" + optionsWord + "] [" + fileWord + " ..]";
+            var tscSyntax = "typedoc [" + optionsWord + "] [" + fileWord + " ..]";
             var syntaxHelp = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Syntax_0, [tscSyntax]);
             this.host.printLine(syntaxHelp);
             this.host.printLine("");
-            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Examples, null) + " tsd --out ../doc/ hello.ts");
+            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Examples, null) + " typedoc --out ../doc/ hello.ts");
             this.host.printLine("");
             this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Options, null));
 
@@ -1655,13 +1655,10 @@ var TypeDoc;
             if (this.parseOptions()) {
                 this.batchCompile();
                 this.renderer.render();
-            } else {
-                this.ioHost.printLine('Error: Could not parse commandline arguments');
-                this.hasErrors = true;
-            }
 
-            if (!this.hasErrors) {
-                this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
+                if (!this.hasErrors) {
+                    this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
+                }
             }
             // this.ioHost.quit(this.hasErrors ? 1 : 0);
         };
@@ -1994,10 +1991,110 @@ var TypeDoc;
 
                 this.dispatch('leaveResolve');
             };
+
+            /**
+            * Print debug information of the given declaration to the console.
+            *
+            * @param declaration  The declaration that should be printed.
+            * @param indent  Used internally to indent child declarations.
+            */
+            Dispatcher.explainDeclaration = function (declaration, indent) {
+                if (typeof indent === "undefined") { indent = ''; }
+                var flags = [];
+                for (var flag in TypeScript.PullElementFlags) {
+                    if (!TypeScript.PullElementFlags.hasOwnProperty(flag))
+                        continue;
+                    if (flag != +flag)
+                        continue;
+                    if (declaration.flags & flag)
+                        flags.push(TypeScript.PullElementFlags[flag]);
+                }
+
+                var str = indent + declaration.name;
+                str += ' ' + TypeScript.PullElementKind[declaration.kind];
+                str += ' (' + Dispatcher.flagsToString(declaration) + ')';
+                console.log(str);
+
+                indent += '  ';
+                declaration.getChildDecls().forEach(function (decl) {
+                    Dispatcher.explainDeclaration(decl, indent);
+                });
+            };
+
+            /**
+            * Return a string that explains the given flag bit mask.
+            *
+            * @param flags  A bit mask containing TypeScript.PullElementFlags bits.
+            * @returns A string describing the given bit mask.
+            */
+            Dispatcher.flagsToString = function (flags) {
+                var items = [];
+                for (var flag in TypeScript.PullElementFlags) {
+                    if (!TypeScript.PullElementFlags.hasOwnProperty(flag))
+                        continue;
+                    if (flag != +flag)
+                        continue;
+                    if (flags & flag)
+                        items.push(TypeScript.PullElementFlags[flag]);
+                }
+
+                return items.join(', ');
+            };
             Dispatcher.FACTORIES = [];
             return Dispatcher;
         })(TypeDoc.EventDispatcher);
         Factories.Dispatcher = Dispatcher;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * A handler that analyzes the AST and extracts data not represented by declarations.
+        */
+        var AstHandler = (function () {
+            /**
+            * Create a new AstHandler instance.
+            *
+            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function AstHandler(dispatcher) {
+                this.factory = TypeScript.getAstWalkerFactory();
+                dispatcher.on('leaveDeclaration', this.onLeaveDeclaration, this);
+            }
+            /**
+            * Triggered when the dispatcher has finished processing a typescript declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            AstHandler.prototype.onLeaveDeclaration = function (state) {
+                if (!state.reflection)
+                    return;
+                if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule)
+                    return;
+
+                var ast = state.declaration.ast();
+                this.factory.simpleWalk(ast, function (ast, astState) {
+                    if (ast.kind() == 134 /* ExportAssignment */) {
+                        var assignment = ast;
+                        var reflection = state.reflection.getChildByName(assignment.identifier.text());
+                        if (reflection) {
+                            reflection.flags = reflection.flags | 1 /* Exported */;
+                        }
+                    }
+                });
+            };
+            return AstHandler;
+        })();
+        Factories.AstHandler = AstHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.FACTORIES.push(AstHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2678,7 +2775,7 @@ var TypeDoc;
                     state.reflection.definition = symbol.toString();
                     state.reflection.isOptional = symbol.isOptional;
 
-                    if (symbol.type.kind == TypeDoc.Models.Kind.ObjectType || symbol.type.kind == TypeDoc.Models.Kind.ObjectLiteral) {
+                    if (symbol.type && (symbol.type.kind == TypeDoc.Models.Kind.ObjectType || symbol.type.kind == TypeDoc.Models.Kind.ObjectLiteral)) {
                         var typeDeclaration = symbol.type.getDeclarations()[0];
                         typeDeclaration.getChildDecls().forEach(function (declaration) {
                             var typeState = state.createChildState(declaration);
@@ -2856,7 +2953,7 @@ var TypeDoc;
 
                 if (state.isSignature) {
                     var symbol = state.declaration.getSignatureSymbol();
-                    if (symbol.returnType.name != 'void') {
+                    if (symbol.returnType && symbol.returnType.name != 'void') {
                         state.reflection.type = Factories.createType(symbol.returnType);
                     } else {
                         state.reflection.type = null;
