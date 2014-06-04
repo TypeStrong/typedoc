@@ -63,6 +63,12 @@ There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten.
 https://www.npmjs.org/package/gulp-typedoc/
 
 
+### Grunt
+
+There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:
+https://www.npmjs.org/package/grunt-typedoc
+
+
 ## Document your code
 
 TypeDoc runs the TypeScript compiler and extracts type information from the generated compiler symbols.
