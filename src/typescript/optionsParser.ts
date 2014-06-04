@@ -64,11 +64,11 @@ module TypeScript {
 
             var optionsWord = getLocalizedText(DiagnosticCode.options, null);
             var fileWord = getLocalizedText(DiagnosticCode.file1, null);
-            var tscSyntax = "tsd [" + optionsWord + "] [" + fileWord + " ..]";
+            var tscSyntax = "typedoc [" + optionsWord + "] [" + fileWord + " ..]";
             var syntaxHelp = getLocalizedText(DiagnosticCode.Syntax_0, [tscSyntax]);
             this.host.printLine(syntaxHelp);
             this.host.printLine("");
-            this.host.printLine(getLocalizedText(DiagnosticCode.Examples, null) + " tsd --out ../doc/ hello.ts");
+            this.host.printLine(getLocalizedText(DiagnosticCode.Examples, null) + " typedoc --out ../doc/ hello.ts");
             this.host.printLine("");
             this.host.printLine(getLocalizedText(DiagnosticCode.Options, null));
 
