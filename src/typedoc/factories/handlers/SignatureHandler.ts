@@ -58,7 +58,7 @@ module TypeDoc.Factories
 
             if (state.isSignature) {
                 var symbol = state.declaration.getSignatureSymbol();
-                if (symbol.returnType.name != 'void') {
+                if (symbol.returnType && symbol.returnType.name != 'void') {
                     state.reflection.type = createType(symbol.returnType);
                 } else {
                     state.reflection.type = null;

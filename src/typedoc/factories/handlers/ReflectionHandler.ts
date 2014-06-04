@@ -48,7 +48,7 @@ module TypeDoc.Factories
                 state.reflection.definition = symbol.toString();
                 state.reflection.isOptional = symbol.isOptional;
 
-                if (symbol.type.kind == Models.Kind.ObjectType || symbol.type.kind == Models.Kind.ObjectLiteral) {
+                if (symbol.type && (symbol.type.kind == Models.Kind.ObjectType || symbol.type.kind == Models.Kind.ObjectLiteral)) {
                     var typeDeclaration = symbol.type.getDeclarations()[0];
                     typeDeclaration.getChildDecls().forEach((declaration) => {
                         var typeState = state.createChildState(declaration);
