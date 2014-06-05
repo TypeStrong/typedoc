@@ -8,13 +8,21 @@ module TypeDoc.Factories
         add(fileName:string) {
             var dirname = BasePath.normalize(Path.dirname(fileName));
             if (this.basePath) {
-                var len = this.basePath.length;
-                while (len > dirname.length || this.basePath != dirname.substr(0, len)) {
-                    var basePath = BasePath.normalize(Path.resolve(Path.join(this.basePath, '..')));
-                    if (this.basePath == basePath) break;
-                    this.basePath = basePath;
-                    len = this.basePath.length;
+                var basePath = this.basePath;
+                var len = basePath.length;
+
+                while (basePath != dirname.substr(0, len)) {
+                    if (len <= dirname.length) {
+                        return;
+                    }
+
+                    var parentPath = BasePath.normalize(Path.resolve(Path.join(basePath, '..')));
+                    if (basePath == parentPath) break;
+                    basePath = parentPath;
+                    len = basePath.length;
                 }
+
+                this.basePath = basePath;
             } else {
                 this.basePath = dirname;
             }
