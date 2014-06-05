@@ -30,6 +30,11 @@ export class Theme extends TypeDoc.Renderer.BaseTheme
         isLeaf:   false,
         prefix:   'modules',
         template: 'reflection.hbs'
+    },{
+        kind:     [TypeDoc.Models.Kind.Script],
+        isLeaf:   false,
+        prefix:   'scripts',
+        template: 'reflection.hbs'
     }];
 
 

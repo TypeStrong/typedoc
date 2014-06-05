@@ -176,6 +176,11 @@ var Theme = (function (_super) {
             isLeaf: false,
             prefix: 'modules',
             template: 'reflection.hbs'
+        }, {
+            kind: [TypeDoc.Models.Kind.Script],
+            isLeaf: false,
+            prefix: 'scripts',
+            template: 'reflection.hbs'
         }];
     return Theme;
 })(TypeDoc.Renderer.BaseTheme);
