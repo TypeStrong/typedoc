@@ -3,7 +3,7 @@
   "description": "Create api documentations for typescript projects.",
   "version": "0.0.4",
   "bin": {
-      "typedoc" : "bin/typedoc"
+    "typedoc": "bin/typedoc"
   },
   "author": {
     "name": "Sebastian Lenz",
@@ -28,6 +28,7 @@
   "dependencies": {
     "typescript": "^1.0.1",
     "fs.extra": "~1.2.1",
+    "minimatch": "^0.3.0",
     "handlebars": "^2.0.0-alpha.4",
     "marked": "^0.3.2",
     "highlight.js": "^8.0.0"

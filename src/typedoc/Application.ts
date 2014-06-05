@@ -6,6 +6,8 @@ module TypeDoc
 
         renderer:Renderer.Renderer;
 
+        exclude:string;
+
 
 
         constructor() {
@@ -24,8 +26,6 @@ module TypeDoc
                     this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
                 }
             }
-
-            // this.ioHost.quit(this.hasErrors ? 1 : 0);
         }
 
 
@@ -49,6 +49,16 @@ module TypeDoc
                 }
             });
 
+            opts.option('exclude', {
+                usage: {
+                    locCode: 'Define a pattern for excluded files when specifing paths.',
+                    args: null
+                },
+                set: (str) => {
+                    this.exclude = str;
+                }
+            });
+
             opts.option('name', {
                 usage: {
                     locCode: 'Set the name of the project that will be used in the header of the template.',
@@ -66,13 +76,21 @@ module TypeDoc
                 return true;
             }
 
-            var files = [];
+            var exclude, files = [];
+            if (this.exclude) {
+                exclude = new Minimatch.Minimatch(this.exclude);
+            }
+
             function add(dirname) {
                 FS.readdirSync(dirname).forEach((file) => {
                     var realpath = TypeScript.IOUtils.combine(dirname, file);
                     if (FS.statSync(realpath).isDirectory()) {
                         add(realpath);
                     } else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+
                         files.push(realpath);
                     }
                 });

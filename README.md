@@ -44,17 +44,25 @@ $ typedoc --out path/to/documentation/ path/to/typescript/project/
 
 ### Arguments
 
-#### ```--out <path/to/documentation/>```
+```--out <path/to/documentation/>```
+
 Specifies the location the documentation should be written to.
 
-#### ```--title <Documentation title>```
+```--title <Documentation title>```
+
 Set the name of the project that will be used in the header of the template.
 
-#### ```--module <commonjs or amd>```
+```--module <commonjs or amd>```
+
 Specify module code generation: "commonjs" or "amd"
 
-#### ```--target <ES3 or ES5>```
+```--target <ES3 or ES5>```
+
 Specify ECMAScript target version: "ES3" (default), or "ES5"
+
+```--exclude <pattern>```
+
+Exclude files by the given pattern, when a path is provided as source
 
 
 ### Gulp
