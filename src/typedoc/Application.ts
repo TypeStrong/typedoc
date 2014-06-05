@@ -6,6 +6,8 @@ module TypeDoc
 
         renderer:Renderer.Renderer;
 
+        includeDeclarations:boolean = false;
+
         exclude:string;
 
 
@@ -56,6 +58,16 @@ module TypeDoc
                 },
                 set: (str) => {
                     this.exclude = str;
+                }
+            });
+
+            opts.flag('includeDeclarations', {
+                usage: {
+                    locCode: 'Turn on parsing of .d.ts declaration files.',
+                    args: null
+                },
+                set: () => {
+                    this.includeDeclarations = true;
                 }
             });
 
