@@ -1,9 +1,15 @@
-/// <reference path="../lib/typescript/typescript.d.ts" />
+/// <reference path="../lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="../lib/handlebars/handlebars.d.ts" />
+/// <reference path="../lib/highlight.js/highlight.js.d.ts" />
+/// <reference path="../lib/marked/marked.d.ts" />
+/// <reference path="../lib/minimatch/minimatch.d.ts" />
 /// <reference path="../lib/node/node.d.ts" />
+/// <reference path="../lib/typescript/typescript.d.ts" />
 
 var Handlebars = require('handlebars');
 var Marked = require('marked');
 var HighlightJS = require('highlight.js');
+var Minimatch = require('minimatch');
 var VM = require('vm');
 var Path = require('path');
 var FS = require('fs.extra');
@@ -1648,6 +1654,7 @@ var TypeDoc;
         __extends(Application, _super);
         function Application() {
             _super.call(this, TypeScript.IO);
+            this.includeDeclarations = false;
             this.project = new TypeDoc.Models.ProjectReflection();
             this.renderer = new TypeDoc.Renderer.Renderer(this);
         }
@@ -1660,7 +1667,6 @@ var TypeDoc;
                     this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
                 }
             }
-            // this.ioHost.quit(this.hasErrors ? 1 : 0);
         };
 
         Application.prototype.alterOptionsParser = function (opts) {
@@ -1685,6 +1691,26 @@ var TypeDoc;
                 }
             });
 
+            opts.option('exclude', {
+                usage: {
+                    locCode: 'Define a pattern for excluded files when specifing paths.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.exclude = str;
+                }
+            });
+
+            opts.flag('includeDeclarations', {
+                usage: {
+                    locCode: 'Turn on parsing of .d.ts declaration files.',
+                    args: null
+                },
+                set: function () {
+                    _this.includeDeclarations = true;
+                }
+            });
+
             opts.option('name', {
                 usage: {
                     locCode: 'Set the name of the project that will be used in the header of the template.',
@@ -1702,13 +1728,21 @@ var TypeDoc;
                 return true;
             }
 
-            var files = [];
+            var exclude, files = [];
+            if (this.exclude) {
+                exclude = new Minimatch.Minimatch(this.exclude);
+            }
+
             function add(dirname) {
                 FS.readdirSync(dirname).forEach(function (file) {
                     var realpath = TypeScript.IOUtils.combine(dirname, file);
                     if (FS.statSync(realpath).isDirectory()) {
                         add(realpath);
                     } else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+
                         files.push(realpath);
                     }
                 });
@@ -1769,14 +1803,22 @@ var TypeDoc;
             BasePath.prototype.add = function (fileName) {
                 var dirname = BasePath.normalize(Path.dirname(fileName));
                 if (this.basePath) {
-                    var len = this.basePath.length;
-                    while (len > dirname.length || this.basePath != dirname.substr(0, len)) {
-                        var basePath = BasePath.normalize(Path.resolve(Path.join(this.basePath, '..')));
-                        if (this.basePath == basePath)
+                    var basePath = this.basePath;
+                    var len = basePath.length;
+
+                    while (basePath != dirname.substr(0, len)) {
+                        if (len <= dirname.length) {
+                            return;
+                        }
+
+                        var parentPath = BasePath.normalize(Path.resolve(Path.join(basePath, '..')));
+                        if (basePath == parentPath)
                             break;
-                        this.basePath = basePath;
-                        len = this.basePath.length;
+                        basePath = parentPath;
+                        len = basePath.length;
                     }
+
+                    this.basePath = basePath;
                 } else {
                     this.basePath = dirname;
                 }
@@ -2308,22 +2350,25 @@ var TypeDoc;
                 dispatcher.on('resolveReflection', this.onResolveReflection, this);
             }
             DynamicModuleHandler.prototype.onProcess = function (state) {
-                if (!state.kindOf(TypeDoc.Models.Kind.DynamicModule)) {
+                if (!state.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
                     return;
                 }
 
                 var name = state.declaration.name;
                 name = name.replace(/"/g, '');
                 state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
-                this.basePath.add(name);
+
+                if (name.indexOf('/') != -1) {
+                    this.basePath.add(name);
+                }
             };
 
             DynamicModuleHandler.prototype.onResolveReflection = function (reflection) {
-                if (!reflection.kindOf(TypeDoc.Models.Kind.DynamicModule)) {
-                    return;
+                if (reflection.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
+                    if (reflection.name.indexOf('/') != -1) {
+                        reflection.name = this.basePath.trim(reflection.name);
+                    }
                 }
-
-                reflection.name = this.basePath.trim(reflection.name);
             };
             return DynamicModuleHandler;
         })();
@@ -2619,12 +2664,26 @@ var TypeDoc;
         */
         var NullHandler = (function () {
             function NullHandler(dispatcher) {
+                this.dispatcher = dispatcher;
+                this.includeDeclarations = dispatcher.compiler.includeDeclarations;
+
                 dispatcher.on('enterDocument', this.onEnterDocument, this, 1024);
                 dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
             }
             NullHandler.prototype.onEnterDocument = function (state) {
+                if (state.document.isDeclareFile() && state.document.fileName.substr(-8) == 'lib.d.ts') {
+                    state.stopPropagation();
+                    state.preventDefault();
+                }
+
                 // Ignore declare files
                 if (state.document.isDeclareFile()) {
+                    if (state.document.fileName.substr(-8) != 'lib.d.ts' && this.includeDeclarations) {
+                        var childState = state.createChildState(state.document.topLevelDecl());
+                        this.dispatcher.ensureReflection(childState);
+                        this.dispatcher.processState(childState);
+                    }
+
                     state.stopPropagation();
                     state.preventDefault();
                 }
@@ -3541,8 +3600,7 @@ var TypeDoc;
             BaseReflection.prototype.getAlias = function () {
                 if (!this.alias) {
                     this.alias = this.name.toLowerCase();
-                    this.alias = this.alias.replace(/\/\\:/g, '.');
-                    this.alias = this.alias.replace(/[\\\/]/g, '-');
+                    this.alias = this.alias.replace(/[:\\\/]/g, '-');
                 }
 
                 return this.alias;

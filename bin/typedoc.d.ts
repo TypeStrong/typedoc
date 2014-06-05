@@ -1,11 +1,17 @@
-/// <reference path="../src/lib/typescript/typescript.d.ts" />
+/// <reference path="../src/lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="../src/lib/handlebars/handlebars.d.ts" />
+/// <reference path="../src/lib/highlight.js/highlight.js.d.ts" />
+/// <reference path="../src/lib/marked/marked.d.ts" />
+/// <reference path="../src/lib/minimatch/minimatch.d.ts" />
 /// <reference path="../src/lib/node/node.d.ts" />
+/// <reference path="../src/lib/typescript/typescript.d.ts" />
 declare module TypeScript {
     var typescriptPath: string;
 }
 declare var Handlebars: any;
 declare var Marked: any;
 declare var HighlightJS: any;
+declare var Minimatch: any;
 declare var VM: any;
 declare var Path: any;
 declare var FS: any;
@@ -162,6 +168,8 @@ declare module TypeDoc {
     class Application extends TypeScript.BatchCompiler {
         public project: Models.ProjectReflection;
         public renderer: Renderer.Renderer;
+        public includeDeclarations: boolean;
+        public exclude: string;
         constructor();
         public runFromCLI(): void;
         public alterOptionsParser(opts: TypeScript.OptionsParser): void;
@@ -420,6 +428,8 @@ declare module TypeDoc.Factories {
     * implicit variables. Furthermore declaration files are ignored.
     */
     class NullHandler {
+        private dispatcher;
+        public includeDeclarations: boolean;
         constructor(dispatcher: Dispatcher);
         public onEnterDocument(state: DocumentState): void;
         public onEnterDeclaration(state: DeclarationState): void;
