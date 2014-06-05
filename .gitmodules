@@ -1,3 +1,6 @@
 [submodule "typescript"]
 	path = typescript
 	url = https://git01.codeplex.com/typescript
+[submodule "test/definitelytyped/src"]
+	path = test/definitelytyped/src
+	url = git@github.com:borisyankov/DefinitelyTyped.git
