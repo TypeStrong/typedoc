@@ -48,7 +48,7 @@ $ typedoc --out path/to/documentation/ path/to/typescript/project/
 
 Specifies the location the documentation should be written to.
 
-```--title <Documentation title>```
+```--name <Documentation title>```
 
 Set the name of the project that will be used in the header of the template.
 

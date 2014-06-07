@@ -1,12 +1,5 @@
 module TypeDoc.Factories
 {
-    export interface IScriptSnapshot
-    {
-        getText(start:number, end:number):string;
-        getLineNumber(position:number):number;
-    }
-
-
     /**
      * Create a type instance for the given symbol.
      *
@@ -59,13 +52,7 @@ module TypeDoc.Factories
         /**
          * The project instance this dispatcher should push the created reflections to.
          */
-        project:Models.ProjectReflection;
-
-        compiler:TypeDoc.Application;
-
-        idMap:{[id:number]:Models.DeclarationReflection} = {};
-
-        snapshots:{[fileName:string]:IScriptSnapshot} = {};
+        application:Application;
 
         /**
          * A list of known factories.
@@ -76,12 +63,11 @@ module TypeDoc.Factories
         /**
          * Create a new Dispatcher instance.
          *
-         * @param project  The target project instance.
+         * @param application  The target project instance.
          */
-        constructor(project:Models.ProjectReflection, compiler:TypeDoc.Application) {
+        constructor(application:Application) {
             super();
-            this.project  = project;
-            this.compiler = compiler;
+            this.application = application;
 
             Dispatcher.FACTORIES.forEach((factory) => {
                 new factory(this)
@@ -89,30 +75,33 @@ module TypeDoc.Factories
         }
 
 
-        /**
-         * Return the snapshot of the given filename.
-         *
-         * @param fileName  The filename of the snapshot.
-         */
-        getSnapshot(fileName:string):IScriptSnapshot {
-            if (!this.snapshots[fileName]) {
-                var snapshot:TypeScript.IScriptSnapshot;
-                var lineMap:TypeScript.LineMap;
+        compile(inputFiles:string[]):Models.ProjectReflection {
+            var settings = this.application.settings.compiler;
+            var compiler = new Compiler(settings);
+            var project  = new Models.ProjectReflection();
 
-                this.snapshots[fileName] = {
-                    getText: (start:number, end:number):string => {
-                        if (!snapshot) snapshot = this.compiler.getScriptSnapshot(fileName);
-                        return snapshot.getText(start, end);
-                    },
-                    getLineNumber: (position:number):number => {
-                        if (!snapshot) snapshot = this.compiler.getScriptSnapshot(fileName);
-                        if (!lineMap) lineMap = TypeScript.LineMap1.fromScriptSnapshot(snapshot);
-                        return lineMap.getLineNumberFromPosition(position);
-                    }
-                }
-            }
+            compiler.inputFiles = inputFiles;
+            var documents = compiler.run();
 
-            return this.snapshots[fileName];
+            documents.forEach((document) => {
+                var state = new DocumentState(this, document, project, compiler);
+                this.dispatch('enterDocument', state);
+                if (state.isDefaultPrevented) return;
+
+                state.declaration.getChildDecls().forEach((declaration) => {
+                    this.processState(state.createChildState(declaration));
+                });
+
+                this.dispatch('leaveDocument', state);
+            });
+
+            this.dispatch('enterResolve', new ProjectResolution(compiler, project));
+            project.reflections.forEach((reflection) => {
+                this.dispatch('resolveReflection', new ReflectionResolution(compiler, project, reflection));
+            });
+            this.dispatch('leaveResolve', new ProjectResolution(compiler, project));
+
+            return project;
         }
 
 
@@ -166,45 +155,16 @@ module TypeDoc.Factories
                 parent.children.push(reflection);
             }
 
-            this.project.reflections.push(reflection);
+            var rootState = state.getDocumentState();
+            rootState.reflection.reflections.push(reflection);
+
             if (!state.isInherited) {
                 var declID = state.declaration.declID;
-                this.idMap[declID] = reflection;
+                rootState.compiler.idMap[declID] = reflection;
             }
 
             this.dispatch('createReflection', state);
             return true;
-        }
-
-
-        /**
-         * Attach the given document to the project.
-         *
-         * This method is called by the compiler for each compiled document.
-         *
-         * @param document  The TypeScript document that should be processed by the dispatcher.
-         */
-        public attachDocument(document:TypeScript.Document) {
-            var state = new DocumentState(this, document);
-            this.dispatch('enterDocument', state);
-            if (state.isDefaultPrevented) return;
-
-            state.declaration.getChildDecls().forEach((declaration) => {
-                this.processState(state.createChildState(declaration));
-            });
-
-            this.dispatch('leaveDocument', state);
-        }
-
-
-        public resolve() {
-            this.dispatch('enterResolve');
-
-            this.project.reflections.forEach((reflection) => {
-                this.dispatch('resolveReflection', reflection);
-            });
-
-            this.dispatch('leaveResolve');
         }
 
 

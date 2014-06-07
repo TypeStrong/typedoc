@@ -109,7 +109,7 @@ module TypeDoc.Factories
          * @param fileName  The filename of the snapshot.
          */
         getSnapshot(fileName:string):IScriptSnapshot {
-            return this.getDocumentState().dispatcher.getSnapshot(fileName);
+            return this.getDocumentState().compiler.getSnapshot(fileName);
         }
 
 

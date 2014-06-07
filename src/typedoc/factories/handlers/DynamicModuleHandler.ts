@@ -26,7 +26,8 @@ module TypeDoc.Factories
         }
 
 
-        private onResolveReflection(reflection:Models.DeclarationReflection) {
+        private onResolveReflection(res:ReflectionResolution) {
+            var reflection = res.reflection;
             if (reflection.kindOf([Models.Kind.DynamicModule, Models.Kind.Script])) {
                 if (reflection.name.indexOf('/') != -1) {
                     reflection.name = this.basePath.trim(reflection.name);

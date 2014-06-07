@@ -40,6 +40,7 @@ module TypeDoc.Factories
                     var reflection = state.reflection.getChildByName(assignment.identifier.text());
                     if (reflection) {
                         reflection.flags = reflection.flags | TypeScript.PullElementFlags.Exported;
+                        reflection.isExported = true;
                     }
                 }
             });

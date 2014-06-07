@@ -85,7 +85,8 @@ module TypeDoc.Factories
          *
          * @param reflection  The final generated reflection.
          */
-        private onResolveReflection(reflection:Models.DeclarationReflection) {
+        private onResolveReflection(res:ReflectionResolution) {
+            var reflection = res.reflection;
             var flagsArray = [];
             var flags = reflection.kindOf(Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
             flags.forEach((key) => {

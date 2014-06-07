@@ -4,15 +4,12 @@ module TypeDoc.Renderer
     {
         renderer:Renderer;
 
-        project:Models.ProjectReflection;
-
         basePath:string;
 
 
-        constructor(renderer:Renderer, project:Models.ProjectReflection, basePath:string) {
+        constructor(renderer:Renderer, basePath:string) {
             this.renderer = renderer;
             this.basePath = basePath;
-            this.project  = project;
 
             this.initialize();
         }
@@ -28,12 +25,12 @@ module TypeDoc.Renderer
         }
 
 
-        getUrls():Models.UrlMapping[] {
+        getUrls(project:Models.ProjectReflection):Models.UrlMapping[] {
             return [];
         }
 
 
-        getNavigation():Models.NavigationItem {
+        getNavigation(project:Models.ProjectReflection):Models.NavigationItem {
             return null;
         }
     }

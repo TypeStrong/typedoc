@@ -20,6 +20,9 @@ module TypeDoc.Factories
          */
         reflection:Models.ProjectReflection;
 
+        compiler:Compiler;
+
+
 
         /**
          * Create a new DocumentState instance.
@@ -27,11 +30,11 @@ module TypeDoc.Factories
          * @param dispatcher  The dispatcher that has created this state.
          * @param document    The TypeScript document that contains the declarations.
          */
-        constructor(dispatcher:Dispatcher, document:TypeScript.Document) {
-            super(null, document.topLevelDecl(), dispatcher.project);
-
-            this.dispatcher  = dispatcher;
-            this.document    = document;
+        constructor(dispatcher:Dispatcher, document:TypeScript.Document, project:Models.ProjectReflection, compiler:Compiler) {
+            super(null, document.topLevelDecl(), project);
+            this.dispatcher = dispatcher;
+            this.document   = document;
+            this.compiler   = compiler;
         }
     }
 }

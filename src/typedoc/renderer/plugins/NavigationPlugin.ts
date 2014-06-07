@@ -15,7 +15,7 @@ module TypeDoc.Renderer
 
 
         private onRendererBeginTarget(target:Models.RenderTarget) {
-            this.navigation = this.renderer.theme.getNavigation();
+            this.navigation = this.renderer.theme.getNavigation(target.project);
 
             Handlebars.registerHelper('relativeURL', (url:string) => {
                 var relativePath = Path.relative(Path.dirname(this.location), Path.dirname(url));

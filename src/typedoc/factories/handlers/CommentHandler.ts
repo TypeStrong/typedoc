@@ -79,8 +79,7 @@ module TypeDoc.Factories
                     return result;
                 }
 
-                var dispatcher = state.getDocumentState().dispatcher;
-                var snapshot   = dispatcher.getSnapshot(ast.fileName());
+                var snapshot   = state.getSnapshot(ast.fileName());
                 var astSource  = snapshot.getText(ast.start(), ast.end());
                 var listSource = snapshot.getText(list.start(), list.end());
                 if (astSource != listSource) {

@@ -34,45 +34,7 @@ var Theme = (function (_super) {
         return null;
     };
 
-    Theme.prototype.initialize = function () {
-        this.project.reflections.forEach(function (reflection) {
-            var classes = [];
-            var kind = TypeDoc.Models.Kind[reflection.kind];
-            classes.push(Theme.classify('tsd-kind-' + kind));
-
-            if (reflection.parent && reflection.parent instanceof TypeDoc.Models.DeclarationReflection) {
-                kind = TypeDoc.Models.Kind[reflection.parent.kind];
-                classes.push(Theme.classify('tsd-parent-kind-' + kind));
-            }
-
-            if (reflection.overwrites)
-                classes.push('tsd-is-overwrite');
-            if (reflection.inheritedFrom)
-                classes.push('tsd-is-inherited');
-            if (reflection.isPrivate)
-                classes.push('tsd-is-private');
-            if (reflection.isStatic)
-                classes.push('tsd-is-static');
-            if (!reflection.isExported)
-                classes.push('tsd-is-not-exported');
-            reflection.cssClasses = classes.join(' ');
-
-            if (reflection.groups) {
-                reflection.groups.forEach(function (group) {
-                    var classes = [];
-                    if (group.allChildrenAreInherited)
-                        classes.push('tsd-is-inherited');
-                    if (group.allChildrenArePrivate)
-                        classes.push('tsd-is-private');
-                    if (!group.allChildrenAreExported)
-                        classes.push('tsd-is-not-exported');
-                    group.cssClasses = classes.join(' ');
-                });
-            }
-        });
-    };
-
-    Theme.prototype.getUrls = function () {
+    Theme.prototype.getUrls = function (project) {
         var _this = this;
         var urls = [];
 
@@ -116,16 +78,52 @@ var Theme = (function (_super) {
             });
         };
 
-        this.project.url = 'globals.html';
-        urls.push(new TypeDoc.Models.UrlMapping('globals.html', this.project, 'reflection.hbs'));
-        urls.push(new TypeDoc.Models.UrlMapping('index.html', this.project, 'index.hbs'));
+        project.url = 'globals.html';
+        urls.push(new TypeDoc.Models.UrlMapping('globals.html', project, 'reflection.hbs'));
+        urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
 
-        walkReflection(this.project, this.project);
+        walkReflection(project, project);
+
+        project.reflections.forEach(function (reflection) {
+            var classes = [];
+            var kind = TypeDoc.Models.Kind[reflection.kind];
+            classes.push(Theme.classify('tsd-kind-' + kind));
+
+            if (reflection.parent && reflection.parent instanceof TypeDoc.Models.DeclarationReflection) {
+                kind = TypeDoc.Models.Kind[reflection.parent.kind];
+                classes.push(Theme.classify('tsd-parent-kind-' + kind));
+            }
+
+            if (reflection.overwrites)
+                classes.push('tsd-is-overwrite');
+            if (reflection.inheritedFrom)
+                classes.push('tsd-is-inherited');
+            if (reflection.isPrivate)
+                classes.push('tsd-is-private');
+            if (reflection.isStatic)
+                classes.push('tsd-is-static');
+            if (!reflection.isExported)
+                classes.push('tsd-is-not-exported');
+            reflection.cssClasses = classes.join(' ');
+
+            if (reflection.groups) {
+                reflection.groups.forEach(function (group) {
+                    var classes = [];
+                    if (group.allChildrenAreInherited)
+                        classes.push('tsd-is-inherited');
+                    if (group.allChildrenArePrivate)
+                        classes.push('tsd-is-private');
+                    if (!group.someChildrenAreExported)
+                        classes.push('tsd-is-not-exported');
+                    group.cssClasses = classes.join(' ');
+                });
+            }
+        });
 
         return urls;
     };
 
-    Theme.prototype.getNavigation = function () {
+    Theme.prototype.getNavigation = function (project) {
         function walkReflection(reflection, parent) {
             var name = parent == root ? reflection.getFullName() : reflection.name;
             var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
@@ -142,7 +140,7 @@ var Theme = (function (_super) {
         var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
         new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
 
-        var modules = this.project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
+        var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
         modules.forEach(function (container) {
             return walkReflection(container, root);
         });

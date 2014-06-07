@@ -1,151 +1,46 @@
 module TypeDoc
 {
-    export class Application extends TypeScript.BatchCompiler
+    /**
+     * The TypeDoc main application class.
+     */
+    export class Application
     {
-        project:Models.ProjectReflection;
+        settings:Settings;
+
+        dispatcher:Factories.Dispatcher;
 
         renderer:Renderer.Renderer;
 
-        includeDeclarations:boolean = false;
+        hasErrors:boolean = false;
 
-        exclude:string;
+        static VERSION:string = '0.0.4';
 
 
-
-        constructor() {
-            super(TypeScript.IO);
-            this.project  = new Models.ProjectReflection();
-            this.renderer = new Renderer.Renderer(this);
+        /**
+         * Create a new Application instance.
+         */
+        constructor(settings:Settings = new Settings()) {
+            this.settings   = settings;
+            this.dispatcher = new Factories.Dispatcher(this);
+            this.renderer   = new Renderer.Renderer(this);
         }
 
 
         runFromCLI() {
-            if (this.parseOptions()) {
-                this.batchCompile();
-                this.renderer.render();
-
-                if (!this.hasErrors) {
-                    this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
-                }
+            if (this.settings.readFromCLI()) {
+                this.settings.expandInputFiles();
+                this.generate(this.settings.inputFiles, this.settings.outputDirectory);
+                console.log('Documentation generated at ' + this.settings.outputDirectory);
             }
         }
 
 
-        alterOptionsParser(opts:TypeScript.OptionsParser) {
-            var options = [];
-            var invalidOptions = {out:true, outDir:true, sourcemap:true, sourceRoot:true, declaration:true, watch:true, removeComments:true};
-            opts.options.forEach((opt) => {
-                if (opt.name in invalidOptions) return;
-                options.push(opt);
-            });
-            opts.options = options;
-
-            opts.option('out', {
-                usage: {
-                    locCode: 'Specifies the location the documentation should be written to.',
-                    args: null
-                },
-                type: TypeScript.DiagnosticCode.DIRECTORY,
-                set: (str) => {
-                    this.renderer.dirName = this.resolvePath(str);
-                }
-            });
-
-            opts.option('exclude', {
-                usage: {
-                    locCode: 'Define a pattern for excluded files when specifing paths.',
-                    args: null
-                },
-                set: (str) => {
-                    this.exclude = str;
-                }
-            });
-
-            opts.flag('includeDeclarations', {
-                usage: {
-                    locCode: 'Turn on parsing of .d.ts declaration files.',
-                    args: null
-                },
-                set: () => {
-                    this.includeDeclarations = true;
-                }
-            });
-
-            opts.option('name', {
-                usage: {
-                    locCode: 'Set the name of the project that will be used in the header of the template.',
-                    args: null
-                },
-                set: (str) => {
-                    this.project.name = str;
-                }
-            });
-        }
-
-
-        postOptionsParse() {
-            if (!this.renderer.dirName) {
-                return true;
-            }
-
-            var exclude, files = [];
-            if (this.exclude) {
-                exclude = new Minimatch.Minimatch(this.exclude);
-            }
-
-            function add(dirname) {
-                FS.readdirSync(dirname).forEach((file) => {
-                    var realpath = TypeScript.IOUtils.combine(dirname, file);
-                    if (FS.statSync(realpath).isDirectory()) {
-                        add(realpath);
-                    } else if (/\.ts$/.test(realpath)) {
-                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
-                            return;
-                        }
-
-                        files.push(realpath);
-                    }
-                });
-            }
-
-            this.inputFiles.forEach((file) => {
-                file = this.resolvePath(file);
-                if (FS.statSync(file).isDirectory()) {
-                    add(file);
-                } else {
-                    files.push(file);
-                }
-            });
-
-            this.inputFiles = files;
-            return false;
-        }
-
-
-        public compile():void {
-            var compiler = new TypeScript.TypeScriptCompiler(this.logger, this.compilationSettings);
-            var dispatcher = new Factories.Dispatcher(this.project, this);
-
-            this.resolvedFiles.forEach(resolvedFile => {
-                var sourceFile = this.getSourceFile(resolvedFile.path);
-                compiler.addFile(resolvedFile.path, sourceFile.scriptSnapshot, sourceFile.byteOrderMark, /*version:*/ 0, /*isOpen:*/ false, resolvedFile.referencedFiles);
-            });
-
-            for (var it = compiler.compile((path: string) => this.resolvePath(path)); it.moveNext();) {
-                var result = it.current();
-                result.diagnostics.forEach(d => this.addDiagnostic(d));
-            }
-
-            compiler.fileNames().forEach((fileName) => {
-                dispatcher.attachDocument(compiler.getDocument(fileName));
-            });
-
-            dispatcher.resolve();
-        }
-
-
-        getDefaultLibraryFilePath():string {
-            return this.resolvePath(TypeScript.IOUtils.combine(TypeScript.typescriptPath, "lib.d.ts"));
+        /**
+         * Run the documentation generator for the given files.
+         */
+        public generate(inputFiles:string[], outputDirectory:string) {
+            var project = this.dispatcher.compile(inputFiles);
+            this.renderer.render(project, outputDirectory);
         }
     }
 }

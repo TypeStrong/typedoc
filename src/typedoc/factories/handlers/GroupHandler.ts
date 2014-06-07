@@ -67,7 +67,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onLeaveResolve() {
+        private onLeaveResolve(resolution:ProjectResolution) {
             function walkDirectory(directory) {
                 directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 
@@ -77,7 +77,7 @@ module TypeDoc.Factories
                 }
             }
 
-            var project = this.dispatcher.project;
+            var project = resolution.project;
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupHandler.sortCallback);
                 project.groups     = GroupHandler.getReflectionGroups(project.children);
@@ -92,7 +92,7 @@ module TypeDoc.Factories
                 reflection.groups     = GroupHandler.getReflectionGroups(reflection.children);
             });
 
-            walkDirectory(this.dispatcher.project.directory);
+            walkDirectory(project.directory);
             project.files.forEach((file) => {
                 file.groups = GroupHandler.getReflectionGroups(file.reflections);
             });
@@ -126,14 +126,14 @@ module TypeDoc.Factories
             });
 
             groups.forEach((group) => {
-                var allExported = true, allInherited = true, allPrivate = true;
+                var someExported = false, allInherited = true, allPrivate = true;
                 group.children.forEach((child) => {
-                    allExported  = child.isExported    && allExported;
+                    someExported = child.isExported    || someExported;
                     allInherited = child.inheritedFrom && allInherited;
                     allPrivate   = child.isPrivate     && allPrivate;
                 });
 
-                group.allChildrenAreExported  = allExported;
+                group.someChildrenAreExported = someExported;
                 group.allChildrenAreInherited = allInherited;
                 group.allChildrenArePrivate   = allPrivate;
             });

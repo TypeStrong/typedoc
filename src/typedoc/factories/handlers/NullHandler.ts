@@ -9,12 +9,7 @@ module TypeDoc.Factories
      */
     export class NullHandler
     {
-        includeDeclarations:boolean;
-
-
         constructor(private dispatcher:Dispatcher) {
-            this.includeDeclarations = dispatcher.compiler.includeDeclarations;
-
             dispatcher.on('enterDocument', this.onEnterDocument, this, 1024);
             dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
         }
@@ -28,7 +23,8 @@ module TypeDoc.Factories
 
             // Ignore declare files
             if (state.document.isDeclareFile()) {
-                if (state.document.fileName.substr(-8) != 'lib.d.ts' && this.includeDeclarations) {
+                var settings = state.dispatcher.application.settings;
+                if (state.document.fileName.substr(-8) != 'lib.d.ts' && settings.includeDeclarations) {
                     var childState = state.createChildState(state.document.topLevelDecl());
                     this.dispatcher.ensureReflection(childState);
                     this.dispatcher.processState(childState);

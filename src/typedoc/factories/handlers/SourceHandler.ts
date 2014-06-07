@@ -22,7 +22,7 @@ module TypeDoc.Factories
 
             var file = new Models.SourceFile(fileName);
             this.fileMappings[fileName] = file;
-            this.dispatcher.project.files.push(file);
+            state.reflection.files.push(file);
         }
 
 
@@ -49,24 +49,24 @@ module TypeDoc.Factories
         }
 
 
-        onEnterResolve() {
-            this.dispatcher.project.files.forEach((file) => {
+        onEnterResolve(res:ProjectResolution) {
+            res.project.files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
         }
 
 
-        onResolveReflection(reflection:Models.DeclarationReflection) {
-            reflection.sources.forEach((source) => {
+        onResolveReflection(res:ReflectionResolution) {
+            res.reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
 
 
-        onLeaveResolve() {
-            var home = this.dispatcher.project.directory;
-            this.dispatcher.project.files.forEach((file) => {
+        onLeaveResolve(res:ProjectResolution) {
+            var home = res.project.directory;
+            res.project.files.forEach((file) => {
                 var reflections = [];
                 file.reflections.forEach((reflection) => {
                     if (reflection.sources.length > 1) return;

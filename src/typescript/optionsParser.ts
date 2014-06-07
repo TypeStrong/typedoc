@@ -13,8 +13,7 @@
 // limitations under the License.
 //
 
-/// <reference path="bootstrap.ts" />
-
+///<reference path="io.ts" />
 
 module TypeScript {
     export interface IOptions {
@@ -156,7 +155,7 @@ module TypeScript {
             config.short = short;
             config.flag = true
 
-        this.options.push(config);
+            this.options.push(config);
         }
 
         // Parse an arguments string

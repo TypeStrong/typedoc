@@ -1,10 +1,10 @@
-/// <reference path="../lib/fs.extra/fs.extra.d.ts" />
-/// <reference path="../lib/handlebars/handlebars.d.ts" />
-/// <reference path="../lib/highlight.js/highlight.js.d.ts" />
-/// <reference path="../lib/marked/marked.d.ts" />
-/// <reference path="../lib/minimatch/minimatch.d.ts" />
-/// <reference path="../lib/node/node.d.ts" />
-/// <reference path="../lib/typescript/typescript.d.ts" />
+/// <reference path="lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="lib/handlebars/handlebars.d.ts" />
+/// <reference path="lib/highlight.js/highlight.js.d.ts" />
+/// <reference path="lib/marked/marked.d.ts" />
+/// <reference path="lib/minimatch/minimatch.d.ts" />
+/// <reference path="lib/node/node.d.ts" />
+/// <reference path="lib/typescript/typescript.d.ts" />
 
 var Handlebars = require('handlebars');
 var Marked = require('marked');
@@ -38,688 +38,6 @@ TypeScript.typescriptPath = dirname;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-/// <reference path="bootstrap.ts" />
-var TypeScript;
-(function (TypeScript) {
-    (function (IOUtils) {
-        // Creates the directory including its parent if not already present
-        function createDirectoryStructure(ioHost, dirName) {
-            if (ioHost.directoryExists(dirName)) {
-                return;
-            }
-
-            var parentDirectory = ioHost.dirName(dirName);
-            if (parentDirectory != "") {
-                createDirectoryStructure(ioHost, parentDirectory);
-            }
-            ioHost.createDirectory(dirName);
-        }
-
-        // Creates a file including its directory structure if not already present
-        function writeFileAndFolderStructure(ioHost, fileName, contents, writeByteOrderMark) {
-            var start = new Date().getTime();
-            var path = ioHost.resolvePath(fileName);
-            TypeScript.ioHostResolvePathTime += new Date().getTime() - start;
-
-            var start = new Date().getTime();
-            var dirName = ioHost.dirName(path);
-            TypeScript.ioHostDirectoryNameTime += new Date().getTime() - start;
-
-            var start = new Date().getTime();
-            createDirectoryStructure(ioHost, dirName);
-            TypeScript.ioHostCreateDirectoryStructureTime += new Date().getTime() - start;
-
-            var start = new Date().getTime();
-            ioHost.writeFile(path, contents, writeByteOrderMark);
-            TypeScript.ioHostWriteFileTime += new Date().getTime() - start;
-        }
-        IOUtils.writeFileAndFolderStructure = writeFileAndFolderStructure;
-
-        function throwIOError(message, error) {
-            var errorMessage = message;
-            if (error && error.message) {
-                errorMessage += (" " + error.message);
-            }
-            throw new Error(errorMessage);
-        }
-        IOUtils.throwIOError = throwIOError;
-
-        function combine(prefix, suffix) {
-            return prefix + "/" + suffix;
-        }
-        IOUtils.combine = combine;
-
-        var BufferedTextWriter = (function () {
-            // Inner writer does not need a WriteLine method, since the BufferedTextWriter wraps it itself
-            function BufferedTextWriter(writer, capacity) {
-                if (typeof capacity === "undefined") { capacity = 1024; }
-                this.writer = writer;
-                this.capacity = capacity;
-                this.buffer = "";
-            }
-            BufferedTextWriter.prototype.Write = function (str) {
-                this.buffer += str;
-                if (this.buffer.length >= this.capacity) {
-                    this.writer.Write(this.buffer);
-                    this.buffer = "";
-                }
-            };
-            BufferedTextWriter.prototype.WriteLine = function (str) {
-                this.Write(str + '\r\n');
-            };
-            BufferedTextWriter.prototype.Close = function () {
-                this.writer.Write(this.buffer);
-                this.writer.Close();
-                this.buffer = null;
-            };
-            return BufferedTextWriter;
-        })();
-        IOUtils.BufferedTextWriter = BufferedTextWriter;
-    })(TypeScript.IOUtils || (TypeScript.IOUtils = {}));
-    var IOUtils = TypeScript.IOUtils;
-
-    TypeScript.IO = (function () {
-        // Create an IO object for use inside WindowsScriptHost hosts
-        // Depends on WSCript and FileSystemObject
-        function getWindowsScriptHostIO() {
-            var fso = new ActiveXObject("Scripting.FileSystemObject");
-            var streamObjectPool = [];
-
-            function getStreamObject() {
-                if (streamObjectPool.length > 0) {
-                    return streamObjectPool.pop();
-                } else {
-                    return new ActiveXObject("ADODB.Stream");
-                }
-            }
-
-            function releaseStreamObject(obj) {
-                streamObjectPool.push(obj);
-            }
-
-            var args = [];
-            for (var i = 0; i < WScript.Arguments.length; i++) {
-                args[i] = WScript.Arguments.Item(i);
-            }
-
-            return {
-                appendFile: function (path, content) {
-                    var txtFile = fso.OpenTextFile(path, 8, true);
-                    txtFile.Write(content);
-                    txtFile.Close();
-                },
-                readFile: function (path, codepage) {
-                    return TypeScript.Environment.readFile(path, codepage);
-                },
-                writeFile: function (path, contents, writeByteOrderMark) {
-                    TypeScript.Environment.writeFile(path, contents, writeByteOrderMark);
-                },
-                fileExists: function (path) {
-                    return fso.FileExists(path);
-                },
-                resolvePath: function (path) {
-                    return fso.GetAbsolutePathName(path);
-                },
-                dirName: function (path) {
-                    return fso.GetParentFolderName(path);
-                },
-                findFile: function (rootPath, partialFilePath) {
-                    var path = fso.GetAbsolutePathName(rootPath) + "/" + partialFilePath;
-
-                    while (true) {
-                        if (fso.FileExists(path)) {
-                            return { fileInformation: this.readFile(path), path: path };
-                        } else {
-                            rootPath = fso.GetParentFolderName(fso.GetAbsolutePathName(rootPath));
-
-                            if (rootPath == "") {
-                                return null;
-                            } else {
-                                path = fso.BuildPath(rootPath, partialFilePath);
-                            }
-                        }
-                    }
-                },
-                deleteFile: function (path) {
-                    try  {
-                        if (fso.FileExists(path)) {
-                            fso.DeleteFile(path, true); // true: delete read-only files
-                        }
-                    } catch (e) {
-                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_delete_file_0, [path]), e);
-                    }
-                },
-                directoryExists: function (path) {
-                    return fso.FolderExists(path);
-                },
-                createDirectory: function (path) {
-                    try  {
-                        if (!this.directoryExists(path)) {
-                            fso.CreateFolder(path);
-                        }
-                    } catch (e) {
-                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_create_directory_0, [path]), e);
-                    }
-                },
-                dir: function (path, spec, options) {
-                    options = options || {};
-                    function filesInFolder(folder, root) {
-                        var paths = [];
-                        var fc;
-
-                        if (options.recursive) {
-                            fc = new Enumerator(folder.subfolders);
-
-                            for (; !fc.atEnd(); fc.moveNext()) {
-                                paths = paths.concat(filesInFolder(fc.item(), root + "/" + fc.item().Name));
-                            }
-                        }
-
-                        fc = new Enumerator(folder.files);
-
-                        for (; !fc.atEnd(); fc.moveNext()) {
-                            if (!spec || fc.item().Name.match(spec)) {
-                                paths.push(root + "/" + fc.item().Name);
-                            }
-                        }
-
-                        return paths;
-                    }
-
-                    var folder = fso.GetFolder(path);
-                    var paths = [];
-
-                    return filesInFolder(folder, path);
-                },
-                print: function (str) {
-                    WScript.StdOut.Write(str);
-                },
-                printLine: function (str) {
-                    WScript.Echo(str);
-                },
-                arguments: args,
-                stderr: WScript.StdErr,
-                stdout: WScript.StdOut,
-                watchFile: null,
-                run: function (source, fileName) {
-                    try  {
-                        eval(source);
-                    } catch (e) {
-                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Error_while_executing_file_0, [fileName]), e);
-                    }
-                },
-                getExecutingFilePath: function () {
-                    return WScript.ScriptFullName;
-                },
-                quit: function (exitCode) {
-                    if (typeof exitCode === "undefined") { exitCode = 0; }
-                    try  {
-                        WScript.Quit(exitCode);
-                    } catch (e) {
-                    }
-                }
-            };
-        }
-        ;
-
-        // Create an IO object for use inside Node.js hosts
-        // Depends on 'fs' and 'path' modules
-        function getNodeIO() {
-            var _fs = require('fs');
-            var _path = require('path');
-            var _module = require('module');
-
-            return {
-                appendFile: function (path, content) {
-                    _fs.appendFileSync(path, content);
-                },
-                readFile: function (file, codepage) {
-                    return TypeScript.Environment.readFile(file, codepage);
-                },
-                writeFile: function (path, contents, writeByteOrderMark) {
-                    TypeScript.Environment.writeFile(path, contents, writeByteOrderMark);
-                },
-                deleteFile: function (path) {
-                    try  {
-                        _fs.unlinkSync(path);
-                    } catch (e) {
-                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_delete_file_0, [path]), e);
-                    }
-                },
-                fileExists: function (path) {
-                    return _fs.existsSync(path);
-                },
-                dir: function dir(path, spec, options) {
-                    options = options || {};
-
-                    function filesInFolder(folder) {
-                        var paths = [];
-
-                        try  {
-                            var files = _fs.readdirSync(folder);
-                            for (var i = 0; i < files.length; i++) {
-                                var stat = _fs.statSync(folder + "/" + files[i]);
-                                if (options.recursive && stat.isDirectory()) {
-                                    paths = paths.concat(filesInFolder(folder + "/" + files[i]));
-                                } else if (stat.isFile() && (!spec || files[i].match(spec))) {
-                                    paths.push(folder + "/" + files[i]);
-                                }
-                            }
-                        } catch (err) {
-                            /*
-                            *   Skip folders that are inaccessible
-                            */
-                        }
-
-                        return paths;
-                    }
-
-                    return filesInFolder(path);
-                },
-                createDirectory: function (path) {
-                    try  {
-                        if (!this.directoryExists(path)) {
-                            _fs.mkdirSync(path);
-                        }
-                    } catch (e) {
-                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_create_directory_0, [path]), e);
-                    }
-                },
-                directoryExists: function (path) {
-                    return _fs.existsSync(path) && _fs.statSync(path).isDirectory();
-                },
-                resolvePath: function (path) {
-                    return _path.resolve(path);
-                },
-                dirName: function (path) {
-                    var dirPath = _path.dirname(path);
-
-                    // Node will just continue to repeat the root path, rather than return null
-                    if (dirPath === path) {
-                        dirPath = null;
-                    }
-
-                    return dirPath;
-                },
-                findFile: function (rootPath, partialFilePath) {
-                    var path = rootPath + "/" + partialFilePath;
-
-                    while (true) {
-                        if (_fs.existsSync(path)) {
-                            return { fileInformation: this.readFile(path), path: path };
-                        } else {
-                            var parentPath = _path.resolve(rootPath, "..");
-
-                            // Node will just continue to repeat the root path, rather than return null
-                            if (rootPath === parentPath) {
-                                return null;
-                            } else {
-                                rootPath = parentPath;
-                                path = _path.resolve(rootPath, partialFilePath);
-                            }
-                        }
-                    }
-                },
-                print: function (str) {
-                    process.stdout.write(str);
-                },
-                printLine: function (str) {
-                    process.stdout.write(str + '\n');
-                },
-                arguments: process.argv.slice(2),
-                stderr: {
-                    Write: function (str) {
-                        process.stderr.write(str);
-                    },
-                    WriteLine: function (str) {
-                        process.stderr.write(str + '\n');
-                    },
-                    Close: function () {
-                    }
-                },
-                stdout: {
-                    Write: function (str) {
-                        process.stdout.write(str);
-                    },
-                    WriteLine: function (str) {
-                        process.stdout.write(str + '\n');
-                    },
-                    Close: function () {
-                    }
-                },
-                watchFile: function (fileName, callback) {
-                    var firstRun = true;
-                    var processingChange = false;
-
-                    var fileChanged = function (curr, prev) {
-                        if (!firstRun) {
-                            if (curr.mtime < prev.mtime) {
-                                return;
-                            }
-
-                            _fs.unwatchFile(fileName, fileChanged);
-                            if (!processingChange) {
-                                processingChange = true;
-                                callback(fileName);
-                                setTimeout(function () {
-                                    processingChange = false;
-                                }, 100);
-                            }
-                        }
-                        firstRun = false;
-                        _fs.watchFile(fileName, { persistent: true, interval: 500 }, fileChanged);
-                    };
-
-                    fileChanged();
-                    return {
-                        fileName: fileName,
-                        close: function () {
-                            _fs.unwatchFile(fileName, fileChanged);
-                        }
-                    };
-                },
-                run: function (source, fileName) {
-                    require.main.fileName = fileName;
-                    require.main.paths = _module._nodeModulePaths(_path.dirname(_fs.realpathSync(fileName)));
-                    require.main._compile(source, fileName);
-                },
-                getExecutingFilePath: function () {
-                    return process.mainModule.filename;
-                },
-                quit: function (code) {
-                    var stderrFlushed = process.stderr.write('');
-                    var stdoutFlushed = process.stdout.write('');
-                    process.stderr.on('drain', function () {
-                        stderrFlushed = true;
-                        if (stdoutFlushed) {
-                            process.exit(code);
-                        }
-                    });
-                    process.stdout.on('drain', function () {
-                        stdoutFlushed = true;
-                        if (stderrFlushed) {
-                            process.exit(code);
-                        }
-                    });
-                    setTimeout(function () {
-                        process.exit(code);
-                    }, 5);
-                }
-            };
-        }
-        ;
-
-        if (typeof WScript !== "undefined" && typeof ActiveXObject === "function")
-            return getWindowsScriptHostIO();
-        else if (typeof module !== 'undefined' && module.exports)
-            return getNodeIO();
-        else
-            return null;
-    })();
-})(TypeScript || (TypeScript = {}));
-//
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-/// <reference path="bootstrap.ts" />
-var TypeScript;
-(function (TypeScript) {
-    var OptionsParser = (function () {
-        function OptionsParser(host, version) {
-            this.host = host;
-            this.version = version;
-            this.DEFAULT_SHORT_FLAG = "-";
-            this.DEFAULT_LONG_FLAG = "--";
-            this.printedVersion = false;
-            this.unnamed = [];
-            this.options = [];
-        }
-        // Find the option record for the given string. Returns null if not found.
-        OptionsParser.prototype.findOption = function (arg) {
-            var upperCaseArg = arg && arg.toUpperCase();
-
-            for (var i = 0; i < this.options.length; i++) {
-                var current = this.options[i];
-
-                if (upperCaseArg === (current.short && current.short.toUpperCase()) || upperCaseArg === (current.name && current.name.toUpperCase())) {
-                    return current;
-                }
-            }
-
-            return null;
-        };
-
-        OptionsParser.prototype.printUsage = function () {
-            this.printVersion();
-
-            var optionsWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.options, null);
-            var fileWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.file1, null);
-            var tscSyntax = "typedoc [" + optionsWord + "] [" + fileWord + " ..]";
-            var syntaxHelp = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Syntax_0, [tscSyntax]);
-            this.host.printLine(syntaxHelp);
-            this.host.printLine("");
-            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Examples, null) + " typedoc --out ../doc/ hello.ts");
-            this.host.printLine("");
-            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Options, null));
-
-            var output = [];
-            var maxLength = 0;
-            var i = 0;
-
-            this.options = this.options.sort(function (a, b) {
-                var aName = a.name.toLowerCase();
-                var bName = b.name.toLowerCase();
-
-                if (aName > bName) {
-                    return 1;
-                } else if (aName < bName) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            });
-
-            for (i = 0; i < this.options.length; i++) {
-                var option = this.options[i];
-
-                if (option.experimental) {
-                    continue;
-                }
-
-                if (!option.usage) {
-                    break;
-                }
-
-                var usageString = "  ";
-                var type = option.type ? (" " + TypeScript.getLocalizedText(option.type, null)) : "";
-
-                if (option.short) {
-                    usageString += this.DEFAULT_SHORT_FLAG + option.short + type + ", ";
-                }
-
-                usageString += this.DEFAULT_LONG_FLAG + option.name + type;
-
-                output.push([usageString, TypeScript.getLocalizedText(option.usage.locCode, option.usage.args)]);
-
-                if (usageString.length > maxLength) {
-                    maxLength = usageString.length;
-                }
-            }
-
-            var fileDescription = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Insert_command_line_options_and_files_from_a_file, null);
-            output.push(["  @<" + fileWord + ">", fileDescription]);
-
-            for (i = 0; i < output.length; i++) {
-                this.host.printLine(output[i][0] + (new Array(maxLength - output[i][0].length + 3)).join(" ") + output[i][1]);
-            }
-        };
-
-        OptionsParser.prototype.printVersion = function () {
-            if (!this.printedVersion) {
-                this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Version_0, [this.version]));
-                this.printedVersion = true;
-            }
-        };
-
-        OptionsParser.prototype.option = function (name, config, short) {
-            if (!config) {
-                config = short;
-                short = null;
-            }
-
-            config.name = name;
-            config.short = short;
-            config.flag = false;
-
-            this.options.push(config);
-        };
-
-        OptionsParser.prototype.flag = function (name, config, short) {
-            if (!config) {
-                config = short;
-                short = null;
-            }
-
-            config.name = name;
-            config.short = short;
-            config.flag = true;
-
-            this.options.push(config);
-        };
-
-        // Parse an arguments string
-        OptionsParser.prototype.parseString = function (argString) {
-            var position = 0;
-            var tokens = argString.match(/\s+|"|[^\s"]+/g);
-
-            function peek() {
-                return tokens[position];
-            }
-
-            function consume() {
-                return tokens[position++];
-            }
-
-            function consumeQuotedString() {
-                var value = '';
-                consume(); // skip opening quote.
-
-                var token = peek();
-
-                while (token && token !== '"') {
-                    consume();
-
-                    value += token;
-
-                    token = peek();
-                }
-
-                consume(); // skip ending quote;
-
-                return value;
-            }
-
-            var args = [];
-            var currentArg = '';
-
-            while (position < tokens.length) {
-                var token = peek();
-
-                if (token === '"') {
-                    currentArg += consumeQuotedString();
-                } else if (token.match(/\s/)) {
-                    if (currentArg.length > 0) {
-                        args.push(currentArg);
-                        currentArg = '';
-                    }
-
-                    consume();
-                } else {
-                    consume();
-                    currentArg += token;
-                }
-            }
-
-            if (currentArg.length > 0) {
-                args.push(currentArg);
-            }
-
-            this.parse(args);
-        };
-
-        // Parse arguments as they come from the platform: split into arguments.
-        OptionsParser.prototype.parse = function (args) {
-            var position = 0;
-
-            function consume() {
-                return args[position++];
-            }
-
-            while (position < args.length) {
-                var current = consume();
-                var match = current.match(/^(--?|@)(.*)/);
-                var value = null;
-
-                if (match) {
-                    if (match[1] === '@') {
-                        this.parseString(this.host.readFile(match[2], null).contents);
-                    } else {
-                        var arg = match[2];
-                        var option = this.findOption(arg);
-
-                        if (option === null) {
-                            this.host.printLine(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Unknown_option_0, [arg]));
-                            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Use_the_0_flag_to_see_options, ["--help"]));
-                        } else {
-                            if (!option.flag) {
-                                value = consume();
-                                if (value === undefined) {
-                                    // No value provided
-                                    this.host.printLine(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Option_0_specified_without_1, [arg, TypeScript.getLocalizedText(option.type, null)]));
-                                    this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Use_the_0_flag_to_see_options, ["--help"]));
-                                    continue;
-                                }
-                            }
-
-                            option.set(value);
-                        }
-                    }
-                } else {
-                    this.unnamed.push(current);
-                }
-            }
-        };
-        return OptionsParser;
-    })();
-    TypeScript.OptionsParser = OptionsParser;
-})(TypeScript || (TypeScript = {}));
-//
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-/// <reference path="bootstrap.ts" />
-/// <reference path='io.ts'/>
-/// <reference path='optionsParser.ts'/>
 var TypeScript;
 (function (TypeScript) {
     var SourceFile = (function () {
@@ -755,6 +73,7 @@ var TypeScript;
         };
         return DiagnosticsLogger;
     })();
+    TypeScript.DiagnosticsLogger = DiagnosticsLogger;
 
     var FileLogger = (function () {
         function FileLogger(ioHost) {
@@ -783,6 +102,7 @@ var TypeScript;
         };
         return FileLogger;
     })();
+    TypeScript.FileLogger = FileLogger;
 
     var BatchCompiler = (function () {
         function BatchCompiler(ioHost) {
@@ -807,112 +127,118 @@ var TypeScript;
                     _this.ioHost.printLine(s);
                 } };
 
-            if (this.compilationSettings.createFileLog()) {
-                this.logger = new FileLogger(this.ioHost);
-            } else if (this.compilationSettings.gatherDiagnostics()) {
-                this.logger = new DiagnosticsLogger(this.ioHost);
-            } else {
-                this.logger = new TypeScript.NullLogger();
-            }
+            // Parse command line options
+            if (this.parseOptions()) {
+                if (this.compilationSettings.createFileLog()) {
+                    this.logger = new FileLogger(this.ioHost);
+                } else if (this.compilationSettings.gatherDiagnostics()) {
+                    this.logger = new DiagnosticsLogger(this.ioHost);
+                } else {
+                    this.logger = new TypeScript.NullLogger();
+                }
 
-            if (this.compilationSettings.watch()) {
-                // Watch will cause the program to stick around as long as the files exist
-                this.watchFiles();
-                return;
-            }
+                if (this.compilationSettings.watch()) {
+                    // Watch will cause the program to stick around as long as the files exist
+                    this.watchFiles();
+                    return;
+                }
 
-            // Resolve the compilation environemnt
-            this.resolve();
+                // Resolve the compilation environemnt
+                this.resolve();
 
-            this.compile();
+                this.compile();
 
-            if (this.compilationSettings.createFileLog()) {
-                this.logger.log("Compilation settings:");
-                this.logger.log(" propagateEnumConstants " + this.compilationSettings.propagateEnumConstants());
-                this.logger.log(" removeComments " + this.compilationSettings.removeComments());
-                this.logger.log(" watch " + this.compilationSettings.watch());
-                this.logger.log(" noResolve " + this.compilationSettings.noResolve());
-                this.logger.log(" noImplicitAny " + this.compilationSettings.noImplicitAny());
-                this.logger.log(" nolib " + this.compilationSettings.noLib());
-                this.logger.log(" target " + this.compilationSettings.codeGenTarget());
-                this.logger.log(" module " + this.compilationSettings.moduleGenTarget());
-                this.logger.log(" out " + this.compilationSettings.outFileOption());
-                this.logger.log(" outDir " + this.compilationSettings.outDirOption());
-                this.logger.log(" sourcemap " + this.compilationSettings.mapSourceFiles());
-                this.logger.log(" mapRoot " + this.compilationSettings.mapRoot());
-                this.logger.log(" sourceroot " + this.compilationSettings.sourceRoot());
-                this.logger.log(" declaration " + this.compilationSettings.generateDeclarationFiles());
-                this.logger.log(" useCaseSensitiveFileResolution " + this.compilationSettings.useCaseSensitiveFileResolution());
-                this.logger.log(" diagnostics " + this.compilationSettings.gatherDiagnostics());
-                this.logger.log(" codepage " + this.compilationSettings.codepage());
+                if (this.compilationSettings.createFileLog()) {
+                    this.logger.log("Compilation settings:");
+                    this.logger.log(" propagateEnumConstants " + this.compilationSettings.propagateEnumConstants());
+                    this.logger.log(" removeComments " + this.compilationSettings.removeComments());
+                    this.logger.log(" watch " + this.compilationSettings.watch());
+                    this.logger.log(" noResolve " + this.compilationSettings.noResolve());
+                    this.logger.log(" noImplicitAny " + this.compilationSettings.noImplicitAny());
+                    this.logger.log(" nolib " + this.compilationSettings.noLib());
+                    this.logger.log(" target " + this.compilationSettings.codeGenTarget());
+                    this.logger.log(" module " + this.compilationSettings.moduleGenTarget());
+                    this.logger.log(" out " + this.compilationSettings.outFileOption());
+                    this.logger.log(" outDir " + this.compilationSettings.outDirOption());
+                    this.logger.log(" sourcemap " + this.compilationSettings.mapSourceFiles());
+                    this.logger.log(" mapRoot " + this.compilationSettings.mapRoot());
+                    this.logger.log(" sourceroot " + this.compilationSettings.sourceRoot());
+                    this.logger.log(" declaration " + this.compilationSettings.generateDeclarationFiles());
+                    this.logger.log(" useCaseSensitiveFileResolution " + this.compilationSettings.useCaseSensitiveFileResolution());
+                    this.logger.log(" diagnostics " + this.compilationSettings.gatherDiagnostics());
+                    this.logger.log(" codepage " + this.compilationSettings.codepage());
 
-                this.logger.log("");
+                    this.logger.log("");
 
-                this.logger.log("Input files:");
-                this.inputFiles.forEach(function (file) {
-                    _this.logger.log(" " + file);
-                });
-
-                this.logger.log("");
-
-                this.logger.log("Resolved Files:");
-                this.resolvedFiles.forEach(function (file) {
-                    file.importedFiles.forEach(function (file) {
+                    this.logger.log("Input files:");
+                    this.inputFiles.forEach(function (file) {
                         _this.logger.log(" " + file);
                     });
-                    file.referencedFiles.forEach(function (file) {
-                        _this.logger.log(" " + file);
+
+                    this.logger.log("");
+
+                    this.logger.log("Resolved Files:");
+                    this.resolvedFiles.forEach(function (file) {
+                        file.importedFiles.forEach(function (file) {
+                            _this.logger.log(" " + file);
+                        });
+                        file.referencedFiles.forEach(function (file) {
+                            _this.logger.log(" " + file);
+                        });
                     });
-                });
+                }
+
+                if (this.compilationSettings.gatherDiagnostics()) {
+                    this.logger.log("");
+                    this.logger.log("File resolution time:                     " + TypeScript.fileResolutionTime);
+                    this.logger.log("           file read:                     " + TypeScript.fileResolutionIOTime);
+                    this.logger.log("        scan imports:                     " + TypeScript.fileResolutionScanImportsTime);
+                    this.logger.log("       import search:                     " + TypeScript.fileResolutionImportFileSearchTime);
+                    this.logger.log("        get lib.d.ts:                     " + TypeScript.fileResolutionGetDefaultLibraryTime);
+
+                    this.logger.log("SyntaxTree parse time:                    " + TypeScript.syntaxTreeParseTime);
+                    this.logger.log("Syntax Diagnostics time:                  " + TypeScript.syntaxDiagnosticsTime);
+                    this.logger.log("AST translation time:                     " + TypeScript.astTranslationTime);
+                    this.logger.log("");
+                    this.logger.log("Type check time:                          " + TypeScript.typeCheckTime);
+                    this.logger.log("");
+                    this.logger.log("Emit time:                                " + TypeScript.emitTime);
+                    this.logger.log("Declaration emit time:                    " + TypeScript.declarationEmitTime);
+
+                    this.logger.log("Total number of symbols created:          " + TypeScript.pullSymbolID);
+                    this.logger.log("Specialized types created:                " + TypeScript.nSpecializationsCreated);
+                    this.logger.log("Specialized signatures created:           " + TypeScript.nSpecializedSignaturesCreated);
+
+                    this.logger.log("  IsExternallyVisibleTime:                " + TypeScript.declarationEmitIsExternallyVisibleTime);
+                    this.logger.log("  TypeSignatureTime:                      " + TypeScript.declarationEmitTypeSignatureTime);
+                    this.logger.log("  GetBoundDeclTypeTime:                   " + TypeScript.declarationEmitGetBoundDeclTypeTime);
+                    this.logger.log("  IsOverloadedCallSignatureTime:          " + TypeScript.declarationEmitIsOverloadedCallSignatureTime);
+                    this.logger.log("  FunctionDeclarationGetSymbolTime:       " + TypeScript.declarationEmitFunctionDeclarationGetSymbolTime);
+                    this.logger.log("  GetBaseTypeTime:                        " + TypeScript.declarationEmitGetBaseTypeTime);
+                    this.logger.log("  GetAccessorFunctionTime:                " + TypeScript.declarationEmitGetAccessorFunctionTime);
+                    this.logger.log("  GetTypeParameterSymbolTime:             " + TypeScript.declarationEmitGetTypeParameterSymbolTime);
+                    this.logger.log("  GetImportDeclarationSymbolTime:         " + TypeScript.declarationEmitGetImportDeclarationSymbolTime);
+
+                    this.logger.log("Emit write file time:                     " + TypeScript.emitWriteFileTime);
+
+                    this.logger.log("Compiler resolve path time:               " + TypeScript.compilerResolvePathTime);
+                    this.logger.log("Compiler directory name time:             " + TypeScript.compilerDirectoryNameTime);
+                    this.logger.log("Compiler directory exists time:           " + TypeScript.compilerDirectoryExistsTime);
+                    this.logger.log("Compiler file exists time:                " + TypeScript.compilerFileExistsTime);
+
+                    this.logger.log("IO host resolve path time:                " + TypeScript.ioHostResolvePathTime);
+                    this.logger.log("IO host directory name time:              " + TypeScript.ioHostDirectoryNameTime);
+                    this.logger.log("IO host create directory structure time:  " + TypeScript.ioHostCreateDirectoryStructureTime);
+                    this.logger.log("IO host write file time:                  " + TypeScript.ioHostWriteFileTime);
+
+                    this.logger.log("Node make directory time:                 " + TypeScript.nodeMakeDirectoryTime);
+                    this.logger.log("Node writeFileSync time:                  " + TypeScript.nodeWriteFileSyncTime);
+                    this.logger.log("Node createBuffer time:                   " + TypeScript.nodeCreateBufferTime);
+                }
             }
 
-            if (this.compilationSettings.gatherDiagnostics()) {
-                this.logger.log("");
-                this.logger.log("File resolution time:                     " + TypeScript.fileResolutionTime);
-                this.logger.log("           file read:                     " + TypeScript.fileResolutionIOTime);
-                this.logger.log("        scan imports:                     " + TypeScript.fileResolutionScanImportsTime);
-                this.logger.log("       import search:                     " + TypeScript.fileResolutionImportFileSearchTime);
-                this.logger.log("        get lib.d.ts:                     " + TypeScript.fileResolutionGetDefaultLibraryTime);
-
-                this.logger.log("SyntaxTree parse time:                    " + TypeScript.syntaxTreeParseTime);
-                this.logger.log("Syntax Diagnostics time:                  " + TypeScript.syntaxDiagnosticsTime);
-                this.logger.log("AST translation time:                     " + TypeScript.astTranslationTime);
-                this.logger.log("");
-                this.logger.log("Type check time:                          " + TypeScript.typeCheckTime);
-                this.logger.log("");
-                this.logger.log("Emit time:                                " + TypeScript.emitTime);
-                this.logger.log("Declaration emit time:                    " + TypeScript.declarationEmitTime);
-
-                this.logger.log("Total number of symbols created:          " + TypeScript.pullSymbolID);
-                this.logger.log("Specialized types created:                " + TypeScript.nSpecializationsCreated);
-                this.logger.log("Specialized signatures created:           " + TypeScript.nSpecializedSignaturesCreated);
-
-                this.logger.log("  IsExternallyVisibleTime:                " + TypeScript.declarationEmitIsExternallyVisibleTime);
-                this.logger.log("  TypeSignatureTime:                      " + TypeScript.declarationEmitTypeSignatureTime);
-                this.logger.log("  GetBoundDeclTypeTime:                   " + TypeScript.declarationEmitGetBoundDeclTypeTime);
-                this.logger.log("  IsOverloadedCallSignatureTime:          " + TypeScript.declarationEmitIsOverloadedCallSignatureTime);
-                this.logger.log("  FunctionDeclarationGetSymbolTime:       " + TypeScript.declarationEmitFunctionDeclarationGetSymbolTime);
-                this.logger.log("  GetBaseTypeTime:                        " + TypeScript.declarationEmitGetBaseTypeTime);
-                this.logger.log("  GetAccessorFunctionTime:                " + TypeScript.declarationEmitGetAccessorFunctionTime);
-                this.logger.log("  GetTypeParameterSymbolTime:             " + TypeScript.declarationEmitGetTypeParameterSymbolTime);
-                this.logger.log("  GetImportDeclarationSymbolTime:         " + TypeScript.declarationEmitGetImportDeclarationSymbolTime);
-
-                this.logger.log("Emit write file time:                     " + TypeScript.emitWriteFileTime);
-
-                this.logger.log("Compiler resolve path time:               " + TypeScript.compilerResolvePathTime);
-                this.logger.log("Compiler directory name time:             " + TypeScript.compilerDirectoryNameTime);
-                this.logger.log("Compiler directory exists time:           " + TypeScript.compilerDirectoryExistsTime);
-                this.logger.log("Compiler file exists time:                " + TypeScript.compilerFileExistsTime);
-
-                this.logger.log("IO host resolve path time:                " + TypeScript.ioHostResolvePathTime);
-                this.logger.log("IO host directory name time:              " + TypeScript.ioHostDirectoryNameTime);
-                this.logger.log("IO host create directory structure time:  " + TypeScript.ioHostCreateDirectoryStructureTime);
-                this.logger.log("IO host write file time:                  " + TypeScript.ioHostWriteFileTime);
-
-                this.logger.log("Node make directory time:                 " + TypeScript.nodeMakeDirectoryTime);
-                this.logger.log("Node writeFileSync time:                  " + TypeScript.nodeWriteFileSyncTime);
-                this.logger.log("Node createBuffer time:                   " + TypeScript.nodeCreateBufferTime);
-            }
+            // Exit with the appropriate error code
+            this.ioHost.quit(this.hasErrors ? 1 : 0);
         };
 
         BatchCompiler.prototype.resolve = function () {
@@ -1234,7 +560,6 @@ var TypeScript;
                 });
             }
 
-            this.alterOptionsParser(opts);
             opts.parse(this.ioHost.arguments);
 
             this.compilationSettings = TypeScript.ImmutableCompilationSettings.fromCompilationSettings(mutableSettings);
@@ -1246,7 +571,6 @@ var TypeScript;
             }
 
             this.inputFiles.push.apply(this.inputFiles, opts.unnamed);
-            needsHelp = this.postOptionsParse() || needsHelp;
 
             if (shouldPrintVersionOnly) {
                 opts.printVersion();
@@ -1257,12 +581,6 @@ var TypeScript;
             }
 
             return !this.hasErrors;
-        };
-
-        BatchCompiler.prototype.alterOptionsParser = function (opts) {
-        };
-        BatchCompiler.prototype.postOptionsParse = function () {
-            return false;
         };
 
         BatchCompiler.prototype.setLocale = function (locale) {
@@ -1640,45 +958,122 @@ var TypeDoc;
     })();
     TypeDoc.EventDispatcher = EventDispatcher;
 })(TypeDoc || (TypeDoc = {}));
-/// <reference path="typescript/tsc.ts" />
-/// <reference path="typedoc/utils/EventDispatcher.ts" />
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
+/// <reference path="../typescript/tsc.ts" />
+/// <reference path="utils/EventDispatcher.ts" />
 var TypeDoc;
 (function (TypeDoc) {
-    var Application = (function (_super) {
-        __extends(Application, _super);
-        function Application() {
-            _super.call(this, TypeScript.IO);
-            this.includeDeclarations = false;
-            this.project = new TypeDoc.Models.ProjectReflection();
+    /**
+    * The TypeDoc main application class.
+    */
+    var Application = (function () {
+        /**
+        * Create a new Application instance.
+        */
+        function Application(settings) {
+            if (typeof settings === "undefined") { settings = new TypeDoc.Settings(); }
+            this.hasErrors = false;
+            this.settings = settings;
+            this.dispatcher = new TypeDoc.Factories.Dispatcher(this);
             this.renderer = new TypeDoc.Renderer.Renderer(this);
         }
         Application.prototype.runFromCLI = function () {
-            if (this.parseOptions()) {
-                this.batchCompile();
-                this.renderer.render();
-
-                if (!this.hasErrors) {
-                    this.ioHost.printLine('Documentation generated at ' + this.renderer.dirName);
-                }
+            if (this.settings.readFromCLI()) {
+                this.settings.expandInputFiles();
+                this.generate(this.settings.inputFiles, this.settings.outputDirectory);
+                console.log('Documentation generated at ' + this.settings.outputDirectory);
             }
         };
 
-        Application.prototype.alterOptionsParser = function (opts) {
-            var _this = this;
-            var options = [];
-            var invalidOptions = { out: true, outDir: true, sourcemap: true, sourceRoot: true, declaration: true, watch: true, removeComments: true };
-            opts.options.forEach(function (opt) {
-                if (opt.name in invalidOptions)
-                    return;
-                options.push(opt);
+        /**
+        * Run the documentation generator for the given files.
+        */
+        Application.prototype.generate = function (inputFiles, outputDirectory) {
+            var project = this.dispatcher.compile(inputFiles);
+            this.renderer.render(project, outputDirectory);
+        };
+        Application.VERSION = '0.0.4';
+        return Application;
+    })();
+    TypeDoc.Application = Application;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    /**
+    * Holds all settings used by TypeDoc.
+    */
+    var Settings = (function () {
+        /**
+        * Create a new Settings instance.
+        */
+        function Settings() {
+            /**
+            * Should declaration files be documented?
+            */
+            this.includeDeclarations = false;
+            this.compiler = new TypeScript.CompilationSettings();
+        }
+        /**
+        * Read the settings from command line arguments.
+        */
+        Settings.prototype.readFromCLI = function () {
+            var opts = this.createOptionsParser();
+
+            try  {
+                opts.parse(TypeScript.IO.arguments);
+            } catch (e) {
+                console.log(e.message);
+                return false;
+            }
+
+            this.inputFiles = opts.unnamed;
+
+            if (this.shouldPrintVersionOnly) {
+                opts.printVersion();
+                return false;
+            } else if (this.inputFiles.length === 0 || this.needsHelp) {
+                opts.printUsage();
+                return false;
+            }
+
+            return true;
+        };
+
+        Settings.prototype.expandInputFiles = function () {
+            var exclude, files = [];
+            if (this.excludePattern) {
+                exclude = new Minimatch.Minimatch(this.excludePattern);
+            }
+
+            function add(dirname) {
+                FS.readdirSync(dirname).forEach(function (file) {
+                    var realpath = TypeScript.IOUtils.combine(dirname, file);
+                    if (FS.statSync(realpath).isDirectory()) {
+                        add(realpath);
+                    } else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+
+                        files.push(realpath);
+                    }
+                });
+            }
+
+            this.inputFiles.forEach(function (file) {
+                file = Path.resolve(file);
+                if (FS.statSync(file).isDirectory()) {
+                    add(file);
+                } else {
+                    files.push(file);
+                }
             });
-            opts.options = options;
+
+            this.inputFiles = files;
+        };
+
+        Settings.prototype.createOptionsParser = function () {
+            var _this = this;
+            var opts = new TypeScript.OptionsParser(TypeScript.IO, TypeDoc.Application.VERSION);
 
             opts.option('out', {
                 usage: {
@@ -1687,7 +1082,7 @@ var TypeDoc;
                 },
                 type: TypeScript.DiagnosticCode.DIRECTORY,
                 set: function (str) {
-                    _this.renderer.dirName = _this.resolvePath(str);
+                    _this.outputDirectory = Path.resolve(str);
                 }
             });
 
@@ -1697,7 +1092,7 @@ var TypeDoc;
                     args: null
                 },
                 set: function (str) {
-                    _this.exclude = str;
+                    _this.excludePattern = str;
                 }
             });
 
@@ -1717,82 +1112,154 @@ var TypeDoc;
                     args: null
                 },
                 set: function (str) {
-                    _this.project.name = str;
+                    _this.name = str;
                 }
             });
-        };
 
-        Application.prototype.postOptionsParse = function () {
-            var _this = this;
-            if (!this.renderer.dirName) {
-                return true;
-            }
+            // Copied from TypeScript
+            opts.option('mapRoot', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Specifies_the_location_where_debugger_should_locate_map_files_instead_of_generated_locations,
+                    args: null
+                },
+                type: TypeScript.DiagnosticCode.LOCATION,
+                set: function (str) {
+                    _this.compiler.mapRoot = str;
+                }
+            });
 
-            var exclude, files = [];
-            if (this.exclude) {
-                exclude = new Minimatch.Minimatch(this.exclude);
-            }
+            opts.flag('propagateEnumConstants', {
+                experimental: true,
+                set: function () {
+                    _this.compiler.propagateEnumConstants = true;
+                }
+            });
 
-            function add(dirname) {
-                FS.readdirSync(dirname).forEach(function (file) {
-                    var realpath = TypeScript.IOUtils.combine(dirname, file);
-                    if (FS.statSync(realpath).isDirectory()) {
-                        add(realpath);
-                    } else if (/\.ts$/.test(realpath)) {
-                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
-                            return;
-                        }
+            opts.flag('noResolve', {
+                experimental: true,
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Skip_resolution_and_preprocessing,
+                    args: null
+                },
+                set: function () {
+                    _this.compiler.noResolve = true;
+                }
+            });
 
-                        files.push(realpath);
+            opts.flag('noLib', {
+                experimental: true,
+                set: function () {
+                    _this.compiler.noLib = true;
+                }
+            });
+
+            opts.flag('diagnostics', {
+                experimental: true,
+                set: function () {
+                    _this.compiler.gatherDiagnostics = true;
+                }
+            });
+
+            opts.flag('logFile', {
+                experimental: true,
+                set: function () {
+                    _this.compiler.createFileLog = true;
+                }
+            });
+
+            opts.option('target', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Specify_ECMAScript_target_version_0_default_or_1,
+                    args: ['ES3', 'ES5']
+                },
+                type: TypeScript.DiagnosticCode.VERSION,
+                set: function (type) {
+                    type = type.toLowerCase();
+
+                    if (type === 'es3') {
+                        _this.compiler.codeGenTarget = 0 /* EcmaScript3 */;
+                    } else if (type === 'es5') {
+                        _this.compiler.codeGenTarget = 1 /* EcmaScript5 */;
+                    } else {
+                        throw new Error(TypeScript.DiagnosticCode.ECMAScript_target_version_0_not_supported_Specify_a_valid_target_version_1_default_or_2);
+                    }
+                }
+            }, 't');
+
+            opts.option('module', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Specify_module_code_generation_0_or_1,
+                    args: ['commonjs', 'amd']
+                },
+                type: TypeScript.DiagnosticCode.KIND,
+                set: function (type) {
+                    type = type.toLowerCase();
+
+                    if (type === 'commonjs') {
+                        _this.compiler.moduleGenTarget = 1 /* Synchronous */;
+                    } else if (type === 'amd') {
+                        _this.compiler.moduleGenTarget = 2 /* Asynchronous */;
+                    } else {
+                        throw new Error(TypeScript.DiagnosticCode.Module_code_generation_0_not_supported);
+                    }
+                }
+            }, 'm');
+
+            opts.flag('help', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Print_this_message,
+                    args: null
+                },
+                set: function () {
+                    _this.needsHelp = true;
+                }
+            }, 'h');
+
+            opts.flag('useCaseSensitiveFileResolution', {
+                experimental: true,
+                set: function () {
+                    _this.compiler.useCaseSensitiveFileResolution = true;
+                }
+            });
+
+            opts.flag('version', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Print_the_compiler_s_version_0,
+                    args: [TypeDoc.Application.VERSION]
+                },
+                set: function () {
+                    _this.shouldPrintVersionOnly = true;
+                }
+            }, 'v');
+
+            opts.flag('noImplicitAny', {
+                usage: {
+                    locCode: TypeScript.DiagnosticCode.Warn_on_expressions_and_declarations_with_an_implied_any_type,
+                    args: null
+                },
+                set: function () {
+                    _this.compiler.noImplicitAny = true;
+                }
+            });
+
+            if (TypeScript.Environment.supportsCodePage()) {
+                opts.option('codepage', {
+                    usage: {
+                        locCode: TypeScript.DiagnosticCode.Specify_the_codepage_to_use_when_opening_source_files,
+                        args: null
+                    },
+                    type: TypeScript.DiagnosticCode.NUMBER,
+                    set: function (arg) {
+                        _this.compiler.codepage = parseInt(arg, 10);
                     }
                 });
             }
 
-            this.inputFiles.forEach(function (file) {
-                file = _this.resolvePath(file);
-                if (FS.statSync(file).isDirectory()) {
-                    add(file);
-                } else {
-                    files.push(file);
-                }
-            });
-
-            this.inputFiles = files;
-            return false;
+            return opts;
         };
-
-        Application.prototype.compile = function () {
-            var _this = this;
-            var compiler = new TypeScript.TypeScriptCompiler(this.logger, this.compilationSettings);
-            var dispatcher = new TypeDoc.Factories.Dispatcher(this.project, this);
-
-            this.resolvedFiles.forEach(function (resolvedFile) {
-                var sourceFile = _this.getSourceFile(resolvedFile.path);
-                compiler.addFile(resolvedFile.path, sourceFile.scriptSnapshot, sourceFile.byteOrderMark, /*version:*/ 0, false, resolvedFile.referencedFiles);
-            });
-
-            for (var it = compiler.compile(function (path) {
-                return _this.resolvePath(path);
-            }); it.moveNext();) {
-                var result = it.current();
-                result.diagnostics.forEach(function (d) {
-                    return _this.addDiagnostic(d);
-                });
-            }
-
-            compiler.fileNames().forEach(function (fileName) {
-                dispatcher.attachDocument(compiler.getDocument(fileName));
-            });
-
-            dispatcher.resolve();
-        };
-
-        Application.prototype.getDefaultLibraryFilePath = function () {
-            return this.resolvePath(TypeScript.IOUtils.combine(TypeScript.typescriptPath, "lib.d.ts"));
-        };
-        return Application;
-    })(TypeScript.BatchCompiler);
-    TypeDoc.Application = Application;
+        return Settings;
+    })();
+    TypeDoc.Settings = Settings;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
@@ -1839,6 +1306,206 @@ var TypeDoc;
             return BasePath;
         })();
         Factories.BasePath = BasePath;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        *
+        */
+        var Compiler = (function (_super) {
+            __extends(Compiler, _super);
+            /**
+            * Create a new compiler instance.
+            */
+            function Compiler(settings) {
+                _super.call(this, TypeScript.IO);
+                this.idMap = {};
+                this.snapshots = {};
+                this.compilationSettings = TypeScript.ImmutableCompilationSettings.fromCompilationSettings(settings);
+            }
+            Compiler.prototype.run = function () {
+                var _this = this;
+                var start = new Date().getTime();
+
+                TypeScript.CompilerDiagnostics.diagnosticWriter = { Alert: function (s) {
+                        _this.ioHost.printLine(s);
+                    } };
+
+                if (this.compilationSettings.createFileLog()) {
+                    this.logger = new TypeScript.FileLogger(this.ioHost);
+                } else if (this.compilationSettings.gatherDiagnostics()) {
+                    this.logger = new TypeScript.DiagnosticsLogger(this.ioHost);
+                } else {
+                    this.logger = new TypeScript.NullLogger();
+                }
+
+                // Resolve the compilation environemnt
+                this.resolve();
+
+                var documents = this.compile();
+
+                if (this.compilationSettings.createFileLog()) {
+                    this.logger.log("Compilation settings:");
+                    this.logger.log(" propagateEnumConstants " + this.compilationSettings.propagateEnumConstants());
+                    this.logger.log(" removeComments " + this.compilationSettings.removeComments());
+                    this.logger.log(" watch " + this.compilationSettings.watch());
+                    this.logger.log(" noResolve " + this.compilationSettings.noResolve());
+                    this.logger.log(" noImplicitAny " + this.compilationSettings.noImplicitAny());
+                    this.logger.log(" nolib " + this.compilationSettings.noLib());
+                    this.logger.log(" target " + this.compilationSettings.codeGenTarget());
+                    this.logger.log(" module " + this.compilationSettings.moduleGenTarget());
+                    this.logger.log(" out " + this.compilationSettings.outFileOption());
+                    this.logger.log(" outDir " + this.compilationSettings.outDirOption());
+                    this.logger.log(" sourcemap " + this.compilationSettings.mapSourceFiles());
+                    this.logger.log(" mapRoot " + this.compilationSettings.mapRoot());
+                    this.logger.log(" sourceroot " + this.compilationSettings.sourceRoot());
+                    this.logger.log(" declaration " + this.compilationSettings.generateDeclarationFiles());
+                    this.logger.log(" useCaseSensitiveFileResolution " + this.compilationSettings.useCaseSensitiveFileResolution());
+                    this.logger.log(" diagnostics " + this.compilationSettings.gatherDiagnostics());
+                    this.logger.log(" codepage " + this.compilationSettings.codepage());
+
+                    this.logger.log("");
+
+                    this.logger.log("Input files:");
+                    this.inputFiles.forEach(function (file) {
+                        _this.logger.log(" " + file);
+                    });
+
+                    this.logger.log("");
+
+                    this.logger.log("Resolved Files:");
+                    this.resolvedFiles.forEach(function (file) {
+                        file.importedFiles.forEach(function (file) {
+                            _this.logger.log(" " + file);
+                        });
+                        file.referencedFiles.forEach(function (file) {
+                            _this.logger.log(" " + file);
+                        });
+                    });
+                }
+
+                if (this.compilationSettings.gatherDiagnostics()) {
+                    this.logger.log("");
+                    this.logger.log("File resolution time:                     " + TypeScript.fileResolutionTime);
+                    this.logger.log("           file read:                     " + TypeScript.fileResolutionIOTime);
+                    this.logger.log("        scan imports:                     " + TypeScript.fileResolutionScanImportsTime);
+                    this.logger.log("       import search:                     " + TypeScript.fileResolutionImportFileSearchTime);
+                    this.logger.log("        get lib.d.ts:                     " + TypeScript.fileResolutionGetDefaultLibraryTime);
+
+                    this.logger.log("SyntaxTree parse time:                    " + TypeScript.syntaxTreeParseTime);
+                    this.logger.log("Syntax Diagnostics time:                  " + TypeScript.syntaxDiagnosticsTime);
+                    this.logger.log("AST translation time:                     " + TypeScript.astTranslationTime);
+                    this.logger.log("");
+                    this.logger.log("Type check time:                          " + TypeScript.typeCheckTime);
+                    this.logger.log("");
+                    this.logger.log("Emit time:                                " + TypeScript.emitTime);
+                    this.logger.log("Declaration emit time:                    " + TypeScript.declarationEmitTime);
+
+                    this.logger.log("Total number of symbols created:          " + TypeScript.pullSymbolID);
+                    this.logger.log("Specialized types created:                " + TypeScript.nSpecializationsCreated);
+                    this.logger.log("Specialized signatures created:           " + TypeScript.nSpecializedSignaturesCreated);
+
+                    this.logger.log("  IsExternallyVisibleTime:                " + TypeScript.declarationEmitIsExternallyVisibleTime);
+                    this.logger.log("  TypeSignatureTime:                      " + TypeScript.declarationEmitTypeSignatureTime);
+                    this.logger.log("  GetBoundDeclTypeTime:                   " + TypeScript.declarationEmitGetBoundDeclTypeTime);
+                    this.logger.log("  IsOverloadedCallSignatureTime:          " + TypeScript.declarationEmitIsOverloadedCallSignatureTime);
+                    this.logger.log("  FunctionDeclarationGetSymbolTime:       " + TypeScript.declarationEmitFunctionDeclarationGetSymbolTime);
+                    this.logger.log("  GetBaseTypeTime:                        " + TypeScript.declarationEmitGetBaseTypeTime);
+                    this.logger.log("  GetAccessorFunctionTime:                " + TypeScript.declarationEmitGetAccessorFunctionTime);
+                    this.logger.log("  GetTypeParameterSymbolTime:             " + TypeScript.declarationEmitGetTypeParameterSymbolTime);
+                    this.logger.log("  GetImportDeclarationSymbolTime:         " + TypeScript.declarationEmitGetImportDeclarationSymbolTime);
+
+                    this.logger.log("Emit write file time:                     " + TypeScript.emitWriteFileTime);
+
+                    this.logger.log("Compiler resolve path time:               " + TypeScript.compilerResolvePathTime);
+                    this.logger.log("Compiler directory name time:             " + TypeScript.compilerDirectoryNameTime);
+                    this.logger.log("Compiler directory exists time:           " + TypeScript.compilerDirectoryExistsTime);
+                    this.logger.log("Compiler file exists time:                " + TypeScript.compilerFileExistsTime);
+
+                    this.logger.log("IO host resolve path time:                " + TypeScript.ioHostResolvePathTime);
+                    this.logger.log("IO host directory name time:              " + TypeScript.ioHostDirectoryNameTime);
+                    this.logger.log("IO host create directory structure time:  " + TypeScript.ioHostCreateDirectoryStructureTime);
+                    this.logger.log("IO host write file time:                  " + TypeScript.ioHostWriteFileTime);
+
+                    this.logger.log("Node make directory time:                 " + TypeScript.nodeMakeDirectoryTime);
+                    this.logger.log("Node writeFileSync time:                  " + TypeScript.nodeWriteFileSyncTime);
+                    this.logger.log("Node createBuffer time:                   " + TypeScript.nodeCreateBufferTime);
+                }
+
+                return documents;
+            };
+
+            Compiler.prototype.compile = function () {
+                var _this = this;
+                var compiler = new TypeScript.TypeScriptCompiler(this.logger, this.compilationSettings);
+
+                this.resolvedFiles.forEach(function (resolvedFile) {
+                    var sourceFile = _this.getSourceFile(resolvedFile.path);
+                    compiler.addFile(resolvedFile.path, sourceFile.scriptSnapshot, sourceFile.byteOrderMark, /*version:*/ 0, false, resolvedFile.referencedFiles);
+                });
+
+                for (var it = compiler.compile(function (path) {
+                    return _this.resolvePath(path);
+                }); it.moveNext();) {
+                    var result = it.current();
+                    result.diagnostics.forEach(function (d) {
+                        return _this.addDiagnostic(d);
+                    });
+                }
+
+                var documents = [];
+                compiler.fileNames().forEach(function (fileName) {
+                    documents.push(compiler.getDocument(fileName));
+                });
+
+                return documents;
+            };
+
+            /**
+            * Return the snapshot of the given filename.
+            *
+            * @param fileName  The filename of the snapshot.
+            */
+            Compiler.prototype.getSnapshot = function (fileName) {
+                var _this = this;
+                if (!this.snapshots[fileName]) {
+                    var snapshot;
+                    var lineMap;
+
+                    this.snapshots[fileName] = {
+                        getText: function (start, end) {
+                            if (!snapshot)
+                                snapshot = _this.getScriptSnapshot(fileName);
+                            return snapshot.getText(start, end);
+                        },
+                        getLineNumber: function (position) {
+                            if (!snapshot)
+                                snapshot = _this.getScriptSnapshot(fileName);
+                            if (!lineMap)
+                                lineMap = TypeScript.LineMap1.fromScriptSnapshot(snapshot);
+                            return lineMap.getLineNumberFromPosition(position);
+                        }
+                    };
+                }
+
+                return this.snapshots[fileName];
+            };
+
+            Compiler.prototype.getDefaultLibraryFilePath = function () {
+                return this.resolvePath(TypeScript.IOUtils.combine(TypeScript.typescriptPath, "lib.d.ts"));
+            };
+            return Compiler;
+        })(TypeScript.BatchCompiler);
+        Factories.Compiler = Compiler;
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -1895,48 +1562,46 @@ var TypeDoc;
             /**
             * Create a new Dispatcher instance.
             *
-            * @param project  The target project instance.
+            * @param application  The target project instance.
             */
-            function Dispatcher(project, compiler) {
+            function Dispatcher(application) {
                 var _this = this;
                 _super.call(this);
-                this.idMap = {};
-                this.snapshots = {};
-                this.project = project;
-                this.compiler = compiler;
+                this.application = application;
 
                 Dispatcher.FACTORIES.forEach(function (factory) {
                     new factory(_this);
                 });
             }
-            /**
-            * Return the snapshot of the given filename.
-            *
-            * @param fileName  The filename of the snapshot.
-            */
-            Dispatcher.prototype.getSnapshot = function (fileName) {
+            Dispatcher.prototype.compile = function (inputFiles) {
                 var _this = this;
-                if (!this.snapshots[fileName]) {
-                    var snapshot;
-                    var lineMap;
+                var settings = this.application.settings.compiler;
+                var compiler = new Factories.Compiler(settings);
+                var project = new TypeDoc.Models.ProjectReflection();
 
-                    this.snapshots[fileName] = {
-                        getText: function (start, end) {
-                            if (!snapshot)
-                                snapshot = _this.compiler.getScriptSnapshot(fileName);
-                            return snapshot.getText(start, end);
-                        },
-                        getLineNumber: function (position) {
-                            if (!snapshot)
-                                snapshot = _this.compiler.getScriptSnapshot(fileName);
-                            if (!lineMap)
-                                lineMap = TypeScript.LineMap1.fromScriptSnapshot(snapshot);
-                            return lineMap.getLineNumberFromPosition(position);
-                        }
-                    };
-                }
+                compiler.inputFiles = inputFiles;
+                var documents = compiler.run();
 
-                return this.snapshots[fileName];
+                documents.forEach(function (document) {
+                    var state = new Factories.DocumentState(_this, document, project, compiler);
+                    _this.dispatch('enterDocument', state);
+                    if (state.isDefaultPrevented)
+                        return;
+
+                    state.declaration.getChildDecls().forEach(function (declaration) {
+                        _this.processState(state.createChildState(declaration));
+                    });
+
+                    _this.dispatch('leaveDocument', state);
+                });
+
+                this.dispatch('enterResolve', new Factories.ProjectResolution(compiler, project));
+                project.reflections.forEach(function (reflection) {
+                    _this.dispatch('resolveReflection', new Factories.ReflectionResolution(compiler, project, reflection));
+                });
+                this.dispatch('leaveResolve', new Factories.ProjectResolution(compiler, project));
+
+                return project;
             };
 
             /**
@@ -1992,46 +1657,16 @@ var TypeDoc;
                     parent.children.push(reflection);
                 }
 
-                this.project.reflections.push(reflection);
+                var rootState = state.getDocumentState();
+                rootState.reflection.reflections.push(reflection);
+
                 if (!state.isInherited) {
                     var declID = state.declaration.declID;
-                    this.idMap[declID] = reflection;
+                    rootState.compiler.idMap[declID] = reflection;
                 }
 
                 this.dispatch('createReflection', state);
                 return true;
-            };
-
-            /**
-            * Attach the given document to the project.
-            *
-            * This method is called by the compiler for each compiled document.
-            *
-            * @param document  The TypeScript document that should be processed by the dispatcher.
-            */
-            Dispatcher.prototype.attachDocument = function (document) {
-                var _this = this;
-                var state = new Factories.DocumentState(this, document);
-                this.dispatch('enterDocument', state);
-                if (state.isDefaultPrevented)
-                    return;
-
-                state.declaration.getChildDecls().forEach(function (declaration) {
-                    _this.processState(state.createChildState(declaration));
-                });
-
-                this.dispatch('leaveDocument', state);
-            };
-
-            Dispatcher.prototype.resolve = function () {
-                var _this = this;
-                this.dispatch('enterResolve');
-
-                this.project.reflections.forEach(function (reflection) {
-                    _this.dispatch('resolveReflection', reflection);
-                });
-
-                this.dispatch('leaveResolve');
             };
 
             /**
@@ -2092,6 +1727,32 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        var ProjectResolution = (function (_super) {
+            __extends(ProjectResolution, _super);
+            function ProjectResolution(compiler, project) {
+                _super.call(this);
+                this.compiler = compiler;
+                this.project = project;
+            }
+            return ProjectResolution;
+        })(TypeDoc.Event);
+        Factories.ProjectResolution = ProjectResolution;
+
+        var ReflectionResolution = (function (_super) {
+            __extends(ReflectionResolution, _super);
+            function ReflectionResolution(compiler, project, reflection) {
+                _super.call(this, compiler, project);
+                this.reflection = reflection;
+            }
+            return ReflectionResolution;
+        })(ProjectResolution);
+        Factories.ReflectionResolution = ReflectionResolution;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
         /**
         * A handler that analyzes the AST and extracts data not represented by declarations.
         */
@@ -2125,6 +1786,7 @@ var TypeDoc;
                         var reflection = state.reflection.getChildByName(assignment.identifier.text());
                         if (reflection) {
                             reflection.flags = reflection.flags | 1 /* Exported */;
+                            reflection.isExported = true;
                         }
                     }
                 });
@@ -2216,8 +1878,7 @@ var TypeDoc;
                         return result;
                     }
 
-                    var dispatcher = state.getDocumentState().dispatcher;
-                    var snapshot = dispatcher.getSnapshot(ast.fileName());
+                    var snapshot = state.getSnapshot(ast.fileName());
                     var astSource = snapshot.getText(ast.start(), ast.end());
                     var listSource = snapshot.getText(list.start(), list.end());
                     if (astSource != listSource) {
@@ -2363,7 +2024,8 @@ var TypeDoc;
                 }
             };
 
-            DynamicModuleHandler.prototype.onResolveReflection = function (reflection) {
+            DynamicModuleHandler.prototype.onResolveReflection = function (res) {
+                var reflection = res.reflection;
                 if (reflection.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
                     if (reflection.name.indexOf('/') != -1) {
                         reflection.name = this.basePath.trim(reflection.name);
@@ -2402,7 +2064,7 @@ var TypeDoc;
             * Triggered once after all documents have been read and the dispatcher
             * leaves the resolving phase.
             */
-            GroupHandler.prototype.onLeaveResolve = function () {
+            GroupHandler.prototype.onLeaveResolve = function (resolution) {
                 function walkDirectory(directory) {
                     directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 
@@ -2413,7 +2075,7 @@ var TypeDoc;
                     }
                 }
 
-                var project = this.dispatcher.project;
+                var project = resolution.project;
                 if (project.children && project.children.length > 0) {
                     project.children.sort(GroupHandler.sortCallback);
                     project.groups = GroupHandler.getReflectionGroups(project.children);
@@ -2430,7 +2092,7 @@ var TypeDoc;
                     reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
                 });
 
-                walkDirectory(this.dispatcher.project.directory);
+                walkDirectory(project.directory);
                 project.files.forEach(function (file) {
                     file.groups = GroupHandler.getReflectionGroups(file.reflections);
                 });
@@ -2463,14 +2125,14 @@ var TypeDoc;
                 });
 
                 groups.forEach(function (group) {
-                    var allExported = true, allInherited = true, allPrivate = true;
+                    var someExported = false, allInherited = true, allPrivate = true;
                     group.children.forEach(function (child) {
-                        allExported = child.isExported && allExported;
+                        someExported = child.isExported || someExported;
                         allInherited = child.inheritedFrom && allInherited;
                         allPrivate = child.isPrivate && allPrivate;
                     });
 
-                    group.allChildrenAreExported = allExported;
+                    group.someChildrenAreExported = someExported;
                     group.allChildrenAreInherited = allInherited;
                     group.allChildrenArePrivate = allPrivate;
                 });
@@ -2665,8 +2327,6 @@ var TypeDoc;
         var NullHandler = (function () {
             function NullHandler(dispatcher) {
                 this.dispatcher = dispatcher;
-                this.includeDeclarations = dispatcher.compiler.includeDeclarations;
-
                 dispatcher.on('enterDocument', this.onEnterDocument, this, 1024);
                 dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
             }
@@ -2678,7 +2338,8 @@ var TypeDoc;
 
                 // Ignore declare files
                 if (state.document.isDeclareFile()) {
-                    if (state.document.fileName.substr(-8) != 'lib.d.ts' && this.includeDeclarations) {
+                    var settings = state.dispatcher.application.settings;
+                    if (state.document.fileName.substr(-8) != 'lib.d.ts' && settings.includeDeclarations) {
                         var childState = state.createChildState(state.document.topLevelDecl());
                         this.dispatcher.ensureReflection(childState);
                         this.dispatcher.processState(childState);
@@ -2777,9 +2438,8 @@ var TypeDoc;
             * Triggered once after all documents have been read and the dispatcher
             * enters the resolving phase.
             */
-            PackageHandler.prototype.onEnterResolve = function () {
-                var project = this.dispatcher.project;
-
+            PackageHandler.prototype.onEnterResolve = function (resolution) {
+                var project = resolution.project;
                 if (this.readmeFile) {
                     project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
                 }
@@ -2869,7 +2529,8 @@ var TypeDoc;
             *
             * @param reflection  The final generated reflection.
             */
-            ReflectionHandler.prototype.onResolveReflection = function (reflection) {
+            ReflectionHandler.prototype.onResolveReflection = function (res) {
+                var reflection = res.reflection;
                 var flagsArray = [];
                 var flags = reflection.kindOf(TypeDoc.Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
                 flags.forEach(function (key) {
@@ -3070,7 +2731,7 @@ var TypeDoc;
 
                 var file = new TypeDoc.Models.SourceFile(fileName);
                 this.fileMappings[fileName] = file;
-                this.dispatcher.project.files.push(file);
+                state.reflection.files.push(file);
             };
 
             SourceHandler.prototype.onProcess = function (state) {
@@ -3097,24 +2758,24 @@ var TypeDoc;
                 });
             };
 
-            SourceHandler.prototype.onEnterResolve = function () {
+            SourceHandler.prototype.onEnterResolve = function (res) {
                 var _this = this;
-                this.dispatcher.project.files.forEach(function (file) {
+                res.project.files.forEach(function (file) {
                     var fileName = file.fileName = _this.basePath.trim(file.fileName);
                     _this.fileMappings[fileName] = file;
                 });
             };
 
-            SourceHandler.prototype.onResolveReflection = function (reflection) {
+            SourceHandler.prototype.onResolveReflection = function (res) {
                 var _this = this;
-                reflection.sources.forEach(function (source) {
+                res.reflection.sources.forEach(function (source) {
                     source.fileName = _this.basePath.trim(source.fileName);
                 });
             };
 
-            SourceHandler.prototype.onLeaveResolve = function () {
-                var home = this.dispatcher.project.directory;
-                this.dispatcher.project.files.forEach(function (file) {
+            SourceHandler.prototype.onLeaveResolve = function (res) {
+                var home = res.project.directory;
+                res.project.files.forEach(function (file) {
                     var reflections = [];
                     file.reflections.forEach(function (reflection) {
                         if (reflection.sources.length > 1)
@@ -3162,28 +2823,30 @@ var TypeDoc;
         */
         var TypeHandler = (function () {
             function TypeHandler(dispatcher) {
-                this.dispatcher = dispatcher;
                 dispatcher.on('resolveReflection', this.onResolveReflection, this);
             }
-            TypeHandler.prototype.onResolveReflection = function (reflection) {
-                reflection.type = this.resolveType(reflection.type);
-                reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom);
-                reflection.overwrites = this.resolveType(reflection.overwrites);
-                reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes);
-                reflection.extendedBy = this.resolveTypes(reflection.extendedBy);
+            TypeHandler.prototype.onResolveReflection = function (resolution) {
+                var reflection = resolution.reflection;
+                var compiler = resolution.compiler;
+
+                reflection.type = this.resolveType(reflection.type, compiler);
+                reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom, compiler);
+                reflection.overwrites = this.resolveType(reflection.overwrites, compiler);
+                reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes, compiler);
+                reflection.extendedBy = this.resolveTypes(reflection.extendedBy, compiler);
                 reflection.typeHierarchy = TypeHandler.buildTypeHierarchy(reflection);
             };
 
-            TypeHandler.prototype.resolveTypes = function (types) {
+            TypeHandler.prototype.resolveTypes = function (types, compiler) {
                 if (!types)
                     return types;
                 for (var i = 0, c = types.length; i < c; i++) {
-                    types[i] = this.resolveType(types[i]);
+                    types[i] = this.resolveType(types[i], compiler);
                 }
                 return types;
             };
 
-            TypeHandler.prototype.resolveType = function (type) {
+            TypeHandler.prototype.resolveType = function (type, compiler) {
                 if (!type)
                     return type;
                 if (!(type instanceof TypeDoc.Models.LateResolvingType))
@@ -3203,7 +2866,7 @@ var TypeDoc;
                 }
 
                 var declID = declaration.declID;
-                var reflection = this.dispatcher.idMap[declID];
+                var reflection = compiler.idMap[declID];
                 if (reflection) {
                     if (reflection.kindOf(TypeDoc.Models.Kind.SomeSignature)) {
                         reflection = reflection.parent;
@@ -3343,7 +3006,7 @@ var TypeDoc;
             * @param fileName  The filename of the snapshot.
             */
             BaseState.prototype.getSnapshot = function (fileName) {
-                return this.getDocumentState().dispatcher.getSnapshot(fileName);
+                return this.getDocumentState().compiler.getSnapshot(fileName);
             };
 
             /**
@@ -3457,11 +3120,11 @@ var TypeDoc;
             * @param dispatcher  The dispatcher that has created this state.
             * @param document    The TypeScript document that contains the declarations.
             */
-            function DocumentState(dispatcher, document) {
-                _super.call(this, null, document.topLevelDecl(), dispatcher.project);
-
+            function DocumentState(dispatcher, document, project, compiler) {
+                _super.call(this, null, document.topLevelDecl(), project);
                 this.dispatcher = dispatcher;
                 this.document = document;
+                this.compiler = compiler;
             }
             return DocumentState;
         })(Factories.BaseState);
@@ -4092,10 +3755,9 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Renderer) {
         var BaseTheme = (function () {
-            function BaseTheme(renderer, project, basePath) {
+            function BaseTheme(renderer, basePath) {
                 this.renderer = renderer;
                 this.basePath = basePath;
-                this.project = project;
 
                 this.initialize();
             }
@@ -4106,11 +3768,11 @@ var TypeDoc;
                 return false;
             };
 
-            BaseTheme.prototype.getUrls = function () {
+            BaseTheme.prototype.getUrls = function (project) {
                 return [];
             };
 
-            BaseTheme.prototype.getNavigation = function () {
+            BaseTheme.prototype.getNavigation = function (project) {
                 return null;
             };
             return BaseTheme;
@@ -4129,7 +3791,7 @@ var TypeDoc;
                 _super.call(this);
                 this.templates = {};
                 this.application = application;
-                this.ioHost = application.ioHost;
+                this.ioHost = TypeScript.IO;
 
                 this.plugins = [];
                 Renderer.PLUGIN_CLASSES.forEach(function (pluginClass) {
@@ -4166,13 +3828,13 @@ var TypeDoc;
                 }
 
                 var themeClass = eval(TypeDoc.readFile(filename));
-                this.theme = new themeClass(this, this.application.project, dirname);
+                this.theme = new themeClass(this, dirname);
             };
 
             Renderer.prototype.getDefaultTheme = function () {
-                var compilerFilePath = this.application.ioHost.getExecutingFilePath();
-                var containingDirectoryPath = this.application.ioHost.dirName(compilerFilePath);
-                var libraryFilePath = this.application.resolvePath(TypeScript.IOUtils.combine(TypeScript.IOUtils.combine(containingDirectoryPath, 'themes'), 'default'));
+                var compilerFilePath = this.ioHost.getExecutingFilePath();
+                var containingDirectoryPath = this.ioHost.dirName(compilerFilePath);
+                var libraryFilePath = Path.resolve(TypeScript.IOUtils.combine(TypeScript.IOUtils.combine(containingDirectoryPath, 'themes'), 'default'));
 
                 return libraryFilePath;
             };
@@ -4196,39 +3858,39 @@ var TypeDoc;
                 return this.templates[fileName];
             };
 
-            Renderer.prototype.render = function () {
+            Renderer.prototype.render = function (project, outputDirectory) {
                 if (!this.theme) {
                     this.setTheme(this.getDefaultTheme());
                 }
 
-                if (FS.existsSync(this.dirName)) {
-                    if (!this.theme.isOutputDirectory(this.dirName)) {
+                if (FS.existsSync(outputDirectory)) {
+                    if (!this.theme.isOutputDirectory(outputDirectory)) {
                         this.application.hasErrors = true;
-                        this.ioHost.printLine('Error: The output directory "' + this.dirName + '" exists but ' + 'does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.');
+                        this.ioHost.printLine('Error: The output directory "' + outputDirectory + '" exists but ' + 'does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.');
                         return;
                     }
 
                     try  {
-                        FS.rmrfSync(this.dirName);
+                        FS.rmrfSync(outputDirectory);
                     } catch (error) {
                         this.ioHost.printLine('Warning: Could not empty the output directory.');
                     }
                 }
 
-                if (!FS.existsSync(this.dirName)) {
+                if (!FS.existsSync(outputDirectory)) {
                     try  {
-                        FS.mkdirpSync(this.dirName);
+                        FS.mkdirpSync(outputDirectory);
                     } catch (error) {
                         this.application.hasErrors = true;
-                        this.ioHost.printLine('Error: Could not create output directory ' + this.dirName);
+                        this.ioHost.printLine('Error: Could not create output directory ' + outputDirectory);
                         return;
                     }
                 }
 
                 var target = new TypeDoc.Models.RenderTarget();
-                target.dirname = this.dirName;
-                target.project = this.application.project;
-                target.urls = this.theme.getUrls();
+                target.dirname = outputDirectory;
+                target.project = project;
+                target.urls = this.theme.getUrls(project);
 
                 this.dispatch('beginTarget', target);
                 if (target.isDefaultPrevented)
@@ -4260,7 +3922,7 @@ var TypeDoc;
                         return;
 
                     try  {
-                        TypeScript.IOUtils.writeFileAndFolderStructure(_this.application.ioHost, output.filename, output.contents, true);
+                        TypeScript.IOUtils.writeFileAndFolderStructure(_this.ioHost, output.filename, output.contents, true);
                     } catch (error) {
                         _this.ioHost.printLine('Error: Could not write ' + output.filename);
                     }
@@ -4344,7 +4006,7 @@ var TypeDoc;
             }
             NavigationPlugin.prototype.onRendererBeginTarget = function (target) {
                 var _this = this;
-                this.navigation = this.renderer.theme.getNavigation();
+                this.navigation = this.renderer.theme.getNavigation(target.project);
 
                 Handlebars.registerHelper('relativeURL', function (url) {
                     var relativePath = Path.relative(Path.dirname(_this.location), Path.dirname(url));
@@ -4464,4 +4126,682 @@ var TypeDoc;
     }
     TypeDoc.readFile = readFile;
 })(TypeDoc || (TypeDoc = {}));
+//
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+var TypeScript;
+(function (TypeScript) {
+    (function (IOUtils) {
+        // Creates the directory including its parent if not already present
+        function createDirectoryStructure(ioHost, dirName) {
+            if (ioHost.directoryExists(dirName)) {
+                return;
+            }
+
+            var parentDirectory = ioHost.dirName(dirName);
+            if (parentDirectory != "") {
+                createDirectoryStructure(ioHost, parentDirectory);
+            }
+            ioHost.createDirectory(dirName);
+        }
+
+        // Creates a file including its directory structure if not already present
+        function writeFileAndFolderStructure(ioHost, fileName, contents, writeByteOrderMark) {
+            var start = new Date().getTime();
+            var path = ioHost.resolvePath(fileName);
+            TypeScript.ioHostResolvePathTime += new Date().getTime() - start;
+
+            var start = new Date().getTime();
+            var dirName = ioHost.dirName(path);
+            TypeScript.ioHostDirectoryNameTime += new Date().getTime() - start;
+
+            var start = new Date().getTime();
+            createDirectoryStructure(ioHost, dirName);
+            TypeScript.ioHostCreateDirectoryStructureTime += new Date().getTime() - start;
+
+            var start = new Date().getTime();
+            ioHost.writeFile(path, contents, writeByteOrderMark);
+            TypeScript.ioHostWriteFileTime += new Date().getTime() - start;
+        }
+        IOUtils.writeFileAndFolderStructure = writeFileAndFolderStructure;
+
+        function throwIOError(message, error) {
+            var errorMessage = message;
+            if (error && error.message) {
+                errorMessage += (" " + error.message);
+            }
+            throw new Error(errorMessage);
+        }
+        IOUtils.throwIOError = throwIOError;
+
+        function combine(prefix, suffix) {
+            return prefix + "/" + suffix;
+        }
+        IOUtils.combine = combine;
+
+        var BufferedTextWriter = (function () {
+            // Inner writer does not need a WriteLine method, since the BufferedTextWriter wraps it itself
+            function BufferedTextWriter(writer, capacity) {
+                if (typeof capacity === "undefined") { capacity = 1024; }
+                this.writer = writer;
+                this.capacity = capacity;
+                this.buffer = "";
+            }
+            BufferedTextWriter.prototype.Write = function (str) {
+                this.buffer += str;
+                if (this.buffer.length >= this.capacity) {
+                    this.writer.Write(this.buffer);
+                    this.buffer = "";
+                }
+            };
+            BufferedTextWriter.prototype.WriteLine = function (str) {
+                this.Write(str + '\r\n');
+            };
+            BufferedTextWriter.prototype.Close = function () {
+                this.writer.Write(this.buffer);
+                this.writer.Close();
+                this.buffer = null;
+            };
+            return BufferedTextWriter;
+        })();
+        IOUtils.BufferedTextWriter = BufferedTextWriter;
+    })(TypeScript.IOUtils || (TypeScript.IOUtils = {}));
+    var IOUtils = TypeScript.IOUtils;
+
+    TypeScript.IO = (function () {
+        // Create an IO object for use inside WindowsScriptHost hosts
+        // Depends on WSCript and FileSystemObject
+        function getWindowsScriptHostIO() {
+            var fso = new ActiveXObject("Scripting.FileSystemObject");
+            var streamObjectPool = [];
+
+            function getStreamObject() {
+                if (streamObjectPool.length > 0) {
+                    return streamObjectPool.pop();
+                } else {
+                    return new ActiveXObject("ADODB.Stream");
+                }
+            }
+
+            function releaseStreamObject(obj) {
+                streamObjectPool.push(obj);
+            }
+
+            var args = [];
+            for (var i = 0; i < WScript.Arguments.length; i++) {
+                args[i] = WScript.Arguments.Item(i);
+            }
+
+            return {
+                appendFile: function (path, content) {
+                    var txtFile = fso.OpenTextFile(path, 8, true);
+                    txtFile.Write(content);
+                    txtFile.Close();
+                },
+                readFile: function (path, codepage) {
+                    return TypeScript.Environment.readFile(path, codepage);
+                },
+                writeFile: function (path, contents, writeByteOrderMark) {
+                    TypeScript.Environment.writeFile(path, contents, writeByteOrderMark);
+                },
+                fileExists: function (path) {
+                    return fso.FileExists(path);
+                },
+                resolvePath: function (path) {
+                    return fso.GetAbsolutePathName(path);
+                },
+                dirName: function (path) {
+                    return fso.GetParentFolderName(path);
+                },
+                findFile: function (rootPath, partialFilePath) {
+                    var path = fso.GetAbsolutePathName(rootPath) + "/" + partialFilePath;
+
+                    while (true) {
+                        if (fso.FileExists(path)) {
+                            return { fileInformation: this.readFile(path), path: path };
+                        } else {
+                            rootPath = fso.GetParentFolderName(fso.GetAbsolutePathName(rootPath));
+
+                            if (rootPath == "") {
+                                return null;
+                            } else {
+                                path = fso.BuildPath(rootPath, partialFilePath);
+                            }
+                        }
+                    }
+                },
+                deleteFile: function (path) {
+                    try  {
+                        if (fso.FileExists(path)) {
+                            fso.DeleteFile(path, true); // true: delete read-only files
+                        }
+                    } catch (e) {
+                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_delete_file_0, [path]), e);
+                    }
+                },
+                directoryExists: function (path) {
+                    return fso.FolderExists(path);
+                },
+                createDirectory: function (path) {
+                    try  {
+                        if (!this.directoryExists(path)) {
+                            fso.CreateFolder(path);
+                        }
+                    } catch (e) {
+                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_create_directory_0, [path]), e);
+                    }
+                },
+                dir: function (path, spec, options) {
+                    options = options || {};
+                    function filesInFolder(folder, root) {
+                        var paths = [];
+                        var fc;
+
+                        if (options.recursive) {
+                            fc = new Enumerator(folder.subfolders);
+
+                            for (; !fc.atEnd(); fc.moveNext()) {
+                                paths = paths.concat(filesInFolder(fc.item(), root + "/" + fc.item().Name));
+                            }
+                        }
+
+                        fc = new Enumerator(folder.files);
+
+                        for (; !fc.atEnd(); fc.moveNext()) {
+                            if (!spec || fc.item().Name.match(spec)) {
+                                paths.push(root + "/" + fc.item().Name);
+                            }
+                        }
+
+                        return paths;
+                    }
+
+                    var folder = fso.GetFolder(path);
+                    var paths = [];
+
+                    return filesInFolder(folder, path);
+                },
+                print: function (str) {
+                    WScript.StdOut.Write(str);
+                },
+                printLine: function (str) {
+                    WScript.Echo(str);
+                },
+                arguments: args,
+                stderr: WScript.StdErr,
+                stdout: WScript.StdOut,
+                watchFile: null,
+                run: function (source, fileName) {
+                    try  {
+                        eval(source);
+                    } catch (e) {
+                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Error_while_executing_file_0, [fileName]), e);
+                    }
+                },
+                getExecutingFilePath: function () {
+                    return WScript.ScriptFullName;
+                },
+                quit: function (exitCode) {
+                    if (typeof exitCode === "undefined") { exitCode = 0; }
+                    try  {
+                        WScript.Quit(exitCode);
+                    } catch (e) {
+                    }
+                }
+            };
+        }
+        ;
+
+        // Create an IO object for use inside Node.js hosts
+        // Depends on 'fs' and 'path' modules
+        function getNodeIO() {
+            var _fs = require('fs');
+            var _path = require('path');
+            var _module = require('module');
+
+            return {
+                appendFile: function (path, content) {
+                    _fs.appendFileSync(path, content);
+                },
+                readFile: function (file, codepage) {
+                    return TypeScript.Environment.readFile(file, codepage);
+                },
+                writeFile: function (path, contents, writeByteOrderMark) {
+                    TypeScript.Environment.writeFile(path, contents, writeByteOrderMark);
+                },
+                deleteFile: function (path) {
+                    try  {
+                        _fs.unlinkSync(path);
+                    } catch (e) {
+                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_delete_file_0, [path]), e);
+                    }
+                },
+                fileExists: function (path) {
+                    return _fs.existsSync(path);
+                },
+                dir: function dir(path, spec, options) {
+                    options = options || {};
+
+                    function filesInFolder(folder) {
+                        var paths = [];
+
+                        try  {
+                            var files = _fs.readdirSync(folder);
+                            for (var i = 0; i < files.length; i++) {
+                                var stat = _fs.statSync(folder + "/" + files[i]);
+                                if (options.recursive && stat.isDirectory()) {
+                                    paths = paths.concat(filesInFolder(folder + "/" + files[i]));
+                                } else if (stat.isFile() && (!spec || files[i].match(spec))) {
+                                    paths.push(folder + "/" + files[i]);
+                                }
+                            }
+                        } catch (err) {
+                            /*
+                            *   Skip folders that are inaccessible
+                            */
+                        }
+
+                        return paths;
+                    }
+
+                    return filesInFolder(path);
+                },
+                createDirectory: function (path) {
+                    try  {
+                        if (!this.directoryExists(path)) {
+                            _fs.mkdirSync(path);
+                        }
+                    } catch (e) {
+                        IOUtils.throwIOError(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Could_not_create_directory_0, [path]), e);
+                    }
+                },
+                directoryExists: function (path) {
+                    return _fs.existsSync(path) && _fs.statSync(path).isDirectory();
+                },
+                resolvePath: function (path) {
+                    return _path.resolve(path);
+                },
+                dirName: function (path) {
+                    var dirPath = _path.dirname(path);
+
+                    // Node will just continue to repeat the root path, rather than return null
+                    if (dirPath === path) {
+                        dirPath = null;
+                    }
+
+                    return dirPath;
+                },
+                findFile: function (rootPath, partialFilePath) {
+                    var path = rootPath + "/" + partialFilePath;
+
+                    while (true) {
+                        if (_fs.existsSync(path)) {
+                            return { fileInformation: this.readFile(path), path: path };
+                        } else {
+                            var parentPath = _path.resolve(rootPath, "..");
+
+                            // Node will just continue to repeat the root path, rather than return null
+                            if (rootPath === parentPath) {
+                                return null;
+                            } else {
+                                rootPath = parentPath;
+                                path = _path.resolve(rootPath, partialFilePath);
+                            }
+                        }
+                    }
+                },
+                print: function (str) {
+                    process.stdout.write(str);
+                },
+                printLine: function (str) {
+                    process.stdout.write(str + '\n');
+                },
+                arguments: process.argv.slice(2),
+                stderr: {
+                    Write: function (str) {
+                        process.stderr.write(str);
+                    },
+                    WriteLine: function (str) {
+                        process.stderr.write(str + '\n');
+                    },
+                    Close: function () {
+                    }
+                },
+                stdout: {
+                    Write: function (str) {
+                        process.stdout.write(str);
+                    },
+                    WriteLine: function (str) {
+                        process.stdout.write(str + '\n');
+                    },
+                    Close: function () {
+                    }
+                },
+                watchFile: function (fileName, callback) {
+                    var firstRun = true;
+                    var processingChange = false;
+
+                    var fileChanged = function (curr, prev) {
+                        if (!firstRun) {
+                            if (curr.mtime < prev.mtime) {
+                                return;
+                            }
+
+                            _fs.unwatchFile(fileName, fileChanged);
+                            if (!processingChange) {
+                                processingChange = true;
+                                callback(fileName);
+                                setTimeout(function () {
+                                    processingChange = false;
+                                }, 100);
+                            }
+                        }
+                        firstRun = false;
+                        _fs.watchFile(fileName, { persistent: true, interval: 500 }, fileChanged);
+                    };
+
+                    fileChanged();
+                    return {
+                        fileName: fileName,
+                        close: function () {
+                            _fs.unwatchFile(fileName, fileChanged);
+                        }
+                    };
+                },
+                run: function (source, fileName) {
+                    require.main.fileName = fileName;
+                    require.main.paths = _module._nodeModulePaths(_path.dirname(_fs.realpathSync(fileName)));
+                    require.main._compile(source, fileName);
+                },
+                getExecutingFilePath: function () {
+                    return process.mainModule.filename;
+                },
+                quit: function (code) {
+                    var stderrFlushed = process.stderr.write('');
+                    var stdoutFlushed = process.stdout.write('');
+                    process.stderr.on('drain', function () {
+                        stderrFlushed = true;
+                        if (stdoutFlushed) {
+                            process.exit(code);
+                        }
+                    });
+                    process.stdout.on('drain', function () {
+                        stdoutFlushed = true;
+                        if (stderrFlushed) {
+                            process.exit(code);
+                        }
+                    });
+                    setTimeout(function () {
+                        process.exit(code);
+                    }, 5);
+                }
+            };
+        }
+        ;
+
+        if (typeof WScript !== "undefined" && typeof ActiveXObject === "function")
+            return getWindowsScriptHostIO();
+        else if (typeof module !== 'undefined' && module.exports)
+            return getNodeIO();
+        else
+            return null;
+    })();
+})(TypeScript || (TypeScript = {}));
+//
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+///<reference path="io.ts" />
+var TypeScript;
+(function (TypeScript) {
+    var OptionsParser = (function () {
+        function OptionsParser(host, version) {
+            this.host = host;
+            this.version = version;
+            this.DEFAULT_SHORT_FLAG = "-";
+            this.DEFAULT_LONG_FLAG = "--";
+            this.printedVersion = false;
+            this.unnamed = [];
+            this.options = [];
+        }
+        // Find the option record for the given string. Returns null if not found.
+        OptionsParser.prototype.findOption = function (arg) {
+            var upperCaseArg = arg && arg.toUpperCase();
+
+            for (var i = 0; i < this.options.length; i++) {
+                var current = this.options[i];
+
+                if (upperCaseArg === (current.short && current.short.toUpperCase()) || upperCaseArg === (current.name && current.name.toUpperCase())) {
+                    return current;
+                }
+            }
+
+            return null;
+        };
+
+        OptionsParser.prototype.printUsage = function () {
+            this.printVersion();
+
+            var optionsWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.options, null);
+            var fileWord = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.file1, null);
+            var tscSyntax = "typedoc [" + optionsWord + "] [" + fileWord + " ..]";
+            var syntaxHelp = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Syntax_0, [tscSyntax]);
+            this.host.printLine(syntaxHelp);
+            this.host.printLine("");
+            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Examples, null) + " typedoc --out ../doc/ hello.ts");
+            this.host.printLine("");
+            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Options, null));
+
+            var output = [];
+            var maxLength = 0;
+            var i = 0;
+
+            this.options = this.options.sort(function (a, b) {
+                var aName = a.name.toLowerCase();
+                var bName = b.name.toLowerCase();
+
+                if (aName > bName) {
+                    return 1;
+                } else if (aName < bName) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+
+            for (i = 0; i < this.options.length; i++) {
+                var option = this.options[i];
+
+                if (option.experimental) {
+                    continue;
+                }
+
+                if (!option.usage) {
+                    break;
+                }
+
+                var usageString = "  ";
+                var type = option.type ? (" " + TypeScript.getLocalizedText(option.type, null)) : "";
+
+                if (option.short) {
+                    usageString += this.DEFAULT_SHORT_FLAG + option.short + type + ", ";
+                }
+
+                usageString += this.DEFAULT_LONG_FLAG + option.name + type;
+
+                output.push([usageString, TypeScript.getLocalizedText(option.usage.locCode, option.usage.args)]);
+
+                if (usageString.length > maxLength) {
+                    maxLength = usageString.length;
+                }
+            }
+
+            var fileDescription = TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Insert_command_line_options_and_files_from_a_file, null);
+            output.push(["  @<" + fileWord + ">", fileDescription]);
+
+            for (i = 0; i < output.length; i++) {
+                this.host.printLine(output[i][0] + (new Array(maxLength - output[i][0].length + 3)).join(" ") + output[i][1]);
+            }
+        };
+
+        OptionsParser.prototype.printVersion = function () {
+            if (!this.printedVersion) {
+                this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Version_0, [this.version]));
+                this.printedVersion = true;
+            }
+        };
+
+        OptionsParser.prototype.option = function (name, config, short) {
+            if (!config) {
+                config = short;
+                short = null;
+            }
+
+            config.name = name;
+            config.short = short;
+            config.flag = false;
+
+            this.options.push(config);
+        };
+
+        OptionsParser.prototype.flag = function (name, config, short) {
+            if (!config) {
+                config = short;
+                short = null;
+            }
+
+            config.name = name;
+            config.short = short;
+            config.flag = true;
+
+            this.options.push(config);
+        };
+
+        // Parse an arguments string
+        OptionsParser.prototype.parseString = function (argString) {
+            var position = 0;
+            var tokens = argString.match(/\s+|"|[^\s"]+/g);
+
+            function peek() {
+                return tokens[position];
+            }
+
+            function consume() {
+                return tokens[position++];
+            }
+
+            function consumeQuotedString() {
+                var value = '';
+                consume(); // skip opening quote.
+
+                var token = peek();
+
+                while (token && token !== '"') {
+                    consume();
+
+                    value += token;
+
+                    token = peek();
+                }
+
+                consume(); // skip ending quote;
+
+                return value;
+            }
+
+            var args = [];
+            var currentArg = '';
+
+            while (position < tokens.length) {
+                var token = peek();
+
+                if (token === '"') {
+                    currentArg += consumeQuotedString();
+                } else if (token.match(/\s/)) {
+                    if (currentArg.length > 0) {
+                        args.push(currentArg);
+                        currentArg = '';
+                    }
+
+                    consume();
+                } else {
+                    consume();
+                    currentArg += token;
+                }
+            }
+
+            if (currentArg.length > 0) {
+                args.push(currentArg);
+            }
+
+            this.parse(args);
+        };
+
+        // Parse arguments as they come from the platform: split into arguments.
+        OptionsParser.prototype.parse = function (args) {
+            var position = 0;
+
+            function consume() {
+                return args[position++];
+            }
+
+            while (position < args.length) {
+                var current = consume();
+                var match = current.match(/^(--?|@)(.*)/);
+                var value = null;
+
+                if (match) {
+                    if (match[1] === '@') {
+                        this.parseString(this.host.readFile(match[2], null).contents);
+                    } else {
+                        var arg = match[2];
+                        var option = this.findOption(arg);
+
+                        if (option === null) {
+                            this.host.printLine(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Unknown_option_0, [arg]));
+                            this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Use_the_0_flag_to_see_options, ["--help"]));
+                        } else {
+                            if (!option.flag) {
+                                value = consume();
+                                if (value === undefined) {
+                                    // No value provided
+                                    this.host.printLine(TypeScript.getDiagnosticMessage(TypeScript.DiagnosticCode.Option_0_specified_without_1, [arg, TypeScript.getLocalizedText(option.type, null)]));
+                                    this.host.printLine(TypeScript.getLocalizedText(TypeScript.DiagnosticCode.Use_the_0_flag_to_see_options, ["--help"]));
+                                    continue;
+                                }
+                            }
+
+                            option.set(value);
+                        }
+                    }
+                } else {
+                    this.unnamed.push(current);
+                }
+            }
+        };
+        return OptionsParser;
+    })();
+    TypeScript.OptionsParser = OptionsParser;
+})(TypeScript || (TypeScript = {}));
 module.exports = TypeDoc;

@@ -13,9 +13,6 @@
 // limitations under the License.
 //
 
-/// <reference path="bootstrap.ts" />
-
-
 module TypeScript {
 
     export interface IFindFileResult {
@@ -324,8 +321,8 @@ module TypeScript {
                             }
                         } catch (err) {
                             /*
-                            *   Skip folders that are inaccessible
-                            */
+                             *   Skip folders that are inaccessible
+                             */
                         }
 
                         return paths;
@@ -450,7 +447,7 @@ module TypeScript {
                     }, 5);
                 }
             }
-    };
+        };
 
         if (typeof WScript !== "undefined" && typeof ActiveXObject === "function")
             return getWindowsScriptHostIO();

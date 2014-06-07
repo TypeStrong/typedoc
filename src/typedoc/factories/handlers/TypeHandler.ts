@@ -5,31 +5,34 @@ module TypeDoc.Factories
      */
     export class TypeHandler
     {
-        constructor(private dispatcher:Dispatcher) {
+        constructor(dispatcher:Dispatcher) {
             dispatcher.on('resolveReflection', this.onResolveReflection, this);
         }
 
 
-        onResolveReflection(reflection:Models.DeclarationReflection) {
-            reflection.type          = this.resolveType(reflection.type);
-            reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom);
-            reflection.overwrites    = this.resolveType(reflection.overwrites);
-            reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes);
-            reflection.extendedBy    = this.resolveTypes(reflection.extendedBy);
+        onResolveReflection(resolution:ReflectionResolution) {
+            var reflection = resolution.reflection;
+            var compiler = resolution.compiler;
+
+            reflection.type          = this.resolveType(reflection.type, compiler);
+            reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom, compiler);
+            reflection.overwrites    = this.resolveType(reflection.overwrites, compiler);
+            reflection.extendedTypes = this.resolveTypes(reflection.extendedTypes, compiler);
+            reflection.extendedBy    = this.resolveTypes(reflection.extendedBy, compiler);
             reflection.typeHierarchy = TypeHandler.buildTypeHierarchy(reflection);
         }
 
 
-        private resolveTypes(types:Models.BaseType[]):Models.BaseType[] {
+        private resolveTypes(types:Models.BaseType[], compiler:Compiler):Models.BaseType[] {
             if (!types) return types;
             for (var i = 0, c = types.length; i < c; i++) {
-                types[i] = this.resolveType(types[i]);
+                types[i] = this.resolveType(types[i], compiler);
             }
             return types;
         }
 
 
-        private resolveType(type:Models.BaseType):Models.BaseType {
+        private resolveType(type:Models.BaseType, compiler:Compiler):Models.BaseType {
             if (!type) return type;
             if (!(type instanceof Models.LateResolvingType)) return type;
 
@@ -46,7 +49,7 @@ module TypeDoc.Factories
             }
 
             var declID     = declaration.declID;
-            var reflection = this.dispatcher.idMap[declID];
+            var reflection = compiler.idMap[declID];
             if (reflection) {
                 if (reflection.kindOf(Models.Kind.SomeSignature)) {
                     reflection = <Models.DeclarationReflection>reflection.parent;

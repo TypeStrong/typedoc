@@ -18,95 +18,31 @@ declare var FS: any;
 declare var dirname: any;
 declare var file: any;
 declare module TypeScript {
-    interface IFindFileResult {
-        fileInformation: FileInformation;
-        path: string;
-    }
-    interface IFileWatcher {
-        close(): void;
-    }
-    interface IIO {
-        readFile(path: string, codepage: number): FileInformation;
-        appendFile(path: string, contents: string): void;
-        writeFile(path: string, contents: string, writeByteOrderMark: boolean): void;
-        deleteFile(path: string): void;
-        dir(path: string, re?: RegExp, options?: {
-            recursive?: boolean;
-        }): string[];
-        fileExists(path: string): boolean;
-        directoryExists(path: string): boolean;
-        createDirectory(path: string): void;
-        resolvePath(path: string): string;
-        dirName(path: string): string;
-        findFile(rootPath: string, partialFilePath: string): IFindFileResult;
-        print(str: string): void;
-        printLine(str: string): void;
-        arguments: string[];
-        stderr: ITextWriter;
-        stdout: ITextWriter;
-        watchFile(fileName: string, callback: (x: string) => void): IFileWatcher;
-        run(source: string, fileName: string): void;
-        getExecutingFilePath(): string;
-        quit(exitCode?: number): void;
-    }
-    module IOUtils {
-        function writeFileAndFolderStructure(ioHost: IIO, fileName: string, contents: string, writeByteOrderMark: boolean): void;
-        function throwIOError(message: string, error: Error): void;
-        function combine(prefix: string, suffix: string): string;
-        class BufferedTextWriter implements ITextWriter {
-            public writer: {
-                Write: (str: string) => void;
-                Close: () => void;
-            };
-            public capacity: number;
-            public buffer: string;
-            constructor(writer: {
-                Write: (str: string) => void;
-                Close: () => void;
-            }, capacity?: number);
-            public Write(str: string): void;
-            public WriteLine(str: string): void;
-            public Close(): void;
-        }
-    }
-    var IO: IIO;
-}
-declare module TypeScript {
-    interface IOptions {
-        name?: string;
-        flag?: boolean;
-        short?: string;
-        usage?: {
-            locCode: string;
-            args: string[];
-        };
-        set?: (s: string) => void;
-        type?: string;
-        experimental?: boolean;
-    }
-    class OptionsParser {
-        public host: IIO;
-        public version: string;
-        private DEFAULT_SHORT_FLAG;
-        private DEFAULT_LONG_FLAG;
-        private printedVersion;
-        private findOption(arg);
-        public unnamed: string[];
-        public options: IOptions[];
-        constructor(host: IIO, version: string);
-        public printUsage(): void;
-        public printVersion(): void;
-        public option(name: string, config: IOptions, short?: string): void;
-        public flag(name: string, config: IOptions, short?: string): void;
-        public parseString(argString: string): void;
-        public parse(args: string[]): void;
-    }
-}
-declare module TypeScript {
     class SourceFile {
         public scriptSnapshot: IScriptSnapshot;
         public byteOrderMark: ByteOrderMark;
         constructor(scriptSnapshot: IScriptSnapshot, byteOrderMark: ByteOrderMark);
+    }
+    class DiagnosticsLogger implements ILogger {
+        public ioHost: IIO;
+        constructor(ioHost: IIO);
+        public information(): boolean;
+        public debug(): boolean;
+        public warning(): boolean;
+        public error(): boolean;
+        public fatal(): boolean;
+        public log(s: string): void;
+    }
+    class FileLogger implements ILogger {
+        public ioHost: IIO;
+        public fileName: string;
+        constructor(ioHost: IIO);
+        public information(): boolean;
+        public debug(): boolean;
+        public warning(): boolean;
+        public error(): boolean;
+        public fatal(): boolean;
+        public log(s: string): void;
     }
     class BatchCompiler implements IReferenceResolverHost {
         public ioHost: IIO;
@@ -119,26 +55,24 @@ declare module TypeScript {
         public logger: ILogger;
         constructor(ioHost: IIO);
         public batchCompile(): void;
-        private resolve();
+        public resolve(): void;
         public compile(): void;
         public parseOptions(): boolean;
-        public alterOptionsParser(opts: OptionsParser): void;
-        public postOptionsParse(): boolean;
-        private setLocale(locale);
-        private setLanguageAndTerritory(language, territory);
-        private watchFiles();
+        public setLocale(locale: string): boolean;
+        public setLanguageAndTerritory(language: string, territory: string): boolean;
+        public watchFiles(): void;
         public getSourceFile(fileName: string): SourceFile;
         public getDefaultLibraryFilePath(): string;
         public getScriptSnapshot(fileName: string): IScriptSnapshot;
         public resolveRelativePath(path: string, directory: string): string;
-        private fileExistsCache;
+        public fileExistsCache: IIndexable<boolean>;
         public fileExists(path: string): boolean;
         public getParentDirectory(path: string): string;
         public addDiagnostic(diagnostic: Diagnostic): void;
-        private tryWriteOutputFiles(outputFiles);
+        public tryWriteOutputFiles(outputFiles: OutputFile[]): boolean;
         public writeFile(fileName: string, contents: string, writeByteOrderMark: boolean): void;
         public directoryExists(path: string): boolean;
-        private resolvePathCache;
+        public resolvePathCache: IIndexable<string>;
         public resolvePath(path: string): string;
     }
 }
@@ -165,17 +99,61 @@ declare module TypeDoc {
     }
 }
 declare module TypeDoc {
-    class Application extends TypeScript.BatchCompiler {
-        public project: Models.ProjectReflection;
+    /**
+    * The TypeDoc main application class.
+    */
+    class Application {
+        public settings: Settings;
+        public dispatcher: Factories.Dispatcher;
         public renderer: Renderer.Renderer;
-        public includeDeclarations: boolean;
-        public exclude: string;
-        constructor();
+        public hasErrors: boolean;
+        static VERSION: string;
+        /**
+        * Create a new Application instance.
+        */
+        constructor(settings?: Settings);
         public runFromCLI(): void;
-        public alterOptionsParser(opts: TypeScript.OptionsParser): void;
-        public postOptionsParse(): boolean;
-        public compile(): void;
-        public getDefaultLibraryFilePath(): string;
+        /**
+        * Run the documentation generator for the given files.
+        */
+        public generate(inputFiles: string[], outputDirectory: string): void;
+    }
+}
+declare module TypeDoc {
+    /**
+    * Holds all settings used by TypeDoc.
+    */
+    class Settings {
+        /**
+        * The settings used by the TypeScript compiler.
+        */
+        public compiler: TypeScript.CompilationSettings;
+        public inputFiles: string[];
+        /**
+        * The path of the output directory.
+        */
+        public outputDirectory: string;
+        public name: string;
+        /**
+        * Should declaration files be documented?
+        */
+        public includeDeclarations: boolean;
+        /**
+        * A pattern for files that should be excluded when a path is specified as source.
+        */
+        public excludePattern: string;
+        public needsHelp: boolean;
+        public shouldPrintVersionOnly: boolean;
+        /**
+        * Create a new Settings instance.
+        */
+        constructor();
+        /**
+        * Read the settings from command line arguments.
+        */
+        public readFromCLI(): boolean;
+        public expandInputFiles(): void;
+        private createOptionsParser();
     }
 }
 declare module TypeDoc.Factories {
@@ -191,6 +169,30 @@ declare module TypeDoc.Factories {
         getText(start: number, end: number): string;
         getLineNumber(position: number): number;
     }
+    /**
+    *
+    */
+    class Compiler extends TypeScript.BatchCompiler {
+        public idMap: {
+            [id: number]: Models.DeclarationReflection;
+        };
+        private snapshots;
+        /**
+        * Create a new compiler instance.
+        */
+        constructor(settings: TypeScript.CompilationSettings);
+        public run(): TypeScript.Document[];
+        public compile(): TypeScript.Document[];
+        /**
+        * Return the snapshot of the given filename.
+        *
+        * @param fileName  The filename of the snapshot.
+        */
+        public getSnapshot(fileName: string): IScriptSnapshot;
+        public getDefaultLibraryFilePath(): string;
+    }
+}
+declare module TypeDoc.Factories {
     /**
     * Create a type instance for the given symbol.
     *
@@ -224,14 +226,7 @@ declare module TypeDoc.Factories {
         /**
         * The project instance this dispatcher should push the created reflections to.
         */
-        public project: Models.ProjectReflection;
-        public compiler: Application;
-        public idMap: {
-            [id: number]: Models.DeclarationReflection;
-        };
-        public snapshots: {
-            [fileName: string]: IScriptSnapshot;
-        };
+        public application: Application;
         /**
         * A list of known factories.
         */
@@ -239,15 +234,10 @@ declare module TypeDoc.Factories {
         /**
         * Create a new Dispatcher instance.
         *
-        * @param project  The target project instance.
+        * @param application  The target project instance.
         */
-        constructor(project: Models.ProjectReflection, compiler: Application);
-        /**
-        * Return the snapshot of the given filename.
-        *
-        * @param fileName  The filename of the snapshot.
-        */
-        public getSnapshot(fileName: string): IScriptSnapshot;
+        constructor(application: Application);
+        public compile(inputFiles: string[]): Models.ProjectReflection;
         /**
         * Process the given state.
         *
@@ -266,15 +256,6 @@ declare module TypeDoc.Factories {
         */
         public ensureReflection(state: DeclarationState): boolean;
         /**
-        * Attach the given document to the project.
-        *
-        * This method is called by the compiler for each compiled document.
-        *
-        * @param document  The TypeScript document that should be processed by the dispatcher.
-        */
-        public attachDocument(document: TypeScript.Document): void;
-        public resolve(): void;
-        /**
         * Print debug information of the given declaration to the console.
         *
         * @param declaration  The declaration that should be printed.
@@ -288,6 +269,17 @@ declare module TypeDoc.Factories {
         * @returns A string describing the given bit mask.
         */
         static flagsToString(flags: any): string;
+    }
+}
+declare module TypeDoc.Factories {
+    class ProjectResolution extends Event {
+        public compiler: Compiler;
+        public project: Models.ProjectReflection;
+        constructor(compiler: Compiler, project: Models.ProjectReflection);
+    }
+    class ReflectionResolution extends ProjectResolution {
+        public reflection: Models.DeclarationReflection;
+        constructor(compiler: Compiler, project: Models.ProjectReflection, reflection?: Models.DeclarationReflection);
     }
 }
 declare module TypeDoc.Factories {
@@ -333,7 +325,7 @@ declare module TypeDoc.Factories {
         private basePath;
         constructor(dispatcher: Dispatcher);
         private onProcess(state);
-        private onResolveReflection(reflection);
+        private onResolveReflection(res);
     }
 }
 declare module TypeDoc.Factories {
@@ -368,7 +360,7 @@ declare module TypeDoc.Factories {
         * Triggered once after all documents have been read and the dispatcher
         * leaves the resolving phase.
         */
-        private onLeaveResolve();
+        private onLeaveResolve(resolution);
         /**
         * Create a grouped representation of the given list of reflections.
         *
@@ -429,7 +421,6 @@ declare module TypeDoc.Factories {
     */
     class NullHandler {
         private dispatcher;
-        public includeDeclarations: boolean;
         constructor(dispatcher: Dispatcher);
         public onEnterDocument(state: DocumentState): void;
         public onEnterDeclaration(state: DeclarationState): void;
@@ -476,7 +467,7 @@ declare module TypeDoc.Factories {
         * Triggered once after all documents have been read and the dispatcher
         * enters the resolving phase.
         */
-        public onEnterResolve(): void;
+        public onEnterResolve(resolution: ProjectResolution): void;
     }
 }
 declare module TypeDoc.Factories {
@@ -509,7 +500,7 @@ declare module TypeDoc.Factories {
         *
         * @param reflection  The final generated reflection.
         */
-        private onResolveReflection(reflection);
+        private onResolveReflection(res);
     }
 }
 declare module TypeDoc.Factories {
@@ -542,9 +533,9 @@ declare module TypeDoc.Factories {
         constructor(dispatcher: Dispatcher);
         public onEnterDocument(state: DocumentState): void;
         public onProcess(state: DeclarationState): void;
-        public onEnterResolve(): void;
-        public onResolveReflection(reflection: Models.DeclarationReflection): void;
-        public onLeaveResolve(): void;
+        public onEnterResolve(res: ProjectResolution): void;
+        public onResolveReflection(res: ReflectionResolution): void;
+        public onLeaveResolve(res: ProjectResolution): void;
     }
 }
 declare module TypeDoc.Factories {
@@ -552,11 +543,10 @@ declare module TypeDoc.Factories {
     * A factory that converts all instances of LateResolvingType to their renderable equivalents.
     */
     class TypeHandler {
-        private dispatcher;
         constructor(dispatcher: Dispatcher);
-        public onResolveReflection(reflection: Models.DeclarationReflection): void;
-        private resolveTypes(types);
-        private resolveType(type);
+        public onResolveReflection(resolution: ReflectionResolution): void;
+        private resolveTypes(types, compiler);
+        private resolveType(type, compiler);
         /**
         * Return the simplified type hierarchy for the given reflection.
         *
@@ -677,13 +667,14 @@ declare module TypeDoc.Factories {
         * The project the reflections should be stored to.
         */
         public reflection: Models.ProjectReflection;
+        public compiler: Compiler;
         /**
         * Create a new DocumentState instance.
         *
         * @param dispatcher  The dispatcher that has created this state.
         * @param document    The TypeScript document that contains the declarations.
         */
-        constructor(dispatcher: Dispatcher, document: TypeScript.Document);
+        constructor(dispatcher: Dispatcher, document: TypeScript.Document, project: Models.ProjectReflection, compiler: Compiler);
     }
 }
 declare module TypeDoc.Models {
@@ -1056,9 +1047,9 @@ declare module TypeDoc.Models {
         */
         public allChildrenArePrivate: boolean;
         /**
-        * Are all children exported declarations?
+        * Are any children exported declarations?
         */
-        public allChildrenAreExported: boolean;
+        public someChildrenAreExported: boolean;
         /**
         * Create a new ReflectionGroup instance.
         *
@@ -1189,13 +1180,12 @@ declare module TypeDoc.Renderer {
 declare module TypeDoc.Renderer {
     class BaseTheme {
         public renderer: Renderer;
-        public project: Models.ProjectReflection;
         public basePath: string;
-        constructor(renderer: Renderer, project: Models.ProjectReflection, basePath: string);
+        constructor(renderer: Renderer, basePath: string);
         public initialize(): void;
         public isOutputDirectory(dirname: string): boolean;
-        public getUrls(): Models.UrlMapping[];
-        public getNavigation(): Models.NavigationItem;
+        public getUrls(project: Models.ProjectReflection): Models.UrlMapping[];
+        public getNavigation(project: Models.ProjectReflection): Models.NavigationItem;
     }
 }
 declare module TypeDoc.Renderer {
@@ -1207,14 +1197,13 @@ declare module TypeDoc.Renderer {
         public plugins: BasePlugin[];
         public theme: BaseTheme;
         public ioHost: TypeScript.IIO;
-        public dirName: string;
         private templates;
         static PLUGIN_CLASSES: any[];
         constructor(application: Application);
         public setTheme(dirname: string): void;
-        public getDefaultTheme(): string;
+        public getDefaultTheme(): any;
         public getTemplate(fileName: string): IHandlebarTemplate;
-        public render(): void;
+        public render(project: Models.ProjectReflection, outputDirectory: string): void;
         private renderTarget(target);
     }
 }
@@ -1252,4 +1241,89 @@ declare module TypeDoc {
     * @returns {TypeScript.FileInformation}
     */
     function readFile(file: any): string;
+}
+declare module TypeScript {
+    interface IFindFileResult {
+        fileInformation: FileInformation;
+        path: string;
+    }
+    interface IFileWatcher {
+        close(): void;
+    }
+    interface IIO {
+        readFile(path: string, codepage: number): FileInformation;
+        appendFile(path: string, contents: string): void;
+        writeFile(path: string, contents: string, writeByteOrderMark: boolean): void;
+        deleteFile(path: string): void;
+        dir(path: string, re?: RegExp, options?: {
+            recursive?: boolean;
+        }): string[];
+        fileExists(path: string): boolean;
+        directoryExists(path: string): boolean;
+        createDirectory(path: string): void;
+        resolvePath(path: string): string;
+        dirName(path: string): string;
+        findFile(rootPath: string, partialFilePath: string): IFindFileResult;
+        print(str: string): void;
+        printLine(str: string): void;
+        arguments: string[];
+        stderr: ITextWriter;
+        stdout: ITextWriter;
+        watchFile(fileName: string, callback: (x: string) => void): IFileWatcher;
+        run(source: string, fileName: string): void;
+        getExecutingFilePath(): string;
+        quit(exitCode?: number): void;
+    }
+    module IOUtils {
+        function writeFileAndFolderStructure(ioHost: IIO, fileName: string, contents: string, writeByteOrderMark: boolean): void;
+        function throwIOError(message: string, error: Error): void;
+        function combine(prefix: string, suffix: string): string;
+        class BufferedTextWriter implements ITextWriter {
+            public writer: {
+                Write: (str: string) => void;
+                Close: () => void;
+            };
+            public capacity: number;
+            public buffer: string;
+            constructor(writer: {
+                Write: (str: string) => void;
+                Close: () => void;
+            }, capacity?: number);
+            public Write(str: string): void;
+            public WriteLine(str: string): void;
+            public Close(): void;
+        }
+    }
+    var IO: IIO;
+}
+declare module TypeScript {
+    interface IOptions {
+        name?: string;
+        flag?: boolean;
+        short?: string;
+        usage?: {
+            locCode: string;
+            args: string[];
+        };
+        set?: (s: string) => void;
+        type?: string;
+        experimental?: boolean;
+    }
+    class OptionsParser {
+        public host: IIO;
+        public version: string;
+        private DEFAULT_SHORT_FLAG;
+        private DEFAULT_LONG_FLAG;
+        private printedVersion;
+        private findOption(arg);
+        public unnamed: string[];
+        public options: IOptions[];
+        constructor(host: IIO, version: string);
+        public printUsage(): void;
+        public printVersion(): void;
+        public option(name: string, config: IOptions, short?: string): void;
+        public flag(name: string, config: IOptions, short?: string): void;
+        public parseString(argString: string): void;
+        public parse(args: string[]): void;
+    }
 }
