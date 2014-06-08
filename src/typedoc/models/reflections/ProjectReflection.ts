@@ -41,6 +41,16 @@ module TypeDoc.Models
         packageInfo:any;
 
 
+        /**
+         * Create a new ProjectReflection instance.
+         *
+         * @param name  The name of the project.
+         */
+        constructor(name:string) {
+            super();
+            this.name = name;
+        }
+
 
         /**
          * Return a list of all reflections in this project of a certain kind.

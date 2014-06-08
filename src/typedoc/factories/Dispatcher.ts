@@ -75,10 +75,16 @@ module TypeDoc.Factories
         }
 
 
+        /**
+         * Compile the given list of source files and generate a reflection for them.
+         *
+         * @param inputFiles  A list of source files.
+         * @returns The generated root reflection.
+         */
         compile(inputFiles:string[]):Models.ProjectReflection {
             var settings = this.application.settings.compiler;
             var compiler = new Compiler(settings);
-            var project  = new Models.ProjectReflection();
+            var project  = new Models.ProjectReflection(this.application.settings.name);
 
             compiler.inputFiles = inputFiles;
             var documents = compiler.run();
