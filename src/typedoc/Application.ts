@@ -9,7 +9,7 @@ module TypeDoc
     /**
      * List of known log levels. Used to specify the urgency of a log message.
      *
-     * @see Application.log
+     * @see [[Application.log]]
      */
     export enum LogLevel {
         Verbose,

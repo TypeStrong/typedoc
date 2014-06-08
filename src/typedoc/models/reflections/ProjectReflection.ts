@@ -70,21 +70,20 @@ module TypeDoc.Models
 
 
         /**
-         * Try to find a reflection by its name.
-         *
          * @param name  The name to look for. Might contain a hierarchy.
-         * @return      The found reflection or null.
          */
         findReflectionByName(name:string):DeclarationReflection;
 
         /**
-         * Try to find a reflection by its name.
-         *
          * @param names  The name hierarchy to look for.
-         * @return       The found reflection or null.
          */
         findReflectionByName(names:string[]):DeclarationReflection;
 
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @return The found reflection or null.
+         */
         findReflectionByName(arg:any):DeclarationReflection {
             var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
             var name = names.pop();

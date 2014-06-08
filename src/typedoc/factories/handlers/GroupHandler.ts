@@ -54,8 +54,6 @@ module TypeDoc.Factories
         /**
          * Create a new GroupHandler instance.
          *
-         * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-         *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
         constructor(private dispatcher:Dispatcher) {

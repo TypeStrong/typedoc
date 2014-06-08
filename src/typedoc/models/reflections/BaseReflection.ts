@@ -3,9 +3,13 @@ module TypeDoc.Models
     /**
      * Base class for all reflection classes.
      *
-     * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+     * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
      * as the root for all reflections within the project. All other reflections are represented
-     * by the DeclarationReflection class.
+     * by the [[DeclarationReflection]] class.
+     *
+     * This base class exposes the basic properties one may use to traverse the reflection tree.
+     * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+     * contains a list of all children grouped and sorted for being rendered.
      */
     export class BaseReflection
     {
@@ -49,7 +53,7 @@ module TypeDoc.Models
         /**
          * Url safe alias for this reflection.
          *
-         * @see BaseReflection.getAlias
+         * @see [[BaseReflection.getAlias]]
          */
         private alias:string;
 
@@ -73,21 +77,20 @@ module TypeDoc.Models
 
 
         /**
-         * Return a child by its name.
-         *
          * @param name  The name of the child to look for. Might contain a hierarchy.
-         * @returns     The found child or NULL.
          */
         getChildByName(name:string):DeclarationReflection;
 
         /**
-         * Return a child by its name.
-         *
          * @param names  The name hierarchy of the child to look for.
-         * @returns      The found child or NULL.
          */
         getChildByName(names:string[]):DeclarationReflection;
 
+        /**
+         * Return a child by its name.
+         *
+         * @returns The found child or NULL.
+         */
         getChildByName(arg:any):DeclarationReflection {
             var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
             var name = names[0];
@@ -138,21 +141,20 @@ module TypeDoc.Models
 
 
         /**
-         * Try to find a reflection by its name.
-         *
          * @param name  The name to look for. Might contain a hierarchy.
-         * @return      The found reflection or null.
          */
         findReflectionByName(name:string):DeclarationReflection;
 
         /**
-         * Try to find a reflection by its name.
-         *
          * @param names  The name hierarchy to look for.
-         * @return       The found reflection or null.
          */
         findReflectionByName(names:string[]):DeclarationReflection;
 
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @return The found reflection or null.
+         */
         findReflectionByName(arg:any):DeclarationReflection {
             var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
 

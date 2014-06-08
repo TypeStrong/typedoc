@@ -1,13 +1,29 @@
 module TypeDoc.Factories
 {
+    /**
+     * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
+     * the generated reflections.
+     */
     export class CommentHandler
     {
+        /**
+         * Create a new CommentHandler instance.
+         *
+         * @param dispatcher  The dispatcher this handler should be attached to.
+         */
         constructor(dispatcher:Dispatcher) {
             dispatcher.on('process', this.onProcess, this);
             dispatcher.on('resolveReflection', this.onResolveReflection, this);
         }
 
 
+        /**
+         * Triggered when the dispatcher processes a declaration.
+         *
+         * Invokes the comment parser.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
         private onProcess(state:DeclarationState) {
             var isInherit = false;
             if (state.isInherited) {
@@ -15,101 +31,73 @@ module TypeDoc.Factories
             }
 
             if (!state.reflection.comment || isInherit) {
-                CommentHandler.applyComments(state);
-            }
-        }
-
-
-        private onResolveReflection(reflection:Models.DeclarationReflection) {
-            if (reflection.signatures) {
-                CommentHandler.postProcessSignatures(reflection);
-            }
-
-            CommentHandler.removeCommentTags(reflection.comment, 'param');
-            CommentHandler.removeCommentTags(reflection.comment, 'returns');
-        }
-
-
-        static postProcessSignatures(reflection:Models.DeclarationReflection) {
-            if (reflection.comment && reflection.comment.hasTag('returns')) {
-                reflection.comment.returns = reflection.comment.getTag('returns').text;
-            }
-
-            reflection.signatures.forEach((signature) => {
-                if (reflection.comment) {
-                    if (!signature.comment)
-                        signature.comment = new Models.Comment();
-
-                    if (!signature.comment.shortText)
-                        signature.comment.shortText = reflection.comment.shortText;
-
-                    if (!signature.comment.text)
-                        signature.comment.text = reflection.comment.text;
-
-                    if (signature.comment.hasTag('returns')) {
-                        signature.comment.returns = signature.comment.getTag('returns').text;
-                    } else {
-                        signature.comment.returns = reflection.comment.returns;
-                    }
-                }
-
-                signature.children.forEach((parameter) => {
-                    var tag;
-                    if (signature.comment)
-                        tag = signature.comment.getTag('param', parameter.name);
-
-                    if (reflection.comment && !tag)
-                        tag = reflection.comment.getTag('param', parameter.name);
-
-                    if (tag)
-                        parameter.comment = new Models.Comment(tag.text);
+                CommentHandler.findComments(state).forEach((comment) => {
+                    state.reflection.comment = CommentHandler.parseDocComment(comment);
                 });
-            });
+            }
         }
 
 
-        static findComments(state:DeclarationState):string[] {
-            var decl   = state.declaration;
-            var ast    = decl.ast();
-            var result = [];
-
-            if (ast.kind() == TypeScript.SyntaxKind.VariableDeclarator) {
-                var list = ast.parent;
-                if (list.kind() != TypeScript.SyntaxKind.SeparatedList) {
-                    return result;
+        /**
+         * Triggered when the dispatcher resolves a reflection.
+         *
+         * Cleans up comment tags related to signatures like @param or @return
+         * and moves their data to the corresponding parameter reflections.
+         *
+         * This hook also copies over the comment of function implementations to their
+         * signatures.
+         *
+         * @param res
+         */
+        private onResolveReflection(res:ReflectionResolution) {
+            var reflection = res.reflection;
+            if (reflection.signatures) {
+                var comment = reflection.comment;
+                if (comment && comment.hasTag('returns')) {
+                    comment.returns = comment.getTag('returns').text;
+                    CommentHandler.removeTags(comment, 'returns');
                 }
 
-                var snapshot   = state.getSnapshot(ast.fileName());
-                var astSource  = snapshot.getText(ast.start(), ast.end());
-                var listSource = snapshot.getText(list.start(), list.end());
-                if (astSource != listSource) {
-                    return result;
-                }
+                reflection.signatures.forEach((signature) => {
+                    var childComment = signature.comment;
+                    if (childComment && childComment.hasTag('returns')) {
+                        childComment.returns = childComment.getTag('returns').text;
+                        CommentHandler.removeTags(childComment, 'returns');
+                    }
 
-                ast = list.parent.parent;
+                    if (comment) {
+                        if (!childComment) {
+                            childComment = signature.comment = new Models.Comment();
+                        }
+
+                        childComment.shortText = childComment.shortText || comment.shortText;
+                        childComment.text      = childComment.text      || comment.text;
+                        childComment.returns   = childComment.returns   || comment.returns;
+                    }
+
+                    signature.children.forEach((parameter) => {
+                        var tag;
+                        if (childComment)    tag = childComment.getTag('param', parameter.name);
+                        if (comment && !tag) tag = comment.getTag('param', parameter.name);
+                        if (tag) {
+                            parameter.comment = new Models.Comment(tag.text);
+                        }
+                    });
+
+                    CommentHandler.removeTags(childComment, 'param');
+                });
+
+                CommentHandler.removeTags(comment, 'param');
             }
-
-            var comments = ast.preComments();
-            if (!comments || comments.length == 0) {
-                return result;
-            }
-
-            comments.forEach((comment:TypeScript.Comment) => {
-                if (!CommentHandler.isDocComment(comment)) return;
-                result.push(comment.fullText());
-            });
-
-            return result;
         }
 
 
-        static applyComments(state:DeclarationState) {
-            CommentHandler.findComments(state).forEach((comment) => {
-                state.reflection.comment = CommentHandler.parseDocComment(comment);
-            });
-        }
-
-
+        /**
+         * Test whether the given TypeScript comment instance is a doc comment.
+         *
+         * @param comment  The TypeScript comment that should be tested.
+         * @returns True when the comment is a doc comment, otherwise false.
+         */
         static isDocComment(comment:TypeScript.Comment):boolean {
             if (comment.kind() === TypeScript.SyntaxKind.MultiLineCommentTrivia) {
                 var fullText = comment.fullText();
@@ -120,7 +108,13 @@ module TypeDoc.Factories
         }
 
 
-        static removeCommentTags(comment:Models.Comment, tagName:string) {
+        /**
+         * Remove all tags with the given name from the given comment instance.
+         *
+         * @param comment  The comment that should be modified.
+         * @param tagName  The name of the that that should be removed.
+         */
+        static removeTags(comment:Models.Comment, tagName:string) {
             if (!comment || !comment.tags) return;
 
             var i = 0, c = comment.tags.length;
@@ -135,6 +129,63 @@ module TypeDoc.Factories
         }
 
 
+        /**
+         * Find all doc comments associated with the declaration of the given state
+         * and return their plain text.
+         *
+         * Variable declarations need a special treatment, their comments are stored with the
+         * surrounding VariableStatement ast element. Their ast hierarchy looks like this:
+         * > VariableStatement &#8594; VariableDeclaration &#8594; SeparatedList &#8594; VariableDeclarator
+         *
+         * This reflect the possibility of JavaScript to define multiple variables with a single ```var```
+         * statement. We therefore have to check whether the VariableStatement contains only one variable
+         * and then can assign the comment of the VariableStatement to the VariableDeclarator declaration.
+         *
+         * @param state  The state containing the declaration whose comments should be extracted.
+         * @returns A list of all doc comments associated with the state.
+         */
+        static findComments(state:DeclarationState):string[] {
+            var decl = state.declaration;
+            var ast  = decl.ast();
+
+            if (ast.kind() == TypeScript.SyntaxKind.VariableDeclarator) {
+                var list = ast.parent;
+                if (list.kind() != TypeScript.SyntaxKind.SeparatedList) {
+                    return [];
+                }
+
+                var snapshot   = state.getSnapshot(ast.fileName());
+                var astSource  = snapshot.getText(ast.start(), ast.end());
+                var listSource = snapshot.getText(list.start(), list.end());
+                if (astSource != listSource) {
+                    return [];
+                }
+
+                ast = list.parent.parent;
+            }
+
+            var comments = ast.preComments();
+            if (!comments || comments.length == 0) {
+                return [];
+            }
+
+            var result = [];
+            comments.forEach((comment:TypeScript.Comment) => {
+                if (!CommentHandler.isDocComment(comment)) return;
+                result.push(comment.fullText());
+            });
+
+            return result;
+        }
+
+
+        /**
+         * Parse the given doc comment string.
+         *
+         * @param text     The doc comment string that should be parsed.
+         * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
+         * @returns        A populated [[Models.Comment]] instance.
+         */
         static parseDocComment(text:string, comment:Models.Comment = new Models.Comment()):Models.Comment {
             function consumeTypeData(line:string):string {
                 line = line.replace(/^\{[^\}]*\}/, '');
@@ -196,5 +247,8 @@ module TypeDoc.Factories
     }
 
 
+    /**
+     * Register this handler.
+     */
     Dispatcher.FACTORIES.push(CommentHandler);
 }

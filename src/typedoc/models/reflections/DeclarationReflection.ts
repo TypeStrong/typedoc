@@ -18,7 +18,7 @@ module TypeDoc.Models
     /**
      * Stores hierarchical type data.
      *
-     * @see DeclarationReflection.typeHierarchy
+     * @see [[DeclarationReflection.typeHierarchy]]
      */
     export interface IDeclarationHierarchy
     {
@@ -42,7 +42,7 @@ module TypeDoc.Models
     /**
      * Represents references of reflections to their defining source files.
      *
-     * @see DeclarationReflection.sources
+     * @see [[DeclarationReflection.sources]]
      */
     export interface IDeclarationSource
     {
