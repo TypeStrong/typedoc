@@ -166,6 +166,10 @@ export class Theme extends TypeDoc.Output.BaseTheme
         new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
 
         var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
+        modules.sort((a:TypeDoc.Models.DeclarationReflection, b:TypeDoc.Models.DeclarationReflection) => {
+            return a.getFullName() < b.getFullName() ? -1 : 1;
+        });
+
         modules.forEach((container) => walkReflection(container, root));
 
         return root;
