@@ -14,6 +14,7 @@ var Handlebars  = require('handlebars');
 var Marked      = require('marked');
 var HighlightJS = require('highlight.js');
 var Minimatch   = require('minimatch');
+var Util        = require('util');
 var VM          = require('vm');
 var Path        = require('path');
 var FS          = require('fs.extra');

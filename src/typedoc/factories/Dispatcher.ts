@@ -52,7 +52,7 @@ module TypeDoc.Factories
         /**
          * The project instance this dispatcher should push the created reflections to.
          */
-        application:Application;
+        application:IApplication;
 
         /**
          * A list of known factories.
@@ -65,7 +65,7 @@ module TypeDoc.Factories
          *
          * @param application  The target project instance.
          */
-        constructor(application:Application) {
+        constructor(application:IApplication) {
             super();
             this.application = application;
 

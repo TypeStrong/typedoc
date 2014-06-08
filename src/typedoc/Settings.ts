@@ -10,6 +10,9 @@ module TypeDoc
          */
         compiler:TypeScript.CompilationSettings;
 
+        /**
+         * The list of source files that should be processed.
+         */
         inputFiles:string[];
 
         /**
@@ -17,7 +20,15 @@ module TypeDoc
          */
         outputDirectory:string;
 
+        /**
+         * The human readable name of the project. Used within the templates to set the title of the document.
+         */
         name:string;
+
+        /**
+         * A pattern for files that should be excluded when a path is specified as source.
+         */
+        excludePattern:string;
 
         /**
          * Should declaration files be documented?
@@ -25,13 +36,20 @@ module TypeDoc
         includeDeclarations:boolean = false;
 
         /**
-         * A pattern for files that should be excluded when a path is specified as source.
+         * Does the user want to display the help message?
          */
-        excludePattern:string;
+        needsHelp:boolean = false;
 
-        needsHelp:boolean;
+        /**
+         * Does the user want to know the version number?
+         */
+        shouldPrintVersionOnly:boolean = false;
 
-        shouldPrintVersionOnly:boolean;
+        /**
+         * Should verbose messages be printed?
+         */
+        verbose:boolean = false;
+
 
 
         /**
@@ -45,13 +63,13 @@ module TypeDoc
         /**
          * Read the settings from command line arguments.
          */
-        readFromCLI():boolean {
+        readFromCommandline(application:IApplication):boolean {
             var opts = this.createOptionsParser();
 
             try {
                 opts.parse(TypeScript.IO.arguments);
             } catch (e) {
-                console.log(e.message);
+                application.log(e.message, LogLevel.Error);
                 return false;
             }
 
@@ -69,6 +87,13 @@ module TypeDoc
         }
 
 
+        /**
+         * Expand the list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the exlclude option
+         * to filter out files aith a pattern.
+         */
         public expandInputFiles() {
             var exclude, files = [];
             if (this.excludePattern) {
@@ -103,8 +128,16 @@ module TypeDoc
         }
 
 
+        /**
+         * Create and initialize an instance of OptionsParser to read command line arguments.
+         *
+         * This function partially contains the options found in [[TypeScript.BatchCompiler.parseOptions]].
+         * When updating the TypeScript compiler, new options should be copied over here.
+         *
+         * @returns An initialized OptionsParser instance.
+         */
         private createOptionsParser():TypeScript.OptionsParser {
-            var opts = new TypeScript.OptionsParser(TypeScript.IO, Application.VERSION);
+            var opts = new TypeScript.OptionsParser(TypeScript.IO, VERSION);
 
             opts.option('out', {
                 usage: {
@@ -140,6 +173,16 @@ module TypeDoc
             opts.option('name', {
                 usage: {
                     locCode: 'Set the name of the project that will be used in the header of the template.',
+                    args: null
+                },
+                set: (str) => {
+                    this.name = str;
+                }
+            });
+
+            opts.option('verbose', {
+                usage: {
+                    locCode: 'Print more information while TypeDoc is running.',
                     args: null
                 },
                 set: (str) => {
@@ -260,7 +303,7 @@ module TypeDoc
             opts.flag('version', {
                 usage: {
                     locCode: TypeScript.DiagnosticCode.Print_the_compiler_s_version_0,
-                    args: [Application.VERSION]
+                    args: [VERSION]
                 },
                 set: () => {
                     this.shouldPrintVersionOnly = true;
