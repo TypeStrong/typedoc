@@ -12,6 +12,7 @@ declare var Handlebars: any;
 declare var Marked: any;
 declare var HighlightJS: any;
 declare var Minimatch: any;
+declare var Util: any;
 declare var VM: any;
 declare var Path: any;
 declare var FS: any;
@@ -100,21 +101,92 @@ declare module TypeDoc {
 }
 declare module TypeDoc {
     /**
-    * The TypeDoc main application class.
+    * The version number of TypeDoc.
     */
-    class Application {
+    var VERSION: string;
+    /**
+    * List of known log levels. Used to specify the urgency of a log message.
+    *
+    * @see [[Application.log]]
+    */
+    enum LogLevel {
+        Verbose = 0,
+        Info = 1,
+        Warn = 2,
+        Error = 3,
+    }
+    /**
+    * An interface of the application class.
+    *
+    * All classes should expect this interface allowing other third parties
+    * to use their own implementation.
+    */
+    interface IApplication {
+        /**
+        * The settings used by the dispatcher and the renderer.
+        */
+        settings: Settings;
+        /**
+        * Print a log message.
+        *
+        * @param message  The message itself.
+        * @param level  The urgency of the log message.
+        */
+        log(message: string, level?: LogLevel): any;
+    }
+    /**
+    * The default TypeDoc main application class.
+    *
+    * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
+    * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
+    * generates a [[ProjectReflection]] from the passed in source files. The
+    * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
+    * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
+    * of [[BaseTheme]] to generate the final documentation.
+    *
+    * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
+    * and emit a series of events while processing the project. Subscribe to these Events
+    * to control the application flow or alter the output.
+    */
+    class Application implements IApplication {
+        /**
+        * The settings used by the dispatcher and the renderer.
+        */
         public settings: Settings;
+        /**
+        * The dispatcher used to create the declaration reflections.
+        */
         public dispatcher: Factories.Dispatcher;
-        public renderer: Renderer.Renderer;
+        /**
+        * The renderer used to generate the documentation output.
+        */
+        public renderer: Output.Renderer;
+        /**
+        * Has an error been raised through the log method?
+        */
         public hasErrors: boolean;
-        static VERSION: string;
         /**
         * Create a new Application instance.
+        *
+        * @param settings  The settings used by the dispatcher and the renderer.
         */
         constructor(settings?: Settings);
-        public runFromCLI(): void;
         /**
-        * Run the documentation generator for the given files.
+        * Run TypeDoc from the command line.
+        */
+        public runFromCommandline(): void;
+        /**
+        * Print a log message.
+        *
+        * @param message  The message itself.
+        * @param level    The urgency of the log message.
+        */
+        public log(message: string, level?: LogLevel): void;
+        /**
+        * Run the documentation generator for the given set of files.
+        *
+        * @param inputFiles  A list of source files whose documentation should be generated.
+        * @param outputDirectory  The path of the directory the documentation should be written to.
         */
         public generate(inputFiles: string[], outputDirectory: string): void;
     }
@@ -128,22 +200,38 @@ declare module TypeDoc {
         * The settings used by the TypeScript compiler.
         */
         public compiler: TypeScript.CompilationSettings;
+        /**
+        * The list of source files that should be processed.
+        */
         public inputFiles: string[];
         /**
         * The path of the output directory.
         */
         public outputDirectory: string;
+        /**
+        * The human readable name of the project. Used within the templates to set the title of the document.
+        */
         public name: string;
+        /**
+        * A pattern for files that should be excluded when a path is specified as source.
+        */
+        public excludePattern: string;
         /**
         * Should declaration files be documented?
         */
         public includeDeclarations: boolean;
         /**
-        * A pattern for files that should be excluded when a path is specified as source.
+        * Does the user want to display the help message?
         */
-        public excludePattern: string;
         public needsHelp: boolean;
+        /**
+        * Does the user want to know the version number?
+        */
         public shouldPrintVersionOnly: boolean;
+        /**
+        * Should verbose messages be printed?
+        */
+        public verbose: boolean;
         /**
         * Create a new Settings instance.
         */
@@ -151,8 +239,23 @@ declare module TypeDoc {
         /**
         * Read the settings from command line arguments.
         */
-        public readFromCLI(): boolean;
+        public readFromCommandline(application: IApplication): boolean;
+        /**
+        * Expand the list of input files.
+        *
+        * Searches for directories in the input files list and replaces them with a
+        * listing of all TypeScript files within them. One may use the exlclude option
+        * to filter out files aith a pattern.
+        */
         public expandInputFiles(): void;
+        /**
+        * Create and initialize an instance of OptionsParser to read command line arguments.
+        *
+        * This function partially contains the options found in [[TypeScript.BatchCompiler.parseOptions]].
+        * When updating the TypeScript compiler, new options should be copied over here.
+        *
+        * @returns An initialized OptionsParser instance.
+        */
         private createOptionsParser();
     }
 }
@@ -226,7 +329,7 @@ declare module TypeDoc.Factories {
         /**
         * The project instance this dispatcher should push the created reflections to.
         */
-        public application: Application;
+        public application: IApplication;
         /**
         * A list of known factories.
         */
@@ -236,7 +339,13 @@ declare module TypeDoc.Factories {
         *
         * @param application  The target project instance.
         */
-        constructor(application: Application);
+        constructor(application: IApplication);
+        /**
+        * Compile the given list of source files and generate a reflection for them.
+        *
+        * @param inputFiles  A list of source files.
+        * @returns The generated root reflection.
+        */
         public compile(inputFiles: string[]): Models.ProjectReflection;
         /**
         * Process the given state.
@@ -308,15 +417,74 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Factories {
+    /**
+    * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
+    * the generated reflections.
+    */
     class CommentHandler {
+        /**
+        * Create a new CommentHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * Invokes the comment parser.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
         private onProcess(state);
-        private onResolveReflection(reflection);
-        static postProcessSignatures(reflection: Models.DeclarationReflection): void;
-        static findComments(state: DeclarationState): string[];
-        static applyComments(state: DeclarationState): void;
+        /**
+        * Triggered when the dispatcher resolves a reflection.
+        *
+        * Cleans up comment tags related to signatures like @param or @return
+        * and moves their data to the corresponding parameter reflections.
+        *
+        * This hook also copies over the comment of function implementations to their
+        * signatures.
+        *
+        * @param res
+        */
+        private onResolveReflection(res);
+        /**
+        * Test whether the given TypeScript comment instance is a doc comment.
+        *
+        * @param comment  The TypeScript comment that should be tested.
+        * @returns True when the comment is a doc comment, otherwise false.
+        */
         static isDocComment(comment: TypeScript.Comment): boolean;
-        static removeCommentTags(comment: Models.Comment, tagName: string): void;
+        /**
+        * Remove all tags with the given name from the given comment instance.
+        *
+        * @param comment  The comment that should be modified.
+        * @param tagName  The name of the that that should be removed.
+        */
+        static removeTags(comment: Models.Comment, tagName: string): void;
+        /**
+        * Find all doc comments associated with the declaration of the given state
+        * and return their plain text.
+        *
+        * Variable declarations need a special treatment, their comments are stored with the
+        * surrounding VariableStatement ast element. Their ast hierarchy looks like this:
+        * > VariableStatement &#8594; VariableDeclaration &#8594; SeparatedList &#8594; VariableDeclarator
+        *
+        * This reflect the possibility of JavaScript to define multiple variables with a single ```var```
+        * statement. We therefore have to check whether the VariableStatement contains only one variable
+        * and then can assign the comment of the VariableStatement to the VariableDeclarator declaration.
+        *
+        * @param state  The state containing the declaration whose comments should be extracted.
+        * @returns A list of all doc comments associated with the state.
+        */
+        static findComments(state: DeclarationState): string[];
+        /**
+        * Parse the given doc comment string.
+        *
+        * @param text     The doc comment string that should be parsed.
+        * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
+        * @returns        A populated [[Models.Comment]] instance.
+        */
         static parseDocComment(text: string, comment?: Models.Comment): Models.Comment;
     }
 }
@@ -350,8 +518,6 @@ declare module TypeDoc.Factories {
         static PLURALS: {};
         /**
         * Create a new GroupHandler instance.
-        *
-        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
         *
         * @param dispatcher  The dispatcher this handler should be attached to.
         */
@@ -678,21 +844,75 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * A model that represents a javadoc comment.
+    *
+    * Instances of this model are created by the [[CommentHandler]]. You can retrieve comments
+    * through the [[BaseReflection.comment]] property.
+    */
     class Comment {
+        /**
+        * The abstract of the comment. TypeDoc interprets the first paragraph of a comment
+        * as the abstract.
+        */
         public shortText: string;
+        /**
+        * The full body text of the comment. Excludes the [[shortText]].
+        */
         public text: string;
+        /**
+        * The text of the ```@returns``` tag if present.
+        */
         public returns: string;
+        /**
+        * All associated javadoc tags.
+        */
         public tags: CommentTag[];
+        /**
+        * Creates a new Comment instance.
+        */
         constructor(shortText?: string, text?: string);
-        public hasTag(tag: string): boolean;
+        /**
+        * Test whether this comment contains a tag with the given name.
+        *
+        * @param tagName  The name of the tag to look for.
+        * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
+        */
+        public hasTag(tagName: string): boolean;
+        /**
+        * Return the first tag with the given name.
+        *
+        * You can optionally pass a parameter name that should be searched to.
+        *
+        * @param tagName  The name of the tag to look for.
+        * @param paramName  An optional parameter name to look for.
+        * @returns The found tag or NULL.
+        */
         public getTag(tagName: string, paramName?: string): CommentTag;
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * A model that represents a single javadoc comment tag.
+    *
+    * Tags are stored in the [[Comment.tags]] property.
+    */
     class CommentTag {
+        /**
+        * The name of this tag.
+        */
         public tagName: string;
+        /**
+        * The name of the related parameter when this is a ```@param``` tag.
+        */
         public paramName: string;
+        /**
+        * The actual body text of this tag.
+        */
         public text: string;
+        /**
+        * Create a new CommentTag instance.
+        */
         constructor(tagName: string, paramName?: string, text?: string);
     }
 }
@@ -700,9 +920,13 @@ declare module TypeDoc.Models {
     /**
     * Base class for all reflection classes.
     *
-    * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+    * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
     * as the root for all reflections within the project. All other reflections are represented
-    * by the DeclarationReflection class.
+    * by the [[DeclarationReflection]] class.
+    *
+    * This base class exposes the basic properties one may use to traverse the reflection tree.
+    * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+    * contains a list of all children grouped and sorted for being rendered.
     */
     class BaseReflection {
         /**
@@ -738,7 +962,7 @@ declare module TypeDoc.Models {
         /**
         * Url safe alias for this reflection.
         *
-        * @see BaseReflection.getAlias
+        * @see [[BaseReflection.getAlias]]
         */
         private alias;
         /**
@@ -751,12 +975,13 @@ declare module TypeDoc.Models {
         */
         public getFullName(separator?: string): string;
         /**
-        * Return a child by its name.
-        *
-        * @param name  The name of the child to look for.
-        * @returns     The found child or NULL.
+        * @param name  The name of the child to look for. Might contain a hierarchy.
         */
         public getChildByName(name: string): DeclarationReflection;
+        /**
+        * @param names  The name hierarchy of the child to look for.
+        */
+        public getChildByName(names: string[]): DeclarationReflection;
         /**
         * Return a list of all children of a certain kind.
         *
@@ -768,6 +993,14 @@ declare module TypeDoc.Models {
         * Return an url safe alias for this reflection.
         */
         public getAlias(): string;
+        /**
+        * @param name  The name to look for. Might contain a hierarchy.
+        */
+        public findReflectionByName(name: string): DeclarationReflection;
+        /**
+        * @param names  The name hierarchy to look for.
+        */
+        public findReflectionByName(names: string[]): DeclarationReflection;
         /**
         * Return a string representation of this reflection.
         */
@@ -796,7 +1029,7 @@ declare module TypeDoc.Models {
     /**
     * Stores hierarchical type data.
     *
-    * @see DeclarationReflection.typeHierarchy
+    * @see [[DeclarationReflection.typeHierarchy]]
     */
     interface IDeclarationHierarchy {
         /**
@@ -815,7 +1048,7 @@ declare module TypeDoc.Models {
     /**
     * Represents references of reflections to their defining source files.
     *
-    * @see DeclarationReflection.sources
+    * @see [[DeclarationReflection.sources]]
     */
     interface IDeclarationSource {
         /**
@@ -997,12 +1230,26 @@ declare module TypeDoc.Models {
         */
         public packageInfo: any;
         /**
+        * Create a new ProjectReflection instance.
+        *
+        * @param name  The name of the project.
+        */
+        constructor(name: string);
+        /**
         * Return a list of all reflections in this project of a certain kind.
         *
         * @param kind  The desired kind of reflection.
         * @returns     An array containing all reflections with the desired kind.
         */
         public getReflectionsByKind(kind: TypeScript.PullElementKind): DeclarationReflection[];
+        /**
+        * @param name  The name to look for. Might contain a hierarchy.
+        */
+        public findReflectionByName(name: string): DeclarationReflection;
+        /**
+        * @param names  The name hierarchy to look for.
+        */
+        public findReflectionByName(names: string[]): DeclarationReflection;
     }
 }
 declare module TypeDoc.Models {
@@ -1171,13 +1418,13 @@ declare module TypeDoc.Models {
         public toString(): string;
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     class BasePlugin {
         public renderer: Renderer;
         constructor(renderer: Renderer);
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     class BaseTheme {
         public renderer: Renderer;
         public basePath: string;
@@ -1188,38 +1435,122 @@ declare module TypeDoc.Renderer {
         public getNavigation(project: Models.ProjectReflection): Models.NavigationItem;
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     interface IHandlebarTemplate {
         (context?: any, options?: any): string;
     }
     class Renderer extends EventDispatcher {
-        public application: Application;
+        public application: IApplication;
         public plugins: BasePlugin[];
         public theme: BaseTheme;
         public ioHost: TypeScript.IIO;
         private templates;
         static PLUGIN_CLASSES: any[];
-        constructor(application: Application);
+        constructor(application: IApplication);
         public setTheme(dirname: string): void;
         public getDefaultTheme(): any;
         public getTemplate(fileName: string): IHandlebarTemplate;
-        public render(project: Models.ProjectReflection, outputDirectory: string): void;
+        public render(project: Models.ProjectReflection, outputDirectory: string): any;
         private renderTarget(target);
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     class AssetsPlugin extends BasePlugin {
         constructor(renderer: Renderer);
         private onRendererBeginTarget(target);
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     class LayoutPlugin extends BasePlugin {
         constructor(renderer: Renderer);
         private onRendererEndOutput(output);
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
+    /**
+    * A plugin that exposes the markdown and relativeURL helper to handlebars.
+    *
+    * Templates should parse all comments with the markdown handler so authors can
+    * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
+    * markdown parser and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight
+    * code blocks within markdown sections. Additionally this plugin allows to link to other symbols
+    * using double angle brackets.
+    *
+    * You can use the markdown helper anywhere in the templates to convert content to html:
+    *
+    * ```handlebars
+    * {{#markdown}}{{{comment.text}}}{{/markdown}}
+    * ```
+    *
+    * The relativeURL helper simply transforms an absolute url into a relative url:
+    *
+    * ```handlebars
+    * {{#relativeURL url}}
+    * ```
+    */
+    class MarkedPlugin extends BasePlugin {
+        /**
+        * The project that is currently processed.
+        */
+        private project;
+        /**
+        * The reflection that is currently processed.
+        */
+        private reflection;
+        /**
+        * The current url that is currently generated.
+        */
+        private location;
+        /**
+        * Create a new MarkedPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
+        constructor(renderer: Renderer);
+        /**
+        * Transform the given absolute to a relative path.
+        *
+        * @param absolute  The absolute path to transform.
+        * @returns A path relative to the document currently processed.
+        */
+        public getRelativeUrl(absolute: string): any;
+        /**
+        * Parse the given markdown string and return the resulting html.
+        *
+        * @param text  The markdown string that should be parsed.
+        * @returns The resulting html string.
+        */
+        public parseMarkdown(text: string): string;
+        /**
+        * Find all references to symbols within the given text and transform them into a link.
+        *
+        * The references must be surrounded with double angle brackets. When the reference could
+        * not be found, the original text containing the brackets will be returned.
+        *
+        * This function is aware of the current context and will try to find the symbol within the
+        * current reflection. It will walk up the reflection chain till the symbol is found or the
+        * root reflection is reached. As a last resort the function will search the entire project
+        * for the given symbol.
+        *
+        * @param text  The text that should be parsed.
+        * @returns The text with symbol references replaced by links.
+        */
+        public parseReferences(text: string): string;
+        /**
+        * Triggered when the renderer begins processing a project.
+        *
+        * @param target  Defines the current target context of the renderer.
+        */
+        private onRendererBeginTarget(target);
+        /**
+        * Triggered when the renderer begins processing a single output file.
+        *
+        * @param output  Defines the current output context of the renderer.
+        */
+        private onRendererBeginOutput(output);
+    }
+}
+declare module TypeDoc.Output {
     class NavigationPlugin extends BasePlugin {
         public navigation: Models.NavigationItem;
         public location: string;
@@ -1228,7 +1559,7 @@ declare module TypeDoc.Renderer {
         private onRendererBeginOutput(output);
     }
 }
-declare module TypeDoc.Renderer {
+declare module TypeDoc.Output {
     class PartialsPlugin extends BasePlugin {
         constructor(renderer: Renderer);
         private onRendererBeginTarget(target);

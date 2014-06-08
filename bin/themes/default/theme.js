@@ -141,6 +141,10 @@ var Theme = (function (_super) {
         new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
 
         var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
+        modules.sort(function (a, b) {
+            return a.getFullName() < b.getFullName() ? -1 : 1;
+        });
+
         modules.forEach(function (container) {
             return walkReflection(container, root);
         });
@@ -181,5 +185,5 @@ var Theme = (function (_super) {
             template: 'reflection.hbs'
         }];
     return Theme;
-})(TypeDoc.Renderer.BaseTheme);
+})(TypeDoc.Output.BaseTheme);
 exports.Theme = Theme;

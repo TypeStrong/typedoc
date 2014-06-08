@@ -10,6 +10,7 @@ var Handlebars = require('handlebars');
 var Marked = require('marked');
 var HighlightJS = require('highlight.js');
 var Minimatch = require('minimatch');
+var Util = require('util');
 var VM = require('vm');
 var Path = require('path');
 var FS = require('fs.extra');
@@ -963,35 +964,93 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     /**
-    * The TypeDoc main application class.
+    * The version number of TypeDoc.
+    */
+    TypeDoc.VERSION = '0.0.4';
+
+    /**
+    * List of known log levels. Used to specify the urgency of a log message.
+    *
+    * @see [[Application.log]]
+    */
+    (function (LogLevel) {
+        LogLevel[LogLevel["Verbose"] = 0] = "Verbose";
+        LogLevel[LogLevel["Info"] = 1] = "Info";
+        LogLevel[LogLevel["Warn"] = 2] = "Warn";
+        LogLevel[LogLevel["Error"] = 3] = "Error";
+    })(TypeDoc.LogLevel || (TypeDoc.LogLevel = {}));
+    var LogLevel = TypeDoc.LogLevel;
+
+    
+
+    /**
+    * The default TypeDoc main application class.
+    *
+    * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
+    * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
+    * generates a [[ProjectReflection]] from the passed in source files. The
+    * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
+    * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
+    * of [[BaseTheme]] to generate the final documentation.
+    *
+    * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
+    * and emit a series of events while processing the project. Subscribe to these Events
+    * to control the application flow or alter the output.
     */
     var Application = (function () {
         /**
         * Create a new Application instance.
+        *
+        * @param settings  The settings used by the dispatcher and the renderer.
         */
         function Application(settings) {
             if (typeof settings === "undefined") { settings = new TypeDoc.Settings(); }
+            /**
+            * Has an error been raised through the log method?
+            */
             this.hasErrors = false;
             this.settings = settings;
             this.dispatcher = new TypeDoc.Factories.Dispatcher(this);
-            this.renderer = new TypeDoc.Renderer.Renderer(this);
+            this.renderer = new TypeDoc.Output.Renderer(this);
         }
-        Application.prototype.runFromCLI = function () {
-            if (this.settings.readFromCLI()) {
+        /**
+        * Run TypeDoc from the command line.
+        */
+        Application.prototype.runFromCommandline = function () {
+            if (this.settings.readFromCommandline(this)) {
                 this.settings.expandInputFiles();
                 this.generate(this.settings.inputFiles, this.settings.outputDirectory);
-                console.log('Documentation generated at ' + this.settings.outputDirectory);
+                this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
             }
         };
 
         /**
-        * Run the documentation generator for the given files.
+        * Print a log message.
+        *
+        * @param message  The message itself.
+        * @param level    The urgency of the log message.
+        */
+        Application.prototype.log = function (message, level) {
+            if (typeof level === "undefined") { level = 1 /* Info */; }
+            if (level == 3 /* Error */) {
+                this.hasErrors = true;
+            }
+
+            if (level != 0 /* Verbose */ || this.settings.verbose) {
+                console.log(message);
+            }
+        };
+
+        /**
+        * Run the documentation generator for the given set of files.
+        *
+        * @param inputFiles  A list of source files whose documentation should be generated.
+        * @param outputDirectory  The path of the directory the documentation should be written to.
         */
         Application.prototype.generate = function (inputFiles, outputDirectory) {
             var project = this.dispatcher.compile(inputFiles);
             this.renderer.render(project, outputDirectory);
         };
-        Application.VERSION = '0.0.4';
         return Application;
     })();
     TypeDoc.Application = Application;
@@ -1010,18 +1069,30 @@ var TypeDoc;
             * Should declaration files be documented?
             */
             this.includeDeclarations = false;
+            /**
+            * Does the user want to display the help message?
+            */
+            this.needsHelp = false;
+            /**
+            * Does the user want to know the version number?
+            */
+            this.shouldPrintVersionOnly = false;
+            /**
+            * Should verbose messages be printed?
+            */
+            this.verbose = false;
             this.compiler = new TypeScript.CompilationSettings();
         }
         /**
         * Read the settings from command line arguments.
         */
-        Settings.prototype.readFromCLI = function () {
+        Settings.prototype.readFromCommandline = function (application) {
             var opts = this.createOptionsParser();
 
             try  {
                 opts.parse(TypeScript.IO.arguments);
             } catch (e) {
-                console.log(e.message);
+                application.log(e.message, 3 /* Error */);
                 return false;
             }
 
@@ -1038,6 +1109,13 @@ var TypeDoc;
             return true;
         };
 
+        /**
+        * Expand the list of input files.
+        *
+        * Searches for directories in the input files list and replaces them with a
+        * listing of all TypeScript files within them. One may use the exlclude option
+        * to filter out files aith a pattern.
+        */
         Settings.prototype.expandInputFiles = function () {
             var exclude, files = [];
             if (this.excludePattern) {
@@ -1071,9 +1149,17 @@ var TypeDoc;
             this.inputFiles = files;
         };
 
+        /**
+        * Create and initialize an instance of OptionsParser to read command line arguments.
+        *
+        * This function partially contains the options found in [[TypeScript.BatchCompiler.parseOptions]].
+        * When updating the TypeScript compiler, new options should be copied over here.
+        *
+        * @returns An initialized OptionsParser instance.
+        */
         Settings.prototype.createOptionsParser = function () {
             var _this = this;
-            var opts = new TypeScript.OptionsParser(TypeScript.IO, TypeDoc.Application.VERSION);
+            var opts = new TypeScript.OptionsParser(TypeScript.IO, TypeDoc.VERSION);
 
             opts.option('out', {
                 usage: {
@@ -1109,6 +1195,16 @@ var TypeDoc;
             opts.option('name', {
                 usage: {
                     locCode: 'Set the name of the project that will be used in the header of the template.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.name = str;
+                }
+            });
+
+            opts.option('verbose', {
+                usage: {
+                    locCode: 'Print more information while TypeDoc is running.',
                     args: null
                 },
                 set: function (str) {
@@ -1225,7 +1321,7 @@ var TypeDoc;
             opts.flag('version', {
                 usage: {
                     locCode: TypeScript.DiagnosticCode.Print_the_compiler_s_version_0,
-                    args: [TypeDoc.Application.VERSION]
+                    args: [TypeDoc.VERSION]
                 },
                 set: function () {
                     _this.shouldPrintVersionOnly = true;
@@ -1573,11 +1669,17 @@ var TypeDoc;
                     new factory(_this);
                 });
             }
+            /**
+            * Compile the given list of source files and generate a reflection for them.
+            *
+            * @param inputFiles  A list of source files.
+            * @returns The generated root reflection.
+            */
             Dispatcher.prototype.compile = function (inputFiles) {
                 var _this = this;
                 var settings = this.application.settings.compiler;
                 var compiler = new Factories.Compiler(settings);
-                var project = new TypeDoc.Models.ProjectReflection();
+                var project = new TypeDoc.Models.ProjectReflection(this.application.settings.name);
 
                 compiler.inputFiles = inputFiles;
                 var documents = compiler.run();
@@ -1805,11 +1907,27 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
+        * the generated reflections.
+        */
         var CommentHandler = (function () {
+            /**
+            * Create a new CommentHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function CommentHandler(dispatcher) {
                 dispatcher.on('process', this.onProcess, this);
                 dispatcher.on('resolveReflection', this.onResolveReflection, this);
             }
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * Invokes the comment parser.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
             CommentHandler.prototype.onProcess = function (state) {
                 var isInherit = false;
                 if (state.isInherited) {
@@ -1817,97 +1935,73 @@ var TypeDoc;
                 }
 
                 if (!state.reflection.comment || isInherit) {
-                    CommentHandler.applyComments(state);
-                }
-            };
-
-            CommentHandler.prototype.onResolveReflection = function (reflection) {
-                if (reflection.signatures) {
-                    CommentHandler.postProcessSignatures(reflection);
-                }
-
-                CommentHandler.removeCommentTags(reflection.comment, 'param');
-                CommentHandler.removeCommentTags(reflection.comment, 'returns');
-            };
-
-            CommentHandler.postProcessSignatures = function (reflection) {
-                if (reflection.comment && reflection.comment.hasTag('returns')) {
-                    reflection.comment.returns = reflection.comment.getTag('returns').text;
-                }
-
-                reflection.signatures.forEach(function (signature) {
-                    if (reflection.comment) {
-                        if (!signature.comment)
-                            signature.comment = new TypeDoc.Models.Comment();
-
-                        if (!signature.comment.shortText)
-                            signature.comment.shortText = reflection.comment.shortText;
-
-                        if (!signature.comment.text)
-                            signature.comment.text = reflection.comment.text;
-
-                        if (signature.comment.hasTag('returns')) {
-                            signature.comment.returns = signature.comment.getTag('returns').text;
-                        } else {
-                            signature.comment.returns = reflection.comment.returns;
-                        }
-                    }
-
-                    signature.children.forEach(function (parameter) {
-                        var tag;
-                        if (signature.comment)
-                            tag = signature.comment.getTag('param', parameter.name);
-
-                        if (reflection.comment && !tag)
-                            tag = reflection.comment.getTag('param', parameter.name);
-
-                        if (tag)
-                            parameter.comment = new TypeDoc.Models.Comment(tag.text);
+                    CommentHandler.findComments(state).forEach(function (comment) {
+                        state.reflection.comment = CommentHandler.parseDocComment(comment);
                     });
-                });
+                }
             };
 
-            CommentHandler.findComments = function (state) {
-                var decl = state.declaration;
-                var ast = decl.ast();
-                var result = [];
-
-                if (ast.kind() == 225 /* VariableDeclarator */) {
-                    var list = ast.parent;
-                    if (list.kind() != 2 /* SeparatedList */) {
-                        return result;
+            /**
+            * Triggered when the dispatcher resolves a reflection.
+            *
+            * Cleans up comment tags related to signatures like @param or @return
+            * and moves their data to the corresponding parameter reflections.
+            *
+            * This hook also copies over the comment of function implementations to their
+            * signatures.
+            *
+            * @param res
+            */
+            CommentHandler.prototype.onResolveReflection = function (res) {
+                var reflection = res.reflection;
+                if (reflection.signatures) {
+                    var comment = reflection.comment;
+                    if (comment && comment.hasTag('returns')) {
+                        comment.returns = comment.getTag('returns').text;
+                        CommentHandler.removeTags(comment, 'returns');
                     }
 
-                    var snapshot = state.getSnapshot(ast.fileName());
-                    var astSource = snapshot.getText(ast.start(), ast.end());
-                    var listSource = snapshot.getText(list.start(), list.end());
-                    if (astSource != listSource) {
-                        return result;
-                    }
+                    reflection.signatures.forEach(function (signature) {
+                        var childComment = signature.comment;
+                        if (childComment && childComment.hasTag('returns')) {
+                            childComment.returns = childComment.getTag('returns').text;
+                            CommentHandler.removeTags(childComment, 'returns');
+                        }
 
-                    ast = list.parent.parent;
+                        if (comment) {
+                            if (!childComment) {
+                                childComment = signature.comment = new TypeDoc.Models.Comment();
+                            }
+
+                            childComment.shortText = childComment.shortText || comment.shortText;
+                            childComment.text = childComment.text || comment.text;
+                            childComment.returns = childComment.returns || comment.returns;
+                        }
+
+                        signature.children.forEach(function (parameter) {
+                            var tag;
+                            if (childComment)
+                                tag = childComment.getTag('param', parameter.name);
+                            if (comment && !tag)
+                                tag = comment.getTag('param', parameter.name);
+                            if (tag) {
+                                parameter.comment = new TypeDoc.Models.Comment(tag.text);
+                            }
+                        });
+
+                        CommentHandler.removeTags(childComment, 'param');
+                    });
+
+                    CommentHandler.removeTags(comment, 'param');
                 }
-
-                var comments = ast.preComments();
-                if (!comments || comments.length == 0) {
-                    return result;
-                }
-
-                comments.forEach(function (comment) {
-                    if (!CommentHandler.isDocComment(comment))
-                        return;
-                    result.push(comment.fullText());
-                });
-
-                return result;
             };
 
-            CommentHandler.applyComments = function (state) {
-                CommentHandler.findComments(state).forEach(function (comment) {
-                    state.reflection.comment = CommentHandler.parseDocComment(comment);
-                });
-            };
-
+            /**
+            * Test whether the given TypeScript comment instance is a doc comment.
+            *
+            * @param comment  The TypeScript comment that should be tested.
+            * @returns True when the comment is a doc comment, otherwise false.
+            */
             CommentHandler.isDocComment = function (comment) {
                 if (comment.kind() === 6 /* MultiLineCommentTrivia */) {
                     var fullText = comment.fullText();
@@ -1917,7 +2011,13 @@ var TypeDoc;
                 return false;
             };
 
-            CommentHandler.removeCommentTags = function (comment, tagName) {
+            /**
+            * Remove all tags with the given name from the given comment instance.
+            *
+            * @param comment  The comment that should be modified.
+            * @param tagName  The name of the that that should be removed.
+            */
+            CommentHandler.removeTags = function (comment, tagName) {
                 if (!comment || !comment.tags)
                     return;
 
@@ -1932,6 +2032,63 @@ var TypeDoc;
                 }
             };
 
+            /**
+            * Find all doc comments associated with the declaration of the given state
+            * and return their plain text.
+            *
+            * Variable declarations need a special treatment, their comments are stored with the
+            * surrounding VariableStatement ast element. Their ast hierarchy looks like this:
+            * > VariableStatement &#8594; VariableDeclaration &#8594; SeparatedList &#8594; VariableDeclarator
+            *
+            * This reflect the possibility of JavaScript to define multiple variables with a single ```var```
+            * statement. We therefore have to check whether the VariableStatement contains only one variable
+            * and then can assign the comment of the VariableStatement to the VariableDeclarator declaration.
+            *
+            * @param state  The state containing the declaration whose comments should be extracted.
+            * @returns A list of all doc comments associated with the state.
+            */
+            CommentHandler.findComments = function (state) {
+                var decl = state.declaration;
+                var ast = decl.ast();
+
+                if (ast.kind() == 225 /* VariableDeclarator */) {
+                    var list = ast.parent;
+                    if (list.kind() != 2 /* SeparatedList */) {
+                        return [];
+                    }
+
+                    var snapshot = state.getSnapshot(ast.fileName());
+                    var astSource = snapshot.getText(ast.start(), ast.end());
+                    var listSource = snapshot.getText(list.start(), list.end());
+                    if (astSource != listSource) {
+                        return [];
+                    }
+
+                    ast = list.parent.parent;
+                }
+
+                var comments = ast.preComments();
+                if (!comments || comments.length == 0) {
+                    return [];
+                }
+
+                var result = [];
+                comments.forEach(function (comment) {
+                    if (!CommentHandler.isDocComment(comment))
+                        return;
+                    result.push(comment.fullText());
+                });
+
+                return result;
+            };
+
+            /**
+            * Parse the given doc comment string.
+            *
+            * @param text     The doc comment string that should be parsed.
+            * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
+            * @returns        A populated [[Models.Comment]] instance.
+            */
             CommentHandler.parseDocComment = function (text, comment) {
                 if (typeof comment === "undefined") { comment = new TypeDoc.Models.Comment(); }
                 function consumeTypeData(line) {
@@ -1997,6 +2154,9 @@ var TypeDoc;
         })();
         Factories.CommentHandler = CommentHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.FACTORIES.push(CommentHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -2051,8 +2211,6 @@ var TypeDoc;
         var GroupHandler = (function () {
             /**
             * Create a new GroupHandler instance.
-            *
-            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
             *
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
@@ -3135,22 +3293,46 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * A model that represents a javadoc comment.
+        *
+        * Instances of this model are created by the [[CommentHandler]]. You can retrieve comments
+        * through the [[BaseReflection.comment]] property.
+        */
         var Comment = (function () {
+            /**
+            * Creates a new Comment instance.
+            */
             function Comment(shortText, text) {
                 this.shortText = shortText || '';
                 this.text = text || '';
             }
-            Comment.prototype.hasTag = function (tag) {
+            /**
+            * Test whether this comment contains a tag with the given name.
+            *
+            * @param tagName  The name of the tag to look for.
+            * @returns TRUE when this comment contains a tag with the given name, otherwise FALSE.
+            */
+            Comment.prototype.hasTag = function (tagName) {
                 if (!this.tags)
                     return false;
                 for (var i = 0, c = this.tags.length; i < c; i++) {
-                    if (this.tags[i].tagName == tag) {
+                    if (this.tags[i].tagName == tagName) {
                         return true;
                     }
                 }
                 return false;
             };
 
+            /**
+            * Return the first tag with the given name.
+            *
+            * You can optionally pass a parameter name that should be searched to.
+            *
+            * @param tagName  The name of the tag to look for.
+            * @param paramName  An optional parameter name to look for.
+            * @returns The found tag or NULL.
+            */
             Comment.prototype.getTag = function (tagName, paramName) {
                 if (!this.tags)
                     return null;
@@ -3171,7 +3353,15 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * A model that represents a single javadoc comment tag.
+        *
+        * Tags are stored in the [[Comment.tags]] property.
+        */
         var CommentTag = (function () {
+            /**
+            * Create a new CommentTag instance.
+            */
             function CommentTag(tagName, paramName, text) {
                 this.tagName = tagName;
                 this.paramName = paramName || '';
@@ -3189,9 +3379,13 @@ var TypeDoc;
         /**
         * Base class for all reflection classes.
         *
-        * While generating a documentation, TypeDoc creates an instance of the ProjectReflection
+        * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
         * as the root for all reflections within the project. All other reflections are represented
-        * by the DeclarationReflection class.
+        * by the [[DeclarationReflection]] class.
+        *
+        * This base class exposes the basic properties one may use to traverse the reflection tree.
+        * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+        * contains a list of all children grouped and sorted for being rendered.
         */
         var BaseReflection = (function () {
             function BaseReflection() {
@@ -3230,14 +3424,23 @@ var TypeDoc;
             /**
             * Return a child by its name.
             *
-            * @param name  The name of the child to look for.
-            * @returns     The found child or NULL.
+            * @returns The found child or NULL.
             */
-            BaseReflection.prototype.getChildByName = function (name) {
+            BaseReflection.prototype.getChildByName = function (arg) {
+                var names = Array.isArray(arg) ? arg : arg.split('.');
+                var name = names[0];
+
                 for (var i = 0, c = this.children.length; i < c; i++) {
-                    if (this.children[i].name == name)
-                        return this.children[i];
+                    var child = this.children[i];
+                    if (child.name == name) {
+                        if (names.length <= 1) {
+                            return child;
+                        } else {
+                            return child.getChildByName(names.slice(1));
+                        }
+                    }
                 }
+
                 return null;
             };
 
@@ -3267,6 +3470,22 @@ var TypeDoc;
                 }
 
                 return this.alias;
+            };
+
+            /**
+            * Try to find a reflection by its name.
+            *
+            * @return The found reflection or null.
+            */
+            BaseReflection.prototype.findReflectionByName = function (arg) {
+                var names = Array.isArray(arg) ? arg : arg.split('.');
+
+                var reflection = this.getChildByName(names);
+                if (reflection) {
+                    return reflection;
+                } else {
+                    return this.parent.findReflectionByName(names);
+                }
             };
 
             /**
@@ -3429,8 +3648,13 @@ var TypeDoc;
         */
         var ProjectReflection = (function (_super) {
             __extends(ProjectReflection, _super);
-            function ProjectReflection() {
-                _super.apply(this, arguments);
+            /**
+            * Create a new ProjectReflection instance.
+            *
+            * @param name  The name of the project.
+            */
+            function ProjectReflection(name) {
+                _super.call(this);
                 /**
                 * A list of all reflections within the project.
                 */
@@ -3443,6 +3667,7 @@ var TypeDoc;
                 * A list of all source files within the project.
                 */
                 this.files = [];
+                this.name = name;
             }
             /**
             * Return a list of all reflections in this project of a certain kind.
@@ -3458,6 +3683,45 @@ var TypeDoc;
                     }
                 });
                 return values;
+            };
+
+            /**
+            * Try to find a reflection by its name.
+            *
+            * @return The found reflection or null.
+            */
+            ProjectReflection.prototype.findReflectionByName = function (arg) {
+                var names = Array.isArray(arg) ? arg : arg.split('.');
+                var name = names.pop();
+
+                search:
+                for (var index = 0, length = this.reflections.length; index < length; index++) {
+                    var reflection = this.reflections[index];
+                    if (reflection.name != name)
+                        continue;
+
+                    var index = names.length - 1;
+                    var target = reflection;
+                    while (target && index > 0) {
+                        target = target.parent;
+                        if (!(target instanceof Models.DeclarationReflection))
+                            continue search;
+
+                        if (target.signatures) {
+                            target = target.parent;
+                            if (!(target instanceof Models.DeclarationReflection))
+                                continue search;
+                        }
+
+                        if (target.name != names[index])
+                            continue search;
+                        index -= 1;
+                    }
+
+                    return reflection;
+                }
+
+                return null;
             };
             return ProjectReflection;
         })(Models.BaseReflection);
@@ -3740,20 +4004,20 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
         var BasePlugin = (function () {
             function BasePlugin(renderer) {
                 this.renderer = renderer;
             }
             return BasePlugin;
         })();
-        Renderer.BasePlugin = BasePlugin;
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.BasePlugin = BasePlugin;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
         var BaseTheme = (function () {
             function BaseTheme(renderer, basePath) {
                 this.renderer = renderer;
@@ -3777,13 +4041,13 @@ var TypeDoc;
             };
             return BaseTheme;
         })();
-        Renderer.BaseTheme = BaseTheme;
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.BaseTheme = BaseTheme;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (_Renderer) {
+    (function (Output) {
         var Renderer = (function (_super) {
             __extends(Renderer, _super);
             function Renderer(application) {
@@ -3798,22 +4062,12 @@ var TypeDoc;
                     _this.plugins.push(new pluginClass(_this));
                 });
 
-                Marked.setOptions({
-                    highlight: function (code) {
-                        return HighlightJS.highlightAuto(code).value;
-                    }
-                });
-
                 Handlebars.registerHelper('compact', function (options) {
                     var lines = options.fn(this).split('\n');
                     for (var i = 0, c = lines.length; i < c; i++) {
                         lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
                     }
                     return lines.join('');
-                });
-
-                Handlebars.registerHelper('markdown', function (options) {
-                    return Marked(options.fn(this));
                 });
             }
             Renderer.prototype.setTheme = function (dirname) {
@@ -3865,15 +4119,13 @@ var TypeDoc;
 
                 if (FS.existsSync(outputDirectory)) {
                     if (!this.theme.isOutputDirectory(outputDirectory)) {
-                        this.application.hasErrors = true;
-                        this.ioHost.printLine('Error: The output directory "' + outputDirectory + '" exists but ' + 'does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.');
-                        return;
+                        return this.application.log(Util.format('Error: The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', outputDirectory), 3 /* Error */);
                     }
 
                     try  {
                         FS.rmrfSync(outputDirectory);
                     } catch (error) {
-                        this.ioHost.printLine('Warning: Could not empty the output directory.');
+                        this.application.log('Warning: Could not empty the output directory.', 2 /* Warn */);
                     }
                 }
 
@@ -3881,9 +4133,7 @@ var TypeDoc;
                     try  {
                         FS.mkdirpSync(outputDirectory);
                     } catch (error) {
-                        this.application.hasErrors = true;
-                        this.ioHost.printLine('Error: Could not create output directory ' + outputDirectory);
-                        return;
+                        return this.application.log(Util.format('Error: Could not create output directory %s', outputDirectory), 3 /* Error */);
                     }
                 }
 
@@ -3931,13 +4181,13 @@ var TypeDoc;
             Renderer.PLUGIN_CLASSES = [];
             return Renderer;
         })(TypeDoc.EventDispatcher);
-        _Renderer.Renderer = Renderer;
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.Renderer = Renderer;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
         var AssetsPlugin = (function (_super) {
             __extends(AssetsPlugin, _super);
             function AssetsPlugin(renderer) {
@@ -3958,16 +4208,16 @@ var TypeDoc;
                 }
             };
             return AssetsPlugin;
-        })(Renderer.BasePlugin);
-        Renderer.AssetsPlugin = AssetsPlugin;
+        })(Output.BasePlugin);
+        Output.AssetsPlugin = AssetsPlugin;
 
-        Renderer.Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
         var LayoutPlugin = (function (_super) {
             __extends(LayoutPlugin, _super);
             function LayoutPlugin(renderer) {
@@ -3982,16 +4232,163 @@ var TypeDoc;
                 output.contents = layout(output);
             };
             return LayoutPlugin;
-        })(Renderer.BasePlugin);
-        Renderer.LayoutPlugin = LayoutPlugin;
+        })(Output.BasePlugin);
+        Output.LayoutPlugin = LayoutPlugin;
 
-        Renderer.Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
+        /**
+        * A plugin that exposes the markdown and relativeURL helper to handlebars.
+        *
+        * Templates should parse all comments with the markdown handler so authors can
+        * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
+        * markdown parser and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight
+        * code blocks within markdown sections. Additionally this plugin allows to link to other symbols
+        * using double angle brackets.
+        *
+        * You can use the markdown helper anywhere in the templates to convert content to html:
+        *
+        * ```handlebars
+        * {{#markdown}}{{{comment.text}}}{{/markdown}}
+        * ```
+        *
+        * The relativeURL helper simply transforms an absolute url into a relative url:
+        *
+        * ```handlebars
+        * {{#relativeURL url}}
+        * ```
+        */
+        var MarkedPlugin = (function (_super) {
+            __extends(MarkedPlugin, _super);
+            /**
+            * Create a new MarkedPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
+            function MarkedPlugin(renderer) {
+                var _this = this;
+                _super.call(this, renderer);
+                renderer.on('beginTarget', function (t) {
+                    return _this.onRendererBeginTarget(t);
+                });
+                renderer.on('beginOutput', function (o) {
+                    return _this.onRendererBeginOutput(o);
+                });
+
+                Marked.setOptions({
+                    highlight: function (code, lang) {
+                        try  {
+                            if (lang) {
+                                return HighlightJS.highlight(lang, code).value;
+                            } else {
+                                return HighlightJS.highlightAuto(code).value;
+                            }
+                        } catch (error) {
+                            renderer.application.log(error.message, 2 /* Warn */);
+                            return code;
+                        }
+                    }
+                });
+
+                var that = this;
+                Handlebars.registerHelper('markdown', function (arg) {
+                    return that.parseMarkdown(arg.fn(this));
+                });
+                Handlebars.registerHelper('relativeURL', function (url) {
+                    return _this.getRelativeUrl(url);
+                });
+            }
+            /**
+            * Transform the given absolute to a relative path.
+            *
+            * @param absolute  The absolute path to transform.
+            * @returns A path relative to the document currently processed.
+            */
+            MarkedPlugin.prototype.getRelativeUrl = function (absolute) {
+                var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
+                return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+            };
+
+            /**
+            * Parse the given markdown string and return the resulting html.
+            *
+            * @param text  The markdown string that should be parsed.
+            * @returns The resulting html string.
+            */
+            MarkedPlugin.prototype.parseMarkdown = function (text) {
+                var html = Marked(text);
+                return this.parseReferences(html);
+            };
+
+            /**
+            * Find all references to symbols within the given text and transform them into a link.
+            *
+            * The references must be surrounded with double angle brackets. When the reference could
+            * not be found, the original text containing the brackets will be returned.
+            *
+            * This function is aware of the current context and will try to find the symbol within the
+            * current reflection. It will walk up the reflection chain till the symbol is found or the
+            * root reflection is reached. As a last resort the function will search the entire project
+            * for the given symbol.
+            *
+            * @param text  The text that should be parsed.
+            * @returns The text with symbol references replaced by links.
+            */
+            MarkedPlugin.prototype.parseReferences = function (text) {
+                var _this = this;
+                return text.replace(/\[\[([^\]]+)\]\]/g, function (match, name) {
+                    var reflection;
+                    if (_this.reflection) {
+                        reflection = _this.reflection.findReflectionByName(name);
+                    } else if (_this.project) {
+                        reflection = _this.project.findReflectionByName(name);
+                    }
+
+                    if (reflection) {
+                        return Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), name);
+                    } else {
+                        return match;
+                    }
+                });
+            };
+
+            /**
+            * Triggered when the renderer begins processing a project.
+            *
+            * @param target  Defines the current target context of the renderer.
+            */
+            MarkedPlugin.prototype.onRendererBeginTarget = function (target) {
+                this.project = target.project;
+            };
+
+            /**
+            * Triggered when the renderer begins processing a single output file.
+            *
+            * @param output  Defines the current output context of the renderer.
+            */
+            MarkedPlugin.prototype.onRendererBeginOutput = function (output) {
+                this.location = output.url;
+                this.reflection = output.model instanceof TypeDoc.Models.DeclarationReflection ? output.model : null;
+            };
+            return MarkedPlugin;
+        })(Output.BasePlugin);
+        Output.MarkedPlugin = MarkedPlugin;
+
+        /**
+        * Register this plugin.
+        */
+        Output.Renderer.PLUGIN_CLASSES.push(MarkedPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
         var NavigationPlugin = (function (_super) {
             __extends(NavigationPlugin, _super);
             function NavigationPlugin(renderer) {
@@ -4005,13 +4402,7 @@ var TypeDoc;
                 });
             }
             NavigationPlugin.prototype.onRendererBeginTarget = function (target) {
-                var _this = this;
                 this.navigation = this.renderer.theme.getNavigation(target.project);
-
-                Handlebars.registerHelper('relativeURL', function (url) {
-                    var relativePath = Path.relative(Path.dirname(_this.location), Path.dirname(url));
-                    return Path.join(relativePath, Path.basename(url)).replace(/\\/g, '/');
-                });
             };
 
             NavigationPlugin.prototype.onRendererBeginOutput = function (output) {
@@ -4053,16 +4444,16 @@ var TypeDoc;
                 output.secondary = secondary;
             };
             return NavigationPlugin;
-        })(Renderer.BasePlugin);
-        Renderer.NavigationPlugin = NavigationPlugin;
+        })(Output.BasePlugin);
+        Output.NavigationPlugin = NavigationPlugin;
 
-        Renderer.Renderer.PLUGIN_CLASSES.push(NavigationPlugin);
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.Renderer.PLUGIN_CLASSES.push(NavigationPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Renderer) {
+    (function (Output) {
         var PartialsPlugin = (function (_super) {
             __extends(PartialsPlugin, _super);
             function PartialsPlugin(renderer) {
@@ -4082,12 +4473,12 @@ var TypeDoc;
                 });
             };
             return PartialsPlugin;
-        })(Renderer.BasePlugin);
-        Renderer.PartialsPlugin = PartialsPlugin;
+        })(Output.BasePlugin);
+        Output.PartialsPlugin = PartialsPlugin;
 
-        Renderer.Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
-    })(TypeDoc.Renderer || (TypeDoc.Renderer = {}));
-    var Renderer = TypeDoc.Renderer;
+        Output.Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
