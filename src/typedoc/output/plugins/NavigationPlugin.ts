@@ -16,11 +16,6 @@ module TypeDoc.Output
 
         private onRendererBeginTarget(target:Models.RenderTarget) {
             this.navigation = this.renderer.theme.getNavigation(target.project);
-
-            Handlebars.registerHelper('relativeURL', (url:string) => {
-                var relativePath = Path.relative(Path.dirname(this.location), Path.dirname(url));
-                return Path.join(relativePath, Path.basename(url)).replace(/\\/g, '/');
-            });
         }
 
 

@@ -8,14 +8,14 @@
 TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
 in your project's directory as usual:
 
-```shell
+```bash
 $ npm install typedoc --save-dev
 ```
 
 Like the TypeScript compiler, TypeDoc comes with a binary that can be called from anywhere
 if you install TypeDoc as a global module. The name of the executable is ``typedoc``.
 
-```shell
+```bash
 $ npm install typedoc --global
 $ typedoc
 ```
@@ -38,7 +38,7 @@ TypeDoc accepts most of the command line arguments that the TypeScript compiler 
 difference is the fact that one may pass an entire directory instead of individual files to the documentation
 generator. So in order to create a documentation for an entire project you simply type:
 
-```shell
+```bash
 $ typedoc --out path/to/documentation/ path/to/typescript/project/
 ```
 
@@ -82,6 +82,10 @@ https://www.npmjs.org/package/grunt-typedoc
 TypeDoc runs the TypeScript compiler and extracts type information from the generated compiler symbols.
 Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
 like classes, enumerations or property types and access modifiers will be automatically detected.
+
+All comments can contains markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
+and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight code blocks within markdown sections.
+Additionally you can link to other classes, members or functions using double angle brackets.
 
 The documentation generator currently understands these javadoc tags:
 
