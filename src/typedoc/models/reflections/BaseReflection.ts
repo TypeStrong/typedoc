@@ -75,13 +75,34 @@ module TypeDoc.Models
         /**
          * Return a child by its name.
          *
-         * @param name  The name of the child to look for.
+         * @param name  The name of the child to look for. Might contain a hierarchy.
          * @returns     The found child or NULL.
          */
-        getChildByName(name:string):DeclarationReflection {
+        getChildByName(name:string):DeclarationReflection;
+
+        /**
+         * Return a child by its name.
+         *
+         * @param names  The name hierarchy of the child to look for.
+         * @returns      The found child or NULL.
+         */
+        getChildByName(names:string[]):DeclarationReflection;
+
+        getChildByName(arg:any):DeclarationReflection {
+            var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+            var name = names[0];
+
             for (var i = 0, c = this.children.length; i < c; i++) {
-                if (this.children[i].name == name) return this.children[i];
+                var child = this.children[i];
+                if (child.name == name) {
+                    if (names.length <= 1) {
+                        return child;
+                    } else {
+                        return child.getChildByName(names.slice(1));
+                    }
+                }
             }
+
             return null;
         }
 
@@ -113,6 +134,34 @@ module TypeDoc.Models
             }
 
             return this.alias;
+        }
+
+
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @param name  The name to look for. Might contain a hierarchy.
+         * @return      The found reflection or null.
+         */
+        findReflectionByName(name:string):DeclarationReflection;
+
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @param names  The name hierarchy to look for.
+         * @return       The found reflection or null.
+         */
+        findReflectionByName(names:string[]):DeclarationReflection;
+
+        findReflectionByName(arg:any):DeclarationReflection {
+            var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+
+            var reflection = this.getChildByName(names);
+            if (reflection) {
+                return reflection;
+            } else {
+                return this.parent.findReflectionByName(names);
+            }
         }
 
 

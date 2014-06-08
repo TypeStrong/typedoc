@@ -57,5 +57,51 @@ module TypeDoc.Models
             });
             return values;
         }
+
+
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @param name  The name to look for. Might contain a hierarchy.
+         * @return      The found reflection or null.
+         */
+        findReflectionByName(name:string):DeclarationReflection;
+
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @param names  The name hierarchy to look for.
+         * @return       The found reflection or null.
+         */
+        findReflectionByName(names:string[]):DeclarationReflection;
+
+        findReflectionByName(arg:any):DeclarationReflection {
+            var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+            var name = names.pop();
+
+            search: for (var index = 0, length = this.reflections.length; index < length; index++) {
+                var reflection = this.reflections[index];
+                if (reflection.name != name) continue;
+
+                var index = names.length - 1;
+                var target = reflection;
+                while (target && index > 0) {
+                    target = <DeclarationReflection>target.parent;
+                    if (!(target instanceof DeclarationReflection)) continue search;
+
+                    if (target.signatures) {
+                        target = <DeclarationReflection>target.parent;
+                        if (!(target instanceof DeclarationReflection)) continue search;
+                    }
+
+                    if (target.name != names[index]) continue search;
+                    index -= 1;
+                }
+
+                return reflection;
+            }
+
+            return null;
+        }
     }
 }
