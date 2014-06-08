@@ -4280,6 +4280,8 @@ var TypeDoc;
                     return _this.onRendererBeginOutput(o);
                 });
 
+                HighlightJS.registerLanguage('typescript', highlightTypeScript);
+
                 Marked.setOptions({
                     highlight: function (code, lang) {
                         try  {
@@ -4378,6 +4380,75 @@ var TypeDoc;
             return MarkedPlugin;
         })(Output.BasePlugin);
         Output.MarkedPlugin = MarkedPlugin;
+
+        /**
+        * TypeScript HighlightJS definition.
+        */
+        function highlightTypeScript(hljs) {
+            var IDENT_RE = '[a-zA-Z_$][a-zA-Z0-9_$]*';
+            var IDENT_FUNC_RETURN_TYPE_RE = '([*]|[a-zA-Z_$][a-zA-Z0-9_$]*)';
+            var AS3_REST_ARG_MODE = {
+                className: 'rest_arg',
+                begin: '[.]{3}', end: IDENT_RE,
+                relevance: 10
+            };
+
+            return {
+                aliases: ['ts'],
+                keywords: {
+                    keyword: 'in if for while finally var new function do return void else break catch ' + 'instanceof with throw case default try this switch continue typeof delete ' + 'let yield const class interface enum static private public',
+                    literal: 'true false null undefined NaN Infinity any string number void',
+                    built_in: 'eval isFinite isNaN parseFloat parseInt decodeURI decodeURIComponent ' + 'encodeURI encodeURIComponent escape unescape Object Function Boolean Error ' + 'EvalError InternalError RangeError ReferenceError StopIteration SyntaxError ' + 'TypeError URIError Number Math Date String RegExp Array Float32Array ' + 'Float64Array Int16Array Int32Array Int8Array Uint16Array Uint32Array ' + 'Uint8Array Uint8ClampedArray ArrayBuffer DataView JSON Intl arguments require'
+                },
+                contains: [
+                    hljs.APOS_STRING_MODE,
+                    hljs.QUOTE_STRING_MODE,
+                    hljs.C_LINE_COMMENT_MODE,
+                    hljs.C_BLOCK_COMMENT_MODE,
+                    hljs.C_NUMBER_MODE,
+                    {
+                        className: 'module',
+                        beginKeywords: 'module', end: '{',
+                        contains: [hljs.TITLE_MODE]
+                    },
+                    {
+                        className: 'class',
+                        beginKeywords: 'class interface', end: '{',
+                        contains: [
+                            {
+                                beginKeywords: 'extends implements'
+                            },
+                            hljs.TITLE_MODE
+                        ]
+                    },
+                    {
+                        className: 'function',
+                        beginKeywords: 'function', end: '[{;]',
+                        illegal: '\\S',
+                        contains: [
+                            hljs.TITLE_MODE,
+                            {
+                                className: 'params',
+                                begin: '\\(', end: '\\)',
+                                contains: [
+                                    hljs.APOS_STRING_MODE,
+                                    hljs.QUOTE_STRING_MODE,
+                                    hljs.C_LINE_COMMENT_MODE,
+                                    hljs.C_BLOCK_COMMENT_MODE,
+                                    AS3_REST_ARG_MODE
+                                ]
+                            },
+                            {
+                                className: 'type',
+                                begin: ':',
+                                end: IDENT_FUNC_RETURN_TYPE_RE,
+                                relevance: 10
+                            }
+                        ]
+                    }
+                ]
+            };
+        }
 
         /**
         * Register this plugin.

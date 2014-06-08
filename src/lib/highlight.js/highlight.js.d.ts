@@ -5,6 +5,7 @@ declare module "highlight.js"
     }
 
 
+    function registerLanguage(name:string, language:any);
     function highlight(lang:string, code:string):IHighlightResult;
     function highlightAuto(code:string):IHighlightResult;
 }
