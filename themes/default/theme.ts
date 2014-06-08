@@ -8,7 +8,7 @@ interface ITemplateMapping {
 }
 
 
-export class Theme extends TypeDoc.Renderer.BaseTheme
+export class Theme extends TypeDoc.Output.BaseTheme
 {
     static MAPPINGS:ITemplateMapping[] = [{
         kind:     TypeDoc.Models.Kind.Class,
