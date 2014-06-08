@@ -1,4 +1,4 @@
-module TypeDoc.Renderer
+module TypeDoc.Output
 {
     export class PartialsPlugin extends BasePlugin
     {

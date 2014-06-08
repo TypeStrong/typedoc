@@ -9,7 +9,7 @@ module TypeDoc
 
         dispatcher:Factories.Dispatcher;
 
-        renderer:Renderer.Renderer;
+        renderer:Output.Renderer;
 
         hasErrors:boolean = false;
 
@@ -22,7 +22,7 @@ module TypeDoc
         constructor(settings:Settings = new Settings()) {
             this.settings   = settings;
             this.dispatcher = new Factories.Dispatcher(this);
-            this.renderer   = new Renderer.Renderer(this);
+            this.renderer   = new Output.Renderer(this);
         }
 
 

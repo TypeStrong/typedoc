@@ -1,8 +1,9 @@
-module TypeDoc.Renderer
+module TypeDoc.Output
 {
     export interface IHandlebarTemplate {
         (context?: any, options?: any):string;
     }
+
 
     export class Renderer extends EventDispatcher
     {
