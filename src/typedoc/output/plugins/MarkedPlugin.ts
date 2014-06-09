@@ -72,12 +72,12 @@ module TypeDoc.Output
 
 
         /**
-         * Transform the given absolute to a relative path.
+         * Transform the given absolute path into a relative path.
          *
          * @param absolute  The absolute path to transform.
          * @returns A path relative to the document currently processed.
          */
-        public getRelativeUrl(absolute:string) {
+        public getRelativeUrl(absolute:string):string {
             var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
             return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
         }
