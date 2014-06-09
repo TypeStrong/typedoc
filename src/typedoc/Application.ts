@@ -1,12 +1,6 @@
 module TypeDoc
 {
     /**
-     * The version number of TypeDoc.
-     */
-    export var VERSION:string = '0.0.4';
-
-
-    /**
      * List of known log levels. Used to specify the urgency of a log message.
      *
      * @see [[Application.log]]
@@ -77,6 +71,11 @@ module TypeDoc
          * Has an error been raised through the log method?
          */
         hasErrors:boolean = false;
+
+        /**
+         * The version number of TypeDoc.
+         */
+        static VERSION:string = '0.0.4';
 
 
 

@@ -142,7 +142,7 @@ module TypeDoc
          * @returns An initialized OptionsParser instance.
          */
         private createOptionsParser():TypeScript.OptionsParser {
-            var opts = new TypeScript.OptionsParser(TypeScript.IO, VERSION);
+            var opts = new TypeScript.OptionsParser(TypeScript.IO, Application.VERSION);
 
             opts.option('out', {
                 usage: {
@@ -318,7 +318,7 @@ module TypeDoc
             opts.flag('version', {
                 usage: {
                     locCode: TypeScript.DiagnosticCode.Print_the_compiler_s_version_0,
-                    args: [VERSION]
+                    args: [Application.VERSION]
                 },
                 set: () => {
                     this.shouldPrintVersionOnly = true;
