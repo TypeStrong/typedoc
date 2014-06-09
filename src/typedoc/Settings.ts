@@ -21,6 +21,11 @@ module TypeDoc
         outputDirectory:string;
 
         /**
+         * The path of the theme that should be used.
+         */
+        theme:string = 'default';
+
+        /**
          * The human readable name of the project. Used within the templates to set the title of the document.
          */
         name:string;
@@ -147,6 +152,16 @@ module TypeDoc
                 type: TypeScript.DiagnosticCode.DIRECTORY,
                 set: (str) => {
                     this.outputDirectory = Path.resolve(str);
+                }
+            });
+
+            opts.option('theme', {
+                usage: {
+                    locCode: 'Specify the path to the theme that should be used.',
+                    args: null
+                },
+                set: (str) => {
+                    this.theme = str;
                 }
             });
 
