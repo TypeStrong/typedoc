@@ -1740,7 +1740,7 @@ declare module TypeDoc.Output {
 }
 declare module TypeDoc.Output {
     /**
-    * An event emitted by the [[Renderer]] class at the before and after the
+    * An event emitted by the [[Renderer]] class before and after the
     * markup of a page is rendered.
     *
     * This object will be passed as the rendering context to the handlebars template.

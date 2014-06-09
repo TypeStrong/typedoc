@@ -62,7 +62,7 @@ Specify ECMAScript target version: "ES3" (default), or "ES5"
 
 ```--exclude <pattern>```
 
-Exclude files by the given pattern, when a path is provided as source
+Exclude files by the given pattern when a path is provided as source
 
 
 ### Gulp
@@ -83,7 +83,7 @@ TypeDoc runs the TypeScript compiler and extracts type information from the gene
 Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
 like classes, enumerations or property types and access modifiers will be automatically detected.
 
-All comments can contains markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
+All comments parsed as markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
 and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight code blocks within markdown sections.
 Additionally you can link to other classes, members or functions using double angle brackets.
 
@@ -118,8 +118,8 @@ function doSomething(target:any, value:number):number;
 
 /**
  * Comment for method ´doSomething´.
- * @param with  Comment for parameter ´with´.
- * @returns     Comment for return value.
+ * @param target  Comment for parameter ´target´.
+ * @returns       Comment for return value.
  */
 function doSomething(target:any, arg:any):number {
     return 0;
