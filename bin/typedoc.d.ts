@@ -209,6 +209,10 @@ declare module TypeDoc {
         */
         public outputDirectory: string;
         /**
+        * The path of the theme that should be used.
+        */
+        public theme: string;
+        /**
         * The human readable name of the project. Used within the templates to set the title of the document.
         */
         public name: string;
@@ -327,17 +331,21 @@ declare module TypeDoc.Factories {
     */
     class Dispatcher extends EventDispatcher {
         /**
-        * The project instance this dispatcher should push the created reflections to.
+        * The application this dispatcher is attached to.
         */
         public application: IApplication;
         /**
-        * A list of known factories.
+        * List of all handlers that are attached to the renderer.
         */
-        static FACTORIES: any[];
+        public handlers: any[];
+        /**
+        * Registry containing the handlers, that should be created by default.
+        */
+        static HANDLERS: any[];
         /**
         * Create a new Dispatcher instance.
         *
-        * @param application  The target project instance.
+        * @param application  The application this dispatcher is attached to.
         */
         constructor(application: IApplication);
         /**
@@ -1351,28 +1359,6 @@ declare module TypeDoc.Models {
     }
 }
 declare module TypeDoc.Models {
-    class RenderOutput extends Event {
-        public target: RenderTarget;
-        public filename: string;
-        public url: string;
-        public project: any;
-        public model: any;
-        public template: (context: any) => string;
-        public templateName: string;
-        public navigation: NavigationItem;
-        public secondary: NavigationItem[];
-        public contents: string;
-        constructor(target: RenderTarget);
-    }
-}
-declare module TypeDoc.Models {
-    class RenderTarget extends Event {
-        public project: ProjectReflection;
-        public dirname: string;
-        public urls: UrlMapping[];
-    }
-}
-declare module TypeDoc.Models {
     /**
     *
     */
@@ -1419,8 +1405,19 @@ declare module TypeDoc.Models {
     }
 }
 declare module TypeDoc.Output {
+    /**
+    * Base class of all plugins that can be attached to the [[Renderer]].
+    */
     class BasePlugin {
+        /**
+        * The renderer this plugin is attached to.
+        */
         public renderer: Renderer;
+        /**
+        * Create a new BasePlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
         constructor(renderer: Renderer);
     }
 }
@@ -1436,39 +1433,297 @@ declare module TypeDoc.Output {
     }
 }
 declare module TypeDoc.Output {
-    interface IHandlebarTemplate {
-        (context?: any, options?: any): string;
+    interface ITemplateMapping {
+        kind: any;
+        isLeaf: boolean;
+        prefix: string;
+        template: string;
     }
-    class Renderer extends EventDispatcher {
-        public application: IApplication;
-        public plugins: BasePlugin[];
-        public theme: BaseTheme;
-        public ioHost: TypeScript.IIO;
-        private templates;
-        static PLUGIN_CLASSES: any[];
-        constructor(application: IApplication);
-        public setTheme(dirname: string): void;
-        public getDefaultTheme(): any;
-        public getTemplate(fileName: string): IHandlebarTemplate;
-        public render(project: Models.ProjectReflection, outputDirectory: string): any;
-        private renderTarget(target);
-    }
-}
-declare module TypeDoc.Output {
-    class AssetsPlugin extends BasePlugin {
-        constructor(renderer: Renderer);
-        private onRendererBeginTarget(target);
-    }
-}
-declare module TypeDoc.Output {
-    class LayoutPlugin extends BasePlugin {
-        constructor(renderer: Renderer);
-        private onRendererEndOutput(output);
+    class DefaultTheme extends BaseTheme {
+        static MAPPINGS: ITemplateMapping[];
+        public isOutputDirectory(dirname: string): boolean;
+        private getMapping(reflection);
+        /**
+        * Build the urls for the current project.
+        *
+        * @returns  An array of url mappings.
+        */
+        public getUrls(project: Models.ProjectReflection): Models.UrlMapping[];
+        public getNavigation(project: Models.ProjectReflection): Models.NavigationItem;
+        /**
+        * Transform a space separated string into a string suitable to be used as a css class.
+        */
+        static classify(str: string): string;
     }
 }
 declare module TypeDoc.Output {
     /**
-    * A plugin that exposes the markdown and relativeURL helper to handlebars.
+    * Interface representation of a handlebars template.
+    */
+    interface IHandlebarTemplate {
+        (context?: any, options?: any): string;
+    }
+    /**
+    * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
+    * the emitted html documents to a output directory. You can specify which theme should be used
+    * using the ```--theme <name>``` commandline argument.
+    *
+    * Subclasses of [[BasePlugin]] that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
+    * will be automatically initialized. Most of the core functionality is provided as separate plugins.
+    *
+    * [[Renderer]] is a subclass of [[EventDispatcher]] and triggers a series of events while
+    * a project is being processed. You can listen to these events to control the flow or manipulate
+    * the output.
+    *
+    *  * [[Renderer.EVENT_BEGIN]]<br/>
+    *    Triggered before the renderer starts rendering a project. The listener receives
+    *    an instance of [[OutputEvent]]. By calling [[OutputEvent.preventDefault]] the entire
+    *    render process can be canceled.
+    *
+    *    * [[Renderer.EVENT_BEGIN_PAGE]]<br/>
+    *      Triggered before a document will be rendered. The listener receives an instance of
+    *      [[OutputPageEvent]]. By calling [[OutputPageEvent.preventDefault]] the generation of the
+    *      document can be canceled.
+    *
+    *    * [[Renderer.EVENT_END_PAGE]]<br/>
+    *      Triggered after a document has been rendered, just before it is written to disc. The
+    *      listener receives an instance of [[OutputPageEvent]]. When calling
+    *      [[OutputPageEvent.preventDefault]] the the document will not be saved to disc.
+    *
+    *  * [[Renderer.EVENT_END]]<br/>
+    *    Triggered after the renderer has written all documents. The listener receives
+    *    an instance of [[OutputEvent]].
+    */
+    class Renderer extends EventDispatcher {
+        /**
+        * The application this dispatcher is attached to.
+        */
+        public application: IApplication;
+        /**
+        * List of all plugins that are attached to the renderer.
+        */
+        public plugins: BasePlugin[];
+        /**
+        * The theme that is used to render the documentation.
+        */
+        public theme: BaseTheme;
+        /**
+        * Hash map of all loaded templates indexed by filename.
+        */
+        private templates;
+        /**
+        * Triggered before the renderer starts rendering a project.
+        * @event
+        */
+        static EVENT_BEGIN: string;
+        /**
+        * Triggered after the renderer has written all documents.
+        * @event
+        */
+        static EVENT_END: string;
+        /**
+        * Triggered before a document will be rendered.
+        * @event
+        */
+        static EVENT_BEGIN_PAGE: string;
+        /**
+        * Triggered after a document has been rendered, just before it is written to disc.
+        * @event
+        */
+        static EVENT_END_PAGE: string;
+        /**
+        * Registry containing the plugins, that should be created by default.
+        */
+        static PLUGIN_CLASSES: any[];
+        /**
+        * Create a new Renderer instance.
+        *
+        * @param application  The application this dispatcher is attached to.
+        */
+        constructor(application: IApplication);
+        /**
+        * Return the template with the given filename.
+        *
+        * Tries to find the file in the ´templates´ subdirectory of the current theme.
+        * If it does not exist, TypeDoc tries to find the template in the default
+        * theme templates subdirectory.
+        *
+        * @param fileName  The filename of the template that should be loaded.
+        * @returns The compiled template or NULL if the file could not be found.
+        */
+        public getTemplate(fileName: string): IHandlebarTemplate;
+        /**
+        * Render the given project reflection to the specified output directory.
+        *
+        * @param project  The project that should be rendered.
+        * @param outputDirectory  The path of the directory the documentation should be rendered to.
+        */
+        public render(project: Models.ProjectReflection, outputDirectory: string): void;
+        /**
+        * Render a single page.
+        *
+        * @param page An event describing the current page.
+        * @return TRUE if the page has been saved to disc, otherwise FALSE.
+        */
+        private renderDocument(page);
+        /**
+        * Ensure that a theme has been setup.
+        *
+        * If a the user has set a theme we try to find and load it. If no theme has
+        * been specified we load the default theme.
+        *
+        * @returns TRUE if a theme has been setup, otherwise FALSE.
+        */
+        private prepareTheme();
+        /**
+        * Prepare the output directory. If the directory does not exist, it will be
+        * created. If the directory exists, it will be emptied.
+        *
+        * @param directory  The path to the directory that should be prepared.
+        * @returns TRUE if the directory could be prepared, otherwise FALSE.
+        */
+        private prepareOutputDirectory(directory);
+        /**
+        * Return the path containing the themes shipped with TypeDoc.
+        *
+        * @returns The path to the theme directory.
+        */
+        static getThemeDirectory(): string;
+        /**
+        * Return the path to the default theme.
+        *
+        * @returns The path to the default theme.
+        */
+        static getDefaultTheme(): string;
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * An event emitted by the [[Renderer]] class at the very beginning and
+    * ending of the entire rendering process.
+    *
+    * @see [[Renderer.EVENT_BEGIN]]
+    * @see [[Renderer.EVENT_END]]
+    */
+    class OutputEvent extends Event {
+        /**
+        * The project the renderer is currently processing.
+        */
+        public project: Models.ProjectReflection;
+        /**
+        * The path of the directory the documentation should be written to.
+        */
+        public outputDirectory: string;
+        /**
+        * A list of all pages that should be generated.
+        *
+        * This list can be altered during the [[Renderer.EVENT_BEGIN]] event.
+        */
+        public urls: Models.UrlMapping[];
+        /**
+        * Create an [[OutputPageEvent]] event based on this event and the given url mapping.
+        *
+        * @internal
+        * @param mapping  The mapping that defines the generated [[OutputPageEvent]] state.
+        * @returns A newly created [[OutputPageEvent]] instance.
+        */
+        public createPageEvent(mapping: Models.UrlMapping): OutputPageEvent;
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * An event emitted by the [[Renderer]] class at the before and after the
+    * markup of a page is rendered.
+    *
+    * This object will be passed as the rendering context to the handlebars template.
+    *
+    * @see [[Renderer.EVENT_BEGIN_PAGE]]
+    * @see [[Renderer.EVENT_END_PAGE]]
+    */
+    class OutputPageEvent extends Event {
+        /**
+        * The project the renderer is currently processing.
+        */
+        public project: Models.ProjectReflection;
+        /**
+        * The filename the page will be written to.
+        */
+        public filename: string;
+        /**
+        * The url this page will be located at.
+        */
+        public url: string;
+        /**
+        * The model that should be rendered on this page.
+        */
+        public model: any;
+        /**
+        * The template that should be used to render this page.
+        */
+        public template: IHandlebarTemplate;
+        /**
+        * The name of the template that should be used to render this page.
+        */
+        public templateName: string;
+        /**
+        * The primary navigation structure of this page.
+        */
+        public navigation: Models.NavigationItem;
+        /**
+        * The secondary navigation structure of this page.
+        */
+        public secondary: Models.NavigationItem[];
+        /**
+        * The html content of this page.
+        */
+        public contents: string;
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * A plugin that copies the subdirectory ´assets´ from the current themes
+    * source folder to the output directory.
+    */
+    class AssetsPlugin extends BasePlugin {
+        /**
+        * Create a new AssetsPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
+        constructor(renderer: Renderer);
+        /**
+        * Triggered before the renderer starts rendering a project.
+        *
+        * @param event  An event object describing the current render operation.
+        */
+        private onRendererBegin(event);
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * A plugin that wraps the generated output with a layout template.
+    *
+    * Currently only a default layout is supported. The layout must bes stored
+    * as ´layouts/default.hbs´ in the theme directory.
+    */
+    class LayoutPlugin extends BasePlugin {
+        /**
+        * Create a new LayoutPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
+        constructor(renderer: Renderer);
+        /**
+        * Triggered after a document has been rendered, just before it is written to disc.
+        *
+        * @param page  An event object describing the current render operation.
+        */
+        private onRendererEndPage(page);
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
     *
     * Templates should parse all comments with the markdown handler so authors can
     * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
@@ -1480,6 +1735,15 @@ declare module TypeDoc.Output {
     *
     * ```handlebars
     * {{#markdown}}{{{comment.text}}}{{/markdown}}
+    * ```
+    *
+    * The compact helper removes all newlines of its content:
+    *
+    * ```handlebars
+    * {{#compact}}
+    *   Compact
+    *   this
+    * {{/compact}}
     * ```
     *
     * The relativeURL helper simply transforms an absolute url into a relative url:
@@ -1498,7 +1762,7 @@ declare module TypeDoc.Output {
         */
         private reflection;
         /**
-        * The current url that is currently generated.
+        * The url of the documenat that is being currently generated.
         */
         private location;
         /**
@@ -1514,6 +1778,21 @@ declare module TypeDoc.Output {
         * @returns A path relative to the document currently processed.
         */
         public getRelativeUrl(absolute: string): any;
+        /**
+        * Compress the given string by removing all newlines.
+        *
+        * @param text  The string that should be compressed.
+        * @returns The string with all newlsines stripped.
+        */
+        public getCompact(text: string): string;
+        /**
+        * Highlight the synatx of the given text using HighlightJS.
+        *
+        * @param text  The text taht should be highlightes.
+        * @param lang  The language that should be used to highlight the string.
+        * @return A html string with syntax highlighting.
+        */
+        public getHighlighted(text: string, lang?: string): string;
         /**
         * Parse the given markdown string and return the resulting html.
         *
@@ -1537,32 +1816,79 @@ declare module TypeDoc.Output {
         */
         public parseReferences(text: string): string;
         /**
-        * Triggered when the renderer begins processing a project.
+        * Triggered before the renderer starts rendering a project.
         *
-        * @param target  Defines the current target context of the renderer.
+        * @param event  An event object describing the current render operation.
         */
-        private onRendererBeginTarget(target);
+        private onRendererBegin(event);
         /**
-        * Triggered when the renderer begins processing a single output file.
+        * Triggered before a document will be rendered.
         *
-        * @param output  Defines the current output context of the renderer.
+        * @param page  An event object describing the current render operation.
         */
-        private onRendererBeginOutput(output);
+        private onRendererBeginPage(page);
     }
 }
 declare module TypeDoc.Output {
+    /**
+    * A plugin that exposes the navigation structure of the documentation
+    * to the rendered templates.
+    *
+    * The navigation structure is generated using the current themes
+    * [[BaseTheme.getNavigation]] function. This plugins takes care that the navigation
+    * is updated and passed to the render context.
+    */
     class NavigationPlugin extends BasePlugin {
+        /**
+        * The navigation structure generated by the current theme.
+        */
         public navigation: Models.NavigationItem;
-        public location: string;
+        /**
+        * Create a new NavigationPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
         constructor(renderer: Renderer);
-        private onRendererBeginTarget(target);
-        private onRendererBeginOutput(output);
+        /**
+        * Triggered before the renderer starts rendering a project.
+        *
+        * @param event  An event object describing the current render operation.
+        */
+        private onRendererBegin(event);
+        /**
+        * Triggered before a document will be rendered.
+        *
+        * @param page  An event object describing the current render operation.
+        */
+        private onRendererBeginPage(page);
     }
 }
 declare module TypeDoc.Output {
+    /**
+    * A plugin that loads all partials of the current theme.
+    *
+    * Partials must be placed in the ´partials´ subdirectory of the theme. The plugin first
+    * loads the partials of the default theme and then the partials of the current theme.
+    */
     class PartialsPlugin extends BasePlugin {
+        /**
+        * Create a new PartialsPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
         constructor(renderer: Renderer);
-        private onRendererBeginTarget(target);
+        /**
+        * Load all files in the given directory and registers them as partials.
+        *
+        * @param path  The path of the directory that should be scanned.
+        */
+        private loadPartials(path);
+        /**
+        * Triggered before the renderer starts rendering a project.
+        *
+        * @param event  An event object describing the current render operation.
+        */
+        private onRendererBegin(event);
     }
 }
 declare module TypeDoc {

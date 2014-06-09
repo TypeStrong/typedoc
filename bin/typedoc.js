@@ -1066,6 +1066,10 @@ var TypeDoc;
         */
         function Settings() {
             /**
+            * The path of the theme that should be used.
+            */
+            this.theme = 'default';
+            /**
             * Should declaration files be documented?
             */
             this.includeDeclarations = false;
@@ -1169,6 +1173,16 @@ var TypeDoc;
                 type: TypeScript.DiagnosticCode.DIRECTORY,
                 set: function (str) {
                     _this.outputDirectory = Path.resolve(str);
+                }
+            });
+
+            opts.option('theme', {
+                usage: {
+                    locCode: 'Specify the path to the theme that should be used.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.theme = str;
                 }
             });
 
@@ -1658,15 +1672,16 @@ var TypeDoc;
             /**
             * Create a new Dispatcher instance.
             *
-            * @param application  The target project instance.
+            * @param application  The application this dispatcher is attached to.
             */
             function Dispatcher(application) {
                 var _this = this;
                 _super.call(this);
                 this.application = application;
 
-                Dispatcher.FACTORIES.forEach(function (factory) {
-                    new factory(_this);
+                this.handlers = [];
+                Dispatcher.HANDLERS.forEach(function (factory) {
+                    _this.handlers.push(new factory(_this));
                 });
             }
             /**
@@ -1819,7 +1834,7 @@ var TypeDoc;
 
                 return items.join(', ');
             };
-            Dispatcher.FACTORIES = [];
+            Dispatcher.HANDLERS = [];
             return Dispatcher;
         })(TypeDoc.EventDispatcher);
         Factories.Dispatcher = Dispatcher;
@@ -1900,7 +1915,7 @@ var TypeDoc;
         /**
         * Register this handler.
         */
-        Factories.Dispatcher.FACTORIES.push(AstHandler);
+        Factories.Dispatcher.HANDLERS.push(AstHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2157,7 +2172,7 @@ var TypeDoc;
         /**
         * Register this handler.
         */
-        Factories.Dispatcher.FACTORIES.push(CommentHandler);
+        Factories.Dispatcher.HANDLERS.push(CommentHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2196,7 +2211,7 @@ var TypeDoc;
         })();
         Factories.DynamicModuleHandler = DynamicModuleHandler;
 
-        Factories.Dispatcher.FACTORIES.push(DynamicModuleHandler);
+        Factories.Dispatcher.HANDLERS.push(DynamicModuleHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2396,7 +2411,7 @@ var TypeDoc;
         /**
         * Register this handler.
         */
-        Factories.Dispatcher.FACTORIES.push(GroupHandler);
+        Factories.Dispatcher.HANDLERS.push(GroupHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2468,7 +2483,7 @@ var TypeDoc;
         })();
         Factories.InheritanceHandler = InheritanceHandler;
 
-        Factories.Dispatcher.FACTORIES.push(InheritanceHandler);
+        Factories.Dispatcher.HANDLERS.push(InheritanceHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2525,7 +2540,7 @@ var TypeDoc;
         })();
         Factories.NullHandler = NullHandler;
 
-        Factories.Dispatcher.FACTORIES.push(NullHandler);
+        Factories.Dispatcher.HANDLERS.push(NullHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2616,7 +2631,7 @@ var TypeDoc;
         /**
         * Register this handler.
         */
-        Factories.Dispatcher.FACTORIES.push(PackageHandler);
+        Factories.Dispatcher.HANDLERS.push(PackageHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2726,7 +2741,7 @@ var TypeDoc;
         })();
         Factories.ReflectionHandler = ReflectionHandler;
 
-        Factories.Dispatcher.FACTORIES.push(ReflectionHandler);
+        Factories.Dispatcher.HANDLERS.push(ReflectionHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2767,7 +2782,7 @@ var TypeDoc;
         })();
         Factories.ResolveHandler = ResolveHandler;
 
-        Factories.Dispatcher.FACTORIES.push(ResolveHandler);
+        Factories.Dispatcher.HANDLERS.push(ResolveHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2865,7 +2880,7 @@ var TypeDoc;
         })();
         Factories.SignatureHandler = SignatureHandler;
 
-        Factories.Dispatcher.FACTORIES.push(SignatureHandler);
+        Factories.Dispatcher.HANDLERS.push(SignatureHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2969,7 +2984,7 @@ var TypeDoc;
         })();
         Factories.SourceHandler = SourceHandler;
 
-        Factories.Dispatcher.FACTORIES.push(SourceHandler);
+        Factories.Dispatcher.HANDLERS.push(SourceHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3085,7 +3100,7 @@ var TypeDoc;
         })();
         Factories.TypeHandler = TypeHandler;
 
-        Factories.Dispatcher.FACTORIES.push(TypeHandler);
+        Factories.Dispatcher.HANDLERS.push(TypeHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3866,35 +3881,6 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
-        var RenderOutput = (function (_super) {
-            __extends(RenderOutput, _super);
-            function RenderOutput(target) {
-                _super.call(this);
-                this.target = target;
-            }
-            return RenderOutput;
-        })(TypeDoc.Event);
-        Models.RenderOutput = RenderOutput;
-    })(TypeDoc.Models || (TypeDoc.Models = {}));
-    var Models = TypeDoc.Models;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Models) {
-        var RenderTarget = (function (_super) {
-            __extends(RenderTarget, _super);
-            function RenderTarget() {
-                _super.apply(this, arguments);
-            }
-            return RenderTarget;
-        })(TypeDoc.Event);
-        Models.RenderTarget = RenderTarget;
-    })(TypeDoc.Models || (TypeDoc.Models = {}));
-    var Models = TypeDoc.Models;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Models) {
         /**
         *
         */
@@ -4005,7 +3991,15 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        /**
+        * Base class of all plugins that can be attached to the [[Renderer]].
+        */
         var BasePlugin = (function () {
+            /**
+            * Create a new BasePlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
             function BasePlugin(renderer) {
                 this.renderer = renderer;
             }
@@ -4048,136 +4042,436 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        var DefaultTheme = (function (_super) {
+            __extends(DefaultTheme, _super);
+            function DefaultTheme() {
+                _super.apply(this, arguments);
+            }
+            DefaultTheme.prototype.isOutputDirectory = function (dirname) {
+                if (!FS.existsSync(Path.join(dirname, 'index.html')))
+                    return false;
+                if (!FS.existsSync(Path.join(dirname, 'assets')))
+                    return false;
+                if (!FS.existsSync(Path.join(dirname, 'assets', 'js', 'main.js')))
+                    return false;
+                if (!FS.existsSync(Path.join(dirname, 'assets', 'images', 'icons.png')))
+                    return false;
+
+                return true;
+            };
+
+            DefaultTheme.prototype.getMapping = function (reflection) {
+                for (var i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
+                    var mapping = DefaultTheme.MAPPINGS[i];
+                    if (reflection.kindOf(mapping.kind)) {
+                        return mapping;
+                    }
+                }
+
+                return null;
+            };
+
+            /**
+            * Build the urls for the current project.
+            *
+            * @returns  An array of url mappings.
+            */
+            DefaultTheme.prototype.getUrls = function (project) {
+                var _this = this;
+                var urls = [];
+
+                var createUrl = function (reflection, to, separator) {
+                    if (typeof separator === "undefined") { separator = '.'; }
+                    var url = reflection.getAlias();
+                    if (reflection.parent && reflection.parent != to && !(reflection.parent instanceof TypeDoc.Models.ProjectReflection)) {
+                        url = createUrl(reflection.parent, to, separator) + separator + url;
+                    }
+                    return url;
+                };
+
+                var walkLeaf = function (reflection, container) {
+                    reflection.children.forEach(function (child) {
+                        if (child.kindOf(TypeDoc.Models.Kind.Parameter)) {
+                            return;
+                        }
+
+                        child.url = container.url + '#' + createUrl(child, container, '.');
+                        walkLeaf(child, container);
+                    });
+                };
+
+                var walkReflection = function (reflection, container) {
+                    reflection.children.forEach(function (child) {
+                        var mapping = _this.getMapping(child);
+                        if (mapping) {
+                            child.url = Path.join(mapping.prefix, createUrl(child) + '.html');
+                            child.hasOwnDocument = true;
+                            urls.push(new TypeDoc.Models.UrlMapping(child.url, child, mapping.template));
+
+                            if (mapping.isLeaf) {
+                                walkLeaf(child, child);
+                            } else {
+                                walkReflection(child, child);
+                            }
+                        } else {
+                            child.url = container.url + '#' + createUrl(child, container, '.');
+                            walkLeaf(child, container);
+                        }
+                    });
+                };
+
+                project.url = 'globals.html';
+                urls.push(new TypeDoc.Models.UrlMapping('globals.html', project, 'reflection.hbs'));
+                urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
+
+                walkReflection(project, project);
+
+                project.reflections.forEach(function (reflection) {
+                    var classes = [];
+                    var kind = TypeDoc.Models.Kind[reflection.kind];
+                    classes.push(DefaultTheme.classify('tsd-kind-' + kind));
+
+                    if (reflection.parent && reflection.parent instanceof TypeDoc.Models.DeclarationReflection) {
+                        kind = TypeDoc.Models.Kind[reflection.parent.kind];
+                        classes.push(DefaultTheme.classify('tsd-parent-kind-' + kind));
+                    }
+
+                    if (reflection.overwrites)
+                        classes.push('tsd-is-overwrite');
+                    if (reflection.inheritedFrom)
+                        classes.push('tsd-is-inherited');
+                    if (reflection.isPrivate)
+                        classes.push('tsd-is-private');
+                    if (reflection.isStatic)
+                        classes.push('tsd-is-static');
+                    if (!reflection.isExported)
+                        classes.push('tsd-is-not-exported');
+                    reflection.cssClasses = classes.join(' ');
+
+                    if (reflection.groups) {
+                        reflection.groups.forEach(function (group) {
+                            var classes = [];
+                            if (group.allChildrenAreInherited)
+                                classes.push('tsd-is-inherited');
+                            if (group.allChildrenArePrivate)
+                                classes.push('tsd-is-private');
+                            if (!group.someChildrenAreExported)
+                                classes.push('tsd-is-not-exported');
+                            group.cssClasses = classes.join(' ');
+                        });
+                    }
+                });
+
+                return urls;
+            };
+
+            DefaultTheme.prototype.getNavigation = function (project) {
+                function walkReflection(reflection, parent) {
+                    var name = parent == root ? reflection.getFullName() : reflection.name;
+                    var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
+                    item.isPrimary = (parent == root);
+                    item.cssClasses = reflection.cssClasses;
+
+                    reflection.children.forEach(function (child) {
+                        if (child.kindOf(TypeDoc.Models.Kind.SomeContainer))
+                            return;
+                        walkReflection(child, item);
+                    });
+                }
+
+                var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
+                new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
+
+                var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
+                modules.sort(function (a, b) {
+                    return a.getFullName() < b.getFullName() ? -1 : 1;
+                });
+
+                modules.forEach(function (container) {
+                    return walkReflection(container, root);
+                });
+
+                return root;
+            };
+
+            /**
+            * Transform a space separated string into a string suitable to be used as a css class.
+            */
+            DefaultTheme.classify = function (str) {
+                return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) {
+                    return m1 + '-' + m2;
+                }).toLowerCase();
+            };
+            DefaultTheme.MAPPINGS = [
+                {
+                    kind: TypeDoc.Models.Kind.Class,
+                    isLeaf: true,
+                    prefix: 'classes',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: TypeDoc.Models.Kind.Interface,
+                    isLeaf: true,
+                    prefix: 'interfaces',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: TypeDoc.Models.Kind.Enum,
+                    isLeaf: true,
+                    prefix: 'enums',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [TypeDoc.Models.Kind.Container, TypeDoc.Models.Kind.DynamicModule],
+                    isLeaf: false,
+                    prefix: 'modules',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [TypeDoc.Models.Kind.Script],
+                    isLeaf: false,
+                    prefix: 'scripts',
+                    template: 'reflection.hbs'
+                }];
+            return DefaultTheme;
+        })(Output.BaseTheme);
+        Output.DefaultTheme = DefaultTheme;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        
+
+        /**
+        * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
+        * the emitted html documents to a output directory. You can specify which theme should be used
+        * using the ```--theme <name>``` commandline argument.
+        *
+        * Subclasses of [[BasePlugin]] that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
+        * will be automatically initialized. Most of the core functionality is provided as separate plugins.
+        *
+        * [[Renderer]] is a subclass of [[EventDispatcher]] and triggers a series of events while
+        * a project is being processed. You can listen to these events to control the flow or manipulate
+        * the output.
+        *
+        *  * [[Renderer.EVENT_BEGIN]]<br/>
+        *    Triggered before the renderer starts rendering a project. The listener receives
+        *    an instance of [[OutputEvent]]. By calling [[OutputEvent.preventDefault]] the entire
+        *    render process can be canceled.
+        *
+        *    * [[Renderer.EVENT_BEGIN_PAGE]]<br/>
+        *      Triggered before a document will be rendered. The listener receives an instance of
+        *      [[OutputPageEvent]]. By calling [[OutputPageEvent.preventDefault]] the generation of the
+        *      document can be canceled.
+        *
+        *    * [[Renderer.EVENT_END_PAGE]]<br/>
+        *      Triggered after a document has been rendered, just before it is written to disc. The
+        *      listener receives an instance of [[OutputPageEvent]]. When calling
+        *      [[OutputPageEvent.preventDefault]] the the document will not be saved to disc.
+        *
+        *  * [[Renderer.EVENT_END]]<br/>
+        *    Triggered after the renderer has written all documents. The listener receives
+        *    an instance of [[OutputEvent]].
+        */
         var Renderer = (function (_super) {
             __extends(Renderer, _super);
+            /**
+            * Create a new Renderer instance.
+            *
+            * @param application  The application this dispatcher is attached to.
+            */
             function Renderer(application) {
                 var _this = this;
                 _super.call(this);
+                /**
+                * Hash map of all loaded templates indexed by filename.
+                */
                 this.templates = {};
                 this.application = application;
-                this.ioHost = TypeScript.IO;
 
                 this.plugins = [];
                 Renderer.PLUGIN_CLASSES.forEach(function (pluginClass) {
                     _this.plugins.push(new pluginClass(_this));
                 });
-
-                Handlebars.registerHelper('compact', function (options) {
-                    var lines = options.fn(this).split('\n');
-                    for (var i = 0, c = lines.length; i < c; i++) {
-                        lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
-                    }
-                    return lines.join('');
-                });
             }
-            Renderer.prototype.setTheme = function (dirname) {
-                dirname = this.ioHost.resolvePath(dirname);
-                if (!this.ioHost.fileExists(dirname)) {
-                    throw new Error('Theme directory ´' + dirname + '´ does not exist.');
-                }
-
-                var filename = TypeScript.IOUtils.combine(dirname, 'theme.js');
-                if (!this.ioHost.fileExists(filename)) {
-                    throw new Error('Theme theme.js ´' + filename + '´ does not exist.');
-                }
-
-                var themeClass = eval(TypeDoc.readFile(filename));
-                this.theme = new themeClass(this, dirname);
-            };
-
-            Renderer.prototype.getDefaultTheme = function () {
-                var compilerFilePath = this.ioHost.getExecutingFilePath();
-                var containingDirectoryPath = this.ioHost.dirName(compilerFilePath);
-                var libraryFilePath = Path.resolve(TypeScript.IOUtils.combine(TypeScript.IOUtils.combine(containingDirectoryPath, 'themes'), 'default'));
-
-                return libraryFilePath;
-            };
-
+            /**
+            * Return the template with the given filename.
+            *
+            * Tries to find the file in the ´templates´ subdirectory of the current theme.
+            * If it does not exist, TypeDoc tries to find the template in the default
+            * theme templates subdirectory.
+            *
+            * @param fileName  The filename of the template that should be loaded.
+            * @returns The compiled template or NULL if the file could not be found.
+            */
             Renderer.prototype.getTemplate = function (fileName) {
                 if (!this.theme) {
-                    throw new Error('Cannot resolve templates before theme is set.');
+                    this.application.log(Util.format('Cannot resolve templates before theme is set.'), 3 /* Error */);
+                    return null;
                 }
 
                 if (!this.templates[fileName]) {
-                    var absFileName = TypeScript.IOUtils.combine(this.theme.basePath, fileName);
-                    absFileName = this.ioHost.resolvePath(absFileName);
-
-                    if (!this.ioHost.fileExists(absFileName)) {
-                        throw new Error('Cannot find template ´' + absFileName + '´.');
+                    var path = Path.resolve(Path.join(this.theme.basePath, fileName));
+                    if (!FS.existsSync(path)) {
+                        path = Path.resolve(Path.join(Renderer.getDefaultTheme(), fileName));
+                        if (!FS.existsSync(path)) {
+                            this.application.log(Util.format('Cannot find template %s', fileName), 3 /* Error */);
+                            return null;
+                        }
                     }
 
-                    this.templates[fileName] = Handlebars.compile(TypeDoc.readFile(absFileName));
+                    this.templates[fileName] = Handlebars.compile(TypeDoc.readFile(path));
                 }
 
                 return this.templates[fileName];
             };
 
+            /**
+            * Render the given project reflection to the specified output directory.
+            *
+            * @param project  The project that should be rendered.
+            * @param outputDirectory  The path of the directory the documentation should be rendered to.
+            */
             Renderer.prototype.render = function (project, outputDirectory) {
-                if (!this.theme) {
-                    this.setTheme(this.getDefaultTheme());
+                var _this = this;
+                if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
+                    return;
                 }
 
-                if (FS.existsSync(outputDirectory)) {
-                    if (!this.theme.isOutputDirectory(outputDirectory)) {
-                        return this.application.log(Util.format('Error: The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', outputDirectory), 3 /* Error */);
+                var output = new Output.OutputEvent();
+                output.outputDirectory = outputDirectory;
+                output.project = project;
+                output.urls = this.theme.getUrls(project);
+
+                this.dispatch(Renderer.EVENT_BEGIN, output);
+                if (!output.isDefaultPrevented) {
+                    output.urls.forEach(function (mapping) {
+                        _this.renderDocument(output.createPageEvent(mapping));
+                    });
+
+                    this.dispatch(Renderer.EVENT_END, output);
+                }
+            };
+
+            /**
+            * Render a single page.
+            *
+            * @param page An event describing the current page.
+            * @return TRUE if the page has been saved to disc, otherwise FALSE.
+            */
+            Renderer.prototype.renderDocument = function (page) {
+                this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
+                if (page.isDefaultPrevented) {
+                    return false;
+                }
+
+                page.template = page.template || this.getTemplate(Path.join('templates', page.templateName));
+                page.contents = page.template(page);
+
+                this.dispatch(Renderer.EVENT_END_PAGE, page);
+                if (page.isDefaultPrevented) {
+                    return false;
+                }
+
+                try  {
+                    TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, page.filename, page.contents, true);
+                } catch (error) {
+                    this.application.log(Util.format('Error: Could not write %s', page.filename), 3 /* Error */);
+                    return false;
+                }
+
+                return true;
+            };
+
+            /**
+            * Ensure that a theme has been setup.
+            *
+            * If a the user has set a theme we try to find and load it. If no theme has
+            * been specified we load the default theme.
+            *
+            * @returns TRUE if a theme has been setup, otherwise FALSE.
+            */
+            Renderer.prototype.prepareTheme = function () {
+                if (!this.theme) {
+                    var themeName = this.application.settings.theme;
+                    var path = Path.resolve(themeName);
+                    if (!FS.existsSync(path)) {
+                        path = Path.join(Renderer.getThemeDirectory(), themeName);
+                        if (!FS.existsSync(path)) {
+                            this.application.log(Util.format('The theme %s could not be found.', themeName), 3 /* Error */);
+                            return false;
+                        }
+                    }
+
+                    var filename = Path.join(path, 'theme.js');
+                    if (!FS.existsSync(filename)) {
+                        this.theme = new Output.DefaultTheme(this, path);
+                    } else {
+                        var themeClass = eval(TypeDoc.readFile(filename));
+                        this.theme = new themeClass(this, path);
+                    }
+                }
+
+                return true;
+            };
+
+            /**
+            * Prepare the output directory. If the directory does not exist, it will be
+            * created. If the directory exists, it will be emptied.
+            *
+            * @param directory  The path to the directory that should be prepared.
+            * @returns TRUE if the directory could be prepared, otherwise FALSE.
+            */
+            Renderer.prototype.prepareOutputDirectory = function (directory) {
+                if (FS.existsSync(directory)) {
+                    if (!this.theme.isOutputDirectory(directory)) {
+                        this.application.log(Util.format('Error: The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', directory), 3 /* Error */);
+                        return false;
                     }
 
                     try  {
-                        FS.rmrfSync(outputDirectory);
+                        FS.rmrfSync(directory);
                     } catch (error) {
                         this.application.log('Warning: Could not empty the output directory.', 2 /* Warn */);
                     }
                 }
 
-                if (!FS.existsSync(outputDirectory)) {
+                if (!FS.existsSync(directory)) {
                     try  {
-                        FS.mkdirpSync(outputDirectory);
+                        FS.mkdirpSync(directory);
                     } catch (error) {
-                        return this.application.log(Util.format('Error: Could not create output directory %s', outputDirectory), 3 /* Error */);
+                        this.application.log(Util.format('Error: Could not create output directory %s', directory), 3 /* Error */);
+                        return false;
                     }
                 }
 
-                var target = new TypeDoc.Models.RenderTarget();
-                target.dirname = outputDirectory;
-                target.project = project;
-                target.urls = this.theme.getUrls(project);
-
-                this.dispatch('beginTarget', target);
-                if (target.isDefaultPrevented)
-                    return;
-
-                this.renderTarget(target);
-                this.dispatch('endTarget', target);
+                return true;
             };
 
-            Renderer.prototype.renderTarget = function (target) {
-                var _this = this;
-                target.urls.forEach(function (mapping) {
-                    var output = new TypeDoc.Models.RenderOutput(target);
-                    output.project = target.project;
-                    output.url = mapping.url;
-                    output.model = mapping.model;
-                    output.templateName = mapping.template;
-                    output.template = _this.getTemplate(Path.join('templates', mapping.template));
-                    output.filename = Path.join(target.dirname, mapping.url);
-
-                    _this.dispatch('beginOutput', output);
-                    if (output.isDefaultPrevented || !output.template)
-                        return;
-
-                    output.contents = output.template(output);
-
-                    _this.dispatch('endOutput', output);
-                    if (output.isDefaultPrevented)
-                        return;
-
-                    try  {
-                        TypeScript.IOUtils.writeFileAndFolderStructure(_this.ioHost, output.filename, output.contents, true);
-                    } catch (error) {
-                        _this.ioHost.printLine('Error: Could not write ' + output.filename);
-                    }
-                });
+            /**
+            * Return the path containing the themes shipped with TypeDoc.
+            *
+            * @returns The path to the theme directory.
+            */
+            Renderer.getThemeDirectory = function () {
+                var path = Path.dirname(TypeScript.IO.getExecutingFilePath());
+                return Path.resolve(Path.join(path, 'themes'));
             };
+
+            /**
+            * Return the path to the default theme.
+            *
+            * @returns The path to the default theme.
+            */
+            Renderer.getDefaultTheme = function () {
+                return Path.join(Renderer.getThemeDirectory(), 'default');
+            };
+            Renderer.EVENT_BEGIN = 'beginRender';
+
+            Renderer.EVENT_END = 'endRender';
+
+            Renderer.EVENT_BEGIN_PAGE = 'beginPage';
+
+            Renderer.EVENT_END_PAGE = 'endPage';
+
             Renderer.PLUGIN_CLASSES = [];
             return Renderer;
         })(TypeDoc.EventDispatcher);
@@ -4188,20 +4482,90 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        /**
+        * An event emitted by the [[Renderer]] class at the very beginning and
+        * ending of the entire rendering process.
+        *
+        * @see [[Renderer.EVENT_BEGIN]]
+        * @see [[Renderer.EVENT_END]]
+        */
+        var OutputEvent = (function (_super) {
+            __extends(OutputEvent, _super);
+            function OutputEvent() {
+                _super.apply(this, arguments);
+            }
+            /**
+            * Create an [[OutputPageEvent]] event based on this event and the given url mapping.
+            *
+            * @internal
+            * @param mapping  The mapping that defines the generated [[OutputPageEvent]] state.
+            * @returns A newly created [[OutputPageEvent]] instance.
+            */
+            OutputEvent.prototype.createPageEvent = function (mapping) {
+                var event = new Output.OutputPageEvent();
+                event.project = this.project;
+                event.url = mapping.url;
+                event.model = mapping.model;
+                event.templateName = mapping.template;
+                event.filename = Path.join(this.outputDirectory, mapping.url);
+                return event;
+            };
+            return OutputEvent;
+        })(TypeDoc.Event);
+        Output.OutputEvent = OutputEvent;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        /**
+        * An event emitted by the [[Renderer]] class at the before and after the
+        * markup of a page is rendered.
+        *
+        * This object will be passed as the rendering context to the handlebars template.
+        *
+        * @see [[Renderer.EVENT_BEGIN_PAGE]]
+        * @see [[Renderer.EVENT_END_PAGE]]
+        */
+        var OutputPageEvent = (function (_super) {
+            __extends(OutputPageEvent, _super);
+            function OutputPageEvent() {
+                _super.apply(this, arguments);
+            }
+            return OutputPageEvent;
+        })(TypeDoc.Event);
+        Output.OutputPageEvent = OutputPageEvent;
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        /**
+        * A plugin that copies the subdirectory ´assets´ from the current themes
+        * source folder to the output directory.
+        */
         var AssetsPlugin = (function (_super) {
             __extends(AssetsPlugin, _super);
+            /**
+            * Create a new AssetsPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
             function AssetsPlugin(renderer) {
-                var _this = this;
                 _super.call(this, renderer);
-                renderer.on('beginTarget', function (t) {
-                    return _this.onRendererBeginTarget(t);
-                });
+                renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
             }
-            AssetsPlugin.prototype.onRendererBeginTarget = function (target) {
-                var ready = false;
-                var from = TypeScript.IOUtils.combine(this.renderer.theme.basePath, 'assets');
-                if (this.renderer.ioHost.fileExists(from)) {
-                    var to = Path.join(target.dirname, 'assets');
+            /**
+            * Triggered before the renderer starts rendering a project.
+            *
+            * @param event  An event object describing the current render operation.
+            */
+            AssetsPlugin.prototype.onRendererBegin = function (event) {
+                var from = Path.join(this.renderer.theme.basePath, 'assets');
+                if (FS.existsSync(from)) {
+                    var to = Path.join(event.outputDirectory, 'assets');
                     FS.mkdirRecursiveSync(to);
                     FS.copyRecursive(from, to, function (e) {
                     });
@@ -4211,6 +4575,9 @@ var TypeDoc;
         })(Output.BasePlugin);
         Output.AssetsPlugin = AssetsPlugin;
 
+        /**
+        * Register this plugin.
+        */
         Output.Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
@@ -4218,23 +4585,39 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        /**
+        * A plugin that wraps the generated output with a layout template.
+        *
+        * Currently only a default layout is supported. The layout must bes stored
+        * as ´layouts/default.hbs´ in the theme directory.
+        */
         var LayoutPlugin = (function (_super) {
             __extends(LayoutPlugin, _super);
+            /**
+            * Create a new LayoutPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
             function LayoutPlugin(renderer) {
-                var _this = this;
                 _super.call(this, renderer);
-                renderer.on('endOutput', function (o) {
-                    return _this.onRendererEndOutput(o);
-                });
+                renderer.on(Output.Renderer.EVENT_END_PAGE, this.onRendererEndPage, this);
             }
-            LayoutPlugin.prototype.onRendererEndOutput = function (output) {
+            /**
+            * Triggered after a document has been rendered, just before it is written to disc.
+            *
+            * @param page  An event object describing the current render operation.
+            */
+            LayoutPlugin.prototype.onRendererEndPage = function (page) {
                 var layout = this.renderer.getTemplate('layouts/default.hbs');
-                output.contents = layout(output);
+                page.contents = layout(page);
             };
             return LayoutPlugin;
         })(Output.BasePlugin);
         Output.LayoutPlugin = LayoutPlugin;
 
+        /**
+        * Register this plugin.
+        */
         Output.Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
@@ -4243,7 +4626,7 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
         /**
-        * A plugin that exposes the markdown and relativeURL helper to handlebars.
+        * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
         *
         * Templates should parse all comments with the markdown handler so authors can
         * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
@@ -4255,6 +4638,15 @@ var TypeDoc;
         *
         * ```handlebars
         * {{#markdown}}{{{comment.text}}}{{/markdown}}
+        * ```
+        *
+        * The compact helper removes all newlines of its content:
+        *
+        * ```handlebars
+        * {{#compact}}
+        *   Compact
+        *   this
+        * {{/compact}}
         * ```
         *
         * The relativeURL helper simply transforms an absolute url into a relative url:
@@ -4273,36 +4665,26 @@ var TypeDoc;
             function MarkedPlugin(renderer) {
                 var _this = this;
                 _super.call(this, renderer);
-                renderer.on('beginTarget', function (t) {
-                    return _this.onRendererBeginTarget(t);
-                });
-                renderer.on('beginOutput', function (o) {
-                    return _this.onRendererBeginOutput(o);
-                });
-
-                HighlightJS.registerLanguage('typescript', highlightTypeScript);
-
-                Marked.setOptions({
-                    highlight: function (code, lang) {
-                        try  {
-                            if (lang) {
-                                return HighlightJS.highlight(lang, code).value;
-                            } else {
-                                return HighlightJS.highlightAuto(code).value;
-                            }
-                        } catch (error) {
-                            renderer.application.log(error.message, 2 /* Warn */);
-                            return code;
-                        }
-                    }
-                });
+                renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+                renderer.on(Output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
 
                 var that = this;
                 Handlebars.registerHelper('markdown', function (arg) {
                     return that.parseMarkdown(arg.fn(this));
                 });
+                Handlebars.registerHelper('compact', function (arg) {
+                    return that.getCompact(arg.fn(this));
+                });
                 Handlebars.registerHelper('relativeURL', function (url) {
                     return _this.getRelativeUrl(url);
+                });
+
+                HighlightJS.registerLanguage('typescript', highlightTypeScript);
+
+                Marked.setOptions({
+                    highlight: function (text, lang) {
+                        return _this.getHighlighted(text, lang);
+                    }
                 });
             }
             /**
@@ -4314,6 +4696,40 @@ var TypeDoc;
             MarkedPlugin.prototype.getRelativeUrl = function (absolute) {
                 var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
                 return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+            };
+
+            /**
+            * Compress the given string by removing all newlines.
+            *
+            * @param text  The string that should be compressed.
+            * @returns The string with all newlsines stripped.
+            */
+            MarkedPlugin.prototype.getCompact = function (text) {
+                var lines = text.split('\n');
+                for (var i = 0, c = lines.length; i < c; i++) {
+                    lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
+                }
+                return lines.join('');
+            };
+
+            /**
+            * Highlight the synatx of the given text using HighlightJS.
+            *
+            * @param text  The text taht should be highlightes.
+            * @param lang  The language that should be used to highlight the string.
+            * @return A html string with syntax highlighting.
+            */
+            MarkedPlugin.prototype.getHighlighted = function (text, lang) {
+                try  {
+                    if (lang) {
+                        return HighlightJS.highlight(lang, text).value;
+                    } else {
+                        return HighlightJS.highlightAuto(text).value;
+                    }
+                } catch (error) {
+                    this.renderer.application.log(error.message, 2 /* Warn */);
+                    return text;
+                }
             };
 
             /**
@@ -4360,22 +4776,22 @@ var TypeDoc;
             };
 
             /**
-            * Triggered when the renderer begins processing a project.
+            * Triggered before the renderer starts rendering a project.
             *
-            * @param target  Defines the current target context of the renderer.
+            * @param event  An event object describing the current render operation.
             */
-            MarkedPlugin.prototype.onRendererBeginTarget = function (target) {
-                this.project = target.project;
+            MarkedPlugin.prototype.onRendererBegin = function (event) {
+                this.project = event.project;
             };
 
             /**
-            * Triggered when the renderer begins processing a single output file.
+            * Triggered before a document will be rendered.
             *
-            * @param output  Defines the current output context of the renderer.
+            * @param page  An event object describing the current render operation.
             */
-            MarkedPlugin.prototype.onRendererBeginOutput = function (output) {
-                this.location = output.url;
-                this.reflection = output.model instanceof TypeDoc.Models.DeclarationReflection ? output.model : null;
+            MarkedPlugin.prototype.onRendererBeginPage = function (page) {
+                this.location = page.url;
+                this.reflection = page.model instanceof TypeDoc.Models.DeclarationReflection ? page.model : null;
             };
             return MarkedPlugin;
         })(Output.BasePlugin);
@@ -4460,29 +4876,47 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        /**
+        * A plugin that exposes the navigation structure of the documentation
+        * to the rendered templates.
+        *
+        * The navigation structure is generated using the current themes
+        * [[BaseTheme.getNavigation]] function. This plugins takes care that the navigation
+        * is updated and passed to the render context.
+        */
         var NavigationPlugin = (function (_super) {
             __extends(NavigationPlugin, _super);
+            /**
+            * Create a new NavigationPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
             function NavigationPlugin(renderer) {
-                var _this = this;
                 _super.call(this, renderer);
-                renderer.on('beginTarget', function (t) {
-                    return _this.onRendererBeginTarget(t);
-                });
-                renderer.on('beginOutput', function (o) {
-                    return _this.onRendererBeginOutput(o);
-                });
+                renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+                renderer.on(Output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
             }
-            NavigationPlugin.prototype.onRendererBeginTarget = function (target) {
-                this.navigation = this.renderer.theme.getNavigation(target.project);
+            /**
+            * Triggered before the renderer starts rendering a project.
+            *
+            * @param event  An event object describing the current render operation.
+            */
+            NavigationPlugin.prototype.onRendererBegin = function (event) {
+                this.navigation = this.renderer.theme.getNavigation(event.project);
             };
 
-            NavigationPlugin.prototype.onRendererBeginOutput = function (output) {
+            /**
+            * Triggered before a document will be rendered.
+            *
+            * @param page  An event object describing the current render operation.
+            */
+            NavigationPlugin.prototype.onRendererBeginPage = function (page) {
                 var currentItems = [];
                 var secondary = [];
                 function updateItem(item) {
                     item.isCurrent = false;
                     item.isInPath = false;
-                    if (item.url == output.url) {
+                    if (item.url == page.url) {
                         currentItems.push(item);
                     }
 
@@ -4510,14 +4944,16 @@ var TypeDoc;
                     }
                 });
 
-                this.location = output.url;
-                output.navigation = this.navigation;
-                output.secondary = secondary;
+                page.navigation = this.navigation;
+                page.secondary = secondary;
             };
             return NavigationPlugin;
         })(Output.BasePlugin);
         Output.NavigationPlugin = NavigationPlugin;
 
+        /**
+        * Register this plugin.
+        */
         Output.Renderer.PLUGIN_CLASSES.push(NavigationPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
@@ -4525,28 +4961,58 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Output) {
+        /**
+        * A plugin that loads all partials of the current theme.
+        *
+        * Partials must be placed in the ´partials´ subdirectory of the theme. The plugin first
+        * loads the partials of the default theme and then the partials of the current theme.
+        */
         var PartialsPlugin = (function (_super) {
             __extends(PartialsPlugin, _super);
+            /**
+            * Create a new PartialsPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
             function PartialsPlugin(renderer) {
-                var _this = this;
                 _super.call(this, renderer);
-                renderer.on('beginTarget', function (t) {
-                    return _this.onRendererBeginTarget(t);
-                });
+                renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
             }
-            PartialsPlugin.prototype.onRendererBeginTarget = function (target) {
-                var dirName = Path.join(this.renderer.theme.basePath, 'partials');
-                var partials = this.renderer.ioHost.dir(dirName);
-
-                partials.forEach(function (partial) {
-                    var name = Path.basename(partial, Path.extname(partial));
-                    Handlebars.registerPartial(name, TypeDoc.readFile(partial));
+            /**
+            * Load all files in the given directory and registers them as partials.
+            *
+            * @param path  The path of the directory that should be scanned.
+            */
+            PartialsPlugin.prototype.loadPartials = function (path) {
+                FS.readdirSync(path).forEach(function (fileName) {
+                    var file = Path.join(path, fileName);
+                    var name = Path.basename(fileName, Path.extname(fileName));
+                    Handlebars.registerPartial(name, TypeDoc.readFile(file));
                 });
+            };
+
+            /**
+            * Triggered before the renderer starts rendering a project.
+            *
+            * @param event  An event object describing the current render operation.
+            */
+            PartialsPlugin.prototype.onRendererBegin = function (event) {
+                var themePath = Path.join(this.renderer.theme.basePath, 'partials');
+                var defaultPath = Path.join(Output.Renderer.getDefaultTheme(), 'partials');
+
+                if (themePath != defaultPath) {
+                    this.loadPartials(defaultPath);
+                }
+
+                this.loadPartials(themePath);
             };
             return PartialsPlugin;
         })(Output.BasePlugin);
         Output.PartialsPlugin = PartialsPlugin;
 
+        /**
+        * Register this plugin.
+        */
         Output.Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
