@@ -32,7 +32,7 @@ module TypeDoc
          * @param message  The message itself.
          * @param level  The urgency of the log message.
          */
-        log(message:string, level?:LogLevel);
+        log(message:string, level?:LogLevel):void;
     }
 
 

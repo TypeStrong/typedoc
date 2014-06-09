@@ -187,7 +187,7 @@ module TypeDoc.Factories
 
 
         getDefaultLibraryFilePath():string {
-            return this.resolvePath(TypeScript.IOUtils.combine(TypeScript.typescriptPath, "lib.d.ts"));
+            return this.resolvePath(TypeScript.IOUtils.combine(typeScriptPath, "lib.d.ts"));
         }
     }
 }
