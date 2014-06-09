@@ -15,16 +15,13 @@ var VM = require('vm');
 var Path = require('path');
 var FS = require('fs.extra');
 
-var dirname = Path.dirname(require.resolve('typescript'));
-var file = Path.resolve(dirname, 'typescript.js');
-if (!file) {
+var typeScriptPath = Path.dirname(require.resolve('typescript'));
+if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {
     process.stderr.write('Could not find ´typescript.js´. Please install typescript, e.g. \'npm install typescript\'.\n');
     process.exit();
 }
 
-eval(FS.readFileSync(file, 'utf-8'));
-
-TypeScript.typescriptPath = dirname;
+eval(FS.readFileSync(Path.resolve(typeScriptPath, 'typescript.js'), 'utf-8'));
 //
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //
@@ -964,11 +961,6 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     /**
-    * The version number of TypeDoc.
-    */
-    TypeDoc.VERSION = '0.0.4';
-
-    /**
     * List of known log levels. Used to specify the urgency of a log message.
     *
     * @see [[Application.log]]
@@ -1051,6 +1043,7 @@ var TypeDoc;
             var project = this.dispatcher.compile(inputFiles);
             this.renderer.render(project, outputDirectory);
         };
+        Application.VERSION = '0.0.4';
         return Application;
     })();
     TypeDoc.Application = Application;
@@ -1163,7 +1156,7 @@ var TypeDoc;
         */
         Settings.prototype.createOptionsParser = function () {
             var _this = this;
-            var opts = new TypeScript.OptionsParser(TypeScript.IO, TypeDoc.VERSION);
+            var opts = new TypeScript.OptionsParser(TypeScript.IO, TypeDoc.Application.VERSION);
 
             opts.option('out', {
                 usage: {
@@ -1335,7 +1328,7 @@ var TypeDoc;
             opts.flag('version', {
                 usage: {
                     locCode: TypeScript.DiagnosticCode.Print_the_compiler_s_version_0,
-                    args: [TypeDoc.VERSION]
+                    args: [TypeDoc.Application.VERSION]
                 },
                 set: function () {
                     _this.shouldPrintVersionOnly = true;
@@ -1611,7 +1604,7 @@ var TypeDoc;
             };
 
             Compiler.prototype.getDefaultLibraryFilePath = function () {
-                return this.resolvePath(TypeScript.IOUtils.combine(TypeScript.typescriptPath, "lib.d.ts"));
+                return this.resolvePath(TypeScript.IOUtils.combine(typeScriptPath, "lib.d.ts"));
             };
             return Compiler;
         })(TypeScript.BatchCompiler);
@@ -1838,6 +1831,207 @@ var TypeDoc;
             return Dispatcher;
         })(TypeDoc.EventDispatcher);
         Factories.Dispatcher = Dispatcher;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * Base class of all states.
+        *
+        * States store the current declaration and its matching reflection while
+        * being processed by the dispatcher. Factories can alter the state and
+        * stop it from being further processed.
+        * For each child declaration the dispatcher will create a child {DeclarationState}
+        * state. The root state is always an instance of {DocumentState}.
+        */
+        var BaseState = (function (_super) {
+            __extends(BaseState, _super);
+            /**
+            * Create a new BaseState instance.
+            */
+            function BaseState(parentState, declaration, reflection) {
+                _super.call(this);
+
+                this.parentState = parentState;
+                this.reflection = reflection;
+                this.declaration = declaration;
+                this.originalDeclaration = declaration;
+            }
+            /**
+            * Check whether the given flag is set on the declaration of this state.
+            *
+            * @param flag   The flag that should be looked for.
+            */
+            BaseState.prototype.hasFlag = function (flag) {
+                return (this.declaration.flags & flag) !== 0;
+            };
+
+            /**
+            * Test whether the declaration of this state is of the given kind.
+            */
+            BaseState.prototype.kindOf = function (kind) {
+                if (Array.isArray(kind)) {
+                    for (var i = 0, c = kind.length; i < c; i++) {
+                        if ((this.declaration.kind & kind[i]) !== 0) {
+                            return true;
+                        }
+                    }
+                    return false;
+                } else {
+                    return (this.declaration.kind & kind) !== 0;
+                }
+            };
+
+            BaseState.prototype.getName = function () {
+                return BaseState.getName(this.declaration);
+            };
+
+            /**
+            * Return the root state of this state.
+            *
+            * The root state is always an instance of {DocumentState}.
+            */
+            BaseState.prototype.getDocumentState = function () {
+                var state = this;
+                while (state) {
+                    if (state instanceof Factories.DocumentState)
+                        return state;
+                    state = state.parentState;
+                }
+                return null;
+            };
+
+            /**
+            * Return the snapshot of the given filename.
+            *
+            * @param fileName  The filename of the snapshot.
+            */
+            BaseState.prototype.getSnapshot = function (fileName) {
+                return this.getDocumentState().compiler.getSnapshot(fileName);
+            };
+
+            /**
+            * Create a child state of this state with the given declaration.
+            *
+            * This state must hold an reflection when creating a child state, an error will
+            * be thrown otherwise. If the reflection of this state contains a child with
+            * the name of the given declaration, the reflection of the child state will be
+            * populated with it.
+            *
+            * @param declaration  The declaration that is encapsulated by the child state.
+            */
+            BaseState.prototype.createChildState = function (declaration) {
+                if (!this.reflection) {
+                    throw new Error('Cannot create a child state of state without a reflection.');
+                }
+
+                var reflection = this.reflection.getChildByName(BaseState.getName(declaration));
+                return new Factories.DeclarationState(this, declaration, reflection);
+            };
+
+            BaseState.getName = function (declaration) {
+                if (declaration.kind == TypeDoc.Models.Kind.ConstructorMethod || declaration.kind == TypeDoc.Models.Kind.ConstructSignature) {
+                    return 'constructor';
+                } else {
+                    return declaration.name;
+                }
+            };
+            return BaseState;
+        })(TypeDoc.Event);
+        Factories.BaseState = BaseState;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        */
+        var DeclarationState = (function (_super) {
+            __extends(DeclarationState, _super);
+            function DeclarationState() {
+                _super.apply(this, arguments);
+                this.flattenedName = '';
+                this.isSignature = false;
+                this.isInherited = false;
+                this.isFlattened = false;
+            }
+            /**
+            * @inherit
+            */
+            DeclarationState.prototype.createChildState = function (declaration) {
+                var state = _super.prototype.createChildState.call(this, declaration);
+                state.isInherited = this.isInherited;
+                state.isFlattened = this.isFlattened;
+
+                if (state.isInherited) {
+                    state.reflection = this.reflection.getChildByName(Factories.BaseState.getName(declaration));
+                }
+
+                if (state.isFlattened) {
+                    state.parentState = this.parentState;
+                    state.flattenedName = this.flattenedName + '.' + declaration.name;
+                }
+
+                return state;
+            };
+
+            /**
+            * Create a child state of this state with the given declaration.
+            */
+            DeclarationState.prototype.createSignatureState = function () {
+                if (!this.reflection) {
+                    throw new Error('Cannot create a signature state of state without a reflection.');
+                }
+
+                var state = new DeclarationState(this, this.declaration);
+                state.isSignature = true;
+                state.isInherited = this.isInherited;
+                state.isFlattened = this.isFlattened;
+                return state;
+            };
+
+            DeclarationState.prototype.createInheritanceState = function (declaration) {
+                if (!this.reflection) {
+                    throw new Error('Cannot create a signature state of state without a reflection.');
+                }
+
+                var state = new DeclarationState(this, declaration);
+                state.reflection = this.reflection;
+                state.isInherited = true;
+                return state;
+            };
+            return DeclarationState;
+        })(Factories.BaseState);
+        Factories.DeclarationState = DeclarationState;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * Root state containing the TypeScript document that is processed.
+        */
+        var DocumentState = (function (_super) {
+            __extends(DocumentState, _super);
+            /**
+            * Create a new DocumentState instance.
+            *
+            * @param dispatcher  The dispatcher that has created this state.
+            * @param document    The TypeScript document that contains the declarations.
+            */
+            function DocumentState(dispatcher, document, project, compiler) {
+                _super.call(this, null, document.topLevelDecl(), project);
+                this.dispatcher = dispatcher;
+                this.document = document;
+                this.compiler = compiler;
+            }
+            return DocumentState;
+        })(Factories.BaseState);
+        Factories.DocumentState = DocumentState;
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3106,207 +3300,6 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
-    (function (Factories) {
-        /**
-        * Base class of all states.
-        *
-        * States store the current declaration and its matching reflection while
-        * being processed by the dispatcher. Factories can alter the state and
-        * stop it from being further processed.
-        * For each child declaration the dispatcher will create a child {DeclarationState}
-        * state. The root state is always an instance of {DocumentState}.
-        */
-        var BaseState = (function (_super) {
-            __extends(BaseState, _super);
-            /**
-            * Create a new BaseState instance.
-            */
-            function BaseState(parentState, declaration, reflection) {
-                _super.call(this);
-
-                this.parentState = parentState;
-                this.reflection = reflection;
-                this.declaration = declaration;
-                this.originalDeclaration = declaration;
-            }
-            /**
-            * Check whether the given flag is set on the declaration of this state.
-            *
-            * @param flag   The flag that should be looked for.
-            */
-            BaseState.prototype.hasFlag = function (flag) {
-                return (this.declaration.flags & flag) !== 0;
-            };
-
-            /**
-            * Test whether the declaration of this state is of the given kind.
-            */
-            BaseState.prototype.kindOf = function (kind) {
-                if (Array.isArray(kind)) {
-                    for (var i = 0, c = kind.length; i < c; i++) {
-                        if ((this.declaration.kind & kind[i]) !== 0) {
-                            return true;
-                        }
-                    }
-                    return false;
-                } else {
-                    return (this.declaration.kind & kind) !== 0;
-                }
-            };
-
-            BaseState.prototype.getName = function () {
-                return BaseState.getName(this.declaration);
-            };
-
-            /**
-            * Return the root state of this state.
-            *
-            * The root state is always an instance of {DocumentState}.
-            */
-            BaseState.prototype.getDocumentState = function () {
-                var state = this;
-                while (state) {
-                    if (state instanceof Factories.DocumentState)
-                        return state;
-                    state = state.parentState;
-                }
-                return null;
-            };
-
-            /**
-            * Return the snapshot of the given filename.
-            *
-            * @param fileName  The filename of the snapshot.
-            */
-            BaseState.prototype.getSnapshot = function (fileName) {
-                return this.getDocumentState().compiler.getSnapshot(fileName);
-            };
-
-            /**
-            * Create a child state of this state with the given declaration.
-            *
-            * This state must hold an reflection when creating a child state, an error will
-            * be thrown otherwise. If the reflection of this state contains a child with
-            * the name of the given declaration, the reflection of the child state will be
-            * populated with it.
-            *
-            * @param declaration  The declaration that is encapsulated by the child state.
-            */
-            BaseState.prototype.createChildState = function (declaration) {
-                if (!this.reflection) {
-                    throw new Error('Cannot create a child state of state without a reflection.');
-                }
-
-                var reflection = this.reflection.getChildByName(BaseState.getName(declaration));
-                return new Factories.DeclarationState(this, declaration, reflection);
-            };
-
-            BaseState.getName = function (declaration) {
-                if (declaration.kind == TypeDoc.Models.Kind.ConstructorMethod || declaration.kind == TypeDoc.Models.Kind.ConstructSignature) {
-                    return 'constructor';
-                } else {
-                    return declaration.name;
-                }
-            };
-            return BaseState;
-        })(TypeDoc.Event);
-        Factories.BaseState = BaseState;
-    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
-    var Factories = TypeDoc.Factories;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Factories) {
-        /**
-        */
-        var DeclarationState = (function (_super) {
-            __extends(DeclarationState, _super);
-            function DeclarationState() {
-                _super.apply(this, arguments);
-                this.flattenedName = '';
-                this.isSignature = false;
-                this.isInherited = false;
-                this.isFlattened = false;
-            }
-            /**
-            * @inherit
-            */
-            DeclarationState.prototype.createChildState = function (declaration) {
-                var state = _super.prototype.createChildState.call(this, declaration);
-                state.isInherited = this.isInherited;
-                state.isFlattened = this.isFlattened;
-
-                if (state.isInherited) {
-                    state.reflection = this.reflection.getChildByName(Factories.BaseState.getName(declaration));
-                }
-
-                if (state.isFlattened) {
-                    state.parentState = this.parentState;
-                    state.flattenedName = this.flattenedName + '.' + declaration.name;
-                }
-
-                return state;
-            };
-
-            /**
-            * Create a child state of this state with the given declaration.
-            */
-            DeclarationState.prototype.createSignatureState = function () {
-                if (!this.reflection) {
-                    throw new Error('Cannot create a signature state of state without a reflection.');
-                }
-
-                var state = new DeclarationState(this, this.declaration);
-                state.isSignature = true;
-                state.isInherited = this.isInherited;
-                state.isFlattened = this.isFlattened;
-                return state;
-            };
-
-            DeclarationState.prototype.createInheritanceState = function (declaration) {
-                if (!this.reflection) {
-                    throw new Error('Cannot create a signature state of state without a reflection.');
-                }
-
-                var state = new DeclarationState(this, declaration);
-                state.reflection = this.reflection;
-                state.isInherited = true;
-                return state;
-            };
-            return DeclarationState;
-        })(Factories.BaseState);
-        Factories.DeclarationState = DeclarationState;
-    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
-    var Factories = TypeDoc.Factories;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Factories) {
-        /**
-        * Root state containing the TypeScript document that is processed.
-        */
-        var DocumentState = (function (_super) {
-            __extends(DocumentState, _super);
-            /**
-            * Create a new DocumentState instance.
-            *
-            * @param dispatcher  The dispatcher that has created this state.
-            * @param document    The TypeScript document that contains the declarations.
-            */
-            function DocumentState(dispatcher, document, project, compiler) {
-                _super.call(this, null, document.topLevelDecl(), project);
-                this.dispatcher = dispatcher;
-                this.document = document;
-                this.compiler = compiler;
-            }
-            return DocumentState;
-        })(Factories.BaseState);
-        Factories.DocumentState = DocumentState;
-    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
-    var Factories = TypeDoc.Factories;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
     (function (Models) {
         /**
         * A model that represents a javadoc comment.
@@ -4318,7 +4311,7 @@ var TypeDoc;
                         }
                     }
 
-                    this.templates[fileName] = Handlebars.compile(TypeDoc.readFile(path));
+                    this.templates[fileName] = Handlebars.compile(Renderer.readFile(path));
                 }
 
                 return this.templates[fileName];
@@ -4405,7 +4398,7 @@ var TypeDoc;
                     if (!FS.existsSync(filename)) {
                         this.theme = new Output.DefaultTheme(this, path);
                     } else {
-                        var themeClass = eval(TypeDoc.readFile(filename));
+                        var themeClass = eval(Renderer.readFile(filename));
                         this.theme = new themeClass(this, path);
                     }
                 }
@@ -4463,6 +4456,41 @@ var TypeDoc;
             */
             Renderer.getDefaultTheme = function () {
                 return Path.join(Renderer.getThemeDirectory(), 'default');
+            };
+
+            /**
+            * Load the given file and return its contents.
+            *
+            * @param file  The path of the file to read.
+            * @returns The files contents.
+            */
+            Renderer.readFile = function (file) {
+                var buffer = FS.readFileSync(file);
+                switch (buffer[0]) {
+                    case 0xFE:
+                        if (buffer[1] === 0xFF) {
+                            var i = 0;
+                            while ((i + 1) < buffer.length) {
+                                var temp = buffer[i];
+                                buffer[i] = buffer[i + 1];
+                                buffer[i + 1] = temp;
+                                i += 2;
+                            }
+                            return buffer.toString("ucs2", 2);
+                        }
+                        break;
+                    case 0xFF:
+                        if (buffer[1] === 0xFE) {
+                            return buffer.toString("ucs2", 2);
+                        }
+                        break;
+                    case 0xEF:
+                        if (buffer[1] === 0xBB) {
+                            return buffer.toString("utf8", 3);
+                        }
+                }
+
+                return buffer.toString("utf8", 0);
             };
             Renderer.EVENT_BEGIN = 'beginRender';
 
@@ -4588,7 +4616,7 @@ var TypeDoc;
         /**
         * A plugin that wraps the generated output with a layout template.
         *
-        * Currently only a default layout is supported. The layout must bes stored
+        * Currently only a default layout is supported. The layout must be stored
         * as ´layouts/default.hbs´ in the theme directory.
         */
         var LayoutPlugin = (function (_super) {
@@ -4688,7 +4716,7 @@ var TypeDoc;
                 });
             }
             /**
-            * Transform the given absolute to a relative path.
+            * Transform the given absolute path into a relative path.
             *
             * @param absolute  The absolute path to transform.
             * @returns A path relative to the document currently processed.
@@ -4987,7 +5015,7 @@ var TypeDoc;
                 FS.readdirSync(path).forEach(function (fileName) {
                     var file = Path.join(path, fileName);
                     var name = Path.basename(fileName, Path.extname(fileName));
-                    Handlebars.registerPartial(name, TypeDoc.readFile(file));
+                    Handlebars.registerPartial(name, Output.Renderer.readFile(file));
                 });
             };
 
@@ -5016,43 +5044,6 @@ var TypeDoc;
         Output.Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    /**
-    *
-    * @param file
-    * @returns {TypeScript.FileInformation}
-    */
-    function readFile(file) {
-        var buffer = FS.readFileSync(file);
-        switch (buffer[0]) {
-            case 0xFE:
-                if (buffer[1] === 0xFF) {
-                    var i = 0;
-                    while ((i + 1) < buffer.length) {
-                        var temp = buffer[i];
-                        buffer[i] = buffer[i + 1];
-                        buffer[i + 1] = temp;
-                        i += 2;
-                    }
-                    return buffer.toString("ucs2", 2);
-                }
-                break;
-            case 0xFF:
-                if (buffer[1] === 0xFE) {
-                    return buffer.toString("ucs2", 2);
-                }
-                break;
-            case 0xEF:
-                if (buffer[1] === 0xBB) {
-                    return buffer.toString("utf8", 3);
-                }
-        }
-
-        return buffer.toString("utf8", 0);
-    }
-    TypeDoc.readFile = readFile;
 })(TypeDoc || (TypeDoc = {}));
 //
 // Copyright (c) Microsoft Corporation.  All rights reserved.

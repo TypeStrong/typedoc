@@ -16,8 +16,7 @@ declare var Util: any;
 declare var VM: any;
 declare var Path: any;
 declare var FS: any;
-declare var dirname: any;
-declare var file: any;
+declare var typeScriptPath: any;
 declare module TypeScript {
     class SourceFile {
         public scriptSnapshot: IScriptSnapshot;
@@ -101,10 +100,6 @@ declare module TypeDoc {
 }
 declare module TypeDoc {
     /**
-    * The version number of TypeDoc.
-    */
-    var VERSION: string;
-    /**
     * List of known log levels. Used to specify the urgency of a log message.
     *
     * @see [[Application.log]]
@@ -132,7 +127,7 @@ declare module TypeDoc {
         * @param message  The message itself.
         * @param level  The urgency of the log message.
         */
-        log(message: string, level?: LogLevel): any;
+        log(message: string, level?: LogLevel): void;
     }
     /**
     * The default TypeDoc main application class.
@@ -165,6 +160,10 @@ declare module TypeDoc {
         * Has an error been raised through the log method?
         */
         public hasErrors: boolean;
+        /**
+        * The version number of TypeDoc.
+        */
+        static VERSION: string;
         /**
         * Create a new Application instance.
         *
@@ -386,6 +385,125 @@ declare module TypeDoc.Factories {
         * @returns A string describing the given bit mask.
         */
         static flagsToString(flags: any): string;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * Base class of all states.
+    *
+    * States store the current declaration and its matching reflection while
+    * being processed by the dispatcher. Factories can alter the state and
+    * stop it from being further processed.
+    * For each child declaration the dispatcher will create a child {DeclarationState}
+    * state. The root state is always an instance of {DocumentState}.
+    */
+    class BaseState extends Event {
+        /**
+        * The parent state of this state.
+        */
+        public parentState: BaseState;
+        /**
+        * The TypeScript declaration that should be reflected by this state.
+        */
+        public declaration: TypeScript.PullDecl;
+        /**
+        * The TypeScript declaration that should be reflected by this state.
+        */
+        public originalDeclaration: TypeScript.PullDecl;
+        /**
+        * The reflection created for the declaration of this state.
+        */
+        public reflection: Models.BaseReflection;
+        /**
+        * Create a new BaseState instance.
+        */
+        constructor(parentState: BaseState, declaration: TypeScript.PullDecl, reflection?: Models.BaseReflection);
+        /**
+        * Check whether the given flag is set on the declaration of this state.
+        *
+        * @param flag   The flag that should be looked for.
+        */
+        public hasFlag(flag: number): boolean;
+        /**
+        * @param kind  The kind to test for.
+        */
+        public kindOf(kind: TypeScript.PullElementKind): boolean;
+        /**
+        * @param kind  An array of kinds to test for.
+        */
+        public kindOf(kind: TypeScript.PullElementKind[]): boolean;
+        public getName(): string;
+        /**
+        * Return the root state of this state.
+        *
+        * The root state is always an instance of {DocumentState}.
+        */
+        public getDocumentState(): DocumentState;
+        /**
+        * Return the snapshot of the given filename.
+        *
+        * @param fileName  The filename of the snapshot.
+        */
+        public getSnapshot(fileName: string): IScriptSnapshot;
+        /**
+        * Create a child state of this state with the given declaration.
+        *
+        * This state must hold an reflection when creating a child state, an error will
+        * be thrown otherwise. If the reflection of this state contains a child with
+        * the name of the given declaration, the reflection of the child state will be
+        * populated with it.
+        *
+        * @param declaration  The declaration that is encapsulated by the child state.
+        */
+        public createChildState(declaration: TypeScript.PullDecl): DeclarationState;
+        static getName(declaration: TypeScript.PullDecl): string;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    */
+    class DeclarationState extends BaseState {
+        public reflection: Models.DeclarationReflection;
+        public flattenedName: string;
+        public isSignature: boolean;
+        public isInherited: boolean;
+        public isFlattened: boolean;
+        /**
+        * @inherit
+        */
+        public createChildState(declaration: TypeScript.PullDecl): DeclarationState;
+        /**
+        * Create a child state of this state with the given declaration.
+        */
+        public createSignatureState(): DeclarationState;
+        public createInheritanceState(declaration: TypeScript.PullDecl): DeclarationState;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * Root state containing the TypeScript document that is processed.
+    */
+    class DocumentState extends BaseState {
+        /**
+        * The dispatcher that has created this state.
+        */
+        public dispatcher: Dispatcher;
+        /**
+        * The TypeScript document all following declarations are derived from.
+        */
+        public document: TypeScript.Document;
+        /**
+        * The project the reflections should be stored to.
+        */
+        public reflection: Models.ProjectReflection;
+        public compiler: Compiler;
+        /**
+        * Create a new DocumentState instance.
+        *
+        * @param dispatcher  The dispatcher that has created this state.
+        * @param document    The TypeScript document that contains the declarations.
+        */
+        constructor(dispatcher: Dispatcher, document: TypeScript.Document, project: Models.ProjectReflection, compiler: Compiler);
     }
 }
 declare module TypeDoc.Factories {
@@ -730,125 +848,6 @@ declare module TypeDoc.Factories {
         * @returns The root of the generated type hierarchy.
         */
         static buildTypeHierarchy(reflection: Models.DeclarationReflection): Models.IDeclarationHierarchy;
-    }
-}
-declare module TypeDoc.Factories {
-    /**
-    * Base class of all states.
-    *
-    * States store the current declaration and its matching reflection while
-    * being processed by the dispatcher. Factories can alter the state and
-    * stop it from being further processed.
-    * For each child declaration the dispatcher will create a child {DeclarationState}
-    * state. The root state is always an instance of {DocumentState}.
-    */
-    class BaseState extends Event {
-        /**
-        * The parent state of this state.
-        */
-        public parentState: BaseState;
-        /**
-        * The TypeScript declaration that should be reflected by this state.
-        */
-        public declaration: TypeScript.PullDecl;
-        /**
-        * The TypeScript declaration that should be reflected by this state.
-        */
-        public originalDeclaration: TypeScript.PullDecl;
-        /**
-        * The reflection created for the declaration of this state.
-        */
-        public reflection: Models.BaseReflection;
-        /**
-        * Create a new BaseState instance.
-        */
-        constructor(parentState: BaseState, declaration: TypeScript.PullDecl, reflection?: Models.BaseReflection);
-        /**
-        * Check whether the given flag is set on the declaration of this state.
-        *
-        * @param flag   The flag that should be looked for.
-        */
-        public hasFlag(flag: number): boolean;
-        /**
-        * @param kind  The kind to test for.
-        */
-        public kindOf(kind: TypeScript.PullElementKind): boolean;
-        /**
-        * @param kind  An array of kinds to test for.
-        */
-        public kindOf(kind: TypeScript.PullElementKind[]): boolean;
-        public getName(): string;
-        /**
-        * Return the root state of this state.
-        *
-        * The root state is always an instance of {DocumentState}.
-        */
-        public getDocumentState(): DocumentState;
-        /**
-        * Return the snapshot of the given filename.
-        *
-        * @param fileName  The filename of the snapshot.
-        */
-        public getSnapshot(fileName: string): IScriptSnapshot;
-        /**
-        * Create a child state of this state with the given declaration.
-        *
-        * This state must hold an reflection when creating a child state, an error will
-        * be thrown otherwise. If the reflection of this state contains a child with
-        * the name of the given declaration, the reflection of the child state will be
-        * populated with it.
-        *
-        * @param declaration  The declaration that is encapsulated by the child state.
-        */
-        public createChildState(declaration: TypeScript.PullDecl): DeclarationState;
-        static getName(declaration: TypeScript.PullDecl): string;
-    }
-}
-declare module TypeDoc.Factories {
-    /**
-    */
-    class DeclarationState extends BaseState {
-        public reflection: Models.DeclarationReflection;
-        public flattenedName: string;
-        public isSignature: boolean;
-        public isInherited: boolean;
-        public isFlattened: boolean;
-        /**
-        * @inherit
-        */
-        public createChildState(declaration: TypeScript.PullDecl): DeclarationState;
-        /**
-        * Create a child state of this state with the given declaration.
-        */
-        public createSignatureState(): DeclarationState;
-        public createInheritanceState(declaration: TypeScript.PullDecl): DeclarationState;
-    }
-}
-declare module TypeDoc.Factories {
-    /**
-    * Root state containing the TypeScript document that is processed.
-    */
-    class DocumentState extends BaseState {
-        /**
-        * The dispatcher that has created this state.
-        */
-        public dispatcher: Dispatcher;
-        /**
-        * The TypeScript document all following declarations are derived from.
-        */
-        public document: TypeScript.Document;
-        /**
-        * The project the reflections should be stored to.
-        */
-        public reflection: Models.ProjectReflection;
-        public compiler: Compiler;
-        /**
-        * Create a new DocumentState instance.
-        *
-        * @param dispatcher  The dispatcher that has created this state.
-        * @param document    The TypeScript document that contains the declarations.
-        */
-        constructor(dispatcher: Dispatcher, document: TypeScript.Document, project: Models.ProjectReflection, compiler: Compiler);
     }
 }
 declare module TypeDoc.Models {
@@ -1595,6 +1594,13 @@ declare module TypeDoc.Output {
         * @returns The path to the default theme.
         */
         static getDefaultTheme(): string;
+        /**
+        * Load the given file and return its contents.
+        *
+        * @param file  The path of the file to read.
+        * @returns The files contents.
+        */
+        static readFile(file: any): string;
     }
 }
 declare module TypeDoc.Output {
@@ -1703,7 +1709,7 @@ declare module TypeDoc.Output {
     /**
     * A plugin that wraps the generated output with a layout template.
     *
-    * Currently only a default layout is supported. The layout must bes stored
+    * Currently only a default layout is supported. The layout must be stored
     * as ´layouts/default.hbs´ in the theme directory.
     */
     class LayoutPlugin extends BasePlugin {
@@ -1772,12 +1778,12 @@ declare module TypeDoc.Output {
         */
         constructor(renderer: Renderer);
         /**
-        * Transform the given absolute to a relative path.
+        * Transform the given absolute path into a relative path.
         *
         * @param absolute  The absolute path to transform.
         * @returns A path relative to the document currently processed.
         */
-        public getRelativeUrl(absolute: string): any;
+        public getRelativeUrl(absolute: string): string;
         /**
         * Compress the given string by removing all newlines.
         *
@@ -1890,14 +1896,6 @@ declare module TypeDoc.Output {
         */
         private onRendererBegin(event);
     }
-}
-declare module TypeDoc {
-    /**
-    *
-    * @param file
-    * @returns {TypeScript.FileInformation}
-    */
-    function readFile(file: any): string;
 }
 declare module TypeScript {
     interface IFindFileResult {
