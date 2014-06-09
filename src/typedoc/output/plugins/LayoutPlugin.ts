@@ -1,19 +1,38 @@
 module TypeDoc.Output
 {
+    /**
+     * A plugin that wraps the generated output with a layout template.
+     *
+     * Currently only a default layout is supported. The layout must bes stored
+     * as ´layouts/default.hbs´ in the theme directory.
+     */
     export class LayoutPlugin extends BasePlugin
     {
+        /**
+         * Create a new LayoutPlugin instance.
+         *
+         * @param renderer  The renderer this plugin should be attached to.
+         */
         constructor(renderer:Renderer) {
             super(renderer);
-            renderer.on('endOutput', (o) => this.onRendererEndOutput(o));
+            renderer.on(Renderer.EVENT_END_PAGE, this.onRendererEndPage, this);
         }
 
 
-        private onRendererEndOutput(output:Models.RenderOutput) {
+        /**
+         * Triggered after a document has been rendered, just before it is written to disc.
+         *
+         * @param page  An event object describing the current render operation.
+         */
+        private onRendererEndPage(page:OutputPageEvent) {
             var layout = this.renderer.getTemplate('layouts/default.hbs');
-            output.contents = layout(output);
+            page.contents = layout(page);
         }
     }
 
 
+    /**
+     * Register this plugin.
+     */
     Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
 }

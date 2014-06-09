@@ -1,18 +1,31 @@
 module TypeDoc.Output
 {
+    /**
+     * A plugin that copies the subdirectory ´assets´ from the current themes
+     * source folder to the output directory.
+     */
     export class AssetsPlugin extends BasePlugin
     {
+        /**
+         * Create a new AssetsPlugin instance.
+         *
+         * @param renderer  The renderer this plugin should be attached to.
+         */
         constructor(renderer:Renderer) {
             super(renderer);
-            renderer.on('beginTarget', (t) => this.onRendererBeginTarget(t));
+            renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
         }
 
 
-        private onRendererBeginTarget(target:Models.RenderTarget) {
-            var ready = false;
-            var from = TypeScript.IOUtils.combine(this.renderer.theme.basePath, 'assets');
-            if (this.renderer.ioHost.fileExists(from)) {
-                var to = Path.join(target.dirname, 'assets');
+        /**
+         * Triggered before the renderer starts rendering a project.
+         *
+         * @param event  An event object describing the current render operation.
+         */
+        private onRendererBegin(event:OutputEvent) {
+            var from = Path.join(this.renderer.theme.basePath, 'assets');
+            if (FS.existsSync(from)) {
+                var to = Path.join(event.outputDirectory, 'assets');
                 FS.mkdirRecursiveSync(to);
                 FS.copyRecursive(from, to, (e) => {  });
             }
@@ -20,5 +33,8 @@ module TypeDoc.Output
     }
 
 
+    /**
+     * Register this plugin.
+     */
     Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
 }

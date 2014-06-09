@@ -1,7 +1,7 @@
 module TypeDoc.Output
 {
     /**
-     * A plugin that exposes the markdown and relativeURL helper to handlebars.
+     * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *
      * Templates should parse all comments with the markdown handler so authors can
      * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
@@ -13,6 +13,15 @@ module TypeDoc.Output
      *
      * ```handlebars
      * {{#markdown}}{{{comment.text}}}{{/markdown}}
+     * ```
+     *
+     * The compact helper removes all newlines of its content:
+     *
+     * ```handlebars
+     * {{#compact}}
+     *   Compact
+     *   this
+     * {{/compact}}
      * ```
      *
      * The relativeURL helper simply transforms an absolute url into a relative url:
@@ -34,7 +43,7 @@ module TypeDoc.Output
         private reflection:Models.DeclarationReflection;
 
         /**
-         * The current url that is currently generated.
+         * The url of the documenat that is being currently generated.
          */
         private location:string;
 
@@ -46,29 +55,19 @@ module TypeDoc.Output
          */
         constructor(renderer:Renderer) {
             super(renderer);
-            renderer.on('beginTarget', (t) => this.onRendererBeginTarget(t));
-            renderer.on('beginOutput', (o) => this.onRendererBeginOutput(o));
+            renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+            renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+
+            var that = this;
+            Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this)); });
+            Handlebars.registerHelper('compact',  function(arg:any) { return that.getCompact(arg.fn(this)); });
+            Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
 
             HighlightJS.registerLanguage('typescript', highlightTypeScript);
 
             Marked.setOptions({
-                highlight: (code:string, lang:string) => {
-                    try {
-                        if (lang) {
-                            return HighlightJS.highlight(lang, code).value;
-                        } else {
-                            return HighlightJS.highlightAuto(code).value;
-                        }
-                    } catch (error) {
-                        renderer.application.log(error.message, LogLevel.Warn);
-                        return code;
-                    }
-                }
+                highlight: (text, lang) => this.getHighlighted(text, lang)
             });
-
-            var that = this;
-            Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this)); });
-            Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
         }
 
 
@@ -81,6 +80,42 @@ module TypeDoc.Output
         public getRelativeUrl(absolute:string) {
             var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
             return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+        }
+
+
+        /**
+         * Compress the given string by removing all newlines.
+         *
+         * @param text  The string that should be compressed.
+         * @returns The string with all newlsines stripped.
+         */
+        public getCompact(text:string):string {
+            var lines = text.split('\n');
+            for (var i = 0, c = lines.length; i < c; i++) {
+                lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
+            }
+            return lines.join('');
+        }
+
+
+        /**
+         * Highlight the synatx of the given text using HighlightJS.
+         *
+         * @param text  The text taht should be highlightes.
+         * @param lang  The language that should be used to highlight the string.
+         * @return A html string with syntax highlighting.
+         */
+        public getHighlighted(text:string, lang?:string):string {
+            try {
+                if (lang) {
+                    return HighlightJS.highlight(lang, text).value;
+                } else {
+                    return HighlightJS.highlightAuto(text).value;
+                }
+            } catch (error) {
+                this.renderer.application.log(error.message, LogLevel.Warn);
+                return text;
+            }
         }
 
 
@@ -129,23 +164,23 @@ module TypeDoc.Output
 
 
         /**
-         * Triggered when the renderer begins processing a project.
+         * Triggered before the renderer starts rendering a project.
          *
-         * @param target  Defines the current target context of the renderer.
+         * @param event  An event object describing the current render operation.
          */
-        private onRendererBeginTarget(target:Models.RenderTarget) {
-            this.project = target.project;
+        private onRendererBegin(event:OutputEvent) {
+            this.project = event.project;
         }
 
 
         /**
-         * Triggered when the renderer begins processing a single output file.
+         * Triggered before a document will be rendered.
          *
-         * @param output  Defines the current output context of the renderer.
+         * @param page  An event object describing the current render operation.
          */
-        private onRendererBeginOutput(output:Models.RenderOutput) {
-            this.location        = output.url;
-            this.reflection = output.model instanceof Models.DeclarationReflection ? output.model : null;
+        private onRendererBeginPage(page:OutputPageEvent) {
+            this.location   = page.url;
+            this.reflection = page.model instanceof Models.DeclarationReflection ? page.model : null;
         }
     }
 
