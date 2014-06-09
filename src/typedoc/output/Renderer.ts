@@ -138,7 +138,7 @@ module TypeDoc.Output
                     }
                 }
 
-                this.templates[fileName] = Handlebars.compile(readFile(path));
+                this.templates[fileName] = Handlebars.compile(Renderer.readFile(path));
             }
 
             return this.templates[fileName];
@@ -229,7 +229,7 @@ module TypeDoc.Output
                 if (!FS.existsSync(filename)) {
                     this.theme = new DefaultTheme(this, path);
                 } else {
-                    var themeClass = eval(readFile(filename));
+                    var themeClass = eval(Renderer.readFile(filename));
                     this.theme = new themeClass(this, path);
                 }
             }
@@ -295,6 +295,43 @@ module TypeDoc.Output
          */
         static getDefaultTheme():string {
             return Path.join(Renderer.getThemeDirectory(), 'default');
+        }
+
+
+        /**
+         * Load the given file and return its contents.
+         *
+         * @param file  The path of the file to read.
+         * @returns The files contents.
+         */
+        static readFile(file):string
+        {
+            var buffer = FS.readFileSync(file);
+            switch (buffer[0]) {
+                case 0xFE:
+                    if (buffer[1] === 0xFF) {
+                        var i = 0;
+                        while ((i + 1) < buffer.length) {
+                            var temp = buffer[i];
+                            buffer[i] = buffer[i + 1];
+                            buffer[i + 1] = temp;
+                            i += 2;
+                        }
+                        return buffer.toString("ucs2", 2);
+                    }
+                    break;
+                case 0xFF:
+                    if (buffer[1] === 0xFE) {
+                        return buffer.toString("ucs2", 2);
+                    }
+                    break;
+                case 0xEF:
+                    if (buffer[1] === 0xBB) {
+                        return buffer.toString("utf8", 3);
+                    }
+            }
+
+            return buffer.toString("utf8", 0);
         }
     }
 }

@@ -28,7 +28,7 @@ module TypeDoc.Output
             FS.readdirSync(path).forEach((fileName:string) => {
                 var file = Path.join(path, fileName);
                 var name = Path.basename(fileName, Path.extname(fileName));
-                Handlebars.registerPartial(name, readFile(file));
+                Handlebars.registerPartial(name, Renderer.readFile(file));
             });
         }
 
