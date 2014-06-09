@@ -20,22 +20,22 @@ module TypeDoc.Output
      * a project is being processed. You can listen to these events to control the flow or manipulate
      * the output.
      *
-     *  * [[Renderer.EVENT_BEGIN]]<br/>
+     *  * [[Renderer.EVENT_BEGIN]]<br>
      *    Triggered before the renderer starts rendering a project. The listener receives
      *    an instance of [[OutputEvent]]. By calling [[OutputEvent.preventDefault]] the entire
      *    render process can be canceled.
      *
-     *    * [[Renderer.EVENT_BEGIN_PAGE]]<br/>
+     *    * [[Renderer.EVENT_BEGIN_PAGE]]<br>
      *      Triggered before a document will be rendered. The listener receives an instance of
      *      [[OutputPageEvent]]. By calling [[OutputPageEvent.preventDefault]] the generation of the
      *      document can be canceled.
      *
-     *    * [[Renderer.EVENT_END_PAGE]]<br/>
+     *    * [[Renderer.EVENT_END_PAGE]]<br>
      *      Triggered after a document has been rendered, just before it is written to disc. The
      *      listener receives an instance of [[OutputPageEvent]]. When calling
      *      [[OutputPageEvent.preventDefault]] the the document will not be saved to disc.
      *
-     *  * [[Renderer.EVENT_END]]<br/>
+     *  * [[Renderer.EVENT_END]]<br>
      *    Triggered after the renderer has written all documents. The listener receives
      *    an instance of [[OutputEvent]].
      */

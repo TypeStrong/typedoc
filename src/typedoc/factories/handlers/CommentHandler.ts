@@ -4,7 +4,7 @@ module TypeDoc.Factories
      * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
      * the generated reflections.
      */
-    export class CommentHandler
+    export class CommentHandler extends BaseHandler
     {
         /**
          * Create a new CommentHandler instance.
@@ -12,8 +12,10 @@ module TypeDoc.Factories
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
         constructor(dispatcher:Dispatcher) {
-            dispatcher.on('process', this.onProcess, this);
-            dispatcher.on('resolveReflection', this.onResolveReflection, this);
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
         }
 
 
@@ -49,7 +51,7 @@ module TypeDoc.Factories
          *
          * @param res
          */
-        private onResolveReflection(res:ReflectionResolution) {
+        private onResolveReflection(res:ResolveReflectionEvent) {
             var reflection = res.reflection;
             if (reflection.signatures) {
                 var comment = reflection.comment;

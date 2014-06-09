@@ -3,11 +3,13 @@ module TypeDoc.Factories
     /**
      * A factory that creates signature reflections.
      */
-    export class SignatureHandler
+    export class SignatureHandler extends BaseHandler
     {
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 512);
-            dispatcher.on('process', this.onProcess, this);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 512);
+            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
         }
 
 

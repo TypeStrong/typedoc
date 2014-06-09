@@ -1,18 +1,20 @@
 module TypeDoc.Factories
 {
-    export class SourceHandler
+    export class SourceHandler extends BaseHandler
     {
         private basePath = new BasePath();
 
         private fileMappings:{[name:string]:Models.SourceFile} = {};
 
 
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('process', this.onProcess, this);
-            dispatcher.on('enterDocument', this.onEnterDocument, this);
-            dispatcher.on('enterResolve', this.onEnterResolve, this);
-            dispatcher.on('resolveReflection', this.onResolveReflection, this);
-            dispatcher.on('leaveResolve', this.onLeaveResolve, this, 512);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this, 512);
         }
 
 
@@ -49,7 +51,7 @@ module TypeDoc.Factories
         }
 
 
-        onEnterResolve(res:ProjectResolution) {
+        onEnterResolve(res:ResolveProjectEvent) {
             res.project.files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
@@ -57,14 +59,14 @@ module TypeDoc.Factories
         }
 
 
-        onResolveReflection(res:ReflectionResolution) {
+        onResolveReflection(res:ResolveReflectionEvent) {
             res.reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
 
 
-        onLeaveResolve(res:ProjectResolution) {
+        onLeaveResolve(res:ResolveProjectEvent) {
             var home = res.project.directory;
             res.project.files.forEach((file) => {
                 var reflections = [];

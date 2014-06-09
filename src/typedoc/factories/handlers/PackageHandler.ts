@@ -8,7 +8,7 @@ module TypeDoc.Factories
      * and records the nearest package info files it can find. Within the resolve files, the
      * contents of the found files will be read and appended to the ProjectReflection.
      */
-    export class PackageHandler
+    export class PackageHandler extends BaseHandler
     {
         /**
          * The file name of the found readme.md file.
@@ -33,9 +33,11 @@ module TypeDoc.Factories
          *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('enterDocument', this.onEnterDocument, this);
-            dispatcher.on('enterResolve', this.onEnterResolve, this);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
         }
 
 
@@ -78,7 +80,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * enters the resolving phase.
          */
-        onEnterResolve(resolution:ProjectResolution) {
+        onEnterResolve(resolution:ResolveProjectEvent) {
             var project = resolution.project;
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');

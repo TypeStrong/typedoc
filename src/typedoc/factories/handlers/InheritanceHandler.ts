@@ -1,12 +1,14 @@
 module TypeDoc.Factories
 {
-    export class InheritanceHandler
+    export class InheritanceHandler extends BaseHandler
     {
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('mergeReflection',  this.onMergeReflection,  this);
-            dispatcher.on('createReflection', this.onCreateReflection, this);
-            dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
-            dispatcher.on('leaveDeclaration', this.onLeaveDeclaration, this);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_MERGE_REFLECTION,  this.onMergeReflection,  this);
+            dispatcher.on(Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
+            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
         }
 
 

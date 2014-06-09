@@ -11,7 +11,7 @@ module TypeDoc.Factories
      *  - isOptional
      *  - defaultValue
      */
-    export class ReflectionHandler
+    export class ReflectionHandler extends BaseHandler
     {
         /**
          * A list of fags that should be exported to the flagsArray property.
@@ -31,10 +31,12 @@ module TypeDoc.Factories
         ];
 
 
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('createReflection', this.onCreateReflection, this);
-            dispatcher.on('mergeReflection', this.onMergeReflection, this);
-            dispatcher.on('resolveReflection', this.onResolveReflection, this);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
+            dispatcher.on(Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
         }
 
 
@@ -85,7 +87,7 @@ module TypeDoc.Factories
          *
          * @param reflection  The final generated reflection.
          */
-        private onResolveReflection(res:ReflectionResolution) {
+        private onResolveReflection(res:ResolveReflectionEvent) {
             var reflection = res.reflection;
             var flagsArray = [];
             var flags = reflection.kindOf(Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;

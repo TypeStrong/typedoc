@@ -25,27 +25,66 @@ module TypeDoc.Factories
 
 
     /**
-     * The central dispatcher receives documents from the compiler and emits
+     * The dispatcher receives documents from the compiler and emits
      * events for all discovered declarations.
      *
-     * Factories should listen to the events emitted by the dispatcher. Each event
-     * contains a state object describing the current state the dispatcher is in. Factories
-     * can alter the state or stop it from being further processed.
+     * [[BaseHandler]] instances are the actual workhorses behind the dispatcher. They listen
+     * to the events emitted by the dispatcher and populate the generated [[BaseReflection]]
+     * instances. Each event contains a [[BaseState]] instance describing the current state the
+     * dispatcher is in. Handlers can alter the state or stop it from being further processed.
      *
-     * While the compiler is active, it passes documents to the dispatcher. Each document
-     * will create an ´enterDocument´ event. By stopping the generated state, factories can
-     * prevent entire documents from being processed.
+     * For each document (a single *.ts file) the dispatcher will generate the following event flow.
+     * Declarations are processed according to their hierarchy.
      *
-     * The dispatcher will iterate over all declarations and its children in the document
-     * and yields a child state for them. For each of this states an ´enterDeclaration´ event
-     * will be emitted. By stopping the child state, factories can prevent declarations from
-     * being processed.
+     *  * [[Dispatcher.EVENT_BEGIN_DOCUMENT]]<br>
+     *    Triggered when the dispatcher starts processing a TypeScript document. The listener receives
+     *    an instance of [[DocumentState]]. By calling [[DocumentState.preventDefault]] the entire
+     *    TypeScript file will be ignored.
      *
-     * - enterDocument
-     *   - enterDeclaration
-     *   - mergeReflection / createReflection
-     *   - process
-     *   - **Recursion**
+     *    * [[Dispatcher.EVENT_BEGIN_DECLARATION]]<br>
+     *      Triggered when the dispatcher starts processing a declaration. The listener receives
+     *      an instance of [[DeclarationState]]. The [[DeclarationState.reflection]] property of
+     *      the state is undefined at this moment. By calling [[DeclarationState.preventDefault]]
+     *      the declaration will be skipped.
+     *
+     *      * [[Dispatcher.EVENT_CREATE_REFLECTION]]<br>
+     *        Triggered when the dispatcher creates a new reflection instance. The listener receives
+     *        an instance of [[DeclarationState]]. The [[DeclarationState.reflection]] property of
+     *        the state contains a newly created [[DeclarationReflection]] instance.
+     *
+     *      * [[Dispatcher.EVENT_MERGE_REFLECTION]]<br>
+     *        Triggered when the dispatcher merges an existing reflection with a new declaration.
+     *        The listener receives an instance of [[DeclarationState]]. The
+     *        [[DeclarationState.reflection]] property of the state contains the persistent
+     *        [[DeclarationReflection]] instance.
+     *
+     *    * [[Dispatcher.EVENT_DECLARATION]]<br>
+     *      Triggered when the dispatcher processes a declaration. The listener receives an instance
+     *      of [[DeclarationState]].
+     *
+     *    * [[Dispatcher.EVENT_END_DECLARATION]]<br>
+     *      Triggered when the dispatcher has finished processing a declaration. The listener receives
+     *      an instance of [[DeclarationState]].
+     *
+     *  * [[Dispatcher.EVENT_END_DOCUMENT]]<br>
+     *    Triggered when the dispatcher has finished processing a TypeScript document. The listener
+     *    receives an instance of [[DocumentState]].
+     *
+     *
+     *  After the dispatcher has processed all documents, it will enter the resolving phase and
+     *  trigger the following event flow.
+     *
+     *  * [[Dispatcher.EVENT_BEGIN_RESOLVE]]<br>
+     *    Triggered when the dispatcher enters the resolving phase. The listener receives an instance
+     *    of [[ResolveProjectEvent]].
+     *
+     *    * [[Dispatcher.EVENT_RESOLVE]]<br>
+     *      Triggered when the dispatcher resolves a reflection. The listener receives an instance
+     *      of [[ResolveReflectionEvent]].
+     *
+     *  * [[Dispatcher.EVENT_END_RESOLVE]]<br>
+     *    Triggered when the dispatcher leaves the resolving phase. The listener receives an instance
+     *    of [[ResolveProjectEvent]].
      */
     export class Dispatcher extends EventDispatcher
     {
@@ -58,6 +97,67 @@ module TypeDoc.Factories
          * List of all handlers that are attached to the renderer.
          */
         handlers:any[];
+
+        /**
+         * Triggered when the dispatcher starts processing a TypeScript document.
+         * @event
+         */
+        static EVENT_BEGIN_DOCUMENT:string = 'beginDocument';
+
+        /**
+         * Triggered when the dispatcher has finished processing a TypeScript document.
+         * @event
+         */
+        static EVENT_END_DOCUMENT:string = 'endDocument';
+
+        /**
+         * Triggered when the dispatcher creates a new reflection instance.
+         * @event
+         */
+        static EVENT_CREATE_REFLECTION:string = 'createReflection';
+
+        /**
+         * Triggered when the dispatcher merges an existing reflection with a new declaration.
+         * @event
+         */
+        static EVENT_MERGE_REFLECTION:string = Dispatcher.EVENT_MERGE_REFLECTION;
+
+        /**
+         * Triggered when the dispatcher starts processing a declaration.
+         * @event
+         */
+        static EVENT_BEGIN_DECLARATION:string = 'beginDeclaration';
+
+        /**
+         * Triggered when the dispatcher processes a declaration.
+         * @event
+         */
+        static EVENT_DECLARATION:string = 'declaration';
+
+        /**
+         * Triggered when the dispatcher has finished processing a declaration.
+         * @event
+         */
+        static EVENT_END_DECLARATION:string = 'endDeclaration';
+
+        /**
+         * Triggered when the dispatcher enters the resolving phase.
+         * @event
+         */
+        static EVENT_BEGIN_RESOLVE:string = 'beginResolve';
+
+        /**
+         * Triggered when the dispatcher resolves a reflection.
+         * @event
+         */
+        static EVENT_RESOLVE:string = 'resolve';
+
+        /**
+         * Triggered when the dispatcher leaves the resolving phase.
+         * @event
+         */
+        static EVENT_END_RESOLVE:string = 'endResolve';
+
 
         /**
          * Registry containing the handlers, that should be created by default.
@@ -97,21 +197,22 @@ module TypeDoc.Factories
 
             documents.forEach((document) => {
                 var state = new DocumentState(this, document, project, compiler);
-                this.dispatch('enterDocument', state);
+                this.dispatch(Dispatcher.EVENT_BEGIN_DOCUMENT, state);
                 if (state.isDefaultPrevented) return;
 
                 state.declaration.getChildDecls().forEach((declaration) => {
                     this.processState(state.createChildState(declaration));
                 });
 
-                this.dispatch('leaveDocument', state);
+                this.dispatch(Dispatcher.EVENT_END_DOCUMENT, state);
             });
 
-            this.dispatch('enterResolve', new ProjectResolution(compiler, project));
+            var resolveProject = new ResolveProjectEvent(compiler, project);
+            this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, resolveProject);
             project.reflections.forEach((reflection) => {
-                this.dispatch('resolveReflection', new ReflectionResolution(compiler, project, reflection));
+                this.dispatch(Dispatcher.EVENT_RESOLVE, resolveProject.createReflectionEvent(reflection));
             });
-            this.dispatch('leaveResolve', new ProjectResolution(compiler, project));
+            this.dispatch(Dispatcher.EVENT_END_RESOLVE, resolveProject);
 
             return project;
         }
@@ -123,18 +224,18 @@ module TypeDoc.Factories
          * @param state  The state that should be processed.
          */
         processState(state:DeclarationState) {
-            this.dispatch('enterDeclaration', state);
+            this.dispatch(Dispatcher.EVENT_BEGIN_DECLARATION, state);
             if (state.isDefaultPrevented)  return;
 
             this.ensureReflection(state);
-            this.dispatch('process', state);
+            this.dispatch(Dispatcher.EVENT_DECLARATION, state);
             if (state.isDefaultPrevented) return;
 
             state.declaration.getChildDecls().forEach((declaration) => {
                 this.processState(state.createChildState(declaration));
             });
 
-            this.dispatch('leaveDeclaration', state);
+            this.dispatch(Dispatcher.EVENT_END_DECLARATION, state);
         }
 
 
@@ -150,7 +251,7 @@ module TypeDoc.Factories
          */
         ensureReflection(state:DeclarationState):boolean {
             if (state.reflection) {
-                this.dispatch('mergeReflection', state);
+                this.dispatch(Dispatcher.EVENT_MERGE_REFLECTION, state);
                 return false;
             }
 
@@ -175,7 +276,7 @@ module TypeDoc.Factories
                 rootState.compiler.idMap[declID] = reflection;
             }
 
-            this.dispatch('createReflection', state);
+            this.dispatch(Dispatcher.EVENT_CREATE_REFLECTION, state);
             return true;
         }
 

@@ -3,14 +3,16 @@ module TypeDoc.Factories
     /**
      * A factory that converts all instances of LateResolvingType to their renderable equivalents.
      */
-    export class TypeHandler
+    export class TypeHandler extends BaseHandler
     {
         constructor(dispatcher:Dispatcher) {
-            dispatcher.on('resolveReflection', this.onResolveReflection, this);
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
         }
 
 
-        onResolveReflection(resolution:ReflectionResolution) {
+        onResolveReflection(resolution:ResolveReflectionEvent) {
             var reflection = resolution.reflection;
             var compiler = resolution.compiler;
 

@@ -1367,6 +1367,27 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * Base class of all handlers.
+        */
+        var BaseHandler = (function () {
+            /**
+            * Create a new BaseHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function BaseHandler(dispatcher) {
+                this.dispatcher = dispatcher;
+            }
+            return BaseHandler;
+        })();
+        Factories.BaseHandler = BaseHandler;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
         var BasePath = (function () {
             function BasePath() {
             }
@@ -1638,27 +1659,66 @@ var TypeDoc;
         Factories.createType = createType;
 
         /**
-        * The central dispatcher receives documents from the compiler and emits
+        * The dispatcher receives documents from the compiler and emits
         * events for all discovered declarations.
         *
-        * Factories should listen to the events emitted by the dispatcher. Each event
-        * contains a state object describing the current state the dispatcher is in. Factories
-        * can alter the state or stop it from being further processed.
+        * [[BaseHandler]] instances are the actual workhorses behind the dispatcher. They listen
+        * to the events emitted by the dispatcher and populate the generated [[BaseReflection]]
+        * instances. Each event contains a [[BaseState]] instance describing the current state the
+        * dispatcher is in. Handlers can alter the state or stop it from being further processed.
         *
-        * While the compiler is active, it passes documents to the dispatcher. Each document
-        * will create an ´enterDocument´ event. By stopping the generated state, factories can
-        * prevent entire documents from being processed.
+        * For each document (a single *.ts file) the dispatcher will generate the following event flow.
+        * Declarations are processed according to their hierarchy.
         *
-        * The dispatcher will iterate over all declarations and its children in the document
-        * and yields a child state for them. For each of this states an ´enterDeclaration´ event
-        * will be emitted. By stopping the child state, factories can prevent declarations from
-        * being processed.
+        *  * [[Dispatcher.EVENT_BEGIN_DOCUMENT]]<br>
+        *    Triggered when the dispatcher starts processing a TypeScript document. The listener receives
+        *    an instance of [[DocumentState]]. By calling [[DocumentState.preventDefault]] the entire
+        *    TypeScript file will be ignored.
         *
-        * - enterDocument
-        *   - enterDeclaration
-        *   - mergeReflection / createReflection
-        *   - process
-        *   - **Recursion**
+        *    * [[Dispatcher.EVENT_BEGIN_DECLARATION]]<br>
+        *      Triggered when the dispatcher starts processing a declaration. The listener receives
+        *      an instance of [[DeclarationState]]. The [[DeclarationState.reflection]] property of
+        *      the state is undefined at this moment. By calling [[DeclarationState.preventDefault]]
+        *      the declaration will be skipped.
+        *
+        *      * [[Dispatcher.EVENT_CREATE_REFLECTION]]<br>
+        *        Triggered when the dispatcher creates a new reflection instance. The listener receives
+        *        an instance of [[DeclarationState]]. The [[DeclarationState.reflection]] property of
+        *        the state contains a newly created [[DeclarationReflection]] instance.
+        *
+        *      * [[Dispatcher.EVENT_MERGE_REFLECTION]]<br>
+        *        Triggered when the dispatcher merges an existing reflection with a new declaration.
+        *        The listener receives an instance of [[DeclarationState]]. The
+        *        [[DeclarationState.reflection]] property of the state contains the persistent
+        *        [[DeclarationReflection]] instance.
+        *
+        *    * [[Dispatcher.EVENT_DECLARATION]]<br>
+        *      Triggered when the dispatcher processes a declaration. The listener receives an instance
+        *      of [[DeclarationState]].
+        *
+        *    * [[Dispatcher.EVENT_END_DECLARATION]]<br>
+        *      Triggered when the dispatcher has finished processing a declaration. The listener receives
+        *      an instance of [[DeclarationState]].
+        *
+        *  * [[Dispatcher.EVENT_END_DOCUMENT]]<br>
+        *    Triggered when the dispatcher has finished processing a TypeScript document. The listener
+        *    receives an instance of [[DocumentState]].
+        *
+        *
+        *  After the dispatcher has processed all documents, it will enter the resolving phase and
+        *  trigger the following event flow.
+        *
+        *  * [[Dispatcher.EVENT_BEGIN_RESOLVE]]<br>
+        *    Triggered when the dispatcher enters the resolving phase. The listener receives an instance
+        *    of [[ResolveProjectEvent]].
+        *
+        *    * [[Dispatcher.EVENT_RESOLVE]]<br>
+        *      Triggered when the dispatcher resolves a reflection. The listener receives an instance
+        *      of [[ResolveReflectionEvent]].
+        *
+        *  * [[Dispatcher.EVENT_END_RESOLVE]]<br>
+        *    Triggered when the dispatcher leaves the resolving phase. The listener receives an instance
+        *    of [[ResolveProjectEvent]].
         */
         var Dispatcher = (function (_super) {
             __extends(Dispatcher, _super);
@@ -1694,7 +1754,7 @@ var TypeDoc;
 
                 documents.forEach(function (document) {
                     var state = new Factories.DocumentState(_this, document, project, compiler);
-                    _this.dispatch('enterDocument', state);
+                    _this.dispatch(Dispatcher.EVENT_BEGIN_DOCUMENT, state);
                     if (state.isDefaultPrevented)
                         return;
 
@@ -1702,14 +1762,15 @@ var TypeDoc;
                         _this.processState(state.createChildState(declaration));
                     });
 
-                    _this.dispatch('leaveDocument', state);
+                    _this.dispatch(Dispatcher.EVENT_END_DOCUMENT, state);
                 });
 
-                this.dispatch('enterResolve', new Factories.ProjectResolution(compiler, project));
+                var resolveProject = new Factories.ResolveProjectEvent(compiler, project);
+                this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, resolveProject);
                 project.reflections.forEach(function (reflection) {
-                    _this.dispatch('resolveReflection', new Factories.ReflectionResolution(compiler, project, reflection));
+                    _this.dispatch(Dispatcher.EVENT_RESOLVE, resolveProject.createReflectionEvent(reflection));
                 });
-                this.dispatch('leaveResolve', new Factories.ProjectResolution(compiler, project));
+                this.dispatch(Dispatcher.EVENT_END_RESOLVE, resolveProject);
 
                 return project;
             };
@@ -1721,12 +1782,12 @@ var TypeDoc;
             */
             Dispatcher.prototype.processState = function (state) {
                 var _this = this;
-                this.dispatch('enterDeclaration', state);
+                this.dispatch(Dispatcher.EVENT_BEGIN_DECLARATION, state);
                 if (state.isDefaultPrevented)
                     return;
 
                 this.ensureReflection(state);
-                this.dispatch('process', state);
+                this.dispatch(Dispatcher.EVENT_DECLARATION, state);
                 if (state.isDefaultPrevented)
                     return;
 
@@ -1734,7 +1795,7 @@ var TypeDoc;
                     _this.processState(state.createChildState(declaration));
                 });
 
-                this.dispatch('leaveDeclaration', state);
+                this.dispatch(Dispatcher.EVENT_END_DECLARATION, state);
             };
 
             /**
@@ -1749,7 +1810,7 @@ var TypeDoc;
             */
             Dispatcher.prototype.ensureReflection = function (state) {
                 if (state.reflection) {
-                    this.dispatch('mergeReflection', state);
+                    this.dispatch(Dispatcher.EVENT_MERGE_REFLECTION, state);
                     return false;
                 }
 
@@ -1775,7 +1836,7 @@ var TypeDoc;
                     rootState.compiler.idMap[declID] = reflection;
                 }
 
-                this.dispatch('createReflection', state);
+                this.dispatch(Dispatcher.EVENT_CREATE_REFLECTION, state);
                 return true;
             };
 
@@ -1827,6 +1888,26 @@ var TypeDoc;
 
                 return items.join(', ');
             };
+            Dispatcher.EVENT_BEGIN_DOCUMENT = 'beginDocument';
+
+            Dispatcher.EVENT_END_DOCUMENT = 'endDocument';
+
+            Dispatcher.EVENT_CREATE_REFLECTION = 'createReflection';
+
+            Dispatcher.EVENT_MERGE_REFLECTION = Dispatcher.EVENT_MERGE_REFLECTION;
+
+            Dispatcher.EVENT_BEGIN_DECLARATION = 'beginDeclaration';
+
+            Dispatcher.EVENT_DECLARATION = 'declaration';
+
+            Dispatcher.EVENT_END_DECLARATION = 'endDeclaration';
+
+            Dispatcher.EVENT_BEGIN_RESOLVE = 'beginResolve';
+
+            Dispatcher.EVENT_RESOLVE = 'resolve';
+
+            Dispatcher.EVENT_END_RESOLVE = 'endResolve';
+
             Dispatcher.HANDLERS = [];
             return Dispatcher;
         })(TypeDoc.EventDispatcher);
@@ -1841,10 +1922,11 @@ var TypeDoc;
         * Base class of all states.
         *
         * States store the current declaration and its matching reflection while
-        * being processed by the dispatcher. Factories can alter the state and
+        * being processed by the dispatcher. [[BaseHandler]] instances can alter the state and
         * stop it from being further processed.
-        * For each child declaration the dispatcher will create a child {DeclarationState}
-        * state. The root state is always an instance of {DocumentState}.
+        *
+        * For each child declaration the dispatcher will create a child [[DeclarationState]]
+        * state. The root state is always an instance of [[DocumentState]].
         */
         var BaseState = (function (_super) {
             __extends(BaseState, _super);
@@ -2038,26 +2120,34 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        var ProjectResolution = (function (_super) {
-            __extends(ProjectResolution, _super);
-            function ProjectResolution(compiler, project) {
+        var ResolveProjectEvent = (function (_super) {
+            __extends(ResolveProjectEvent, _super);
+            function ResolveProjectEvent(compiler, project) {
                 _super.call(this);
                 this.compiler = compiler;
                 this.project = project;
             }
-            return ProjectResolution;
+            ResolveProjectEvent.prototype.createReflectionEvent = function (reflection) {
+                return new Factories.ResolveReflectionEvent(this.compiler, this.project, reflection);
+            };
+            return ResolveProjectEvent;
         })(TypeDoc.Event);
-        Factories.ProjectResolution = ProjectResolution;
-
-        var ReflectionResolution = (function (_super) {
-            __extends(ReflectionResolution, _super);
-            function ReflectionResolution(compiler, project, reflection) {
+        Factories.ResolveProjectEvent = ResolveProjectEvent;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        var ResolveReflectionEvent = (function (_super) {
+            __extends(ResolveReflectionEvent, _super);
+            function ResolveReflectionEvent(compiler, project, reflection) {
                 _super.call(this, compiler, project);
                 this.reflection = reflection;
             }
-            return ReflectionResolution;
-        })(ProjectResolution);
-        Factories.ReflectionResolution = ReflectionResolution;
+            return ResolveReflectionEvent;
+        })(Factories.ResolveProjectEvent);
+        Factories.ResolveReflectionEvent = ResolveReflectionEvent;
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2067,7 +2157,8 @@ var TypeDoc;
         /**
         * A handler that analyzes the AST and extracts data not represented by declarations.
         */
-        var AstHandler = (function () {
+        var AstHandler = (function (_super) {
+            __extends(AstHandler, _super);
             /**
             * Create a new AstHandler instance.
             *
@@ -2076,8 +2167,10 @@ var TypeDoc;
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function AstHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
                 this.factory = TypeScript.getAstWalkerFactory();
-                dispatcher.on('leaveDeclaration', this.onLeaveDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
             }
             /**
             * Triggered when the dispatcher has finished processing a typescript declaration.
@@ -2103,7 +2196,7 @@ var TypeDoc;
                 });
             };
             return AstHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.AstHandler = AstHandler;
 
         /**
@@ -2120,15 +2213,18 @@ var TypeDoc;
         * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
         * the generated reflections.
         */
-        var CommentHandler = (function () {
+        var CommentHandler = (function (_super) {
+            __extends(CommentHandler, _super);
             /**
             * Create a new CommentHandler instance.
             *
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function CommentHandler(dispatcher) {
-                dispatcher.on('process', this.onProcess, this);
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
             }
             /**
             * Triggered when the dispatcher processes a declaration.
@@ -2360,7 +2456,7 @@ var TypeDoc;
                 return comment;
             };
             return CommentHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.CommentHandler = CommentHandler;
 
         /**
@@ -2373,11 +2469,14 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        var DynamicModuleHandler = (function () {
+        var DynamicModuleHandler = (function (_super) {
+            __extends(DynamicModuleHandler, _super);
             function DynamicModuleHandler(dispatcher) {
+                _super.call(this, dispatcher);
                 this.basePath = new Factories.BasePath();
-                dispatcher.on('process', this.onProcess, this);
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
             }
             DynamicModuleHandler.prototype.onProcess = function (state) {
                 if (!state.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
@@ -2402,7 +2501,7 @@ var TypeDoc;
                 }
             };
             return DynamicModuleHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.DynamicModuleHandler = DynamicModuleHandler;
 
         Factories.Dispatcher.HANDLERS.push(DynamicModuleHandler);
@@ -2417,15 +2516,17 @@ var TypeDoc;
         *
         * The handler sets the ´groups´ property of all reflections.
         */
-        var GroupHandler = (function () {
+        var GroupHandler = (function (_super) {
+            __extends(GroupHandler, _super);
             /**
             * Create a new GroupHandler instance.
             *
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function GroupHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('leaveResolve', this.onLeaveResolve, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this);
             }
             /**
             * Triggered once after all documents have been read and the dispatcher
@@ -2599,7 +2700,7 @@ var TypeDoc;
                 return plurals;
             })();
             return GroupHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.GroupHandler = GroupHandler;
 
         /**
@@ -2612,13 +2713,15 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        var InheritanceHandler = (function () {
+        var InheritanceHandler = (function (_super) {
+            __extends(InheritanceHandler, _super);
             function InheritanceHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('mergeReflection', this.onMergeReflection, this);
-                dispatcher.on('createReflection', this.onCreateReflection, this);
-                dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
-                dispatcher.on('leaveDeclaration', this.onLeaveDeclaration, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
             }
             InheritanceHandler.prototype.onMergeReflection = function (state) {
                 if (state.isInherited && state.reflection && !state.reflection.inheritedFrom && !state.kindOf([TypeDoc.Models.Kind.Class, TypeDoc.Models.Kind.Interface])) {
@@ -2674,7 +2777,7 @@ var TypeDoc;
                 });
             };
             return InheritanceHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.InheritanceHandler = InheritanceHandler;
 
         Factories.Dispatcher.HANDLERS.push(InheritanceHandler);
@@ -2691,11 +2794,13 @@ var TypeDoc;
         * TypeDoc currently ignores all type aliases, object literals, object types and
         * implicit variables. Furthermore declaration files are ignored.
         */
-        var NullHandler = (function () {
+        var NullHandler = (function (_super) {
+            __extends(NullHandler, _super);
             function NullHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('enterDocument', this.onEnterDocument, this, 1024);
-                dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
             }
             NullHandler.prototype.onEnterDocument = function (state) {
                 if (state.document.isDeclareFile() && state.document.fileName.substr(-8) == 'lib.d.ts') {
@@ -2731,7 +2836,7 @@ var TypeDoc;
                 }
             };
             return NullHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.NullHandler = NullHandler;
 
         Factories.Dispatcher.HANDLERS.push(NullHandler);
@@ -2749,7 +2854,8 @@ var TypeDoc;
         * and records the nearest package info files it can find. Within the resolve files, the
         * contents of the found files will be read and appended to the ProjectReflection.
         */
-        var PackageHandler = (function () {
+        var PackageHandler = (function (_super) {
+            __extends(PackageHandler, _super);
             /**
             * Create a new PackageHandler instance.
             *
@@ -2758,13 +2864,14 @@ var TypeDoc;
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function PackageHandler(dispatcher) {
-                this.dispatcher = dispatcher;
+                _super.call(this, dispatcher);
                 /**
                 * List of directories the handler already inspected.
                 */
                 this.visited = [];
-                dispatcher.on('enterDocument', this.onEnterDocument, this);
-                dispatcher.on('enterResolve', this.onEnterResolve, this);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
             }
             /**
             * Triggered when the dispatcher begins processing a typescript document.
@@ -2819,7 +2926,7 @@ var TypeDoc;
                 }
             };
             return PackageHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.PackageHandler = PackageHandler;
 
         /**
@@ -2843,12 +2950,14 @@ var TypeDoc;
         *  - isOptional
         *  - defaultValue
         */
-        var ReflectionHandler = (function () {
+        var ReflectionHandler = (function (_super) {
+            __extends(ReflectionHandler, _super);
             function ReflectionHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('createReflection', this.onCreateReflection, this);
-                dispatcher.on('mergeReflection', this.onMergeReflection, this);
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
             }
             ReflectionHandler.prototype.onCreateReflection = function (state) {
                 var _this = this;
@@ -2932,7 +3041,7 @@ var TypeDoc;
                 TypeScript.PullElementFlags.Optional
             ];
             return ReflectionHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.ReflectionHandler = ReflectionHandler;
 
         Factories.Dispatcher.HANDLERS.push(ReflectionHandler);
@@ -2945,10 +3054,12 @@ var TypeDoc;
         /**
         * A factory that creates signature reflections.
         */
-        var ResolveHandler = (function () {
+        var ResolveHandler = (function (_super) {
+            __extends(ResolveHandler, _super);
             function ResolveHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
             }
             ResolveHandler.prototype.onEnterDeclaration = function (state) {
                 var isResolve = false;
@@ -2973,7 +3084,7 @@ var TypeDoc;
                 }
             };
             return ResolveHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.ResolveHandler = ResolveHandler;
 
         Factories.Dispatcher.HANDLERS.push(ResolveHandler);
@@ -2986,11 +3097,13 @@ var TypeDoc;
         /**
         * A factory that creates signature reflections.
         */
-        var SignatureHandler = (function () {
+        var SignatureHandler = (function (_super) {
+            __extends(SignatureHandler, _super);
             function SignatureHandler(dispatcher) {
-                this.dispatcher = dispatcher;
-                dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 512);
-                dispatcher.on('process', this.onProcess, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 512);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
             }
             SignatureHandler.prototype.onEnterDeclaration = function (state) {
                 // Ignore everything except parameters in functions
@@ -3071,7 +3184,7 @@ var TypeDoc;
                 return type.declaration.getParentDecl() != state.declaration.parentDecl;
             };
             return SignatureHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.SignatureHandler = SignatureHandler;
 
         Factories.Dispatcher.HANDLERS.push(SignatureHandler);
@@ -3081,16 +3194,18 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        var SourceHandler = (function () {
+        var SourceHandler = (function (_super) {
+            __extends(SourceHandler, _super);
             function SourceHandler(dispatcher) {
-                this.dispatcher = dispatcher;
+                _super.call(this, dispatcher);
                 this.basePath = new Factories.BasePath();
                 this.fileMappings = {};
-                dispatcher.on('process', this.onProcess, this);
-                dispatcher.on('enterDocument', this.onEnterDocument, this);
-                dispatcher.on('enterResolve', this.onEnterResolve, this);
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
-                dispatcher.on('leaveResolve', this.onLeaveResolve, this, 512);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this, 512);
             }
             SourceHandler.prototype.onEnterDocument = function (state) {
                 var fileName = state.document.fileName;
@@ -3175,7 +3290,7 @@ var TypeDoc;
                 });
             };
             return SourceHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.SourceHandler = SourceHandler;
 
         Factories.Dispatcher.HANDLERS.push(SourceHandler);
@@ -3188,9 +3303,12 @@ var TypeDoc;
         /**
         * A factory that converts all instances of LateResolvingType to their renderable equivalents.
         */
-        var TypeHandler = (function () {
+        var TypeHandler = (function (_super) {
+            __extends(TypeHandler, _super);
             function TypeHandler(dispatcher) {
-                dispatcher.on('resolveReflection', this.onResolveReflection, this);
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
             }
             TypeHandler.prototype.onResolveReflection = function (resolution) {
                 var reflection = resolution.reflection;
@@ -3291,7 +3409,7 @@ var TypeDoc;
                 return root;
             };
             return TypeHandler;
-        })();
+        })(Factories.BaseHandler);
         Factories.TypeHandler = TypeHandler;
 
         Factories.Dispatcher.HANDLERS.push(TypeHandler);
@@ -4245,22 +4363,22 @@ var TypeDoc;
         * a project is being processed. You can listen to these events to control the flow or manipulate
         * the output.
         *
-        *  * [[Renderer.EVENT_BEGIN]]<br/>
+        *  * [[Renderer.EVENT_BEGIN]]<br>
         *    Triggered before the renderer starts rendering a project. The listener receives
         *    an instance of [[OutputEvent]]. By calling [[OutputEvent.preventDefault]] the entire
         *    render process can be canceled.
         *
-        *    * [[Renderer.EVENT_BEGIN_PAGE]]<br/>
+        *    * [[Renderer.EVENT_BEGIN_PAGE]]<br>
         *      Triggered before a document will be rendered. The listener receives an instance of
         *      [[OutputPageEvent]]. By calling [[OutputPageEvent.preventDefault]] the generation of the
         *      document can be canceled.
         *
-        *    * [[Renderer.EVENT_END_PAGE]]<br/>
+        *    * [[Renderer.EVENT_END_PAGE]]<br>
         *      Triggered after a document has been rendered, just before it is written to disc. The
         *      listener receives an instance of [[OutputPageEvent]]. When calling
         *      [[OutputPageEvent.preventDefault]] the the document will not be saved to disc.
         *
-        *  * [[Renderer.EVENT_END]]<br/>
+        *  * [[Renderer.EVENT_END]]<br>
         *    Triggered after the renderer has written all documents. The listener receives
         *    an instance of [[OutputEvent]].
         */

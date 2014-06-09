@@ -4,10 +4,11 @@ module TypeDoc.Factories
      * Base class of all states.
      *
      * States store the current declaration and its matching reflection while
-     * being processed by the dispatcher. Factories can alter the state and
+     * being processed by the dispatcher. [[BaseHandler]] instances can alter the state and
      * stop it from being further processed.
-     * For each child declaration the dispatcher will create a child {DeclarationState}
-     * state. The root state is always an instance of {DocumentState}.
+     *
+     * For each child declaration the dispatcher will create a child [[DeclarationState]]
+     * state. The root state is always an instance of [[DocumentState]].
      */
     export class BaseState extends Event
     {

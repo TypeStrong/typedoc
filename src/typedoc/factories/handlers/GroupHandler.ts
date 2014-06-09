@@ -5,7 +5,7 @@ module TypeDoc.Factories
      *
      * The handler sets the ´groups´ property of all reflections.
      */
-    export class GroupHandler
+    export class GroupHandler extends BaseHandler
     {
         /**
          * Define the sort order of reflections.
@@ -56,8 +56,10 @@ module TypeDoc.Factories
          *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('leaveResolve', this.onLeaveResolve, this);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this);
         }
 
 
@@ -65,7 +67,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onLeaveResolve(resolution:ProjectResolution) {
+        private onLeaveResolve(resolution:ResolveProjectEvent) {
             function walkDirectory(directory) {
                 directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 

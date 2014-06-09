@@ -3,10 +3,12 @@ module TypeDoc.Factories
     /**
      * A factory that creates signature reflections.
      */
-    export class ResolveHandler
+    export class ResolveHandler extends BaseHandler
     {
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
         }
 
 

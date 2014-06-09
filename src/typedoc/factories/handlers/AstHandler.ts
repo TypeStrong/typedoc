@@ -3,7 +3,7 @@ module TypeDoc.Factories
     /**
      * A handler that analyzes the AST and extracts data not represented by declarations.
      */
-    export class AstHandler
+    export class AstHandler extends BaseHandler
     {
         /**
          * The ast walker factory.
@@ -19,8 +19,10 @@ module TypeDoc.Factories
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
         constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
             this.factory = TypeScript.getAstWalkerFactory();
-            dispatcher.on('leaveDeclaration', this.onLeaveDeclaration, this);
+            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
         }
 
 

@@ -7,11 +7,13 @@ module TypeDoc.Factories
      * TypeDoc currently ignores all type aliases, object literals, object types and
      * implicit variables. Furthermore declaration files are ignored.
      */
-    export class NullHandler
+    export class NullHandler extends BaseHandler
     {
-        constructor(private dispatcher:Dispatcher) {
-            dispatcher.on('enterDocument', this.onEnterDocument, this, 1024);
-            dispatcher.on('enterDeclaration', this.onEnterDeclaration, this, 1024);
+        constructor(dispatcher:Dispatcher) {
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this, 1024);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
         }
 
 

@@ -1,13 +1,15 @@
 module TypeDoc.Factories
 {
-    export class DynamicModuleHandler
+    export class DynamicModuleHandler extends BaseHandler
     {
         private basePath = new BasePath();
 
 
         constructor(dispatcher:Dispatcher) {
-            dispatcher.on('process', this.onProcess, this);
-            dispatcher.on('resolveReflection', this.onResolveReflection, this);
+            super(dispatcher);
+
+            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
         }
 
 
@@ -26,7 +28,7 @@ module TypeDoc.Factories
         }
 
 
-        private onResolveReflection(res:ReflectionResolution) {
+        private onResolveReflection(res:ResolveReflectionEvent) {
             var reflection = res.reflection;
             if (reflection.kindOf([Models.Kind.DynamicModule, Models.Kind.Script])) {
                 if (reflection.name.indexOf('/') != -1) {
