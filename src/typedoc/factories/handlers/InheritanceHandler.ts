@@ -65,5 +65,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(InheritanceHandler);
+    Dispatcher.HANDLERS.push(InheritanceHandler);
 }

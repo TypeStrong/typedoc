@@ -33,5 +33,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(ResolveHandler);
+    Dispatcher.HANDLERS.push(ResolveHandler);
 }

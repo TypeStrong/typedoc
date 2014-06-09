@@ -89,5 +89,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(SignatureHandler);
+    Dispatcher.HANDLERS.push(SignatureHandler);
 }

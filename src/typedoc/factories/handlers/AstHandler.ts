@@ -51,5 +51,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.FACTORIES.push(AstHandler);
+    Dispatcher.HANDLERS.push(AstHandler);
 }

@@ -52,5 +52,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(NullHandler);
+    Dispatcher.HANDLERS.push(NullHandler);
 }

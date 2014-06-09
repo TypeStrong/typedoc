@@ -204,5 +204,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.FACTORIES.push(GroupHandler);
+    Dispatcher.HANDLERS.push(GroupHandler);
 }

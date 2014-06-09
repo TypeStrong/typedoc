@@ -37,5 +37,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(DynamicModuleHandler);
+    Dispatcher.HANDLERS.push(DynamicModuleHandler);
 }

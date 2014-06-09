@@ -50,27 +50,33 @@ module TypeDoc.Factories
     export class Dispatcher extends EventDispatcher
     {
         /**
-         * The project instance this dispatcher should push the created reflections to.
+         * The application this dispatcher is attached to.
          */
         application:IApplication;
 
         /**
-         * A list of known factories.
+         * List of all handlers that are attached to the renderer.
          */
-        static FACTORIES:any[] = [];
+        handlers:any[];
+
+        /**
+         * Registry containing the handlers, that should be created by default.
+         */
+        static HANDLERS:any[] = [];
 
 
         /**
          * Create a new Dispatcher instance.
          *
-         * @param application  The target project instance.
+         * @param application  The application this dispatcher is attached to.
          */
         constructor(application:IApplication) {
             super();
             this.application = application;
 
-            Dispatcher.FACTORIES.forEach((factory) => {
-                new factory(this)
+            this.handlers = [];
+            Dispatcher.HANDLERS.forEach((factory) => {
+                this.handlers.push(new factory(this));
             });
         }
 

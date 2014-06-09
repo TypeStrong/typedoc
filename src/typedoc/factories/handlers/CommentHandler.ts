@@ -250,5 +250,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.FACTORIES.push(CommentHandler);
+    Dispatcher.HANDLERS.push(CommentHandler);
 }

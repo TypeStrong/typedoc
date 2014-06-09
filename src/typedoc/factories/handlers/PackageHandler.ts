@@ -97,5 +97,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.FACTORIES.push(PackageHandler);
+    Dispatcher.HANDLERS.push(PackageHandler);
 }

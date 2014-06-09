@@ -99,5 +99,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(SourceHandler);
+    Dispatcher.HANDLERS.push(SourceHandler);
 }

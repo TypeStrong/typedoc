@@ -111,5 +111,5 @@ module TypeDoc.Factories
     }
 
 
-    Dispatcher.FACTORIES.push(ReflectionHandler);
+    Dispatcher.HANDLERS.push(ReflectionHandler);
 }
