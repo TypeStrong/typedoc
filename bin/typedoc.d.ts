@@ -498,7 +498,7 @@ declare module TypeDoc.Factories {
     * Base class of all states.
     *
     * States store the current declaration and its matching reflection while
-    * being processed by the dispatcher. [[BaseHandler]] instances can alter the state and
+    * being processed by the [[Dispatcher]]. [[BaseHandler]] instances can alter the state and
     * stop it from being further processed.
     *
     * For each child declaration the dispatcher will create a child [[DeclarationState]]
@@ -1827,6 +1827,28 @@ declare module TypeDoc.Output {
         * @param page  An event object describing the current render operation.
         */
         private onRendererEndPage(page);
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * A plugin that wraps the generated output with a layout template.
+    *
+    * Currently only a default layout is supported. The layout must be stored
+    * as ´layouts/default.hbs´ in the theme directory.
+    */
+    class LunrPlugin extends BasePlugin {
+        /**
+        * Create a new LayoutPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
+        constructor(renderer: Renderer);
+        /**
+        * Triggered after a document has been rendered, just before it is written to disc.
+        *
+        * @param page  An event object describing the current render operation.
+        */
+        private onRendererBegin(event);
     }
 }
 declare module TypeDoc.Output {

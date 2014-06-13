@@ -1922,7 +1922,7 @@ var TypeDoc;
         * Base class of all states.
         *
         * States store the current declaration and its matching reflection while
-        * being processed by the dispatcher. [[BaseHandler]] instances can alter the state and
+        * being processed by the [[Dispatcher]]. [[BaseHandler]] instances can alter the state and
         * stop it from being further processed.
         *
         * For each child declaration the dispatcher will create a child [[DeclarationState]]
@@ -3541,7 +3541,7 @@ var TypeDoc;
             BaseReflection.prototype.getFullName = function (separator) {
                 if (typeof separator === "undefined") { separator = '.'; }
                 if (this.parent && !(this.parent instanceof Models.ProjectReflection)) {
-                    return this.parent.getFullName(separator) + separator + this.name;
+                    return this.parent.getFullName(separator) + (this.parent.signatures ? '' : separator + this.name);
                 } else {
                     return this.name;
                 }
@@ -4765,6 +4765,86 @@ var TypeDoc;
         * Register this plugin.
         */
         Output.Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        /**
+        * A plugin that wraps the generated output with a layout template.
+        *
+        * Currently only a default layout is supported. The layout must be stored
+        * as ´layouts/default.hbs´ in the theme directory.
+        */
+        var LunrPlugin = (function (_super) {
+            __extends(LunrPlugin, _super);
+            /**
+            * Create a new LayoutPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
+            function LunrPlugin(renderer) {
+                _super.call(this, renderer);
+                renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+            }
+            /**
+            * Triggered after a document has been rendered, just before it is written to disc.
+            *
+            * @param page  An event object describing the current render operation.
+            */
+            LunrPlugin.prototype.onRendererBegin = function (event) {
+                var rows = [];
+
+                event.project.reflections.forEach(function (reflection) {
+                    if (!reflection.url || reflection.kindOf(TypeDoc.Models.Kind.Parameter)) {
+                        return;
+                    }
+
+                    if (reflection.signatures) {
+                        return;
+                    }
+
+                    var parent = reflection.parent;
+                    if (parent instanceof TypeDoc.Models.ProjectReflection) {
+                        parent = null;
+                    } else if (parent.signatures) {
+                        parent = parent.parent;
+                    }
+
+                    var row = {
+                        id: rows.length,
+                        kind: reflection.kind,
+                        name: reflection.name,
+                        url: reflection.url
+                    };
+
+                    if (parent) {
+                        row.parent = parent.getFullName();
+                    }
+
+                    if (reflection.type) {
+                        row.type = reflection.type.toString();
+                    }
+
+                    if (reflection.comment && reflection.comment.shortText) {
+                        row.body = reflection.comment.shortText;
+                    }
+
+                    rows.push(row);
+                });
+
+                var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'index.json');
+                TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, JSON.stringify({ rows: rows }), true);
+            };
+            return LunrPlugin;
+        })(Output.BasePlugin);
+        Output.LunrPlugin = LunrPlugin;
+
+        /**
+        * Register this plugin.
+        */
+        Output.Renderer.PLUGIN_CLASSES.push(LunrPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));

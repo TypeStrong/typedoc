@@ -69,7 +69,7 @@ module TypeDoc.Models
          */
         getFullName(separator:string = '.'):string {
             if (this.parent && !(this.parent instanceof ProjectReflection)) {
-                return this.parent.getFullName(separator) + separator + this.name;
+                return this.parent.getFullName(separator) + ((<DeclarationReflection>this.parent).signatures ? '' : separator + this.name);
             } else {
                 return this.name;
             }

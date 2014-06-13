@@ -54,3 +54,34 @@ var theme;
         $html.addClass('no-filter');
     }
 })(theme || (theme = {}));
+var theme;
+(function (theme) {
+    var search;
+    (function (search) {
+        var $el = $('#tsd-search');
+
+        var $field = $('#tsd-search-field');
+
+        var index;
+
+        $field.on('focusin', function () {
+            $field.off('focusin');
+            $.getJSON($el.attr('data-index'), function (data) {
+                index = lunr(function () {
+                    this.field('name', { boost: 10 });
+                    this.field('body');
+                    this.ref('id');
+                });
+
+                var rows = data.rows;
+                for (var n = 0, c = 10; n < c; n++) {
+                    index.add(rows[n]);
+                }
+            });
+        });
+
+        $field.on('change', function () {
+            console.log(index);
+        });
+    })(search || (search = {}));
+})(theme || (theme = {}));

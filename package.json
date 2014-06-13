@@ -41,9 +41,6 @@
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-uglify": "^0.4.0"
   },
-  "scripts": {
-    "test": "node test/testrunner.js"
-  },
   "files": [
     "bin",
     "LICENSE"

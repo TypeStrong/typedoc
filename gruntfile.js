@@ -54,6 +54,7 @@ module.exports = function(grunt)
                 files: {
                     'bin/themes/default/assets/js/main.js': [
                         'themes/default/assets/js/lib/jquery-2.1.1.min.js',
+                        'themes/default/assets/js/lib/lunr.min.js',
                         'themes/default/assets/js/main.js'
                     ]
                 }
