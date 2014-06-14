@@ -4,7 +4,7 @@ module TypeDoc.Output
      * An event emitted by the [[Renderer]] class before and after the
      * markup of a page is rendered.
      *
-     * This object will be passed as the rendering context to the handlebars template.
+     * This object will be passed as the rendering context to handlebars templates.
      *
      * @see [[Renderer.EVENT_BEGIN_PAGE]]
      * @see [[Renderer.EVENT_END_PAGE]]
@@ -52,7 +52,9 @@ module TypeDoc.Output
         secondary:Models.NavigationItem[];
 
         /**
-         * The html content of this page.
+         * The final html content of this page.
+         *
+         * Should be rendered by layout templates and can be modifies by plugins.
          */
         contents:string;
     }
