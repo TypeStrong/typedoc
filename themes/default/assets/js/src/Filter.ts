@@ -24,7 +24,6 @@ module tsd
                 this.value = (window.localStorage[key] == 'true');
                 this.$checkbox.prop('checked', this.value);
 
-                console.log(this.key, this.value);
                 $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
             }
 
@@ -35,7 +34,6 @@ module tsd
         private onCheckboxChanged() {
             this.value = this.$checkbox.prop('checked');
             window.localStorage[this.key] = (this.value ? 'true' : 'false');
-            console.log('CHANGE', this.key, this.value);
 
             $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
         }

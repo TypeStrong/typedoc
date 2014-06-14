@@ -14,7 +14,6 @@ var tsd;
                 this.value = (window.localStorage[key] == 'true');
                 this.$checkbox.prop('checked', this.value);
 
-                console.log(this.key, this.value);
                 $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
             }
 
@@ -25,7 +24,6 @@ var tsd;
         FilterOption.prototype.onCheckboxChanged = function () {
             this.value = this.$checkbox.prop('checked');
             window.localStorage[this.key] = (this.value ? 'true' : 'false');
-            console.log('CHANGE', this.key, this.value);
 
             $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
         };
@@ -79,6 +77,8 @@ var tsd;
 
         var hasFocus = false;
 
+        var preventPress = false;
+
         var index;
 
         function createIndex() {
@@ -113,7 +113,7 @@ var tsd;
                 if (loadingState == 0 /* Idle */) {
                     setLoadingState(1 /* Loading */);
                 }
-            }, 250);
+            }, 500);
 
             if (typeof search.data != 'undefined') {
                 createIndex();
@@ -138,8 +138,7 @@ var tsd;
                 var name = row.name;
                 if (row.parent)
                     name = '<span class="parent">' + row.parent + '.</span>' + name;
-                name = '<span class="kind">' + search.data.kinds[row.kind] + '</span> ' + name;
-                $results.append('<li><a href="' + base + row.url + '">' + name + '</li>');
+                $results.append('<li class="' + row.classes + '"><a href="' + base + row.url + '" class="tsd-kind-icon">' + name + '</li>');
             }
         }
 
@@ -188,6 +187,19 @@ var tsd;
             }
         }
 
+        function gotoCurrentResult() {
+            var $current = $results.find('.current');
+
+            if ($current.length == 0) {
+                $current = $results.find('li:first-child');
+            }
+
+            if ($current.length > 0) {
+                window.location.href = $current.find('a').prop('href');
+                $field.blur();
+            }
+        }
+
         $field.on('focusin', function () {
             setHasFocus(true);
             loadIndex();
@@ -198,16 +210,30 @@ var tsd;
         }).on('input', function () {
             setQuery($.trim($field.val()));
         }).on('keydown', function (e) {
-            if (e.keyCode == 40) {
-                setCurrentResult(1);
-            } else if (e.keyCode == 38) {
-                setCurrentResult(-1);
-            } else if (e.keyCode == 13) {
-                var $current = $results.find('.current');
-                if ($current.length == 0)
-                    $current = $results.find('li:first-child');
-                if ($current.length > 0)
-                    window.location.href = $current.find('a').prop('href');
+            if (e.keyCode == 13 || e.keyCode == 27 || e.keyCode == 38 || e.keyCode == 40) {
+                preventPress = true;
+                e.preventDefault();
+
+                if (e.keyCode == 13) {
+                    gotoCurrentResult();
+                } else if (e.keyCode == 27) {
+                    $field.blur();
+                } else if (e.keyCode == 38) {
+                    setCurrentResult(-1);
+                } else if (e.keyCode == 40) {
+                    setCurrentResult(1);
+                }
+            } else {
+                preventPress = false;
+            }
+        }).on('keypress', function (e) {
+            if (preventPress)
+                e.preventDefault();
+        });
+
+        $('body').on('keydown', function (e) {
+            if (!hasFocus && e.keyCode > 47) {
+                $field.focus();
             }
         });
     })(tsd.search || (tsd.search = {}));

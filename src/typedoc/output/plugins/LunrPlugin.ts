@@ -44,9 +44,10 @@ module TypeDoc.Output
 
                 var row:any = {
                     id: rows.length,
-                    kind:   reflection.kind,
-                    name:   reflection.name,
-                    url:    reflection.url
+                    kind:    reflection.kind,
+                    name:    reflection.name,
+                    url:     reflection.url,
+                    classes: reflection.cssClasses
                 };
 
                 if (parent) {

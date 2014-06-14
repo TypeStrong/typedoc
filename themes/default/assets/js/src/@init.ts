@@ -8,6 +8,7 @@ declare module tsd.search
         kind:number;
         name:string;
         url:string;
+        classes:string;
         parent?:string;
     }
 

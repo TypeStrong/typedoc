@@ -1,22 +1,37 @@
 module tsd.search
 {
+    /**
+     * Loading state definitions.
+     */
     enum SearchLoadingState
     {
         Idle, Loading, Ready, Failure
     }
 
 
+    /**
+     * The element holding the search widget and results.
+     */
     var $el:JQuery = $('#tsd-search');
 
     /**
-     *
+     * The input field of the search widget.
      */
     var $field:JQuery = $('#tsd-search-field');
 
+    /**
+     * The result list wrapper.
+     */
     var $results:JQuery = $('.results');
 
+    /**
+     * The base url that must be prepended to the indexed urls.
+     */
     var base:string = $el.attr('data-base') + '/';
 
+    /**
+     * The current query string.
+     */
     var query:string = '';
 
     /**
@@ -24,7 +39,15 @@ module tsd.search
      */
     var loadingState:SearchLoadingState = SearchLoadingState.Idle;
 
+    /**
+     * Is the input field focused?
+     */
     var hasFocus:boolean = false;
+
+    /**
+     * Should the next key press be prevents?
+     */
+    var preventPress:boolean = false;
 
     /**
      * The lunr index used to search the documentation.
@@ -63,13 +86,16 @@ module tsd.search
     }
 
 
+    /**
+     * Lazy load the search index and parse it.
+     */
     function loadIndex() {
         if (loadingState != SearchLoadingState.Idle) return;
         setTimeout(() => {
             if (loadingState == SearchLoadingState.Idle) {
                 setLoadingState(SearchLoadingState.Loading);
             }
-        }, 250);
+        }, 500);
 
         if (typeof data != 'undefined') {
             createIndex();
@@ -97,12 +123,14 @@ module tsd.search
             var row = data.rows[res[i].ref];
             var name = row.name;
             if (row.parent) name = '<span class="parent">' + row.parent + '.</span>' + name;
-            name = '<span class="kind">' + data.kinds[row.kind] + '</span> ' + name;
-            $results.append('<li><a href="' + base + row.url + '">' + name + '</li>');
+            $results.append('<li class="' + row.classes + '"><a href="' + base + row.url + '" class="tsd-kind-icon">' + name + '</li>');
         }
     }
 
 
+    /**
+     * Set the loading state and update the visual state accordingly.
+     */
     function setLoadingState(value:SearchLoadingState) {
         if (loadingState == value) return;
 
@@ -116,6 +144,9 @@ module tsd.search
     }
 
 
+    /**
+     * Set the focus state and update the visual state accordingly.
+     */
     function setHasFocus(value:boolean) {
         if (hasFocus == value) return;
         hasFocus = value;
@@ -130,12 +161,18 @@ module tsd.search
     }
 
 
+    /**
+     * Set the query string and update the results.
+     */
     function setQuery(value:string) {
         query = $.trim(value);
         updateResults();
     }
 
 
+    /**
+     * Move the highlight within the result set.
+     */
     function setCurrentResult(dir:number) {
         var $current = $results.find('.current');
         if ($current.length == 0) {
@@ -151,6 +188,23 @@ module tsd.search
 
 
     /**
+     * Navigate to the highlighted result.
+     */
+    function gotoCurrentResult() {
+        var $current = $results.find('.current');
+
+        if ($current.length == 0) {
+            $current = $results.find('li:first-child');
+        }
+
+        if ($current.length > 0) {
+            window.location.href = $current.find('a').prop('href');
+            $field.blur();
+        }
+    }
+
+
+    /**
      * Bind all required events on the input field.
      */
     $field.on('focusin', () => {
@@ -161,14 +215,33 @@ module tsd.search
     }).on('input', () => {
         setQuery($.trim($field.val()));
     }).on('keydown', (e:JQueryKeyEventObject) => {
-        if (e.keyCode == 40) {
-            setCurrentResult(1);
-        } else if (e.keyCode == 38) {
-            setCurrentResult(-1);
-        } else if (e.keyCode == 13) {
-            var $current = $results.find('.current');
-            if ($current.length == 0) $current = $results.find('li:first-child');
-            if ($current.length > 0) window.location.href = $current.find('a').prop('href');
+        if (e.keyCode == 13 || e.keyCode == 27 || e.keyCode == 38 || e.keyCode == 40) {
+            preventPress = true;
+            e.preventDefault();
+
+            if (e.keyCode == 13) {
+                gotoCurrentResult();
+            } else if (e.keyCode == 27) {
+                $field.blur();
+            } else if (e.keyCode == 38) {
+                setCurrentResult(-1);
+            } else if (e.keyCode == 40) {
+                setCurrentResult(1);
+            }
+        } else {
+            preventPress = false;
+        }
+    }).on('keypress', (e) => {
+        if (preventPress) e.preventDefault();
+    });
+
+
+    /**
+     * Start searching by pressing a key on the body.
+     */
+    $('body').on('keydown', (e) => {
+        if (!hasFocus && e.keyCode > 47) {
+            $field.focus();
         }
     });
 }

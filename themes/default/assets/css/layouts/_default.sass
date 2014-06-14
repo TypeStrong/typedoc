@@ -75,25 +75,28 @@ body
         width: 100%
         margin: 0
         padding: 0
-        background-color: #4d4d4d
         list-style: none
 
         li
-            border-top: 1px solid #1a1a1a
             padding: 0 10px
+            background-color: #555
+
+        li:nth-child(even)
+            background-color: #4d4d4d
 
         li.state
             display: none
         
         li.current
-            background-color: #c00
+            background-color: #666
             color: #fff
 
         a
             display: block
 
         span.parent
-            color: #ccc
+            color: #eee
+            font-weight: normal
 
     &.has-focus
         background-color: #4d4d4d

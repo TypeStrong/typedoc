@@ -4825,7 +4825,8 @@ var TypeDoc;
                         id: rows.length,
                         kind: reflection.kind,
                         name: reflection.name,
-                        url: reflection.url
+                        url: reflection.url,
+                        classes: reflection.cssClasses
                     };
 
                     if (parent) {
