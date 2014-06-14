@@ -22,25 +22,24 @@ module TypeDoc.Output
         /**
          * Triggered after a document has been rendered, just before it is written to disc.
          *
-         * @param page  An event object describing the current render operation.
+         * @param event  An event object describing the current render operation.
          */
         private onRendererBegin(event:OutputEvent) {
             var rows = [];
+            var kinds = {};
 
             event.project.reflections.forEach((reflection) => {
-                if (!reflection.url || reflection.kindOf(Models.Kind.Parameter)) {
+                if (!reflection.url ||
+                    !reflection.name ||
+                    reflection.name == '' ||
+                    reflection.kindOf(Models.Kind.Parameter))
                     return;
-                }
-
-                if ((<Models.DeclarationReflection>reflection).signatures) {
-                    return;
-                }
 
                 var parent = reflection.parent;
                 if (parent instanceof Models.ProjectReflection) {
                     parent = null;
                 } else if ((<Models.DeclarationReflection>parent).signatures) {
-                    parent = parent.parent;
+                    return;
                 }
 
                 var row:any = {
@@ -54,19 +53,20 @@ module TypeDoc.Output
                     row.parent = parent.getFullName();
                 }
 
-                if (reflection.type) {
-                    row.type = reflection.type.toString();
-                }
-
-                if (reflection.comment && reflection.comment.shortText) {
-                    row.body = reflection.comment.shortText;
+                if (!kinds[reflection.kind]) {
+                    kinds[reflection.kind] = Factories.GroupHandler.getKindSingular(reflection.kind);
                 }
 
                 rows.push(row);
             });
 
-            var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'index.json');
-            TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, JSON.stringify({rows:rows}), true);
+            var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
+            var data =
+                'var tsd = tsd || {};' +
+                'tsd.search = tsd.search || {};' +
+                'tsd.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
+
+            TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, data, true);
         }
     }
 

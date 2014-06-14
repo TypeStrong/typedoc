@@ -1850,7 +1850,7 @@ declare module TypeDoc.Output {
         /**
         * Triggered after a document has been rendered, just before it is written to disc.
         *
-        * @param page  An event object describing the current render operation.
+        * @param event  An event object describing the current render operation.
         */
         private onRendererBegin(event);
     }

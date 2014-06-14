@@ -1,4 +1,4 @@
-module theme
+module tsd
 {
     var $html = $('html');
 
@@ -20,8 +20,8 @@ module theme
             this.value        = value;
             this.defaultValue = value;
 
-            if (localStorage[key] && localStorage[key] != value) {
-                this.value = (localStorage[key] == 'true');
+            if (window.localStorage[key] && window.localStorage[key] != value) {
+                this.value = (window.localStorage[key] == 'true');
                 this.$checkbox.prop('checked', this.value);
 
                 console.log(this.key, this.value);
@@ -34,7 +34,7 @@ module theme
 
         private onCheckboxChanged() {
             this.value = this.$checkbox.prop('checked');
-            localStorage[this.key] = (this.value ? 'true' : 'false');
+            window.localStorage[this.key] = (this.value ? 'true' : 'false');
             console.log('CHANGE', this.key, this.value);
 
             $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
@@ -60,7 +60,7 @@ module theme
 
         static isSupported():boolean {
             try {
-                return 'localStorage' in window && window['localStorage'] !== null;
+                return typeof window.localStorage != 'undefined';
             } catch (e) {
                 return false;
             }

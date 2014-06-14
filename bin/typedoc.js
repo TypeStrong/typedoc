@@ -4804,25 +4804,21 @@ var TypeDoc;
             /**
             * Triggered after a document has been rendered, just before it is written to disc.
             *
-            * @param page  An event object describing the current render operation.
+            * @param event  An event object describing the current render operation.
             */
             LunrPlugin.prototype.onRendererBegin = function (event) {
                 var rows = [];
+                var kinds = {};
 
                 event.project.reflections.forEach(function (reflection) {
-                    if (!reflection.url || reflection.kindOf(TypeDoc.Models.Kind.Parameter)) {
+                    if (!reflection.url || !reflection.name || reflection.name == '' || reflection.kindOf(TypeDoc.Models.Kind.Parameter))
                         return;
-                    }
-
-                    if (reflection.signatures) {
-                        return;
-                    }
 
                     var parent = reflection.parent;
                     if (parent instanceof TypeDoc.Models.ProjectReflection) {
                         parent = null;
                     } else if (parent.signatures) {
-                        parent = parent.parent;
+                        return;
                     }
 
                     var row = {
@@ -4836,19 +4832,17 @@ var TypeDoc;
                         row.parent = parent.getFullName();
                     }
 
-                    if (reflection.type) {
-                        row.type = reflection.type.toString();
-                    }
-
-                    if (reflection.comment && reflection.comment.shortText) {
-                        row.body = reflection.comment.shortText;
+                    if (!kinds[reflection.kind]) {
+                        kinds[reflection.kind] = TypeDoc.Factories.GroupHandler.getKindSingular(reflection.kind);
                     }
 
                     rows.push(row);
                 });
 
-                var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'index.json');
-                TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, JSON.stringify({ rows: rows }), true);
+                var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
+                var data = 'var tsd = tsd || {};' + 'tsd.search = tsd.search || {};' + 'tsd.search.data = ' + JSON.stringify({ kinds: kinds, rows: rows }) + ';';
+
+                TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, data, true);
             };
             return LunrPlugin;
         })(Output.BasePlugin);

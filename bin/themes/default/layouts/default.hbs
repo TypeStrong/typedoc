@@ -14,22 +14,32 @@
 <header>
     <div class="tsd-page-toolbar">
         <div class="container">
-            <div id="tsd-search" data-index="{{relativeURL "assets/js/index.json"}}">
-                <input id="tsd-search-field" type="text" />
+            <div class="table-wrap">
+                <div class="table-cell" id="tsd-search" data-index="{{relativeURL "assets/js/search.js"}}" data-base="{{relativeURL "./"}}">
+                    <div class="field">
+                        <label for="tsd-search-field">Search</label>
+                        <input id="tsd-search-field" type="text" />
+                    </div>
+
+                    <ul class="results">
+                        <li class="state loading">Preparing search index...</li>
+                        <li class="state failure">The search index is not available</li>
+                    </ul>
+
+                    <a href="{{relativeURL "index.html"}}" class="title">{{project.name}}</a>
+                </div>
+
+                <div class="table-cell" id="tsd-filter">
+                    <input type="checkbox" id="tsd-filter-inherited" checked />
+                    <label for="tsd-filter-inherited">Inherited</label>
+
+                    <input type="checkbox" id="tsd-filter-private" checked />
+                    <label for="tsd-filter-private">Private</label>
+
+                    <input type="checkbox" id="tsd-filter-only-exported" />
+                    <label for="tsd-filter-only-exported">Only exported</label>
+                </div>
             </div>
-
-            <div id="tsd-filter">
-                <input type="checkbox" id="tsd-filter-inherited" checked />
-                <label for="tsd-filter-inherited">Inherited</label>
-
-                <input type="checkbox" id="tsd-filter-private" checked />
-                <label for="tsd-filter-private">Private</label>
-
-                <input type="checkbox" id="tsd-filter-only-exported" />
-                <label for="tsd-filter-only-exported">Only exported</label>
-            </div>
-
-            <a href="{{relativeURL "index.html"}}">{{project.name}}</a>
         </div>
     </div>
     <div class="tsd-page-title">
@@ -66,6 +76,7 @@
 </div>
 
 <script src="{{relativeURL "assets/js/main.js"}}"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="{{relativeURL "assets/js/search.js"}}"><' + '/script>');</script>
 
 </body>
 </html>

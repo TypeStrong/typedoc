@@ -465,9 +465,9 @@ declare module lunr
          * after documents are added to the index will only apply to new documents added to the index.
          *
          * @param fieldName  The name of the field within the document that
-         * @param boost      An optional boost that can be applied to terms in this field.
+         * @param options    An optional boost that can be applied to terms in this field.
          */
-        field(fieldName:string, boost?:number):Index;
+        field(fieldName:string, options?:{boost?:number}):Index;
 
 
         /**
