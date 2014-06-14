@@ -1,15 +1,14 @@
 module TypeDoc.Output
 {
     /**
-     * A plugin that wraps the generated output with a layout template.
+     * A plugin that exports an index of the project to a javascript file.
      *
-     * Currently only a default layout is supported. The layout must be stored
-     * as ´layouts/default.hbs´ in the theme directory.
+     * The resulting javascript file can be used to build a simple search function.
      */
-    export class LunrPlugin extends BasePlugin
+    export class JavascriptIndexPlugin extends BasePlugin
     {
         /**
-         * Create a new LayoutPlugin instance.
+         * Create a new JavascriptIndexPlugin instance.
          *
          * @param renderer  The renderer this plugin should be attached to.
          */
@@ -75,5 +74,5 @@ module TypeDoc.Output
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(LunrPlugin);
+    Renderer.PLUGIN_CLASSES.push(JavascriptIndexPlugin);
 }
