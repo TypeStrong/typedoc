@@ -1063,6 +1063,10 @@ declare module TypeDoc.Models {
         */
         public url: string;
         /**
+        * The name of the anchor of this child.
+        */
+        public anchor: string;
+        /**
         * Is the url pointing to an individual document?
         *
         * When FALSE, the url points to an anchor tag on a page of a different reflection.

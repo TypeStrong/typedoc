@@ -67,7 +67,7 @@ module TypeDoc.Output
          *
          * @returns  An array of url mappings.
          */
-            getUrls(project:TypeDoc.Models.ProjectReflection):TypeDoc.Models.UrlMapping[]
+        getUrls(project:TypeDoc.Models.ProjectReflection):TypeDoc.Models.UrlMapping[]
         {
             var urls = [];
 
@@ -85,7 +85,8 @@ module TypeDoc.Output
                         return;
                     }
 
-                    child.url = container.url + '#' + createUrl(child, container, '.');
+                    child.anchor = (child.isStatic ? 'static-' : '') + createUrl(child, container, '.');
+                    child.url = container.url + '#' + child.anchor;
                     walkLeaf(child, container);
                 });
             };
@@ -104,7 +105,8 @@ module TypeDoc.Output
                             walkReflection(child, child);
                         }
                     } else {
-                        child.url = container.url + '#' + createUrl(child, container, '.');
+                        child.anchor = (child.isStatic ? 'static-' : '') + createUrl(child, container, '.');
+                        child.url = container.url + '#' + child.anchor;
                         walkLeaf(child, container);
                     }
                 });

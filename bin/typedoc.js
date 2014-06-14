@@ -2009,7 +2009,18 @@ var TypeDoc;
                     throw new Error('Cannot create a child state of state without a reflection.');
                 }
 
-                var reflection = this.reflection.getChildByName(BaseState.getName(declaration));
+                var reflection = null;
+                var name = BaseState.getName(declaration);
+                this.reflection.children.some(function (child) {
+                    if (child.name != name)
+                        return false;
+                    if ((child.flags & TypeScript.PullElementFlags.Static) != (declaration.flags & TypeScript.PullElementFlags.Static))
+                        return false;
+
+                    reflection = child;
+                    return true;
+                });
+
                 return new Factories.DeclarationState(this, declaration, reflection);
             };
 
@@ -4206,7 +4217,8 @@ var TypeDoc;
                             return;
                         }
 
-                        child.url = container.url + '#' + createUrl(child, container, '.');
+                        child.anchor = (child.isStatic ? 'static-' : '') + createUrl(child, container, '.');
+                        child.url = container.url + '#' + child.anchor;
                         walkLeaf(child, container);
                     });
                 };
@@ -4225,7 +4237,8 @@ var TypeDoc;
                                 walkReflection(child, child);
                             }
                         } else {
-                            child.url = container.url + '#' + createUrl(child, container, '.');
+                            child.anchor = (child.isStatic ? 'static-' : '') + createUrl(child, container, '.');
+                            child.url = container.url + '#' + child.anchor;
                             walkLeaf(child, container);
                         }
                     });

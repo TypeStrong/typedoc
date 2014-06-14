@@ -86,12 +86,26 @@ export class BaseClass implements INameInterface
     /**
      * This is a simple member function.
      *
-     * It should be inherited by all subclasses.
+     * It should be inherited by all subclasses. This class has a static
+     * member with the same name, both should be documented.
      *
      * @returns Return the name.
      */
     public getName():string {
         return this.name;
+    }
+
+
+    /**
+     * This is a simple static member function.
+     *
+     * Static functions should not be inherited. This class has a
+     * member with the same name, both should be documented.
+     *
+     * @returns Return the name.
+     */
+    static getName():string {
+        return 'A name';
     }
 
 
