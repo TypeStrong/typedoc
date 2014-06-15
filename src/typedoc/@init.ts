@@ -1,2 +1,2 @@
 /// <reference path="../typescript/tsc.ts" />
-/// <reference path="utils/EventDispatcher.ts" />
+/// <reference path="EventDispatcher.ts" />
