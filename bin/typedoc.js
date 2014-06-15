@@ -848,13 +848,25 @@ var TypeScript;
 })(TypeScript || (TypeScript = {}));
 var TypeDoc;
 (function (TypeDoc) {
+    /**
+    * Base class of all events.
+    *
+    * Events are emitted by [[EventDispatcher]] and are passed to all
+    * handlers registered for the associated event name.
+    */
     var Event = (function () {
         function Event() {
         }
+        /**
+        * Stop the propagation of this event. Remaining event handlers will not be executed.
+        */
         Event.prototype.stopPropagation = function () {
             this.isPropagationStopped = true;
         };
 
+        /**
+        * Prevent the default action associated with this event from being executed.
+        */
         Event.prototype.preventDefault = function () {
             this.isDefaultPrevented = true;
         };
@@ -862,9 +874,22 @@ var TypeDoc;
     })();
     TypeDoc.Event = Event;
 
+    /**
+    * Base class of all objects dispatching events.
+    *
+    * Events are dispatched by calling [[EventDispatcher.dispatch]]. Events must have a name and
+    * they can carry additional arguments that are passed to all handlers. The first argument can
+    * be an instance of [[Event]] providing additional functionality.
+    */
     var EventDispatcher = (function () {
         function EventDispatcher() {
         }
+        /**
+        * Dispatch an event with the given event name.
+        *
+        * @param event  The name of the event to dispatch.
+        * @param args   Additional arguments to pass to the handlers.
+        */
         EventDispatcher.prototype.dispatch = function (event) {
             var args = [];
             for (var _i = 0; _i < (arguments.length - 1); _i++) {
@@ -892,6 +917,15 @@ var TypeDoc;
             }
         };
 
+        /**
+        * Register an event handler for the given event name.
+        *
+        * @param event     The name of the event the handler should be registered to.
+        * @param handler   The callback that should be invoked.
+        * @param scope     The scope the callback should be executed in.
+        * @param priority  A numeric value describing the priority of the handler. Handlers
+        *                  with higher priority will be executed earlier.
+        */
         EventDispatcher.prototype.on = function (event, handler, scope, priority) {
             if (typeof scope === "undefined") { scope = null; }
             if (typeof priority === "undefined") { priority = 0; }
@@ -912,6 +946,13 @@ var TypeDoc;
             });
         };
 
+        /**
+        * Remove an event handler.
+        *
+        * @param event    The name of the event whose handlers should be removed.
+        * @param handler  The callback that should be removed.
+        * @param scope    The scope of the callback that should be removed.
+        */
         EventDispatcher.prototype.off = function (event, handler, scope) {
             if (typeof event === "undefined") { event = null; }
             if (typeof handler === "undefined") { handler = null; }
@@ -957,7 +998,7 @@ var TypeDoc;
     TypeDoc.EventDispatcher = EventDispatcher;
 })(TypeDoc || (TypeDoc = {}));
 /// <reference path="../typescript/tsc.ts" />
-/// <reference path="utils/EventDispatcher.ts" />
+/// <reference path="EventDispatcher.ts" />
 var TypeDoc;
 (function (TypeDoc) {
     /**
@@ -4425,13 +4466,13 @@ var TypeDoc;
 
                     reflection.children.forEach(function (child) {
                         if (mapping.isLeaf) {
-                            DefaultTheme.applyAnchorUrl(child, child);
+                            DefaultTheme.applyAnchorUrl(child, reflection);
                         } else {
                             DefaultTheme.buildUrls(child, urls);
                         }
                     });
                 } else {
-                    DefaultTheme.applyAnchorUrl(reflection, reflection);
+                    DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
                 }
 
                 return urls;
@@ -4444,7 +4485,7 @@ var TypeDoc;
             * @param container   The nearest reflection having an own document.
             */
             DefaultTheme.applyAnchorUrl = function (reflection, container) {
-                var anchor = DefaultTheme.getUrl(reflection, reflection, '.');
+                var anchor = DefaultTheme.getUrl(reflection, container, '.');
                 if (reflection.isStatic) {
                     anchor = 'static-' + anchor;
                 }
