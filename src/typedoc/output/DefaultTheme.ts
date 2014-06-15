@@ -241,13 +241,13 @@ module TypeDoc.Output
 
                 reflection.children.forEach((child) => {
                     if (mapping.isLeaf) {
-                        DefaultTheme.applyAnchorUrl(child, child);
+                        DefaultTheme.applyAnchorUrl(child, reflection);
                     } else {
                         DefaultTheme.buildUrls(child, urls);
                     }
                 });
             } else {
-                DefaultTheme.applyAnchorUrl(reflection, reflection);
+                DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
             }
 
             return urls;
@@ -261,7 +261,7 @@ module TypeDoc.Output
          * @param container   The nearest reflection having an own document.
          */
         static applyAnchorUrl(reflection:Models.DeclarationReflection, container:Models.BaseReflection) {
-            var anchor = DefaultTheme.getUrl(reflection, reflection, '.');
+            var anchor = DefaultTheme.getUrl(reflection, container, '.');
             if (reflection.isStatic) {
                 anchor = 'static-' + anchor;
             }
