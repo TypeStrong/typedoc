@@ -1,4 +1,4 @@
-/// <reference path="lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="lib/fs-extra/fs-extra.d.ts" />
 /// <reference path="lib/handlebars/handlebars.d.ts" />
 /// <reference path="lib/highlight.js/highlight.js.d.ts" />
 /// <reference path="lib/marked/marked.d.ts" />
@@ -13,7 +13,7 @@ var Minimatch = require('minimatch');
 var Util = require('util');
 var VM = require('vm');
 var Path = require('path');
-var FS = require('fs.extra');
+var FS = require('fs-extra');
 
 var typeScriptPath = Path.dirname(require.resolve('typescript'));
 if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {
@@ -5447,36 +5447,7 @@ var TypeDoc;
                 var from = Path.join(this.renderer.theme.basePath, 'assets');
                 if (FS.existsSync(from)) {
                     var to = Path.join(event.outputDirectory, 'assets');
-                    FS.mkdirRecursiveSync(to);
-                    AssetsPlugin.copyRecursiveSync(from, to);
-                }
-            };
-
-            /**
-            * Look ma, it's cp -R.
-            *
-            * @param src   The path to the thing to copy.
-            * @param dest  The path to the new copy.
-            *
-            * @see http://stackoverflow.com/a/22185855
-            */
-            AssetsPlugin.copyRecursiveSync = function (src, dest) {
-                var exists = FS.existsSync(src);
-                var stats = exists && FS.statSync(src);
-                var isDirectory = exists && stats.isDirectory();
-
-                if (exists && isDirectory) {
-                    if (!FS.existsSync(dest)) {
-                        FS.mkdirSync(dest);
-                    }
-
-                    FS.readdirSync(src).forEach(function (childItemName) {
-                        AssetsPlugin.copyRecursiveSync(Path.join(src, childItemName), Path.join(dest, childItemName));
-                    });
-                } else {
-                    if (!FS.existsSync(dest)) {
-                        FS.linkSync(src, dest);
-                    }
+                    FS.copySync(from, to);
                 }
             };
             return AssetsPlugin;
@@ -6398,7 +6369,7 @@ var TypeScript;
                     require.main._compile(source, fileName);
                 },
                 getExecutingFilePath: function () {
-                    return process.mainModule.filename;
+                    return process['mainModule'].filename;
                 },
                 quit: function (code) {
                     var stderrFlushed = process.stderr.write('');

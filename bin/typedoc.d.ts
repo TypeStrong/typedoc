@@ -1,4 +1,4 @@
-/// <reference path="../src/lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="../src/lib/fs-extra/fs-extra.d.ts" />
 /// <reference path="../src/lib/handlebars/handlebars.d.ts" />
 /// <reference path="../src/lib/highlight.js/highlight.js.d.ts" />
 /// <reference path="../src/lib/marked/marked.d.ts" />
@@ -2435,15 +2435,6 @@ declare module TypeDoc.Output {
         * @param event  An event object describing the current render operation.
         */
         private onRendererBegin(event);
-        /**
-        * Look ma, it's cp -R.
-        *
-        * @param src   The path to the thing to copy.
-        * @param dest  The path to the new copy.
-        *
-        * @see http://stackoverflow.com/a/22185855
-        */
-        static copyRecursiveSync(src: any, dest: any): void;
     }
 }
 declare module TypeDoc.Output {

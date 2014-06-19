@@ -1,4 +1,4 @@
-/// <reference path="lib/fs.extra/fs.extra.d.ts" />
+/// <reference path="lib/fs-extra/fs-extra.d.ts" />
 /// <reference path="lib/handlebars/handlebars.d.ts" />
 /// <reference path="lib/highlight.js/highlight.js.d.ts" />
 /// <reference path="lib/marked/marked.d.ts" />
@@ -17,7 +17,7 @@ var Minimatch   = require('minimatch');
 var Util        = require('util');
 var VM          = require('vm');
 var Path        = require('path');
-var FS          = require('fs.extra');
+var FS          = require('fs-extra');
 
 var typeScriptPath = Path.dirname(require.resolve('typescript'));
 if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {

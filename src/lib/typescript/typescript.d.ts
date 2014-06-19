@@ -437,8 +437,6 @@ declare module TypeScript {
         Object_literal_s_property_0_implicitly_has_an_any_type_from_widening: string;
     };
 }
-declare var require: any;
-declare var module: any;
 declare module TypeScript {
     class ArrayUtilities {
         static isArray(value: any): boolean;
@@ -595,24 +593,6 @@ declare class Enumerator {
     public item(): any;
     constructor(o: any);
 }
-declare module process {
-    var argv: string[];
-    var platform: string;
-    function on(event: string, handler: (arg: any) => void): void;
-    module stdout {
-        function write(str: string): any;
-        function on(event: string, action: () => void): void;
-    }
-    module stderr {
-        function write(str: string): any;
-        function on(event: string, action: () => void): void;
-    }
-    module mainModule {
-        var filename: string;
-    }
-    function exit(exitCode?: number): any;
-}
-declare var Buffer: new(str: string, encoding?: string) => any;
 declare module TypeScript {
     var nodeMakeDirectoryTime: number;
     var nodeCreateBufferTime: number;

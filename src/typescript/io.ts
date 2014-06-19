@@ -425,7 +425,7 @@ module TypeScript {
                     require.main._compile(source, fileName);
                 },
                 getExecutingFilePath: function () {
-                    return process.mainModule.filename;
+                    return process['mainModule'].filename;
                 },
                 quit: function (code?: number) {
                     var stderrFlushed = process.stderr.write('');
