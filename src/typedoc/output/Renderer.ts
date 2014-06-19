@@ -152,6 +152,8 @@ module TypeDoc.Output
          * @param outputDirectory  The path of the directory the documentation should be rendered to.
          */
         render(project:Models.ProjectReflection, outputDirectory:string) {
+            this.application.log('Starting renderer', LogLevel.Verbose);
+
             if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                 return;
             }
@@ -179,6 +181,8 @@ module TypeDoc.Output
          * @return TRUE if the page has been saved to disc, otherwise FALSE.
          */
         private renderDocument(page:OutputPageEvent):boolean {
+            this.application.log(Util.format('Render %s', page.url), LogLevel.Verbose);
+
             this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
             if (page.isDefaultPrevented) {
                 return false;
@@ -283,8 +287,7 @@ module TypeDoc.Output
          * @returns The path to the theme directory.
          */
         static getThemeDirectory():string {
-            var path = Path.dirname(TypeScript.IO.getExecutingFilePath());
-            return Path.resolve(Path.join(path, 'themes'));
+            return Path.resolve(Path.join(__dirname, 'themes'));
         }
 
 
