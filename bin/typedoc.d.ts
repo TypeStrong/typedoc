@@ -271,6 +271,14 @@ declare module TypeDoc {
         */
         public includeDeclarations: boolean;
         /**
+        * Should externally resolved TypeScript files be ignored?
+        */
+        public excludeExternals: boolean;
+        /**
+        * Define a pattern for files that should be considered being external.
+        */
+        public externalPattern: string;
+        /**
         * Does the user want to display the help message?
         */
         public needsHelp: boolean;
@@ -294,8 +302,8 @@ declare module TypeDoc {
         * Expand the list of input files.
         *
         * Searches for directories in the input files list and replaces them with a
-        * listing of all TypeScript files within them. One may use the exlclude option
-        * to filter out files aith a pattern.
+        * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
+        * to filter out files with a pattern.
         */
         public expandInputFiles(): void;
         /**
@@ -350,7 +358,7 @@ declare module TypeDoc.Factories {
         /**
         * Create a new compiler instance.
         */
-        constructor(settings: TypeScript.CompilationSettings);
+        constructor(settings: TypeScript.CompilationSettings, inputFiles: string[]);
         public run(): TypeScript.Document[];
         public compile(): TypeScript.Document[];
         /**
@@ -364,12 +372,6 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
-    * Create a type instance for the given symbol.
-    *
-    * @param symbol  The TypeScript symbol the type should point to.
-    */
-    function createType(symbol: TypeScript.PullTypeSymbol): Models.BaseType;
-    /**
     * The dispatcher receives documents from the compiler and emits
     * events for all discovered declarations.
     *
@@ -380,6 +382,11 @@ declare module TypeDoc.Factories {
     *
     * For each document (a single *.ts file) the dispatcher will generate the following event flow.
     * Declarations are processed according to their hierarchy.
+    *
+    *  * [[Dispatcher.EVENT_BEGIN]]<br>
+    *    Triggered when the dispatcher starts processing a project. The listener receives
+    *    an instance of [[DispatcherEvent]]. By calling [[DispatcherEvent.preventDefault]] the
+    *    project file will not be processed.
     *
     *  * [[Dispatcher.EVENT_BEGIN_DOCUMENT]]<br>
     *    Triggered when the dispatcher starts processing a TypeScript document. The listener receives
@@ -421,15 +428,15 @@ declare module TypeDoc.Factories {
     *
     *  * [[Dispatcher.EVENT_BEGIN_RESOLVE]]<br>
     *    Triggered when the dispatcher enters the resolving phase. The listener receives an instance
-    *    of [[ResolveProjectEvent]].
+    *    of [[DispatcherEvent]].
     *
     *    * [[Dispatcher.EVENT_RESOLVE]]<br>
     *      Triggered when the dispatcher resolves a reflection. The listener receives an instance
-    *      of [[ResolveReflectionEvent]].
+    *      of [[ReflectionEvent]].
     *
     *  * [[Dispatcher.EVENT_END_RESOLVE]]<br>
     *    Triggered when the dispatcher leaves the resolving phase. The listener receives an instance
-    *    of [[ResolveProjectEvent]].
+    *    of [[DispatcherEvent]].
     */
     class Dispatcher extends EventDispatcher {
         /**
@@ -440,6 +447,11 @@ declare module TypeDoc.Factories {
         * List of all handlers that are attached to the renderer.
         */
         public handlers: any[];
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        * @event
+        */
+        static EVENT_BEGIN: string;
         /**
         * Triggered when the dispatcher starts processing a TypeScript document.
         * @event
@@ -506,7 +518,19 @@ declare module TypeDoc.Factories {
         * @param inputFiles  A list of source files.
         * @returns The generated root reflection.
         */
-        public compile(inputFiles: string[]): Models.ProjectReflection;
+        public createProject(inputFiles: string[]): Models.ProjectReflection;
+        /**
+        * Run the compiler.
+        *
+        * @param event  The event containing the project and compiler.
+        */
+        private compile(event);
+        /**
+        * Resolve all created reflections.
+        *
+        * @param event  The event containing the project and compiler.
+        */
+        private resolve(event);
         /**
         * Process the given state.
         *
@@ -542,7 +566,55 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
-    * Base class of all states.
+    * Event object dispatched by [[Dispatcher]].
+    *
+    * This event is used when the dispatcher is not processing a specific declaration but
+    * when a certain state is reached.
+    *
+    * @see [[Dispatcher.EVENT_BEGIN]]
+    * @see [[Dispatcher.EVENT_BEGIN_RESOLVE]]
+    * @see [[Dispatcher.EVENT_END_RESOLVE]]
+    */
+    class DispatcherEvent extends Event {
+        /**
+        * The dispatcher that has created this event.
+        */
+        public dispatcher: Dispatcher;
+        /**
+        * The current compiler used by the dispatcher.
+        */
+        public compiler: Compiler;
+        /**
+        * The project the reflections are written to.
+        */
+        public project: Models.ProjectReflection;
+        /**
+        * Create a new DispatcherEvent instance.
+        *
+        * @param dispatcher  The dispatcher that has created this event.
+        * @param compiler    The current compiler used by the dispatcher.
+        * @param project     The project the reflections are written to.
+        */
+        constructor(dispatcher: Dispatcher, compiler: Compiler, project: Models.ProjectReflection);
+        /**
+        * Create a [[ReflectionEvent]] based on this event and the given reflection.
+        *
+        * @param reflection  The reflection the returned event should represent.
+        * @returns           A newly created instance of [[ReflectionEvent]].
+        */
+        public createReflectionEvent(reflection: Models.DeclarationReflection): ReflectionEvent;
+        /**
+        * Create a [[DocumentState]] based on this event and the given document.
+        *
+        * @param document  The document the returned state should represent.
+        * @returns         A newly created instance of [[DocumentState]].
+        */
+        public createDocumentState(document: TypeScript.Document): DocumentState;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * Base class of all state events.
     *
     * States store the current declaration and its matching reflection while
     * being processed by the [[Dispatcher]]. [[BaseHandler]] instances can alter the state and
@@ -551,7 +623,7 @@ declare module TypeDoc.Factories {
     * For each child declaration the dispatcher will create a child [[DeclarationState]]
     * state. The root state is always an instance of [[DocumentState]].
     */
-    class BaseState extends Event {
+    class BaseState extends DispatcherEvent {
         /**
         * The parent state of this state.
         */
@@ -569,9 +641,13 @@ declare module TypeDoc.Factories {
         */
         public reflection: Models.BaseReflection;
         /**
+        * Is this a declaration from an external document?
+        */
+        public isExternal: boolean;
+        /**
         * Create a new BaseState instance.
         */
-        constructor(parentState: BaseState, declaration: TypeScript.PullDecl, reflection?: Models.BaseReflection);
+        constructor(parent: DispatcherEvent, declaration: TypeScript.PullDecl, reflection?: Models.BaseReflection);
         /**
         * Check whether the given flag is set on the declaration of this state.
         *
@@ -639,39 +715,36 @@ declare module TypeDoc.Factories {
     */
     class DocumentState extends BaseState {
         /**
-        * The dispatcher that has created this state.
-        */
-        public dispatcher: Dispatcher;
-        /**
         * The TypeScript document all following declarations are derived from.
         */
         public document: TypeScript.Document;
         /**
-        * The project the reflections should be stored to.
-        */
-        public reflection: Models.ProjectReflection;
-        public compiler: Compiler;
-        /**
         * Create a new DocumentState instance.
         *
-        * @param dispatcher  The dispatcher that has created this state.
-        * @param document    The TypeScript document that contains the declarations.
+        * @param parent    The parent dispatcher event.
+        * @param document  The TypeScript document that is being processed.
         */
-        constructor(dispatcher: Dispatcher, document: TypeScript.Document, project: Models.ProjectReflection, compiler: Compiler);
+        constructor(parent: DispatcherEvent, document: TypeScript.Document);
     }
 }
 declare module TypeDoc.Factories {
-    class ResolveProjectEvent extends Event {
-        public compiler: Compiler;
-        public project: Models.ProjectReflection;
-        constructor(compiler: Compiler, project: Models.ProjectReflection);
-        public createReflectionEvent(reflection: Models.DeclarationReflection): ResolveReflectionEvent;
-    }
-}
-declare module TypeDoc.Factories {
-    class ResolveReflectionEvent extends ResolveProjectEvent {
+    /**
+    * Event object dispatched by [[Dispatcher]] during the resolving phase.
+    *
+    * @see [[Dispatcher.EVENT_RESOLVE]]
+    */
+    class ReflectionEvent extends DispatcherEvent {
+        /**
+        * The final reflection that should be resolved.
+        */
         public reflection: Models.DeclarationReflection;
-        constructor(compiler: Compiler, project: Models.ProjectReflection, reflection?: Models.DeclarationReflection);
+        /**
+        * Create a new ReflectionEvent instance.
+        *
+        * @param parent    The parent dispatcher event.
+        * @param reflection  The final reflection that should be resolved.
+        */
+        constructor(parent: DispatcherEvent, reflection?: Models.DeclarationReflection);
     }
 }
 declare module TypeDoc.Factories {
@@ -686,17 +759,17 @@ declare module TypeDoc.Factories {
         /**
         * Create a new AstHandler instance.
         *
-        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-        *
         * @param dispatcher  The dispatcher this handler should be attached to.
         */
         constructor(dispatcher: Dispatcher);
         /**
-        * Triggered when the dispatcher has finished processing a typescript declaration.
+        * Triggered when the dispatcher has finished processing a declaration.
+        *
+        * Find modules with single-export and mark the related reflection as being exported.
         *
         * @param state  The state that describes the current declaration and reflection.
         */
-        public onLeaveDeclaration(state: DeclarationState): void;
+        private onEndDeclaration(state);
     }
 }
 declare module TypeDoc.Factories {
@@ -718,7 +791,7 @@ declare module TypeDoc.Factories {
         *
         * @param state  The state that describes the current declaration and reflection.
         */
-        private onProcess(state);
+        private onDeclaration(state);
         /**
         * Triggered when the dispatcher resolves a reflection.
         *
@@ -728,14 +801,14 @@ declare module TypeDoc.Factories {
         * This hook also copies over the comment of function implementations to their
         * signatures.
         *
-        * @param res
+        * @param event  The event containing the reflection to resolve.
         */
-        private onResolveReflection(res);
+        private onResolve(event);
         /**
         * Test whether the given TypeScript comment instance is a doc comment.
         *
         * @param comment  The TypeScript comment that should be tested.
-        * @returns True when the comment is a doc comment, otherwise false.
+        * @returns        True when the comment is a doc comment, otherwise false.
         */
         static isDocComment(comment: TypeScript.Comment): boolean;
         /**
@@ -772,11 +845,74 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Factories {
+    /**
+    * A handler that truncates the names of dynamic modules to not include the
+    * project's base path.
+    */
     class DynamicModuleHandler extends BaseHandler {
+        /**
+        * Helper class for determining the base path.
+        */
         private basePath;
+        /**
+        * The declaration kinds affected by this handler.
+        */
+        private affectedKinds;
+        /**
+        * Create a new DynamicModuleHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        private onProcess(state);
-        private onResolveReflection(res);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+        /**
+        * Triggered when the dispatcher resolves a reflection.
+        *
+        * @param event  The event containing the reflection to resolve.
+        */
+        private onResolve(event);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that marks files not passed as source files as being external.
+    */
+    class ExternalHandler extends BaseHandler {
+        /**
+        * An array of normalized input file names.
+        */
+        public inputFiles: string[];
+        /**
+        * Should externally resolved TypeScript files be ignored?
+        */
+        public exclude: boolean;
+        /**
+        * Compiled pattern for files that should be considered being external.
+        */
+        public pattern: any;
+        /**
+        * Create a new ExternalHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
+        * Triggered when the dispatcher starts processing a TypeScript document.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDocument(state);
     }
 }
 declare module TypeDoc.Factories {
@@ -808,7 +944,7 @@ declare module TypeDoc.Factories {
         * Triggered once after all documents have been read and the dispatcher
         * leaves the resolving phase.
         */
-        private onLeaveResolve(resolution);
+        private onEndResolve(event);
         /**
         * Create a grouped representation of the given list of reflections.
         *
@@ -851,25 +987,96 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     class InheritanceHandler extends BaseHandler {
+        /**
+        * Create a new InheritanceHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        public onMergeReflection(state: DeclarationState): void;
-        public onCreateReflection(state: DeclarationState): void;
-        public onEnterDeclaration(state: DeclarationState): void;
-        public onLeaveDeclaration(state: DeclarationState): void;
+        /**
+        * Triggered when the dispatcher creates a new reflection instance.
+        *
+        * Sets [[DeclarationReflection.inheritedFrom]] on inherited members.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onCreateReflection(state);
+        /**
+        * Triggered when the dispatcher merges an existing reflection with a new declaration.
+        *
+        * Sets [[DeclarationReflection.overwrites]] on overwritten members.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onMergeReflection(state);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * Prevents private and static members from being inherited.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
+        /**
+        * Triggered when the dispatcher has finished processing a declaration.
+        *
+        * Emits an additional [[DeclarationState]] for each extended type on the current
+        * reflection.
+        *
+        * Sets [[DeclarationReflection.extendedBy]] and [[DeclarationReflection.extendedTypes]].
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onEndDeclaration(state);
     }
 }
 declare module TypeDoc.Factories {
     /**
-    * A factory that filters declarations that should be ignored and prevents
+    * A handler that filters declarations that should be ignored and prevents
     * the creation of reflections for them.
     *
     * TypeDoc currently ignores all type aliases, object literals, object types and
     * implicit variables. Furthermore declaration files are ignored.
     */
     class NullHandler extends BaseHandler {
+        /**
+        * Should declaration files be documented?
+        */
+        private includeDeclarations;
+        /**
+        * An array of all declaration kinds that should be ignored.
+        */
+        private ignoredKinds;
+        /**
+        * Create a new NullHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        public onEnterDocument(state: DocumentState): void;
-        public onEnterDeclaration(state: DeclarationState): void;
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
+        * Triggered when the dispatcher starts processing a TypeScript document.
+        *
+        * Prevents `lib.d.ts` from being processed.
+        * Prevents declaration files from being processed depending on [[Settings.excludeDeclarations]].
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDocument(state);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * Ignores all type aliases, object literals and types.
+        * Ignores all implicit variables.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
     }
 }
 declare module TypeDoc.Factories {
@@ -897,8 +1104,6 @@ declare module TypeDoc.Factories {
         /**
         * Create a new PackageHandler instance.
         *
-        * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-        *
         * @param dispatcher  The dispatcher this handler should be attached to.
         */
         constructor(dispatcher: Dispatcher);
@@ -907,25 +1112,18 @@ declare module TypeDoc.Factories {
         *
         * @param state  The state that describes the current declaration and reflection.
         */
-        public onEnterDocument(state: DocumentState): void;
+        private onBeginDocument(state);
         /**
-        * Triggered once after all documents have been read and the dispatcher
-        * enters the resolving phase.
+        * Triggered when the dispatcher enters the resolving phase.
+        *
+        * @param event  The event containing the project and compiler.
         */
-        public onEnterResolve(resolution: ResolveProjectEvent): void;
+        private onBeginResolve(event);
     }
 }
 declare module TypeDoc.Factories {
     /**
-    * A factory that copies basic values from declarations to reflections.
-    *
-    * This factory sets the following values on reflection models:
-    *  - flags
-    *  - kind
-    *  - type
-    *  - definition
-    *  - isOptional
-    *  - defaultValue
+    * A handler that sets the most basic reflection properties.
     */
     class ReflectionHandler extends BaseHandler {
         /**
@@ -936,57 +1134,203 @@ declare module TypeDoc.Factories {
         * A list of fags that should be exported to the flagsArray property for parameter reflections.
         */
         static RELEVANT_PARAMETER_FLAGS: TypeScript.PullElementFlags[];
+        /**
+        * Create a new ReflectionHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher creates a new reflection instance.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
         private onCreateReflection(state);
+        /**
+        * Triggered when the dispatcher merges an existing reflection with a new declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
         private onMergeReflection(state);
         /**
         * Triggered by the dispatcher for each reflection in the resolving phase.
         *
-        * @param reflection  The final generated reflection.
+        * @param event  The event containing the reflection to resolve.
         */
-        private onResolveReflection(res);
+        private onResolve(event);
     }
 }
 declare module TypeDoc.Factories {
     /**
-    * A factory that creates signature reflections.
+    * A handler that allows a variable to be documented as being the type it is set to.
+    *
+    * Use the ``@resolve``  javadoc comment to trigger this handler. You can see an example
+    * of this handler within the TypeDoc documentation. If you take a look at the [[Models.Kind]]
+    * enumeration, it is documented as being a real enumeration, within the source code it is actually
+    * just a reference to [[TypeScript.PullElementKind]].
+    *
+    * ```typescript
+    * /**
+    *  * @resolve
+    *  * /
+    * export var Kind = TypeScript.PullElementKind;
+    * ```
     */
     class ResolveHandler extends BaseHandler {
+        /**
+        * Create a new ResolveHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        public onEnterDeclaration(state: DeclarationState): void;
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
     }
 }
 declare module TypeDoc.Factories {
     /**
-    * A factory that creates signature reflections.
+    * A handler that creates signature reflections.
     */
     class SignatureHandler extends BaseHandler {
+        /**
+        * The declaration kinds affected by this handler.
+        */
+        private affectedKinds;
+        /**
+        * Create a new SignatureHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        private onEnterDeclaration(state);
-        private onProcess(state);
-        static isMethodOverwrite(state: any): boolean;
-    }
-}
-declare module TypeDoc.Factories {
-    class SourceHandler extends BaseHandler {
-        private basePath;
-        private fileMappings;
-        constructor(dispatcher: Dispatcher);
-        public onEnterDocument(state: DocumentState): void;
-        public onProcess(state: DeclarationState): void;
-        public onEnterResolve(res: ResolveProjectEvent): void;
-        public onResolveReflection(res: ResolveReflectionEvent): void;
-        public onLeaveResolve(res: ResolveProjectEvent): void;
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+        /**
+        * Tests whether the given state describes a method overwrite.
+        *
+        * @param state  The state that should be tested.
+        * @returns      TRUE when the state is a method overwrite, otherwise FALSE.
+        */
+        static isMethodOverwrite(state: DeclarationState): boolean;
     }
 }
 declare module TypeDoc.Factories {
     /**
-    * A factory that converts all instances of LateResolvingType to their renderable equivalents.
+    * A handler that attaches source file information to reflections.
+    */
+    class SourceHandler extends BaseHandler {
+        /**
+        * Helper for resolving the base path of all source files.
+        */
+        private basePath;
+        /**
+        * A map of all generated [[SourceFile]] instances.
+        */
+        private fileMappings;
+        /**
+        * Create a new SourceHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher starts processing a TypeScript document.
+        *
+        * Create a new [[SourceFile]] instance for all TypeScript files.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDocument(state);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * Attach the current source file to the [[DeclarationReflection.sources]] array.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+        /**
+        * Triggered when the dispatcher enters the resolving phase.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBeginResolve(event);
+        /**
+        * Triggered by the dispatcher for each reflection in the resolving phase.
+        *
+        * @param event  The event containing the reflection to resolve.
+        */
+        private onResolve(event);
+        /**
+        * Triggered when the dispatcher leaves the resolving phase.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onEndResolve(event);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
     */
     class TypeHandler extends BaseHandler {
+        /**
+        * Map of created named types for reuse.
+        */
+        static stringConstantTypes: {
+            [name: string]: Models.StringConstantType;
+        };
+        /**
+        * Map of created named types for reuse.
+        */
+        static namedTypes: {
+            [name: string]: Models.NamedType;
+        };
+        /**
+        * Create a new TypeHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
         constructor(dispatcher: Dispatcher);
-        public onResolveReflection(resolution: ResolveReflectionEvent): void;
+        /**
+        * Triggered by the dispatcher for each reflection in the resolving phase.
+        *
+        * @param event  The event containing the reflection to resolve.
+        */
+        private onResolve(event);
+        /**
+        * Resolve the given array of types.
+        *
+        * This is a utility function which calls [[resolveType]] on all elements of the array.
+        *
+        * @param types     The array of types that should be resolved.
+        * @param compiler  The compiler used by the dispatcher.
+        * @returns         The given array with resolved types.
+        */
         private resolveTypes(types, compiler);
+        /**
+        * Resolve the given type.
+        *
+        * Only instances of [[Models.LateResolvingType]] will be resolved. This function tries
+        * to generate an instance of [[Models.ReflectionType]].
+        *
+        * @param type      The type that should be resolved.
+        * @param compiler  The compiler used by the dispatcher.
+        * @returns         The resolved type.
+        */
         private resolveType(type, compiler);
         /**
         * Return the simplified type hierarchy for the given reflection.
@@ -997,6 +1341,32 @@ declare module TypeDoc.Factories {
         * @returns The root of the generated type hierarchy.
         */
         static buildTypeHierarchy(reflection: Models.DeclarationReflection): Models.IDeclarationHierarchy;
+        /**
+        * Create a type instance for the given symbol.
+        *
+        * The following native TypeScript types are not supported:
+        *  * TypeScript.PullErrorTypeSymbol
+        *  * TypeScript.PullTypeAliasSymbol
+        *  * TypeScript.PullTypeParameterSymbol
+        *  * TypeScript.PullTypeSymbol
+        *
+        * @param symbol  The TypeScript symbol the type should point to.
+        */
+        static createType(symbol: TypeScript.PullTypeSymbol): Models.BaseType;
+        /**
+        * Create a string constant type. If the type has been created before, the existent type will be returned.
+        *
+        * @param name  The name of the type.
+        * @returns     The type instance.
+        */
+        static createStringConstantType(name: string): Models.StringConstantType;
+        /**
+        * Create a named type. If the type has been created before, the existent type will be returned.
+        *
+        * @param name  The name of the type.
+        * @returns     The type instance.
+        */
+        static createNamedType(name: string): Models.NamedType;
     }
 }
 declare module TypeDoc.Models {
@@ -1119,6 +1489,10 @@ declare module TypeDoc.Models {
         * When FALSE, the url points to an anchor tag on a page of a different reflection.
         */
         public hasOwnDocument: boolean;
+        /**
+        * Is this a declaration from an external document?
+        */
+        public isExternal: boolean;
         /**
         * Url safe alias for this reflection.
         *
@@ -1453,6 +1827,10 @@ declare module TypeDoc.Models {
         * Are all children private members?
         */
         public allChildrenArePrivate: boolean;
+        /**
+        * Are all children external members?
+        */
+        public allChildrenAreExternal: boolean;
         /**
         * Are any children exported declarations?
         */
@@ -2057,6 +2435,15 @@ declare module TypeDoc.Output {
         * @param event  An event object describing the current render operation.
         */
         private onRendererBegin(event);
+        /**
+        * Look ma, it's cp -R.
+        *
+        * @param src   The path to the thing to copy.
+        * @param dest  The path to the new copy.
+        *
+        * @see http://stackoverflow.com/a/22185855
+        */
+        static copyRecursiveSync(src: any, dest: any): void;
     }
 }
 declare module TypeDoc.Output {

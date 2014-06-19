@@ -1081,7 +1081,7 @@ var TypeDoc;
         * @param outputDirectory  The path of the directory the documentation should be written to.
         */
         Application.prototype.generate = function (inputFiles, outputDirectory) {
-            var project = this.dispatcher.compile(inputFiles);
+            var project = this.dispatcher.createProject(inputFiles);
             this.renderer.render(project, outputDirectory);
         };
         Application.VERSION = '0.0.4';
@@ -1107,6 +1107,10 @@ var TypeDoc;
             * Should declaration files be documented?
             */
             this.includeDeclarations = false;
+            /**
+            * Should externally resolved TypeScript files be ignored?
+            */
+            this.excludeExternals = false;
             /**
             * Does the user want to display the help message?
             */
@@ -1151,8 +1155,8 @@ var TypeDoc;
         * Expand the list of input files.
         *
         * Searches for directories in the input files list and replaces them with a
-        * listing of all TypeScript files within them. One may use the exlclude option
-        * to filter out files aith a pattern.
+        * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
+        * to filter out files with a pattern.
         */
         Settings.prototype.expandInputFiles = function () {
             var exclude, files = [];
@@ -1162,7 +1166,7 @@ var TypeDoc;
 
             function add(dirname) {
                 FS.readdirSync(dirname).forEach(function (file) {
-                    var realpath = TypeScript.IOUtils.combine(dirname, file);
+                    var realpath = Path.join(dirname, file);
                     if (FS.statSync(realpath).isDirectory()) {
                         add(realpath);
                     } else if (/\.ts$/.test(realpath)) {
@@ -1222,7 +1226,7 @@ var TypeDoc;
 
             opts.option('exclude', {
                 usage: {
-                    locCode: 'Define a pattern for excluded files when specifing paths.',
+                    locCode: 'Define a pattern for excluded files when specifying paths.',
                     args: null
                 },
                 set: function (str) {
@@ -1240,6 +1244,26 @@ var TypeDoc;
                 }
             });
 
+            opts.option('externalPattern', {
+                usage: {
+                    locCode: 'Define a pattern for files that should be considered being external.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.externalPattern = str;
+                }
+            });
+
+            opts.flag('excludeExternals', {
+                usage: {
+                    locCode: 'Prevent externally resolved TypeScript files from being documented.',
+                    args: null
+                },
+                set: function () {
+                    _this.excludeExternals = true;
+                }
+            });
+
             opts.option('name', {
                 usage: {
                     locCode: 'Set the name of the project that will be used in the header of the template.',
@@ -1250,13 +1274,13 @@ var TypeDoc;
                 }
             });
 
-            opts.option('verbose', {
+            opts.flag('verbose', {
                 usage: {
                     locCode: 'Print more information while TypeDoc is running.',
                     args: null
                 },
                 set: function (str) {
-                    _this.name = str;
+                    _this.verbose = true;
                 }
             });
 
@@ -1491,10 +1515,11 @@ var TypeDoc;
             /**
             * Create a new compiler instance.
             */
-            function Compiler(settings) {
+            function Compiler(settings, inputFiles) {
                 _super.call(this, TypeScript.IO);
                 this.idMap = {};
                 this.snapshots = {};
+                this.inputFiles = inputFiles;
                 this.compilationSettings = TypeScript.ImmutableCompilationSettings.fromCompilationSettings(settings);
             }
             Compiler.prototype.run = function () {
@@ -1678,28 +1703,6 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * Create a type instance for the given symbol.
-        *
-        * @param symbol  The TypeScript symbol the type should point to.
-        */
-        function createType(symbol) {
-            if (symbol instanceof TypeScript.PullStringConstantTypeSymbol) {
-                return new TypeDoc.Models.StringConstantType(symbol.name);
-            } else if (symbol instanceof TypeScript.PullPrimitiveTypeSymbol) {
-                return new TypeDoc.Models.NamedType(symbol.getDisplayName());
-            }
-
-            return new TypeDoc.Models.LateResolvingType(symbol);
-            /*
-            if (symbol instanceof TypeScript.PullErrorTypeSymbol)
-            if (symbol instanceof TypeScript.PullTypeAliasSymbol)
-            if (symbol instanceof TypeScript.PullTypeParameterSymbol)
-            if (symbol instanceof TypeScript.PullTypeSymbol)
-            */
-        }
-        Factories.createType = createType;
-
-        /**
         * The dispatcher receives documents from the compiler and emits
         * events for all discovered declarations.
         *
@@ -1710,6 +1713,11 @@ var TypeDoc;
         *
         * For each document (a single *.ts file) the dispatcher will generate the following event flow.
         * Declarations are processed according to their hierarchy.
+        *
+        *  * [[Dispatcher.EVENT_BEGIN]]<br>
+        *    Triggered when the dispatcher starts processing a project. The listener receives
+        *    an instance of [[DispatcherEvent]]. By calling [[DispatcherEvent.preventDefault]] the
+        *    project file will not be processed.
         *
         *  * [[Dispatcher.EVENT_BEGIN_DOCUMENT]]<br>
         *    Triggered when the dispatcher starts processing a TypeScript document. The listener receives
@@ -1751,15 +1759,15 @@ var TypeDoc;
         *
         *  * [[Dispatcher.EVENT_BEGIN_RESOLVE]]<br>
         *    Triggered when the dispatcher enters the resolving phase. The listener receives an instance
-        *    of [[ResolveProjectEvent]].
+        *    of [[DispatcherEvent]].
         *
         *    * [[Dispatcher.EVENT_RESOLVE]]<br>
         *      Triggered when the dispatcher resolves a reflection. The listener receives an instance
-        *      of [[ResolveReflectionEvent]].
+        *      of [[ReflectionEvent]].
         *
         *  * [[Dispatcher.EVENT_END_RESOLVE]]<br>
         *    Triggered when the dispatcher leaves the resolving phase. The listener receives an instance
-        *    of [[ResolveProjectEvent]].
+        *    of [[DispatcherEvent]].
         */
         var Dispatcher = (function (_super) {
             __extends(Dispatcher, _super);
@@ -1784,20 +1792,40 @@ var TypeDoc;
             * @param inputFiles  A list of source files.
             * @returns The generated root reflection.
             */
-            Dispatcher.prototype.compile = function (inputFiles) {
-                var _this = this;
+            Dispatcher.prototype.createProject = function (inputFiles) {
                 var settings = this.application.settings.compiler;
-                var compiler = new Factories.Compiler(settings);
+                var compiler = new Factories.Compiler(settings, inputFiles);
                 var project = new TypeDoc.Models.ProjectReflection(this.application.settings.name);
+                var event = new Factories.DispatcherEvent(this, compiler, project);
 
-                compiler.inputFiles = inputFiles;
-                var documents = compiler.run();
+                this.compile(event);
+                this.resolve(event);
 
-                documents.forEach(function (document) {
-                    var state = new Factories.DocumentState(_this, document, project, compiler);
+                return project;
+            };
+
+            /**
+            * Run the compiler.
+            *
+            * @param event  The event containing the project and compiler.
+            */
+            Dispatcher.prototype.compile = function (event) {
+                var _this = this;
+                this.application.log('Running TypeScript compiler', 0 /* Verbose */);
+
+                this.dispatch(Dispatcher.EVENT_BEGIN, event);
+                if (event.isDefaultPrevented) {
+                    return;
+                }
+
+                event.compiler.run().forEach(function (document) {
+                    _this.application.log(Util.format('Processing %s', document.fileName), 0 /* Verbose */);
+
+                    var state = event.createDocumentState(document);
                     _this.dispatch(Dispatcher.EVENT_BEGIN_DOCUMENT, state);
-                    if (state.isDefaultPrevented)
+                    if (state.isDefaultPrevented) {
                         return;
+                    }
 
                     state.declaration.getChildDecls().forEach(function (declaration) {
                         _this.processState(state.createChildState(declaration));
@@ -1805,15 +1833,24 @@ var TypeDoc;
 
                     _this.dispatch(Dispatcher.EVENT_END_DOCUMENT, state);
                 });
+            };
 
-                var resolveProject = new Factories.ResolveProjectEvent(compiler, project);
-                this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, resolveProject);
-                project.reflections.forEach(function (reflection) {
-                    _this.dispatch(Dispatcher.EVENT_RESOLVE, resolveProject.createReflectionEvent(reflection));
+            /**
+            * Resolve all created reflections.
+            *
+            * @param event  The event containing the project and compiler.
+            */
+            Dispatcher.prototype.resolve = function (event) {
+                var _this = this;
+                this.application.log('Resolving project', 0 /* Verbose */);
+
+                this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, event);
+
+                event.project.reflections.forEach(function (reflection) {
+                    _this.dispatch(Dispatcher.EVENT_RESOLVE, event.createReflectionEvent(reflection));
                 });
-                this.dispatch(Dispatcher.EVENT_END_RESOLVE, resolveProject);
 
-                return project;
+                this.dispatch(Dispatcher.EVENT_END_RESOLVE, event);
             };
 
             /**
@@ -1869,12 +1906,11 @@ var TypeDoc;
                     parent.children.push(reflection);
                 }
 
-                var rootState = state.getDocumentState();
-                rootState.reflection.reflections.push(reflection);
+                state.project.reflections.push(reflection);
 
                 if (!state.isInherited) {
                     var declID = state.declaration.declID;
-                    rootState.compiler.idMap[declID] = reflection;
+                    state.compiler.idMap[declID] = reflection;
                 }
 
                 this.dispatch(Dispatcher.EVENT_CREATE_REFLECTION, state);
@@ -1929,6 +1965,8 @@ var TypeDoc;
 
                 return items.join(', ');
             };
+            Dispatcher.EVENT_BEGIN = 'begin';
+
             Dispatcher.EVENT_BEGIN_DOCUMENT = 'beginDocument';
 
             Dispatcher.EVENT_END_DOCUMENT = 'endDocument';
@@ -1960,7 +1998,60 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * Base class of all states.
+        * Event object dispatched by [[Dispatcher]].
+        *
+        * This event is used when the dispatcher is not processing a specific declaration but
+        * when a certain state is reached.
+        *
+        * @see [[Dispatcher.EVENT_BEGIN]]
+        * @see [[Dispatcher.EVENT_BEGIN_RESOLVE]]
+        * @see [[Dispatcher.EVENT_END_RESOLVE]]
+        */
+        var DispatcherEvent = (function (_super) {
+            __extends(DispatcherEvent, _super);
+            /**
+            * Create a new DispatcherEvent instance.
+            *
+            * @param dispatcher  The dispatcher that has created this event.
+            * @param compiler    The current compiler used by the dispatcher.
+            * @param project     The project the reflections are written to.
+            */
+            function DispatcherEvent(dispatcher, compiler, project) {
+                _super.call(this);
+                this.dispatcher = dispatcher;
+                this.compiler = compiler;
+                this.project = project;
+            }
+            /**
+            * Create a [[ReflectionEvent]] based on this event and the given reflection.
+            *
+            * @param reflection  The reflection the returned event should represent.
+            * @returns           A newly created instance of [[ReflectionEvent]].
+            */
+            DispatcherEvent.prototype.createReflectionEvent = function (reflection) {
+                return new Factories.ReflectionEvent(this, reflection);
+            };
+
+            /**
+            * Create a [[DocumentState]] based on this event and the given document.
+            *
+            * @param document  The document the returned state should represent.
+            * @returns         A newly created instance of [[DocumentState]].
+            */
+            DispatcherEvent.prototype.createDocumentState = function (document) {
+                return new Factories.DocumentState(this, document);
+            };
+            return DispatcherEvent;
+        })(TypeDoc.Event);
+        Factories.DispatcherEvent = DispatcherEvent;
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * Base class of all state events.
         *
         * States store the current declaration and its matching reflection while
         * being processed by the [[Dispatcher]]. [[BaseHandler]] instances can alter the state and
@@ -1974,10 +2065,14 @@ var TypeDoc;
             /**
             * Create a new BaseState instance.
             */
-            function BaseState(parentState, declaration, reflection) {
-                _super.call(this);
+            function BaseState(parent, declaration, reflection) {
+                _super.call(this, parent.dispatcher, parent.compiler, parent.project);
 
-                this.parentState = parentState;
+                if (parent instanceof BaseState) {
+                    this.parentState = parent;
+                    this.isExternal = this.parentState.isExternal;
+                }
+
                 this.reflection = reflection;
                 this.declaration = declaration;
                 this.originalDeclaration = declaration;
@@ -2073,7 +2168,7 @@ var TypeDoc;
                 }
             };
             return BaseState;
-        })(TypeDoc.Event);
+        })(Factories.DispatcherEvent);
         Factories.BaseState = BaseState;
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -2154,14 +2249,12 @@ var TypeDoc;
             /**
             * Create a new DocumentState instance.
             *
-            * @param dispatcher  The dispatcher that has created this state.
-            * @param document    The TypeScript document that contains the declarations.
+            * @param parent    The parent dispatcher event.
+            * @param document  The TypeScript document that is being processed.
             */
-            function DocumentState(dispatcher, document, project, compiler) {
-                _super.call(this, null, document.topLevelDecl(), project);
-                this.dispatcher = dispatcher;
+            function DocumentState(parent, document) {
+                _super.call(this, parent, document.topLevelDecl(), parent.project);
                 this.document = document;
-                this.compiler = compiler;
             }
             return DocumentState;
         })(Factories.BaseState);
@@ -2172,34 +2265,26 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        var ResolveProjectEvent = (function (_super) {
-            __extends(ResolveProjectEvent, _super);
-            function ResolveProjectEvent(compiler, project) {
-                _super.call(this);
-                this.compiler = compiler;
-                this.project = project;
-            }
-            ResolveProjectEvent.prototype.createReflectionEvent = function (reflection) {
-                return new Factories.ResolveReflectionEvent(this.compiler, this.project, reflection);
-            };
-            return ResolveProjectEvent;
-        })(TypeDoc.Event);
-        Factories.ResolveProjectEvent = ResolveProjectEvent;
-    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
-    var Factories = TypeDoc.Factories;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Factories) {
-        var ResolveReflectionEvent = (function (_super) {
-            __extends(ResolveReflectionEvent, _super);
-            function ResolveReflectionEvent(compiler, project, reflection) {
-                _super.call(this, compiler, project);
+        /**
+        * Event object dispatched by [[Dispatcher]] during the resolving phase.
+        *
+        * @see [[Dispatcher.EVENT_RESOLVE]]
+        */
+        var ReflectionEvent = (function (_super) {
+            __extends(ReflectionEvent, _super);
+            /**
+            * Create a new ReflectionEvent instance.
+            *
+            * @param parent    The parent dispatcher event.
+            * @param reflection  The final reflection that should be resolved.
+            */
+            function ReflectionEvent(parent, reflection) {
+                _super.call(this, parent.dispatcher, parent.compiler, parent.project);
                 this.reflection = reflection;
             }
-            return ResolveReflectionEvent;
-        })(Factories.ResolveProjectEvent);
-        Factories.ResolveReflectionEvent = ResolveReflectionEvent;
+            return ReflectionEvent;
+        })(Factories.DispatcherEvent);
+        Factories.ReflectionEvent = ReflectionEvent;
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2214,22 +2299,22 @@ var TypeDoc;
             /**
             * Create a new AstHandler instance.
             *
-            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-            *
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function AstHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
                 this.factory = TypeScript.getAstWalkerFactory();
-                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
             /**
-            * Triggered when the dispatcher has finished processing a typescript declaration.
+            * Triggered when the dispatcher has finished processing a declaration.
+            *
+            * Find modules with single-export and mark the related reflection as being exported.
             *
             * @param state  The state that describes the current declaration and reflection.
             */
-            AstHandler.prototype.onLeaveDeclaration = function (state) {
+            AstHandler.prototype.onEndDeclaration = function (state) {
                 if (!state.reflection)
                     return;
                 if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule)
@@ -2275,8 +2360,8 @@ var TypeDoc;
             function CommentHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
             }
             /**
             * Triggered when the dispatcher processes a declaration.
@@ -2285,7 +2370,7 @@ var TypeDoc;
             *
             * @param state  The state that describes the current declaration and reflection.
             */
-            CommentHandler.prototype.onProcess = function (state) {
+            CommentHandler.prototype.onDeclaration = function (state) {
                 var isInherit = false;
                 if (state.isInherited) {
                     isInherit = state.reflection.comment && state.reflection.comment.hasTag('inherit');
@@ -2307,10 +2392,10 @@ var TypeDoc;
             * This hook also copies over the comment of function implementations to their
             * signatures.
             *
-            * @param res
+            * @param event  The event containing the reflection to resolve.
             */
-            CommentHandler.prototype.onResolveReflection = function (res) {
-                var reflection = res.reflection;
+            CommentHandler.prototype.onResolve = function (event) {
+                var reflection = event.reflection;
                 if (reflection.signatures) {
                     var comment = reflection.comment;
                     if (comment && comment.hasTag('returns')) {
@@ -2357,7 +2442,7 @@ var TypeDoc;
             * Test whether the given TypeScript comment instance is a doc comment.
             *
             * @param comment  The TypeScript comment that should be tested.
-            * @returns True when the comment is a doc comment, otherwise false.
+            * @returns        True when the comment is a doc comment, otherwise false.
             */
             CommentHandler.isDocComment = function (comment) {
                 if (comment.kind() === 6 /* MultiLineCommentTrivia */) {
@@ -2521,32 +2606,59 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * A handler that truncates the names of dynamic modules to not include the
+        * project's base path.
+        */
         var DynamicModuleHandler = (function (_super) {
             __extends(DynamicModuleHandler, _super);
+            /**
+            * Create a new DynamicModuleHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function DynamicModuleHandler(dispatcher) {
                 _super.call(this, dispatcher);
+                /**
+                * Helper class for determining the base path.
+                */
                 this.basePath = new Factories.BasePath();
+                /**
+                * The declaration kinds affected by this handler.
+                */
+                this.affectedKinds = [
+                    TypeScript.PullElementKind.DynamicModule,
+                    TypeScript.PullElementKind.Script
+                ];
 
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
             }
-            DynamicModuleHandler.prototype.onProcess = function (state) {
-                if (!state.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
-                    return;
-                }
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            DynamicModuleHandler.prototype.onDeclaration = function (state) {
+                if (state.kindOf(this.affectedKinds)) {
+                    var name = state.declaration.name;
+                    name = name.replace(/"/g, '');
+                    state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
 
-                var name = state.declaration.name;
-                name = name.replace(/"/g, '');
-                state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
-
-                if (name.indexOf('/') != -1) {
-                    this.basePath.add(name);
+                    if (name.indexOf('/') != -1) {
+                        this.basePath.add(name);
+                    }
                 }
             };
 
-            DynamicModuleHandler.prototype.onResolveReflection = function (res) {
-                var reflection = res.reflection;
-                if (reflection.kindOf([TypeDoc.Models.Kind.DynamicModule, TypeDoc.Models.Kind.Script])) {
+            /**
+            * Triggered when the dispatcher resolves a reflection.
+            *
+            * @param event  The event containing the reflection to resolve.
+            */
+            DynamicModuleHandler.prototype.onResolve = function (event) {
+                var reflection = event.reflection;
+                if (reflection.kindOf(this.affectedKinds)) {
                     if (reflection.name.indexOf('/') != -1) {
                         reflection.name = this.basePath.trim(reflection.name);
                     }
@@ -2556,7 +2668,82 @@ var TypeDoc;
         })(Factories.BaseHandler);
         Factories.DynamicModuleHandler = DynamicModuleHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(DynamicModuleHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * A handler that marks files not passed as source files as being external.
+        */
+        var ExternalHandler = (function (_super) {
+            __extends(ExternalHandler, _super);
+            /**
+            * Create a new ExternalHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function ExternalHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
+            }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            ExternalHandler.prototype.onBegin = function (event) {
+                var _this = this;
+                var settings = this.dispatcher.application.settings;
+                this.exclude = settings.excludeExternals;
+
+                this.inputFiles = [];
+                event.compiler.inputFiles.forEach(function (fileName) {
+                    _this.inputFiles.push(fileName.replace(/\\/g, '/'));
+                });
+
+                if (settings.externalPattern) {
+                    this.pattern = new Minimatch.Minimatch(settings.externalPattern);
+                } else {
+                    this.pattern = null;
+                }
+            };
+
+            /**
+            * Triggered when the dispatcher starts processing a TypeScript document.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            ExternalHandler.prototype.onBeginDocument = function (state) {
+                var fileName = state.document.fileName.replace(/\\/g, '/');
+                var isExternal = this.inputFiles.indexOf(fileName) == -1;
+
+                if (this.pattern) {
+                    isExternal = isExternal || this.pattern.match(fileName);
+                }
+
+                if (this.exclude && isExternal) {
+                    state.stopPropagation();
+                    state.preventDefault();
+                }
+
+                state.isExternal = isExternal;
+            };
+            return ExternalHandler;
+        })(Factories.BaseHandler);
+        Factories.ExternalHandler = ExternalHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(ExternalHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -2578,13 +2765,13 @@ var TypeDoc;
             function GroupHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this);
             }
             /**
             * Triggered once after all documents have been read and the dispatcher
             * leaves the resolving phase.
             */
-            GroupHandler.prototype.onLeaveResolve = function (resolution) {
+            GroupHandler.prototype.onEndResolve = function (event) {
                 function walkDirectory(directory) {
                     directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 
@@ -2595,7 +2782,7 @@ var TypeDoc;
                     }
                 }
 
-                var project = resolution.project;
+                var project = event.project;
                 if (project.children && project.children.length > 0) {
                     project.children.sort(GroupHandler.sortCallback);
                     project.groups = GroupHandler.getReflectionGroups(project.children);
@@ -2645,16 +2832,18 @@ var TypeDoc;
                 });
 
                 groups.forEach(function (group) {
-                    var someExported = false, allInherited = true, allPrivate = true;
+                    var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
                     group.children.forEach(function (child) {
                         someExported = child.isExported || someExported;
                         allInherited = child.inheritedFrom && allInherited;
                         allPrivate = child.isPrivate && allPrivate;
+                        allExternal = child.isExternal && allExternal;
                     });
 
                     group.someChildrenAreExported = someExported;
                     group.allChildrenAreInherited = allInherited;
                     group.allChildrenArePrivate = allPrivate;
+                    group.allChildrenAreExternal = allExternal;
                 });
 
                 return groups;
@@ -2767,40 +2956,90 @@ var TypeDoc;
     (function (Factories) {
         var InheritanceHandler = (function (_super) {
             __extends(InheritanceHandler, _super);
+            /**
+            * Create a new InheritanceHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function InheritanceHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
-                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
-            InheritanceHandler.prototype.onMergeReflection = function (state) {
-                if (state.isInherited && state.reflection && !state.reflection.inheritedFrom && !state.kindOf([TypeDoc.Models.Kind.Class, TypeDoc.Models.Kind.Interface])) {
-                    state.reflection.overwrites = new TypeDoc.Models.LateResolvingType(state.declaration);
-                    state.preventDefault();
-                }
-            };
-
+            /**
+            * Triggered when the dispatcher creates a new reflection instance.
+            *
+            * Sets [[DeclarationReflection.inheritedFrom]] on inherited members.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
             InheritanceHandler.prototype.onCreateReflection = function (state) {
-                if (!state.isInherited)
-                    return;
-                state.reflection.inheritedFrom = new TypeDoc.Models.LateResolvingType(state.declaration);
-            };
-
-            InheritanceHandler.prototype.onEnterDeclaration = function (state) {
-                if (state.isInherited && (state.hasFlag(TypeScript.PullElementFlags.Private) || state.hasFlag(TypeScript.PullElementFlags.Static))) {
-                    state.preventDefault();
-                    state.stopPropagation();
+                if (state.isInherited) {
+                    state.reflection.inheritedFrom = new TypeDoc.Models.LateResolvingType(state.declaration);
                 }
             };
 
-            InheritanceHandler.prototype.onLeaveDeclaration = function (state) {
+            /**
+            * Triggered when the dispatcher merges an existing reflection with a new declaration.
+            *
+            * Sets [[DeclarationReflection.overwrites]] on overwritten members.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            InheritanceHandler.prototype.onMergeReflection = function (state) {
+                if (state.isInherited) {
+                    var isOverwrite = !state.reflection.inheritedFrom && !state.kindOf([TypeDoc.Models.Kind.Class, TypeDoc.Models.Kind.Interface]);
+
+                    if (isOverwrite) {
+                        state.reflection.overwrites = new TypeDoc.Models.LateResolvingType(state.declaration);
+                        state.preventDefault();
+                    }
+                }
+            };
+
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * Prevents private and static members from being inherited.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            InheritanceHandler.prototype.onBeginDeclaration = function (state) {
+                if (state.isInherited) {
+                    var preventInheritance = state.hasFlag(TypeScript.PullElementFlags.Private) || state.hasFlag(TypeScript.PullElementFlags.Static);
+
+                    if (preventInheritance) {
+                        state.preventDefault();
+                        state.stopPropagation();
+                    }
+                }
+            };
+
+            /**
+            * Triggered when the dispatcher has finished processing a declaration.
+            *
+            * Emits an additional [[DeclarationState]] for each extended type on the current
+            * reflection.
+            *
+            * Sets [[DeclarationReflection.extendedBy]] and [[DeclarationReflection.extendedTypes]].
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            InheritanceHandler.prototype.onEndDeclaration = function (state) {
                 var _this = this;
                 var symbol = state.declaration.getSymbol();
                 if (!(symbol instanceof TypeScript.PullTypeSymbol)) {
                     return;
                 }
+
+                symbol.getExtendedTypes().forEach(function (symbol) {
+                    symbol.getDeclarations().forEach(function (declaration) {
+                        _this.dispatcher.processState(state.createInheritanceState(declaration));
+                    });
+                });
 
                 if (!state.isInherited) {
                     var extendedBy = symbol.getTypesThatExtendThisType();
@@ -2821,17 +3060,14 @@ var TypeDoc;
                         });
                     }
                 }
-
-                symbol.getExtendedTypes().forEach(function (symbol) {
-                    symbol.getDeclarations().forEach(function (declaration) {
-                        _this.dispatcher.processState(state.createInheritanceState(declaration));
-                    });
-                });
             };
             return InheritanceHandler;
         })(Factories.BaseHandler);
         Factories.InheritanceHandler = InheritanceHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(InheritanceHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -2840,7 +3076,7 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * A factory that filters declarations that should be ignored and prevents
+        * A handler that filters declarations that should be ignored and prevents
         * the creation of reflections for them.
         *
         * TypeDoc currently ignores all type aliases, object literals, object types and
@@ -2848,40 +3084,79 @@ var TypeDoc;
         */
         var NullHandler = (function (_super) {
             __extends(NullHandler, _super);
+            /**
+            * Create a new NullHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function NullHandler(dispatcher) {
                 _super.call(this, dispatcher);
+                /**
+                * Should declaration files be documented?
+                */
+                this.includeDeclarations = false;
+                /**
+                * An array of all declaration kinds that should be ignored.
+                */
+                this.ignoredKinds = [
+                    TypeScript.PullElementKind.ObjectLiteral,
+                    TypeScript.PullElementKind.ObjectType,
+                    TypeScript.PullElementKind.TypeAlias,
+                    TypeScript.PullElementKind.FunctionType,
+                    TypeScript.PullElementKind.FunctionExpression
+                ];
 
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this, 1024);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
             }
-            NullHandler.prototype.onEnterDocument = function (state) {
-                if (state.document.isDeclareFile() && state.document.fileName.substr(-8) == 'lib.d.ts') {
-                    state.stopPropagation();
-                    state.preventDefault();
-                }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            NullHandler.prototype.onBegin = function (event) {
+                this.includeDeclarations = this.dispatcher.application.settings.includeDeclarations;
+            };
 
-                // Ignore declare files
+            /**
+            * Triggered when the dispatcher starts processing a TypeScript document.
+            *
+            * Prevents `lib.d.ts` from being processed.
+            * Prevents declaration files from being processed depending on [[Settings.excludeDeclarations]].
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            NullHandler.prototype.onBeginDocument = function (state) {
                 if (state.document.isDeclareFile()) {
-                    var settings = state.dispatcher.application.settings;
-                    if (state.document.fileName.substr(-8) != 'lib.d.ts' && settings.includeDeclarations) {
-                        var childState = state.createChildState(state.document.topLevelDecl());
-                        this.dispatcher.ensureReflection(childState);
-                        this.dispatcher.processState(childState);
-                    }
+                    if (!this.includeDeclarations || state.document.fileName.substr(-8) == 'lib.d.ts') {
+                        this.dispatcher.application.log(Util.format('Skipping declaration file %s', state.document.fileName), 0 /* Verbose */);
 
-                    state.stopPropagation();
-                    state.preventDefault();
+                        state.stopPropagation();
+                        state.preventDefault();
+                    } else {
+                        // We could move the declaration file into a virtual module right here:
+                        // var childState = state.createChildState(state.document.topLevelDecl());
+                        // this.dispatcher.ensureReflection(childState);
+                        // this.dispatcher.processState(childState);
+                    }
                 }
             };
 
-            NullHandler.prototype.onEnterDeclaration = function (state) {
-                // Ignore all type aliases, object literals and types
-                if (state.kindOf([TypeDoc.Models.Kind.ObjectLiteral, TypeDoc.Models.Kind.ObjectType, TypeDoc.Models.Kind.TypeAlias, TypeDoc.Models.Kind.FunctionType, TypeDoc.Models.Kind.FunctionExpression])) {
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * Ignores all type aliases, object literals and types.
+            * Ignores all implicit variables.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            NullHandler.prototype.onBeginDeclaration = function (state) {
+                if (state.kindOf(this.ignoredKinds)) {
                     state.stopPropagation();
                     state.preventDefault();
                 }
 
-                // Ignore all implicit variables
                 if (state.kindOf(TypeDoc.Models.Kind.Variable) && state.hasFlag(TypeDoc.Models.Flags.ImplicitVariable)) {
                     state.stopPropagation();
                     state.preventDefault();
@@ -2891,6 +3166,9 @@ var TypeDoc;
         })(Factories.BaseHandler);
         Factories.NullHandler = NullHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(NullHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -2911,8 +3189,6 @@ var TypeDoc;
             /**
             * Create a new PackageHandler instance.
             *
-            * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-            *
             * @param dispatcher  The dispatcher this handler should be attached to.
             */
             function PackageHandler(dispatcher) {
@@ -2922,15 +3198,15 @@ var TypeDoc;
                 */
                 this.visited = [];
 
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
             }
             /**
             * Triggered when the dispatcher begins processing a typescript document.
             *
             * @param state  The state that describes the current declaration and reflection.
             */
-            PackageHandler.prototype.onEnterDocument = function (state) {
+            PackageHandler.prototype.onBeginDocument = function (state) {
                 var _this = this;
                 if (this.readmeFile && this.packageFile) {
                     return;
@@ -2961,11 +3237,12 @@ var TypeDoc;
             };
 
             /**
-            * Triggered once after all documents have been read and the dispatcher
-            * enters the resolving phase.
+            * Triggered when the dispatcher enters the resolving phase.
+            *
+            * @param event  The event containing the project and compiler.
             */
-            PackageHandler.prototype.onEnterResolve = function (resolution) {
-                var project = resolution.project;
+            PackageHandler.prototype.onBeginResolve = function (event) {
+                var project = event.project;
                 if (this.readmeFile) {
                     project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
                 }
@@ -2992,33 +3269,36 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * A factory that copies basic values from declarations to reflections.
-        *
-        * This factory sets the following values on reflection models:
-        *  - flags
-        *  - kind
-        *  - type
-        *  - definition
-        *  - isOptional
-        *  - defaultValue
+        * A handler that sets the most basic reflection properties.
         */
         var ReflectionHandler = (function (_super) {
             __extends(ReflectionHandler, _super);
+            /**
+            * Create a new ReflectionHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function ReflectionHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
                 dispatcher.on(Factories.Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
             }
+            /**
+            * Triggered when the dispatcher creates a new reflection instance.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
             ReflectionHandler.prototype.onCreateReflection = function (state) {
                 var _this = this;
                 state.reflection.flags = state.declaration.flags;
                 state.reflection.kind = state.declaration.kind;
+                state.reflection.isExternal = state.isExternal;
 
                 var symbol = state.declaration.getSymbol();
                 if (symbol) {
-                    state.reflection.type = Factories.createType(symbol.type);
+                    state.reflection.type = Factories.TypeHandler.createType(symbol.type);
                     state.reflection.definition = symbol.toString();
                     state.reflection.isOptional = symbol.isOptional;
 
@@ -3046,7 +3326,14 @@ var TypeDoc;
                 }
             };
 
+            /**
+            * Triggered when the dispatcher merges an existing reflection with a new declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
             ReflectionHandler.prototype.onMergeReflection = function (state) {
+                state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+
                 if (state.declaration.kind != TypeDoc.Models.Kind.Container) {
                     state.reflection.kind = state.declaration.kind;
                 }
@@ -3055,10 +3342,10 @@ var TypeDoc;
             /**
             * Triggered by the dispatcher for each reflection in the resolving phase.
             *
-            * @param reflection  The final generated reflection.
+            * @param event  The event containing the reflection to resolve.
             */
-            ReflectionHandler.prototype.onResolveReflection = function (res) {
-                var reflection = res.reflection;
+            ReflectionHandler.prototype.onResolve = function (event) {
+                var reflection = event.reflection;
                 var flagsArray = [];
                 var flags = reflection.kindOf(TypeDoc.Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
                 flags.forEach(function (key) {
@@ -3068,8 +3355,10 @@ var TypeDoc;
                 });
 
                 var isExported = false, target = reflection;
-                if (target.kindOf(TypeDoc.Models.Kind.SomeContainer))
+                if (target.kindOf(TypeDoc.Models.Kind.SomeContainer)) {
                     isExported = true;
+                }
+
                 while (!isExported && target && target instanceof TypeDoc.Models.DeclarationReflection) {
                     if (target.kindOf(TypeDoc.Models.Kind.SomeContainer))
                         break;
@@ -3096,6 +3385,9 @@ var TypeDoc;
         })(Factories.BaseHandler);
         Factories.ReflectionHandler = ReflectionHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(ReflectionHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -3104,16 +3396,38 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * A factory that creates signature reflections.
+        * A handler that allows a variable to be documented as being the type it is set to.
+        *
+        * Use the ``@resolve``  javadoc comment to trigger this handler. You can see an example
+        * of this handler within the TypeDoc documentation. If you take a look at the [[Models.Kind]]
+        * enumeration, it is documented as being a real enumeration, within the source code it is actually
+        * just a reference to [[TypeScript.PullElementKind]].
+        *
+        * ```typescript
+        * /**
+        *  * @resolve
+        *  * /
+        * export var Kind = TypeScript.PullElementKind;
+        * ```
         */
         var ResolveHandler = (function (_super) {
             __extends(ResolveHandler, _super);
+            /**
+            * Create a new ResolveHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function ResolveHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
             }
-            ResolveHandler.prototype.onEnterDeclaration = function (state) {
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            ResolveHandler.prototype.onBeginDeclaration = function (state) {
                 var isResolve = false;
                 Factories.CommentHandler.findComments(state).forEach(function (comment) {
                     isResolve = isResolve || /\@resolve/.test(comment);
@@ -3139,6 +3453,9 @@ var TypeDoc;
         })(Factories.BaseHandler);
         Factories.ResolveHandler = ResolveHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(ResolveHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -3147,66 +3464,89 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * A factory that creates signature reflections.
+        * A handler that creates signature reflections.
         */
         var SignatureHandler = (function (_super) {
             __extends(SignatureHandler, _super);
+            /**
+            * Create a new SignatureHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function SignatureHandler(dispatcher) {
                 _super.call(this, dispatcher);
+                /**
+                * The declaration kinds affected by this handler.
+                */
+                this.affectedKinds = [
+                    TypeScript.PullElementKind.SomeFunction,
+                    TypeScript.PullElementKind.SomeSignature
+                ];
 
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 512);
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 512);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
             }
-            SignatureHandler.prototype.onEnterDeclaration = function (state) {
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            SignatureHandler.prototype.onBeginDeclaration = function (state) {
                 // Ignore everything except parameters in functions
                 if (state.parentState.isSignature && !state.kindOf(TypeDoc.Models.Kind.Parameter)) {
                     state.preventDefault();
                     return;
                 }
 
-                if (state.kindOf([TypeDoc.Models.Kind.SomeFunction, TypeDoc.Models.Kind.SomeSignature]) && !(state.isSignature)) {
+                if (state.kindOf(this.affectedKinds) && !(state.isSignature)) {
                     // Ignore inherited overwritten methods
                     if (SignatureHandler.isMethodOverwrite(state)) {
                         var type = new TypeDoc.Models.LateResolvingType(state.declaration);
                         state.reflection.overwrites = type;
-                        state.reflection.signatures.forEach(function (signature) {
-                            return signature.overwrites = type;
-                        });
+                        if (state.reflection.signatures) {
+                            state.reflection.signatures.forEach(function (signature) {
+                                signature.overwrites = type;
+                            });
+                        }
                         state.preventDefault();
-                        return;
-                    }
+                    } else {
+                        this.dispatcher.ensureReflection(state);
+                        state.reflection.kind = state.declaration.kind;
 
-                    this.dispatcher.ensureReflection(state);
-                    state.reflection.kind = state.declaration.kind;
+                        var hasSignatures = (state.reflection.signatures && state.reflection.signatures.length > 0);
+                        var isAccessor = state.kindOf([TypeDoc.Models.Kind.GetAccessor, TypeDoc.Models.Kind.SetAccessor]);
+                        if (state.hasFlag(TypeDoc.Models.Flags.Signature) || !hasSignatures || isAccessor) {
+                            var signature = state.createSignatureState();
+                            this.dispatcher.ensureReflection(signature);
 
-                    var hasSignatures = (state.reflection.signatures && state.reflection.signatures.length > 0);
-                    var isAccessor = state.kindOf([TypeDoc.Models.Kind.GetAccessor, TypeDoc.Models.Kind.SetAccessor]);
-                    if (state.hasFlag(TypeDoc.Models.Flags.Signature) || !hasSignatures || isAccessor) {
-                        var signature = state.createSignatureState();
-                        this.dispatcher.ensureReflection(signature);
+                            signature.reflection.inheritedFrom = state.reflection.inheritedFrom;
+                            signature.reflection.overwrites = state.reflection.overwrites;
 
-                        signature.reflection.inheritedFrom = state.reflection.inheritedFrom;
-                        signature.reflection.overwrites = state.reflection.overwrites;
+                            this.dispatcher.processState(signature);
+                        }
 
-                        this.dispatcher.processState(signature);
-                    }
-
-                    // Move to signature
-                    if (state.hasFlag(TypeDoc.Models.Flags.Signature)) {
-                        state.preventDefault();
+                        // Move to signature
+                        if (state.hasFlag(TypeDoc.Models.Flags.Signature)) {
+                            state.preventDefault();
+                        }
                     }
                 }
             };
 
-            SignatureHandler.prototype.onProcess = function (state) {
-                if (!state.kindOf(TypeDoc.Models.Kind.SomeFunction)) {
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            SignatureHandler.prototype.onDeclaration = function (state) {
+                if (!state.kindOf(this.affectedKinds)) {
                     return;
                 }
 
                 if (state.isSignature) {
                     var symbol = state.declaration.getSignatureSymbol();
                     if (symbol.returnType && symbol.returnType.name != 'void') {
-                        state.reflection.type = Factories.createType(symbol.returnType);
+                        state.reflection.type = Factories.TypeHandler.createType(symbol.returnType);
                     } else {
                         state.reflection.type = null;
                     }
@@ -3224,21 +3564,28 @@ var TypeDoc;
                 }
             };
 
+            /**
+            * Tests whether the given state describes a method overwrite.
+            *
+            * @param state  The state that should be tested.
+            * @returns      TRUE when the state is a method overwrite, otherwise FALSE.
+            */
             SignatureHandler.isMethodOverwrite = function (state) {
-                if (!state.reflection)
-                    return false;
-                if (!state.isInherited)
+                if (!state.reflection || !state.isInherited)
                     return false;
                 if (!(state.reflection.inheritedFrom instanceof TypeDoc.Models.LateResolvingType))
                     return true;
 
                 var type = state.reflection.inheritedFrom;
-                return type.declaration.getParentDecl() != state.declaration.parentDecl;
+                return type.declaration.getParentDecl() != state.declaration.getParentDecl();
             };
             return SignatureHandler;
         })(Factories.BaseHandler);
         Factories.SignatureHandler = SignatureHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(SignatureHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -3246,29 +3593,59 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * A handler that attaches source file information to reflections.
+        */
         var SourceHandler = (function (_super) {
             __extends(SourceHandler, _super);
+            /**
+            * Create a new SourceHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function SourceHandler(dispatcher) {
                 _super.call(this, dispatcher);
+                /**
+                * Helper for resolving the base path of all source files.
+                */
                 this.basePath = new Factories.BasePath();
+                /**
+                * A map of all generated [[SourceFile]] instances.
+                */
                 this.fileMappings = {};
 
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onProcess, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this, 512);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this, 512);
             }
-            SourceHandler.prototype.onEnterDocument = function (state) {
+            /**
+            * Triggered when the dispatcher starts processing a TypeScript document.
+            *
+            * Create a new [[SourceFile]] instance for all TypeScript files.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            SourceHandler.prototype.onBeginDocument = function (state) {
                 var fileName = state.document.fileName;
                 this.basePath.add(fileName);
 
-                var file = new TypeDoc.Models.SourceFile(fileName);
-                this.fileMappings[fileName] = file;
-                state.reflection.files.push(file);
+                if (!this.fileMappings[fileName]) {
+                    var file = new TypeDoc.Models.SourceFile(fileName);
+                    this.fileMappings[fileName] = file;
+                    state.project.files.push(file);
+                }
             };
 
-            SourceHandler.prototype.onProcess = function (state) {
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * Attach the current source file to the [[DeclarationReflection.sources]] array.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            SourceHandler.prototype.onDeclaration = function (state) {
                 if (state.isInherited) {
                     if (state.kindOf([TypeDoc.Models.Kind.Class, TypeDoc.Models.Kind.Interface]))
                         return;
@@ -3292,24 +3669,39 @@ var TypeDoc;
                 });
             };
 
-            SourceHandler.prototype.onEnterResolve = function (res) {
+            /**
+            * Triggered when the dispatcher enters the resolving phase.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            SourceHandler.prototype.onBeginResolve = function (event) {
                 var _this = this;
-                res.project.files.forEach(function (file) {
+                event.project.files.forEach(function (file) {
                     var fileName = file.fileName = _this.basePath.trim(file.fileName);
                     _this.fileMappings[fileName] = file;
                 });
             };
 
-            SourceHandler.prototype.onResolveReflection = function (res) {
+            /**
+            * Triggered by the dispatcher for each reflection in the resolving phase.
+            *
+            * @param event  The event containing the reflection to resolve.
+            */
+            SourceHandler.prototype.onResolve = function (event) {
                 var _this = this;
-                res.reflection.sources.forEach(function (source) {
+                event.reflection.sources.forEach(function (source) {
                     source.fileName = _this.basePath.trim(source.fileName);
                 });
             };
 
-            SourceHandler.prototype.onLeaveResolve = function (res) {
-                var home = res.project.directory;
-                res.project.files.forEach(function (file) {
+            /**
+            * Triggered when the dispatcher leaves the resolving phase.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            SourceHandler.prototype.onEndResolve = function (event) {
+                var home = event.project.directory;
+                event.project.files.forEach(function (file) {
                     var reflections = [];
                     file.reflections.forEach(function (reflection) {
                         if (reflection.sources.length > 1)
@@ -3345,6 +3737,9 @@ var TypeDoc;
         })(Factories.BaseHandler);
         Factories.SourceHandler = SourceHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(SourceHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -3353,18 +3748,28 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
-        * A factory that converts all instances of LateResolvingType to their renderable equivalents.
+        * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
         */
         var TypeHandler = (function (_super) {
             __extends(TypeHandler, _super);
+            /**
+            * Create a new TypeHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
             function TypeHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
             }
-            TypeHandler.prototype.onResolveReflection = function (resolution) {
-                var reflection = resolution.reflection;
-                var compiler = resolution.compiler;
+            /**
+            * Triggered by the dispatcher for each reflection in the resolving phase.
+            *
+            * @param event  The event containing the reflection to resolve.
+            */
+            TypeHandler.prototype.onResolve = function (event) {
+                var reflection = event.reflection;
+                var compiler = event.compiler;
 
                 reflection.type = this.resolveType(reflection.type, compiler);
                 reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom, compiler);
@@ -3374,6 +3779,15 @@ var TypeDoc;
                 reflection.typeHierarchy = TypeHandler.buildTypeHierarchy(reflection);
             };
 
+            /**
+            * Resolve the given array of types.
+            *
+            * This is a utility function which calls [[resolveType]] on all elements of the array.
+            *
+            * @param types     The array of types that should be resolved.
+            * @param compiler  The compiler used by the dispatcher.
+            * @returns         The given array with resolved types.
+            */
             TypeHandler.prototype.resolveTypes = function (types, compiler) {
                 if (!types)
                     return types;
@@ -3383,6 +3797,16 @@ var TypeDoc;
                 return types;
             };
 
+            /**
+            * Resolve the given type.
+            *
+            * Only instances of [[Models.LateResolvingType]] will be resolved. This function tries
+            * to generate an instance of [[Models.ReflectionType]].
+            *
+            * @param type      The type that should be resolved.
+            * @param compiler  The compiler used by the dispatcher.
+            * @returns         The resolved type.
+            */
             TypeHandler.prototype.resolveType = function (type, compiler) {
                 if (!type)
                     return type;
@@ -3411,9 +3835,9 @@ var TypeDoc;
                     return new TypeDoc.Models.ReflectionType(reflection, isArray);
                 } else {
                     if (symbol.fullName() == '') {
-                        return new TypeDoc.Models.NamedType(symbol.toString());
+                        return TypeHandler.createNamedType(symbol.toString());
                     } else {
-                        return new TypeDoc.Models.NamedType(symbol.fullName());
+                        return TypeHandler.createNamedType(symbol.fullName());
                     }
                 }
             };
@@ -3460,10 +3884,65 @@ var TypeDoc;
 
                 return root;
             };
+
+            /**
+            * Create a type instance for the given symbol.
+            *
+            * The following native TypeScript types are not supported:
+            *  * TypeScript.PullErrorTypeSymbol
+            *  * TypeScript.PullTypeAliasSymbol
+            *  * TypeScript.PullTypeParameterSymbol
+            *  * TypeScript.PullTypeSymbol
+            *
+            * @param symbol  The TypeScript symbol the type should point to.
+            */
+            TypeHandler.createType = function (symbol) {
+                if (symbol instanceof TypeScript.PullStringConstantTypeSymbol) {
+                    return TypeHandler.createStringConstantType(symbol.name);
+                } else if (symbol instanceof TypeScript.PullPrimitiveTypeSymbol) {
+                    return TypeHandler.createNamedType(symbol.getDisplayName());
+                } else {
+                    return new TypeDoc.Models.LateResolvingType(symbol);
+                }
+            };
+
+            /**
+            * Create a string constant type. If the type has been created before, the existent type will be returned.
+            *
+            * @param name  The name of the type.
+            * @returns     The type instance.
+            */
+            TypeHandler.createStringConstantType = function (name) {
+                if (!TypeHandler.stringConstantTypes[name]) {
+                    TypeHandler.stringConstantTypes[name] = new TypeDoc.Models.StringConstantType(name);
+                }
+
+                return TypeHandler.stringConstantTypes[name];
+            };
+
+            /**
+            * Create a named type. If the type has been created before, the existent type will be returned.
+            *
+            * @param name  The name of the type.
+            * @returns     The type instance.
+            */
+            TypeHandler.createNamedType = function (name) {
+                if (!TypeHandler.namedTypes[name]) {
+                    TypeHandler.namedTypes[name] = new TypeDoc.Models.NamedType(name);
+                }
+
+                return TypeHandler.namedTypes[name];
+            };
+            TypeHandler.stringConstantTypes = {};
+
+            TypeHandler.namedTypes = {};
             return TypeHandler;
         })(Factories.BaseHandler);
         Factories.TypeHandler = TypeHandler;
 
+        /**
+        * Register this handler.
+        */
         Factories.Dispatcher.HANDLERS.push(TypeHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
@@ -3878,9 +4357,9 @@ var TypeDoc;
                     if (reflection.name != name)
                         continue;
 
-                    var index = names.length - 1;
+                    var depth = names.length - 1;
                     var target = reflection;
-                    while (target && index > 0) {
+                    while (target && depth > 0) {
                         target = target.parent;
                         if (!(target instanceof Models.DeclarationReflection))
                             continue search;
@@ -3891,9 +4370,9 @@ var TypeDoc;
                                 continue search;
                         }
 
-                        if (target.name != names[index])
+                        if (target.name != names[depth])
                             continue search;
-                        index -= 1;
+                        depth -= 1;
                     }
 
                     return reflection;
@@ -4376,6 +4855,10 @@ var TypeDoc;
             * @param event  An event object describing the current render operation.
             */
             DefaultTheme.prototype.onRendererBegin = function (event) {
+                if (event.project.groups) {
+                    event.project.groups.forEach(DefaultTheme.applyGroupClasses);
+                }
+
                 event.project.reflections.forEach(function (reflection) {
                     DefaultTheme.applyReflectionClasses(reflection);
 
@@ -4525,6 +5008,8 @@ var TypeDoc;
                     classes.push('tsd-is-private');
                 if (reflection.isStatic)
                     classes.push('tsd-is-static');
+                if (reflection.isExternal)
+                    classes.push('tsd-is-external');
                 if (!reflection.isExported)
                     classes.push('tsd-is-not-exported');
 
@@ -4543,6 +5028,8 @@ var TypeDoc;
                     classes.push('tsd-is-inherited');
                 if (group.allChildrenArePrivate)
                     classes.push('tsd-is-private');
+                if (group.allChildrenAreExternal)
+                    classes.push('tsd-is-external');
                 if (!group.someChildrenAreExported)
                     classes.push('tsd-is-not-exported');
 
@@ -4688,6 +5175,8 @@ var TypeDoc;
             */
             Renderer.prototype.render = function (project, outputDirectory) {
                 var _this = this;
+                this.application.log('Starting renderer', 0 /* Verbose */);
+
                 if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                     return;
                 }
@@ -4714,6 +5203,8 @@ var TypeDoc;
             * @return TRUE if the page has been saved to disc, otherwise FALSE.
             */
             Renderer.prototype.renderDocument = function (page) {
+                this.application.log(Util.format('Render %s', page.url), 0 /* Verbose */);
+
                 this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
                 if (page.isDefaultPrevented) {
                     return false;
@@ -4808,8 +5299,7 @@ var TypeDoc;
             * @returns The path to the theme directory.
             */
             Renderer.getThemeDirectory = function () {
-                var path = Path.dirname(TypeScript.IO.getExecutingFilePath());
-                return Path.resolve(Path.join(path, 'themes'));
+                return Path.resolve(Path.join(__dirname, 'themes'));
             };
 
             /**
@@ -4958,8 +5448,35 @@ var TypeDoc;
                 if (FS.existsSync(from)) {
                     var to = Path.join(event.outputDirectory, 'assets');
                     FS.mkdirRecursiveSync(to);
-                    FS.copyRecursive(from, to, function (e) {
+                    AssetsPlugin.copyRecursiveSync(from, to);
+                }
+            };
+
+            /**
+            * Look ma, it's cp -R.
+            *
+            * @param src   The path to the thing to copy.
+            * @param dest  The path to the new copy.
+            *
+            * @see http://stackoverflow.com/a/22185855
+            */
+            AssetsPlugin.copyRecursiveSync = function (src, dest) {
+                var exists = FS.existsSync(src);
+                var stats = exists && FS.statSync(src);
+                var isDirectory = exists && stats.isDirectory();
+
+                if (exists && isDirectory) {
+                    if (!FS.existsSync(dest)) {
+                        FS.mkdirSync(dest);
+                    }
+
+                    FS.readdirSync(src).forEach(function (childItemName) {
+                        AssetsPlugin.copyRecursiveSync(Path.join(src, childItemName), Path.join(dest, childItemName));
                     });
+                } else {
+                    if (!FS.existsSync(dest)) {
+                        FS.linkSync(src, dest);
+                    }
                 }
             };
             return AssetsPlugin;
@@ -5002,7 +5519,7 @@ var TypeDoc;
                 var kinds = {};
 
                 event.project.reflections.forEach(function (reflection) {
-                    if (!reflection.url || !reflection.name || reflection.name == '' || reflection.kindOf(TypeDoc.Models.Kind.Parameter))
+                    if (!reflection.url || !reflection.name || reflection.isExternal || reflection.name == '' || reflection.kindOf(TypeDoc.Models.Kind.Parameter))
                         return;
 
                     var parent = reflection.parent;
