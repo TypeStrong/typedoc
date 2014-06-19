@@ -239,8 +239,9 @@ module tsd.search
     /**
      * Start searching by pressing a key on the body.
      */
-    $('body').on('keydown', (e) => {
-        if (!hasFocus && e.keyCode > 47) {
+    $('body').on('keydown', (e:JQueryKeyEventObject) => {
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        if (!hasFocus && e.keyCode > 47 && e.keyCode < 112) {
             $field.focus();
         }
     });

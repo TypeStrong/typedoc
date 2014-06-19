@@ -233,7 +233,9 @@ var tsd;
         });
 
         $('body').on('keydown', function (e) {
-            if (!hasFocus && e.keyCode > 47) {
+            if (e.altKey || e.ctrlKey || e.metaKey)
+                return;
+            if (!hasFocus && e.keyCode > 47 && e.keyCode < 112) {
                 $field.focus();
             }
         });

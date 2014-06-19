@@ -36,15 +36,21 @@ body
 #tsd-search
     +vendors(transition, background-color 0.2s)
 
+    .title
+        position: relative
+        z-index: 2
+
     .field
         position: absolute
         left: 0
+        top: 0
         right: 40px
         height: 40px
 
         input
             +vendors(box-sizing, border-box)
             position: relative
+            top: -50px
             z-index: 1
             width: 100%
             padding: 0 10px
@@ -102,9 +108,11 @@ body
         background-color: #4d4d4d
 
         .field input
+            top: 0
             opacity: 1
 
         .title
+            z-index: 0
             opacity: 0
 
         .results
