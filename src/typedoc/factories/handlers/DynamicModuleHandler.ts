@@ -28,8 +28,19 @@ module TypeDoc.Factories
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
+            dispatcher.on(Dispatcher.EVENT_BEGIN,       this.onBegin,       this);
             dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
             dispatcher.on(Dispatcher.EVENT_RESOLVE,     this.onResolve,     this);
+        }
+
+
+        /**
+         * Triggered once per project before the dispatcher invokes the compiler.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onBegin(event:DispatcherEvent) {
+            this.basePath.reset();
         }
 
 

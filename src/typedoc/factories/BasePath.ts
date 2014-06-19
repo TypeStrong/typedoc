@@ -34,6 +34,11 @@ module TypeDoc.Factories
         }
 
 
+        reset() {
+            this.basePath = null;
+        }
+
+
         static normalize(path:string):string {
             path = path.replace(/\\/g, '/');
             path = path.replace(/^["']+|["']+$/g, '');

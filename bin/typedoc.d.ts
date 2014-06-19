@@ -339,6 +339,7 @@ declare module TypeDoc.Factories {
         public basePath: string;
         public add(fileName: string): void;
         public trim(fileName: string): string;
+        public reset(): void;
         static normalize(path: string): string;
     }
 }
@@ -865,6 +866,12 @@ declare module TypeDoc.Factories {
         */
         constructor(dispatcher: Dispatcher);
         /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
         * Triggered when the dispatcher processes a declaration.
         *
         * @param state  The state that describes the current declaration and reflection.
@@ -1108,6 +1115,12 @@ declare module TypeDoc.Factories {
         */
         constructor(dispatcher: Dispatcher);
         /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
         * Triggered when the dispatcher begins processing a typescript document.
         *
         * @param state  The state that describes the current declaration and reflection.
@@ -1246,6 +1259,12 @@ declare module TypeDoc.Factories {
         * @param dispatcher  The dispatcher this handler should be attached to.
         */
         constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
         /**
         * Triggered when the dispatcher starts processing a TypeScript document.
         *

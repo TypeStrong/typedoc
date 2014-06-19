@@ -1484,6 +1484,10 @@ var TypeDoc;
                 return fileName.substr(this.basePath.length + 1);
             };
 
+            BasePath.prototype.reset = function () {
+                this.basePath = null;
+            };
+
             BasePath.normalize = function (path) {
                 path = path.replace(/\\/g, '/');
                 path = path.replace(/^["']+|["']+$/g, '');
@@ -2631,9 +2635,19 @@ var TypeDoc;
                     TypeScript.PullElementKind.Script
                 ];
 
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
             }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            DynamicModuleHandler.prototype.onBegin = function (event) {
+                this.basePath.reset();
+            };
+
             /**
             * Triggered when the dispatcher processes a declaration.
             *
@@ -3194,14 +3208,22 @@ var TypeDoc;
             */
             function PackageHandler(dispatcher) {
                 _super.call(this, dispatcher);
-                /**
-                * List of directories the handler already inspected.
-                */
-                this.visited = [];
 
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
             }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            PackageHandler.prototype.onBegin = function (event) {
+                this.readmeFile = null;
+                this.packageFile = null;
+                this.visited = [];
+            };
+
             /**
             * Triggered when the dispatcher begins processing a typescript document.
             *
@@ -3615,12 +3637,23 @@ var TypeDoc;
                 */
                 this.fileMappings = {};
 
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this, 512);
             }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            SourceHandler.prototype.onBegin = function (event) {
+                this.basePath.reset();
+                this.fileMappings = {};
+            };
+
             /**
             * Triggered when the dispatcher starts processing a TypeScript document.
             *
