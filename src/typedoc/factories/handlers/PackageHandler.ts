@@ -29,15 +29,13 @@ module TypeDoc.Factories
         /**
          * Create a new PackageHandler instance.
          *
-         * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-         *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE,  this.onBeginResolve, this);
         }
 
 
@@ -46,7 +44,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onEnterDocument(state:DocumentState) {
+        private onBeginDocument(state:DocumentState) {
             if (this.readmeFile && this.packageFile) {
                 return;
             }
@@ -77,11 +75,12 @@ module TypeDoc.Factories
 
 
         /**
-         * Triggered once after all documents have been read and the dispatcher
-         * enters the resolving phase.
+         * Triggered when the dispatcher enters the resolving phase.
+         *
+         * @param event  The event containing the project and compiler.
          */
-        onEnterResolve(resolution:DispatcherEvent) {
-            var project = resolution.project;
+        private onBeginResolve(event:DispatcherEvent) {
+            var project = event.project;
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }

@@ -15,7 +15,7 @@ module TypeDoc.Factories
             super(dispatcher);
 
             dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolve, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE,     this.onResolve,     this);
         }
 
 
@@ -49,7 +49,7 @@ module TypeDoc.Factories
          * This hook also copies over the comment of function implementations to their
          * signatures.
          *
-         * @param event
+         * @param event  The event containing the reflection to resolve.
          */
         private onResolve(event:ReflectionEvent) {
             var reflection = event.reflection;
@@ -98,7 +98,7 @@ module TypeDoc.Factories
          * Test whether the given TypeScript comment instance is a doc comment.
          *
          * @param comment  The TypeScript comment that should be tested.
-         * @returns True when the comment is a doc comment, otherwise false.
+         * @returns        True when the comment is a doc comment, otherwise false.
          */
         static isDocComment(comment:TypeScript.Comment):boolean {
             if (comment.kind() === TypeScript.SyntaxKind.MultiLineCommentTrivia) {

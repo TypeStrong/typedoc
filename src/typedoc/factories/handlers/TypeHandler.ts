@@ -1,20 +1,41 @@
 module TypeDoc.Factories
 {
     /**
-     * A factory that converts all instances of LateResolvingType to their renderable equivalents.
+     * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
      */
     export class TypeHandler extends BaseHandler
     {
+        /**
+         * Map of created named types for reuse.
+         */
+        static stringConstantTypes:{[name:string]:Models.StringConstantType} = {};
+
+        /**
+         * Map of created named types for reuse.
+         */
+        static namedTypes:{[name:string]:Models.NamedType} = {};
+
+
+        /**
+         * Create a new TypeHandler instance.
+         *
+         * @param dispatcher  The dispatcher this handler should be attached to.
+         */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolve, this);
         }
 
 
-        onResolveReflection(resolution:ReflectionEvent) {
-            var reflection = resolution.reflection;
-            var compiler = resolution.compiler;
+        /**
+         * Triggered by the dispatcher for each reflection in the resolving phase.
+         *
+         * @param event  The event containing the reflection to resolve.
+         */
+        private onResolve(event:ReflectionEvent) {
+            var reflection = event.reflection;
+            var compiler   = event.compiler;
 
             reflection.type          = this.resolveType(reflection.type, compiler);
             reflection.inheritedFrom = this.resolveType(reflection.inheritedFrom, compiler);
@@ -25,6 +46,15 @@ module TypeDoc.Factories
         }
 
 
+        /**
+         * Resolve the given array of types.
+         *
+         * This is a utility function which calls [[resolveType]] on all elements of the array.
+         *
+         * @param types     The array of types that should be resolved.
+         * @param compiler  The compiler used by the dispatcher.
+         * @returns         The given array with resolved types.
+         */
         private resolveTypes(types:Models.BaseType[], compiler:Compiler):Models.BaseType[] {
             if (!types) return types;
             for (var i = 0, c = types.length; i < c; i++) {
@@ -34,6 +64,16 @@ module TypeDoc.Factories
         }
 
 
+        /**
+         * Resolve the given type.
+         *
+         * Only instances of [[Models.LateResolvingType]] will be resolved. This function tries
+         * to generate an instance of [[Models.ReflectionType]].
+         *
+         * @param type      The type that should be resolved.
+         * @param compiler  The compiler used by the dispatcher.
+         * @returns         The resolved type.
+         */
         private resolveType(type:Models.BaseType, compiler:Compiler):Models.BaseType {
             if (!type) return type;
             if (!(type instanceof Models.LateResolvingType)) return type;
@@ -59,9 +99,9 @@ module TypeDoc.Factories
                 return new Models.ReflectionType(reflection, isArray);
             } else {
                 if (symbol.fullName() == '') {
-                    return new Models.NamedType(symbol.toString());
+                    return TypeHandler.createNamedType(symbol.toString());
                 } else {
-                    return new Models.NamedType(symbol.fullName());
+                    return TypeHandler.createNamedType(symbol.fullName());
                 }
             }
         }
@@ -108,8 +148,63 @@ module TypeDoc.Factories
 
             return root;
         }
+
+
+        /**
+         * Create a type instance for the given symbol.
+         *
+         * The following native TypeScript types are not supported:
+         *  * TypeScript.PullErrorTypeSymbol
+         *  * TypeScript.PullTypeAliasSymbol
+         *  * TypeScript.PullTypeParameterSymbol
+         *  * TypeScript.PullTypeSymbol
+         *
+         * @param symbol  The TypeScript symbol the type should point to.
+         */
+        static createType(symbol:TypeScript.PullTypeSymbol):Models.BaseType {
+            if (symbol instanceof TypeScript.PullStringConstantTypeSymbol) {
+                return TypeHandler.createStringConstantType(symbol.name);
+            } else if (symbol instanceof TypeScript.PullPrimitiveTypeSymbol) {
+                return TypeHandler.createNamedType(symbol.getDisplayName());
+            } else {
+                return new Models.LateResolvingType(symbol);
+            }
+        }
+
+
+        /**
+         * Create a string constant type. If the type has been created before, the existent type will be returned.
+         *
+         * @param name  The name of the type.
+         * @returns     The type instance.
+         */
+        static createStringConstantType(name:string):Models.StringConstantType {
+            if (!TypeHandler.stringConstantTypes[name]) {
+                TypeHandler.stringConstantTypes[name] = new Models.StringConstantType(name);
+            }
+
+            return TypeHandler.stringConstantTypes[name];
+        }
+
+
+        /**
+         * Create a named type. If the type has been created before, the existent type will be returned.
+         *
+         * @param name  The name of the type.
+         * @returns     The type instance.
+         */
+        static createNamedType(name:string):Models.NamedType {
+            if (!TypeHandler.namedTypes[name]) {
+                TypeHandler.namedTypes[name] = new Models.NamedType(name);
+            }
+
+            return TypeHandler.namedTypes[name];
+        }
     }
 
 
+    /**
+     * Register this handler.
+     */
     Dispatcher.HANDLERS.push(TypeHandler);
 }

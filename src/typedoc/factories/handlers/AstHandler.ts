@@ -31,7 +31,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onEndDeclaration(state:DeclarationState) {
+        private onEndDeclaration(state:DeclarationState) {
             if (!state.reflection) return;
             if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule) return;
 

@@ -1,11 +1,7 @@
 module TypeDoc.Factories
 {
     /**
-     * A handler that filters declarations that should be ignored and prevents
-     * the creation of reflections for them.
-     *
-     * TypeDoc currently ignores all type aliases, object literals, object types and
-     * implicit variables. Furthermore declaration files are ignored.
+     * A handler that marks files not passed as source files as being external.
      */
     export class ExternalHandler extends BaseHandler
     {
@@ -43,7 +39,7 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        onBegin(event:DispatcherEvent) {
+        private onBegin(event:DispatcherEvent) {
             var settings = this.dispatcher.application.settings;
             this.exclude = settings.excludeExternals;
 
@@ -65,7 +61,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onBeginDocument(state:DocumentState) {
+        private onBeginDocument(state:DocumentState) {
             var fileName   = state.document.fileName.replace(/\\/g, '/');
             var isExternal = this.inputFiles.indexOf(fileName) == -1;
 

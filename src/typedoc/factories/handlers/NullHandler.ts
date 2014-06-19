@@ -45,7 +45,7 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        onBegin(event:DispatcherEvent) {
+        private onBegin(event:DispatcherEvent) {
             this.includeDeclarations = this.dispatcher.application.settings.includeDeclarations;
         }
 
@@ -58,7 +58,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onBeginDocument(state:DocumentState) {
+        private onBeginDocument(state:DocumentState) {
             if (state.document.isDeclareFile()) {
                 if (!this.includeDeclarations || state.document.fileName.substr(-8) == 'lib.d.ts') {
                     this.dispatcher.application.log(
@@ -85,7 +85,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onBeginDeclaration(state:DeclarationState) {
+        private onBeginDeclaration(state:DeclarationState) {
             if (state.kindOf(this.ignoredKinds)) {
                 state.stopPropagation();
                 state.preventDefault();

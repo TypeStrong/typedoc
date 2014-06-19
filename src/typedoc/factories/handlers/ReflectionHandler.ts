@@ -1,15 +1,7 @@
 module TypeDoc.Factories
 {
     /**
-     * A factory that copies basic values from declarations to reflections.
-     *
-     * This factory sets the following values on reflection models:
-     *  - flags
-     *  - kind
-     *  - type
-     *  - definition
-     *  - isOptional
-     *  - defaultValue
+     * A handler that sets the most basic reflection properties.
      */
     export class ReflectionHandler extends BaseHandler
     {
@@ -31,15 +23,25 @@ module TypeDoc.Factories
         ];
 
 
+        /**
+         * Create a new ReflectionHandler instance.
+         *
+         * @param dispatcher  The dispatcher this handler should be attached to.
+         */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
             dispatcher.on(Dispatcher.EVENT_CREATE_REFLECTION, this.onCreateReflection, this);
-            dispatcher.on(Dispatcher.EVENT_MERGE_REFLECTION, this.onMergeReflection, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+            dispatcher.on(Dispatcher.EVENT_MERGE_REFLECTION,  this.onMergeReflection,  this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE,           this.onResolve,          this);
         }
 
 
+        /**
+         * Triggered when the dispatcher creates a new reflection instance.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
         private onCreateReflection(state:DeclarationState) {
             state.reflection.flags      = state.declaration.flags;
             state.reflection.kind       = state.declaration.kind;
@@ -47,7 +49,7 @@ module TypeDoc.Factories
 
             var symbol = state.declaration.getSymbol();
             if (symbol) {
-                state.reflection.type = createType(symbol.type);
+                state.reflection.type = TypeHandler.createType(symbol.type);
                 state.reflection.definition = symbol.toString();
                 state.reflection.isOptional = symbol.isOptional;
 
@@ -76,6 +78,11 @@ module TypeDoc.Factories
         }
 
 
+        /**
+         * Triggered when the dispatcher merges an existing reflection with a new declaration.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
         private onMergeReflection(state:DeclarationState) {
             state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
 
@@ -88,10 +95,10 @@ module TypeDoc.Factories
         /**
          * Triggered by the dispatcher for each reflection in the resolving phase.
          *
-         * @param reflection  The final generated reflection.
+         * @param event  The event containing the reflection to resolve.
          */
-        private onResolveReflection(res:ReflectionEvent) {
-            var reflection = res.reflection;
+        private onResolve(event:ReflectionEvent) {
+            var reflection = event.reflection;
             var flagsArray = [];
             var flags = reflection.kindOf(Models.Kind.Parameter) ? ReflectionHandler.RELEVANT_PARAMETER_FLAGS : ReflectionHandler.RELEVANT_FLAGS;
             flags.forEach((key) => {
@@ -101,7 +108,10 @@ module TypeDoc.Factories
             });
 
             var isExported = false, target = reflection;
-            if (target.kindOf(Models.Kind.SomeContainer)) isExported = true;
+            if (target.kindOf(Models.Kind.SomeContainer)) {
+                isExported = true;
+            }
+
             while (!isExported && target && target instanceof Models.DeclarationReflection) {
                 if (target.kindOf(Models.Kind.SomeContainer)) break;
                 isExported = ((target.flags & Models.Flags.Exported) == Models.Flags.Exported);
@@ -116,5 +126,8 @@ module TypeDoc.Factories
     }
 
 
+    /**
+     * Register this handler.
+     */
     Dispatcher.HANDLERS.push(ReflectionHandler);
 }

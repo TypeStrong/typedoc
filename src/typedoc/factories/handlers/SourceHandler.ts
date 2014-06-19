@@ -1,34 +1,64 @@
 module TypeDoc.Factories
 {
+    /**
+     * A handler that attaches source file information to reflections.
+     */
     export class SourceHandler extends BaseHandler
     {
+        /**
+         * Helper for resolving the base path of all source files.
+         */
         private basePath = new BasePath();
 
+        /**
+         * A map of all generated [[SourceFile]] instances.
+         */
         private fileMappings:{[name:string]:Models.SourceFile} = {};
 
 
+        /**
+         * Create a new SourceHandler instance.
+         *
+         * @param dispatcher  The dispatcher this handler should be attached to.
+         */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE, this.onEnterResolve, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
-            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this, 512);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
+            dispatcher.on(Dispatcher.EVENT_DECLARATION,    this.onDeclaration,   this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE,  this.onBeginResolve,  this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE,        this.onResolve,       this);
+            dispatcher.on(Dispatcher.EVENT_END_RESOLVE,    this.onEndResolve,    this, 512);
         }
 
 
-        onEnterDocument(state:DocumentState) {
+        /**
+         * Triggered when the dispatcher starts processing a TypeScript document.
+         *
+         * Create a new [[SourceFile]] instance for all TypeScript files.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
+        private onBeginDocument(state:DocumentState) {
             var fileName = state.document.fileName;
             this.basePath.add(fileName);
 
-            var file = new Models.SourceFile(fileName);
-            this.fileMappings[fileName] = file;
-            state.project.files.push(file);
+            if (!this.fileMappings[fileName]) {
+                var file = new Models.SourceFile(fileName);
+                this.fileMappings[fileName] = file;
+                state.project.files.push(file);
+            }
         }
 
 
-        onProcess(state:DeclarationState) {
+        /**
+         * Triggered when the dispatcher processes a declaration.
+         *
+         * Attach the current source file to the [[DeclarationReflection.sources]] array.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
+        private onDeclaration(state:DeclarationState) {
             if (state.isInherited) {
                 if (state.kindOf([Models.Kind.Class, Models.Kind.Interface])) return;
                 if (state.reflection.overwrites) return;
@@ -51,24 +81,39 @@ module TypeDoc.Factories
         }
 
 
-        onEnterResolve(res:DispatcherEvent) {
-            res.project.files.forEach((file) => {
+        /**
+         * Triggered when the dispatcher enters the resolving phase.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onBeginResolve(event:DispatcherEvent) {
+            event.project.files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
         }
 
 
-        onResolveReflection(res:ReflectionEvent) {
-            res.reflection.sources.forEach((source) => {
+        /**
+         * Triggered by the dispatcher for each reflection in the resolving phase.
+         *
+         * @param event  The event containing the reflection to resolve.
+         */
+        private onResolve(event:ReflectionEvent) {
+            event.reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
 
 
-        onLeaveResolve(res:DispatcherEvent) {
-            var home = res.project.directory;
-            res.project.files.forEach((file) => {
+        /**
+         * Triggered when the dispatcher leaves the resolving phase.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onEndResolve(event:DispatcherEvent) {
+            var home = event.project.directory;
+            event.project.files.forEach((file) => {
                 var reflections = [];
                 file.reflections.forEach((reflection) => {
                     if (reflection.sources.length > 1) return;
@@ -101,5 +146,8 @@ module TypeDoc.Factories
     }
 
 
+    /**
+     * Register this handler.
+     */
     Dispatcher.HANDLERS.push(SourceHandler);
 }

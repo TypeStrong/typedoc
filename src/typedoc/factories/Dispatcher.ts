@@ -1,30 +1,6 @@
 module TypeDoc.Factories
 {
     /**
-     * Create a type instance for the given symbol.
-     *
-     * @param symbol  The TypeScript symbol the type should point to.
-     */
-    export function createType(symbol:TypeScript.PullTypeSymbol):Models.BaseType
-    {
-        if (symbol instanceof TypeScript.PullStringConstantTypeSymbol) {
-            return new Models.StringConstantType(symbol.name);
-        } else if (symbol instanceof TypeScript.PullPrimitiveTypeSymbol) {
-            return new Models.NamedType(symbol.getDisplayName());
-        }
-
-        return new Models.LateResolvingType(symbol);
-
-        /*
-         if (symbol instanceof TypeScript.PullErrorTypeSymbol)
-         if (symbol instanceof TypeScript.PullTypeAliasSymbol)
-         if (symbol instanceof TypeScript.PullTypeParameterSymbol)
-         if (symbol instanceof TypeScript.PullTypeSymbol)
-         */
-    }
-
-
-    /**
      * The dispatcher receives documents from the compiler and emits
      * events for all discovered declarations.
      *
