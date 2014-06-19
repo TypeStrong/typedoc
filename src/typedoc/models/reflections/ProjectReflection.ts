@@ -92,9 +92,9 @@ module TypeDoc.Models
                 var reflection = this.reflections[index];
                 if (reflection.name != name) continue;
 
-                var index = names.length - 1;
+                var depth = names.length - 1;
                 var target = reflection;
-                while (target && index > 0) {
+                while (target && depth > 0) {
                     target = <DeclarationReflection>target.parent;
                     if (!(target instanceof DeclarationReflection)) continue search;
 
@@ -103,8 +103,8 @@ module TypeDoc.Models
                         if (!(target instanceof DeclarationReflection)) continue search;
                     }
 
-                    if (target.name != names[index]) continue search;
-                    index -= 1;
+                    if (target.name != names[depth]) continue search;
+                    depth -= 1;
                 }
 
                 return reflection;
