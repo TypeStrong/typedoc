@@ -21,8 +21,9 @@ module TypeDoc.Factories
         /**
          * Create a new compiler instance.
          */
-        constructor(settings:TypeScript.CompilationSettings) {
+        constructor(settings:TypeScript.CompilationSettings, inputFiles:string[]) {
             super(TypeScript.IO);
+            this.inputFiles = inputFiles;
             this.compilationSettings = TypeScript.ImmutableCompilationSettings.fromCompilationSettings(settings);
         }
 

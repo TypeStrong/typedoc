@@ -56,6 +56,11 @@ module TypeDoc.Models
         hasOwnDocument:boolean = false;
 
         /**
+         * Is this a declaration from an external document?
+         */
+        isExternal:boolean;
+
+        /**
          * Url safe alias for this reflection.
          *
          * @see [[BaseReflection.getAlias]]

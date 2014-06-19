@@ -14,8 +14,8 @@ module TypeDoc.Factories
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onProcess, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolveReflection, this);
+            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
+            dispatcher.on(Dispatcher.EVENT_RESOLVE, this.onResolve, this);
         }
 
 
@@ -26,7 +26,7 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onProcess(state:DeclarationState) {
+        private onDeclaration(state:DeclarationState) {
             var isInherit = false;
             if (state.isInherited) {
                 isInherit = state.reflection.comment && state.reflection.comment.hasTag('inherit');
@@ -49,10 +49,10 @@ module TypeDoc.Factories
          * This hook also copies over the comment of function implementations to their
          * signatures.
          *
-         * @param res
+         * @param event
          */
-        private onResolveReflection(res:ReflectionEvent) {
-            var reflection = res.reflection;
+        private onResolve(event:ReflectionEvent) {
+            var reflection = event.reflection;
             if (reflection.signatures) {
                 var comment = reflection.comment;
                 if (comment && comment.hasTag('returns')) {

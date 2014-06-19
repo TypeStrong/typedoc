@@ -24,7 +24,7 @@ module TypeDoc.Factories
 
             var file = new Models.SourceFile(fileName);
             this.fileMappings[fileName] = file;
-            state.reflection.files.push(file);
+            state.project.files.push(file);
         }
 
 

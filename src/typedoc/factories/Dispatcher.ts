@@ -176,6 +176,7 @@ module TypeDoc.Factories
         static HANDLERS:any[] = [];
 
 
+
         /**
          * Create a new Dispatcher instance.
          *
@@ -198,26 +199,40 @@ module TypeDoc.Factories
          * @param inputFiles  A list of source files.
          * @returns The generated root reflection.
          */
-        compile(inputFiles:string[]):Models.ProjectReflection {
+        createProject(inputFiles:string[]):Models.ProjectReflection {
             var settings = this.application.settings.compiler;
-            var compiler = new Compiler(settings);
+            var compiler = new Compiler(settings, inputFiles);
             var project  = new Models.ProjectReflection(this.application.settings.name);
+            var event    = new DispatcherEvent(this, compiler, project);
 
-            var resolveProject = new DispatcherEvent(compiler, project);
-            this.dispatch(Dispatcher.EVENT_BEGIN, resolveProject);
-            if (resolveProject.isDefaultPrevented) {
-                return null;
+            this.compile(event);
+            this.resolve(event);
+
+            return project;
+        }
+
+
+        /**
+         * Run the compiler.
+         *
+         * @param event  The event containing the project and compiler.
+         */
+        private compile(event:DispatcherEvent) {
+            this.application.log('Running TypeScript compiler', LogLevel.Verbose);
+
+            this.dispatch(Dispatcher.EVENT_BEGIN, event);
+            if (event.isDefaultPrevented) {
+                return;
             }
 
-            this.application.log('Running TypeScript compiler', LogLevel.Verbose);
-            compiler.inputFiles = inputFiles;
-            var documents = compiler.run();
-
-            documents.forEach((document) => {
+            event.compiler.run().forEach((document) => {
                 this.application.log(Util.format('Processing %s', document.fileName), LogLevel.Verbose);
-                var state = new DocumentState(this, document, project, compiler);
+
+                var state = event.createDocumentState(document);
                 this.dispatch(Dispatcher.EVENT_BEGIN_DOCUMENT, state);
-                if (state.isDefaultPrevented) return;
+                if (state.isDefaultPrevented) {
+                    return;
+                }
 
                 state.declaration.getChildDecls().forEach((declaration) => {
                     this.processState(state.createChildState(declaration));
@@ -225,15 +240,24 @@ module TypeDoc.Factories
 
                 this.dispatch(Dispatcher.EVENT_END_DOCUMENT, state);
             });
+        }
 
+
+        /**
+         * Resolve all created reflections.
+         *
+         * @param event  The event containing the project and compiler.
+         */
+        private resolve(event:DispatcherEvent) {
             this.application.log('Resolving project', LogLevel.Verbose);
-            this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, resolveProject);
-            project.reflections.forEach((reflection) => {
-                this.dispatch(Dispatcher.EVENT_RESOLVE, resolveProject.createReflectionEvent(reflection));
-            });
-            this.dispatch(Dispatcher.EVENT_END_RESOLVE, resolveProject);
 
-            return project;
+            this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, event);
+
+            event.project.reflections.forEach((reflection) => {
+                this.dispatch(Dispatcher.EVENT_RESOLVE, event.createReflectionEvent(reflection));
+            });
+
+            this.dispatch(Dispatcher.EVENT_END_RESOLVE, event);
         }
 
 
@@ -287,12 +311,11 @@ module TypeDoc.Factories
                 parent.children.push(reflection);
             }
 
-            var rootState = state.getDocumentState();
-            rootState.reflection.reflections.push(reflection);
+            state.project.reflections.push(reflection);
 
             if (!state.isInherited) {
                 var declID = state.declaration.declID;
-                rootState.compiler.idMap[declID] = reflection;
+                state.compiler.idMap[declID] = reflection;
             }
 
             this.dispatch(Dispatcher.EVENT_CREATE_REFLECTION, state);

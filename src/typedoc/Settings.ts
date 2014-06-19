@@ -41,6 +41,16 @@ module TypeDoc
         includeDeclarations:boolean = false;
 
         /**
+         * Should externally resolved TypeScript files be ignored?
+         */
+        excludeExternals:boolean = false;
+
+        /**
+         * Define a pattern for files that should be considered being external.
+         */
+        externalPattern:string;
+
+        /**
          * Does the user want to display the help message?
          */
         needsHelp:boolean = false;
@@ -167,7 +177,7 @@ module TypeDoc
 
             opts.option('exclude', {
                 usage: {
-                    locCode: 'Define a pattern for excluded files when specifing paths.',
+                    locCode: 'Define a pattern for excluded files when specifying paths.',
                     args: null
                 },
                 set: (str) => {
@@ -182,6 +192,26 @@ module TypeDoc
                 },
                 set: () => {
                     this.includeDeclarations = true;
+                }
+            });
+
+            opts.option('externalPattern', {
+                usage: {
+                    locCode: 'Define a pattern for files that should be considered being external.',
+                    args: null
+                },
+                set: (str) => {
+                    this.externalPattern = str;
+                }
+            });
+
+            opts.flag('excludeExternals', {
+                usage: {
+                    locCode: 'Prevent externally resolved TypeScript files from being documented.',
+                    args: null
+                },
+                set: () => {
+                    this.excludeExternals = true;
                 }
             });
 

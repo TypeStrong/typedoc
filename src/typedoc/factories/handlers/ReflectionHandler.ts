@@ -41,8 +41,9 @@ module TypeDoc.Factories
 
 
         private onCreateReflection(state:DeclarationState) {
-            state.reflection.flags = state.declaration.flags;
-            state.reflection.kind  = state.declaration.kind;
+            state.reflection.flags      = state.declaration.flags;
+            state.reflection.kind       = state.declaration.kind;
+            state.reflection.isExternal = state.isExternal;
 
             var symbol = state.declaration.getSymbol();
             if (symbol) {
@@ -76,6 +77,8 @@ module TypeDoc.Factories
 
 
         private onMergeReflection(state:DeclarationState) {
+            state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+
             if (state.declaration.kind != Models.Kind.Container) {
                 state.reflection.kind = state.declaration.kind;
             }

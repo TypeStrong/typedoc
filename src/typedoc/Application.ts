@@ -127,7 +127,7 @@ module TypeDoc
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         public generate(inputFiles:string[], outputDirectory:string) {
-            var project = this.dispatcher.compile(inputFiles);
+            var project = this.dispatcher.createProject(inputFiles);
             this.renderer.render(project, outputDirectory);
         }
     }

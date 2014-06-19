@@ -15,7 +15,6 @@ module TypeDoc.Factories
         isFlattened:boolean = false;
 
 
-
         /**
          * @inherit
          */

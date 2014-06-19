@@ -10,7 +10,7 @@ module TypeDoc.Factories
      * For each child declaration the dispatcher will create a child [[DeclarationState]]
      * state. The root state is always an instance of [[DocumentState]].
      */
-    export class BaseState extends Event
+    export class BaseState extends DispatcherEvent
     {
         /**
          * The parent state of this state.
@@ -32,17 +32,26 @@ module TypeDoc.Factories
          */
         reflection:Models.BaseReflection;
 
+        /**
+         * Is this a declaration from an external document?
+         */
+        isExternal:boolean;
+
 
 
         /**
          * Create a new BaseState instance.
          */
-        constructor(parentState:BaseState, declaration:TypeScript.PullDecl, reflection?:Models.BaseReflection) {
-            super();
+        constructor(parent:DispatcherEvent, declaration:TypeScript.PullDecl, reflection?:Models.BaseReflection) {
+            super(parent.dispatcher, parent.compiler, parent.project);
 
-            this.parentState = parentState;
-            this.reflection  = reflection;
-            this.declaration = declaration;
+            if (parent instanceof BaseState) {
+                this.parentState = <BaseState>parent;
+                this.isExternal  = this.parentState.isExternal;
+            }
+
+            this.reflection          = reflection;
+            this.declaration         = declaration;
             this.originalDeclaration = declaration;
         }
 

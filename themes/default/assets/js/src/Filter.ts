@@ -48,10 +48,13 @@ module tsd
 
         private optionOnlyExported:FilterOption;
 
+        private optionExternals:FilterOption;
+
 
         constructor() {
             this.optionInherited    = new FilterOption('inherited',     true);
             this.optionPrivate      = new FilterOption('private',       true);
+            this.optionExternals    = new FilterOption('externals',     true);
             this.optionOnlyExported = new FilterOption('only-exported', false);
         }
 

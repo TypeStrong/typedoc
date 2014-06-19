@@ -44,31 +44,43 @@ $ typedoc --out path/to/documentation/ path/to/typescript/project/
 
 ### Arguments
 
-```--out <path/to/documentation/>```
+`--out <path/to/documentation/>`
 
 Specifies the location the documentation should be written to.
 
-```--name <Documentation title>```
+`--name <Documentation title>`
 
 Set the name of the project that will be used in the header of the template.
 
-```--module <commonjs or amd>```
+`--module <commonjs or amd>`
 
 Specify module code generation: "commonjs" or "amd"
 
-```--target <ES3 or ES5>```
+`--target <ES3 or ES5>`
 
 Specify ECMAScript target version: "ES3" (default), or "ES5"
 
-```--exclude <pattern>```
+`--exclude <pattern>`
 
 Exclude files by the given pattern when a path is provided as source
 
-```--includeDeclarations```
+`--theme <path/to/theme>`
+
+Specify the path to the theme that should be used
+
+`--includeDeclarations`
 
 Turn on parsing of .d.ts declaration files.
 
-```--verbose```
+`--externalPattern <pattern>`
+
+Define a pattern for files that should be considered being external.
+
+`--excludeExternals`
+
+Prevent externally resolved TypeScript files from being documented.
+
+`--verbose`
 
 Print more information while TypeDoc is running.
 

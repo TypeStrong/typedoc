@@ -14,24 +14,24 @@ module TypeDoc.Factories
         /**
          * Create a new AstHandler instance.
          *
-         * Handlers are created automatically if they are registered in the static Dispatcher.FACTORIES array.
-         *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
             this.factory = TypeScript.getAstWalkerFactory();
-            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onLeaveDeclaration, this);
+            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
         }
 
 
         /**
-         * Triggered when the dispatcher has finished processing a typescript declaration.
+         * Triggered when the dispatcher has finished processing a declaration.
+         *
+         * Find modules with single-export and mark the related reflection as being exported.
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        onLeaveDeclaration(state:DeclarationState) {
+        onEndDeclaration(state:DeclarationState) {
             if (!state.reflection) return;
             if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule) return;
 

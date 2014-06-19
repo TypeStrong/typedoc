@@ -16,12 +16,11 @@ module TypeDoc.Factories
         /**
          * Create a new ReflectionEvent instance.
          *
-         * @param compiler    The current compiler used by the dispatcher.
-         * @param project     The project the reflections are written to.
+         * @param parent    The parent dispatcher event.
          * @param reflection  The final reflection that should be resolved.
          */
-        constructor(compiler:Compiler, project:Models.ProjectReflection, reflection?:Models.DeclarationReflection) {
-            super(compiler, project);
+        constructor(parent:DispatcherEvent, reflection?:Models.DeclarationReflection) {
+            super(parent.dispatcher, parent.compiler, parent.project);
             this.reflection = reflection;
         }
     }

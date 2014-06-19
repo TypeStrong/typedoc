@@ -59,7 +59,7 @@ module TypeDoc.Factories
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onLeaveResolve, this);
+            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this);
         }
 
 
@@ -67,7 +67,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onLeaveResolve(resolution:DispatcherEvent) {
+        private onEndResolve(event:DispatcherEvent) {
             function walkDirectory(directory) {
                 directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 
@@ -77,10 +77,10 @@ module TypeDoc.Factories
                 }
             }
 
-            var project = resolution.project;
+            var project = event.project;
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupHandler.sortCallback);
-                project.groups     = GroupHandler.getReflectionGroups(project.children);
+                project.groups = GroupHandler.getReflectionGroups(project.children);
             }
 
             project.reflections.forEach((reflection) => {
@@ -126,16 +126,18 @@ module TypeDoc.Factories
             });
 
             groups.forEach((group) => {
-                var someExported = false, allInherited = true, allPrivate = true;
+                var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
                 group.children.forEach((child) => {
                     someExported = child.isExported    || someExported;
                     allInherited = child.inheritedFrom && allInherited;
                     allPrivate   = child.isPrivate     && allPrivate;
+                    allExternal  = child.isExternal    && allExternal;
                 });
 
                 group.someChildrenAreExported = someExported;
                 group.allChildrenAreInherited = allInherited;
                 group.allChildrenArePrivate   = allPrivate;
+                group.allChildrenAreExternal  = allExternal;
             });
 
             return groups;

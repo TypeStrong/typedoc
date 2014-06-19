@@ -49,6 +49,11 @@ module TypeDoc.Models
         allChildrenArePrivate:boolean;
 
         /**
+         * Are all children external members?
+         */
+        allChildrenAreExternal:boolean;
+
+        /**
          * Are any children exported declarations?
          */
         someChildrenAreExported:boolean;

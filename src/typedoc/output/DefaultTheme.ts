@@ -148,6 +148,10 @@ module TypeDoc.Output
          * @param event  An event object describing the current render operation.
          */
         private onRendererBegin(event:OutputEvent) {
+            if (event.project.groups) {
+                event.project.groups.forEach(DefaultTheme.applyGroupClasses);
+            }
+
             event.project.reflections.forEach((reflection) => {
                 DefaultTheme.applyReflectionClasses(reflection);
 
@@ -166,7 +170,7 @@ module TypeDoc.Output
          * @param separator   The separator used to generate the url.
          * @returns           The generated url.
          */
-        static getUrl(reflection:Models.BaseReflection, relative?:Models.BaseReflection, separator:string = '.') {
+        static getUrl(reflection:Models.BaseReflection, relative?:Models.BaseReflection, separator:string = '.'):string {
             var url = reflection.getAlias();
 
             if (reflection.parent && reflection.parent != relative &&
@@ -298,6 +302,7 @@ module TypeDoc.Output
             if (reflection.inheritedFrom) classes.push('tsd-is-inherited');
             if (reflection.isPrivate)     classes.push('tsd-is-private');
             if (reflection.isStatic)      classes.push('tsd-is-static');
+            if (reflection.isExternal)    classes.push('tsd-is-external');
             if (!reflection.isExported)   classes.push('tsd-is-not-exported');
 
             reflection.cssClasses = classes.join(' ');
@@ -314,6 +319,7 @@ module TypeDoc.Output
             var classes = [];
             if (group.allChildrenAreInherited)  classes.push('tsd-is-inherited');
             if (group.allChildrenArePrivate)    classes.push('tsd-is-private');
+            if (group.allChildrenAreExternal)   classes.push('tsd-is-external');
             if (!group.someChildrenAreExported) classes.push('tsd-is-not-exported');
 
             group.cssClasses = classes.join(' ');
