@@ -45,6 +45,7 @@ module TypeDoc.Factories
 
             this.inputFiles = [];
             event.compiler.inputFiles.forEach((fileName:string) => {
+                fileName = Path.resolve(fileName);
                 this.inputFiles.push(fileName.replace(/\\/g, '/'));
             });
 

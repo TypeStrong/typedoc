@@ -2706,6 +2706,7 @@ var TypeDoc;
 
                 this.inputFiles = [];
                 event.compiler.inputFiles.forEach(function (fileName) {
+                    fileName = Path.resolve(fileName);
                     _this.inputFiles.push(fileName.replace(/\\/g, '/'));
                 });
 
