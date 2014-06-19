@@ -30,6 +30,7 @@ module TypeDoc.Output
             event.project.reflections.forEach((reflection) => {
                 if (!reflection.url ||
                     !reflection.name ||
+                    reflection.isExternal ||
                     reflection.name == '' ||
                     reflection.kindOf(Models.Kind.Parameter))
                     return;
