@@ -27,7 +27,39 @@ module TypeDoc.Output
             if (FS.existsSync(from)) {
                 var to = Path.join(event.outputDirectory, 'assets');
                 FS.mkdirRecursiveSync(to);
-                FS.copyRecursive(from, to, (e) => {  });
+                AssetsPlugin.copyRecursiveSync(from, to);
+            }
+        }
+
+
+        /**
+         * Look ma, it's cp -R.
+         *
+         * @param src   The path to the thing to copy.
+         * @param dest  The path to the new copy.
+         *
+         * @see http://stackoverflow.com/a/22185855
+         */
+        static copyRecursiveSync(src, dest) {
+            var exists      = FS.existsSync(src);
+            var stats       = exists && FS.statSync(src);
+            var isDirectory = exists && stats.isDirectory();
+
+            if (exists && isDirectory) {
+                if (!FS.existsSync(dest)) {
+                    FS.mkdirSync(dest);
+                }
+
+                FS.readdirSync(src).forEach(function(childItemName) {
+                    AssetsPlugin.copyRecursiveSync(
+                        Path.join(src, childItemName),
+                        Path.join(dest, childItemName)
+                    );
+                });
+            } else {
+                if (!FS.existsSync(dest)) {
+                    FS.linkSync(src, dest);
+                }
             }
         }
     }
