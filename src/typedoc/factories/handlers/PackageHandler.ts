@@ -80,7 +80,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * enters the resolving phase.
          */
-        onEnterResolve(resolution:ResolveProjectEvent) {
+        onEnterResolve(resolution:DispatcherEvent) {
             var project = resolution.project;
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');

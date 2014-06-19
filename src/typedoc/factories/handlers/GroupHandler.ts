@@ -67,7 +67,7 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onLeaveResolve(resolution:ResolveProjectEvent) {
+        private onLeaveResolve(resolution:DispatcherEvent) {
             function walkDirectory(directory) {
                 directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
 

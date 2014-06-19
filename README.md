@@ -64,6 +64,14 @@ Specify ECMAScript target version: "ES3" (default), or "ES5"
 
 Exclude files by the given pattern when a path is provided as source
 
+```--includeDeclarations```
+
+Turn on parsing of .d.ts declaration files.
+
+```--verbose```
+
+Print more information while TypeDoc is running.
+
 
 ### Gulp
 

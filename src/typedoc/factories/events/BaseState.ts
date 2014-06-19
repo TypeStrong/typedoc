@@ -1,7 +1,7 @@
 module TypeDoc.Factories
 {
     /**
-     * Base class of all states.
+     * Base class of all state events.
      *
      * States store the current declaration and its matching reflection while
      * being processed by the [[Dispatcher]]. [[BaseHandler]] instances can alter the state and

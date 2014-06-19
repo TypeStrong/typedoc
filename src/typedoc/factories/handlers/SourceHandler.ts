@@ -51,7 +51,7 @@ module TypeDoc.Factories
         }
 
 
-        onEnterResolve(res:ResolveProjectEvent) {
+        onEnterResolve(res:DispatcherEvent) {
             res.project.files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
@@ -59,14 +59,14 @@ module TypeDoc.Factories
         }
 
 
-        onResolveReflection(res:ResolveReflectionEvent) {
+        onResolveReflection(res:ReflectionEvent) {
             res.reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
 
 
-        onLeaveResolve(res:ResolveProjectEvent) {
+        onLeaveResolve(res:DispatcherEvent) {
             var home = res.project.directory;
             res.project.files.forEach((file) => {
                 var reflections = [];

@@ -1,7 +1,7 @@
 module TypeDoc.Factories
 {
     /**
-     * A factory that filters declarations that should be ignored and prevents
+     * A handler that filters declarations that should be ignored and prevents
      * the creation of reflections for them.
      *
      * TypeDoc currently ignores all type aliases, object literals, object types and
@@ -9,43 +9,88 @@ module TypeDoc.Factories
      */
     export class NullHandler extends BaseHandler
     {
+        /**
+         * Should declaration files be documented?
+         */
+        private includeDeclarations:boolean = false;
+
+        /**
+         * An array of all declaration kinds that should be ignored.
+         */
+        private ignoredKinds:TypeScript.PullElementKind[] = [
+            TypeScript.PullElementKind.ObjectLiteral,
+            TypeScript.PullElementKind.ObjectType,
+            TypeScript.PullElementKind.TypeAlias,
+            TypeScript.PullElementKind.FunctionType,
+            TypeScript.PullElementKind.FunctionExpression
+        ];
+
+
+        /**
+         * Create a new NullHandler instance.
+         *
+         * @param dispatcher  The dispatcher this handler should be attached to.
+         */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onEnterDocument, this, 1024);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onEnterDeclaration, this, 1024);
+            dispatcher.on(Dispatcher.EVENT_BEGIN,             this.onBegin,            this, 1024);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT,    this.onBeginDocument,    this, 1024);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
         }
 
 
-        onEnterDocument(state:DocumentState) {
-            if (state.document.isDeclareFile() && state.document.fileName.substr(-8) == 'lib.d.ts') {
-                state.stopPropagation();
-                state.preventDefault();
-            }
+        /**
+         * Triggered once per project before the dispatcher invokes the compiler.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        onBegin(event:DispatcherEvent) {
+            this.includeDeclarations = this.dispatcher.application.settings.includeDeclarations;
+        }
 
-            // Ignore declare files
+
+        /**
+         * Triggered when the dispatcher starts processing a TypeScript document.
+         *
+         * Prevents `lib.d.ts` from being processed.
+         * Prevents declaration files from being processed depending on [[Settings.excludeDeclarations]].
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
+        onBeginDocument(state:DocumentState) {
             if (state.document.isDeclareFile()) {
-                var settings = state.dispatcher.application.settings;
-                if (state.document.fileName.substr(-8) != 'lib.d.ts' && settings.includeDeclarations) {
-                    var childState = state.createChildState(state.document.topLevelDecl());
-                    this.dispatcher.ensureReflection(childState);
-                    this.dispatcher.processState(childState);
-                }
+                if (!this.includeDeclarations || state.document.fileName.substr(-8) == 'lib.d.ts') {
+                    this.dispatcher.application.log(
+                        Util.format('Skipping declaration file %s', state.document.fileName),
+                        LogLevel.Verbose);
 
-                state.stopPropagation();
-                state.preventDefault();
-            }
+                    state.stopPropagation();
+                    state.preventDefault();
+                } else {
+                    // We could move the declaration file into a virtual module right here:
+                    // var childState = state.createChildState(state.document.topLevelDecl());
+                    // this.dispatcher.ensureReflection(childState);
+                    // this.dispatcher.processState(childState);
+                }
+           }
         }
 
 
-        onEnterDeclaration(state:DeclarationState) {
-            // Ignore all type aliases, object literals and types
-            if (state.kindOf([Models.Kind.ObjectLiteral, Models.Kind.ObjectType, Models.Kind.TypeAlias, Models.Kind.FunctionType, Models.Kind.FunctionExpression])) {
+        /**
+         * Triggered when the dispatcher starts processing a declaration.
+         *
+         * Ignores all type aliases, object literals and types.
+         * Ignores all implicit variables.
+         *
+         * @param state  The state that describes the current declaration and reflection.
+         */
+        onBeginDeclaration(state:DeclarationState) {
+            if (state.kindOf(this.ignoredKinds)) {
                 state.stopPropagation();
                 state.preventDefault();
             }
 
-            // Ignore all implicit variables
             if (state.kindOf(Models.Kind.Variable) && state.hasFlag(Models.Flags.ImplicitVariable)) {
                 state.stopPropagation();
                 state.preventDefault();
@@ -54,5 +99,8 @@ module TypeDoc.Factories
     }
 
 
+    /**
+     * Register this handler.
+     */
     Dispatcher.HANDLERS.push(NullHandler);
 }

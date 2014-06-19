@@ -51,7 +51,7 @@ module TypeDoc.Factories
          *
          * @param res
          */
-        private onResolveReflection(res:ResolveReflectionEvent) {
+        private onResolveReflection(res:ReflectionEvent) {
             var reflection = res.reflection;
             if (reflection.signatures) {
                 var comment = reflection.comment;

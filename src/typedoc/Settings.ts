@@ -96,8 +96,8 @@ module TypeDoc
          * Expand the list of input files.
          *
          * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the exlclude option
-         * to filter out files aith a pattern.
+         * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
+         * to filter out files with a pattern.
          */
         public expandInputFiles() {
             var exclude, files = [];
@@ -107,7 +107,7 @@ module TypeDoc
 
             function add(dirname) {
                 FS.readdirSync(dirname).forEach((file) => {
-                    var realpath = TypeScript.IOUtils.combine(dirname, file);
+                    var realpath = Path.join(dirname, file);
                     if (FS.statSync(realpath).isDirectory()) {
                         add(realpath);
                     } else if (/\.ts$/.test(realpath)) {
@@ -195,13 +195,13 @@ module TypeDoc
                 }
             });
 
-            opts.option('verbose', {
+            opts.flag('verbose', {
                 usage: {
                     locCode: 'Print more information while TypeDoc is running.',
                     args: null
                 },
                 set: (str) => {
-                    this.name = str;
+                    this.verbose = true;
                 }
             });
 

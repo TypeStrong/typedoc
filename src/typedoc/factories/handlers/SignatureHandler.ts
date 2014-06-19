@@ -25,7 +25,9 @@ module TypeDoc.Factories
                 if (SignatureHandler.isMethodOverwrite(state)) {
                     var type = new Models.LateResolvingType(state.declaration);
                     state.reflection.overwrites = type;
-                    state.reflection.signatures.forEach((signature) => signature.overwrites = type);
+                    if (state.reflection.signatures) {
+                        state.reflection.signatures.forEach((signature) => signature.overwrites = type);
+                    }
                     state.preventDefault();
                     return;
                 }

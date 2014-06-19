@@ -12,7 +12,7 @@ module TypeDoc.Factories
         }
 
 
-        onResolveReflection(resolution:ResolveReflectionEvent) {
+        onResolveReflection(resolution:ReflectionEvent) {
             var reflection = resolution.reflection;
             var compiler = resolution.compiler;
 

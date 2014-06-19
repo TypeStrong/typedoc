@@ -36,6 +36,11 @@ module TypeDoc.Factories
      * For each document (a single *.ts file) the dispatcher will generate the following event flow.
      * Declarations are processed according to their hierarchy.
      *
+     *  * [[Dispatcher.EVENT_BEGIN]]<br>
+     *    Triggered when the dispatcher starts processing a project. The listener receives
+     *    an instance of [[DispatcherEvent]]. By calling [[DispatcherEvent.preventDefault]] the
+     *    project file will not be processed.
+     *
      *  * [[Dispatcher.EVENT_BEGIN_DOCUMENT]]<br>
      *    Triggered when the dispatcher starts processing a TypeScript document. The listener receives
      *    an instance of [[DocumentState]]. By calling [[DocumentState.preventDefault]] the entire
@@ -76,15 +81,15 @@ module TypeDoc.Factories
      *
      *  * [[Dispatcher.EVENT_BEGIN_RESOLVE]]<br>
      *    Triggered when the dispatcher enters the resolving phase. The listener receives an instance
-     *    of [[ResolveProjectEvent]].
+     *    of [[DispatcherEvent]].
      *
      *    * [[Dispatcher.EVENT_RESOLVE]]<br>
      *      Triggered when the dispatcher resolves a reflection. The listener receives an instance
-     *      of [[ResolveReflectionEvent]].
+     *      of [[ReflectionEvent]].
      *
      *  * [[Dispatcher.EVENT_END_RESOLVE]]<br>
      *    Triggered when the dispatcher leaves the resolving phase. The listener receives an instance
-     *    of [[ResolveProjectEvent]].
+     *    of [[DispatcherEvent]].
      */
     export class Dispatcher extends EventDispatcher
     {
@@ -97,6 +102,12 @@ module TypeDoc.Factories
          * List of all handlers that are attached to the renderer.
          */
         handlers:any[];
+
+        /**
+         * Triggered once per project before the dispatcher invokes the compiler.
+         * @event
+         */
+        static EVENT_BEGIN:string = 'begin';
 
         /**
          * Triggered when the dispatcher starts processing a TypeScript document.
@@ -192,10 +203,18 @@ module TypeDoc.Factories
             var compiler = new Compiler(settings);
             var project  = new Models.ProjectReflection(this.application.settings.name);
 
+            var resolveProject = new DispatcherEvent(compiler, project);
+            this.dispatch(Dispatcher.EVENT_BEGIN, resolveProject);
+            if (resolveProject.isDefaultPrevented) {
+                return null;
+            }
+
+            this.application.log('Running TypeScript compiler', LogLevel.Verbose);
             compiler.inputFiles = inputFiles;
             var documents = compiler.run();
 
             documents.forEach((document) => {
+                this.application.log(Util.format('Processing %s', document.fileName), LogLevel.Verbose);
                 var state = new DocumentState(this, document, project, compiler);
                 this.dispatch(Dispatcher.EVENT_BEGIN_DOCUMENT, state);
                 if (state.isDefaultPrevented) return;
@@ -207,7 +226,7 @@ module TypeDoc.Factories
                 this.dispatch(Dispatcher.EVENT_END_DOCUMENT, state);
             });
 
-            var resolveProject = new ResolveProjectEvent(compiler, project);
+            this.application.log('Resolving project', LogLevel.Verbose);
             this.dispatch(Dispatcher.EVENT_BEGIN_RESOLVE, resolveProject);
             project.reflections.forEach((reflection) => {
                 this.dispatch(Dispatcher.EVENT_RESOLVE, resolveProject.createReflectionEvent(reflection));
