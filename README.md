@@ -113,7 +113,7 @@ Additionally you can link to other classes, members or functions using double an
 The documentation generator currently understands these javadoc tags:
 
  * ```@param <param name>```
- * ```@retrun(s)```
+ * ```@return(s)```
 
 All other tags will be rendered as definition lists, so they are not lost.
 
