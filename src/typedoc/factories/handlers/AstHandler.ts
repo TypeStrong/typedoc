@@ -82,7 +82,7 @@ module TypeDoc.Factories
                 var declarations = [];
                 symbol.getDeclarations().forEach((declaration) => {
                     declaration.getParentDecl().getChildDecls().forEach((child) => {
-                        if (child.name == declaration.name) {
+                        if (child.name == declaration.name && declarations.indexOf(child) == -1) {
                             declarations.push(child);
                         }
                     });
