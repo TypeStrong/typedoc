@@ -40,6 +40,7 @@ module TypeDoc.Factories
         private exports:IExportInfo[] = [];
 
 
+
         /**
          * Create a new AstHandler instance.
          *
@@ -50,8 +51,19 @@ module TypeDoc.Factories
 
             this.factory = TypeScript.getAstWalkerFactory();
 
+            dispatcher.on(Dispatcher.EVENT_BEGIN,             this.onBegin,            this);
             dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
-            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
+            dispatcher.on(Dispatcher.EVENT_END_DECLARATION,   this.onEndDeclaration,   this);
+        }
+
+
+        /**
+         * Triggered once per project before the dispatcher invokes the compiler.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onBegin(event:DispatcherEvent) {
+            this.exports = [];
         }
 
 
