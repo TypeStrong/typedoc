@@ -40,29 +40,34 @@ module TypeDoc.Output
          * Mappings of reflections kinds to templates used by this theme.
          */
         static MAPPINGS:ITemplateMapping[] = [{
-            kind:      [Models.Kind.Class],
+            kind:      [TypeScript.PullElementKind.Class],
             isLeaf:    true,
             directory: 'classes',
             template:  'reflection.hbs'
         },{
-            kind:      [Models.Kind.Interface],
+            kind:      [TypeScript.PullElementKind.Interface],
             isLeaf:    true,
             directory: 'interfaces',
             template:  'reflection.hbs'
         },{
-            kind:      [Models.Kind.Enum],
+            kind:      [TypeScript.PullElementKind.Enum],
             isLeaf:    true,
             directory: 'enums',
             template:  'reflection.hbs'
         },{
-            kind:      [Models.Kind.Container, Models.Kind.DynamicModule],
+            kind:      [TypeScript.PullElementKind.Container, TypeScript.PullElementKind.DynamicModule],
             isLeaf:    false,
             directory: 'modules',
             template:  'reflection.hbs'
         },{
-            kind:      [Models.Kind.Script],
+            kind:      [TypeScript.PullElementKind.Script],
             isLeaf:    false,
             directory: 'scripts',
+            template:  'reflection.hbs'
+        }, {
+            kind:      [TypeScript.PullElementKind.ObjectLiteral],
+            isLeaf:    true,
+            directory: 'objects',
             template:  'reflection.hbs'
         }];
 
