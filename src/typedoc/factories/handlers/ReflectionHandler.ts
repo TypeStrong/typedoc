@@ -1,5 +1,12 @@
 module TypeDoc.Factories
 {
+    export interface IReflectionHandlerMergeStrategy {
+        reflection?:TypeScript.PullElementKind[];
+        declaration?:TypeScript.PullElementKind[];
+        actions:Function[];
+    }
+
+
     /**
      * A handler that sets the most basic reflection properties.
      */
@@ -21,6 +28,60 @@ module TypeDoc.Factories
         static RELEVANT_PARAMETER_FLAGS = [
             TypeScript.PullElementFlags.Optional
         ];
+
+        /**
+         * A weighted list of element kinds used by [[mergeKinds]] to determine the importance of kinds.
+         */
+        static KIND_WEIGHTS = [
+            TypeScript.PullElementKind.AcceptableAlias,
+            TypeScript.PullElementKind.CallSignature,
+            TypeScript.PullElementKind.CatchBlock,
+            TypeScript.PullElementKind.CatchVariable,
+            TypeScript.PullElementKind.ConstructSignature,
+            TypeScript.PullElementKind.ConstructorMethod,
+            TypeScript.PullElementKind.ConstructorType,
+            TypeScript.PullElementKind.EnumMember,
+            TypeScript.PullElementKind.Function,
+            TypeScript.PullElementKind.FunctionExpression,
+            TypeScript.PullElementKind.FunctionType,
+            TypeScript.PullElementKind.GetAccessor,
+            TypeScript.PullElementKind.Global,
+            TypeScript.PullElementKind.IndexSignature,
+            TypeScript.PullElementKind.Method,
+            TypeScript.PullElementKind.None,
+            TypeScript.PullElementKind.ObjectType,
+            TypeScript.PullElementKind.Parameter,
+            TypeScript.PullElementKind.Primitive,
+            TypeScript.PullElementKind.Script,
+            TypeScript.PullElementKind.SetAccessor,
+            TypeScript.PullElementKind.TypeAlias,
+            TypeScript.PullElementKind.TypeParameter,
+            TypeScript.PullElementKind.WithBlock,
+
+            TypeScript.PullElementKind.Variable,
+            TypeScript.PullElementKind.Property,
+            TypeScript.PullElementKind.Enum,
+            TypeScript.PullElementKind.ObjectLiteral,
+            TypeScript.PullElementKind.Container,
+            TypeScript.PullElementKind.Interface,
+            TypeScript.PullElementKind.Class,
+            TypeScript.PullElementKind.DynamicModule
+        ];
+
+        /**
+         * A weighted list of element kinds used by [[mergeKinds]] to determine the importance of kinds.
+         */
+        static KIND_PROCESS_ORDER = [
+            TypeScript.PullElementKind.Container,
+            TypeScript.PullElementKind.Function
+        ];
+
+
+        static MERGE_STRATEGY:IReflectionHandlerMergeStrategy[] = [{
+            reflection:  [TypeScript.PullElementKind.Function],
+            declaration: [TypeScript.PullElementKind.Container],
+            actions:     [ReflectionHandler.convertFunctionToCallSignature]
+        }];
 
 
         /**
@@ -53,16 +114,6 @@ module TypeDoc.Factories
                 state.reflection.definition = symbol.toString();
                 state.reflection.isOptional = symbol.isOptional;
 
-                if (symbol.type && (symbol.type.kind == Models.Kind.ObjectType || symbol.type.kind == Models.Kind.ObjectLiteral)) {
-                    var typeDeclaration = symbol.type.getDeclarations()[0];
-                    typeDeclaration.getChildDecls().forEach((declaration) => {
-                        var typeState = state.createChildState(declaration);
-                        typeState.isFlattened   = true;
-                        typeState.flattenedName = state.getName();
-                        this.dispatcher.processState(typeState);
-                    });
-                }
-
                 if (state.declaration.kind == Models.Kind.Parameter) {
                     var ast = (<TypeScript.Parameter>state.declaration.ast()).equalsValueClause;
                     if (ast) {
@@ -84,11 +135,14 @@ module TypeDoc.Factories
          * @param state  The state that describes the current declaration and reflection.
          */
         private onMergeReflection(state:DeclarationState) {
-            state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+            ReflectionHandler.MERGE_STRATEGY.forEach((strategy) => {
+                if (strategy.reflection && !state.reflection.kindOf(strategy.reflection)) return;
+                if (strategy.declaration && !state.kindOf(strategy.declaration)) return;
+                strategy.actions.forEach((action) => action(state));
+            });
 
-            if (state.declaration.kind != Models.Kind.Container) {
-                state.reflection.kind = state.declaration.kind;
-            }
+            state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+            state.reflection.kind       = ReflectionHandler.mergeKinds(state.reflection.kind, state.declaration.kind);
         }
 
 
@@ -122,6 +176,73 @@ module TypeDoc.Factories
             reflection.isExported = isExported;
             reflection.isStatic   = ((reflection.flags & Models.Flags.Static)  == Models.Flags.Static);
             reflection.isPrivate  = ((reflection.flags & Models.Flags.Private) == Models.Flags.Private);
+        }
+
+
+        /**
+         * Convert the reflection of the given state to a call signature.
+         *
+         * @param state  The state whose reflection should be converted to a call signature.
+         */
+        static convertFunctionToCallSignature(state:DeclarationState) {
+            var reflection = state.reflection;
+            var name = reflection.name;
+            reflection.kind = TypeScript.PullElementKind.CallSignature;
+            reflection.name = '';
+            reflection.signatures.forEach((signature) => {
+                signature.name = '';
+            });
+
+            var index = reflection.parent.children.indexOf(reflection);
+            reflection.parent.children.splice(index, 1);
+
+            state.reflection = null;
+            state.dispatcher.ensureReflection(state);
+
+            reflection.parent = state.reflection;
+            state.reflection.children.push(reflection);
+            state.reflection.name = name;
+        }
+
+
+        /**
+         * Sort the given list of declarations for being correctly processed.
+         *
+         * @param declarations  The list of declarations that should be processed.
+         * @returns             The sorted list.
+         */
+        static sortDeclarations(declarations:TypeScript.PullDecl[]):TypeScript.PullDecl[] {
+            return declarations.sort((left:TypeScript.PullDecl, right:TypeScript.PullDecl) => {
+                if (left.kind == right.kind) return 0;
+
+                var leftWeight  = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(left.kind);
+                var rightWeight = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(right.kind);
+                if (leftWeight == rightWeight) return 0;
+                return leftWeight > rightWeight ? -1 : 1;
+            });
+        }
+
+
+        /**
+         * Merge two kind definitions.
+         *
+         * @param left   The left kind to merge.
+         * @param right  The right kind to merge.
+         */
+        static mergeKinds(left:TypeScript.PullElementKind, right:TypeScript.PullElementKind):TypeScript.PullElementKind {
+            if (left == right) {
+                return left;
+            }
+
+            var leftWeight  = ReflectionHandler.KIND_WEIGHTS.indexOf(left);
+            var rightWeight = ReflectionHandler.KIND_WEIGHTS.indexOf(right);
+            if (leftWeight < rightWeight) {
+                console.log(TypeScript.PullElementKind[left] + ' <-> ' + TypeScript.PullElementKind[right] + ' -> ' + TypeScript.PullElementKind[right]);
+                return right;
+            } else {
+                console.log(TypeScript.PullElementKind[left] + ' <-> ' + TypeScript.PullElementKind[right] + ' -> ' + TypeScript.PullElementKind[left]);
+                return left;
+            }
         }
     }
 

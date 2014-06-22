@@ -210,7 +210,8 @@ module TypeDoc.Factories
                     return;
                 }
 
-                state.declaration.getChildDecls().forEach((declaration) => {
+                var children = ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+                children.forEach((declaration) => {
                     this.processState(state.createChildState(declaration));
                 });
 
@@ -250,7 +251,8 @@ module TypeDoc.Factories
             this.dispatch(Dispatcher.EVENT_DECLARATION, state);
             if (state.isDefaultPrevented) return;
 
-            state.declaration.getChildDecls().forEach((declaration) => {
+            var children = ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+            children.forEach((declaration) => {
                 this.processState(state.createChildState(declaration));
             });
 
