@@ -16,13 +16,15 @@ module TypeDoc.Factories
             TypeScript.PullElementKind.Enum,
             TypeScript.PullElementKind.Interface,
             TypeScript.PullElementKind.Class,
+            TypeScript.PullElementKind.ObjectLiteral,
             TypeScript.PullElementKind.EnumMember,
             TypeScript.PullElementKind.ConstructorMethod,
             TypeScript.PullElementKind.Property,
             TypeScript.PullElementKind.GetAccessor,
             TypeScript.PullElementKind.SetAccessor,
             TypeScript.PullElementKind.Method,
-            TypeScript.PullElementKind.Function
+            TypeScript.PullElementKind.Function,
+            TypeScript.PullElementKind.Variable
         ];
 
         /**

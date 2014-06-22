@@ -132,7 +132,12 @@ module TypeDoc.Output
          */
         getNavigation(project:Models.ProjectReflection):Models.NavigationItem {
             var root = new Models.NavigationItem('Index', 'index.html');
-            new Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
+            var globals = new Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
+            globals.isPrimary = true;
+            project.children.forEach((child) => {
+                if (child.kindOf(Models.Kind.SomeContainer)) return;
+                DefaultTheme.buildNavigation(child, globals);
+            });
 
             var modules = project.getReflectionsByKind(Models.Kind.SomeContainer);
             modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
