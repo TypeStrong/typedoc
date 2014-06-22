@@ -244,7 +244,7 @@ module TypeDoc.Factories
          */
         processState(state:DeclarationState) {
             this.dispatch(Dispatcher.EVENT_BEGIN_DECLARATION, state);
-            if (state.isDefaultPrevented)  return;
+            if (state.isDefaultPrevented) return;
 
             this.ensureReflection(state);
             this.dispatch(Dispatcher.EVENT_DECLARATION, state);
@@ -306,16 +306,10 @@ module TypeDoc.Factories
          * @param indent  Used internally to indent child declarations.
          */
         static explainDeclaration(declaration:TypeScript.PullDecl, indent:string = '') {
-            var flags = [];
-            for (var flag in TypeScript.PullElementFlags) {
-                if (!TypeScript.PullElementFlags.hasOwnProperty(flag)) continue;
-                if (flag != +flag) continue;
-                if (declaration.flags & flag) flags.push(TypeScript.PullElementFlags[flag]);
-            }
-
-            var str = indent + declaration.name;
-            str += ' ' + TypeScript.PullElementKind[declaration.kind];
-            str += ' (' + Dispatcher.flagsToString(declaration) + ')';
+            var str = indent + declaration.name + (declaration.name == '' ? '' : ' ');
+            str += TypeScript.PullElementKind[declaration.kind];
+            str += ' (' + Dispatcher.flagsToString(declaration.flags) + ')';
+            str += declaration.getSymbol() ? ' [' + declaration.getSymbol().pullSymbolID + ']' : '';
             console.log(str);
 
             indent += '  ';
