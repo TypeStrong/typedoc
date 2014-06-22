@@ -142,8 +142,7 @@ module TypeDoc.Models
          */
         getAlias():string {
             if (!this.alias) {
-                this.alias = this.name.toLowerCase();
-                this.alias = this.alias.replace(/[:\\\/]/g, '-');
+                this.alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
             }
 
             return this.alias;
