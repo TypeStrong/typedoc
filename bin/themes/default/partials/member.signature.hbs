@@ -45,8 +45,7 @@
 {{/if}}
 
 {{#if type}}
-    <h4>Returns</h4>
-    <p>{{#with type}}{{>type}}{{/with}}</p>
+    <h4>Returns {{#with type}}{{>type}}{{/with}}</h4>
     {{#if comment.returns}}
         {{#markdown}}{{{comment.returns}}}{{/markdown}}
     {{/if}}
