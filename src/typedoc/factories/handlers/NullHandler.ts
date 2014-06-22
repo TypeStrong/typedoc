@@ -67,13 +67,8 @@ module TypeDoc.Factories
 
                     state.stopPropagation();
                     state.preventDefault();
-                } else {
-                    // We could move the declaration file into a virtual module right here:
-                    // var childState = state.createChildState(state.document.topLevelDecl());
-                    // this.dispatcher.ensureReflection(childState);
-                    // this.dispatcher.processState(childState);
                 }
-           }
+            }
         }
 
 
