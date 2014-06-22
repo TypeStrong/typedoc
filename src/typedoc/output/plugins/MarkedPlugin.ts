@@ -62,6 +62,7 @@ module TypeDoc.Output
             Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this)); });
             Handlebars.registerHelper('compact',  function(arg:any) { return that.getCompact(arg.fn(this)); });
             Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
+            Handlebars.registerHelper('wbr', (str:string) => this.getWordBreaks(str));
 
             HighlightJS.registerLanguage('typescript', highlightTypeScript);
 
@@ -95,6 +96,21 @@ module TypeDoc.Output
                 lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
             }
             return lines.join('');
+        }
+
+
+        /**
+         * Insert word break tags ``<wbr>`` into the given string.
+         *
+         * Breaks the given string at ``_``, ``-`` and captial letters.
+         *
+         * @param str  The string that should be split.
+         * @return     The original string containing ``<wbr>`` tags where possible.
+         */
+        public getWordBreaks(str:string):string {
+            str = str.replace(/([^_\-][_\-])([^_\-])/g, (m, a, b) => a + '<wbr>' + b);
+            str = str.replace(/([^A-Z])([A-Z][^A-Z])/g, (m, a, b) => a + '<wbr>' + b);
+            return str;
         }
 
 

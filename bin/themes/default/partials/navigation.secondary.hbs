@@ -4,7 +4,7 @@
         {{#each children}}
             {{#unless isPrimary}}
                 <li class="{{#if isInPath}}current{{/if}} {{cssClasses}}">
-                    <a href="{{relativeURL url}}" class="tsd-kind-icon">{{{title}}}</a>
+                    <a href="{{relativeURL url}}" class="tsd-kind-icon">{{{wbr title}}}</a>
                     {{> navigation.secondary}}
                 </li>
             {{/unless}}

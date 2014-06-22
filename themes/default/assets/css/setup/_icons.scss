@@ -11,20 +11,26 @@ $icons:
     (construct-signature, constructor-method, constructor-type),
     (index-signature);
 
-.tsd-kind-icon:before {
+.tsd-kind-icon {
+    display: block;
     position: relative;
-    top: -2px;
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    width: 17px;
-    height: 17px;
-    margin: 0 3px 0 0;
-    background-image: url(../images/icons.png);
+    padding-left: 20px;
 
-    @include retina {
-        background-image: url(../images/icons@2x.png);
-        background-size: 187px 102px;
+    &:before {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 17px;
+        height: 17px;
+        background-image: url(../images/icons.png);
+
+        @include retina {
+            background-image: url(../images/icons@2x.png);
+            background-size: 187px 102px;
+        }
     }
 }
 
