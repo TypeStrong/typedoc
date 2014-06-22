@@ -1,15 +1,9 @@
-/// <reference path="../src/lib/fs-extra/fs-extra.d.ts" />
-/// <reference path="../src/lib/handlebars/handlebars.d.ts" />
-/// <reference path="../src/lib/highlight.js/highlight.js.d.ts" />
-/// <reference path="../src/lib/marked/marked.d.ts" />
-/// <reference path="../src/lib/minimatch/minimatch.d.ts" />
-/// <reference path="../src/lib/node/node.d.ts" />
-/// <reference path="../src/lib/typescript/typescript.d.ts" />
+/// <reference path="../src/lib/tsd.d.ts" />
 declare module TypeScript {
     var typescriptPath: string;
 }
-declare var Handlebars: any;
-declare var Marked: any;
+declare var Handlebars: HandlebarsStatic;
+declare var Marked: MarkedStatic;
 declare var HighlightJS: any;
 declare var Minimatch: any;
 declare var Util: any;
@@ -758,11 +752,27 @@ declare module TypeDoc.Factories {
         */
         private factory;
         /**
+        * Collected ambient module export data.
+        */
+        private exports;
+        /**
         * Create a new AstHandler instance.
         *
         * @param dispatcher  The dispatcher this handler should be attached to.
         */
         constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
         /**
         * Triggered when the dispatcher has finished processing a declaration.
         *
@@ -771,6 +781,20 @@ declare module TypeDoc.Factories {
         * @param state  The state that describes the current declaration and reflection.
         */
         private onEndDeclaration(state);
+        /**
+        * Try to find the identifier of the export assignment within the given declaration.
+        *
+        * @param declaration  The declaration whose export assignment should be resolved.
+        * @returns            The found identifier or NULL.
+        */
+        public getExportedIdentifier(declaration: TypeScript.PullDecl): TypeScript.Identifier;
+        /**
+        * Try to find the compiler symbol exported by the given declaration.
+        *
+        * @param declaration  The declaration whose export assignment should be resolved.
+        * @returns            The found compiler symbol or NULL.
+        */
+        public getExportedSymbol(declaration: TypeScript.PullDecl): TypeScript.PullSymbol;
     }
 }
 declare module TypeDoc.Factories {
@@ -856,6 +880,10 @@ declare module TypeDoc.Factories {
         */
         private basePath;
         /**
+        * List of reflections whose name must be trimmed.
+        */
+        private reflections;
+        /**
         * The declaration kinds affected by this handler.
         */
         private affectedKinds;
@@ -878,11 +906,11 @@ declare module TypeDoc.Factories {
         */
         private onDeclaration(state);
         /**
-        * Triggered when the dispatcher resolves a reflection.
+        * Triggered when the dispatcher enters the resolving phase.
         *
         * @param event  The event containing the reflection to resolve.
         */
-        private onResolve(event);
+        private onBeginResolve(event);
     }
 }
 declare module TypeDoc.Factories {
@@ -1088,6 +1116,26 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
+    * A handler that reflects object literals defined as variables.
+    */
+    class ObjectLiteralHandler extends BaseHandler {
+        /**
+        * Create a new ObjectLiteralHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+        static getLiteralDeclaration(declaration: TypeScript.PullDecl): TypeScript.PullDecl;
+    }
+}
+declare module TypeDoc.Factories {
+    /**
     * A handler that tries to find the package.json and readme.md files of the
     * current project.
     *
@@ -1135,6 +1183,11 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Factories {
+    interface IReflectionHandlerMergeStrategy {
+        reflection?: TypeScript.PullElementKind[];
+        declaration?: TypeScript.PullElementKind[];
+        actions: Function[];
+    }
     /**
     * A handler that sets the most basic reflection properties.
     */
@@ -1147,6 +1200,15 @@ declare module TypeDoc.Factories {
         * A list of fags that should be exported to the flagsArray property for parameter reflections.
         */
         static RELEVANT_PARAMETER_FLAGS: TypeScript.PullElementFlags[];
+        /**
+        * A weighted list of element kinds used by [[mergeKinds]] to determine the importance of kinds.
+        */
+        static KIND_WEIGHTS: TypeScript.PullElementKind[];
+        /**
+        * A weighted list of element kinds used by [[mergeKinds]] to determine the importance of kinds.
+        */
+        static KIND_PROCESS_ORDER: TypeScript.PullElementKind[];
+        static MERGE_STRATEGY: IReflectionHandlerMergeStrategy[];
         /**
         * Create a new ReflectionHandler instance.
         *
@@ -1171,6 +1233,35 @@ declare module TypeDoc.Factories {
         * @param event  The event containing the reflection to resolve.
         */
         private onResolve(event);
+        /**
+        * Convert the reflection of the given state to a call signature.
+        *
+        * Applied when a function is merged with a container.
+        *
+        * @param state  The state whose reflection should be converted to a call signature.
+        */
+        static convertFunctionToCallSignature(state: DeclarationState): void;
+        /**
+        *
+        * Applied when a container is merged with a variable.
+        *
+        * @param state
+        */
+        static implementVariableType(state: DeclarationState): void;
+        /**
+        * Sort the given list of declarations for being correctly processed.
+        *
+        * @param declarations  The list of declarations that should be processed.
+        * @returns             The sorted list.
+        */
+        static sortDeclarations(declarations: TypeScript.PullDecl[]): TypeScript.PullDecl[];
+        /**
+        * Merge two kind definitions.
+        *
+        * @param left   The left kind to merge.
+        * @param right  The right kind to merge.
+        */
+        static mergeKinds(left: TypeScript.PullElementKind, right: TypeScript.PullElementKind): TypeScript.PullElementKind;
     }
 }
 declare module TypeDoc.Factories {
@@ -2563,6 +2654,15 @@ declare module TypeDoc.Output {
         * @returns The string with all newlsines stripped.
         */
         public getCompact(text: string): string;
+        /**
+        * Insert word break tags ``<wbr>`` into the given string.
+        *
+        * Breaks the given string at ``_``, ``-`` and captial letters.
+        *
+        * @param str  The string that should be split.
+        * @return     The original string containing ``<wbr>`` tags where possible.
+        */
+        public getWordBreaks(str: string): string;
         /**
         * Highlight the synatx of the given text using HighlightJS.
         *

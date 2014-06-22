@@ -1,10 +1,4 @@
-/// <reference path="lib/fs-extra/fs-extra.d.ts" />
-/// <reference path="lib/handlebars/handlebars.d.ts" />
-/// <reference path="lib/highlight.js/highlight.js.d.ts" />
-/// <reference path="lib/marked/marked.d.ts" />
-/// <reference path="lib/minimatch/minimatch.d.ts" />
-/// <reference path="lib/node/node.d.ts" />
-/// <reference path="lib/typescript/typescript.d.ts" />
+/// <reference path="lib/tsd.d.ts" />
 
 var Handlebars = require('handlebars');
 var Marked = require('marked');
@@ -1831,7 +1825,8 @@ var TypeDoc;
                         return;
                     }
 
-                    state.declaration.getChildDecls().forEach(function (declaration) {
+                    var children = Factories.ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+                    children.forEach(function (declaration) {
                         _this.processState(state.createChildState(declaration));
                     });
 
@@ -1873,7 +1868,8 @@ var TypeDoc;
                 if (state.isDefaultPrevented)
                     return;
 
-                state.declaration.getChildDecls().forEach(function (declaration) {
+                var children = Factories.ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+                children.forEach(function (declaration) {
                     _this.processState(state.createChildState(declaration));
                 });
 
@@ -1929,19 +1925,10 @@ var TypeDoc;
             */
             Dispatcher.explainDeclaration = function (declaration, indent) {
                 if (typeof indent === "undefined") { indent = ''; }
-                var flags = [];
-                for (var flag in TypeScript.PullElementFlags) {
-                    if (!TypeScript.PullElementFlags.hasOwnProperty(flag))
-                        continue;
-                    if (flag != +flag)
-                        continue;
-                    if (declaration.flags & flag)
-                        flags.push(TypeScript.PullElementFlags[flag]);
-                }
-
-                var str = indent + declaration.name;
-                str += ' ' + TypeScript.PullElementKind[declaration.kind];
-                str += ' (' + Dispatcher.flagsToString(declaration) + ')';
+                var str = indent + declaration.name + (declaration.name == '' ? '' : ' ');
+                str += TypeScript.PullElementKind[declaration.kind];
+                str += ' (' + Dispatcher.flagsToString(declaration.flags) + ')';
+                str += declaration.getSymbol() ? ' [' + declaration.getSymbol().pullSymbolID + ']' : '';
                 console.log(str);
 
                 indent += '  ';
@@ -2204,7 +2191,7 @@ var TypeDoc;
                 }
 
                 if (state.isFlattened) {
-                    state.parentState = this.parentState;
+                    // state.parentState   = this.parentState;
                     state.flattenedName = this.flattenedName + '.' + declaration.name;
                 }
 
@@ -2295,6 +2282,8 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        
+
         /**
         * A handler that analyzes the AST and extracts data not represented by declarations.
         */
@@ -2307,10 +2296,92 @@ var TypeDoc;
             */
             function AstHandler(dispatcher) {
                 _super.call(this, dispatcher);
+                /**
+                * Collected ambient module export data.
+                */
+                this.exports = [];
 
                 this.factory = TypeScript.getAstWalkerFactory();
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
                 dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            AstHandler.prototype.onBegin = function (event) {
+                this.exports = [];
+            };
+
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            AstHandler.prototype.onBeginDeclaration = function (state) {
+                var _this = this;
+                if (!(state.declaration.kind & TypeScript.PullElementKind.DynamicModule)) {
+                    return;
+                }
+
+                var symbol = this.getExportedSymbol(state.declaration);
+                if (symbol) {
+                    var declarations = [];
+                    symbol.getDeclarations().forEach(function (declaration) {
+                        declaration.getParentDecl().getChildDecls().forEach(function (child) {
+                            if (child.name == declaration.name && declarations.indexOf(child) == -1) {
+                                declarations.push(child);
+                            }
+                        });
+                    });
+
+                    var isPureInternal = true;
+                    declarations.forEach(function (declaration) {
+                        var isInternal = false;
+                        while (declaration) {
+                            if (declaration == state.declaration)
+                                isInternal = true;
+                            declaration = declaration.getParentDecl();
+                        }
+                        isPureInternal = isPureInternal && isInternal;
+                    });
+
+                    if (isPureInternal) {
+                        this.dispatcher.ensureReflection(state);
+                        state.reflection.name = state.declaration.name;
+                        state.reflection.isExported = true;
+
+                        Factories.ReflectionHandler.sortDeclarations(declarations);
+                        declarations.forEach(function (declaration) {
+                            var childState = state.createChildState(declaration);
+                            childState.parentState = state.parentState;
+                            childState.reflection = state.reflection;
+
+                            _this.dispatcher.processState(childState);
+                            state.reflection = childState.reflection;
+                        });
+
+                        state.reflection.kind = state.declaration.kind;
+
+                        this.exports.push({
+                            name: state.declaration.name,
+                            type: new TypeDoc.Models.ReflectionType(state.reflection, false)
+                        });
+                    } else {
+                        this.exports.push({
+                            name: state.declaration.name,
+                            symbol: symbol
+                        });
+                    }
+
+                    state.stopPropagation();
+                    state.preventDefault();
+                }
+            };
+
             /**
             * Triggered when the dispatcher has finished processing a declaration.
             *
@@ -2335,6 +2406,48 @@ var TypeDoc;
                         }
                     }
                 });
+            };
+
+            /**
+            * Try to find the identifier of the export assignment within the given declaration.
+            *
+            * @param declaration  The declaration whose export assignment should be resolved.
+            * @returns            The found identifier or NULL.
+            */
+            AstHandler.prototype.getExportedIdentifier = function (declaration) {
+                var identifier = null;
+
+                var ast = declaration.ast();
+                if (ast.parent && (ast.parent.kind() & 130 /* ModuleDeclaration */)) {
+                    ast = ast.parent;
+                }
+
+                this.factory.simpleWalk(ast, function (ast, astState) {
+                    if (ast.kind() == 134 /* ExportAssignment */) {
+                        var assignment = ast;
+                        identifier = assignment.identifier;
+                    }
+                });
+
+                return identifier;
+            };
+
+            /**
+            * Try to find the compiler symbol exported by the given declaration.
+            *
+            * @param declaration  The declaration whose export assignment should be resolved.
+            * @returns            The found compiler symbol or NULL.
+            */
+            AstHandler.prototype.getExportedSymbol = function (declaration) {
+                var identifier = this.getExportedIdentifier(declaration);
+                if (identifier) {
+                    var resolver = declaration.semanticInfoChain.getResolver();
+                    var context = new TypeScript.PullTypeResolutionContext(resolver);
+
+                    return resolver.resolveAST(identifier, false, context);
+                } else {
+                    return null;
+                }
             };
             return AstHandler;
         })(Factories.BaseHandler);
@@ -2637,7 +2750,7 @@ var TypeDoc;
 
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_RESOLVE, this.onResolve, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
             }
             /**
             * Triggered once per project before the dispatcher invokes the compiler.
@@ -2646,6 +2759,7 @@ var TypeDoc;
             */
             DynamicModuleHandler.prototype.onBegin = function (event) {
                 this.basePath.reset();
+                this.reflections = [];
             };
 
             /**
@@ -2654,10 +2768,15 @@ var TypeDoc;
             * @param state  The state that describes the current declaration and reflection.
             */
             DynamicModuleHandler.prototype.onDeclaration = function (state) {
-                if (state.kindOf(this.affectedKinds)) {
+                if (state.kindOf(this.affectedKinds) && !state.hasFlag(TypeScript.PullElementFlags.Ambient)) {
                     var name = state.declaration.name;
+                    if (name.indexOf('/') == -1) {
+                        return;
+                    }
+
                     name = name.replace(/"/g, '');
                     state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
+                    this.reflections.push(state.reflection);
 
                     if (name.indexOf('/') != -1) {
                         this.basePath.add(name);
@@ -2666,17 +2785,15 @@ var TypeDoc;
             };
 
             /**
-            * Triggered when the dispatcher resolves a reflection.
+            * Triggered when the dispatcher enters the resolving phase.
             *
             * @param event  The event containing the reflection to resolve.
             */
-            DynamicModuleHandler.prototype.onResolve = function (event) {
-                var reflection = event.reflection;
-                if (reflection.kindOf(this.affectedKinds)) {
-                    if (reflection.name.indexOf('/') != -1) {
-                        reflection.name = this.basePath.trim(reflection.name);
-                    }
-                }
+            DynamicModuleHandler.prototype.onBeginResolve = function (event) {
+                var _this = this;
+                this.reflections.forEach(function (reflection) {
+                    reflection.name = _this.basePath.trim(reflection.name);
+                });
             };
             return DynamicModuleHandler;
         })(Factories.BaseHandler);
@@ -2929,13 +3046,15 @@ var TypeDoc;
                 TypeScript.PullElementKind.Enum,
                 TypeScript.PullElementKind.Interface,
                 TypeScript.PullElementKind.Class,
+                TypeScript.PullElementKind.ObjectLiteral,
                 TypeScript.PullElementKind.EnumMember,
                 TypeScript.PullElementKind.ConstructorMethod,
                 TypeScript.PullElementKind.Property,
                 TypeScript.PullElementKind.GetAccessor,
                 TypeScript.PullElementKind.SetAccessor,
                 TypeScript.PullElementKind.Method,
-                TypeScript.PullElementKind.Function
+                TypeScript.PullElementKind.Function,
+                TypeScript.PullElementKind.Variable
             ];
 
             GroupHandler.SINGULARS = (function () {
@@ -3149,11 +3268,6 @@ var TypeDoc;
 
                         state.stopPropagation();
                         state.preventDefault();
-                    } else {
-                        // We could move the declaration file into a virtual module right here:
-                        // var childState = state.createChildState(state.document.topLevelDecl());
-                        // this.dispatcher.ensureReflection(childState);
-                        // this.dispatcher.processState(childState);
                     }
                 }
             };
@@ -3185,6 +3299,73 @@ var TypeDoc;
         * Register this handler.
         */
         Factories.Dispatcher.HANDLERS.push(NullHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
+        * A handler that reflects object literals defined as variables.
+        */
+        var ObjectLiteralHandler = (function (_super) {
+            __extends(ObjectLiteralHandler, _super);
+            /**
+            * Create a new ObjectLiteralHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function ObjectLiteralHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, 1024);
+            }
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            ObjectLiteralHandler.prototype.onDeclaration = function (state) {
+                var _this = this;
+                var literal = ObjectLiteralHandler.getLiteralDeclaration(state.declaration);
+                if (literal && literal.getChildDecls().length > 0) {
+                    if (state.kindOf(TypeScript.PullElementKind.Variable)) {
+                        state.reflection.kind = Factories.ReflectionHandler.mergeKinds(state.reflection.kind, TypeScript.PullElementKind.ObjectLiteral);
+                        literal.getChildDecls().forEach(function (declaration) {
+                            _this.dispatcher.processState(state.createChildState(declaration));
+                        });
+                    } else {
+                        literal.getChildDecls().forEach(function (declaration) {
+                            var typeState = state.createChildState(declaration);
+                            typeState.isFlattened = true;
+                            typeState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
+                            _this.dispatcher.processState(typeState);
+                        });
+                    }
+                    state.reflection.type = Factories.TypeHandler.createNamedType('Object');
+                }
+            };
+
+            ObjectLiteralHandler.getLiteralDeclaration = function (declaration) {
+                var symbol = declaration.getSymbol();
+                if (!symbol) {
+                    return null;
+                }
+
+                if (symbol.type && (symbol.type.kind & TypeScript.PullElementKind.ObjectLiteral || symbol.type.kind & TypeScript.PullElementKind.ObjectType)) {
+                    return symbol.type.getDeclarations()[0];
+                } else {
+                    return null;
+                }
+            };
+            return ObjectLiteralHandler;
+        })(Factories.BaseHandler);
+        Factories.ObjectLiteralHandler = ObjectLiteralHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(ObjectLiteralHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3314,7 +3495,6 @@ var TypeDoc;
             * @param state  The state that describes the current declaration and reflection.
             */
             ReflectionHandler.prototype.onCreateReflection = function (state) {
-                var _this = this;
                 state.reflection.flags = state.declaration.flags;
                 state.reflection.kind = state.declaration.kind;
                 state.reflection.isExternal = state.isExternal;
@@ -3324,16 +3504,6 @@ var TypeDoc;
                     state.reflection.type = Factories.TypeHandler.createType(symbol.type);
                     state.reflection.definition = symbol.toString();
                     state.reflection.isOptional = symbol.isOptional;
-
-                    if (symbol.type && (symbol.type.kind == TypeDoc.Models.Kind.ObjectType || symbol.type.kind == TypeDoc.Models.Kind.ObjectLiteral)) {
-                        var typeDeclaration = symbol.type.getDeclarations()[0];
-                        typeDeclaration.getChildDecls().forEach(function (declaration) {
-                            var typeState = state.createChildState(declaration);
-                            typeState.isFlattened = true;
-                            typeState.flattenedName = state.getName();
-                            _this.dispatcher.processState(typeState);
-                        });
-                    }
 
                     if (state.declaration.kind == TypeDoc.Models.Kind.Parameter) {
                         var ast = state.declaration.ast().equalsValueClause;
@@ -3355,11 +3525,18 @@ var TypeDoc;
             * @param state  The state that describes the current declaration and reflection.
             */
             ReflectionHandler.prototype.onMergeReflection = function (state) {
-                state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+                ReflectionHandler.MERGE_STRATEGY.forEach(function (strategy) {
+                    if (strategy.reflection && !state.reflection.kindOf(strategy.reflection))
+                        return;
+                    if (strategy.declaration && !state.kindOf(strategy.declaration))
+                        return;
+                    strategy.actions.forEach(function (action) {
+                        return action(state);
+                    });
+                });
 
-                if (state.declaration.kind != TypeDoc.Models.Kind.Container) {
-                    state.reflection.kind = state.declaration.kind;
-                }
+                state.reflection.isExternal = state.isExternal && state.reflection.isExternal;
+                state.reflection.kind = ReflectionHandler.mergeKinds(state.reflection.kind, state.declaration.kind);
             };
 
             /**
@@ -3394,9 +3571,96 @@ var TypeDoc;
                 reflection.isStatic = ((reflection.flags & TypeDoc.Models.Flags.Static) == TypeDoc.Models.Flags.Static);
                 reflection.isPrivate = ((reflection.flags & TypeDoc.Models.Flags.Private) == TypeDoc.Models.Flags.Private);
             };
+
+            /**
+            * Convert the reflection of the given state to a call signature.
+            *
+            * Applied when a function is merged with a container.
+            *
+            * @param state  The state whose reflection should be converted to a call signature.
+            */
+            ReflectionHandler.convertFunctionToCallSignature = function (state) {
+                var reflection = state.reflection;
+                var name = reflection.name;
+                reflection.kind = TypeScript.PullElementKind.CallSignature;
+                reflection.name = '';
+                reflection.signatures.forEach(function (signature) {
+                    signature.name = '';
+                });
+
+                var index = reflection.parent.children.indexOf(reflection);
+                reflection.parent.children.splice(index, 1);
+
+                state.reflection = null;
+                state.dispatcher.ensureReflection(state);
+
+                reflection.parent = state.reflection;
+                state.reflection.children.push(reflection);
+                state.reflection.name = name;
+            };
+
+            /**
+            *
+            * Applied when a container is merged with a variable.
+            *
+            * @param state
+            */
+            ReflectionHandler.implementVariableType = function (state) {
+                state.reflection.kind = TypeScript.PullElementKind.ObjectLiteral;
+
+                var symbol = state.declaration.getSymbol();
+                if (symbol && symbol.type) {
+                    var declaration = symbol.type.getDeclarations();
+                    symbol.type.getDeclarations().forEach(function (declaration) {
+                        ReflectionHandler.sortDeclarations(declaration.getChildDecls()).forEach(function (declaration) {
+                            state.dispatcher.processState(state.createChildState(declaration));
+                        });
+                    });
+                }
+            };
+
+            /**
+            * Sort the given list of declarations for being correctly processed.
+            *
+            * @param declarations  The list of declarations that should be processed.
+            * @returns             The sorted list.
+            */
+            ReflectionHandler.sortDeclarations = function (declarations) {
+                return declarations.sort(function (left, right) {
+                    if (left.kind == right.kind)
+                        return 0;
+
+                    var leftWeight = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(left.kind);
+                    var rightWeight = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(right.kind);
+                    if (leftWeight == rightWeight) {
+                        return 0;
+                    } else {
+                        return leftWeight > rightWeight ? -1 : 1;
+                    }
+                });
+            };
+
+            /**
+            * Merge two kind definitions.
+            *
+            * @param left   The left kind to merge.
+            * @param right  The right kind to merge.
+            */
+            ReflectionHandler.mergeKinds = function (left, right) {
+                if (left == right) {
+                    return left;
+                }
+
+                var leftWeight = ReflectionHandler.KIND_WEIGHTS.indexOf(left);
+                var rightWeight = ReflectionHandler.KIND_WEIGHTS.indexOf(right);
+                if (leftWeight < rightWeight) {
+                    return right;
+                } else {
+                    return left;
+                }
+            };
             ReflectionHandler.RELEVANT_FLAGS = [
                 TypeScript.PullElementFlags.Optional,
-                TypeScript.PullElementFlags.Public,
                 TypeScript.PullElementFlags.Private,
                 TypeScript.PullElementFlags.Static
             ];
@@ -3404,6 +3668,87 @@ var TypeDoc;
             ReflectionHandler.RELEVANT_PARAMETER_FLAGS = [
                 TypeScript.PullElementFlags.Optional
             ];
+
+            ReflectionHandler.KIND_WEIGHTS = [
+                TypeScript.PullElementKind.AcceptableAlias,
+                TypeScript.PullElementKind.CallSignature,
+                TypeScript.PullElementKind.CatchBlock,
+                TypeScript.PullElementKind.CatchVariable,
+                TypeScript.PullElementKind.ConstructSignature,
+                TypeScript.PullElementKind.ConstructorMethod,
+                TypeScript.PullElementKind.ConstructorType,
+                TypeScript.PullElementKind.EnumMember,
+                TypeScript.PullElementKind.Function,
+                TypeScript.PullElementKind.FunctionExpression,
+                TypeScript.PullElementKind.FunctionType,
+                TypeScript.PullElementKind.GetAccessor,
+                0 /* Global */,
+                TypeScript.PullElementKind.IndexSignature,
+                TypeScript.PullElementKind.Method,
+                0 /* None */,
+                TypeScript.PullElementKind.ObjectType,
+                TypeScript.PullElementKind.Parameter,
+                TypeScript.PullElementKind.Primitive,
+                TypeScript.PullElementKind.Script,
+                TypeScript.PullElementKind.SetAccessor,
+                TypeScript.PullElementKind.TypeAlias,
+                TypeScript.PullElementKind.TypeParameter,
+                TypeScript.PullElementKind.WithBlock,
+                TypeScript.PullElementKind.Variable,
+                TypeScript.PullElementKind.Property,
+                TypeScript.PullElementKind.Enum,
+                TypeScript.PullElementKind.ObjectLiteral,
+                TypeScript.PullElementKind.Container,
+                TypeScript.PullElementKind.Interface,
+                TypeScript.PullElementKind.Class,
+                TypeScript.PullElementKind.DynamicModule
+            ];
+
+            ReflectionHandler.KIND_PROCESS_ORDER = [
+                TypeScript.PullElementKind.Variable,
+                TypeScript.PullElementKind.AcceptableAlias,
+                TypeScript.PullElementKind.CallSignature,
+                TypeScript.PullElementKind.CatchBlock,
+                TypeScript.PullElementKind.CatchVariable,
+                TypeScript.PullElementKind.ConstructSignature,
+                TypeScript.PullElementKind.ConstructorMethod,
+                TypeScript.PullElementKind.ConstructorType,
+                TypeScript.PullElementKind.EnumMember,
+                TypeScript.PullElementKind.FunctionExpression,
+                TypeScript.PullElementKind.FunctionType,
+                TypeScript.PullElementKind.GetAccessor,
+                0 /* Global */,
+                TypeScript.PullElementKind.IndexSignature,
+                TypeScript.PullElementKind.Method,
+                0 /* None */,
+                TypeScript.PullElementKind.ObjectType,
+                TypeScript.PullElementKind.Parameter,
+                TypeScript.PullElementKind.Primitive,
+                TypeScript.PullElementKind.Script,
+                TypeScript.PullElementKind.SetAccessor,
+                TypeScript.PullElementKind.TypeAlias,
+                TypeScript.PullElementKind.TypeParameter,
+                TypeScript.PullElementKind.WithBlock,
+                TypeScript.PullElementKind.Property,
+                TypeScript.PullElementKind.Enum,
+                TypeScript.PullElementKind.ObjectLiteral,
+                TypeScript.PullElementKind.Interface,
+                TypeScript.PullElementKind.Class,
+                TypeScript.PullElementKind.DynamicModule,
+                TypeScript.PullElementKind.Container,
+                TypeScript.PullElementKind.Function
+            ];
+
+            ReflectionHandler.MERGE_STRATEGY = [
+                {
+                    reflection: [TypeScript.PullElementKind.Function],
+                    declaration: [TypeScript.PullElementKind.Container],
+                    actions: [ReflectionHandler.convertFunctionToCallSignature]
+                }, {
+                    reflection: [TypeScript.PullElementKind.Container],
+                    declaration: [TypeScript.PullElementKind.Variable],
+                    actions: [ReflectionHandler.implementVariableType]
+                }];
             return ReflectionHandler;
         })(Factories.BaseHandler);
         Factories.ReflectionHandler = ReflectionHandler;
@@ -4156,8 +4501,7 @@ var TypeDoc;
             */
             BaseReflection.prototype.getAlias = function () {
                 if (!this.alias) {
-                    this.alias = this.name.toLowerCase();
-                    this.alias = this.alias.replace(/[:\\\/]/g, '-');
+                    this.alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
                 }
 
                 return this.alias;
@@ -4869,7 +5213,13 @@ var TypeDoc;
             */
             DefaultTheme.prototype.getNavigation = function (project) {
                 var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-                new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
+                var globals = new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
+                globals.isPrimary = true;
+                project.children.forEach(function (child) {
+                    if (child.kindOf(TypeDoc.Models.Kind.SomeContainer))
+                        return;
+                    DefaultTheme.buildNavigation(child, globals);
+                });
 
                 var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
                 modules.sort(function (a, b) {
@@ -5081,29 +5431,34 @@ var TypeDoc;
             };
             DefaultTheme.MAPPINGS = [
                 {
-                    kind: [TypeDoc.Models.Kind.Class],
+                    kind: [TypeScript.PullElementKind.Class],
                     isLeaf: true,
                     directory: 'classes',
                     template: 'reflection.hbs'
                 }, {
-                    kind: [TypeDoc.Models.Kind.Interface],
+                    kind: [TypeScript.PullElementKind.Interface],
                     isLeaf: true,
                     directory: 'interfaces',
                     template: 'reflection.hbs'
                 }, {
-                    kind: [TypeDoc.Models.Kind.Enum],
+                    kind: [TypeScript.PullElementKind.Enum],
                     isLeaf: true,
                     directory: 'enums',
                     template: 'reflection.hbs'
                 }, {
-                    kind: [TypeDoc.Models.Kind.Container, TypeDoc.Models.Kind.DynamicModule],
+                    kind: [TypeScript.PullElementKind.Container, TypeScript.PullElementKind.DynamicModule],
                     isLeaf: false,
                     directory: 'modules',
                     template: 'reflection.hbs'
                 }, {
-                    kind: [TypeDoc.Models.Kind.Script],
+                    kind: [TypeScript.PullElementKind.Script],
                     isLeaf: false,
                     directory: 'scripts',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [TypeScript.PullElementKind.ObjectLiteral],
+                    isLeaf: false,
+                    directory: 'objects',
                     template: 'reflection.hbs'
                 }];
             return DefaultTheme;
@@ -5665,6 +6020,9 @@ var TypeDoc;
                 Handlebars.registerHelper('relativeURL', function (url) {
                     return _this.getRelativeUrl(url);
                 });
+                Handlebars.registerHelper('wbr', function (str) {
+                    return _this.getWordBreaks(str);
+                });
 
                 HighlightJS.registerLanguage('typescript', highlightTypeScript);
 
@@ -5697,6 +6055,24 @@ var TypeDoc;
                     lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
                 }
                 return lines.join('');
+            };
+
+            /**
+            * Insert word break tags ``<wbr>`` into the given string.
+            *
+            * Breaks the given string at ``_``, ``-`` and captial letters.
+            *
+            * @param str  The string that should be split.
+            * @return     The original string containing ``<wbr>`` tags where possible.
+            */
+            MarkedPlugin.prototype.getWordBreaks = function (str) {
+                str = str.replace(/([^_\-][_\-])([^_\-])/g, function (m, a, b) {
+                    return a + '<wbr>' + b;
+                });
+                str = str.replace(/([^A-Z])([A-Z][^A-Z])/g, function (m, a, b) {
+                    return a + '<wbr>' + b;
+                });
+                return str;
             };
 
             /**
