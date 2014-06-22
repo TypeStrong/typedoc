@@ -28,7 +28,7 @@ module TypeDoc.Factories
             }
 
             if (state.isFlattened) {
-                state.parentState   = this.parentState;
+                // state.parentState   = this.parentState;
                 state.flattenedName = this.flattenedName + '.' + declaration.name;
             }
 
