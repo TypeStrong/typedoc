@@ -12,6 +12,11 @@ module TypeDoc.Factories
         private basePath = new BasePath();
 
         /**
+         * List of reflections whose name must be trimmed.
+         */
+        private reflections:Models.DeclarationReflection[];
+
+        /**
          * The declaration kinds affected by this handler.
          */
         private affectedKinds:TypeScript.PullElementKind[] = [
@@ -28,9 +33,9 @@ module TypeDoc.Factories
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_BEGIN,       this.onBegin,       this);
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE,     this.onResolve,     this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN,         this.onBegin,        this);
+            dispatcher.on(Dispatcher.EVENT_DECLARATION,   this.onDeclaration,  this);
+            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
         }
 
 
@@ -41,6 +46,7 @@ module TypeDoc.Factories
          */
         private onBegin(event:DispatcherEvent) {
             this.basePath.reset();
+            this.reflections = [];
         }
 
 
@@ -50,10 +56,15 @@ module TypeDoc.Factories
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(state:DeclarationState) {
-            if (state.kindOf(this.affectedKinds)) {
+            if (state.kindOf(this.affectedKinds) && !state.hasFlag(TypeScript.PullElementFlags.Ambient)) {
                 var name = state.declaration.name;
+                if (name.indexOf('/') == -1) {
+                    return;
+                }
+
                 name = name.replace(/"/g, '');
                 state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
+                this.reflections.push(state.reflection);
 
                 if (name.indexOf('/') != -1) {
                     this.basePath.add(name);
@@ -63,17 +74,14 @@ module TypeDoc.Factories
 
 
         /**
-         * Triggered when the dispatcher resolves a reflection.
+         * Triggered when the dispatcher enters the resolving phase.
          *
          * @param event  The event containing the reflection to resolve.
          */
-        private onResolve(event:ReflectionEvent) {
-            var reflection = event.reflection;
-            if (reflection.kindOf(this.affectedKinds)) {
-                if (reflection.name.indexOf('/') != -1) {
-                    reflection.name = this.basePath.trim(reflection.name);
-                }
-            }
+        private onBeginResolve(event:DispatcherEvent) {
+            this.reflections.forEach((reflection) => {
+                reflection.name = this.basePath.trim(reflection.name);
+            });
         }
     }
 
