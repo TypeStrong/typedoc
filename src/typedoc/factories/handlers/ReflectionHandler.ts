@@ -17,7 +17,6 @@ module TypeDoc.Factories
          */
         static RELEVANT_FLAGS = [
             TypeScript.PullElementFlags.Optional,
-            TypeScript.PullElementFlags.Public,
             TypeScript.PullElementFlags.Private,
             TypeScript.PullElementFlags.Static
         ];
