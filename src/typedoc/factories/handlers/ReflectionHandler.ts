@@ -72,6 +72,38 @@ module TypeDoc.Factories
          * A weighted list of element kinds used by [[mergeKinds]] to determine the importance of kinds.
          */
         static KIND_PROCESS_ORDER = [
+            TypeScript.PullElementKind.Variable,
+
+            TypeScript.PullElementKind.AcceptableAlias,
+            TypeScript.PullElementKind.CallSignature,
+            TypeScript.PullElementKind.CatchBlock,
+            TypeScript.PullElementKind.CatchVariable,
+            TypeScript.PullElementKind.ConstructSignature,
+            TypeScript.PullElementKind.ConstructorMethod,
+            TypeScript.PullElementKind.ConstructorType,
+            TypeScript.PullElementKind.EnumMember,
+            TypeScript.PullElementKind.FunctionExpression,
+            TypeScript.PullElementKind.FunctionType,
+            TypeScript.PullElementKind.GetAccessor,
+            TypeScript.PullElementKind.Global,
+            TypeScript.PullElementKind.IndexSignature,
+            TypeScript.PullElementKind.Method,
+            TypeScript.PullElementKind.None,
+            TypeScript.PullElementKind.ObjectType,
+            TypeScript.PullElementKind.Parameter,
+            TypeScript.PullElementKind.Primitive,
+            TypeScript.PullElementKind.Script,
+            TypeScript.PullElementKind.SetAccessor,
+            TypeScript.PullElementKind.TypeAlias,
+            TypeScript.PullElementKind.TypeParameter,
+            TypeScript.PullElementKind.WithBlock,
+            TypeScript.PullElementKind.Property,
+            TypeScript.PullElementKind.Enum,
+            TypeScript.PullElementKind.ObjectLiteral,
+            TypeScript.PullElementKind.Interface,
+            TypeScript.PullElementKind.Class,
+            TypeScript.PullElementKind.DynamicModule,
+
             TypeScript.PullElementKind.Container,
             TypeScript.PullElementKind.Function
         ];
@@ -81,6 +113,10 @@ module TypeDoc.Factories
             reflection:  [TypeScript.PullElementKind.Function],
             declaration: [TypeScript.PullElementKind.Container],
             actions:     [ReflectionHandler.convertFunctionToCallSignature]
+        }, {
+            reflection:  [TypeScript.PullElementKind.Container],
+            declaration: [TypeScript.PullElementKind.Variable],
+            actions:     [ReflectionHandler.implementVariableType]
         }];
 
 
@@ -182,6 +218,8 @@ module TypeDoc.Factories
         /**
          * Convert the reflection of the given state to a call signature.
          *
+         * Applied when a function is merged with a container.
+         *
          * @param state  The state whose reflection should be converted to a call signature.
          */
         static convertFunctionToCallSignature(state:DeclarationState) {
@@ -206,6 +244,27 @@ module TypeDoc.Factories
 
 
         /**
+         *
+         * Applied when a container is merged with a variable.
+         *
+         * @param state
+         */
+        static implementVariableType(state:DeclarationState) {
+            state.reflection.kind = TypeScript.PullElementKind.ObjectLiteral;
+
+            var symbol = state.declaration.getSymbol();
+            if (symbol && symbol.type) {
+                var declaration = symbol.type.getDeclarations();
+                symbol.type.getDeclarations().forEach((declaration) => {
+                    ReflectionHandler.sortDeclarations(declaration.getChildDecls()).forEach((declaration) => {
+                        state.dispatcher.processState(state.createChildState(declaration));
+                    });
+                });
+            }
+        }
+
+
+        /**
          * Sort the given list of declarations for being correctly processed.
          *
          * @param declarations  The list of declarations that should be processed.
@@ -217,8 +276,11 @@ module TypeDoc.Factories
 
                 var leftWeight  = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(left.kind);
                 var rightWeight = ReflectionHandler.KIND_PROCESS_ORDER.indexOf(right.kind);
-                if (leftWeight == rightWeight) return 0;
-                return leftWeight > rightWeight ? -1 : 1;
+                if (leftWeight == rightWeight) {
+                    return 0;
+                } else {
+                    return leftWeight > rightWeight ? -1 : 1;
+                }
             });
         }
 
@@ -237,10 +299,8 @@ module TypeDoc.Factories
             var leftWeight  = ReflectionHandler.KIND_WEIGHTS.indexOf(left);
             var rightWeight = ReflectionHandler.KIND_WEIGHTS.indexOf(right);
             if (leftWeight < rightWeight) {
-                console.log(TypeScript.PullElementKind[left] + ' <-> ' + TypeScript.PullElementKind[right] + ' -> ' + TypeScript.PullElementKind[right]);
                 return right;
             } else {
-                console.log(TypeScript.PullElementKind[left] + ' <-> ' + TypeScript.PullElementKind[right] + ' -> ' + TypeScript.PullElementKind[left]);
                 return left;
             }
         }

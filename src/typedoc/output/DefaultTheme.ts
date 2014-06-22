@@ -66,7 +66,7 @@ module TypeDoc.Output
             template:  'reflection.hbs'
         }, {
             kind:      [TypeScript.PullElementKind.ObjectLiteral],
-            isLeaf:    true,
+            isLeaf:    false,
             directory: 'objects',
             template:  'reflection.hbs'
         }];
