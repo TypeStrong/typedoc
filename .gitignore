@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 .sass-cache
+.tscache
 node_modules
 etc
 test/*/doc

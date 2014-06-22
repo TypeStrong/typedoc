@@ -2,34 +2,41 @@ module.exports = function(grunt)
 {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        typescript: {
+        ts: {
             typedoc: {
                 options: {
                     basePath: 'src',
                     declaration: true,
-                    comments: true
+                    comments: true,
+                    sourceMap: false
                 },
                 src: ['src/**/*.ts'],
-                dest: 'bin/typedoc.js'
+                out: 'bin/typedoc.js'
             },
             compiler: {
                 options: {
                     declaration: true
                 },
                 src: ['typescript/src/compiler/typescript.ts'],
-                dest: 'src/lib/typescript/typescript.js'
+                out: 'src/lib/typescript/typescript.js'
             },
             themes: {
                 options: {
                     module: 'commonjs',
-                    basePath: 'themes'
+                    basePath: 'themes',
+                    declaration: false
                 },
                 src: ['themes/**/theme.ts'],
-                dest: 'bin/themes'
+                outDir: 'bin/themes'
             },
             themeDefault: {
+                options: {
+                    module: 'commonjs',
+                    basePath: 'themes',
+                    declaration: false
+                },
                 src: ['themes/default/assets/js/src/**/*.ts'],
-                dest: 'themes/default/assets/js/main.js'
+                out: 'themes/default/assets/js/main.js'
             }
         },
         sass: {
@@ -71,15 +78,15 @@ module.exports = function(grunt)
         watch: {
             typescript: {
                 files: ['src/**/*.ts'],
-                tasks: ['typescript:typedoc']
+                tasks: ['ts:typedoc']
             },
             themes: {
                 files: ['themes/**/theme.ts'],
-                tasks: ['typescript:themes']
+                tasks: ['ts:themes']
             },
             themeDefaultTypescript: {
                 files: ['themes/default/assets/js/src/**/*.ts'],
-                tasks: ['typescript:themeDefault', 'uglify:themeDefault', 'copy:themeDefault']
+                tasks: ['ts:themeDefault', 'uglify:themeDefault', 'copy:themeDefault']
             },
             themeDefaultSass: {
                 files: ['themes/**/*.sass'],
@@ -93,9 +100,9 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-typescript');
+    grunt.loadNpmTasks('grunt-ts');
 
-    grunt.registerTask('default', ['typescript:typedoc']);
-    grunt.registerTask('compiler', ['typescript:compiler']);
-    grunt.registerTask('theme', ['typescript:themes', 'typescript:themeDefault', 'uglify:themeDefault','sass:themeDefault']);
+    grunt.registerTask('default', ['ts:typedoc']);
+    grunt.registerTask('compiler', ['ts:compiler']);
+    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault']);
 };
