@@ -1,0 +1,27 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "src/lib",
+  "bundle": "src/lib/tsd.d.ts",
+  "installed": {
+    "fs-extra/fs-extra.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    },
+    "handlebars/handlebars.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    },
+    "highlightjs/highlightjs.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    },
+    "marked/marked.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    },
+    "minimatch/minimatch.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    },
+    "node/node.d.ts": {
+      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+    }
+  }
+}
