@@ -1,6 +1,12 @@
 module TypeDoc.Models
 {
     /**
+     * Current reflection id.
+     */
+    var REFLECTION_ID:number = 0;
+
+
+    /**
      * Base class for all reflection classes.
      *
      * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
@@ -13,6 +19,11 @@ module TypeDoc.Models
      */
     export class BaseReflection
     {
+        /**
+         * Unique id of this reflection.
+         */
+        id:number;
+
         /**
          * The reflection this reflection is a child of.
          */
@@ -67,6 +78,14 @@ module TypeDoc.Models
          */
         private alias:string;
 
+
+
+        /**
+         * Create a new BaseReflection instance.
+         */
+        constructor() {
+            this.id = REFLECTION_ID++;
+        }
 
 
         /**
@@ -143,6 +162,9 @@ module TypeDoc.Models
         getAlias():string {
             if (!this.alias) {
                 this.alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                if (this.alias == '') {
+                    this.alias = 'symbol-' + this.id;
+                }
             }
 
             return this.alias;

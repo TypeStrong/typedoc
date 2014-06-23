@@ -1,9 +1,11 @@
 <section class="tsd-member {{cssClasses}}">
     <a name="{{anchor}}" class="anchor"></a>
+    {{#if name}}
+        <h3>{{#each flagsArray}}<span class="tsd-flag ts-flag{{this}}">{{this}}</span> {{/each}}{{{wbr name}}}</h3>
+    {{/if}}
+
     {{#if signatures}}
-        {{#each signatures}}
-            {{> member.signature}}
-        {{/each}}
+        {{> member.signatures}}
     {{else}}
         {{> member.declaration}}
     {{/if}}

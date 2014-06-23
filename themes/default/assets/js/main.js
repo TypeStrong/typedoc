@@ -242,3 +242,38 @@ var tsd;
     })(tsd.search || (tsd.search = {}));
     var search = tsd.search;
 })(tsd || (tsd = {}));
+var tsd;
+(function (tsd) {
+    $('.tsd-signatures').each(function (n, el) {
+        var $signatures, $descriptions;
+
+        function init() {
+            var $el = $(el);
+            $signatures = $el.find('.tsd-signature');
+            if ($signatures.length < 2) {
+                return false;
+            }
+
+            var $cn = $el.siblings('.tsd-descriptions');
+            $descriptions = $cn.find('.tsd-description');
+
+            $el.addClass('active');
+            $cn.addClass('active');
+            return true;
+        }
+
+        function setIndex(index) {
+            $signatures.removeClass('current').eq(index).addClass('current');
+            $descriptions.removeClass('current').eq(index).addClass('current');
+        }
+
+        if (init()) {
+            $signatures.on('click', function (e) {
+                setIndex($signatures.index(e.currentTarget));
+            });
+
+            setIndex(0);
+        }
+    });
+})(tsd || (tsd = {}));
+//# sourceMappingURL=main.js.map

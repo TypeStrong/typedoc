@@ -15,6 +15,7 @@ module.exports = function(grunt)
             },
             compiler: {
                 options: {
+                    sourceMap: false,
                     declaration: true
                 },
                 src: ['typescript/src/compiler/typescript.ts'],
@@ -22,6 +23,7 @@ module.exports = function(grunt)
             },
             themes: {
                 options: {
+                    sourceMap: false,
                     module: 'commonjs',
                     basePath: 'themes',
                     declaration: false
@@ -31,6 +33,7 @@ module.exports = function(grunt)
             },
             themeDefault: {
                 options: {
+                    sourceMap: false,
                     module: 'commonjs',
                     basePath: 'themes',
                     declaration: false

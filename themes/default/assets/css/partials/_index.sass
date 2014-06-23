@@ -13,6 +13,11 @@ section.tsd-member-index
         padding: 0
         list-style: none
 
+        li
+            +vendors(column-break-inside, avoid)
+            +vendors(page-break-inside, avoid)
+            display: block
+
     a
         color: #9600ff
 

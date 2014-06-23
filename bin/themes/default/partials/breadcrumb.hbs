@@ -1,6 +1,4 @@
-{{#if parent}}
-    {{#with parent}}{{> breadcrumb}}{{/with}}
-    <li>
-        <a href="{{relativeURL url}}">{{name}}</a>
-    </li>
-{{/if}}
+{{#if parent}}{{#with parent}}{{> breadcrumb}}{{/with}}{{/if}}
+<li>
+    <a href="{{relativeURL url}}">{{name}}</a>
+</li>

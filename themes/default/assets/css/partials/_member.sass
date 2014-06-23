@@ -9,21 +9,20 @@
     font-weight: normal
 
 
-section.tsd-member
+.tsd-member
     position: relative
-    padding: 20px 0 20px 20px
-    border-bottom: 1px solid #eee
+    margin: 70px 0
 
     .anchor
         position: absolute
         top: -100px
 
     h3
-        margin-top: 0
-        margin-left: -20px
-        font-size: 16px
-        font-weight: bold
-        font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+        margin: 0
+        padding: 10px 10px 10px 30px
+        border-color: #ccc
+        border-style: solid
+        border-width: 1px 1px 0 1px
 
     h4, h5
         font-size: 1em
@@ -35,6 +34,9 @@ section.tsd-member
     p, ul, ol
         margin: 0 0 1em 0
 
+h2 + .tsd-member
+    margin-top: 30px
+
 .tsd-signature-symbols
     color: #666
     font-weight: normal
@@ -42,3 +44,45 @@ section.tsd-member
 .tsd-signature-type
     font-style: italic
     font-weight: normal
+
+
+.tsd-signature
+    padding: 10px 10px 10px 30px
+    margin: 0 0 1em 0
+    border: 1px solid #ccc
+    background-color: #eee
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    font-size: 14px
+
+    &:before
+        top: 10px
+        left: 10px
+
+.tsd-signatures
+    padding: 0
+    border: 1px solid #ccc
+
+    .tsd-signature
+        margin: 0
+        border-width: 1px 0 0 0
+
+        &:first-child
+            border-top: none
+
+    &.active .tsd-signature
+        background-color: transparent
+        cursor: pointer
+
+        &.current
+            background-color: #eee
+
+.tsd-descriptions
+    list-style: none
+    padding: 0
+
+    &.active
+        .tsd-description
+            display: none
+
+            &.current
+                display: block

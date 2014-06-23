@@ -225,6 +225,11 @@ module TypeDoc.Output
                 isPrimary = true;
             }
 
+            name = name.trim();
+            if (name == '') {
+                name = '<em>' + reflection.kindString + '</em>';
+            }
+
             var item        = new Models.NavigationItem(name, reflection.url, parent);
             item.isPrimary  = isPrimary;
             item.cssClasses = reflection.cssClasses;

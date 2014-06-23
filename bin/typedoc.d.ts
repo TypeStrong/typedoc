@@ -1566,6 +1566,10 @@ declare module TypeDoc.Models {
     */
     class BaseReflection {
         /**
+        * Unique id of this reflection.
+        */
+        public id: number;
+        /**
         * The reflection this reflection is a child of.
         */
         public parent: BaseReflection;
@@ -1609,6 +1613,10 @@ declare module TypeDoc.Models {
         * @see [[BaseReflection.getAlias]]
         */
         private alias;
+        /**
+        * Create a new BaseReflection instance.
+        */
+        constructor();
         /**
         * Return the full name of this reflection.
         *

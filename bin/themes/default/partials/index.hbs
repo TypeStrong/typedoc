@@ -5,9 +5,8 @@
             <h3>{{title}}</h3>
             <ul class="tsd-member-index">
                 {{#each children}}
-                    <li class="{{cssClasses}}"><a href="{{relativeURL url}}" class="tsd-kind-icon">{{{wbr name}}}</a></li>
+                <li class="{{cssClasses}}"><a href="{{relativeURL url}}" class="tsd-kind-icon">{{#if name}}{{{wbr name}}}{{else}}<em>{{{wbr kindString}}}</em>{{/if}}</a></li>
                 {{/each}}
-                <li>&nbsp;</li>
             </ul>
         </section>
     {{/each}}

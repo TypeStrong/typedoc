@@ -2921,11 +2921,8 @@ var TypeDoc;
                 }
 
                 project.reflections.forEach(function (reflection) {
-                    if (reflection.kindOf(TypeDoc.Models.Kind.SomeSignature))
-                        return;
-                    if (!reflection.children || reflection.children.length == 0)
-                        return;
-
+                    // if (reflection.kindOf(Models.Kind.SomeSignature)) return;
+                    // if (!reflection.children || reflection.children.length == 0) return;
                     reflection.children.sort(GroupHandler.sortCallback);
                     reflection.kindString = GroupHandler.getKindSingular(reflection.kind);
                     reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
@@ -4413,6 +4410,11 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
         /**
+        * Current reflection id.
+        */
+        var REFLECTION_ID = 0;
+
+        /**
         * Base class for all reflection classes.
         *
         * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
@@ -4424,6 +4426,9 @@ var TypeDoc;
         * contains a list of all children grouped and sorted for being rendered.
         */
         var BaseReflection = (function () {
+            /**
+            * Create a new BaseReflection instance.
+            */
             function BaseReflection() {
                 /**
                 * The children of this reflection.
@@ -4439,6 +4444,7 @@ var TypeDoc;
                 * When FALSE, the url points to an anchor tag on a page of a different reflection.
                 */
                 this.hasOwnDocument = false;
+                this.id = REFLECTION_ID++;
             }
             /**
             * Return the full name of this reflection.
@@ -4502,6 +4508,9 @@ var TypeDoc;
             BaseReflection.prototype.getAlias = function () {
                 if (!this.alias) {
                     this.alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    if (this.alias == '') {
+                        this.alias = 'symbol-' + this.id;
+                    }
                 }
 
                 return this.alias;
@@ -5301,6 +5310,11 @@ var TypeDoc;
                 } else {
                     name = reflection.getFullName();
                     isPrimary = true;
+                }
+
+                name = name.trim();
+                if (name == '') {
+                    name = '<em>' + reflection.kindString + '</em>';
                 }
 
                 var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
