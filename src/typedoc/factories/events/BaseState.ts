@@ -68,27 +68,30 @@ module TypeDoc.Factories
 
         /**
          * @param kind  The kind to test for.
+         * @param useOriginalDeclaration  Should the kind of the original declaration be checked?
          */
-        kindOf(kind:TypeScript.PullElementKind):boolean;
+        kindOf(kind:TypeScript.PullElementKind, useOriginalDeclaration?:boolean):boolean;
 
         /**
          * @param kind  An array of kinds to test for.
+         * @param useOriginalDeclaration  Should the kind of the original declaration be checked?
          */
-        kindOf(kind:TypeScript.PullElementKind[]):boolean;
+        kindOf(kind:TypeScript.PullElementKind[], useOriginalDeclaration?:boolean):boolean;
 
         /**
          * Test whether the declaration of this state is of the given kind.
          */
-        kindOf(kind:any):boolean {
+        kindOf(kind:any, useOriginalDeclaration?:boolean):boolean {
+            var test = useOriginalDeclaration ? this.originalDeclaration.kind : this.declaration.kind;
             if (Array.isArray(kind)) {
                 for (var i = 0, c = kind.length; i < c; i++) {
-                    if ((this.declaration.kind & kind[i]) !== 0) {
+                    if ((test & kind[i]) !== 0) {
                         return true;
                     }
                 }
                 return false;
             } else {
-                return (this.declaration.kind & kind) !== 0;
+                return (test & kind) !== 0;
             }
         }
 

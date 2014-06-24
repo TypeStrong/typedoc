@@ -53,7 +53,6 @@ module TypeDoc.Factories
 
             dispatcher.on(Dispatcher.EVENT_BEGIN,             this.onBegin,            this);
             dispatcher.on(Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
-            dispatcher.on(Dispatcher.EVENT_END_DECLARATION,   this.onEndDeclaration,   this);
         }
 
 
@@ -106,6 +105,7 @@ module TypeDoc.Factories
                     ReflectionHandler.sortDeclarations(declarations);
                     declarations.forEach((declaration) => {
                         var childState         = state.createChildState(declaration);
+                        childState.originalDeclaration = state.declaration;
                         childState.parentState = state.parentState;
                         childState.reflection  = state.reflection;
 
@@ -114,6 +114,7 @@ module TypeDoc.Factories
                     });
 
                     state.reflection.kind = state.declaration.kind;
+                    AstHandler.markAsExported(state.reflection);
 
                     this.exports.push({
                         name: state.declaration.name,
@@ -129,31 +130,6 @@ module TypeDoc.Factories
                 state.stopPropagation();
                 state.preventDefault();
             }
-        }
-
-
-        /**
-         * Triggered when the dispatcher has finished processing a declaration.
-         *
-         * Find modules with single-export and mark the related reflection as being exported.
-         *
-         * @param state  The state that describes the current declaration and reflection.
-         */
-        private onEndDeclaration(state:DeclarationState) {
-            if (!state.reflection) return;
-            if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule) return;
-
-            var ast = state.declaration.ast();
-            this.factory.simpleWalk(ast, (ast:TypeScript.AST, astState:any) => {
-                if (ast.kind() == TypeScript.SyntaxKind.ExportAssignment) {
-                    var assignment = <TypeScript.ExportAssignment>ast;
-                    var reflection = state.reflection.getChildByName(assignment.identifier.text());
-                    if (reflection) {
-                        reflection.flags = reflection.flags | TypeScript.PullElementFlags.Exported;
-                        reflection.isExported = true;
-                    }
-                }
-            });
         }
 
 
@@ -198,6 +174,17 @@ module TypeDoc.Factories
             } else {
                 return null;
             }
+        }
+
+
+        /**
+         * Mark the given reflection and all of its children as being exported.
+         *
+         * @param reflection  The reflection that should be marked as being exported.
+         */
+        static markAsExported(reflection:Models.DeclarationReflection) {
+            reflection.flags = reflection.flags | TypeScript.PullElementFlags.Exported;
+            reflection.children.forEach((child) => AstHandler.markAsExported(child));
         }
     }
 

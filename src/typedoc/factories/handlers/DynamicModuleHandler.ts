@@ -56,19 +56,15 @@ module TypeDoc.Factories
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(state:DeclarationState) {
-            if (state.kindOf(this.affectedKinds) && !state.hasFlag(TypeScript.PullElementFlags.Ambient)) {
-                var name = state.declaration.name;
+            if (state.kindOf(this.affectedKinds, true) && this.reflections.indexOf(state.reflection) == -1) {
+                var name = state.originalDeclaration.name;
                 if (name.indexOf('/') == -1) {
                     return;
                 }
 
                 name = name.replace(/"/g, '');
-                state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
                 this.reflections.push(state.reflection);
-
-                if (name.indexOf('/') != -1) {
-                    this.basePath.add(name);
-                }
+                this.basePath.add(name);
             }
         }
 
@@ -80,7 +76,9 @@ module TypeDoc.Factories
          */
         private onBeginResolve(event:DispatcherEvent) {
             this.reflections.forEach((reflection) => {
-                reflection.name = this.basePath.trim(reflection.name);
+                var name = reflection.name.replace(/"/g, '');
+                name = name.substr(0, name.length - Path.extname(name).length);
+                reflection.name = '"' + this.basePath.trim(name) + '"';
             });
         }
     }
