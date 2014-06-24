@@ -1475,7 +1475,11 @@ var TypeDoc;
             };
 
             BasePath.prototype.trim = function (fileName) {
-                return fileName.substr(this.basePath.length + 1);
+                if (fileName.substr(0, this.basePath.length) == this.basePath) {
+                    return fileName.substr(this.basePath.length + 1);
+                } else {
+                    return fileName;
+                }
             };
 
             BasePath.prototype.reset = function () {
@@ -2080,16 +2084,17 @@ var TypeDoc;
             /**
             * Test whether the declaration of this state is of the given kind.
             */
-            BaseState.prototype.kindOf = function (kind) {
+            BaseState.prototype.kindOf = function (kind, useOriginalDeclaration) {
+                var test = useOriginalDeclaration ? this.originalDeclaration.kind : this.declaration.kind;
                 if (Array.isArray(kind)) {
                     for (var i = 0, c = kind.length; i < c; i++) {
-                        if ((this.declaration.kind & kind[i]) !== 0) {
+                        if ((test & kind[i]) !== 0) {
                             return true;
                         }
                     }
                     return false;
                 } else {
-                    return (this.declaration.kind & kind) !== 0;
+                    return (test & kind) !== 0;
                 }
             };
 
@@ -2305,7 +2310,6 @@ var TypeDoc;
 
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
-                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
             /**
             * Triggered once per project before the dispatcher invokes the compiler.
@@ -2357,6 +2361,7 @@ var TypeDoc;
                         Factories.ReflectionHandler.sortDeclarations(declarations);
                         declarations.forEach(function (declaration) {
                             var childState = state.createChildState(declaration);
+                            childState.originalDeclaration = state.declaration;
                             childState.parentState = state.parentState;
                             childState.reflection = state.reflection;
 
@@ -2365,6 +2370,7 @@ var TypeDoc;
                         });
 
                         state.reflection.kind = state.declaration.kind;
+                        AstHandler.markAsExported(state.reflection);
 
                         this.exports.push({
                             name: state.declaration.name,
@@ -2380,32 +2386,6 @@ var TypeDoc;
                     state.stopPropagation();
                     state.preventDefault();
                 }
-            };
-
-            /**
-            * Triggered when the dispatcher has finished processing a declaration.
-            *
-            * Find modules with single-export and mark the related reflection as being exported.
-            *
-            * @param state  The state that describes the current declaration and reflection.
-            */
-            AstHandler.prototype.onEndDeclaration = function (state) {
-                if (!state.reflection)
-                    return;
-                if (state.reflection.kind != TypeScript.PullElementKind.DynamicModule)
-                    return;
-
-                var ast = state.declaration.ast();
-                this.factory.simpleWalk(ast, function (ast, astState) {
-                    if (ast.kind() == 134 /* ExportAssignment */) {
-                        var assignment = ast;
-                        var reflection = state.reflection.getChildByName(assignment.identifier.text());
-                        if (reflection) {
-                            reflection.flags = reflection.flags | 1 /* Exported */;
-                            reflection.isExported = true;
-                        }
-                    }
-                });
             };
 
             /**
@@ -2448,6 +2428,18 @@ var TypeDoc;
                 } else {
                     return null;
                 }
+            };
+
+            /**
+            * Mark the given reflection and all of its children as being exported.
+            *
+            * @param reflection  The reflection that should be marked as being exported.
+            */
+            AstHandler.markAsExported = function (reflection) {
+                reflection.flags = reflection.flags | 1 /* Exported */;
+                reflection.children.forEach(function (child) {
+                    return AstHandler.markAsExported(child);
+                });
             };
             return AstHandler;
         })(Factories.BaseHandler);
@@ -2768,19 +2760,15 @@ var TypeDoc;
             * @param state  The state that describes the current declaration and reflection.
             */
             DynamicModuleHandler.prototype.onDeclaration = function (state) {
-                if (state.kindOf(this.affectedKinds) && !state.hasFlag(TypeScript.PullElementFlags.Ambient)) {
-                    var name = state.declaration.name;
+                if (state.kindOf(this.affectedKinds, true) && this.reflections.indexOf(state.reflection) == -1) {
+                    var name = state.originalDeclaration.name;
                     if (name.indexOf('/') == -1) {
                         return;
                     }
 
                     name = name.replace(/"/g, '');
-                    state.reflection.name = name.substr(0, name.length - Path.extname(name).length);
                     this.reflections.push(state.reflection);
-
-                    if (name.indexOf('/') != -1) {
-                        this.basePath.add(name);
-                    }
+                    this.basePath.add(name);
                 }
             };
 
@@ -2792,7 +2780,9 @@ var TypeDoc;
             DynamicModuleHandler.prototype.onBeginResolve = function (event) {
                 var _this = this;
                 this.reflections.forEach(function (reflection) {
-                    reflection.name = _this.basePath.trim(reflection.name);
+                    var name = reflection.name.replace(/"/g, '');
+                    name = name.substr(0, name.length - Path.extname(name).length);
+                    reflection.name = '"' + _this.basePath.trim(name) + '"';
                 });
             };
             return DynamicModuleHandler;
@@ -3339,6 +3329,7 @@ var TypeDoc;
                             _this.dispatcher.processState(typeState);
                         });
                     }
+
                     state.reflection.type = Factories.TypeHandler.createNamedType('Object');
                 }
             };
@@ -3877,6 +3868,8 @@ var TypeDoc;
                     } else {
                         this.dispatcher.ensureReflection(state);
                         state.reflection.kind = state.declaration.kind;
+                        state.flattenedName = null;
+                        state.isFlattened = false;
 
                         var hasSignatures = (state.reflection.signatures && state.reflection.signatures.length > 0);
                         var isAccessor = state.kindOf([TypeDoc.Models.Kind.GetAccessor, TypeDoc.Models.Kind.SetAccessor]);

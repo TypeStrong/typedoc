@@ -651,12 +651,14 @@ declare module TypeDoc.Factories {
         public hasFlag(flag: number): boolean;
         /**
         * @param kind  The kind to test for.
+        * @param useOriginalDeclaration  Should the kind of the original declaration be checked?
         */
-        public kindOf(kind: TypeScript.PullElementKind): boolean;
+        public kindOf(kind: TypeScript.PullElementKind, useOriginalDeclaration?: boolean): boolean;
         /**
         * @param kind  An array of kinds to test for.
+        * @param useOriginalDeclaration  Should the kind of the original declaration be checked?
         */
-        public kindOf(kind: TypeScript.PullElementKind[]): boolean;
+        public kindOf(kind: TypeScript.PullElementKind[], useOriginalDeclaration?: boolean): boolean;
         public getName(): string;
         /**
         * Return the root state of this state.
@@ -774,14 +776,6 @@ declare module TypeDoc.Factories {
         */
         private onBeginDeclaration(state);
         /**
-        * Triggered when the dispatcher has finished processing a declaration.
-        *
-        * Find modules with single-export and mark the related reflection as being exported.
-        *
-        * @param state  The state that describes the current declaration and reflection.
-        */
-        private onEndDeclaration(state);
-        /**
         * Try to find the identifier of the export assignment within the given declaration.
         *
         * @param declaration  The declaration whose export assignment should be resolved.
@@ -795,6 +789,12 @@ declare module TypeDoc.Factories {
         * @returns            The found compiler symbol or NULL.
         */
         public getExportedSymbol(declaration: TypeScript.PullDecl): TypeScript.PullSymbol;
+        /**
+        * Mark the given reflection and all of its children as being exported.
+        *
+        * @param reflection  The reflection that should be marked as being exported.
+        */
+        static markAsExported(reflection: Models.DeclarationReflection): void;
     }
 }
 declare module TypeDoc.Factories {
