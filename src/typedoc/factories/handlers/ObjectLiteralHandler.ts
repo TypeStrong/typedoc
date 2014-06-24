@@ -38,6 +38,7 @@ module TypeDoc.Factories
                         this.dispatcher.processState(typeState);
                     });
                 }
+
                 state.reflection.type = TypeHandler.createNamedType('Object');
             }
         }

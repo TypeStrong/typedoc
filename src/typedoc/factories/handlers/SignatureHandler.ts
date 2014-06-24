@@ -53,6 +53,8 @@ module TypeDoc.Factories
                 } else {
                     this.dispatcher.ensureReflection(state);
                     state.reflection.kind = state.declaration.kind;
+                    state.flattenedName   = null;
+                    state.isFlattened     = false;
 
                     var hasSignatures = (state.reflection.signatures && state.reflection.signatures.length > 0);
                     var isAccessor = state.kindOf([Models.Kind.GetAccessor, Models.Kind.SetAccessor]);
