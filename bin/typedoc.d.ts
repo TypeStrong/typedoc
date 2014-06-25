@@ -952,6 +952,25 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
+    * A handler that reflections for function types.
+    */
+    class FunctionTypeHandler extends BaseHandler {
+        /**
+        * Create a new FunctionTypeHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
     * A handler that sorts and groups the found reflections in the resolving phase.
     *
     * The handler sets the ´groups´ property of all reflections.

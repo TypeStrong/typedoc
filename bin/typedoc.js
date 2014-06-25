@@ -2873,6 +2873,60 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
+        * A handler that reflections for function types.
+        */
+        var FunctionTypeHandler = (function (_super) {
+            __extends(FunctionTypeHandler, _super);
+            /**
+            * Create a new FunctionTypeHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function FunctionTypeHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, -256);
+            }
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            FunctionTypeHandler.prototype.onDeclaration = function (state) {
+                if (state.isSignature) {
+                    return;
+                }
+
+                var symbol = state.declaration.getSymbol();
+                if (!symbol || !symbol.type) {
+                    return;
+                }
+
+                if (!(symbol.kind & TypeScript.PullElementKind.SomeFunction) && symbol.type.kind == TypeScript.PullElementKind.FunctionType) {
+                    var declaration = symbol.type.getDeclarations()[0];
+                    var childState = state.createChildState(declaration);
+                    this.dispatcher.ensureReflection(childState);
+                    this.dispatcher.processState(childState.createSignatureState());
+
+                    state.reflection.type = Factories.TypeHandler.createNamedType('Function');
+                    childState.reflection.name = state.reflection.name + ' function signature';
+                }
+            };
+            return FunctionTypeHandler;
+        })(Factories.BaseHandler);
+        Factories.FunctionTypeHandler = FunctionTypeHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(FunctionTypeHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
         * A handler that sorts and groups the found reflections in the resolving phase.
         *
         * The handler sets the ´groups´ property of all reflections.
@@ -3268,6 +3322,10 @@ var TypeDoc;
             * @param state  The state that describes the current declaration and reflection.
             */
             NullHandler.prototype.onBeginDeclaration = function (state) {
+                if (state.isSignature) {
+                    return;
+                }
+
                 if (state.kindOf(this.ignoredKinds)) {
                     state.stopPropagation();
                     state.preventDefault();
@@ -3319,14 +3377,23 @@ var TypeDoc;
                     if (state.kindOf(TypeScript.PullElementKind.Variable)) {
                         state.reflection.kind = Factories.ReflectionHandler.mergeKinds(state.reflection.kind, TypeScript.PullElementKind.ObjectLiteral);
                         literal.getChildDecls().forEach(function (declaration) {
-                            _this.dispatcher.processState(state.createChildState(declaration));
+                            var childState = state.createChildState(declaration);
+
+                            _this.dispatcher.processState(childState);
+                            if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                                childState.reflection.name = state.reflection.name + ' index signature';
+                            }
                         });
                     } else {
                         literal.getChildDecls().forEach(function (declaration) {
-                            var typeState = state.createChildState(declaration);
-                            typeState.isFlattened = true;
-                            typeState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
-                            _this.dispatcher.processState(typeState);
+                            var childState = state.createChildState(declaration);
+                            childState.isFlattened = true;
+                            childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
+
+                            _this.dispatcher.processState(childState);
+                            if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                                childState.reflection.name = state.reflection.name + ' index signature';
+                            }
                         });
                     }
 
@@ -3836,7 +3903,8 @@ var TypeDoc;
                 */
                 this.affectedKinds = [
                     TypeScript.PullElementKind.SomeFunction,
-                    TypeScript.PullElementKind.SomeSignature
+                    TypeScript.PullElementKind.SomeSignature,
+                    TypeScript.PullElementKind.FunctionType
                 ];
 
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 512);

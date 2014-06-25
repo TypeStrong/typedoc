@@ -14,6 +14,10 @@
                     {{/each}}
                 {{/compact}}</h5>
                 {{> comment}}
+
+                {{#if children}}
+                    {{> parameter}}
+                {{/if}}
             </li>
         {{/each}}
     </ul>

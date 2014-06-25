@@ -28,14 +28,23 @@ module TypeDoc.Factories
                 if (state.kindOf(TypeScript.PullElementKind.Variable)) {
                     state.reflection.kind = ReflectionHandler.mergeKinds(state.reflection.kind, TypeScript.PullElementKind.ObjectLiteral);
                     literal.getChildDecls().forEach((declaration) => {
-                        this.dispatcher.processState(state.createChildState(declaration));
+                        var childState = state.createChildState(declaration);
+
+                        this.dispatcher.processState(childState);
+                        if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                            childState.reflection.name = state.reflection.name + ' index signature';
+                        }
                     });
                 } else {
                     literal.getChildDecls().forEach((declaration) => {
-                        var typeState = state.createChildState(declaration);
-                        typeState.isFlattened   = true;
-                        typeState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
-                        this.dispatcher.processState(typeState);
+                        var childState = state.createChildState(declaration);
+                        childState.isFlattened   = true;
+                        childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
+
+                        this.dispatcher.processState(childState);
+                        if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                            childState.reflection.name = state.reflection.name + ' index signature';
+                        }
                     });
                 }
 
@@ -50,7 +59,9 @@ module TypeDoc.Factories
                 return null;
             }
 
-            if (symbol.type && (symbol.type.kind & TypeScript.PullElementKind.ObjectLiteral || symbol.type.kind & TypeScript.PullElementKind.ObjectType)) {
+            if (symbol.type && (symbol.type.kind & TypeScript.PullElementKind.ObjectLiteral ||
+                symbol.type.kind & TypeScript.PullElementKind.ObjectType))
+            {
                 return symbol.type.getDeclarations()[0];
             } else {
                 return null;

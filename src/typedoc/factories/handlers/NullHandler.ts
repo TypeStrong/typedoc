@@ -81,6 +81,10 @@ module TypeDoc.Factories
          * @param state  The state that describes the current declaration and reflection.
          */
         private onBeginDeclaration(state:DeclarationState) {
+            if (state.isSignature) {
+                return;
+            }
+
             if (state.kindOf(this.ignoredKinds)) {
                 state.stopPropagation();
                 state.preventDefault();

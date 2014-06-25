@@ -10,7 +10,8 @@ module TypeDoc.Factories
          */
         private affectedKinds:TypeScript.PullElementKind[] = [
             TypeScript.PullElementKind.SomeFunction,
-            TypeScript.PullElementKind.SomeSignature
+            TypeScript.PullElementKind.SomeSignature,
+            TypeScript.PullElementKind.FunctionType
         ];
 
 
