@@ -5,6 +5,7 @@
   "bin": {
     "typedoc": "bin/typedoc"
   },
+  "main": "bin/typedoc.js",
   "author": {
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
