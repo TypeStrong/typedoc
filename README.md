@@ -1,6 +1,6 @@
 # TypeDoc
 
-> Create api documentations for typescript projects.
+> Documentation generator for TypeScript projects.
 
 
 ## Installation
@@ -103,7 +103,7 @@ TypeDoc runs the TypeScript compiler and extracts type information from the gene
 Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
 like classes, enumerations or property types and access modifiers will be automatically detected.
 
-All comments parsed as markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
+All comments are parsed as markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
 and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight code blocks within markdown sections.
 Additionally you can link to other classes, members or functions using double angle brackets.
 

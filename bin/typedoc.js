@@ -6455,6 +6455,167 @@ var TypeDoc;
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        /**
+        * List of states the parser of [[PrettyPrintPlugin]] can be in.
+        */
+        var PrettyPrintState;
+        (function (PrettyPrintState) {
+            /**
+            * Default state of the parser. Empty lines will be removed and indention will be adjusted.
+            */
+            PrettyPrintState[PrettyPrintState["Default"] = 0] = "Default";
+
+            /**
+            * Comment state, the parser waits for a comment closing tag.
+            */
+            PrettyPrintState[PrettyPrintState["Comment"] = 1] = "Comment";
+
+            /**
+            * Pre state, the parser waits for the closing tag of the current pre block.
+            */
+            PrettyPrintState[PrettyPrintState["Pre"] = 2] = "Pre";
+        })(PrettyPrintState || (PrettyPrintState = {}));
+
+        /**
+        * A plugin that pretty prints the generated html.
+        *
+        * This not only aids in making the generated html source code more readable, by removing
+        * blank lines and unnecessary whitespaces the size of the documentation is reduced without
+        * visual impact.
+        *
+        * At the point writing this the docs of TypeDoc took 97.8 MB  without and 66.4 MB with this
+        * plugin enabled, so it reduced the size to 68% of the original output.
+        */
+        var PrettyPrintPlugin = (function (_super) {
+            __extends(PrettyPrintPlugin, _super);
+            /**
+            * Create a new PrettyPrintPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
+            function PrettyPrintPlugin(renderer) {
+                _super.call(this, renderer);
+                renderer.on(Output.Renderer.EVENT_END_PAGE, this.onRendererEndPage, this, -1024);
+            }
+            /**
+            * Triggered after a document has been rendered, just before it is written to disc.
+            *
+            * @param event
+            */
+            PrettyPrintPlugin.prototype.onRendererEndPage = function (event) {
+                var match, line, lineState, lineDepth, tagName, preName;
+
+                var tagExp = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
+                var emptyLineExp = /^[\s]*$/;
+                var minLineDepth = 1;
+                var state = 0 /* Default */;
+                var stack = [];
+
+                var lines = event.contents.split(/\r\n?|\n/);
+                var index = 0;
+                var count = lines.length;
+
+                while (index < count) {
+                    line = lines[index];
+                    if (emptyLineExp.test(line)) {
+                        if (state == 0 /* Default */) {
+                            lines.splice(index, 1);
+                            count -= 1;
+                            continue;
+                        }
+                    } else {
+                        lineState = state;
+                        lineDepth = stack.length;
+
+                        while (match = tagExp.exec(line)) {
+                            if (state == 1 /* Comment */) {
+                                if (match[0] == '-->') {
+                                    state = 0 /* Default */;
+                                }
+                            } else if (state == 2 /* Pre */) {
+                                if (match[2] && match[2].toLowerCase() == preName) {
+                                    state = 0 /* Default */;
+                                }
+                            } else {
+                                if (match[0] == '<!--') {
+                                    state = 1 /* Comment */;
+                                } else if (match[1]) {
+                                    tagName = match[1].toLowerCase();
+                                    if (tagName in PrettyPrintPlugin.IGNORED_TAGS)
+                                        continue;
+                                    if (tagName in PrettyPrintPlugin.PRE_TAGS) {
+                                        state = 2 /* Pre */;
+                                        preName = tagName;
+                                    } else {
+                                        if (tagName == 'body')
+                                            minLineDepth = 2;
+                                        stack.push(tagName);
+                                    }
+                                } else if (match[2]) {
+                                    tagName = match[2].toLowerCase();
+                                    if (tagName in PrettyPrintPlugin.IGNORED_TAGS)
+                                        continue;
+
+                                    var n = stack.lastIndexOf(tagName);
+                                    if (n != -1) {
+                                        stack.length = n;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (lineState == 0 /* Default */) {
+                            lineDepth = Math.min(lineDepth, stack.length);
+                            line = line.replace(/^\s+/, '');
+                            if (lineDepth > minLineDepth) {
+                                line = Array(lineDepth - minLineDepth + 1).join('\t') + line;
+                            }
+
+                            lines[index] = line;
+                        }
+                    }
+
+                    index++;
+                }
+
+                event.contents = lines.join('\n');
+            };
+            PrettyPrintPlugin.IGNORED_TAGS = {
+                area: true,
+                base: true,
+                br: true,
+                wbr: true,
+                col: true,
+                command: true,
+                embed: true,
+                hr: true,
+                img: true,
+                input: true,
+                link: true,
+                meta: true,
+                param: true,
+                source: true
+            };
+
+            PrettyPrintPlugin.PRE_TAGS = {
+                pre: true,
+                code: true,
+                textarea: true
+            };
+            return PrettyPrintPlugin;
+        })(Output.BasePlugin);
+        Output.PrettyPrintPlugin = PrettyPrintPlugin;
+
+        /**
+        * Register this plugin.
+        */
+        Output.Renderer.PLUGIN_CLASSES.push(PrettyPrintPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
 //
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //
