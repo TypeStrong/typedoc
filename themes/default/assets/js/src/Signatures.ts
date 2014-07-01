@@ -5,13 +5,13 @@ module tsd
 
         function init():boolean {
             var $el = $(el);
-            $signatures = $el.find('.tsd-signature');
+            $signatures = $el.find('> .tsd-signature');
             if ($signatures.length < 2) {
                 return false;
             }
 
             var $cn = $el.siblings('.tsd-descriptions');
-            $descriptions = $cn.find('.tsd-description');
+            $descriptions = $cn.find('> .tsd-description');
 
             $el.addClass('active');
             $cn.addClass('active');

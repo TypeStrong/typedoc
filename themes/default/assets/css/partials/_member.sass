@@ -71,7 +71,7 @@ h2 + .tsd-member
         &:first-child
             border-top: none
 
-    &.active .tsd-signature
+    &.active > .tsd-signature
         background-color: transparent
         cursor: pointer
 
@@ -82,9 +82,8 @@ h2 + .tsd-member
     list-style: none
     padding: 0
 
-    &.active
-        .tsd-description
-            display: none
+    &.active > .tsd-description
+        display: none
 
-            &.current
-                display: block
+        &.current
+            display: block
