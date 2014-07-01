@@ -138,6 +138,11 @@ module TypeDoc.Models
         defaultValue:string;
 
         /**
+         * Is this a signature reflection?
+         */
+        isSignature:boolean;
+
+        /**
          * Whether this reflection is an optional component or not.
          *
          * Applies to function parameters and object members.

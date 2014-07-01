@@ -1798,6 +1798,10 @@ declare module TypeDoc.Models {
         */
         public defaultValue: string;
         /**
+        * Is this a signature reflection?
+        */
+        public isSignature: boolean;
+        /**
         * Whether this reflection is an optional component or not.
         *
         * Applies to function parameters and object members.

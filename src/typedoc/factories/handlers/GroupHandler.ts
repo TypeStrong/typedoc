@@ -86,12 +86,11 @@ module TypeDoc.Factories
             }
 
             project.reflections.forEach((reflection) => {
-                // if (reflection.kindOf(Models.Kind.SomeSignature)) return;
-                // if (!reflection.children || reflection.children.length == 0) return;
-
-                reflection.children.sort(GroupHandler.sortCallback);
                 reflection.kindString = GroupHandler.getKindSingular(reflection.kind);
-                reflection.groups     = GroupHandler.getReflectionGroups(reflection.children);
+                if (!reflection.isSignature && reflection.children && reflection.children.length > 0) {
+                    reflection.children.sort(GroupHandler.sortCallback);
+                    reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
+                }
             });
 
             walkDirectory(project.directory);

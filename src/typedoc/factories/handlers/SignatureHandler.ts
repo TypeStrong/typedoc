@@ -65,6 +65,7 @@ module TypeDoc.Factories
 
                         signature.reflection.inheritedFrom = state.reflection.inheritedFrom;
                         signature.reflection.overwrites = state.reflection.overwrites;
+                        signature.reflection.isSignature = true;
 
                         this.dispatcher.processState(signature);
                     }
