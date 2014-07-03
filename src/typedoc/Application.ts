@@ -75,7 +75,7 @@ module TypeDoc
         /**
          * The version number of TypeDoc.
          */
-        static VERSION:string = '0.0.4';
+        static VERSION:string = '{{ VERSION }}';
 
 
 

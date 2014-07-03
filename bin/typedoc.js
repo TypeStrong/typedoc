@@ -1078,7 +1078,7 @@ var TypeDoc;
             var project = this.dispatcher.createProject(inputFiles);
             this.renderer.render(project, outputDirectory);
         };
-        Application.VERSION = '0.0.4';
+        Application.VERSION = '0.1.0';
         return Application;
     })();
     TypeDoc.Application = Application;

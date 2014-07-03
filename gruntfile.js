@@ -70,6 +70,19 @@ module.exports = function(grunt)
                 }
             }
         },
+        'string-replace': {
+            version: {
+                files: {
+                    'bin/typedoc.js': ['bin/typedoc.js']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /{{ VERSION }}/g,
+                        replacement: '<%= pkg.version %>'
+                    }]
+                }
+            }
+        },
         copy: {
             themeDefault: {
                 files: {
@@ -81,7 +94,7 @@ module.exports = function(grunt)
         watch: {
             typescript: {
                 files: ['src/**/*.ts'],
-                tasks: ['ts:typedoc']
+                tasks: ['ts:typedoc', 'string-replace']
             },
             themes: {
                 files: ['themes/**/theme.ts'],
@@ -103,9 +116,10 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-ts');
 
-    grunt.registerTask('default', ['ts:typedoc']);
+    grunt.registerTask('default', ['ts:typedoc', 'string-replace']);
     grunt.registerTask('compiler', ['ts:compiler']);
     grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault']);
 };
