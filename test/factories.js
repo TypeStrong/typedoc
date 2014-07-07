@@ -22,14 +22,27 @@ describe('TypeDoc.Factories', function() {
         it('creates projects', function() {
             project = dispatcher.createProject(application.settings.inputFiles);
         });
-        it('reflects classes', function() {
-            var dynamicModuleReflection = project.getChildByName('"classes"');
-            Assert.equal(dynamicModuleReflection instanceof TypeDoc.Models.BaseReflection, true);
-            Assert.equal(dynamicModuleReflection.kind, TypeDoc.Models.Kind.DynamicModule);
+    });
 
-            var classReflection = dynamicModuleReflection.getChildByName('TestClass');
-            Assert.equal(classReflection instanceof TypeDoc.Models.BaseReflection, true);
-            Assert.equal(classReflection.kind, TypeDoc.Models.Kind.Class);
+    describe('Reflections', function() {
+        var classesModule;
+
+        describe('Dynamic module reflections', function() {
+            it('detects dynamic modules', function() {
+                classesModule = project.getChildByName('"classes"');
+                Assert.equal(classesModule instanceof TypeDoc.Models.BaseReflection, true);
+                Assert.equal(classesModule.kind, TypeDoc.Models.Kind.DynamicModule);
+            });
+        });
+
+        describe('Class reflections', function() {
+            var testClass;
+
+            it('detects classes', function() {
+                testClass = classesModule.getChildByName('TestClass');
+                Assert.equal(testClass instanceof TypeDoc.Models.BaseReflection, true);
+                Assert.equal(testClass.kind, TypeDoc.Models.Kind.Class);
+            });
         });
     });
 });
