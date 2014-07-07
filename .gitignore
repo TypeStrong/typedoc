@@ -4,4 +4,4 @@
 .tscache
 node_modules
 etc
-test/*/doc
+examples/*/doc

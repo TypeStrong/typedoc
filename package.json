@@ -47,6 +47,9 @@
     "bin",
     "LICENSE"
   ],
+  "scripts": {
+    "test": "mocha"
+  },
   "keywords": [
     "typescript",
     "documentation"
