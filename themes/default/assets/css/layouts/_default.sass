@@ -100,6 +100,9 @@ body
         a
             display: block
 
+            &:before
+                top: 10px
+
         span.parent
             color: #eee
             font-weight: normal
@@ -202,12 +205,25 @@ body
             text-decoration: underline
 
     &.primary
+        a
+            display: block
+
         li
             border-left-color: #e5e5e5
 
-            &.current
+            &.current > a
                 font-weight: bold
                 border-left-color: #000
+
+            &.label span
+                display: block
+                margin-top: 1em
+                margin-bottom: 0.5em
+                font-style: italic
+
+            &.globals + li > a,
+            &.globals + li > span
+                margin-top: 1em
 
     &.secondary
         li.current

@@ -257,6 +257,11 @@ declare module TypeDoc {
         */
         public name: string;
         /**
+        * The location of the readme file that should be displayed on the index page. Set this to 'none' to
+        * remove the index page and start with the globals page.
+        */
+        public readme: string;
+        /**
         * A pattern for files that should be excluded when a path is specified as source.
         */
         public excludePattern: string;
@@ -1176,6 +1181,10 @@ declare module TypeDoc.Factories {
         */
         private visited;
         /**
+        * Should the readme file be ignored?
+        */
+        private noReadmeFile;
+        /**
         * Create a new PackageHandler instance.
         *
         * @param dispatcher  The dispatcher this handler should be attached to.
@@ -2017,16 +2026,75 @@ declare module TypeDoc.Models {
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * A hierarchical model holding the data of single node within the navigation.
+    *
+    * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
+    * navigation state to the template engine. Themes should generate the primary navigation structure
+    * through the [[BaseTheme.getNavigation]] method.
+    */
     class NavigationItem {
+        /**
+        * The visible title of the navigation node.
+        */
         public title: string;
+        /**
+        * The url this navigation node points to.
+        */
         public url: string;
+        /**
+        * A list of urls that should be seen as sub-pages of this node.
+        */
+        public dedicatedUrls: string[];
+        /**
+        * The parent navigation node.
+        */
         public parent: NavigationItem;
+        /**
+        * An array containing all child navigation nodes.
+        */
         public children: NavigationItem[];
+        /**
+        * A string containing the css classes of this node.
+        */
         public cssClasses: string;
+        /**
+        * Is this item a simple label without a link?
+        */
+        public isLabel: boolean;
+        /**
+        * Is this item visible?
+        */
+        public isVisible: boolean;
+        /**
+        * Does this navigation node represent the current page?
+        */
         public isCurrent: boolean;
+        /**
+        * Is this the navigation node for the globals page?
+        */
+        public isGlobals: boolean;
+        /**
+        * Is this navigation node one of the parents of the current page?
+        */
         public isInPath: boolean;
-        public isPrimary: boolean;
-        constructor(title?: string, url?: string, parent?: NavigationItem);
+        /**
+        * Create a new NavigationItem instance.
+        *
+        * @param title       The visible title of the navigation node.
+        * @param url         The url this navigation node points to.
+        * @param parent      The parent navigation node.
+        * @param cssClasses  A string containing the css classes of this node.
+        */
+        constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string);
+        /**
+        * Create a navigation node for the given reflection.
+        *
+        * @param reflection     The reflection whose navigation node should be created.
+        * @param parent         The parent navigation node.
+        * @param useShortNames  Force this function to always use short names.
+        */
+        static create(reflection: DeclarationReflection, parent?: NavigationItem, useShortNames?: boolean): NavigationItem;
     }
 }
 declare module TypeDoc.Models {
@@ -2284,13 +2352,6 @@ declare module TypeDoc.Output {
         */
         static getMapping(reflection: Models.DeclarationReflection): ITemplateMapping;
         /**
-        * Build the navigation nodes for the given reflection.
-        *
-        * @param reflection  The reflection whose navigation node should be created.
-        * @param parent      The parent navigation node.
-        */
-        static buildNavigation(reflection: Models.DeclarationReflection, parent: Models.NavigationItem): void;
-        /**
         * Build the url for the the given reflection and all of its children.
         *
         * @param reflection  The reflection the url should be created for.
@@ -2547,9 +2608,9 @@ declare module TypeDoc.Output {
         */
         public navigation: Models.NavigationItem;
         /**
-        * The secondary navigation structure of this page.
+        * The table of contents structure of this page.
         */
-        public secondary: Models.NavigationItem[];
+        public toc: Models.NavigationItem;
         /**
         * The final html content of this page.
         *
@@ -2832,6 +2893,36 @@ declare module TypeDoc.Output {
         * @param event
         */
         public onRendererEndPage(event: OutputPageEvent): void;
+    }
+}
+declare module TypeDoc.Output {
+    /**
+    * A plugin that generates a table of contents for the current page.
+    *
+    * The table of contents will start at the nearest module or dynamic module. This plugin
+    * sets the [[OutputPageEvent.toc]] property.
+    */
+    class TocPlugin extends BasePlugin {
+        /**
+        * Create a new TocPlugin instance.
+        *
+        * @param renderer  The renderer this plugin should be attached to.
+        */
+        constructor(renderer: Renderer);
+        /**
+        * Triggered before a document will be rendered.
+        *
+        * @param page  An event object describing the current render operation.
+        */
+        private onRendererBeginPage(page);
+        /**
+        * Create a toc navigation item structure.
+        *
+        * @param model   The models whose children should be written to the toc.
+        * @param trail   Defines the active trail of expanded toc entries.
+        * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+        */
+        static buildToc(model: Models.DeclarationReflection, trail: Models.DeclarationReflection[], parent: Models.NavigationItem): void;
     }
 }
 declare module TypeScript {

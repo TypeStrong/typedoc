@@ -52,6 +52,11 @@ Specifies the location the documentation should be written to.
 
 Set the name of the project that will be used in the header of the template.
 
+`--readme <path/to/readme|none>`
+
+Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
+and start the documentation on the globals page.
+
 `--module <commonjs or amd>`
 
 Specify module code generation: "commonjs" or "amd"

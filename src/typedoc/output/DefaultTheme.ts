@@ -112,9 +112,14 @@ module TypeDoc.Output
         getUrls(project:Models.ProjectReflection):Models.UrlMapping[] {
             var urls = [];
 
-            project.url = 'globals.html';
-            urls.push(new Models.UrlMapping('globals.html', project, 'reflection.hbs'));
-            urls.push(new Models.UrlMapping('index.html',   project, 'index.hbs'));
+            if (this.renderer.application.settings.readme == 'none') {
+                project.url = 'index.html';
+                urls.push(new Models.UrlMapping('index.html', project, 'reflection.hbs'));
+            } else {
+                project.url = 'globals.html';
+                urls.push(new Models.UrlMapping('globals.html', project, 'reflection.hbs'));
+                urls.push(new Models.UrlMapping('index.html',   project, 'index.hbs'));
+            }
 
             project.children.forEach((child) => {
                 DefaultTheme.buildUrls(child, urls);
@@ -131,24 +136,126 @@ module TypeDoc.Output
          * @returns        The root navigation item.
          */
         getNavigation(project:Models.ProjectReflection):Models.NavigationItem {
-            var root = new Models.NavigationItem('Index', 'index.html');
-            var globals = new Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
-            globals.isPrimary = true;
-            project.children.forEach((child) => {
-                if (child.kindOf(Models.Kind.SomeContainer)) return;
-                DefaultTheme.buildNavigation(child, globals);
-            });
+            /**
+             * Test whether the given list of modules contains an external module.
+             *
+             * @param modules  The list of modules to test.
+             * @returns        TRUE if any of the modules is marked as being external.
+             */
+            function containsExternals(modules:Models.DeclarationReflection[]):boolean {
+                for (var index = 0, length = modules.length; index < length; index++) {
+                    if (modules[index].isExternal) return true;
+                }
+                return false;
+            }
 
-            var modules = project.getReflectionsByKind(Models.Kind.SomeContainer);
-            modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
-                return a.getFullName() < b.getFullName() ? -1 : 1;
-            });
 
-            modules.forEach((container) => {
-                DefaultTheme.buildNavigation(container, root);
-            });
+            /**
+             * Sort the given list of modules by name, groups external modules at the bottom.
+             *
+             * @param modules  The list of modules that should be sorted.
+             */
+            function sortReflections(modules:Models.DeclarationReflection[]) {
+                modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
+                    if (a.isExternal && !b.isExternal) return  1;
+                    if (!a.isExternal && b.isExternal) return -1;
+                    return a.getFullName() < b.getFullName() ? -1 : 1;
+                });
+            }
 
-            return root;
+
+            /**
+             * Find the urls of all children of the given reflection and store them as dedicated urls
+             * of the given NavigationItem.
+             *
+             * @param reflection  The reflection whose children urls should be included.
+             * @param item        The navigation node whose dedicated urls should be set.
+             */
+            function includeDedicatedUrls(reflection:Models.DeclarationReflection, item:Models.NavigationItem) {
+                (function walk(reflection) {
+                    reflection.children.forEach((child) => {
+                        if (child.hasOwnDocument && !child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                            if (!item.dedicatedUrls) item.dedicatedUrls = [];
+                            item.dedicatedUrls.push(child.url);
+                            walk(child);
+                        }
+                    });
+                })(reflection);
+            }
+
+            /**
+             * Create navigation nodes for all container children of the given reflection.
+             *
+             * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
+             * @param parent      The parent NavigationItem of the newly created nodes.
+             */
+            function buildChildren(reflection:Models.DeclarationReflection, parent:Models.NavigationItem) {
+                var modules = reflection.getChildrenByKind(TypeScript.PullElementKind.SomeContainer);
+                modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
+                    return a.getFullName() < b.getFullName() ? -1 : 1;
+                });
+
+                modules.forEach((reflection) => {
+                    var item = Models.NavigationItem.create(reflection, parent);
+                    includeDedicatedUrls(reflection, item);
+                    buildChildren(reflection, item);
+                });
+            }
+
+
+            /**
+             * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
+             * an "internal" and an "external" section when applicable.
+             *
+             * @param reflections  The list of reflections which should be transformed into navigation nodes.
+             * @param parent       The parent NavigationItem of the newly created nodes.
+             * @param callback     Optional callback invoked for each generated node.
+             */
+            function buildGroups(reflections:Models.DeclarationReflection[], parent:Models.NavigationItem,
+                                 callback?:(reflection:Models.DeclarationReflection, item:Models.NavigationItem) => void) {
+                var state = -1;
+                var hasExternals = containsExternals(reflections);
+                sortReflections(reflections);
+
+                reflections.forEach((reflection) => {
+                    if (hasExternals && !reflection.isExternal && state != 1) {
+                        new Models.NavigationItem('Internals', null, parent, "tsd-is-external");
+                        state = 1;
+                    } else if (hasExternals && reflection.isExternal && state != 2) {
+                        new Models.NavigationItem('Externals', null, parent, "tsd-is-external");
+                        state = 2;
+                    }
+
+                    var item = Models.NavigationItem.create(reflection, parent);
+                    includeDedicatedUrls(reflection, item);
+                    if (callback) callback(reflection, item);
+                });
+            }
+
+
+            /**
+             * Build the navigation structure.
+             *
+             * @param hasSeparateGlobals  Has the project a separated globals.html file?
+             * @return                    The root node of the generated navigation structure.
+             */
+            function build(hasSeparateGlobals:boolean):Models.NavigationItem {
+                var root = new Models.NavigationItem('Index', 'index.html');
+                var globals = new Models.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+                globals.isGlobals = true;
+
+                var modules = project.getReflectionsByKind(TypeScript.PullElementKind.SomeContainer);
+                if (modules.length < 10) {
+                    buildGroups(modules, root);
+                } else {
+                    buildGroups(project.getChildrenByKind(TypeScript.PullElementKind.SomeContainer), root, buildChildren);
+                }
+
+                return root;
+            }
+
+
+            return build(this.renderer.application.settings.readme != 'none');
         }
 
 
@@ -206,38 +313,6 @@ module TypeDoc.Output
             }
 
             return null;
-        }
-
-
-        /**
-         * Build the navigation nodes for the given reflection.
-         *
-         * @param reflection  The reflection whose navigation node should be created.
-         * @param parent      The parent navigation node.
-         */
-        static buildNavigation(reflection:Models.DeclarationReflection, parent:Models.NavigationItem) {
-            var name, isPrimary;
-            if (parent.parent) {
-                name      = reflection.name;
-                isPrimary = false;
-            } else {
-                name      = reflection.getFullName();
-                isPrimary = true;
-            }
-
-            name = name.trim();
-            if (name == '') {
-                name = '<em>' + reflection.kindString + '</em>';
-            }
-
-            var item        = new Models.NavigationItem(name, reflection.url, parent);
-            item.isPrimary  = isPrimary;
-            item.cssClasses = reflection.cssClasses;
-
-            reflection.children.forEach((child) => {
-                if (child.kindOf(Models.Kind.SomeContainer)) return;
-                DefaultTheme.buildNavigation(child, item);
-            });
         }
 
 

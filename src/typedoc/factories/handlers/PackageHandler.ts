@@ -25,6 +25,11 @@ module TypeDoc.Factories
          */
         private visited:string[];
 
+        /**
+         * Should the readme file be ignored?
+         */
+        private noReadmeFile:boolean;
+
 
         /**
          * Create a new PackageHandler instance.
@@ -49,6 +54,15 @@ module TypeDoc.Factories
             this.readmeFile  = null;
             this.packageFile = null;
             this.visited     = [];
+
+            var readme = event.dispatcher.application.settings.readme;
+            this.noReadmeFile = (readme == 'none');
+            if (!this.noReadmeFile && readme) {
+                readme = Path.resolve(readme);
+                if (FS.fileExistsSync(readme)) {
+                    this.readmeFile = readme;
+                }
+            }
         }
 
 
@@ -72,7 +86,7 @@ module TypeDoc.Factories
 
                 FS.readdirSync(dirName).forEach((file) => {
                     var lfile = file.toLowerCase();
-                    if (!this.readmeFile && lfile == 'readme.md') {
+                    if (!this.noReadmeFile && !this.readmeFile && lfile == 'readme.md') {
                         this.readmeFile = Path.join(dirName, file);
                     }
 

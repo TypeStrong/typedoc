@@ -47,9 +47,9 @@ module TypeDoc.Output
         navigation:Models.NavigationItem;
 
         /**
-         * The secondary navigation structure of this page.
+         * The table of contents structure of this page.
          */
-        secondary:Models.NavigationItem[];
+        toc:Models.NavigationItem;
 
         /**
          * The final html content of this page.

@@ -64,15 +64,17 @@
             <nav class="tsd-navigation primary">
                 <ul>
                     {{#each navigation.children}}
-                        {{> navigation.primary}}
+                        {{> navigation}}
                     {{/each}}
                 </ul>
             </nav>
 
             <nav class="tsd-navigation secondary">
-                {{#each secondary}}
-                    {{> navigation.secondary}}
-                {{/each}}
+                <ul>
+                    {{#each toc.children}}
+                        {{> toc}}
+                    {{/each}}
+                </ul>
             </nav>
         </div>
     </div>

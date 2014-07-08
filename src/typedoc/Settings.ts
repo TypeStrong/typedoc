@@ -31,6 +31,12 @@ module TypeDoc
         name:string;
 
         /**
+         * The location of the readme file that should be displayed on the index page. Set this to 'none' to
+         * remove the index page and start with the globals page.
+         */
+        readme:string;
+
+        /**
          * A pattern for files that should be excluded when a path is specified as source.
          */
         excludePattern:string;
@@ -202,6 +208,21 @@ module TypeDoc
                 },
                 set: (str) => {
                     this.externalPattern = str;
+                }
+            });
+
+            opts.option('readme', {
+                usage: {
+                    locCode: 'Path to the readme file that should be displayed on the index page. Pass `none` ' +
+                        'to disable the index page and start the documentation on the globals page.',
+                    args: null
+                },
+                set: (str) => {
+                    if (str.toLowerCase() == 'none') {
+                        this.readme = 'none';
+                    } else {
+                        this.readme = str;
+                    }
                 }
             });
 

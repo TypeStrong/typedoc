@@ -45,39 +45,43 @@ module TypeDoc.Output
          */
         private onRendererBeginPage(page:OutputPageEvent) {
             var currentItems:Models.NavigationItem[] = [];
-            var secondary:Models.NavigationItem[] = [];
-            function updateItem(item:Models.NavigationItem) {
+            (function updateItem(item:Models.NavigationItem) {
                 item.isCurrent = false;
-                item.isInPath = false;
-                if (item.url == page.url) {
+                item.isInPath  = false;
+                item.isVisible = item.isGlobals;
+
+                if (item.url == page.url || (item.dedicatedUrls && item.dedicatedUrls.indexOf(page.url) != -1)) {
                     currentItems.push(item);
                 }
 
                 if (item.children) {
-                    item.children.forEach((child) => {
-                        updateItem(child);
-                    });
+                    item.children.forEach((child) => updateItem(child));
                 }
-            }
+            })(this.navigation);
 
-            updateItem(this.navigation);
             currentItems.forEach((item:Models.NavigationItem) => {
                 item.isCurrent = true;
 
-                var primary = item;
-                while (primary && !primary.isPrimary) {
-                    primary = primary.parent;
-                }
-                if (primary) secondary.push(primary);
-
+                var depth = item.isGlobals ? -1 : 0;
+                var count = 1;
                 while (item) {
-                    item.isInPath = true;
+                    item.isInPath  = true;
+                    item.isVisible = true;
+
+                    count += 1;
+                    depth += 1;
+                    if (item.children){
+                        count += item.children.length;
+                        if (depth < 2 || count < 30) {
+                            item.children.forEach((child) => child.isVisible = true);
+                        }
+                    }
+
                     item = item.parent;
                 }
             });
 
             page.navigation = this.navigation;
-            page.secondary  = secondary;
         }
     }
 

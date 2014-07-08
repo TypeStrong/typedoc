@@ -86,8 +86,8 @@ module.exports = function(grunt)
         copy: {
             themeDefault: {
                 files: {
-                    'test/self/doc/assets/css/main.css': 'bin/themes/default/assets/css/main.css',
-                    'test/self/doc/assets/js/main.js': 'bin/themes/default/assets/js/main.js'
+                    'examples/self/doc/assets/css/main.css': 'bin/themes/default/assets/css/main.css',
+                    'examples/self/doc/assets/js/main.js': 'bin/themes/default/assets/js/main.js'
                 }
             }
         },

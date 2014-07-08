@@ -1248,6 +1248,20 @@ var TypeDoc;
                 }
             });
 
+            opts.option('readme', {
+                usage: {
+                    locCode: 'Path to the readme file that should be displayed on the index page. Pass `none` ' + 'to disable the index page and start the documentation on the globals page.',
+                    args: null
+                },
+                set: function (str) {
+                    if (str.toLowerCase() == 'none') {
+                        _this.readme = 'none';
+                    } else {
+                        _this.readme = str;
+                    }
+                }
+            });
+
             opts.flag('excludeExternals', {
                 usage: {
                     locCode: 'Prevent externally resolved TypeScript files from being documented.',
@@ -3458,6 +3472,15 @@ var TypeDoc;
                 this.readmeFile = null;
                 this.packageFile = null;
                 this.visited = [];
+
+                var readme = event.dispatcher.application.settings.readme;
+                this.noReadmeFile = (readme == 'none');
+                if (!this.noReadmeFile && readme) {
+                    readme = Path.resolve(readme);
+                    if (FS.fileExistsSync(readme)) {
+                        this.readmeFile = readme;
+                    }
+                }
             };
 
             /**
@@ -3481,7 +3504,7 @@ var TypeDoc;
 
                     FS.readdirSync(dirName).forEach(function (file) {
                         var lfile = file.toLowerCase();
-                        if (!_this.readmeFile && lfile == 'readme.md') {
+                        if (!_this.noReadmeFile && !_this.readmeFile && lfile == 'readme.md') {
                             _this.readmeFile = Path.join(dirName, file);
                         }
 
@@ -4948,14 +4971,31 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * A hierarchical model holding the data of single node within the navigation.
+        *
+        * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
+        * navigation state to the template engine. Themes should generate the primary navigation structure
+        * through the [[BaseTheme.getNavigation]] method.
+        */
         var NavigationItem = (function () {
-            function NavigationItem(title, url, parent) {
-                this.isCurrent = false;
-                this.isInPath = false;
-                this.isPrimary = false;
+            /**
+            * Create a new NavigationItem instance.
+            *
+            * @param title       The visible title of the navigation node.
+            * @param url         The url this navigation node points to.
+            * @param parent      The parent navigation node.
+            * @param cssClasses  A string containing the css classes of this node.
+            */
+            function NavigationItem(title, url, parent, cssClasses) {
                 this.title = title || '';
                 this.url = url || '';
                 this.parent = parent || null;
+                this.cssClasses = cssClasses || '';
+
+                if (!url) {
+                    this.isLabel = true;
+                }
 
                 if (this.parent) {
                     if (!this.parent.children)
@@ -4963,6 +5003,28 @@ var TypeDoc;
                     this.parent.children.push(this);
                 }
             }
+            /**
+            * Create a navigation node for the given reflection.
+            *
+            * @param reflection     The reflection whose navigation node should be created.
+            * @param parent         The parent navigation node.
+            * @param useShortNames  Force this function to always use short names.
+            */
+            NavigationItem.create = function (reflection, parent, useShortNames) {
+                var name;
+                if (useShortNames || (parent && parent.parent)) {
+                    name = reflection.name;
+                } else {
+                    name = reflection.getFullName();
+                }
+
+                name = name.trim();
+                if (name == '') {
+                    name = '<em>' + reflection.kindString + '</em>';
+                }
+
+                return new Models.NavigationItem(name, reflection.url, parent, reflection.cssClasses);
+            };
             return NavigationItem;
         })();
         Models.NavigationItem = NavigationItem;
@@ -5265,9 +5327,14 @@ var TypeDoc;
             DefaultTheme.prototype.getUrls = function (project) {
                 var urls = [];
 
-                project.url = 'globals.html';
-                urls.push(new TypeDoc.Models.UrlMapping('globals.html', project, 'reflection.hbs'));
-                urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
+                if (this.renderer.application.settings.readme == 'none') {
+                    project.url = 'index.html';
+                    urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'reflection.hbs'));
+                } else {
+                    project.url = 'globals.html';
+                    urls.push(new TypeDoc.Models.UrlMapping('globals.html', project, 'reflection.hbs'));
+                    urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
+                }
 
                 project.children.forEach(function (child) {
                     DefaultTheme.buildUrls(child, urls);
@@ -5283,25 +5350,125 @@ var TypeDoc;
             * @returns        The root navigation item.
             */
             DefaultTheme.prototype.getNavigation = function (project) {
-                var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
-                var globals = new TypeDoc.Models.NavigationItem('<em>Globals</em>', 'globals.html', root);
-                globals.isPrimary = true;
-                project.children.forEach(function (child) {
-                    if (child.kindOf(TypeDoc.Models.Kind.SomeContainer))
-                        return;
-                    DefaultTheme.buildNavigation(child, globals);
-                });
+                /**
+                * Test whether the given list of modules contains an external module.
+                *
+                * @param modules  The list of modules to test.
+                * @returns        TRUE if any of the modules is marked as being external.
+                */
+                function containsExternals(modules) {
+                    for (var index = 0, length = modules.length; index < length; index++) {
+                        if (modules[index].isExternal)
+                            return true;
+                    }
+                    return false;
+                }
 
-                var modules = project.getReflectionsByKind(TypeDoc.Models.Kind.SomeContainer);
-                modules.sort(function (a, b) {
-                    return a.getFullName() < b.getFullName() ? -1 : 1;
-                });
+                /**
+                * Sort the given list of modules by name, groups external modules at the bottom.
+                *
+                * @param modules  The list of modules that should be sorted.
+                */
+                function sortReflections(modules) {
+                    modules.sort(function (a, b) {
+                        if (a.isExternal && !b.isExternal)
+                            return 1;
+                        if (!a.isExternal && b.isExternal)
+                            return -1;
+                        return a.getFullName() < b.getFullName() ? -1 : 1;
+                    });
+                }
 
-                modules.forEach(function (container) {
-                    DefaultTheme.buildNavigation(container, root);
-                });
+                /**
+                * Find the urls of all children of the given reflection and store them as dedicated urls
+                * of the given NavigationItem.
+                *
+                * @param reflection  The reflection whose children urls should be included.
+                * @param item        The navigation node whose dedicated urls should be set.
+                */
+                function includeDedicatedUrls(reflection, item) {
+                    (function walk(reflection) {
+                        reflection.children.forEach(function (child) {
+                            if (child.hasOwnDocument && !child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                                if (!item.dedicatedUrls)
+                                    item.dedicatedUrls = [];
+                                item.dedicatedUrls.push(child.url);
+                                walk(child);
+                            }
+                        });
+                    })(reflection);
+                }
 
-                return root;
+                /**
+                * Create navigation nodes for all container children of the given reflection.
+                *
+                * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
+                * @param parent      The parent NavigationItem of the newly created nodes.
+                */
+                function buildChildren(reflection, parent) {
+                    var modules = reflection.getChildrenByKind(TypeScript.PullElementKind.SomeContainer);
+                    modules.sort(function (a, b) {
+                        return a.getFullName() < b.getFullName() ? -1 : 1;
+                    });
+
+                    modules.forEach(function (reflection) {
+                        var item = TypeDoc.Models.NavigationItem.create(reflection, parent);
+                        includeDedicatedUrls(reflection, item);
+                        buildChildren(reflection, item);
+                    });
+                }
+
+                /**
+                * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
+                * an "internal" and an "external" section when applicable.
+                *
+                * @param reflections  The list of reflections which should be transformed into navigation nodes.
+                * @param parent       The parent NavigationItem of the newly created nodes.
+                * @param callback     Optional callback invoked for each generated node.
+                */
+                function buildGroups(reflections, parent, callback) {
+                    var state = -1;
+                    var hasExternals = containsExternals(reflections);
+                    sortReflections(reflections);
+
+                    reflections.forEach(function (reflection) {
+                        if (hasExternals && !reflection.isExternal && state != 1) {
+                            new TypeDoc.Models.NavigationItem('Internals', null, parent, "tsd-is-external");
+                            state = 1;
+                        } else if (hasExternals && reflection.isExternal && state != 2) {
+                            new TypeDoc.Models.NavigationItem('Externals', null, parent, "tsd-is-external");
+                            state = 2;
+                        }
+
+                        var item = TypeDoc.Models.NavigationItem.create(reflection, parent);
+                        includeDedicatedUrls(reflection, item);
+                        if (callback)
+                            callback(reflection, item);
+                    });
+                }
+
+                /**
+                * Build the navigation structure.
+                *
+                * @param hasSeparateGlobals  Has the project a separated globals.html file?
+                * @return                    The root node of the generated navigation structure.
+                */
+                function build(hasSeparateGlobals) {
+                    var root = new TypeDoc.Models.NavigationItem('Index', 'index.html');
+                    var globals = new TypeDoc.Models.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+                    globals.isGlobals = true;
+
+                    var modules = project.getReflectionsByKind(TypeScript.PullElementKind.SomeContainer);
+                    if (modules.length < 10) {
+                        buildGroups(modules, root);
+                    } else {
+                        buildGroups(project.getChildrenByKind(TypeScript.PullElementKind.SomeContainer), root, buildChildren);
+                    }
+
+                    return root;
+                }
+
+                return build(this.renderer.application.settings.readme != 'none');
             };
 
             /**
@@ -5356,38 +5523,6 @@ var TypeDoc;
                 }
 
                 return null;
-            };
-
-            /**
-            * Build the navigation nodes for the given reflection.
-            *
-            * @param reflection  The reflection whose navigation node should be created.
-            * @param parent      The parent navigation node.
-            */
-            DefaultTheme.buildNavigation = function (reflection, parent) {
-                var name, isPrimary;
-                if (parent.parent) {
-                    name = reflection.name;
-                    isPrimary = false;
-                } else {
-                    name = reflection.getFullName();
-                    isPrimary = true;
-                }
-
-                name = name.trim();
-                if (name == '') {
-                    name = '<em>' + reflection.kindString + '</em>';
-                }
-
-                var item = new TypeDoc.Models.NavigationItem(name, reflection.url, parent);
-                item.isPrimary = isPrimary;
-                item.cssClasses = reflection.cssClasses;
-
-                reflection.children.forEach(function (child) {
-                    if (child.kindOf(TypeDoc.Models.Kind.SomeContainer))
-                        return;
-                    DefaultTheme.buildNavigation(child, item);
-                });
             };
 
             /**
@@ -6351,40 +6486,47 @@ var TypeDoc;
             */
             NavigationPlugin.prototype.onRendererBeginPage = function (page) {
                 var currentItems = [];
-                var secondary = [];
-                function updateItem(item) {
+                (function updateItem(item) {
                     item.isCurrent = false;
                     item.isInPath = false;
-                    if (item.url == page.url) {
+                    item.isVisible = item.isGlobals;
+
+                    if (item.url == page.url || (item.dedicatedUrls && item.dedicatedUrls.indexOf(page.url) != -1)) {
                         currentItems.push(item);
                     }
 
                     if (item.children) {
                         item.children.forEach(function (child) {
-                            updateItem(child);
+                            return updateItem(child);
                         });
                     }
-                }
+                })(this.navigation);
 
-                updateItem(this.navigation);
                 currentItems.forEach(function (item) {
                     item.isCurrent = true;
 
-                    var primary = item;
-                    while (primary && !primary.isPrimary) {
-                        primary = primary.parent;
-                    }
-                    if (primary)
-                        secondary.push(primary);
-
+                    var depth = item.isGlobals ? -1 : 0;
+                    var count = 1;
                     while (item) {
                         item.isInPath = true;
+                        item.isVisible = true;
+
+                        count += 1;
+                        depth += 1;
+                        if (item.children) {
+                            count += item.children.length;
+                            if (depth < 2 || count < 30) {
+                                item.children.forEach(function (child) {
+                                    return child.isVisible = true;
+                                });
+                            }
+                        }
+
                         item = item.parent;
                     }
                 });
 
                 page.navigation = this.navigation;
-                page.secondary = secondary;
             };
             return NavigationPlugin;
         })(Output.BasePlugin);
@@ -6614,6 +6756,79 @@ var TypeDoc;
         * Register this plugin.
         */
         Output.Renderer.PLUGIN_CLASSES.push(PrettyPrintPlugin);
+    })(TypeDoc.Output || (TypeDoc.Output = {}));
+    var Output = TypeDoc.Output;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Output) {
+        /**
+        * A plugin that generates a table of contents for the current page.
+        *
+        * The table of contents will start at the nearest module or dynamic module. This plugin
+        * sets the [[OutputPageEvent.toc]] property.
+        */
+        var TocPlugin = (function (_super) {
+            __extends(TocPlugin, _super);
+            /**
+            * Create a new TocPlugin instance.
+            *
+            * @param renderer  The renderer this plugin should be attached to.
+            */
+            function TocPlugin(renderer) {
+                _super.call(this, renderer);
+                renderer.on(Output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+            }
+            /**
+            * Triggered before a document will be rendered.
+            *
+            * @param page  An event object describing the current render operation.
+            */
+            TocPlugin.prototype.onRendererBeginPage = function (page) {
+                var model = page.model;
+                if (!(model instanceof TypeDoc.Models.BaseReflection)) {
+                    return;
+                }
+
+                var trail = [];
+                while (!(model instanceof TypeDoc.Models.ProjectReflection) && !model.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                    trail.unshift(model);
+                    model = model.parent;
+                }
+
+                page.toc = new TypeDoc.Models.NavigationItem();
+                TocPlugin.buildToc(model, trail, page.toc);
+            };
+
+            /**
+            * Create a toc navigation item structure.
+            *
+            * @param model   The models whose children should be written to the toc.
+            * @param trail   Defines the active trail of expanded toc entries.
+            * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+            */
+            TocPlugin.buildToc = function (model, trail, parent) {
+                model.children.forEach(function (child) {
+                    if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                        return;
+                    }
+
+                    var item = TypeDoc.Models.NavigationItem.create(child, parent, true);
+                    if (trail.indexOf(child) != -1) {
+                        item.isInPath = true;
+                        item.isCurrent = (trail[trail.length - 1] == child);
+                        TocPlugin.buildToc(child, trail, item);
+                    }
+                });
+            };
+            return TocPlugin;
+        })(Output.BasePlugin);
+        Output.TocPlugin = TocPlugin;
+
+        /**
+        * Register this plugin.
+        */
+        Output.Renderer.PLUGIN_CLASSES.push(TocPlugin);
     })(TypeDoc.Output || (TypeDoc.Output = {}));
     var Output = TypeDoc.Output;
 })(TypeDoc || (TypeDoc = {}));
