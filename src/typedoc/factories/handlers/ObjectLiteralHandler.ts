@@ -13,16 +13,16 @@ module TypeDoc.Factories
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
 
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, 1024);
+            dispatcher.on(Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
         }
 
 
         /**
-         * Triggered when the dispatcher starts processing a declaration.
+         * Triggered when the dispatcher has finished processing a declaration.
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(state:DeclarationState) {
+        private onEndDeclaration(state:DeclarationState) {
             var literal = ObjectLiteralHandler.getLiteralDeclaration(state.declaration);
             if (literal && literal.getChildDecls().length > 0) {
                 if (state.kindOf(TypeScript.PullElementKind.Variable)) {

@@ -56,6 +56,11 @@ module TypeDoc.Models
         name:string = '';
 
         /**
+         * The original name of the TypeScript declaration.
+         */
+        originalName:string;
+
+        /**
          * The parsed documentation comment attached to this reflection.
          */
         comment:Comment;

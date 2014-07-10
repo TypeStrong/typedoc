@@ -62,7 +62,8 @@ export function multipleSignatures(value:string):string;
 /**
  * This is the second signature a function with multiple signatures.
  *
- * @param value  An object containing the name value.
+ * @param value       An object containing the name value.
+ * @param value.name  A value of the object.
  */
 export function multipleSignatures(value:{name:string}):string;
 
@@ -93,8 +94,10 @@ export function genericFunction<T>(value:T):T {
 
 /**
  * This is a function that is extended by a module.
+ *
+ * @param arg An argument.
  */
-export function moduleFunction() { }
+export function moduleFunction(arg:string):string { return ''; }
 
 
 /**
