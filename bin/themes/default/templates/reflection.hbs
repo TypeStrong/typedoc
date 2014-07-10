@@ -5,11 +5,7 @@
 {{#if model.typeHierarchy}}
     <section class="tsd-hierarchy">
         <h2>Hierarchy</h2>
-        <ul>
-            {{#with model.typeHierarchy}}
-                {{>hierarchy}}
-            {{/with}}
-        </ul>
+        {{#with model.typeHierarchy}}{{> hierarchy}}{{/with}}
     </section>
 {{/if}}
 

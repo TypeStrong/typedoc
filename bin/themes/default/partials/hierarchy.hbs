@@ -1,15 +1,17 @@
-<li {{#if isTarget}}class="target"{{/if}}>
-    {{#if isTarget}}
-        {{type}}
-    {{else}}
-        {{#with type}}{{>type}}{{/with}}
-    {{/if}}
+<ul>
+    {{#each types}}
+        <li>
+            {{#if ../isTarget}}
+                {{this}}
+            {{else}}
+                {{> type}}
+            {{/if}}
 
-    {{#if children}}
-        <ul>
-            {{#each children}}
-                {{>hierarchy}}
-            {{/each}}
-        </ul>
-    {{/if}}
-</li>
+            {{#if @last}}
+                {{#with ../../next}}
+                    {{> hierarchy}}
+                {{/with}}
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>

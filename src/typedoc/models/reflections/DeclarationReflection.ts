@@ -23,17 +23,17 @@ module TypeDoc.Models
     export interface IDeclarationHierarchy
     {
         /**
-         * The type represented by this node in the hierarchy.
+         * The types represented by this node in the hierarchy.
          */
-        type:BaseType;
+        types:BaseType[];
 
         /**
-         * A list of a children of this node.
+         * The next hierarchy level.
          */
-        children?:IDeclarationHierarchy[];
+        next?:IDeclarationHierarchy;
 
         /**
-         * Is this the entry within the type hierarchy of the target type?
+         * Is this the entry containing the target type?
          */
         isTarget?:boolean;
     }

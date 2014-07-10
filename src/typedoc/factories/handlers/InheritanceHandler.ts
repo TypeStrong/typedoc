@@ -84,34 +84,71 @@ module TypeDoc.Factories
          * @param state  The state that describes the current declaration and reflection.
          */
         private onEndDeclaration(state:DeclarationState) {
+            if (state.isInherited) {
+                return;
+            }
+
             var symbol = <TypeScript.PullTypeSymbol>state.declaration.getSymbol();
             if (!(symbol instanceof TypeScript.PullTypeSymbol)) {
                 return;
             }
 
-            symbol.getExtendedTypes().forEach((symbol) => {
-                symbol.getDeclarations().forEach((declaration) => {
-                    this.dispatcher.processState(state.createInheritanceState(declaration));
-                });
+            InheritanceHandler.collectExtendedTypes(symbol).forEach((declaration) => {
+                this.dispatcher.processState(state.createInheritanceState(declaration));
             });
 
-            if (!state.isInherited) {
-                var extendedBy = symbol.getTypesThatExtendThisType();
-                if (extendedBy.length > 0) {
-                    if (!state.reflection.extendedBy) state.reflection.extendedBy = [];
-                    extendedBy.forEach((symbol) => {
-                        state.reflection.extendedBy.push(new Models.LateResolvingType(symbol));
-                    });
-                }
-
-                var extendedTypes = symbol.getExtendedTypes();
-                if (extendedTypes.length > 0) {
-                    if (!state.reflection.extendedTypes) state.reflection.extendedTypes = [];
-                    extendedTypes.forEach((symbol) => {
-                        state.reflection.extendedTypes.push(new Models.LateResolvingType(symbol));
-                    });
-                }
+            var extendedBy = symbol.getTypesThatExtendThisType();
+            if (extendedBy.length > 0) {
+                if (!state.reflection.extendedBy) state.reflection.extendedBy = [];
+                extendedBy.forEach((symbol) => {
+                    state.reflection.extendedBy.push(new Models.LateResolvingType(symbol));
+                });
             }
+
+            var extendedTypes = symbol.getExtendedTypes();
+            if (extendedTypes.length > 0) {
+                if (!state.reflection.extendedTypes) state.reflection.extendedTypes = [];
+                extendedTypes.forEach((symbol) => {
+                    state.reflection.extendedTypes.push(new Models.LateResolvingType(symbol));
+                });
+            }
+        }
+
+
+        /**
+         * Create a list of all declarations that are super declarations the given symbol.
+         *
+         * @param symbol  The symbol whose parent declarations should be found.
+         * @returns       A list of declarations that serve as parent declarations for the given symbol.
+         */
+        static collectExtendedTypes(symbol:TypeScript.PullTypeSymbol):TypeScript.PullDecl[] {
+            var result = [];
+            var symbols = [symbol];
+
+            function process(symbol:TypeScript.PullTypeSymbol) {
+                symbol.getExtendedTypes().forEach((extended) => {
+                    extended.getDeclarations().forEach((declaration) => {
+                        if (result.indexOf(declaration) != -1) {
+                            return;
+                        }
+
+                        result.push(declaration);
+
+                        var symbol = <TypeScript.PullTypeSymbol>declaration.getSymbol();
+                        if (symbol instanceof TypeScript.PullTypeSymbol) {
+                            symbols.push(symbol);
+                        }
+                    });
+                });
+            }
+
+            while (symbols.length > 0) {
+                var processing = symbols.splice(0);
+                symbols.length = 0;
+                processing.forEach(process);
+            }
+
+            return result;
         }
     }
 

@@ -116,34 +116,32 @@ module TypeDoc.Factories
          * @returns The root of the generated type hierarchy.
          */
         static buildTypeHierarchy(reflection:Models.DeclarationReflection):Models.IDeclarationHierarchy {
-            if (!reflection.extendedTypes && !reflection.extendedBy) return null;
-            var root:Models.IDeclarationHierarchy = null;
-            var item:Models.IDeclarationHierarchy;
-            var hierarchy:Models.IDeclarationHierarchy;
+            if (!reflection.extendedTypes && !reflection.extendedBy) {
+                return null;
+            }
 
-            function push(item:Models.IDeclarationHierarchy) {
+            var root:Models.IDeclarationHierarchy;
+            var hierarchy:Models.IDeclarationHierarchy;
+            function push(types:Models.BaseType[]) {
+                var level = {types:types};
                 if (hierarchy) {
-                    hierarchy.children = [item];
-                    hierarchy = item;
+                    hierarchy.next = level;
+                    hierarchy = level;
                 } else {
-                    root = hierarchy = item;
+                    root = hierarchy = level;
                 }
             }
 
+
             if (reflection.extendedTypes) {
-                reflection.extendedTypes.forEach((type) => {
-                    push({type:type});
-                });
+                push(reflection.extendedTypes);
             }
 
-            item = {type:new Models.ReflectionType(reflection, false), isTarget:true};
-            push(item);
+            push([new Models.ReflectionType(reflection, false)]);
+            hierarchy.isTarget = true;
 
             if (reflection.extendedBy) {
-                item.children = [];
-                reflection.extendedBy.forEach((type) => {
-                    item.children.push({type:type})
-                });
+                push(reflection.extendedBy);
             }
 
             return root;
