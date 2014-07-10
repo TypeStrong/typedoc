@@ -44,7 +44,8 @@ module.exports = function(grunt)
         },
         sass: {
             options: {
-                style: 'compressed'
+                style: 'compact',
+                unixNewlines: true
             },
             themeDefault: {
                 files: [{
