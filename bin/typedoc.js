@@ -993,6 +993,13 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 /// <reference path="../typescript/tsc.ts" />
 /// <reference path="EventDispatcher.ts" />
+/**
+* The TypeDoc main module and namespace.
+*
+* The [[Application]] class holds the core logic of the cli application. All code related
+* to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
+* in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
+*/
 var TypeDoc;
 (function (TypeDoc) {
     /**
@@ -1717,6 +1724,12 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
+    /**
+    * Holds all logic used to analyze the output of the TypeScript compiler and generate reflections.
+    *
+    * The [[Dispatcher]] class is the central controller within this namespace. When invoked it fires a
+    * series of [[DispatcherEvent]] events consumed by [[BaseHandler]] instances.
+    */
     (function (Factories) {
         /**
         * The dispatcher receives documents from the compiler and emits
@@ -2301,174 +2314,6 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
-        
-
-        /**
-        * A handler that analyzes the AST and extracts data not represented by declarations.
-        */
-        var AstHandler = (function (_super) {
-            __extends(AstHandler, _super);
-            /**
-            * Create a new AstHandler instance.
-            *
-            * @param dispatcher  The dispatcher this handler should be attached to.
-            */
-            function AstHandler(dispatcher) {
-                _super.call(this, dispatcher);
-                /**
-                * Collected ambient module export data.
-                */
-                this.exports = [];
-
-                this.factory = TypeScript.getAstWalkerFactory();
-
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
-                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
-            }
-            /**
-            * Triggered once per project before the dispatcher invokes the compiler.
-            *
-            * @param event  An event object containing the related project and compiler instance.
-            */
-            AstHandler.prototype.onBegin = function (event) {
-                this.exports = [];
-            };
-
-            /**
-            * Triggered when the dispatcher starts processing a declaration.
-            *
-            * @param state  The state that describes the current declaration and reflection.
-            */
-            AstHandler.prototype.onBeginDeclaration = function (state) {
-                var _this = this;
-                if (!(state.declaration.kind & TypeScript.PullElementKind.DynamicModule)) {
-                    return;
-                }
-
-                var symbol = this.getExportedSymbol(state.declaration);
-                if (symbol) {
-                    var declarations = [];
-                    symbol.getDeclarations().forEach(function (declaration) {
-                        declaration.getParentDecl().getChildDecls().forEach(function (child) {
-                            if (child.name == declaration.name && declarations.indexOf(child) == -1) {
-                                declarations.push(child);
-                            }
-                        });
-                    });
-
-                    var isPureInternal = true;
-                    declarations.forEach(function (declaration) {
-                        var isInternal = false;
-                        while (declaration) {
-                            if (declaration == state.declaration)
-                                isInternal = true;
-                            declaration = declaration.getParentDecl();
-                        }
-                        isPureInternal = isPureInternal && isInternal;
-                    });
-
-                    if (isPureInternal) {
-                        this.dispatcher.ensureReflection(state);
-                        state.reflection.name = state.declaration.name;
-                        state.reflection.isExported = true;
-
-                        Factories.ReflectionHandler.sortDeclarations(declarations);
-                        declarations.forEach(function (declaration) {
-                            var childState = state.createChildState(declaration);
-                            childState.originalDeclaration = state.declaration;
-                            childState.parentState = state.parentState;
-                            childState.reflection = state.reflection;
-
-                            _this.dispatcher.processState(childState);
-                            state.reflection = childState.reflection;
-                        });
-
-                        state.reflection.kind = state.declaration.kind;
-                        AstHandler.markAsExported(state.reflection);
-
-                        this.exports.push({
-                            name: state.declaration.name,
-                            type: new TypeDoc.Models.ReflectionType(state.reflection, false)
-                        });
-                    } else {
-                        this.exports.push({
-                            name: state.declaration.name,
-                            symbol: symbol
-                        });
-                    }
-
-                    state.stopPropagation();
-                    state.preventDefault();
-                }
-            };
-
-            /**
-            * Try to find the identifier of the export assignment within the given declaration.
-            *
-            * @param declaration  The declaration whose export assignment should be resolved.
-            * @returns            The found identifier or NULL.
-            */
-            AstHandler.prototype.getExportedIdentifier = function (declaration) {
-                var identifier = null;
-
-                var ast = declaration.ast();
-                if (ast.parent && (ast.parent.kind() & 130 /* ModuleDeclaration */)) {
-                    ast = ast.parent;
-                }
-
-                this.factory.simpleWalk(ast, function (ast, astState) {
-                    if (ast.kind() == 134 /* ExportAssignment */) {
-                        var assignment = ast;
-                        identifier = assignment.identifier;
-                    }
-                });
-
-                return identifier;
-            };
-
-            /**
-            * Try to find the compiler symbol exported by the given declaration.
-            *
-            * @param declaration  The declaration whose export assignment should be resolved.
-            * @returns            The found compiler symbol or NULL.
-            */
-            AstHandler.prototype.getExportedSymbol = function (declaration) {
-                var identifier = this.getExportedIdentifier(declaration);
-                if (identifier) {
-                    var resolver = declaration.semanticInfoChain.getResolver();
-                    var context = new TypeScript.PullTypeResolutionContext(resolver);
-
-                    return resolver.resolveAST(identifier, false, context);
-                } else {
-                    return null;
-                }
-            };
-
-            /**
-            * Mark the given reflection and all of its children as being exported.
-            *
-            * @param reflection  The reflection that should be marked as being exported.
-            */
-            AstHandler.markAsExported = function (reflection) {
-                reflection.flags = reflection.flags | 1 /* Exported */;
-                reflection.children.forEach(function (child) {
-                    return AstHandler.markAsExported(child);
-                });
-            };
-            return AstHandler;
-        })(Factories.BaseHandler);
-        Factories.AstHandler = AstHandler;
-
-        /**
-        * Register this handler.
-        */
-        Factories.Dispatcher.HANDLERS.push(AstHandler);
-    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
-    var Factories = TypeDoc.Factories;
-})(TypeDoc || (TypeDoc = {}));
-var TypeDoc;
-(function (TypeDoc) {
-    (function (Factories) {
         /**
         * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
         * the generated reflections.
@@ -2754,6 +2599,8 @@ var TypeDoc;
                     TypeScript.PullElementKind.Script
                 ];
 
+                this.factory = TypeScript.getAstWalkerFactory();
+
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
                 dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
@@ -2783,6 +2630,23 @@ var TypeDoc;
                     name = name.replace(/"/g, '');
                     this.reflections.push(state.reflection);
                     this.basePath.add(name);
+
+                    var ast = state.declaration.ast();
+                    if (ast instanceof TypeScript.SourceUnit) {
+                        var resolved = false;
+                        this.factory.simpleWalk(ast, function (ast, astState) {
+                            if (resolved || ast.kind() == 120 /* SourceUnit */ || ast.kind() == 1 /* List */) {
+                                return;
+                            }
+
+                            var comments = ast.preComments();
+                            if (comments && comments.length > 1 && Factories.CommentHandler.isDocComment(comments[0])) {
+                                state.reflection.comment = Factories.CommentHandler.parseDocComment(comments[0].fullText());
+                            }
+
+                            resolved = true;
+                        });
+                    }
                 }
             };
 
@@ -2807,6 +2671,174 @@ var TypeDoc;
         * Register this handler.
         */
         Factories.Dispatcher.HANDLERS.push(DynamicModuleHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        
+
+        /**
+        * A handler that analyzes and resolves export statements of dynamic modules.
+        */
+        var ExportHandler = (function (_super) {
+            __extends(ExportHandler, _super);
+            /**
+            * Create a new AstHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function ExportHandler(dispatcher) {
+                _super.call(this, dispatcher);
+                /**
+                * Collected ambient module export data.
+                */
+                this.exports = [];
+
+                this.factory = TypeScript.getAstWalkerFactory();
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_DECLARATION, this.onBeginDeclaration, this, 1024);
+            }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            ExportHandler.prototype.onBegin = function (event) {
+                this.exports = [];
+            };
+
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            ExportHandler.prototype.onBeginDeclaration = function (state) {
+                var _this = this;
+                if (!(state.declaration.kind & TypeScript.PullElementKind.DynamicModule)) {
+                    return;
+                }
+
+                var symbol = this.getExportedSymbol(state.declaration);
+                if (symbol) {
+                    var declarations = [];
+                    symbol.getDeclarations().forEach(function (declaration) {
+                        declaration.getParentDecl().getChildDecls().forEach(function (child) {
+                            if (child.name == declaration.name && declarations.indexOf(child) == -1) {
+                                declarations.push(child);
+                            }
+                        });
+                    });
+
+                    var isPureInternal = true;
+                    declarations.forEach(function (declaration) {
+                        var isInternal = false;
+                        while (declaration) {
+                            if (declaration == state.declaration)
+                                isInternal = true;
+                            declaration = declaration.getParentDecl();
+                        }
+                        isPureInternal = isPureInternal && isInternal;
+                    });
+
+                    if (isPureInternal) {
+                        this.dispatcher.ensureReflection(state);
+                        state.reflection.name = state.declaration.name;
+                        state.reflection.isExported = true;
+
+                        Factories.ReflectionHandler.sortDeclarations(declarations);
+                        declarations.forEach(function (declaration) {
+                            var childState = state.createChildState(declaration);
+                            childState.originalDeclaration = state.declaration;
+                            childState.parentState = state.parentState;
+                            childState.reflection = state.reflection;
+
+                            _this.dispatcher.processState(childState);
+                            state.reflection = childState.reflection;
+                        });
+
+                        state.reflection.kind = state.declaration.kind;
+                        ExportHandler.markAsExported(state.reflection);
+
+                        this.exports.push({
+                            name: state.declaration.name,
+                            type: new TypeDoc.Models.ReflectionType(state.reflection, false)
+                        });
+                    } else {
+                        this.exports.push({
+                            name: state.declaration.name,
+                            symbol: symbol
+                        });
+                    }
+
+                    state.stopPropagation();
+                    state.preventDefault();
+                }
+            };
+
+            /**
+            * Try to find the identifier of the export assignment within the given declaration.
+            *
+            * @param declaration  The declaration whose export assignment should be resolved.
+            * @returns            The found identifier or NULL.
+            */
+            ExportHandler.prototype.getExportedIdentifier = function (declaration) {
+                var identifier = null;
+
+                var ast = declaration.ast();
+                if (ast.parent && (ast.parent.kind() & 130 /* ModuleDeclaration */)) {
+                    ast = ast.parent;
+                }
+
+                this.factory.simpleWalk(ast, function (ast, astState) {
+                    if (ast.kind() == 134 /* ExportAssignment */) {
+                        var assignment = ast;
+                        identifier = assignment.identifier;
+                    }
+                });
+
+                return identifier;
+            };
+
+            /**
+            * Try to find the compiler symbol exported by the given declaration.
+            *
+            * @param declaration  The declaration whose export assignment should be resolved.
+            * @returns            The found compiler symbol or NULL.
+            */
+            ExportHandler.prototype.getExportedSymbol = function (declaration) {
+                var identifier = this.getExportedIdentifier(declaration);
+                if (identifier) {
+                    var resolver = declaration.semanticInfoChain.getResolver();
+                    var context = new TypeScript.PullTypeResolutionContext(resolver);
+
+                    return resolver.resolveAST(identifier, false, context);
+                } else {
+                    return null;
+                }
+            };
+
+            /**
+            * Mark the given reflection and all of its children as being exported.
+            *
+            * @param reflection  The reflection that should be marked as being exported.
+            */
+            ExportHandler.markAsExported = function (reflection) {
+                reflection.flags = reflection.flags | 1 /* Exported */;
+                reflection.children.forEach(function (child) {
+                    return ExportHandler.markAsExported(child);
+                });
+            };
+            return ExportHandler;
+        })(Factories.BaseHandler);
+        Factories.ExportHandler = ExportHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(ExportHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3219,36 +3251,72 @@ var TypeDoc;
             */
             InheritanceHandler.prototype.onEndDeclaration = function (state) {
                 var _this = this;
+                if (state.isInherited) {
+                    return;
+                }
+
                 var symbol = state.declaration.getSymbol();
                 if (!(symbol instanceof TypeScript.PullTypeSymbol)) {
                     return;
                 }
 
-                symbol.getExtendedTypes().forEach(function (symbol) {
-                    symbol.getDeclarations().forEach(function (declaration) {
-                        _this.dispatcher.processState(state.createInheritanceState(declaration));
-                    });
+                InheritanceHandler.collectExtendedTypes(symbol).forEach(function (declaration) {
+                    _this.dispatcher.processState(state.createInheritanceState(declaration));
                 });
 
-                if (!state.isInherited) {
-                    var extendedBy = symbol.getTypesThatExtendThisType();
-                    if (extendedBy.length > 0) {
-                        if (!state.reflection.extendedBy)
-                            state.reflection.extendedBy = [];
-                        extendedBy.forEach(function (symbol) {
-                            state.reflection.extendedBy.push(new TypeDoc.Models.LateResolvingType(symbol));
-                        });
-                    }
-
-                    var extendedTypes = symbol.getExtendedTypes();
-                    if (extendedTypes.length > 0) {
-                        if (!state.reflection.extendedTypes)
-                            state.reflection.extendedTypes = [];
-                        extendedTypes.forEach(function (symbol) {
-                            state.reflection.extendedTypes.push(new TypeDoc.Models.LateResolvingType(symbol));
-                        });
-                    }
+                var extendedBy = symbol.getTypesThatExtendThisType();
+                if (extendedBy.length > 0) {
+                    if (!state.reflection.extendedBy)
+                        state.reflection.extendedBy = [];
+                    extendedBy.forEach(function (symbol) {
+                        state.reflection.extendedBy.push(new TypeDoc.Models.LateResolvingType(symbol));
+                    });
                 }
+
+                var extendedTypes = symbol.getExtendedTypes();
+                if (extendedTypes.length > 0) {
+                    if (!state.reflection.extendedTypes)
+                        state.reflection.extendedTypes = [];
+                    extendedTypes.forEach(function (symbol) {
+                        state.reflection.extendedTypes.push(new TypeDoc.Models.LateResolvingType(symbol));
+                    });
+                }
+            };
+
+            /**
+            * Create a list of all declarations that are super declarations the given symbol.
+            *
+            * @param symbol  The symbol whose parent declarations should be found.
+            * @returns       A list of declarations that serve as parent declarations for the given symbol.
+            */
+            InheritanceHandler.collectExtendedTypes = function (symbol) {
+                var result = [];
+                var symbols = [symbol];
+
+                function process(symbol) {
+                    symbol.getExtendedTypes().forEach(function (extended) {
+                        extended.getDeclarations().forEach(function (declaration) {
+                            if (result.indexOf(declaration) != -1) {
+                                return;
+                            }
+
+                            result.push(declaration);
+
+                            var symbol = declaration.getSymbol();
+                            if (symbol instanceof TypeScript.PullTypeSymbol) {
+                                symbols.push(symbol);
+                            }
+                        });
+                    });
+                }
+
+                while (symbols.length > 0) {
+                    var processing = symbols.splice(0);
+                    symbols.length = 0;
+                    processing.forEach(process);
+                }
+
+                return result;
             };
             return InheritanceHandler;
         })(Factories.BaseHandler);
@@ -3258,6 +3326,139 @@ var TypeDoc;
         * Register this handler.
         */
         Factories.Dispatcher.HANDLERS.push(InheritanceHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        
+
+        /**
+        * A handler that extracts comments of containers like modules.
+        *
+        * The [[CommentHandler]] only extracts comments directly attached to the current
+        * declaration, while this handler looks up the comments of the parent ast of the given
+        * declaration if it is some container. As modules might be defined multiple times,
+        * this handler stores the found comments and applies them in the resolving phase.
+        *
+        * If multiple comments for the same module are found, the longest comment will be preferred.
+        * One may explicitly set the preferred module comment by appending the tag `@preferred`.
+        */
+        var ModuleCommentHandler = (function (_super) {
+            __extends(ModuleCommentHandler, _super);
+            /**
+            * Create a new ModuleCommentHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function ModuleCommentHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
+                this.factory = TypeScript.getAstWalkerFactory();
+
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN, this.onBegin, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
+                dispatcher.on(Factories.Dispatcher.EVENT_BEGIN_RESOLVE, this.onBeginResolve, this);
+            }
+            /**
+            * Triggered once per project before the dispatcher invokes the compiler.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            ModuleCommentHandler.prototype.onBegin = function (event) {
+                this.comments = {};
+            };
+
+            /**
+            * Triggered when the dispatcher processes a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            ModuleCommentHandler.prototype.onDeclaration = function (state) {
+                if (!state.kindOf(TypeScript.PullElementKind.Container)) {
+                    return;
+                }
+
+                var ast = state.declaration.ast();
+                ast = ast.parent;
+                if (ast && ast.kind() == 121 /* QualifiedName */) {
+                    var identifiers = [];
+                    this.factory.simpleWalk(ast, function (ast, astState) {
+                        if (ast.kind() == 11 /* IdentifierName */) {
+                            identifiers.push(ast);
+                        }
+                    });
+
+                    if (identifiers.indexOf(state.declaration.ast()) < identifiers.length - 1) {
+                        return;
+                    }
+
+                    while (ast && ast.kind() == 121 /* QualifiedName */) {
+                        ast = ast.parent;
+                    }
+                }
+
+                if (!ast || ast.kind() != 130 /* ModuleDeclaration */) {
+                    return;
+                }
+
+                var comments = ast.preComments();
+                if (!comments || comments.length == 0) {
+                    return;
+                }
+
+                var comment = comments[comments.length - 1];
+                if (!Factories.CommentHandler.isDocComment(comment)) {
+                    return;
+                }
+
+                var fullText = comment.fullText();
+                var isPreferred = (fullText.toLowerCase().indexOf('@preferred') != -1);
+
+                if (this.comments[state.reflection.id]) {
+                    var info = this.comments[state.reflection.id];
+                    if (!isPreferred && (info.isPreferred || info.fullText.length > fullText.length)) {
+                        return;
+                    }
+
+                    info.fullText = fullText;
+                    info.isPreferred = isPreferred;
+                } else {
+                    this.comments[state.reflection.id] = {
+                        reflection: state.reflection,
+                        fullText: fullText,
+                        isPreferred: isPreferred
+                    };
+                }
+            };
+
+            /**
+            * Triggered when the dispatcher enters the resolving phase.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            ModuleCommentHandler.prototype.onBeginResolve = function (event) {
+                for (var id in this.comments) {
+                    if (!this.comments.hasOwnProperty(id)) {
+                        continue;
+                    }
+
+                    var info = this.comments[id];
+                    var comment = Factories.CommentHandler.parseDocComment(info.fullText);
+                    Factories.CommentHandler.removeTags(comment, 'preferred');
+
+                    info.reflection.comment = comment;
+                }
+            };
+            return ModuleCommentHandler;
+        })(Factories.BaseHandler);
+        Factories.ModuleCommentHandler = ModuleCommentHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(ModuleCommentHandler);
     })(TypeDoc.Factories || (TypeDoc.Factories = {}));
     var Factories = TypeDoc.Factories;
 })(TypeDoc || (TypeDoc = {}));
@@ -3678,7 +3879,6 @@ var TypeDoc;
             };
 
             /**
-            *
             * Applied when a container is merged with a variable.
             *
             * @param state
@@ -4312,35 +4512,31 @@ var TypeDoc;
             * @returns The root of the generated type hierarchy.
             */
             TypeHandler.buildTypeHierarchy = function (reflection) {
-                if (!reflection.extendedTypes && !reflection.extendedBy)
+                if (!reflection.extendedTypes && !reflection.extendedBy) {
                     return null;
-                var root = null;
-                var item;
-                var hierarchy;
+                }
 
-                function push(item) {
+                var root;
+                var hierarchy;
+                function push(types) {
+                    var level = { types: types };
                     if (hierarchy) {
-                        hierarchy.children = [item];
-                        hierarchy = item;
+                        hierarchy.next = level;
+                        hierarchy = level;
                     } else {
-                        root = hierarchy = item;
+                        root = hierarchy = level;
                     }
                 }
 
                 if (reflection.extendedTypes) {
-                    reflection.extendedTypes.forEach(function (type) {
-                        push({ type: type });
-                    });
+                    push(reflection.extendedTypes);
                 }
 
-                item = { type: new TypeDoc.Models.ReflectionType(reflection, false), isTarget: true };
-                push(item);
+                push([new TypeDoc.Models.ReflectionType(reflection, false)]);
+                hierarchy.isTarget = true;
 
                 if (reflection.extendedBy) {
-                    item.children = [];
-                    reflection.extendedBy.forEach(function (type) {
-                        item.children.push({ type: type });
-                    });
+                    push(reflection.extendedBy);
                 }
 
                 return root;
@@ -4493,6 +4689,17 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
+    /**
+    * Holds all data models used by TypeDoc.
+    *
+    * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
+    * serves as the root container for the current project while [[DeclarationReflection]] instances
+    * form the structure of the project. Most of the other classes in this namespace are referenced by this
+    * two base classes.
+    *
+    * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+    * while creating the final output.
+    */
     (function (Models) {
         /**
         * Current reflection id.
@@ -5680,6 +5887,14 @@ var TypeDoc;
 })(TypeDoc || (TypeDoc = {}));
 var TypeDoc;
 (function (TypeDoc) {
+    /**
+    * Holds all logic used render and output the final documentation.
+    *
+    * The [[Renderer]] class is the central controller within this namespace. When invoked it creates
+    * an instance of [[BaseTheme]] which defines the layout of the documentation and fires a
+    * series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
+    * alter the generated output.
+    */
     (function (Output) {
         
 

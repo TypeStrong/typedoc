@@ -139,6 +139,13 @@ declare module TypeDoc {
         public off(event?: string, handler?: Function, scope?: any): void;
     }
 }
+/**
+* The TypeDoc main module and namespace.
+*
+* The [[Application]] class holds the core logic of the cli application. All code related
+* to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
+* in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
+*/
 declare module TypeDoc {
     /**
     * List of known log levels. Used to specify the urgency of a log message.
@@ -370,6 +377,12 @@ declare module TypeDoc.Factories {
         public getDefaultLibraryFilePath(): string;
     }
 }
+/**
+* Holds all logic used to analyze the output of the TypeScript compiler and generate reflections.
+*
+* The [[Dispatcher]] class is the central controller within this namespace. When invoked it fires a
+* series of [[DispatcherEvent]] events consumed by [[BaseHandler]] instances.
+*/
 declare module TypeDoc.Factories {
     /**
     * The dispatcher receives documents from the compiler and emits
@@ -751,59 +764,6 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
-    * A handler that analyzes the AST and extracts data not represented by declarations.
-    */
-    class AstHandler extends BaseHandler {
-        /**
-        * The ast walker factory.
-        */
-        private factory;
-        /**
-        * Collected ambient module export data.
-        */
-        private exports;
-        /**
-        * Create a new AstHandler instance.
-        *
-        * @param dispatcher  The dispatcher this handler should be attached to.
-        */
-        constructor(dispatcher: Dispatcher);
-        /**
-        * Triggered once per project before the dispatcher invokes the compiler.
-        *
-        * @param event  An event object containing the related project and compiler instance.
-        */
-        private onBegin(event);
-        /**
-        * Triggered when the dispatcher starts processing a declaration.
-        *
-        * @param state  The state that describes the current declaration and reflection.
-        */
-        private onBeginDeclaration(state);
-        /**
-        * Try to find the identifier of the export assignment within the given declaration.
-        *
-        * @param declaration  The declaration whose export assignment should be resolved.
-        * @returns            The found identifier or NULL.
-        */
-        public getExportedIdentifier(declaration: TypeScript.PullDecl): TypeScript.Identifier;
-        /**
-        * Try to find the compiler symbol exported by the given declaration.
-        *
-        * @param declaration  The declaration whose export assignment should be resolved.
-        * @returns            The found compiler symbol or NULL.
-        */
-        public getExportedSymbol(declaration: TypeScript.PullDecl): TypeScript.PullSymbol;
-        /**
-        * Mark the given reflection and all of its children as being exported.
-        *
-        * @param reflection  The reflection that should be marked as being exported.
-        */
-        static markAsExported(reflection: Models.DeclarationReflection): void;
-    }
-}
-declare module TypeDoc.Factories {
-    /**
     * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
     * the generated reflections.
     */
@@ -881,6 +841,10 @@ declare module TypeDoc.Factories {
     */
     class DynamicModuleHandler extends BaseHandler {
         /**
+        * The ast walker factory.
+        */
+        private factory;
+        /**
         * Helper class for determining the base path.
         */
         private basePath;
@@ -916,6 +880,59 @@ declare module TypeDoc.Factories {
         * @param event  The event containing the reflection to resolve.
         */
         private onBeginResolve(event);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that analyzes and resolves export statements of dynamic modules.
+    */
+    class ExportHandler extends BaseHandler {
+        /**
+        * The ast walker factory.
+        */
+        private factory;
+        /**
+        * Collected ambient module export data.
+        */
+        private exports;
+        /**
+        * Create a new AstHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onBeginDeclaration(state);
+        /**
+        * Try to find the identifier of the export assignment within the given declaration.
+        *
+        * @param declaration  The declaration whose export assignment should be resolved.
+        * @returns            The found identifier or NULL.
+        */
+        public getExportedIdentifier(declaration: TypeScript.PullDecl): TypeScript.Identifier;
+        /**
+        * Try to find the compiler symbol exported by the given declaration.
+        *
+        * @param declaration  The declaration whose export assignment should be resolved.
+        * @returns            The found compiler symbol or NULL.
+        */
+        public getExportedSymbol(declaration: TypeScript.PullDecl): TypeScript.PullSymbol;
+        /**
+        * Mark the given reflection and all of its children as being exported.
+        *
+        * @param reflection  The reflection that should be marked as being exported.
+        */
+        static markAsExported(reflection: Models.DeclarationReflection): void;
     }
 }
 declare module TypeDoc.Factories {
@@ -1087,6 +1104,60 @@ declare module TypeDoc.Factories {
         * @param state  The state that describes the current declaration and reflection.
         */
         private onEndDeclaration(state);
+        /**
+        * Create a list of all declarations that are super declarations the given symbol.
+        *
+        * @param symbol  The symbol whose parent declarations should be found.
+        * @returns       A list of declarations that serve as parent declarations for the given symbol.
+        */
+        static collectExtendedTypes(symbol: TypeScript.PullTypeSymbol): TypeScript.PullDecl[];
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that extracts comments of containers like modules.
+    *
+    * The [[CommentHandler]] only extracts comments directly attached to the current
+    * declaration, while this handler looks up the comments of the parent ast of the given
+    * declaration if it is some container. As modules might be defined multiple times,
+    * this handler stores the found comments and applies them in the resolving phase.
+    *
+    * If multiple comments for the same module are found, the longest comment will be preferred.
+    * One may explicitly set the preferred module comment by appending the tag `@preferred`.
+    */
+    class ModuleCommentHandler extends BaseHandler {
+        /**
+        * The ast walker factory.
+        */
+        private factory;
+        /**
+        * List of discovered module comments.
+        */
+        private comments;
+        /**
+        * Create a new ModuleCommentHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered once per project before the dispatcher invokes the compiler.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBegin(event);
+        /**
+        * Triggered when the dispatcher processes a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+        /**
+        * Triggered when the dispatcher enters the resolving phase.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onBeginResolve(event);
     }
 }
 declare module TypeDoc.Factories {
@@ -1270,7 +1341,6 @@ declare module TypeDoc.Factories {
         */
         static convertFunctionToCallSignature(state: DeclarationState): void;
         /**
-        *
         * Applied when a container is merged with a variable.
         *
         * @param state
@@ -1580,6 +1650,17 @@ declare module TypeDoc.Models {
         constructor(tagName: string, paramName?: string, text?: string);
     }
 }
+/**
+* Holds all data models used by TypeDoc.
+*
+* The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
+* serves as the root container for the current project while [[DeclarationReflection]] instances
+* form the structure of the project. Most of the other classes in this namespace are referenced by this
+* two base classes.
+*
+* The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+* while creating the final output.
+*/
 declare module TypeDoc.Models {
     /**
     * Base class for all reflection classes.
@@ -1713,15 +1794,15 @@ declare module TypeDoc.Models {
     */
     interface IDeclarationHierarchy {
         /**
-        * The type represented by this node in the hierarchy.
+        * The types represented by this node in the hierarchy.
         */
-        type: BaseType;
+        types: BaseType[];
         /**
-        * A list of a children of this node.
+        * The next hierarchy level.
         */
-        children?: IDeclarationHierarchy[];
+        next?: IDeclarationHierarchy;
         /**
-        * Is this the entry within the type hierarchy of the target type?
+        * Is this the entry containing the target type?
         */
         isTarget?: boolean;
     }
@@ -2387,6 +2468,14 @@ declare module TypeDoc.Output {
         static toStyleClass(str: string): string;
     }
 }
+/**
+* Holds all logic used render and output the final documentation.
+*
+* The [[Renderer]] class is the central controller within this namespace. When invoked it creates
+* an instance of [[BaseTheme]] which defines the layout of the documentation and fires a
+* series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
+* alter the generated output.
+*/
 declare module TypeDoc.Output {
     /**
     * Interface representation of a handlebars template.
