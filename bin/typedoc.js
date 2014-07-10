@@ -1478,7 +1478,7 @@ var TypeDoc;
                     var len = basePath.length;
 
                     while (basePath != dirname.substr(0, len)) {
-                        if (len <= dirname.length) {
+                        if (len >= dirname.length) {
                             return;
                         }
 
@@ -1926,6 +1926,7 @@ var TypeDoc;
                 var parent = state.parentState.reflection;
                 var reflection = new TypeDoc.Models.DeclarationReflection();
                 reflection.name = (state.flattenedName ? state.flattenedName + '.' : '') + state.getName();
+                reflection.originalName = state.declaration.name;
                 reflection.parent = parent;
 
                 state.reflection = reflection;
@@ -2575,6 +2576,74 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
+        * A handler that moves comments with dot syntax to their target.
+        */
+        var DeepCommentHandler = (function (_super) {
+            __extends(DeepCommentHandler, _super);
+            /**
+            * Create a new CommentHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function DeepCommentHandler(dispatcher) {
+                _super.call(this, dispatcher);
+
+                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, -512);
+            }
+            /**
+            * Triggered when the dispatcher starts processing a declaration.
+            *
+            * @param state  The state that describes the current declaration and reflection.
+            */
+            DeepCommentHandler.prototype.onDeclaration = function (state) {
+                var reflection = state.reflection;
+                if (reflection.comment) {
+                    return;
+                }
+
+                function push(reflection) {
+                    var part = reflection.originalName;
+                    if (reflection.isSignature) {
+                        part = '';
+                    }
+
+                    if (part && part != '') {
+                        name = (name == '' ? part : part + '.' + name);
+                    }
+                }
+
+                var name = '';
+                var target = reflection.parent;
+                push(reflection);
+
+                while (target instanceof TypeDoc.Models.DeclarationReflection) {
+                    if (target.comment) {
+                        var tag = target.comment.getTag('param', name);
+                        if (tag) {
+                            target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
+                            reflection.comment = new TypeDoc.Models.Comment('', tag.text);
+                            break;
+                        }
+                    }
+
+                    target = target.parent;
+                }
+            };
+            return DeepCommentHandler;
+        })(Factories.BaseHandler);
+        Factories.DeepCommentHandler = DeepCommentHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(DeepCommentHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
         * A handler that truncates the names of dynamic modules to not include the
         * project's base path.
         */
@@ -2931,14 +3000,14 @@ var TypeDoc;
             function FunctionTypeHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, -256);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
             /**
-            * Triggered when the dispatcher processes a declaration.
+            * Triggered when the dispatcher has finished processing a declaration.
             *
             * @param state  The state that describes the current declaration and reflection.
             */
-            FunctionTypeHandler.prototype.onDeclaration = function (state) {
+            FunctionTypeHandler.prototype.onEndDeclaration = function (state) {
                 if (state.isSignature) {
                     return;
                 }
@@ -3578,14 +3647,14 @@ var TypeDoc;
             function ObjectLiteralHandler(dispatcher) {
                 _super.call(this, dispatcher);
 
-                dispatcher.on(Factories.Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, 1024);
+                dispatcher.on(Factories.Dispatcher.EVENT_END_DECLARATION, this.onEndDeclaration, this);
             }
             /**
-            * Triggered when the dispatcher starts processing a declaration.
+            * Triggered when the dispatcher has finished processing a declaration.
             *
             * @param state  The state that describes the current declaration and reflection.
             */
-            ObjectLiteralHandler.prototype.onDeclaration = function (state) {
+            ObjectLiteralHandler.prototype.onEndDeclaration = function (state) {
                 var _this = this;
                 var literal = ObjectLiteralHandler.getLiteralDeclaration(state.declaration);
                 if (literal && literal.getChildDecls().length > 0) {

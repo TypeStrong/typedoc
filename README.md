@@ -152,3 +152,43 @@ function doSomething(target:any, arg:any):number {
     return 0;
 }
 ```
+
+
+### Modules
+
+Modules can be commented like any other elements in TypeScript. As modules can be defined in multiple
+files, TypeDoc selects the longest comment by default. One may override this behaviour with the special
+`@preferred` comment tag.
+
+```typescript
+/**
+ * Actual module comment.
+ * @preferred
+ */
+module MyModule { }
+```
+
+```typescript
+/**
+ * Dismissed module comment.
+ * This is the longer comment but will be dismissed in favor of the preferred comment.
+ */
+module MyModule { }
+```
+
+
+### Dynamic modules
+
+The first doc comment within a file is used as the doc comment of a dynamic module. However, you must
+ensure that the first declaration also has as doc comment.
+
+```typescript
+/**
+ * This is a doc comment for a dynamic module.
+ */
+
+/**
+ * This is a doc comment for "someVar".
+ */
+var someVar:string = "value";
+```

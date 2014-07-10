@@ -836,6 +836,25 @@ declare module TypeDoc.Factories {
 }
 declare module TypeDoc.Factories {
     /**
+    * A handler that moves comments with dot syntax to their target.
+    */
+    class DeepCommentHandler extends BaseHandler {
+        /**
+        * Create a new CommentHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Triggered when the dispatcher starts processing a declaration.
+        *
+        * @param state  The state that describes the current declaration and reflection.
+        */
+        private onDeclaration(state);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
     * A handler that truncates the names of dynamic modules to not include the
     * project's base path.
     */
@@ -984,11 +1003,11 @@ declare module TypeDoc.Factories {
         */
         constructor(dispatcher: Dispatcher);
         /**
-        * Triggered when the dispatcher processes a declaration.
+        * Triggered when the dispatcher has finished processing a declaration.
         *
         * @param state  The state that describes the current declaration and reflection.
         */
-        private onDeclaration(state);
+        private onEndDeclaration(state);
     }
 }
 declare module TypeDoc.Factories {
@@ -1221,11 +1240,11 @@ declare module TypeDoc.Factories {
         */
         constructor(dispatcher: Dispatcher);
         /**
-        * Triggered when the dispatcher starts processing a declaration.
+        * Triggered when the dispatcher has finished processing a declaration.
         *
         * @param state  The state that describes the current declaration and reflection.
         */
-        private onDeclaration(state);
+        private onEndDeclaration(state);
         static getLiteralDeclaration(declaration: TypeScript.PullDecl): TypeScript.PullDecl;
     }
 }
@@ -1694,6 +1713,10 @@ declare module TypeDoc.Models {
         * The symbol name of this reflection.
         */
         public name: string;
+        /**
+        * The original name of the TypeScript declaration.
+        */
+        public originalName: string;
         /**
         * The parsed documentation comment attached to this reflection.
         */
