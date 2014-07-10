@@ -6,4 +6,3 @@
 export function testFunction(testParam:string):boolean {
     return true;
 }
-- 

@@ -2,6 +2,8 @@
 
 > Documentation generator for TypeScript projects.
 
+[![Build Status](https://travis-ci.org/sebastian-lenz/typedoc.svg?branch=master)](https://travis-ci.org/sebastian-lenz/typedoc) [![NPM version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
+
 
 ## Installation
 
