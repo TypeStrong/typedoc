@@ -1,3 +1,10 @@
+/**
+ * The TypeDoc main module and namespace.
+ *
+ * The [[Application]] class holds the core logic of the cli application. All code related
+ * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
+ * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
+ */
 module TypeDoc
 {
     /**

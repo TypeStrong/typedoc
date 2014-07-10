@@ -7,6 +7,11 @@ module TypeDoc.Factories
     export class DynamicModuleHandler extends BaseHandler
     {
         /**
+         * The ast walker factory.
+         */
+        private factory:TypeScript.AstWalkerFactory;
+
+        /**
          * Helper class for determining the base path.
          */
         private basePath = new BasePath();
@@ -32,6 +37,8 @@ module TypeDoc.Factories
          */
         constructor(dispatcher:Dispatcher) {
             super(dispatcher);
+
+            this.factory = TypeScript.getAstWalkerFactory();
 
             dispatcher.on(Dispatcher.EVENT_BEGIN,         this.onBegin,        this);
             dispatcher.on(Dispatcher.EVENT_DECLARATION,   this.onDeclaration,  this);
@@ -65,6 +72,26 @@ module TypeDoc.Factories
                 name = name.replace(/"/g, '');
                 this.reflections.push(state.reflection);
                 this.basePath.add(name);
+
+                var ast = <TypeScript.SourceUnit>state.declaration.ast();
+                if (ast instanceof TypeScript.SourceUnit) {
+                    var resolved = false;
+                    this.factory.simpleWalk(ast, (ast:TypeScript.AST, astState:any) => {
+                        if (resolved ||
+                            ast.kind() == TypeScript.SyntaxKind.SourceUnit ||
+                            ast.kind() == TypeScript.SyntaxKind.List)
+                        {
+                            return;
+                        }
+
+                        var comments = ast.preComments();
+                        if (comments && comments.length > 1 && CommentHandler.isDocComment(comments[0])) {
+                            state.reflection.comment = CommentHandler.parseDocComment(comments[0].fullText());
+                        }
+
+                        resolved = true;
+                    });
+                }
             }
         }
 

@@ -1,3 +1,14 @@
+/**
+ * Holds all data models used by TypeDoc.
+ *
+ * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
+ * serves as the root container for the current project while [[DeclarationReflection]] instances
+ * form the structure of the project. Most of the other classes in this namespace are referenced by this
+ * two base classes.
+ *
+ * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+ * while creating the final output.
+ */
 module TypeDoc.Models
 {
     /**

@@ -25,9 +25,9 @@ module TypeDoc.Factories
 
 
     /**
-     * A handler that analyzes the AST and extracts data not represented by declarations.
+     * A handler that analyzes and resolves export statements of dynamic modules.
      */
-    export class AstHandler extends BaseHandler
+    export class ExportHandler extends BaseHandler
     {
         /**
          * The ast walker factory.
@@ -114,7 +114,7 @@ module TypeDoc.Factories
                     });
 
                     state.reflection.kind = state.declaration.kind;
-                    AstHandler.markAsExported(state.reflection);
+                    ExportHandler.markAsExported(state.reflection);
 
                     this.exports.push({
                         name: state.declaration.name,
@@ -184,7 +184,7 @@ module TypeDoc.Factories
          */
         static markAsExported(reflection:Models.DeclarationReflection) {
             reflection.flags = reflection.flags | TypeScript.PullElementFlags.Exported;
-            reflection.children.forEach((child) => AstHandler.markAsExported(child));
+            reflection.children.forEach((child) => ExportHandler.markAsExported(child));
         }
     }
 
@@ -192,5 +192,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(AstHandler);
+    Dispatcher.HANDLERS.push(ExportHandler);
 }

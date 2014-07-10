@@ -243,7 +243,6 @@ module TypeDoc.Factories
 
 
         /**
-         *
          * Applied when a container is merged with a variable.
          *
          * @param state

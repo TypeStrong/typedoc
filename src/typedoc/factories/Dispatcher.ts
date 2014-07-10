@@ -1,3 +1,9 @@
+/**
+ * Holds all logic used to analyze the output of the TypeScript compiler and generate reflections.
+ *
+ * The [[Dispatcher]] class is the central controller within this namespace. When invoked it fires a
+ * series of [[DispatcherEvent]] events consumed by [[BaseHandler]] instances.
+ */
 module TypeDoc.Factories
 {
     /**
