@@ -12,7 +12,7 @@ module TypeDoc.Factories
                 var len = basePath.length;
 
                 while (basePath != dirname.substr(0, len)) {
-                    if (len <= dirname.length) {
+                    if (len >= dirname.length) {
                         return;
                     }
 
