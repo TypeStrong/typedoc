@@ -236,6 +236,12 @@ declare module TypeDoc {
         * @param outputDirectory  The path of the directory the documentation should be written to.
         */
         public generate(inputFiles: string[], outputDirectory: string): void;
+        /**
+        * Return the version number of the loaded TypeScript compiler.
+        *
+        * @returns The version number of the loaded TypeScript package.
+        */
+        public getTypeScriptVersion(): string;
     }
 }
 declare module TypeDoc {

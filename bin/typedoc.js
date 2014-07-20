@@ -1052,9 +1052,14 @@ var TypeDoc;
         */
         Application.prototype.runFromCommandline = function () {
             if (this.settings.readFromCommandline(this)) {
+                this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), typeScriptPath), 0 /* Verbose */);
+
                 this.settings.expandInputFiles();
                 this.generate(this.settings.inputFiles, this.settings.outputDirectory);
-                this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
+
+                if (!this.hasErrors) {
+                    this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
+                }
             }
         };
 
@@ -1084,6 +1089,16 @@ var TypeDoc;
         Application.prototype.generate = function (inputFiles, outputDirectory) {
             var project = this.dispatcher.createProject(inputFiles);
             this.renderer.render(project, outputDirectory);
+        };
+
+        /**
+        * Return the version number of the loaded TypeScript compiler.
+        *
+        * @returns The version number of the loaded TypeScript package.
+        */
+        Application.prototype.getTypeScriptVersion = function () {
+            var json = JSON.parse(FS.readFileSync(Path.join(typeScriptPath, '..', 'package.json'), 'utf8'));
+            return json.version;
         };
         Application.VERSION = '0.1.0';
         return Application;
@@ -1496,6 +1511,7 @@ var TypeDoc;
             };
 
             BasePath.prototype.trim = function (fileName) {
+                fileName = BasePath.normalize(fileName);
                 if (fileName.substr(0, this.basePath.length) == this.basePath) {
                     return fileName.substr(this.basePath.length + 1);
                 } else {
