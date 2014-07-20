@@ -117,11 +117,14 @@ module TypeDoc
          * @param scope    The scope of the callback that should be removed.
          */
         off(event:string = null, handler:Function = null, scope:any = null) {
-            if (!this.listeners) return;
-            if (!event || !handler || !scope) {
+            if (!this.listeners) {
+                return;
+            }
+
+            if (!event && !handler && !scope) {
                 this.listeners = null;
             } else {
-                function offEvent(event:string) {
+                var offEvent = (event:string) => {
                     if (!this.listeners[event]) return;
                     var listeners = this.listeners[event];
                     var index = 0, count = listeners.length;
@@ -138,7 +141,7 @@ module TypeDoc
                     if (listeners.length == 0) {
                         delete this.listeners[event];
                     }
-                }
+                };
 
                 if (!event) {
                     for (event in this.listeners) {

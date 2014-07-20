@@ -46,7 +46,7 @@ describe('TypeDoc', function() {
         });
         it('removes listeners by event', function() {
             dispatcher.on('test', listener);
-            dispatcher.off(listener);
+            dispatcher.off('test');
             dispatcher.dispatch('test');
             Assert.equal(called, false);
         });
