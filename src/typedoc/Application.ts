@@ -103,9 +103,14 @@ module TypeDoc
          */
         public runFromCommandline() {
             if (this.settings.readFromCommandline(this)) {
+                this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), typeScriptPath), LogLevel.Verbose);
+
                 this.settings.expandInputFiles();
                 this.generate(this.settings.inputFiles, this.settings.outputDirectory);
-                this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
+
+                if (!this.hasErrors) {
+                    this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
+                }
             }
         }
 
@@ -136,6 +141,17 @@ module TypeDoc
         public generate(inputFiles:string[], outputDirectory:string) {
             var project = this.dispatcher.createProject(inputFiles);
             this.renderer.render(project, outputDirectory);
+        }
+
+
+        /**
+         * Return the version number of the loaded TypeScript compiler.
+         *
+         * @returns The version number of the loaded TypeScript package.
+         */
+        public getTypeScriptVersion():string {
+            var json = JSON.parse(FS.readFileSync(Path.join(typeScriptPath, '..', 'package.json'), 'utf8'));
+            return json.version
         }
     }
 }
