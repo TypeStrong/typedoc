@@ -111,9 +111,55 @@ module TypeDoc.Output
 
             this.plugins = [];
             Renderer.PLUGIN_CLASSES.forEach((pluginClass) => {
-                this.plugins.push(new pluginClass(this));
+                this.addPlugin(pluginClass);
             });
         }
+
+
+        /**
+         * Add a plugin to the renderer.
+         *
+         * @param pluginClass  The class of the plugin that should be attached.
+         */
+        addPlugin(pluginClass:typeof BasePlugin) {
+            if (this.getPlugin(pluginClass) == null) {
+                this.plugins.push(new pluginClass(this));
+            }
+        }
+
+
+        /**
+         * Remove a plugin from the renderer.
+         *
+         * @param pluginClass  The class of the plugin that should be detached.
+         */
+        removePlugin(pluginClass:typeof BasePlugin) {
+            for (var i = 0, c = this.plugins.length; i < c; i++) {
+                if (this.plugins[i] instanceof pluginClass) {
+                    this.plugins[i].remove();
+                    this.plugins.splice(i, 1);
+                    c -= 1;
+                }
+            }
+        }
+
+
+        /**
+         * Retrieve a plugin instance.
+         *
+         * @param pluginClass  The class of the plugin that should be retrieved.
+         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+         */
+        getPlugin(pluginClass:typeof BasePlugin):BasePlugin {
+            for (var i = 0, c = this.plugins.length; i < c; i++) {
+                if (this.plugins[i] instanceof pluginClass) {
+                    return this.plugins[i];
+                }
+            }
+
+            return null;
+        }
+
 
 
         /**

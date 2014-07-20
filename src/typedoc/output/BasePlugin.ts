@@ -19,5 +19,13 @@ module TypeDoc.Output
         constructor(renderer:Renderer) {
             this.renderer = renderer;
         }
+
+
+        /**
+         * Remove this plugin from the renderer.
+         */
+        remove() {
+            this.renderer.off(null, null, this);
+        }
     }
 }
