@@ -25,6 +25,10 @@ module TypeDoc.Output
          * @param path  The path of the directory that should be scanned.
          */
         private loadPartials(path:string) {
+            if (!FS.existsSync(path) || !FS.statSync(path).isDirectory()) {
+                return;
+            }
+
             FS.readdirSync(path).forEach((fileName:string) => {
                 var file = Path.join(path, fileName);
                 var name = Path.basename(fileName, Path.extname(fileName));
