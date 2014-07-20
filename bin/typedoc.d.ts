@@ -2268,6 +2268,10 @@ declare module TypeDoc.Output {
         * @param renderer  The renderer this plugin should be attached to.
         */
         constructor(renderer: Renderer);
+        /**
+        * Remove this plugin from the renderer.
+        */
+        public remove(): void;
     }
 }
 declare module TypeDoc.Output {
@@ -2590,6 +2594,25 @@ declare module TypeDoc.Output {
         * @param application  The application this dispatcher is attached to.
         */
         constructor(application: IApplication);
+        /**
+        * Add a plugin to the renderer.
+        *
+        * @param pluginClass  The class of the plugin that should be attached.
+        */
+        public addPlugin(pluginClass: typeof BasePlugin): void;
+        /**
+        * Remove a plugin from the renderer.
+        *
+        * @param pluginClass  The class of the plugin that should be detached.
+        */
+        public removePlugin(pluginClass: typeof BasePlugin): void;
+        /**
+        * Retrieve a plugin instance.
+        *
+        * @param pluginClass  The class of the plugin that should be retrieved.
+        * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+        */
+        public getPlugin(pluginClass: typeof BasePlugin): BasePlugin;
         /**
         * Return the template with the given filename.
         *

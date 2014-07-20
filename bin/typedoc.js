@@ -948,18 +948,21 @@ var TypeDoc;
         * @param scope    The scope of the callback that should be removed.
         */
         EventDispatcher.prototype.off = function (event, handler, scope) {
+            var _this = this;
             if (typeof event === "undefined") { event = null; }
             if (typeof handler === "undefined") { handler = null; }
             if (typeof scope === "undefined") { scope = null; }
-            if (!this.listeners)
+            if (!this.listeners) {
                 return;
-            if (!event || !handler || !scope) {
+            }
+
+            if (!event && !handler && !scope) {
                 this.listeners = null;
             } else {
-                function offEvent(event) {
-                    if (!this.listeners[event])
+                var offEvent = function (event) {
+                    if (!_this.listeners[event])
                         return;
-                    var listeners = this.listeners[event];
+                    var listeners = _this.listeners[event];
                     var index = 0, count = listeners.length;
                     while (index < count) {
                         var listener = listeners[index];
@@ -972,9 +975,9 @@ var TypeDoc;
                     }
 
                     if (listeners.length == 0) {
-                        delete this.listeners[event];
+                        delete _this.listeners[event];
                     }
-                }
+                };
 
                 if (!event) {
                     for (event in this.listeners) {
@@ -5448,6 +5451,12 @@ var TypeDoc;
             function BasePlugin(renderer) {
                 this.renderer = renderer;
             }
+            /**
+            * Remove this plugin from the renderer.
+            */
+            BasePlugin.prototype.remove = function () {
+                this.renderer.off(null, null, this);
+            };
             return BasePlugin;
         })();
         Output.BasePlugin = BasePlugin;
@@ -6032,9 +6041,51 @@ var TypeDoc;
 
                 this.plugins = [];
                 Renderer.PLUGIN_CLASSES.forEach(function (pluginClass) {
-                    _this.plugins.push(new pluginClass(_this));
+                    _this.addPlugin(pluginClass);
                 });
             }
+            /**
+            * Add a plugin to the renderer.
+            *
+            * @param pluginClass  The class of the plugin that should be attached.
+            */
+            Renderer.prototype.addPlugin = function (pluginClass) {
+                if (this.getPlugin(pluginClass) == null) {
+                    this.plugins.push(new pluginClass(this));
+                }
+            };
+
+            /**
+            * Remove a plugin from the renderer.
+            *
+            * @param pluginClass  The class of the plugin that should be detached.
+            */
+            Renderer.prototype.removePlugin = function (pluginClass) {
+                for (var i = 0, c = this.plugins.length; i < c; i++) {
+                    if (this.plugins[i] instanceof pluginClass) {
+                        this.plugins[i].remove();
+                        this.plugins.splice(i, 1);
+                        c -= 1;
+                    }
+                }
+            };
+
+            /**
+            * Retrieve a plugin instance.
+            *
+            * @param pluginClass  The class of the plugin that should be retrieved.
+            * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+            */
+            Renderer.prototype.getPlugin = function (pluginClass) {
+                for (var i = 0, c = this.plugins.length; i < c; i++) {
+                    if (this.plugins[i] instanceof pluginClass) {
+                        return this.plugins[i];
+                    }
+                }
+
+                return null;
+            };
+
             /**
             * Return the template with the given filename.
             *
@@ -6865,6 +6916,10 @@ var TypeDoc;
             * @param path  The path of the directory that should be scanned.
             */
             PartialsPlugin.prototype.loadPartials = function (path) {
+                if (!FS.existsSync(path) || !FS.statSync(path).isDirectory()) {
+                    return;
+                }
+
                 FS.readdirSync(path).forEach(function (fileName) {
                     var file = Path.join(path, fileName);
                     var name = Path.basename(fileName, Path.extname(fileName));
@@ -7046,7 +7101,9 @@ var TypeDoc;
             PrettyPrintPlugin.PRE_TAGS = {
                 pre: true,
                 code: true,
-                textarea: true
+                textarea: true,
+                script: true,
+                style: true
             };
             return PrettyPrintPlugin;
         })(Output.BasePlugin);
