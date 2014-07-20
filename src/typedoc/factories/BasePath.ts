@@ -30,6 +30,7 @@ module TypeDoc.Factories
 
 
         trim(fileName:string) {
+            fileName = BasePath.normalize(fileName);
             if (fileName.substr(0, this.basePath.length) == this.basePath) {
                 return fileName.substr(this.basePath.length + 1);
             } else {
