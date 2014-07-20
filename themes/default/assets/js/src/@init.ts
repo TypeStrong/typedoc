@@ -1,5 +1,4 @@
-/// <reference path="lib/jquery.d.ts" />
-/// <reference path="lib/lunr.d.ts" />
+/// <reference path="lib/tsd.d.ts" />
 
 declare module tsd.search
 {

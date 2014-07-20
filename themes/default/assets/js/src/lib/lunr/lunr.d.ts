@@ -1,6 +1,18 @@
+// Type definitions for lunr.js 0.5.4
+// Project: https://github.com/olivernn/lunr.js
+// Definitions by: Sebastian Lenz <https://github.com/sebastian-lenz>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
+
+/**
+ * lunr - http://lunrjs.com - A bit like Solr, but much smaller and not as bright - 0.5.4
+ * Copyright (C) 2014 Oliver Nightingale
+ * MIT Licensed
+ * @license
+ */
 declare module lunr
 {
     var version:string;
+
 
     /**
      * A function for splitting a string into tokens ready to be inserted into the search index.
@@ -14,9 +26,9 @@ declare module lunr
      * lunr.stemmer is an english language stemmer, this is a JavaScript implementation of
      * the PorterStemmer taken from http://tartaurs.org/~martin
      *
-     * @param str  The string to stem
+     * @param token  The string to stem
      */
-    function stemmer(str:string):string;
+    function stemmer(token:string):string;
 
 
     /**
@@ -29,6 +41,10 @@ declare module lunr
      * @param token  The token to pass through the filter
      */
     function stopWordFilter(token:string):string;
+
+    module stopWordFilter {
+        var stopWords:SortedSet<string>;
+    }
 
 
     /**
@@ -79,7 +95,7 @@ declare module lunr
          * @param eventName The name of the event to emit.
          * @param args
          */
-        emit(eventName:string, ...args):void;
+        emit(eventName:string, ...args:any[]):void;
 
 
         /**
@@ -88,6 +104,13 @@ declare module lunr
          * @param eventName  The name of the event to check.
          */
         hasHandler(eventName:string):boolean;
+    }
+
+
+    interface IPipelineFunction {
+        (token:string):string;
+        (token:string, tokenIndex:number):string;
+        (token:string, tokenIndex:number, tokens:string[]):string;
     }
 
 
@@ -129,7 +152,7 @@ declare module lunr
          * @param fn     The function to check for.
          * @param label  The label to register this function with
          */
-        registerFunction(fn:Function, label:string):void;
+        registerFunction(fn:IPipelineFunction, label:string):void;
 
 
         /**
@@ -137,7 +160,7 @@ declare module lunr
          *
          * @param fn  The function to check for.
          */
-        warnIfFunctionNotRegistered(fn:Function):void;
+        warnIfFunctionNotRegistered(fn:IPipelineFunction):void;
 
 
         /**
@@ -147,7 +170,7 @@ declare module lunr
          *
          * @param functions  Any number of functions to add to the pipeline.
          */
-        add(...functions:Function[]);
+        add(...functions:IPipelineFunction[]):void;
 
 
         /**
@@ -158,7 +181,7 @@ declare module lunr
          * @param existingFn  A function that already exists in the pipeline.
          * @param newFn       The new function to add to the pipeline.
          */
-        after(existingFn:Function, newFn:Function):void;
+        after(existingFn:IPipelineFunction, newFn:IPipelineFunction):void;
 
 
         /**
@@ -169,7 +192,7 @@ declare module lunr
          * @param existingFn  A function that already exists in the pipeline.
          * @param newFn       The new function to add to the pipeline.
          */
-        before(existingFn:Function, newFn:Function):void;
+        before(existingFn:IPipelineFunction, newFn:IPipelineFunction):void;
 
 
         /**
@@ -177,7 +200,7 @@ declare module lunr
          *
          * @param fn  The function to remove from the pipeline.
          */
-        remove(fn:Function):void;
+        remove(fn:IPipelineFunction):void;
 
 
         /**
@@ -380,7 +403,7 @@ declare module lunr
          *
          * @param serialisedData  The serialised set to load.
          */
-        static load<T>(serialisedData:any):SortedSet<T>;
+        static load<T>(serialisedData:T[]):SortedSet<T>;
     }
 
 
@@ -612,7 +635,7 @@ declare module lunr
          * @param plugin  The plugin to apply.
          * @param args
          */
-        use(plugin:Function, ...args):void;
+        use(plugin:Function, ...args:any[]):void;
 
 
         /**
@@ -682,7 +705,7 @@ declare module lunr
          *
          * @param serialisedData  The serialised store to load.
          */
-        static load<T>(serialisedData):Store<T>;
+        static load<T>(serialisedData:any):Store<T>;
     }
 
 
