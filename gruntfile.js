@@ -82,6 +82,31 @@ module.exports = function(grunt)
                         replacement: '<%= pkg.version %>'
                     }]
                 }
+            },
+            themeMinimal: {
+                files: {
+                    'bin/themes/minimal/layouts/default.hbs': ['themes/minimal/layouts/default.hbs']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /{{ CSS }}/g,
+                        replacement: function() {
+                            var css = grunt.file.read('bin/themes/default/assets/css/main.css');
+                            return css.replace(/url\(([^\)]*)\)/g, function(match, file) {
+                                if (match.indexOf(':') != -1) return match;
+                                var path = require('path'), fs = require('fs');
+                                var file = path.resolve('bin/themes/default/assets/css', file);
+                                var data = fs.readFileSync(file, 'base64');
+                                return 'url(data:image/png;base64,' + data + ')';
+                            });
+                        }
+                    }, {
+                        pattern: /{{ JS }}/g,
+                        replacement: function() {
+                            return grunt.file.read('bin/themes/default/assets/js/main.js');
+                        }
+                    }]
+                }
             }
         },
         copy: {
@@ -95,7 +120,7 @@ module.exports = function(grunt)
         watch: {
             typescript: {
                 files: ['src/**/*.ts'],
-                tasks: ['ts:typedoc', 'string-replace']
+                tasks: ['ts:typedoc', 'string-replace:version']
             },
             themes: {
                 files: ['themes/**/theme.ts'],
@@ -103,11 +128,15 @@ module.exports = function(grunt)
             },
             themeDefaultTypescript: {
                 files: ['themes/default/assets/js/src/**/*.ts'],
-                tasks: ['ts:themeDefault', 'uglify:themeDefault', 'copy:themeDefault']
+                tasks: ['ts:themeDefault', 'uglify:themeDefault', 'copy:themeDefault', 'string-replace:themeMinimal']
             },
             themeDefaultSass: {
-                files: ['themes/**/*.sass'],
-                tasks: ['sass:themeDefault', 'copy:themeDefault']
+                files: ['themes/default/**/*.sass'],
+                tasks: ['sass:themeDefault', 'copy:themeDefault', 'string-replace:themeMinimal']
+            },
+            themeMinimalLayout: {
+                files: ['themes/minimal/layouts/default.hbs'],
+                tasks: ['string-replace:themeMinimal']
             }
         }
     });
@@ -120,7 +149,7 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-ts');
 
-    grunt.registerTask('default', ['ts:typedoc', 'string-replace']);
+    grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
     grunt.registerTask('compiler', ['ts:compiler']);
-    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault']);
+    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault','string-replace:themeMinimal']);
 };

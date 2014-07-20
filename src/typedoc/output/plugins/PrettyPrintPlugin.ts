@@ -59,7 +59,9 @@ module TypeDoc.Output
         static PRE_TAGS:any = {
             pre:      true,
             code:     true,
-            textarea: true
+            textarea: true,
+            script:   true,
+            style:    true
         };
     
     

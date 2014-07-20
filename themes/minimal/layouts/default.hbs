@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="minimal no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{model.name}} | {{project.name}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">{{ CSS }}</style>
+</head>
+<body>
+
+<header>
+    <div class="tsd-page-toolbar">
+        <div class="container">
+            <div class="table-wrap">
+                <div class="table-cell">
+                    <strong>{{project.name}}</strong>
+                </div>
+                <div class="table-cell" id="tsd-filter">
+                    <input type="checkbox" id="tsd-filter-inherited" checked />
+                    <label for="tsd-filter-inherited">Inherited</label>
+
+                    <input type="checkbox" id="tsd-filter-private" checked />
+                    <label for="tsd-filter-private">Private</label>
+
+                    <input type="checkbox" id="tsd-filter-externals" checked />
+                    <label for="tsd-filter-externals">Externals</label>
+
+                    <input type="checkbox" id="tsd-filter-only-exported" />
+                    <label for="tsd-filter-only-exported">Only exported</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="tsd-navigation secondary">
+    <ul>
+        {{#each toc.children}}
+            {{> toc}}
+        {{/each}}
+    </ul>
+</nav>
+
+<div class="container container-main">
+    <div class="content-wrap">
+        {{#markdown}}{{{model.readme}}}{{/markdown}}
+        {{{contents}}}
+    </div>
+</div>
+
+<script type="text/javascript">
+{{ JS }}
+</script>
+
+</body>
+</html>
