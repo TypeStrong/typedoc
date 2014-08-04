@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebastian-lenz/typedoc.git"
+    "url": "git://github.com/sebastian-lenz/TypeDoc.git"
   },
   "bugs": {
-    "url": "https://github.com/sebastian-lenz/typedoc/issues"
+    "url": "https://github.com/sebastian-lenz/TypeDoc/issues"
   },
   "licenses": [
     {
       "type": "Apache-2.0",
-      "url": "https://github.com/sebastian-lenz/typedoc/blob/master/LICENSE"
+      "url": "https://github.com/sebastian-lenz/TypeDoc/blob/master/LICENSE"
     }
   ],
   "engines": {
