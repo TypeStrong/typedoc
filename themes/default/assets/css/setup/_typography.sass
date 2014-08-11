@@ -5,11 +5,20 @@ a
     &:hover
         text-decoration: underline
 
-pre
-    +vendors(border-radius, 4px)
-    background-color: rgba(#000, 0.1)
-    padding: 20px
+code, pre
+    font-family: "Source Code Pro", fixed
+    padding: 0.2em
+    margin: 0
+    font-size: 85%
+    background-color: rgba(#000, 0.04)
 
+pre
+    padding: 10px
+
+    code
+        padding: 0
+        font-size: 100%
+        background-color: transparent
 ul
     list-style: square
     padding: 0 0 0 20px
