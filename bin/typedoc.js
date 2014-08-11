@@ -2007,6 +2007,9 @@ var TypeDoc;
 
                 return items.join(', ');
             };
+
+            Dispatcher.test = function () {
+            };
             Dispatcher.EVENT_BEGIN = 'begin';
 
             Dispatcher.EVENT_BEGIN_DOCUMENT = 'beginDocument';
@@ -3766,7 +3769,7 @@ var TypeDoc;
                 this.noReadmeFile = (readme == 'none');
                 if (!this.noReadmeFile && readme) {
                     readme = Path.resolve(readme);
-                    if (FS.fileExistsSync(readme)) {
+                    if (FS.existsSync(readme)) {
                         this.readmeFile = readme;
                     }
                 }

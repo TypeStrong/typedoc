@@ -581,6 +581,7 @@ declare module TypeDoc.Factories {
         * @returns A string describing the given bit mask.
         */
         static flagsToString(flags: any): string;
+        private static test();
     }
 }
 declare module TypeDoc.Factories {
