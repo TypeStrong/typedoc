@@ -155,7 +155,7 @@ textarea { overflow: auto; /* 1 */ vertical-align: top; }
 /* Remove most spacing between table cells. */
 table { border-collapse: collapse; border-spacing: 0; }
 
-.container { position: relative; max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 @media (max-width: 767px) { .container { padding: 0 20px; } }
 
 .container-main { padding-bottom: 200px; }
@@ -421,7 +421,7 @@ ul { list-style: square; padding: 0 0 0 20px; margin: 0; }
 
 body { background: #fdfdfd; font-family: "Segoe UI", sans-serif; font-size: 16px; color: #222222; }
 
-.tsd-page-toolbar { position: fixed; z-index: 1; width: 100%; height: 40px; color: white; background: #1a1a1a; }
+.tsd-page-toolbar { position: fixed; z-index: 1; width: 100%; height: 40px; color: white; background: white; box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
 .tsd-page-toolbar a { color: white; font-weight: bold; text-decoration: none; }
 .tsd-page-toolbar a:hover { text-decoration: underline; }
 .tsd-page-toolbar .table-wrap { display: table; width: 100%; height: 40px; }
@@ -455,7 +455,7 @@ body { background: #fdfdfd; font-family: "Segoe UI", sans-serif; font-size: 16px
 #tsd-filter label { -webkit-transition: color 0.2s, background-color 0.2s; -moz-transition: color 0.2s, background-color 0.2s; -ms-transition: color 0.2s, background-color 0.2s; -o-transition: color 0.2s, background-color 0.2s; transition: color 0.2s, background-color 0.2s; display: inline-block; height: 40px; margin: 0 0 0 1px; padding: 0 10px; color: #666666; background-color: transparent; font-size: 16px; line-height: 40px; cursor: pointer; }
 #tsd-filter input:checked + label { color: white; background-color: #4d4d4d; }
 
-.tsd-page-title { padding: 70px 0 20px 0; margin: 0 0 20px 0; background: #eeeeee; }
+.tsd-page-title { padding: 70px 0 20px 0; margin: 0 0 20px 0; background: white; box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
 .tsd-page-title h1 { margin: 0; }
 .tsd-page-title .breadcrumb { margin: 0; padding: 0; color: gray; }
 .tsd-page-title .breadcrumb a { color: #666666; text-decoration: none; }
