@@ -63,9 +63,9 @@ module TypeDoc.Output
 
             var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
             var data =
-                'var tsd = tsd || {};' +
-                'tsd.search = tsd.search || {};' +
-                'tsd.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
+                'var typedoc = typedoc || {};' +
+                'typedoc.search = typedoc.search || {};' +
+                'typedoc.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
 
             TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, data, true);
         }

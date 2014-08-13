@@ -63,7 +63,7 @@
         <div class="col-8">
             {{{contents}}}
         </div>
-        <div class="offset-1 col-3">
+        <div class="col-4">
             <nav class="tsd-navigation primary">
                 <ul>
                     {{#each navigation.children}}
@@ -73,9 +73,9 @@
             </nav>
 
             <nav class="tsd-navigation secondary">
-                <ul>
+                <ul class="before-current">
                     {{#each toc.children}}
-                        {{> toc}}
+                        {{> toc.root}}
                     {{/each}}
                 </ul>
             </nav>

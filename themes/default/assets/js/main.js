@@ -1,5 +1,110 @@
-var tsd;
-(function (tsd) {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var typedoc;
+(function (typedoc) {
+    
+
+    
+
+    var services = [];
+
+    var components = [];
+
+    typedoc.$document = $(document);
+
+    typedoc.$window = $(window);
+
+    typedoc.$body = $('body');
+
+    function registerService(constructor, name, priority) {
+        if (typeof priority === "undefined") { priority = 0; }
+        services.push({
+            constructor: constructor,
+            name: name,
+            priority: priority,
+            instance: null
+        });
+
+        services.sort(function (a, b) {
+            return a.priority - b.priority;
+        });
+    }
+    typedoc.registerService = registerService;
+
+    function registerComponent(constructor, selector, priority, namespace) {
+        if (typeof priority === "undefined") { priority = 0; }
+        if (typeof namespace === "undefined") { namespace = '*'; }
+        components.push({
+            selector: selector,
+            constructor: constructor,
+            priority: priority,
+            namespace: namespace
+        });
+
+        components.sort(function (a, b) {
+            return a.priority - b.priority;
+        });
+    }
+    typedoc.registerComponent = registerComponent;
+
+    if (typeof Backbone != 'undefined') {
+        typedoc['Events'] = (function () {
+            var res = function () {
+            };
+            _.extend(res.prototype, Backbone.Events);
+            return res;
+        })();
+    }
+
+    var Application = (function (_super) {
+        __extends(Application, _super);
+        function Application() {
+            _super.call(this);
+
+            this.createServices();
+            this.createComponents(typedoc.$body);
+        }
+        Application.prototype.createServices = function () {
+            _(services).forEach(function (c) {
+                c.instance = new c.constructor();
+                typedoc[c.name] = c.instance;
+            });
+        };
+
+        Application.prototype.createComponents = function ($context, namespace) {
+            if (typeof namespace === "undefined") { namespace = 'default'; }
+            var result = [];
+            _(components).forEach(function (c) {
+                if (c.namespace != namespace && c.namespace != '*') {
+                    return;
+                }
+
+                $context.find(c.selector).each(function (m, el) {
+                    var $el = $(el), instance;
+                    if (instance = $el.data('component')) {
+                        if (_(result).indexOf(instance) == -1) {
+                            result.push(instance);
+                        }
+                    } else {
+                        instance = new c.constructor({ el: el });
+                        $el.data('component', instance);
+                        result.push(instance);
+                    }
+                });
+            });
+
+            return result;
+        };
+        return Application;
+    })(typedoc.Events);
+    typedoc.Application = Application;
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
     var $html = $('html');
 
     var FilterOption = (function () {
@@ -52,9 +157,183 @@ var tsd;
     } else {
         $html.addClass('no-filter');
     }
-})(tsd || (tsd = {}));
-var tsd;
-(function (tsd) {
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    
+
+    var MenuHighlight = (function () {
+        function MenuHighlight() {
+            var _this = this;
+            this.index = 0;
+            this.createAnchors();
+
+            typedoc.$window.on('resize', function () {
+                return _this.updateAnchors();
+            });
+            typedoc.$document.on('scroll', function () {
+                return _this.updateHighlight();
+            });
+        }
+        MenuHighlight.prototype.createAnchors = function () {
+            var _this = this;
+            this.index = 0;
+            this.anchors = [{
+                    position: 0
+                }];
+
+            $('.tsd-navigation.secondary a').each(function (index, el) {
+                var href = el.href;
+                if (href.indexOf('#') == -1)
+                    return;
+                if (href.substr(0, window.location.href.length) != window.location.href)
+                    return;
+
+                var hash = href.substr(href.indexOf('#') + 1);
+                var $anchor = $('a.anchor[name=' + hash + ']');
+                if ($anchor.length == 0)
+                    return;
+
+                _this.anchors.push({
+                    $link: $(el.parentNode),
+                    $anchor: $anchor,
+                    position: 0
+                });
+            });
+
+            this.updateAnchors();
+        };
+
+        MenuHighlight.prototype.updateAnchors = function () {
+            var anchor;
+            for (var index = 1, count = this.anchors.length; index < count; index++) {
+                anchor = this.anchors[index];
+                anchor.position = anchor.$anchor.offset().top;
+            }
+
+            this.anchors.sort(function (a, b) {
+                return a.position - b.position;
+            });
+
+            this.updateHighlight();
+        };
+
+        MenuHighlight.prototype.updateHighlight = function () {
+            var position = typedoc.$document.scrollTop();
+            var anchors = this.anchors;
+            var index = this.index;
+            var count = anchors.length - 1;
+
+            while (index > 0 && anchors[index].position > position) {
+                index -= 1;
+            }
+
+            while (index < count && anchors[index + 1].position < position) {
+                index += 1;
+            }
+
+            if (this.index != index) {
+                if (this.index > 0)
+                    this.anchors[this.index].$link.removeClass('focus');
+                this.index = index;
+                if (this.index > 0)
+                    this.anchors[this.index].$link.addClass('focus');
+            }
+        };
+        return MenuHighlight;
+    })();
+    typedoc.MenuHighlight = MenuHighlight;
+
+    typedoc.menuHighlight = new MenuHighlight();
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    var StickyMode;
+    (function (StickyMode) {
+        StickyMode[StickyMode["None"] = 0] = "None";
+
+        StickyMode[StickyMode["Secondary"] = 1] = "Secondary";
+
+        StickyMode[StickyMode["Current"] = 2] = "Current";
+    })(StickyMode || (StickyMode = {}));
+
+    var MenuSticky = (function (_super) {
+        __extends(MenuSticky, _super);
+        function MenuSticky(options) {
+            _super.call(this, options);
+            this.state = '';
+            this.stickyMode = 0 /* None */;
+
+            this.$current = this.$el.find('> ul.current');
+            this.$navigation = this.$el.parents('.col-4');
+            this.$container = this.$el.parents('.row');
+
+            this.listenTo(typedoc.viewport, 'resize', this.onResize);
+            this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
+
+            this.onResize(typedoc.viewport.width, typedoc.viewport.height);
+        }
+        MenuSticky.prototype.setState = function (state) {
+            if (this.state == state)
+                return;
+
+            if (this.state != '')
+                this.$el.removeClass(this.state);
+            this.state = state;
+            if (this.state != '')
+                this.$el.addClass(this.state);
+        };
+
+        MenuSticky.prototype.onResize = function (width, height) {
+            this.stickyMode = 0 /* None */;
+            this.setState('');
+
+            var containerHeight = this.$container.height();
+            if (this.$navigation.height() < containerHeight) {
+                var elHeight = this.$el.height();
+                var elTop = this.$el.offset().top;
+
+                if (this.$current.length) {
+                    var currentHeight = this.$current.height();
+                    var currentTop = this.$current.offset().top;
+
+                    this.$el.css('top', elTop - currentTop + 20);
+                    if (currentHeight < height) {
+                        var bottom = this.$container.offset().top + containerHeight;
+                        this.stickyMode = 2 /* Current */;
+                        this.stickyTop = currentTop;
+                        this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 40;
+                    }
+                }
+
+                if (elHeight < height) {
+                    this.stickyMode = 1 /* Secondary */;
+                    this.stickyTop = elTop;
+                }
+            }
+
+            this.onScroll(typedoc.viewport.scrollTop);
+        };
+
+        MenuSticky.prototype.onScroll = function (scrollTop) {
+            if (this.stickyMode == 2 /* Current */) {
+                if (scrollTop > this.stickyBottom) {
+                    this.setState('sticky-bottom');
+                } else {
+                    this.setState(scrollTop + 20 > this.stickyTop ? 'sticky-current' : '');
+                }
+            } else if (this.stickyMode == 1 /* Secondary */) {
+                this.setState(scrollTop + 20 > this.stickyTop ? 'sticky' : '');
+            }
+        };
+        return MenuSticky;
+    })(Backbone.View);
+    typedoc.MenuSticky = MenuSticky;
+
+    typedoc.registerComponent(MenuSticky, '.tsd-navigation.secondary');
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
     (function (search) {
         var SearchLoadingState;
         (function (SearchLoadingState) {
@@ -239,11 +518,11 @@ var tsd;
                 $field.focus();
             }
         });
-    })(tsd.search || (tsd.search = {}));
-    var search = tsd.search;
-})(tsd || (tsd = {}));
-var tsd;
-(function (tsd) {
+    })(typedoc.search || (typedoc.search = {}));
+    var search = typedoc.search;
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
     $('.tsd-signatures').each(function (n, el) {
         var $signatures, $descriptions;
 
@@ -275,4 +554,45 @@ var tsd;
             setIndex(0);
         }
     });
-})(tsd || (tsd = {}));
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    var Viewport = (function (_super) {
+        __extends(Viewport, _super);
+        function Viewport() {
+            var _this = this;
+            _super.call(this);
+            this.scrollTop = 0;
+            this.width = 0;
+            this.height = 0;
+            typedoc.$window.on('scroll', _(function () {
+                return _this.onScroll();
+            }).throttle(10));
+            typedoc.$window.on('resize', _(function () {
+                return _this.onResize();
+            }).throttle(10));
+
+            this.onResize();
+            this.onScroll();
+        }
+        Viewport.prototype.onResize = function () {
+            this.width = typedoc.$window.width();
+            this.height = typedoc.$window.height();
+            this.trigger('resize', this.width, this.height);
+        };
+
+        Viewport.prototype.onScroll = function () {
+            this.scrollTop = typedoc.$window.scrollTop();
+            this.trigger('scroll', this.scrollTop);
+        };
+        return Viewport;
+    })(typedoc.Events);
+    typedoc.Viewport = Viewport;
+
+    typedoc.viewport;
+    typedoc.registerService(Viewport, 'viewport');
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    typedoc.app = new typedoc.Application();
+})(typedoc || (typedoc = {}));

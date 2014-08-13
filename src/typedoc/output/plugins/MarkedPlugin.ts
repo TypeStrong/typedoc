@@ -63,6 +63,7 @@ module TypeDoc.Output
             Handlebars.registerHelper('compact',  function(arg:any) { return that.getCompact(arg.fn(this)); });
             Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
             Handlebars.registerHelper('wbr', (str:string) => this.getWordBreaks(str));
+            Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) { return that.getIfCond(v1, operator, v2, options, this) });
 
             HighlightJS.registerLanguage('typescript', highlightTypeScript);
 
@@ -131,6 +132,40 @@ module TypeDoc.Output
             } catch (error) {
                 this.renderer.application.log(error.message, LogLevel.Warn);
                 return text;
+            }
+        }
+
+
+        /**
+         * Handlebars if helper with condition.
+         *
+         * @param v1        The first value to be compared.
+         * @param operator  The operand to perform on the two given values.
+         * @param v2        The second value to be compared
+         * @param options   The current handlebars object.
+         * @param context   The current handlebars context.
+         * @returns {*}
+         */
+        public getIfCond(v1, operator, v2, options, context) {
+            switch (operator) {
+                case '==':
+                    return (v1 == v2) ? options.fn(context) : options.inverse(context);
+                case '===':
+                    return (v1 === v2) ? options.fn(context) : options.inverse(context);
+                case '<':
+                    return (v1 < v2) ? options.fn(context) : options.inverse(context);
+                case '<=':
+                    return (v1 <= v2) ? options.fn(context) : options.inverse(context);
+                case '>':
+                    return (v1 > v2) ? options.fn(context) : options.inverse(context);
+                case '>=':
+                    return (v1 >= v2) ? options.fn(context) : options.inverse(context);
+                case '&&':
+                    return (v1 && v2) ? options.fn(context) : options.inverse(context);
+                case '||':
+                    return (v1 || v2) ? options.fn(context) : options.inverse(context);
+                default:
+                    return options.inverse(context);
             }
         }
 

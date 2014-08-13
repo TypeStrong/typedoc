@@ -581,7 +581,6 @@ declare module TypeDoc.Factories {
         * @returns A string describing the given bit mask.
         */
         static flagsToString(flags: any): string;
-        private static test();
     }
 }
 declare module TypeDoc.Factories {
@@ -2905,6 +2904,17 @@ declare module TypeDoc.Output {
         * @return A html string with syntax highlighting.
         */
         public getHighlighted(text: string, lang?: string): string;
+        /**
+        * Handlebars if helper with condition.
+        *
+        * @param v1        The first value to be compared.
+        * @param operator  The operand to perform on the two given values.
+        * @param v2        The second value to be compared
+        * @param options   The current handlebars object.
+        * @param context   The current handlebars context.
+        * @returns {*}
+        */
+        public getIfCond(v1: any, operator: any, v2: any, options: any, context: any): any;
         /**
         * Parse the given markdown string and return the resulting html.
         *

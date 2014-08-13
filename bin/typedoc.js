@@ -2007,9 +2007,6 @@ var TypeDoc;
 
                 return items.join(', ');
             };
-
-            Dispatcher.test = function () {
-            };
             Dispatcher.EVENT_BEGIN = 'begin';
 
             Dispatcher.EVENT_BEGIN_DOCUMENT = 'beginDocument';
@@ -6474,7 +6471,7 @@ var TypeDoc;
                 });
 
                 var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-                var data = 'var tsd = tsd || {};' + 'tsd.search = tsd.search || {};' + 'tsd.search.data = ' + JSON.stringify({ kinds: kinds, rows: rows }) + ';';
+                var data = 'var typedoc = typedoc || {};' + 'typedoc.search = typedoc.search || {};' + 'typedoc.search.data = ' + JSON.stringify({ kinds: kinds, rows: rows }) + ';';
 
                 TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, data, true);
             };
@@ -6588,6 +6585,9 @@ var TypeDoc;
                 Handlebars.registerHelper('wbr', function (str) {
                     return _this.getWordBreaks(str);
                 });
+                Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+                    return that.getIfCond(v1, operator, v2, options, this);
+                });
 
                 HighlightJS.registerLanguage('typescript', highlightTypeScript);
 
@@ -6657,6 +6657,39 @@ var TypeDoc;
                 } catch (error) {
                     this.renderer.application.log(error.message, 2 /* Warn */);
                     return text;
+                }
+            };
+
+            /**
+            * Handlebars if helper with condition.
+            *
+            * @param v1        The first value to be compared.
+            * @param operator  The operand to perform on the two given values.
+            * @param v2        The second value to be compared
+            * @param options   The current handlebars object.
+            * @param context   The current handlebars context.
+            * @returns {*}
+            */
+            MarkedPlugin.prototype.getIfCond = function (v1, operator, v2, options, context) {
+                switch (operator) {
+                    case '==':
+                        return (v1 == v2) ? options.fn(context) : options.inverse(context);
+                    case '===':
+                        return (v1 === v2) ? options.fn(context) : options.inverse(context);
+                    case '<':
+                        return (v1 < v2) ? options.fn(context) : options.inverse(context);
+                    case '<=':
+                        return (v1 <= v2) ? options.fn(context) : options.inverse(context);
+                    case '>':
+                        return (v1 > v2) ? options.fn(context) : options.inverse(context);
+                    case '>=':
+                        return (v1 >= v2) ? options.fn(context) : options.inverse(context);
+                    case '&&':
+                        return (v1 && v2) ? options.fn(context) : options.inverse(context);
+                    case '||':
+                        return (v1 || v2) ? options.fn(context) : options.inverse(context);
+                    default:
+                        return options.inverse(context);
                 }
             };
 

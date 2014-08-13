@@ -1,4 +1,4 @@
-module tsd
+module typedoc
 {
     var $html = $('html');
 

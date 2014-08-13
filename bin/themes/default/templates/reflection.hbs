@@ -1,9 +1,9 @@
-{{#with model}}
-    {{> comment}}
-{{/with}}
+<section class="tsd-panel tsd-comment">
+    {{#with model}}{{> comment}}{{/with}}
+</section>
 
 {{#if model.typeHierarchy}}
-    <section class="tsd-hierarchy">
+    <section class="tsd-panel tsd-hierarchy">
         <h2>Hierarchy</h2>
         {{#with model.typeHierarchy}}{{> hierarchy}}{{/with}}
     </section>

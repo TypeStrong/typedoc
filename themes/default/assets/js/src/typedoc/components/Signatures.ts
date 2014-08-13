@@ -1,4 +1,4 @@
-module tsd
+module typedoc
 {
     $('.tsd-signatures').each((n, el) => {
         var $signatures, $descriptions

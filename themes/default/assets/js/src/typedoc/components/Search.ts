@@ -1,4 +1,24 @@
-module tsd.search
+declare module typedoc.search
+{
+    interface IDocument {
+        id:number;
+        kind:number;
+        name:string;
+        url:string;
+        classes:string;
+        parent?:string;
+    }
+
+    interface IData {
+        kinds:{[kind:number]:string};
+        rows:IDocument[];
+    }
+
+    var data:IData;
+}
+
+
+module typedoc.search
 {
     /**
      * Loading state definitions.

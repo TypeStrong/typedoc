@@ -1,4 +1,10 @@
 {{#if parent}}{{#with parent}}{{> breadcrumb}}{{/with}}{{/if}}
-<li>
-    <a href="{{relativeURL url}}">{{name}}</a>
-</li>
+{{#ifCond url '==' 'globals.html'}}
+    <li>
+        <a href="{{relativeURL url}}">Globals</a>
+    </li>
+{{else}}
+    <li>
+        <a href="{{relativeURL url}}">{{name}}</a>
+    </li>
+{{/ifCond}}
