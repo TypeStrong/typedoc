@@ -1,0 +1,44 @@
+// Displays the toolbar at the top of the page.
+//
+// <div class="tsd-page-toolbar">
+//   <div class="container">
+//     <div class="table-wrap">
+//       <div class="table-cell">
+//         <a href="../index.html" class="title">TypeDoc Documentation</a>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+//
+.tsd-page-toolbar
+    @extend %TOOLBAR_SHADOW
+    position: absolute
+    z-index: 1
+    top: 0
+    left: 0
+    width: 100%
+    height: $TOOLBAR_HEIGHT
+    color: $TOOLBAR_TEXT_COLOR
+    background: $TOOLBAR_COLOR
+
+    a
+        color: $TOOLBAR_TEXT_COLOR
+        font-weight: bold
+        text-decoration: none
+
+        &:hover
+            text-decoration: underline
+
+    .table-wrap
+        display: table
+        width: 100%
+        height: $TOOLBAR_HEIGHT
+
+    .table-cell
+        display: table-cell
+        position: relative
+        white-space: nowrap
+        line-height: $TOOLBAR_HEIGHT
+
+        &:first-child
+            width: 100%

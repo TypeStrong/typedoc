@@ -3,13 +3,13 @@
         <li>
             {{#if signatures}}
                 <h5>{{#compact}}
-                    {{{wbr name}}}<span class="tsd-signature-symbols">{{#if isOptional}}?{{/if}}</span>
+                    {{{wbr name}}}<span class="tsd-signature-symbol">{{#if isOptional}}?{{/if}}</span>
                 {{/compact}}</h5>
 
                 {{> member.signatures}}
             {{else}}
                 <h5>{{#compact}}
-                    {{{wbr name}}}<span class="tsd-signature-symbols">{{#if isOptional}}?{{/if}}</span>&nbsp;{{#with type}}{{>type}}{{/with}}
+                    {{{wbr name}}}<span class="tsd-signature-symbol">{{#if isOptional}}?{{/if}}</span>&nbsp;{{#with type}}{{>type}}{{/with}}
                 {{/compact}}</h5>
 
                 {{> comment}}

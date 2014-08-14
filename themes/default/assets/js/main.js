@@ -131,6 +131,7 @@ var typedoc;
             window.localStorage[this.key] = (this.value ? 'true' : 'false');
 
             $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+            typedoc.viewport.triggerResize();
         };
         return FilterOption;
     })();
@@ -162,18 +163,16 @@ var typedoc;
 (function (typedoc) {
     
 
-    var MenuHighlight = (function () {
-        function MenuHighlight() {
-            var _this = this;
+    var MenuHighlight = (function (_super) {
+        __extends(MenuHighlight, _super);
+        function MenuHighlight(options) {
+            _super.call(this, options);
             this.index = 0;
-            this.createAnchors();
 
-            typedoc.$window.on('resize', function () {
-                return _this.updateAnchors();
-            });
-            typedoc.$document.on('scroll', function () {
-                return _this.updateHighlight();
-            });
+            this.listenTo(typedoc.viewport, 'resize', this.onResize);
+            this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
+
+            this.createAnchors();
         }
         MenuHighlight.prototype.createAnchors = function () {
             var _this = this;
@@ -182,11 +181,17 @@ var typedoc;
                     position: 0
                 }];
 
-            $('.tsd-navigation.secondary a').each(function (index, el) {
+            var base = window.location.href;
+            if (base.indexOf('#') != -1) {
+                base = base.substr(0, base.indexOf('#'));
+                console.log(base);
+            }
+
+            this.$el.find('a').each(function (index, el) {
                 var href = el.href;
                 if (href.indexOf('#') == -1)
                     return;
-                if (href.substr(0, window.location.href.length) != window.location.href)
+                if (href.substr(0, base.length) != base)
                     return;
 
                 var hash = href.substr(href.indexOf('#') + 1);
@@ -201,10 +206,10 @@ var typedoc;
                 });
             });
 
-            this.updateAnchors();
+            this.onResize();
         };
 
-        MenuHighlight.prototype.updateAnchors = function () {
+        MenuHighlight.prototype.onResize = function () {
             var anchor;
             for (var index = 1, count = this.anchors.length; index < count; index++) {
                 anchor = this.anchors[index];
@@ -215,20 +220,19 @@ var typedoc;
                 return a.position - b.position;
             });
 
-            this.updateHighlight();
+            this.onScroll(typedoc.viewport.scrollTop);
         };
 
-        MenuHighlight.prototype.updateHighlight = function () {
-            var position = typedoc.$document.scrollTop();
+        MenuHighlight.prototype.onScroll = function (scrollTop) {
             var anchors = this.anchors;
             var index = this.index;
             var count = anchors.length - 1;
 
-            while (index > 0 && anchors[index].position > position) {
+            while (index > 0 && anchors[index].position > scrollTop) {
                 index -= 1;
             }
 
-            while (index < count && anchors[index + 1].position < position) {
+            while (index < count && anchors[index + 1].position < scrollTop) {
                 index += 1;
             }
 
@@ -241,10 +245,10 @@ var typedoc;
             }
         };
         return MenuHighlight;
-    })();
+    })(Backbone.View);
     typedoc.MenuHighlight = MenuHighlight;
 
-    typedoc.menuHighlight = new MenuHighlight();
+    typedoc.registerComponent(MenuHighlight, '.menu-highlight');
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
@@ -302,7 +306,7 @@ var typedoc;
                         var bottom = this.$container.offset().top + containerHeight;
                         this.stickyMode = 2 /* Current */;
                         this.stickyTop = currentTop;
-                        this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 40;
+                        this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 20;
                     }
                 }
 
@@ -330,7 +334,7 @@ var typedoc;
     })(Backbone.View);
     typedoc.MenuSticky = MenuSticky;
 
-    typedoc.registerComponent(MenuSticky, '.tsd-navigation.secondary');
+    typedoc.registerComponent(MenuSticky, '.menu-sticky');
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
@@ -523,37 +527,99 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
-    $('.tsd-signatures').each(function (n, el) {
-        var $signatures, $descriptions;
+    var SignatureGroup = (function () {
+        function SignatureGroup($signature, $description) {
+            this.$signature = $signature;
+            this.$description = $description;
+        }
+        SignatureGroup.prototype.addClass = function (className) {
+            this.$signature.addClass(className);
+            this.$description.addClass(className);
+            return this;
+        };
 
-        function init() {
-            var $el = $(el);
-            $signatures = $el.find('> .tsd-signature');
-            if ($signatures.length < 2) {
-                return false;
+        SignatureGroup.prototype.removeClass = function (className) {
+            this.$signature.removeClass(className);
+            this.$description.removeClass(className);
+            return this;
+        };
+        return SignatureGroup;
+    })();
+
+    var Signature = (function (_super) {
+        __extends(Signature, _super);
+        function Signature(options) {
+            var _this = this;
+            _super.call(this, options);
+            this.index = -1;
+
+            this.createGroups();
+
+            if (this.groups) {
+                this.$el.addClass('active').on('click', '.tsd-signature', function (event) {
+                    return _this.onClick(event);
+                });
+                this.$container.addClass('active');
+                this.setIndex(0);
+            }
+        }
+        Signature.prototype.setIndex = function (index) {
+            if (index < 0)
+                index = 0;
+            if (index > this.groups.length - 1)
+                index = this.groups.length - 1;
+            if (this.index == index)
+                return;
+
+            var to = this.groups[index];
+            if (this.index > -1) {
+                var from = this.groups[this.index];
+
+                typedoc.animateHeight(this.$container, function () {
+                    from.removeClass('current').addClass('fade-out');
+                    to.addClass('current fade-in');
+                    typedoc.viewport.triggerResize();
+                });
+
+                setTimeout(function () {
+                    from.removeClass('fade-out');
+                    to.removeClass('fade-in');
+                }, 300);
+            } else {
+                to.addClass('current');
+                typedoc.viewport.triggerResize();
             }
 
-            var $cn = $el.siblings('.tsd-descriptions');
-            $descriptions = $cn.find('> .tsd-description');
+            this.index = index;
+        };
 
-            $el.addClass('active');
-            $cn.addClass('active');
-            return true;
-        }
+        Signature.prototype.createGroups = function () {
+            var _this = this;
+            var $signatures = this.$el.find('> .tsd-signature');
+            if ($signatures.length < 2)
+                return;
 
-        function setIndex(index) {
-            $signatures.removeClass('current').eq(index).addClass('current');
-            $descriptions.removeClass('current').eq(index).addClass('current');
-        }
+            this.$container = this.$el.siblings('.tsd-descriptions');
+            var $descriptions = this.$container.find('> .tsd-description');
 
-        if (init()) {
-            $signatures.on('click', function (e) {
-                setIndex($signatures.index(e.currentTarget));
+            this.groups = [];
+            $signatures.each(function (index, el) {
+                _this.groups.push(new SignatureGroup($(el), $descriptions.eq(index)));
             });
+        };
 
-            setIndex(0);
-        }
-    });
+        Signature.prototype.onClick = function (e) {
+            var _this = this;
+            _(this.groups).forEach(function (group, index) {
+                if (group.$signature.is(e.currentTarget)) {
+                    _this.setIndex(index);
+                }
+            });
+        };
+        return Signature;
+    })(Backbone.View);
+
+    typedoc.registerComponent(Signature, '.tsd-signatures');
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
@@ -575,6 +641,10 @@ var typedoc;
             this.onResize();
             this.onScroll();
         }
+        Viewport.prototype.triggerResize = function () {
+            this.trigger('resize', this.width, this.height);
+        };
+
         Viewport.prototype.onResize = function () {
             this.width = typedoc.$window.width();
             this.height = typedoc.$window.height();
@@ -591,6 +661,62 @@ var typedoc;
 
     typedoc.viewport;
     typedoc.registerService(Viewport, 'viewport');
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    function getVendorInfo(tuples) {
+        for (var name in tuples) {
+            if (!tuples.hasOwnProperty(name))
+                continue;
+            if (typeof (document.body.style[name]) !== 'undefined') {
+                return { name: name, endEvent: tuples[name] };
+            }
+        }
+        return null;
+    }
+
+    typedoc.transition = getVendorInfo({
+        'transition': 'transitionend',
+        'OTransition': 'oTransitionEnd',
+        'msTransition': 'msTransitionEnd',
+        'MozTransition': 'transitionend',
+        'WebkitTransition': 'webkitTransitionEnd'
+    });
+
+    function noTransition($el, callback) {
+        $el.addClass('no-transition');
+        callback();
+        $el.offset();
+        $el.removeClass('no-transition');
+    }
+    typedoc.noTransition = noTransition;
+
+    function animateHeight($el, callback, success) {
+        var from = $el.height(), to;
+        noTransition($el, function () {
+            callback();
+
+            $el.css('height', '');
+            to = $el.height();
+            if (from != to && typedoc.transition)
+                $el.css('height', from);
+        });
+        console.log(from, to, typedoc.transition);
+        if (from != to && typedoc.transition) {
+            $el.css('height', to);
+            $el.on(typedoc.transition.endEvent, function () {
+                noTransition($el, function () {
+                    $el.off(typedoc.transition.endEvent).css('height', '');
+                    if (success)
+                        success();
+                });
+            });
+        } else {
+            if (success)
+                success();
+        }
+    }
+    typedoc.animateHeight = animateHeight;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {

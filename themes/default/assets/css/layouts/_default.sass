@@ -4,158 +4,6 @@ body
     font-size: $FONT_SIZE
     color: $COLOR_TEXT
 
-.tsd-page-toolbar
-    position: absolute
-    z-index: 1
-    width: 100%
-    height: 40px
-    color: #fff
-    background: #fff
-    box-shadow: 0 0 4px rgba(#000, 0.5)
-
-    a
-        color: #fff
-        font-weight: bold
-        text-decoration: none
-
-        &:hover
-            text-decoration: underline
-
-    .table-wrap
-        display: table
-        width: 100%
-        height: 40px
-
-    .table-cell
-        display: table-cell
-        position: relative
-        white-space: nowrap
-        line-height: 40px
-
-        &:first-child
-            width: 100%
-
-#tsd-search
-    +vendors(transition, background-color 0.2s)
-
-    .title
-        position: relative
-        z-index: 2
-
-    .field
-        position: absolute
-        left: 0
-        top: 0
-        right: 40px
-        height: 40px
-
-        input
-            +vendors(box-sizing, border-box)
-            position: relative
-            top: -50px
-            z-index: 1
-            width: 100%
-            padding: 0 10px
-            opacity: 0
-            outline: 0
-            border: 0
-            background: transparent
-            color: #fff
-
-        label
-            position: absolute
-            overflow: hidden
-            right: -40px
-            width: 40px
-            height: 40px
-            cursor: pointer
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3gYODBge+nEJMgAAARBJREFUWMPtlq9KRFEQh39HQURMgsWiGMRmVERQbItWg9FiWDDYfQWLgojF5iNYxGfYB1BsikkMgqyIn2XCcLi7YTfMDfOVYe7cP9+5w51zpSRJkiRJkiGUcW8AzEs6kbQs6VtSr5Ry1YrVAZcMZjNa7trJfAAXwJ3lfxbXouSWnNxNVZsEXkzyPUrw3OReB9QX3AJWxnnWxIjXrVq8bfzySnmT9GXpRoTgj8WZIefMWuxHtPjM2tdvqBVgx7V4LkJw2gn0gClXWwd+rfYYOWYOqpHyBHw2zMOtSMmOe1ue5yrfjR7a28ApcAws2rFuJbnXuo0eOKokO22UPHSC9638ZQL2gYewvTlJkiRJkpH5ByyTY8/2BuF3AAAAAElFTkSuQmCC)
-            text-indent: -1024px
-
-    .field input,
-    .title
-        +vendors(transition, opacity 0.2s)
-
-    .results
-        position: absolute
-        visibility: hidden
-        top: 40px
-        width: 100%
-        margin: 0
-        padding: 0
-        list-style: none
-
-        li
-            padding: 0 10px
-            background-color: #555
-
-        li:nth-child(even)
-            background-color: #4d4d4d
-
-        li.state
-            display: none
-        
-        li.current
-            background-color: #666
-            color: #fff
-
-        a
-            display: block
-
-            &:before
-                top: 10px
-
-        span.parent
-            color: #eee
-            font-weight: normal
-
-    &.has-focus
-        background-color: #4d4d4d
-
-        .field input
-            top: 0
-            opacity: 1
-
-        .title
-            z-index: 0
-            opacity: 0
-
-        .results
-            visibility: visible
-
-    &.loading .results li.state.loading
-        display: block
-
-    &.failure .results li.state.failure
-        display: block
-
-#tsd-filter
-    display: table-cell
-    font-size: 0
-    line-height: 0
-
-    .no-filter &
-        display: none
-
-    input
-        display: none
-
-    label
-        +vendors(transition, color 0.2s, background-color 0.2s)
-        display: inline-block
-        height: 40px
-        margin: 0 0 0 1px
-        padding: 0 10px
-        color: #666
-        background-color: transparent
-        font-size: $FONT_SIZE
-        line-height: 40px
-        cursor: pointer
-
-    input:checked + label
-        color: #fff
-        background-color: #4d4d4d
-
 .tsd-page-title
     padding: 70px 0 20px 0
     margin: 0 0 20px 0
@@ -165,110 +13,20 @@ body
     h1
         margin: 0
 
-    .breadcrumb
-        margin: 0
-        padding: 0
-        color: #808080
-
-        a
-            color: #666
-            text-decoration: none
-
-            &:hover
-                text-decoration: underline
-
-        li
-            display: inline
-
-            &:after
-                content: ' / '
-
-.tsd-navigation
-    padding: 0 0 0 40px
-
-    ul
-        margin: 0
-        padding: 0
-        list-style: none
-        line-height: 17px
-
-        li
-            padding: 2px 0 2px 10px
-            border-left: 2px solid transparent
-
-            &.focus
-                border-left-color: #000
-
-            li
-                margin-left: -12px
-                padding-left: 28px
+.tsd-breadcrumb
+    margin: 0
+    padding: 0
+    color: #808080
 
     a
-        color: #333
+        color: #666
         text-decoration: none
 
         &:hover
             text-decoration: underline
 
-    &.primary
-        a
-            display: block
+    li
+        display: inline
 
-        li
-            border-left-color: #e5e5e5
-
-            &.current > a
-                font-weight: bold
-                border-left-color: #000
-
-            &.label span
-                display: block
-                margin-top: 1em
-                margin-bottom: 0.5em
-                font-style: italic
-
-            &.globals + li > a,
-            &.globals + li > span
-                margin-top: 1em
-
-    &.secondary
-        position: static
-
-        &.sticky
-            position: fixed
-            top: 20px !important
-
-        &.sticky-current
-            position: fixed
-
-            > ul.before-current,
-            > ul.after-current
-                opacity: 0
-
-        &.sticky-bottom
-            position: absolute
-            top: auto !important
-            bottom: 20px
-
-        ul
-            transition: opacity 0.2s
-
-        li.current
-            margin-top: 10px
-            margin-bottom: 10px
-            border-left-color: #e5e5e5
-
-            > a
-                font-weight: bold
-
-.toggle-inherited .tsd-is-inherited
-    display: none
-
-.toggle-private .tsd-is-private
-    display: none
-
-.toggle-only-exported .tsd-is-not-exported
-    display: none
-
-.toggle-externals .tsd-is-external
-    display: none
+        &:after
+            content: ' / '

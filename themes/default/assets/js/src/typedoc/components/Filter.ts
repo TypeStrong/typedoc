@@ -36,6 +36,7 @@ module typedoc
             window.localStorage[this.key] = (this.value ? 'true' : 'false');
 
             $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+            viewport.triggerResize();
         }
     }
 

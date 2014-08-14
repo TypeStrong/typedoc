@@ -49,18 +49,27 @@ module TypeDoc.Output
          * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
          */
         static buildToc(model:Models.DeclarationReflection, trail:Models.DeclarationReflection[], parent:Models.NavigationItem) {
-            model.children.forEach((child:Models.DeclarationReflection) => {
-                if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
-                    return;
-                }
-
+            var index = trail.indexOf(model);
+            if (index < trail.length - 1 && model.children.length > 40) {
+                var child = trail[index + 1];
                 var item = Models.NavigationItem.create(child, parent, true);
-                if (trail.indexOf(child) != -1) {
-                    item.isInPath  = true;
-                    item.isCurrent = (trail[trail.length - 1] == child);
-                    TocPlugin.buildToc(child, trail, item);
-                }
-            });
+                item.isInPath  = true;
+                item.isCurrent = false;
+                TocPlugin.buildToc(child, trail, item);
+            } else {
+                model.children.forEach((child:Models.DeclarationReflection) => {
+                    if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                        return;
+                    }
+
+                    var item = Models.NavigationItem.create(child, parent, true);
+                    if (trail.indexOf(child) != -1) {
+                        item.isInPath  = true;
+                        item.isCurrent = (trail[trail.length - 1] == child);
+                        TocPlugin.buildToc(child, trail, item);
+                    }
+                });
+            }
         }
     }
 

@@ -1,8 +1,8 @@
-<ul>
+<ul class="tsd-hierarchy">
     {{#each types}}
         <li>
             {{#if ../isTarget}}
-                {{this}}
+                <span class="target">{{this}}</span>
             {{else}}
                 {{> type}}
             {{/if}}

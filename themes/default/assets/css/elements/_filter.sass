@@ -1,0 +1,76 @@
+// Classes set on the body to control the visible state of the filtered elements
+//
+.toggle-inherited .tsd-is-inherited
+    display: none
+
+.toggle-private .tsd-is-private
+    display: none
+
+.toggle-only-exported .tsd-is-not-exported
+    display: none
+
+.toggle-externals .tsd-is-external
+    display: none
+
+
+// Filter Buttons in the toolbar
+//
+// <div class="tsd-page-toolbar">
+//   <div class="container">
+//     <div class="table-wrap">
+//       <div class="table-cell" id="tsd-filter">
+//         <input type="checkbox" id="tsd-filter-inherited" checked="">
+//         <label for="tsd-filter-inherited">Inherited</label>
+//         <input type="checkbox" id="tsd-filter-private" checked="">
+//         <label for="tsd-filter-private">Private</label>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+//
+#tsd-filter
+    display: table-cell
+    font-size: 0
+    line-height: 0
+
+    .no-filter &
+        display: none
+
+    input
+        display: none
+
+    label
+        transition: color 0.2s, background-color 0.2s, opacity 0.2s
+        display: inline-block
+        height: $TOOLBAR_HEIGHT
+        margin: 0 0 0 1px
+        padding: 0 10px
+        color: $TOOLBAR_TEXT_COLOR
+        background-color: transparent
+        font-size: $FONT_SIZE
+        line-height: $TOOLBAR_HEIGHT
+        cursor: pointer
+        opacity: 0.75
+
+        &:hover
+            opacity: 1
+
+        &:before
+            content: ''
+            display: inline-block
+            width: 11px
+            height: 11px
+            margin: 0 4px 3px 0
+            border: 1px solid $TOOLBAR_TEXT_COLOR
+            vertical-align: middle
+            border-radius: 2px
+
+    input:checked + label
+        &:before
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAg0lEQVR42mP8//8/A7GAiYEEwAIiTExM8KlpBmK1M2fOhLMQMKwKiGuA+B6yM5yBOBRNIUhRKxDfAmI3ZMWTgXgVEEcgKQRZfxuIPYH4LrLiRCB+B8SLgHgtVCHIRA+YE5AVnwRiPyD+DsRB2BSiB91RIA4G4oNA7AXE99F9y0izSAEAi5sfuLrn8xgAAAAASUVORK5CYII=)
+
+            +retina
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAAbFBMVEX///8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMGjw0YAAAAI3RSTlMAAHd5drsP6/x6EXg5HQa9tHTD6qM0ewSp5jcHsgu/EMG+fFYgEsoAAAB3SURBVHhetc1HFsMgDEVRf+PaS3ov2v8eDRKEE5Ipb6Y7+Erihu9U3vzhmWj85YyIKuZQqRYeeqepUQXmYio70VZUeCHasCujLSxv9VHugD3vwvHhqP105m8pPozLVUNl1TNuuSannlHcRQPG48kaMprXG56jtgI0cQrrsMDSOQAAAABJRU5ErkJggg==)
+
+        &:hover
+            opacity: 1

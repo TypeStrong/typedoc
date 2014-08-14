@@ -47,7 +47,7 @@
     </div>
     <div class="tsd-page-title">
         <div class="container">
-            <ul class="breadcrumb">
+            <ul class="tsd-breadcrumb">
                 {{#with model}}{{> breadcrumb}}{{/with}}
             </ul>
             <h1>{{model.kindString}} {{model.name}}</h1>
@@ -63,7 +63,7 @@
         <div class="col-8">
             {{{contents}}}
         </div>
-        <div class="col-4">
+        <div class="col-4 menu-highlight">
             <nav class="tsd-navigation primary">
                 <ul>
                     {{#each navigation.children}}
@@ -72,7 +72,7 @@
                 </ul>
             </nav>
 
-            <nav class="tsd-navigation secondary">
+            <nav class="tsd-navigation secondary menu-sticky">
                 <ul class="before-current">
                     {{#each toc.children}}
                         {{> toc.root}}

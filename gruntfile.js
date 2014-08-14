@@ -57,6 +57,16 @@ module.exports = function(grunt)
                 }]
             }
         },
+        autoprefixer: {
+            options: {
+                cascade: false
+            },
+            themeDefault: {
+                expand: true,
+                src: 'bin/themes/**/*.css',
+                dest: './'
+            }
+        },
         uglify: {
             themeDefault: {
                 options: {
@@ -134,7 +144,7 @@ module.exports = function(grunt)
             },
             themeDefaultSass: {
                 files: ['themes/default/**/*.sass'],
-                tasks: ['sass:themeDefault', 'copy:themeDefault', 'string-replace:themeMinimal']
+                tasks: ['sass:themeDefault', 'autoprefixer', 'copy:themeDefault', 'string-replace:themeMinimal']
             },
             themeMinimalLayout: {
                 files: ['themes/minimal/layouts/default.hbs'],
@@ -149,9 +159,10 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-ts');
 
     grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
     grunt.registerTask('compiler', ['ts:compiler']);
-    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault','string-replace:themeMinimal']);
+    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault','autoprefixer','string-replace:themeMinimal']);
 };

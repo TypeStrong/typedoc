@@ -215,6 +215,16 @@ module TypeDoc.Models
 
 
         /**
+         * Has this reflection a visible comment?
+         *
+         * @returns TRUE when this reflection has a visible comment.
+         */
+        hasComment():boolean {
+            return <boolean>(this.comment && (this.comment.shortText || this.comment.text || this.comment.tags));
+        }
+
+
+        /**
          * Return a string representation of this reflection.
          */
         toString():string {

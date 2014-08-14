@@ -15,15 +15,15 @@ $icons:
     display: block;
     position: relative;
     padding-left: 20px;
+    text-indent: -20px;
 
     &:before {
-        position: absolute;
-        left: 0;
         content: '';
         display: inline-block;
         vertical-align: middle;
         width: 17px;
         height: 17px;
+        margin-right: 3px;
         background-image: url(../images/icons.png);
 
         @include retina {

@@ -1,5 +1,25 @@
-@mixin size-mobile
-    @media (max-width: 767px)
+=size-xs
+    @media (max-width: 640px)
+        &
+            @content
+
+=size-sm
+    @media (min-width: 641px) and (max-width: 768px)
+        &
+            @content
+
+=size-md
+    @media (min-width: 769px) and (max-width: 1024px)
+        &
+            @content
+
+=size-lg
+    @media (min-width: 1025px)
+        &
+            @content
+
+=size-xs-sm
+    @media (max-width: 768px)
         &
             @content
 
@@ -8,7 +28,7 @@
     margin: 0 auto
     padding: 0 40px
 
-    +size-mobile
+    +size-xs
         padding: 0 20px
 
 .container-main
@@ -20,7 +40,8 @@
     margin: 0 -10px
 
 .column
-    +vendors(box-sizing, border-box)
+    @extend %prevent-children-margin
+    box-sizing: border-box
     float: left
     padding: 0 10px
 

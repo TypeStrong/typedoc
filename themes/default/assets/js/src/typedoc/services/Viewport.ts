@@ -35,6 +35,14 @@ module typedoc
 
 
         /**
+         * Trigger a resize event.
+         */
+        triggerResize() {
+            this.trigger('resize', this.width, this.height);
+        }
+
+
+        /**
          * Triggered when the size of the window has changed.
          */
         onResize() {

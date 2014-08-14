@@ -1,15 +1,17 @@
-<section class="tsd-member-index">
+<section class="tsd-panel-group tsd-index-group">
     <h2>Index</h2>
-    <section class="tsd-panel tsd-member-index-wrap">
-        {{#each groups}}
-            <section class="tsd-member-index-group {{cssClasses}}">
-                <h3>{{title}}</h3>
-                <ul class="tsd-member-index">
-                    {{#each children}}
-                    <li class="{{cssClasses}}"><a href="{{relativeURL url}}" class="tsd-kind-icon">{{#if name}}{{{wbr name}}}{{else}}<em>{{{wbr kindString}}}</em>{{/if}}</a></li>
-                    {{/each}}
-                </ul>
-            </section>
-        {{/each}}
+    <section class="tsd-panel tsd-index-panel">
+        <div class="tsd-index-content">
+            {{#each groups}}
+                <section class="tsd-index-section {{cssClasses}}">
+                    <h3>{{title}}</h3>
+                    <ul class="tsd-index-list">
+                        {{#each children}}
+                        <li class="{{cssClasses}}"><a href="{{relativeURL url}}" class="tsd-kind-icon">{{#if name}}{{{wbr name}}}{{else}}<em>{{{wbr kindString}}}</em>{{/if}}</a></li>
+                        {{/each}}
+                    </ul>
+                </section>
+            {{/each}}
+        </div>
     </section>
 </section>

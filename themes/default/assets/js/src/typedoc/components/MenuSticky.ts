@@ -23,8 +23,7 @@ module typedoc
 
 
     /**
-     * Manages the sticky state of the navigation and moves the highlight
-     * to the current navigation item.
+     * Controls the sticky behaviour of the secondary menu.
      */
     export class MenuSticky extends Backbone.View<any>
     {
@@ -66,6 +65,8 @@ module typedoc
 
         /**
          * Create a new MenuSticky instance.
+         *
+         * @param options  Backbone view constructor options.
          */
         constructor(options:Backbone.ViewOptions<any>) {
             super(options);
@@ -96,7 +97,7 @@ module typedoc
 
 
         /**
-         * Triggered when the viewport was resized.
+         * Triggered after the viewport was resized.
          *
          * @param width   The width of the viewport.
          * @param height  The height of the viewport.
@@ -119,7 +120,7 @@ module typedoc
                         var bottom        = this.$container.offset().top + containerHeight;
                         this.stickyMode   = StickyMode.Current;
                         this.stickyTop    = currentTop;
-                        this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 40;
+                        this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 20;
                     }
                 }
 
@@ -134,7 +135,7 @@ module typedoc
 
 
         /**
-         * Triggered when the viewport was scrolled.
+         * Triggered after the viewport was scrolled.
          *
          * @param scrollTop  The current vertical scroll position.
          */
@@ -155,5 +156,5 @@ module typedoc
     /**
      * Register this component.
      */
-    registerComponent(MenuSticky, '.tsd-navigation.secondary');
+    registerComponent(MenuSticky, '.menu-sticky');
 }

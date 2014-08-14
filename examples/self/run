@@ -1,3 +1,3 @@
 #!/bin/sh
 cd ${0%/*}
-node ../../bin/typedoc --module commonjs --includeDeclarations --externalPattern **/lib/** --excludeExternals --verbose --name "TypeDoc Documentation" --out doc/ ../../src/
+node ../../bin/typedoc --module commonjs --includeDeclarations --externalPattern **/lib/** --verbose --name "TypeDoc Documentation" --out doc/ ../../src/

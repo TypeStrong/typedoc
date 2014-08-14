@@ -1792,6 +1792,12 @@ declare module TypeDoc.Models {
         */
         public findReflectionByName(names: string[]): DeclarationReflection;
         /**
+        * Has this reflection a visible comment?
+        *
+        * @returns TRUE when this reflection has a visible comment.
+        */
+        public hasComment(): boolean;
+        /**
         * Return a string representation of this reflection.
         */
         public toString(): string;

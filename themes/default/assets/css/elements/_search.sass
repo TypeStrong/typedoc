@@ -1,0 +1,93 @@
+#tsd-search
+    transition: background-color 0.2s
+
+    .title
+        position: relative
+        z-index: 2
+
+    .field
+        position: absolute
+        left: 0
+        top: 0
+        right: 40px
+        height: 40px
+
+        input
+            box-sizing: border-box
+            position: relative
+            top: -50px
+            z-index: 1
+            width: 100%
+            padding: 0 10px
+            opacity: 0
+            outline: 0
+            border: 0
+            background: transparent
+            color: #fff
+
+        label
+            position: absolute
+            overflow: hidden
+            right: -40px
+            width: 40px
+            height: 40px
+            cursor: pointer
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3gYODBge+nEJMgAAARBJREFUWMPtlq9KRFEQh39HQURMgsWiGMRmVERQbItWg9FiWDDYfQWLgojF5iNYxGfYB1BsikkMgqyIn2XCcLi7YTfMDfOVYe7cP9+5w51zpSRJkiRJkiGUcW8AzEs6kbQs6VtSr5Ry1YrVAZcMZjNa7trJfAAXwJ3lfxbXouSWnNxNVZsEXkzyPUrw3OReB9QX3AJWxnnWxIjXrVq8bfzySnmT9GXpRoTgj8WZIefMWuxHtPjM2tdvqBVgx7V4LkJw2gn0gClXWwd+rfYYOWYOqpHyBHw2zMOtSMmOe1ue5yrfjR7a28ApcAws2rFuJbnXuo0eOKokO22UPHSC9638ZQL2gYewvTlJkiRJkpH5ByyTY8/2BuF3AAAAAElFTkSuQmCC)
+            text-indent: -1024px
+
+    .field input,
+    .title
+        transition: opacity 0.2s
+
+    .results
+        position: absolute
+        visibility: hidden
+        top: 40px
+        width: 100%
+        margin: 0
+        padding: 0
+        list-style: none
+
+        li
+            padding: 0 10px
+            background-color: #555
+
+        li:nth-child(even)
+            background-color: #4d4d4d
+
+        li.state
+            display: none
+
+        li.current
+            background-color: #666
+            color: #fff
+
+        a
+            display: block
+
+            &:before
+                top: 10px
+
+        span.parent
+            color: #eee
+            font-weight: normal
+
+    &.has-focus
+        background-color: #4d4d4d
+
+        .field input
+            top: 0
+            opacity: 1
+
+        .title
+            z-index: 0
+            opacity: 0
+
+        .results
+            visibility: visible
+
+    &.loading .results li.state.loading
+        display: block
+
+    &.failure .results li.state.failure
+        display: block

@@ -4913,6 +4913,15 @@ var TypeDoc;
             };
 
             /**
+            * Has this reflection a visible comment?
+            *
+            * @returns TRUE when this reflection has a visible comment.
+            */
+            BaseReflection.prototype.hasComment = function () {
+                return (this.comment && (this.comment.shortText || this.comment.text || this.comment.tags));
+            };
+
+            /**
             * Return a string representation of this reflection.
             */
             BaseReflection.prototype.toString = function () {
@@ -7201,18 +7210,27 @@ var TypeDoc;
             * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
             */
             TocPlugin.buildToc = function (model, trail, parent) {
-                model.children.forEach(function (child) {
-                    if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
-                        return;
-                    }
-
+                var index = trail.indexOf(model);
+                if (index < trail.length - 1 && model.children.length > 40) {
+                    var child = trail[index + 1];
                     var item = TypeDoc.Models.NavigationItem.create(child, parent, true);
-                    if (trail.indexOf(child) != -1) {
-                        item.isInPath = true;
-                        item.isCurrent = (trail[trail.length - 1] == child);
-                        TocPlugin.buildToc(child, trail, item);
-                    }
-                });
+                    item.isInPath = true;
+                    item.isCurrent = false;
+                    TocPlugin.buildToc(child, trail, item);
+                } else {
+                    model.children.forEach(function (child) {
+                        if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                            return;
+                        }
+
+                        var item = TypeDoc.Models.NavigationItem.create(child, parent, true);
+                        if (trail.indexOf(child) != -1) {
+                            item.isInPath = true;
+                            item.isCurrent = (trail[trail.length - 1] == child);
+                            TocPlugin.buildToc(child, trail, item);
+                        }
+                    });
+                }
             };
             return TocPlugin;
         })(Output.BasePlugin);

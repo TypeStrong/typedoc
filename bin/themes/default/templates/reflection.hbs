@@ -1,10 +1,14 @@
-<section class="tsd-panel tsd-comment">
-    {{#with model}}{{> comment}}{{/with}}
-</section>
+{{#with model}}
+    {{#if hasComment}}
+        <section class="tsd-panel tsd-comment">
+            {{> comment}}
+        </section>
+    {{/if}}
+{{/with}}
 
 {{#if model.typeHierarchy}}
     <section class="tsd-panel tsd-hierarchy">
-        <h2>Hierarchy</h2>
+        <h3>Hierarchy</h3>
         {{#with model.typeHierarchy}}{{> hierarchy}}{{/with}}
     </section>
 {{/if}}
