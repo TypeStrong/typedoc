@@ -41,6 +41,16 @@ module TypeDoc.Models
 
 
         /**
+         * Has this comment a visible component?
+         *
+         * @returns TRUE when this comment has a visible component.
+         */
+        hasVisibleComponent():boolean {
+            return <boolean>(this.shortText || this.text || this.tags);
+        }
+
+
+        /**
          * Test whether this comment contains a tag with the given name.
          *
          * @param tagName  The name of the tag to look for.

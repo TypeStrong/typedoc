@@ -1,12 +1,30 @@
 module TypeDoc
 {
     /**
+     * Alias to TypeScript.LanguageVersion
+     *
+     * @resolve
+     */
+    export var CodeGenTarget = TypeScript.LanguageVersion;
+
+    /**
+     * Alias to TypeScript.ModuleGenTarget
+     *
+     * @resolve
+     */
+    export var ModuleGenTarget = TypeScript.ModuleGenTarget;
+
+
+    /**
      * Holds all settings used by TypeDoc.
      */
     export class Settings
     {
         /**
          * The settings used by the TypeScript compiler.
+         *
+         * @see [[CodeGenTarget]]
+         * @see [[ModuleGenTarget]]
          */
         compiler:TypeScript.CompilationSettings;
 

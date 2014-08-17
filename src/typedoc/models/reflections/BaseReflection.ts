@@ -220,7 +220,7 @@ module TypeDoc.Models
          * @returns TRUE when this reflection has a visible comment.
          */
         hasComment():boolean {
-            return <boolean>(this.comment && (this.comment.shortText || this.comment.text || this.comment.tags));
+            return <boolean>(this.comment && this.comment.hasVisibleComponent());
         }
 
 
