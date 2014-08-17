@@ -246,11 +246,26 @@ declare module TypeDoc {
 }
 declare module TypeDoc {
     /**
+    * Alias to TypeScript.LanguageVersion
+    *
+    * @resolve
+    */
+    var CodeGenTarget: typeof TypeScript.LanguageVersion;
+    /**
+    * Alias to TypeScript.ModuleGenTarget
+    *
+    * @resolve
+    */
+    var ModuleGenTarget: typeof TypeScript.ModuleGenTarget;
+    /**
     * Holds all settings used by TypeDoc.
     */
     class Settings {
         /**
         * The settings used by the TypeScript compiler.
+        *
+        * @see [[CodeGenTarget]]
+        * @see [[ModuleGenTarget]]
         */
         public compiler: TypeScript.CompilationSettings;
         /**
@@ -1644,6 +1659,12 @@ declare module TypeDoc.Models {
         * Creates a new Comment instance.
         */
         constructor(shortText?: string, text?: string);
+        /**
+        * Has this comment a visible component?
+        *
+        * @returns TRUE when this comment has a visible component.
+        */
+        public hasVisibleComponent(): boolean;
         /**
         * Test whether this comment contains a tag with the given name.
         *

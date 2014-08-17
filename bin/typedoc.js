@@ -1111,6 +1111,20 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     /**
+    * Alias to TypeScript.LanguageVersion
+    *
+    * @resolve
+    */
+    TypeDoc.CodeGenTarget = TypeScript.LanguageVersion;
+
+    /**
+    * Alias to TypeScript.ModuleGenTarget
+    *
+    * @resolve
+    */
+    TypeDoc.ModuleGenTarget = TypeScript.ModuleGenTarget;
+
+    /**
     * Holds all settings used by TypeDoc.
     */
     var Settings = (function () {
@@ -4748,6 +4762,15 @@ var TypeDoc;
                 this.text = text || '';
             }
             /**
+            * Has this comment a visible component?
+            *
+            * @returns TRUE when this comment has a visible component.
+            */
+            Comment.prototype.hasVisibleComponent = function () {
+                return (this.shortText || this.text || this.tags);
+            };
+
+            /**
             * Test whether this comment contains a tag with the given name.
             *
             * @param tagName  The name of the tag to look for.
@@ -4956,7 +4979,7 @@ var TypeDoc;
             * @returns TRUE when this reflection has a visible comment.
             */
             BaseReflection.prototype.hasComment = function () {
-                return (this.comment && (this.comment.shortText || this.comment.text || this.comment.tags));
+                return (this.comment && this.comment.hasVisibleComponent());
             };
 
             /**
