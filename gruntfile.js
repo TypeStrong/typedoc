@@ -115,7 +115,7 @@ module.exports = function(grunt)
                     }, {
                         pattern: /{{ JS }}/g,
                         replacement: function() {
-                            return grunt.file.read('bin/themes/default/assets/js/main.js');
+                            return grunt.file.read('bin/themes/default/assets/js/main.js').replace('{{', '{/**/{');
                         }
                     }]
                 }

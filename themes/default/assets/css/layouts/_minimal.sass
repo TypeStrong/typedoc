@@ -9,8 +9,9 @@
         padding-left: 300px
 
     .tsd-navigation
-        position: fixed
+        position: fixed !important
         overflow: auto
+        overflow-scrolling: touch
         box-sizing: border-box
         z-index: 1
         left: 0
@@ -19,7 +20,10 @@
         width: 300px
         padding: 20px
         margin: 0
-        background-color: #eee
 
     .tsd-member .tsd-member
         margin-left: 0
+
+    .tsd-page-toolbar
+        position: fixed
+        z-index: 2
