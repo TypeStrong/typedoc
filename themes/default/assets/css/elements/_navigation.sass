@@ -110,24 +110,6 @@
 // </nav>
 //
 .tsd-navigation.secondary
-    position: static
-
-    &.sticky
-        position: fixed
-        top: 20px !important
-
-    &.sticky-current
-        position: fixed
-
-        > ul.before-current,
-        > ul.after-current
-            opacity: 0
-
-    &.sticky-bottom
-        position: absolute
-        top: auto !important
-        bottom: 0
-
     ul
         +INDENTS(6, 25, 20)
         transition: opacity 0.2s
@@ -146,3 +128,31 @@
 
         > a
             font-weight: bold
+
+.menu-sticky-wrap
+    position: static
+
+    .no-csspositionsticky &
+        &.sticky
+            position: fixed
+
+        &.sticky-current
+            position: fixed
+
+            ul.before-current,
+            ul.after-current
+                opacity: 0
+
+        &.sticky-bottom
+            position: absolute
+            top: auto !important
+            left: auto !important
+            bottom: 0
+            right: 0
+
+    .csspositionsticky &
+        &.sticky
+            position: sticky
+
+        &.sticky-current
+            position: sticky

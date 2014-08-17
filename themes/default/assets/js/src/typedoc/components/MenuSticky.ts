@@ -1,5 +1,7 @@
 module typedoc
 {
+    var hasPositionSticky = $html.hasClass('csspositionsticky');
+
     /**
      * Defines the known ways to make the navigation sticky.
      */
@@ -72,11 +74,13 @@ module typedoc
             super(options);
 
             this.$current    = this.$el.find('> ul.current');
-            this.$navigation = this.$el.parents('.col-4');
+            this.$navigation = this.$el.parents('.menu-sticky-wrap');
             this.$container  = this.$el.parents('.row');
 
             this.listenTo(viewport, 'resize', this.onResize);
-            this.listenTo(viewport, 'scroll', this.onScroll);
+            if (!hasPositionSticky) {
+                this.listenTo(viewport, 'scroll', this.onScroll);
+            }
 
             this.onResize(viewport.width, viewport.height);
         }
@@ -90,9 +94,9 @@ module typedoc
         private setState(state:string) {
             if (this.state == state) return;
 
-            if (this.state != '') this.$el.removeClass(this.state);
+            if (this.state != '') this.$navigation.removeClass(this.state);
             this.state = state;
-            if (this.state != '') this.$el.addClass(this.state);
+            if (this.state != '') this.$navigation.addClass(this.state);
         }
 
 
@@ -106,7 +110,9 @@ module typedoc
             this.stickyMode = StickyMode.None;
             this.setState('');
 
+            var containerTop    = this.$container.offset().top;
             var containerHeight = this.$container.height();
+            var bottom          = containerTop + containerHeight;
             if (this.$navigation.height() < containerHeight) {
                 var elHeight = this.$el.height();
                 var elTop    = this.$el.offset().top;
@@ -115,9 +121,8 @@ module typedoc
                     var currentHeight = this.$current.height();
                     var currentTop    = this.$current.offset().top;
 
-                    this.$el.css('top', elTop - currentTop + 20);
+                    this.$navigation.css('top', containerTop - currentTop + 20);
                     if (currentHeight < height) {
-                        var bottom        = this.$container.offset().top + containerHeight;
                         this.stickyMode   = StickyMode.Current;
                         this.stickyTop    = currentTop;
                         this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 20;
@@ -125,12 +130,25 @@ module typedoc
                 }
 
                 if (elHeight < height) {
-                    this.stickyMode = StickyMode.Secondary;
-                    this.stickyTop  = elTop;
+                    this.$navigation.css('top', containerTop - elTop + 20);
+                    this.stickyMode   = StickyMode.Secondary;
+                    this.stickyTop    = elTop;
+                    this.stickyBottom = bottom - elHeight - 20;
                 }
             }
 
-            this.onScroll(viewport.scrollTop);
+            if (!hasPositionSticky) {
+                this.$navigation.css('left', this.$navigation.offset().left);
+                this.onScroll(viewport.scrollTop);
+            } else {
+                if (this.stickyMode == StickyMode.Current) {
+                    this.setState('sticky-current');
+                } else if (this.stickyMode == StickyMode.Secondary) {
+                    this.setState('sticky');
+                } else {
+                    this.setState('');
+                }
+            }
         }
 
 
@@ -147,7 +165,11 @@ module typedoc
                     this.setState(scrollTop + 20 > this.stickyTop ? 'sticky-current' : '');
                 }
             } else if (this.stickyMode == StickyMode.Secondary) {
-                this.setState(scrollTop + 20 > this.stickyTop ? 'sticky' : '');
+                if (scrollTop > this.stickyBottom) {
+                    this.setState('sticky-bottom');
+                } else {
+                    this.setState(scrollTop + 20 > this.stickyTop ? 'sticky' : '');
+                }
             }
         }
     }

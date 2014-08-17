@@ -39,7 +39,7 @@
     position: relative
     margin: 0 -10px
 
-.column
+.col
     @extend %prevent-children-margin
     box-sizing: border-box
     float: left
@@ -47,7 +47,7 @@
 
 @for $width from 1 to 12
     .col-#{$width}
-        @extend .column
+        @extend .col
         width: $width / 12 * 100%
 
     .offset-#{$width}

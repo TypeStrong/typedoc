@@ -5,6 +5,9 @@ declare module typedoc
 
 module typedoc
 {
+    export var $html = $('html');
+
+
     /**
      * Service definition.
      */
