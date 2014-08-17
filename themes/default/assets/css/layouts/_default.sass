@@ -1,8 +1,34 @@
-body
-    background: $COLOR_BACKGROUND
-    font-family: $FONT-FAMILY
-    font-size: $FONT_SIZE
-    color: $COLOR_TEXT
+html.default
+    +size-xs-sm
+
+        .col-content
+            float: none
+            width: 100%
+
+        .col-menu
+            position: fixed !important
+            overflow: auto
+            -webkit-overflow-scrolling: touch
+            overflow-scrolling: touch
+            z-index: 1024
+            top: 0 !important
+            bottom: 0 !important
+            left: auto !important
+            right: 0 !important
+            width: 100%
+            padding: 20px 20px 20px 0
+            max-width: 450px
+            visibility: hidden
+            background-color: $COLOR_SECTION
+            box-shadow: inset 0 0 4px rgba(#000, 0.5)
+
+        &.has-menu
+            header,
+            .col-content
+                transform: translate(-50%, 0)
+
+            .col-menu
+                visibility: visible
 
 .tsd-page-title
     padding: 70px 0 20px 0

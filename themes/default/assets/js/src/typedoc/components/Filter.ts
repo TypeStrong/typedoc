@@ -1,8 +1,5 @@
 module typedoc
 {
-    var $html = $('html');
-
-
     class FilterOption
     {
         private $checkbox:JQuery;

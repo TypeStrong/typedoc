@@ -6,6 +6,8 @@ var __extends = this.__extends || function (d, b) {
 };
 var typedoc;
 (function (typedoc) {
+    typedoc.$html = $('html');
+
     
 
     
@@ -105,8 +107,6 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
-    var $html = $('html');
-
     var FilterOption = (function () {
         function FilterOption(key, value) {
             var _this = this;
@@ -119,7 +119,7 @@ var typedoc;
                 this.value = (window.localStorage[key] == 'true');
                 this.$checkbox.prop('checked', this.value);
 
-                $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+                typedoc.$html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
             }
 
             this.$checkbox.on('change', function () {
@@ -130,7 +130,7 @@ var typedoc;
             this.value = this.$checkbox.prop('checked');
             window.localStorage[this.key] = (this.value ? 'true' : 'false');
 
-            $html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+            typedoc.$html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
             typedoc.viewport.triggerResize();
         };
         return FilterOption;
@@ -156,7 +156,7 @@ var typedoc;
     if (Filter.isSupported()) {
         new Filter();
     } else {
-        $html.addClass('no-filter');
+        typedoc.$html.addClass('no-filter');
     }
 })(typedoc || (typedoc = {}));
 var typedoc;
@@ -252,6 +252,8 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
+    var hasPositionSticky = typedoc.$html.hasClass('csspositionsticky');
+
     var StickyMode;
     (function (StickyMode) {
         StickyMode[StickyMode["None"] = 0] = "None";
@@ -269,11 +271,13 @@ var typedoc;
             this.stickyMode = 0 /* None */;
 
             this.$current = this.$el.find('> ul.current');
-            this.$navigation = this.$el.parents('.col-4');
+            this.$navigation = this.$el.parents('.menu-sticky-wrap');
             this.$container = this.$el.parents('.row');
 
             this.listenTo(typedoc.viewport, 'resize', this.onResize);
-            this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
+            if (!hasPositionSticky) {
+                this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
+            }
 
             this.onResize(typedoc.viewport.width, typedoc.viewport.height);
         }
@@ -282,17 +286,19 @@ var typedoc;
                 return;
 
             if (this.state != '')
-                this.$el.removeClass(this.state);
+                this.$navigation.removeClass(this.state);
             this.state = state;
             if (this.state != '')
-                this.$el.addClass(this.state);
+                this.$navigation.addClass(this.state);
         };
 
         MenuSticky.prototype.onResize = function (width, height) {
             this.stickyMode = 0 /* None */;
             this.setState('');
 
+            var containerTop = this.$container.offset().top;
             var containerHeight = this.$container.height();
+            var bottom = containerTop + containerHeight;
             if (this.$navigation.height() < containerHeight) {
                 var elHeight = this.$el.height();
                 var elTop = this.$el.offset().top;
@@ -301,9 +307,8 @@ var typedoc;
                     var currentHeight = this.$current.height();
                     var currentTop = this.$current.offset().top;
 
-                    this.$el.css('top', elTop - currentTop + 20);
+                    this.$navigation.css('top', containerTop - currentTop + 20);
                     if (currentHeight < height) {
-                        var bottom = this.$container.offset().top + containerHeight;
                         this.stickyMode = 2 /* Current */;
                         this.stickyTop = currentTop;
                         this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 20;
@@ -311,12 +316,25 @@ var typedoc;
                 }
 
                 if (elHeight < height) {
+                    this.$navigation.css('top', containerTop - elTop + 20);
                     this.stickyMode = 1 /* Secondary */;
                     this.stickyTop = elTop;
+                    this.stickyBottom = bottom - elHeight - 20;
                 }
             }
 
-            this.onScroll(typedoc.viewport.scrollTop);
+            if (!hasPositionSticky) {
+                this.$navigation.css('left', this.$navigation.offset().left);
+                this.onScroll(typedoc.viewport.scrollTop);
+            } else {
+                if (this.stickyMode == 2 /* Current */) {
+                    this.setState('sticky-current');
+                } else if (this.stickyMode == 1 /* Secondary */) {
+                    this.setState('sticky');
+                } else {
+                    this.setState('');
+                }
+            }
         };
 
         MenuSticky.prototype.onScroll = function (scrollTop) {
@@ -327,7 +345,11 @@ var typedoc;
                     this.setState(scrollTop + 20 > this.stickyTop ? 'sticky-current' : '');
                 }
             } else if (this.stickyMode == 1 /* Secondary */) {
-                this.setState(scrollTop + 20 > this.stickyTop ? 'sticky' : '');
+                if (scrollTop > this.stickyBottom) {
+                    this.setState('sticky-bottom');
+                } else {
+                    this.setState(scrollTop + 20 > this.stickyTop ? 'sticky' : '');
+                }
             }
         };
         return MenuSticky;
