@@ -57,6 +57,17 @@ module TypeDoc
         externalPattern:string;
 
         /**
+         * The Google Analytics tracking ID that should be used. When not set, the tracking code
+         * should be omitted.
+         */
+        googleAnalyticsID:string;
+
+        /**
+         * Optional site name for Google Analytics. Defaults to `auto`.
+         */
+        googleAnalyticsSite:string = 'auto';
+
+        /**
          * Does the user want to display the help message?
          */
         needsHelp:boolean = false;
@@ -65,6 +76,11 @@ module TypeDoc
          * Does the user want to know the version number?
          */
         shouldPrintVersionOnly:boolean = false;
+
+        /**
+         * Should we hide the TypeDoc link at the end of the page?
+         */
+        hideGenerator:boolean = false;
 
         /**
          * Should verbose messages be printed?
@@ -243,6 +259,36 @@ module TypeDoc
                 },
                 set: (str) => {
                     this.name = str;
+                }
+            });
+
+            opts.option('gaID', {
+                usage: {
+                    locCode: 'Set the Google Analytics tracking ID and activate tracking code.',
+                    args: null
+                },
+                set: (str) => {
+                    this.googleAnalyticsID = str;
+                }
+            });
+
+            opts.option('gaSite', {
+                usage: {
+                    locCode: 'Set the site name for Google Analytics. Defaults to `auto`.',
+                    args: null
+                },
+                set: (str) => {
+                    this.googleAnalyticsSite = str;
+                }
+            });
+
+            opts.flag('hideGenerator', {
+                usage: {
+                    locCode: 'Do not print the TypeDoc link at the end of the page.',
+                    args: null
+                },
+                set: (str) => {
+                    this.hideGenerator = true;
                 }
             });
 

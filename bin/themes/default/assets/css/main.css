@@ -1,5 +1,3 @@
-.tsd-page-toolbar { box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
-
 /*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ========================================================================== HTML5 display definitions ========================================================================== */
 /* Correct `block` display not defined in IE 6/7/8/9 and Firefox 3. */
@@ -243,7 +241,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .offset-11 { margin-left: 91.66667%; }
 
 .tsd-kind-icon { display: block; position: relative; padding-left: 20px; text-indent: -20px; }
-.tsd-kind-icon:before { content: ''; display: inline-block; vertical-align: middle; width: 17px; height: 17px; margin-right: 3px; background-image: url(../images/icons.png); }
+.tsd-kind-icon:before { content: ''; display: inline-block; vertical-align: middle; width: 17px; height: 17px; margin: 0 3px 2px 0; background-image: url(../images/icons.png); }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { .tsd-kind-icon:before { background-image: url(../images/icons@2x.png); background-size: 187px 102px; } }
 
 .tsd-kind-acceptable-alias > .tsd-kind-icon:before { background-position: -0px 0; }
@@ -473,12 +471,15 @@ pre code { padding: 0; font-size: 100%; background-color: transparent; }
 .tsd-typography h5, .tsd-typography h6 { font-weight: normal; }
 .tsd-typography p, .tsd-typography ul, .tsd-typography ol { margin: 0 0 1em 0; }
 
+@media (min-width: 769px) and (max-width: 1024px) { html.default .col-content { width: 72%; }
+  html.default .col-menu { width: 28%; }
+  html.default .tsd-navigation { padding-left: 10px; } }
 @media (max-width: 768px) { html.default .col-content { float: none; width: 100%; }
   html.default .col-menu { position: fixed !important; overflow: auto; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; z-index: 1024; top: 0 !important; bottom: 0 !important; left: auto !important; right: 0 !important; width: 100%; padding: 20px 20px 20px 0; max-width: 450px; visibility: hidden; background-color: white; box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5); }
   html.default.has-menu header, html.default.has-menu .col-content { -webkit-transform: translate(-50%, 0); -ms-transform: translate(-50%, 0); transform: translate(-50%, 0); }
   html.default.has-menu .col-menu { visibility: visible; } }
 
-.tsd-page-title { padding: 70px 0 20px 0; margin: 0 0 20px 0; background: white; box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
+.tsd-page-title { padding: 70px 0 20px 0; margin: 0 0 40px 0; background: white; box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
 .tsd-page-title h1 { margin: 0; }
 
 .tsd-breadcrumb { margin: 0; padding: 0; color: gray; }
@@ -490,8 +491,9 @@ pre code { padding: 0; font-size: 100%; background-color: transparent; }
 html.minimal .container { margin: 0; }
 html.minimal .container-main { padding-top: 50px; }
 html.minimal .content-wrap { padding-left: 300px; }
-html.minimal .tsd-navigation { position: fixed; overflow: auto; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 1; left: 0; top: 40px; bottom: 0; width: 300px; padding: 20px; margin: 0; background-color: #eeeeee; }
+html.minimal .tsd-navigation { position: fixed !important; overflow: auto; overflow-scrolling: touch; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 1; left: 0; top: 40px; bottom: 0; width: 300px; padding: 20px; margin: 0; }
 html.minimal .tsd-member .tsd-member { margin-left: 0; }
+html.minimal .tsd-page-toolbar { position: fixed; z-index: 2; }
 
 dl.tsd-comment-tags { overflow: hidden; }
 dl.tsd-comment-tags dt { clear: both; float: left; padding: 1px 5px; margin: 0 10px 0 0; border-radius: 4px; border: 1px solid #999999; color: #999999; font-size: 0.8em; font-weight: normal; }
@@ -499,6 +501,7 @@ dl.tsd-comment-tags dd { margin: 0 0 10px 0; }
 dl.tsd-comment-tags p { margin: 0; }
 
 .tsd-panel.tsd-comment .lead { font-size: 1.1em; line-height: 1.333em; margin-bottom: 2em; }
+.tsd-panel.tsd-comment .lead:last-child { margin-bottom: 0; }
 
 .toggle-inherited .tsd-is-inherited { display: none; }
 
@@ -518,10 +521,15 @@ dl.tsd-comment-tags p { margin: 0; }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { #tsd-filter input:checked + label:before { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAAbFBMVEX///8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMGjw0YAAAAI3RSTlMAAHd5drsP6/x6EXg5HQa9tHTD6qM0ewSp5jcHsgu/EMG+fFYgEsoAAAB3SURBVHhetc1HFsMgDEVRf+PaS3ov2v8eDRKEE5Ipb6Y7+Erihu9U3vzhmWj85YyIKuZQqRYeeqepUQXmYio70VZUeCHasCujLSxv9VHugD3vwvHhqP105m8pPozLVUNl1TNuuSannlHcRQPG48kaMprXG56jtgI0cQrrsMDSOQAAAABJRU5ErkJggg==); } }
 #tsd-filter input:checked + label:hover { opacity: 1; }
 
+footer { border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb; background-color: white; }
+footer .tsd-legend-group { font-size: 0; }
+footer .tsd-legend { display: inline-block; width: 25%; padding: 0; font-size: 16px; list-style: none; line-height: 1.333em; vertical-align: top; }
+@media (max-width: 768px) { footer .tsd-legend { width: 50%; } }
+
 .tsd-hierarchy { list-style: square; padding: 0 0 0 20px; margin: 0; }
 .tsd-hierarchy .target { font-weight: bold; }
 
-.tsd-index-panel .tsd-index-content { margin-bottom: -30px; }
+.tsd-index-panel .tsd-index-content { margin-bottom: -30px !important; }
 .tsd-index-panel .tsd-index-section { margin-bottom: 30px !important; }
 .tsd-index-panel h3 { margin: 0 -20px 10px -20px; padding: 0 20px 10px 20px; border-bottom: 1px solid #eeeeee; }
 .tsd-index-panel ul.tsd-index-list { -webkit-column-count: 3; -moz-column-count: 3; -ms-column-count: 3; column-count: 3; -webkit-column-gap: 20px; -moz-column-gap: 20px; -ms-column-gap: 20px; column-gap: 20px; padding: 0; list-style: none; line-height: 1.333em; }
@@ -640,7 +648,7 @@ dl.tsd-comment-tags p { margin: 0; }
 .tsd-sources ul, .tsd-sources p { margin: 0 !important; }
 .tsd-sources ul { list-style: none; padding: 0; }
 
-.tsd-page-toolbar { position: absolute; z-index: 1; top: 0; left: 0; width: 100%; height: 40px; color: #333333; background: white; }
+.tsd-page-toolbar { position: absolute; z-index: 1; top: 0; left: 0; width: 100%; height: 40px; color: #333333; background: white; border-bottom: 1px solid #ebebeb; }
 .tsd-page-toolbar a { color: #333333; font-weight: bold; text-decoration: none; }
 .tsd-page-toolbar a:hover { text-decoration: underline; }
 .tsd-page-toolbar .table-wrap { display: table; width: 100%; height: 40px; }

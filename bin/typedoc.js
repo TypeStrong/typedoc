@@ -1131,6 +1131,10 @@ var TypeDoc;
             */
             this.excludeExternals = false;
             /**
+            * Optional site name for Google Analytics. Defaults to `auto`.
+            */
+            this.googleAnalyticsSite = 'auto';
+            /**
             * Does the user want to display the help message?
             */
             this.needsHelp = false;
@@ -1138,6 +1142,10 @@ var TypeDoc;
             * Does the user want to know the version number?
             */
             this.shouldPrintVersionOnly = false;
+            /**
+            * Should we hide the TypeDoc link at the end of the page?
+            */
+            this.hideGenerator = false;
             /**
             * Should verbose messages be printed?
             */
@@ -1304,6 +1312,36 @@ var TypeDoc;
                 },
                 set: function (str) {
                     _this.name = str;
+                }
+            });
+
+            opts.option('gaID', {
+                usage: {
+                    locCode: 'Set the Google Analytics tracking ID and activate tracking code.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.googleAnalyticsID = str;
+                }
+            });
+
+            opts.option('gaSite', {
+                usage: {
+                    locCode: 'Set the site name for Google Analytics. Defaults to `auto`.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.googleAnalyticsSite = str;
+                }
+            });
+
+            opts.flag('hideGenerator', {
+                usage: {
+                    locCode: 'Do not print the TypeDoc link at the end of the page.',
+                    args: null
+                },
+                set: function (str) {
+                    _this.hideGenerator = true;
                 }
             });
 
@@ -6144,6 +6182,7 @@ var TypeDoc;
                 var output = new Output.OutputEvent();
                 output.outputDirectory = outputDirectory;
                 output.project = project;
+                output.settings = this.application.settings;
                 output.urls = this.theme.getUrls(project);
 
                 this.dispatch(Renderer.EVENT_BEGIN, output);
@@ -6345,6 +6384,7 @@ var TypeDoc;
             OutputEvent.prototype.createPageEvent = function (mapping) {
                 var event = new Output.OutputPageEvent();
                 event.project = this.project;
+                event.settings = this.settings;
                 event.url = mapping.url;
                 event.model = mapping.model;
                 event.templateName = mapping.template;

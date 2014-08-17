@@ -215,6 +215,7 @@ module TypeDoc.Output
             var output = new OutputEvent();
             output.outputDirectory = outputDirectory;
             output.project = project;
+            output.settings = this.application.settings;
             output.urls = this.theme.getUrls(project);
 
             this.dispatch(Renderer.EVENT_BEGIN, output);

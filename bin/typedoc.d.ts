@@ -291,6 +291,15 @@ declare module TypeDoc {
         */
         public externalPattern: string;
         /**
+        * The Google Analytics tracking ID that should be used. When not set, the tracking code
+        * should be omitted.
+        */
+        public googleAnalyticsID: string;
+        /**
+        * Optional site name for Google Analytics. Defaults to `auto`.
+        */
+        public googleAnalyticsSite: string;
+        /**
         * Does the user want to display the help message?
         */
         public needsHelp: boolean;
@@ -298,6 +307,10 @@ declare module TypeDoc {
         * Does the user want to know the version number?
         */
         public shouldPrintVersionOnly: boolean;
+        /**
+        * Should we hide the TypeDoc link at the end of the page?
+        */
+        public hideGenerator: boolean;
         /**
         * Should verbose messages be printed?
         */
@@ -2696,6 +2709,10 @@ declare module TypeDoc.Output {
         */
         public project: Models.ProjectReflection;
         /**
+        * The settings that have been passed to TypeDoc.
+        */
+        public settings: Settings;
+        /**
         * The path of the directory the documentation should be written to.
         */
         public outputDirectory: string;
@@ -2730,6 +2747,10 @@ declare module TypeDoc.Output {
         * The project the renderer is currently processing.
         */
         public project: Models.ProjectReflection;
+        /**
+        * The settings that have been passed to TypeDoc.
+        */
+        public settings: Settings;
         /**
         * The filename the page will be written to.
         */

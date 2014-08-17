@@ -228,6 +228,7 @@ var typedoc;
             var index = this.index;
             var count = anchors.length - 1;
 
+            scrollTop += 5;
             while (index > 0 && anchors[index].position > scrollTop) {
                 index -= 1;
             }

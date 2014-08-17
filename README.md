@@ -87,6 +87,18 @@ Define a pattern for files that should be considered being external.
 
 Prevent externally resolved TypeScript files from being documented.
 
+`--gaID`
+
+Set the Google Analytics tracking ID and activate tracking code.
+
+`--gaSite <site>`
+
+Set the site name for Google Analytics. Defaults to `auto`.
+
+`--hideGenerator`
+
+Do not print the TypeDoc link at the end of the page.
+
 `--verbose`
 
 Print more information while TypeDoc is running.

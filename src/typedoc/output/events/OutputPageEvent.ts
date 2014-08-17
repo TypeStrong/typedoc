@@ -17,6 +17,11 @@ module TypeDoc.Output
         project:Models.ProjectReflection;
 
         /**
+         * The settings that have been passed to TypeDoc.
+         */
+        settings:Settings;
+
+        /**
          * The filename the page will be written to.
          */
         filename:string;

@@ -15,6 +15,11 @@ module TypeDoc.Output
         project:Models.ProjectReflection;
 
         /**
+         * The settings that have been passed to TypeDoc.
+         */
+        settings:Settings;
+
+        /**
          * The path of the directory the documentation should be written to.
          */
         outputDirectory:string;
@@ -37,6 +42,7 @@ module TypeDoc.Output
         public createPageEvent(mapping:Models.UrlMapping):OutputPageEvent {
             var event = new OutputPageEvent();
             event.project      = this.project;
+            event.settings     = this.settings;
             event.url          = mapping.url;
             event.model        = mapping.model;
             event.templateName = mapping.template;
