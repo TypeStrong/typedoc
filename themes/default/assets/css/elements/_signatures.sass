@@ -104,12 +104,11 @@
 .tsd-descriptions
     position: relative
     overflow: hidden
-    margin: 0 -20px
-    padding: 0 20px
     transition: height 0.3s
+    padding: 0
     list-style: none
 
-    li
+    > li
         @extend %prevent-children-margin
 
     &.active > .tsd-description
@@ -126,31 +125,23 @@
             position: absolute
             display: block
             top: 0
-            left: 20px
-            right: 20px
+            left: 0
+            right: 0
             opacity: 0
             visibility: hidden
 
-    .tsd-parameters-title,
-    .tsd-returns-title
-        margin-left: -20px
-        margin-right: -20px
-        padding: 0 20px
-        padding-top: 10px
-        border-top: 1px solid $COLOR_PANEL_DIVIDER
+    h4
+        font-size: $FONT_SIZE
+        margin: 1em 0 0.5em 0
 
-    .tsd-returns-title
-        margin-bottom: -0.5em
+    h5
+        font-size: $FONT_SIZE
+        margin: 1em 0 0.5em 0
 
     .tsd-parameters
-        list-style: none
+        list-style: square
+        margin: 0
         padding-left: 20px
 
-        > li
-            > h5
-                font-size: $FONT_SIZE
-                margin: 1em 0 0 0
-                text-indent: -20px
-
-            > .tsd-comment
-                margin-top: -0.5em
+        .tsd-comment
+            margin-top: -0.5em
