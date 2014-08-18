@@ -20,7 +20,7 @@
         padding-top: 2px
         padding-bottom: 2px
         border-left: 2px solid transparent
-        color: #333
+        color: $COLOR_TEXT
         text-decoration: none
         transition: border-left-color 0.1s
 
@@ -64,10 +64,10 @@
         +INDENTS(6, 5, 20)
 
     > ul
-        border-bottom: 1px solid #eee
+        border-bottom: 1px solid $COLOR_PANEL_DIVIDER
 
     li
-        border-top: 1px solid #eee
+        border-top: 1px solid $COLOR_PANEL_DIVIDER
 
         &.current > a
             font-weight: bold
@@ -75,7 +75,7 @@
         &.label span
             display: block
             padding: 20px 0 6px 5px
-            color: #999
+            color: $COLOR_MENU_LABEL
 
         &.globals + li > span,
         &.globals + li > a
@@ -115,44 +115,48 @@
         transition: opacity 0.2s
 
         &.current a
-            border-left-color: #e5e5e5
+            border-left-color: $COLOR_PANEL_DIVIDER
 
     li.focus > a,
     ul.current li.focus > a
-        border-left-color: #000
+        border-left-color: $COLOR_MENU_DIVIDER_FOCUS
 
     li.current
         margin-top: 10px
         margin-bottom: 10px
-        border-left-color: #e5e5e5
+        border-left-color: $COLOR_PANEL_DIVIDER
 
         > a
             font-weight: bold
 
+
+// Sticky menu setup
+//
 .menu-sticky-wrap
-    position: static
+    +size-md-lg
+        position: static
 
-    .no-csspositionsticky &
-        &.sticky
-            position: fixed
+        .no-csspositionsticky &
+            &.sticky
+                position: fixed
 
-        &.sticky-current
-            position: fixed
+            &.sticky-current
+                position: fixed
 
-            ul.before-current,
-            ul.after-current
-                opacity: 0
+                ul.before-current,
+                ul.after-current
+                    opacity: 0
 
-        &.sticky-bottom
-            position: absolute
-            top: auto !important
-            left: auto !important
-            bottom: 0
-            right: 0
+            &.sticky-bottom
+                position: absolute
+                top: auto !important
+                left: auto !important
+                bottom: 0
+                right: 0
 
-    .csspositionsticky &
-        &.sticky
-            position: sticky
+        .csspositionsticky &
+            &.sticky
+                position: sticky
 
-        &.sticky-current
-            position: sticky
+            &.sticky-current
+                position: sticky

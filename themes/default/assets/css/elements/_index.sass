@@ -31,14 +31,14 @@
         @extend h4
         margin: 0 -20px 10px -20px
         padding: 0 20px 10px 20px
-        border-bottom: 1px solid #eee
+        border-bottom: 1px solid $COLOR_PANEL_DIVIDER
 
     ul.tsd-index-list
         +vendors(column-count, 3)
         +vendors(column-gap, 20px)
         padding: 0
         list-style: none
-        line-height: 1.333em
+        line-height: $LINE_HEIGHT
 
         +size-xs-sm
             +vendors(column-count, 1)
@@ -51,19 +51,19 @@
             +vendors(page-break-inside, avoid)
 
     a
-        color: #9600ff
+        color: $COLOR_TS
 
     .tsd-kind-interface a,
     .tsd-parent-kind-interface a
-        color: #7da01f
+        color: $COLOR_TS_INTERFACE
 
     .tsd-kind-enum a,
     .tsd-parent-kind-enum a
-        color: #cc9900
+        color: $COLOR_TS_ENUM
 
     .tsd-kind-class a,
     .tsd-parent-kind-class a
-        color: #4da6ff
+        color: $COLOR_TS_CLASS
 
     .tsd-is-private a
-        color: #808080
+        color: $COLOR_TS_PRIVATE

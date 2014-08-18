@@ -10,7 +10,6 @@ html.default
             padding-left: 10px
 
     +size-xs-sm
-
         .col-content
             float: none
             width: 100%
@@ -29,13 +28,52 @@ html.default
             padding: 20px 20px 20px 0
             max-width: 450px
             visibility: hidden
-            background-color: $COLOR_SECTION
-            box-shadow: inset 0 0 4px rgba(#000, 0.5)
+            background-color: $COLOR_PANEL
 
-        &.has-menu
+        .overlay
+            content: ''
+            display: block
+            position: fixed
+            z-index: 1023
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            background-color: rgba(#000, 0.75)
+            visibility: hidden
+
+        &.to-has-menu
+            .overlay
+                animation: fade-in 0.4s
+
             header,
             .col-content
-                transform: translate(-50%, 0)
+                animation: shift-to-left 0.4s
+
+            .col-menu
+                animation: pop-in-from-right 0.4s
+
+        &.from-has-menu
+            .overlay
+                animation: fade-out 0.4s
+
+            header,
+            .col-content
+                animation: unshift-to-left 0.4s
+
+            .col-menu
+                animation: pop-out-to-right 0.4s
+
+        &.has-menu
+            body
+                overflow: hidden
+
+            .overlay
+                visibility: visible
+
+            header,
+            .col-content
+                transform: translate(-25%, 0)
 
             .col-menu
                 visibility: visible
@@ -43,8 +81,8 @@ html.default
 .tsd-page-title
     padding: 70px 0 20px 0
     margin: 0 0 40px 0
-    background: #fff
-    box-shadow: 0 0 4px rgba(#000, 0.5)
+    background: $COLOR_PANEL
+    box-shadow: 0 0 5px rgba(#000, 0.35)
 
     h1
         margin: 0
@@ -52,10 +90,10 @@ html.default
 .tsd-breadcrumb
     margin: 0
     padding: 0
-    color: #808080
+    color: $COLOR_TEXT_ASIDE
 
     a
-        color: #666
+        color: $COLOR_TEXT_ASIDE
         text-decoration: none
 
         &:hover

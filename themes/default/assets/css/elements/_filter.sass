@@ -29,49 +29,44 @@
 // </div>
 //
 #tsd-filter
-    display: table-cell
-    font-size: 0
-    line-height: 0
+    position: relative
+    display: inline-block
+    height: $TOOLBAR_HEIGHT
+    vertical-align: bottom
 
     .no-filter &
         display: none
 
+    .tsd-filter-group
+        display: inline-block
+        height: $TOOLBAR_HEIGHT
+        vertical-align: bottom
+        white-space: nowrap
+
     input
         display: none
 
-    label
-        transition: color 0.2s, background-color 0.2s, opacity 0.2s
-        display: inline-block
-        height: $TOOLBAR_HEIGHT
-        margin: 0 0 0 1px
-        padding: 0 10px
-        color: $TOOLBAR_TEXT_COLOR
-        background-color: transparent
-        font-size: $FONT_SIZE
-        line-height: $TOOLBAR_HEIGHT
-        cursor: pointer
-        opacity: 0.75
+    +size-xs-sm
+        .tsd-filter-group
+            display: block
+            position: absolute
+            top: $TOOLBAR_HEIGHT
+            right: 20px
+            height: auto
+            background-color: $COLOR_PANEL
+            visibility: hidden
+            transform: translate(50%,0)
+            box-shadow: 0 0 4px rgba(#000, 0.25)
 
-        &:hover
-            opacity: 1
+            .has-options &
+                visibility: visible
 
-        &:before
-            content: ''
-            display: inline-block
-            width: 11px
-            height: 11px
-            margin: 0 4px 3px 0
-            border: 1px solid $TOOLBAR_TEXT_COLOR
-            vertical-align: middle
-            border-radius: 2px
+            .to-has-options &
+                animation: fade-in 0.2s
 
-    input:checked + label
-        &:before
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAg0lEQVR42mP8//8/A7GAiYEEwAIiTExM8KlpBmK1M2fOhLMQMKwKiGuA+B6yM5yBOBRNIUhRKxDfAmI3ZMWTgXgVEEcgKQRZfxuIPYH4LrLiRCB+B8SLgHgtVCHIRA+YE5AVnwRiPyD+DsRB2BSiB91RIA4G4oNA7AXE99F9y0izSAEAi5sfuLrn8xgAAAAASUVORK5CYII=)
-            background-size: 11px 11px
+            .from-has-options &
+                animation: fade-out 0.2s
 
-            +retina
-                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAAbFBMVEX///8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMGjw0YAAAAI3RSTlMAAHd5drsP6/x6EXg5HQa9tHTD6qM0ewSp5jcHsgu/EMG+fFYgEsoAAAB3SURBVHhetc1HFsMgDEVRf+PaS3ov2v8eDRKEE5Ipb6Y7+Erihu9U3vzhmWj85YyIKuZQqRYeeqepUQXmYio70VZUeCHasCujLSxv9VHugD3vwvHhqP105m8pPozLVUNl1TNuuSannlHcRQPG48kaMprXG56jtgI0cQrrsMDSOQAAAABJRU5ErkJggg==)
-
-        &:hover
-            opacity: 1
+        label
+            display: block
+            padding-right: 20px

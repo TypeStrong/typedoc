@@ -646,6 +646,68 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
+    var Toggle = (function (_super) {
+        __extends(Toggle, _super);
+        function Toggle(options) {
+            var _this = this;
+            _super.call(this, _.defaults(options, {
+                events: {
+                    'click': 'onClick'
+                }
+            }));
+
+            this.className = this.$el.attr('data-toggle');
+            typedoc.$html.on('mousedown', function (e) {
+                return _this.onDocumentMouseDown(e);
+            });
+        }
+        Toggle.prototype.setActive = function (value) {
+            if (this.active == value)
+                return;
+            this.active = value;
+
+            typedoc.$html.toggleClass('has-' + this.className, value);
+            this.$el.toggleClass('active', value);
+
+            var transition = (this.active ? 'to-has-' : 'from-has-') + this.className;
+            typedoc.$html.addClass(transition);
+            setTimeout(function () {
+                return typedoc.$html.removeClass(transition);
+            }, 500);
+        };
+
+        Toggle.prototype.onClick = function (event) {
+            this.setActive(true);
+        };
+
+        Toggle.prototype.onDocumentMouseDown = function (e) {
+            if (this.active) {
+                var $path = $(e.target).parents().addBack();
+                if ($path.hasClass('col-menu')) {
+                    var $link = $path.filter('a');
+                    if ($link.length) {
+                        var href = window.location.href;
+                        if (href.indexOf('#') != -1) {
+                            href = href.substr(0, href.indexOf('#'));
+                        }
+                        if ($link.prop('href').substr(0, href.length) != href) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+
+                this.setActive(false);
+            }
+        };
+        return Toggle;
+    })(Backbone.View);
+
+    typedoc.registerComponent(Toggle, 'a[data-toggle]');
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
     var Viewport = (function (_super) {
         __extends(Viewport, _super);
         function Viewport() {

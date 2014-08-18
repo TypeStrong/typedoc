@@ -1,22 +1,22 @@
 body
     background: $COLOR_BACKGROUND
-    font-family: $FONT-FAMILY
+    font-family: $FONT_FAMILY
     font-size: $FONT_SIZE
     color: $COLOR_TEXT
 
 a
-    color: #4da6ff
+    color: $COLOR_LINK
     text-decoration: none
 
     &:hover
         text-decoration: underline
 
 code, pre
-    font-family: "Source Code Pro", fixed
+    font-family: $FONT_FAMILY_MONO
     padding: 0.2em
     margin: 0
-    font-size: 85%
-    background-color: rgba(#000, 0.04)
+    font-size: $FONT_SIZE_MONO
+    background-color: $COLOR_CODE_BACKGROUND
 
 pre
     padding: 10px
@@ -27,7 +27,7 @@ pre
         background-color: transparent
 
 .tsd-typography
-    line-height: 1.333em
+    line-height: $LINE_HEIGHT
 
     ul
         list-style: square
@@ -42,4 +42,4 @@ pre
         font-weight: normal
 
     p, ul, ol
-        margin: 0 0 1em 0
+        margin: 1em 0

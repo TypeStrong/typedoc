@@ -18,7 +18,7 @@
             <div class="table-wrap">
                 <div class="table-cell" id="tsd-search" data-index="{{relativeURL "assets/js/search.js"}}" data-base="{{relativeURL "./"}}">
                     <div class="field">
-                        <label for="tsd-search-field">Search</label>
+                        <label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
                         <input id="tsd-search-field" type="text" />
                     </div>
 
@@ -30,20 +30,27 @@
                     <a href="{{relativeURL "index.html"}}" class="title">{{project.name}}</a>
                 </div>
 
-                <div class="table-cell" id="tsd-filter">
-                    <input type="checkbox" id="tsd-filter-inherited" checked />
-                    <label for="tsd-filter-inherited">Inherited</label>
+                <div class="table-cell" id="tsd-widgets">
+                    <div id="tsd-filter">
+                        <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+                        <div class="tsd-filter-group">
+                            <input type="checkbox" id="tsd-filter-inherited" checked />
+                            <label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 
-                    <input type="checkbox" id="tsd-filter-private" checked />
-                    <label for="tsd-filter-private">Private</label>
+                            <input type="checkbox" id="tsd-filter-private" checked />
+                            <label class="tsd-widget" for="tsd-filter-private">Private</label>
 
-                    {{#unless settings.excludeExternals}}
-                        <input type="checkbox" id="tsd-filter-externals" checked />
-                        <label for="tsd-filter-externals">Externals</label>
-                    {{/unless}}
+                            {{#unless settings.excludeExternals}}
+                                <input type="checkbox" id="tsd-filter-externals" checked />
+                                <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+                            {{/unless}}
 
-                    <input type="checkbox" id="tsd-filter-only-exported" />
-                    <label for="tsd-filter-only-exported">Only exported</label>
+                            <input type="checkbox" id="tsd-filter-only-exported" />
+                            <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+                        </div>
+                    </div>
+
+                    <a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
                 </div>
             </div>
         </div>
@@ -143,6 +150,7 @@
     </div>
 {{/unless}}
 
+<div class="overlay"></div>
 <script src="{{relativeURL "assets/js/main.js"}}"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="{{relativeURL "assets/js/search.js"}}"><' + '/script>');</script>
 

@@ -14,9 +14,9 @@
 .tsd-signature
     margin: 0 0 1em 0
     padding: 10px
-    border: 1px solid #eee
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
-    font-size: 14px
+    border: 1px solid $COLOR_PANEL_DIVIDER
+    font-family: $FONT_FAMILY_MONO
+    font-size: $FONT_SIZE_MONO
 
     &.tsd-kind-icon
         padding-left: 30px
@@ -37,7 +37,7 @@
                 left: 20px
 
 .tsd-signature-symbol
-    color: #888
+    color: $COLOR_TEXT_ASIDE
     font-weight: normal
 
 .tsd-signature-type
@@ -57,18 +57,18 @@
 .tsd-signatures
     padding: 0
     margin: 0 0 1em 0
-    border: 1px solid #eee
+    border: 1px solid $COLOR_PANEL_DIVIDER
 
     .tsd-signature
         margin: 0
-        transition: background-color 0.1s
         border-width: 1px 0 0 0
+        transition: background-color 0.1s
 
         &:first-child
             border-top-width: 0
 
         &.current
-            background-color: #eee
+            background-color: $COLOR_PANEL_DIVIDER
 
     &.active > .tsd-signature
         cursor: pointer
@@ -104,7 +104,8 @@
 .tsd-descriptions
     position: relative
     overflow: hidden
-    padding: 0
+    margin: 0 -20px
+    padding: 0 20px
     transition: height 0.3s
     list-style: none
 
@@ -118,14 +119,38 @@
             display: block
 
         &.fade-in
-            animation: fade-in 0.3s
+            animation: fade-in-delayed 0.3s
 
         &.fade-out
-            animation: fade-out 0.3s
+            animation: fade-out-delayed 0.3s
             position: absolute
             display: block
             top: 0
-            left: 0
-            width: 100%
+            left: 20px
+            right: 20px
             opacity: 0
             visibility: hidden
+
+    .tsd-parameters-title,
+    .tsd-returns-title
+        margin-left: -20px
+        margin-right: -20px
+        padding: 0 20px
+        padding-top: 10px
+        border-top: 1px solid $COLOR_PANEL_DIVIDER
+
+    .tsd-returns-title
+        margin-bottom: -0.5em
+
+    .tsd-parameters
+        list-style: none
+        padding-left: 20px
+
+        > li
+            > h5
+                font-size: $FONT_SIZE
+                margin: 1em 0 0 0
+                text-indent: -20px
+
+            > .tsd-comment
+                margin-top: -0.5em
