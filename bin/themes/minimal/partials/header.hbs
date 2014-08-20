@@ -1,0 +1,31 @@
+<header>
+    <div class="tsd-page-toolbar">
+        <div class="container">
+            <div class="table-wrap">
+                <div class="table-cell">
+                    <strong>{{project.name}}</strong>
+                </div>
+                <div class="table-cell" id="tsd-widgets">
+                    <div id="tsd-filter">
+                        <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+                        <div class="tsd-filter-group">
+                            <input type="checkbox" id="tsd-filter-inherited" checked />
+                            <label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+
+                            <input type="checkbox" id="tsd-filter-private" checked />
+                            <label class="tsd-widget" for="tsd-filter-private">Private</label>
+
+                            {{#unless settings.excludeExternals}}
+                                <input type="checkbox" id="tsd-filter-externals" checked />
+                                <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+                            {{/unless}}
+
+                            <input type="checkbox" id="tsd-filter-only-exported" />
+                            <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -507,7 +507,8 @@ pre code { padding: 0; font-size: 100%; background-color: transparent; }
   html.default .col-menu { width: 28%; }
   html.default .tsd-navigation { padding-left: 10px; } }
 @media (max-width: 900px) { html.default .col-content { float: none; width: 100%; }
-  html.default .col-menu { position: fixed !important; overflow: auto; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; z-index: 1024; top: 0 !important; bottom: 0 !important; left: auto !important; right: 0 !important; width: 100%; padding: 20px 20px 20px 0; max-width: 450px; visibility: hidden; background-color: white; -webkit-transform: translate(100%, 0); -ms-transform: translate(100%, 0); transform: translate(100%, 0); }
+  html.default .col-menu { position: fixed !important; overflow: auto; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; z-index: 1024; top: 0 !important; bottom: 0 !important; left: auto !important; right: 0 !important; width: 100%; padding: 20px 20px 0 0; max-width: 450px; visibility: hidden; background-color: white; -webkit-transform: translate(100%, 0); -ms-transform: translate(100%, 0); transform: translate(100%, 0); }
+  html.default .col-menu > *:last-child { padding-bottom: 20px; }
   html.default .overlay { content: ""; display: block; position: fixed; z-index: 1023; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.75); visibility: hidden; }
   html.default.to-has-menu .overlay { -webkit-animation: fade-in 0.4s; animation: fade-in 0.4s; }
   html.default.to-has-menu header, html.default.to-has-menu footer, html.default.to-has-menu .col-content { -webkit-animation: shift-to-left 0.4s; animation: shift-to-left 0.4s; }
@@ -726,37 +727,7 @@ input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 
 </head>
 <body>
 
-<header>
-    <div class="tsd-page-toolbar">
-        <div class="container">
-            <div class="table-wrap">
-                <div class="table-cell">
-                    <strong>{{project.name}}</strong>
-                </div>
-                <div class="table-cell" id="tsd-widgets">
-                    <div id="tsd-filter">
-                        <a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-                        <div class="tsd-filter-group">
-                            <input type="checkbox" id="tsd-filter-inherited" checked />
-                            <label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-
-                            <input type="checkbox" id="tsd-filter-private" checked />
-                            <label class="tsd-widget" for="tsd-filter-private">Private</label>
-
-                            {{#unless settings.excludeExternals}}
-                                <input type="checkbox" id="tsd-filter-externals" checked />
-                                <label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-                            {{/unless}}
-
-                            <input type="checkbox" id="tsd-filter-only-exported" />
-                            <label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+{{> header}}
 
 <nav class="tsd-navigation secondary">
     <ul>

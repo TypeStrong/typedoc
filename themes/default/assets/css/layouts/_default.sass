@@ -25,11 +25,14 @@ html.default
             left: auto !important
             right: 0 !important
             width: 100%
-            padding: 20px 20px 20px 0
+            padding: 20px 20px 0 0
             max-width: 450px
             visibility: hidden
             background-color: $COLOR_PANEL
             transform: translate(100%,0)
+
+            > *:last-child
+                padding-bottom: 20px
 
         .overlay
             content: ''

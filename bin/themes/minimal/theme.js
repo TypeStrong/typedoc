@@ -9,6 +9,7 @@ var Theme = (function (_super) {
     function Theme(renderer, basePath) {
         _super.call(this, renderer, basePath);
 
+        renderer.removePlugin(TypeDoc.Output.AssetsPlugin);
         renderer.removePlugin(TypeDoc.Output.JavascriptIndexPlugin);
         renderer.removePlugin(TypeDoc.Output.NavigationPlugin);
         renderer.removePlugin(TypeDoc.Output.TocPlugin);

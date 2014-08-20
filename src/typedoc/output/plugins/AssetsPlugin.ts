@@ -7,6 +7,12 @@ module TypeDoc.Output
     export class AssetsPlugin extends BasePlugin
     {
         /**
+         * Should the default assets always be copied to the output directory?
+         */
+        copyDefaultAssets:boolean = true;
+
+
+        /**
          * Create a new AssetsPlugin instance.
          *
          * @param renderer  The renderer this plugin should be attached to.
@@ -23,9 +29,17 @@ module TypeDoc.Output
          * @param event  An event object describing the current render operation.
          */
         private onRendererBegin(event:OutputEvent) {
+            var fromDefault = Path.join(Renderer.getDefaultTheme(), 'assets');
+            var to = Path.join(event.outputDirectory, 'assets');
+
+            if (this.copyDefaultAssets) {
+                FS.copySync(fromDefault, to);
+            } else {
+                fromDefault = null;
+            }
+
             var from = Path.join(this.renderer.theme.basePath, 'assets');
-            if (FS.existsSync(from)) {
-                var to = Path.join(event.outputDirectory, 'assets');
+            if (from != fromDefault && FS.existsSync(from)) {
                 FS.copySync(from, to);
             }
         }

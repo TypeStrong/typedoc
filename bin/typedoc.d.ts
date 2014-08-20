@@ -2819,6 +2819,10 @@ declare module TypeDoc.Output {
     */
     class AssetsPlugin extends BasePlugin {
         /**
+        * Should the default assets always be copied to the output directory?
+        */
+        public copyDefaultAssets: boolean;
+        /**
         * Create a new AssetsPlugin instance.
         *
         * @param renderer  The renderer this plugin should be attached to.

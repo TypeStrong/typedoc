@@ -11,6 +11,7 @@ export class Theme extends TypeDoc.Output.DefaultTheme
     constructor(renderer:TypeDoc.Output.Renderer, basePath:string) {
         super(renderer, basePath);
 
+        renderer.removePlugin(TypeDoc.Output.AssetsPlugin);
         renderer.removePlugin(TypeDoc.Output.JavascriptIndexPlugin);
         renderer.removePlugin(TypeDoc.Output.NavigationPlugin);
         renderer.removePlugin(TypeDoc.Output.TocPlugin);

@@ -6466,6 +6466,10 @@ var TypeDoc;
             */
             function AssetsPlugin(renderer) {
                 _super.call(this, renderer);
+                /**
+                * Should the default assets always be copied to the output directory?
+                */
+                this.copyDefaultAssets = true;
                 renderer.on(Output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
             }
             /**
@@ -6474,9 +6478,17 @@ var TypeDoc;
             * @param event  An event object describing the current render operation.
             */
             AssetsPlugin.prototype.onRendererBegin = function (event) {
+                var fromDefault = Path.join(Output.Renderer.getDefaultTheme(), 'assets');
+                var to = Path.join(event.outputDirectory, 'assets');
+
+                if (this.copyDefaultAssets) {
+                    FS.copySync(fromDefault, to);
+                } else {
+                    fromDefault = null;
+                }
+
                 var from = Path.join(this.renderer.theme.basePath, 'assets');
-                if (FS.existsSync(from)) {
-                    var to = Path.join(event.outputDirectory, 'assets');
+                if (from != fromDefault && FS.existsSync(from)) {
                     FS.copySync(from, to);
                 }
             };
