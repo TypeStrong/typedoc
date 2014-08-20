@@ -220,6 +220,14 @@ module TypeDoc.Models
 
 
         /**
+         * Is this reflection representing a container like a module or class?
+         */
+        isContainer() {
+            return this.kindOf(TypeScript.PullElementKind.SomeContainer);
+        }
+
+
+        /**
          * Return a string representation of this reflection.
          */
         toString():string {

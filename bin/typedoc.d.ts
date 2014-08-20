@@ -2009,6 +2009,10 @@ declare module TypeDoc.Models {
         */
         public kindOf(kind: TypeScript.PullElementKind[]): boolean;
         /**
+        * Is this reflection representing a container like a module or class?
+        */
+        public isContainer(): boolean;
+        /**
         * Return a string representation of this reflection.
         */
         public toString(): string;

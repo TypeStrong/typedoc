@@ -5070,6 +5070,13 @@ var TypeDoc;
             };
 
             /**
+            * Is this reflection representing a container like a module or class?
+            */
+            DeclarationReflection.prototype.isContainer = function () {
+                return this.kindOf(TypeScript.PullElementKind.SomeContainer);
+            };
+
+            /**
             * Return a string representation of this reflection.
             */
             DeclarationReflection.prototype.toString = function () {

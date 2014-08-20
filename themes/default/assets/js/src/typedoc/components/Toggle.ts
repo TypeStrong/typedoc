@@ -19,6 +19,7 @@ module typedoc
 
             this.className = this.$el.attr('data-toggle');
             $html.on('mousedown', (e) => this.onDocumentMouseDown(e));
+            $html.on('touchstart', (e) => this.onDocumentMouseDown(e));
         }
 
 

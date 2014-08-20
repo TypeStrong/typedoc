@@ -64,16 +64,16 @@
         text-indent: -1024px
         vertical-align: bottom
 
-    &.active
-        opacity: 1
-        background-color: $COLOR_PANEL_DIVIDER
-
-    +retina
-        background-image: url(../images/widgets@2x.png)
-        background-size: 200px 40px
+        +retina
+            background-image: url(../images/widgets@2x.png)
+            background-size: 200px 40px
 
     &:hover
         opacity: 0.8
+
+    &.active
+        opacity: 1
+        background-color: $COLOR_PANEL_DIVIDER
 
     &.no-caption
         width: 40px

@@ -660,6 +660,9 @@ var typedoc;
             typedoc.$html.on('mousedown', function (e) {
                 return _this.onDocumentMouseDown(e);
             });
+            typedoc.$html.on('touchstart', function (e) {
+                return _this.onDocumentMouseDown(e);
+            });
         }
         Toggle.prototype.setActive = function (value) {
             if (this.active == value)
