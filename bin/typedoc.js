@@ -1103,7 +1103,7 @@ var TypeDoc;
             var json = JSON.parse(FS.readFileSync(Path.join(typeScriptPath, '..', 'package.json'), 'utf8'));
             return json.version;
         };
-        Application.VERSION = '0.1.0';
+        Application.VERSION = '0.1.1';
         return Application;
     })();
     TypeDoc.Application = Application;
