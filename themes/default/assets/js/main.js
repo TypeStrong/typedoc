@@ -579,7 +579,9 @@ var typedoc;
             this.createGroups();
 
             if (this.groups) {
-                this.$el.addClass('active').on('click', '.tsd-signature', function (event) {
+                this.$el.addClass('active').on('touchstart', '.tsd-signature', function (event) {
+                    return _this.onClick(event);
+                }).on('click', '.tsd-signature', function (event) {
                     return _this.onClick(event);
                 });
                 this.$container.addClass('active');
@@ -633,6 +635,7 @@ var typedoc;
 
         Signature.prototype.onClick = function (e) {
             var _this = this;
+            e.preventDefault();
             _(this.groups).forEach(function (group, index) {
                 if (group.$signature.is(e.currentTarget)) {
                     _this.setIndex(index);
@@ -650,18 +653,17 @@ var typedoc;
         __extends(Toggle, _super);
         function Toggle(options) {
             var _this = this;
-            _super.call(this, _.defaults(options, {
-                events: {
-                    'click': 'onClick'
-                }
-            }));
+            _super.call(this, options);
 
             this.className = this.$el.attr('data-toggle');
-            typedoc.$html.on('mousedown', function (e) {
-                return _this.onDocumentMouseDown(e);
+            this.$el.on(typedoc.pointerUp, function (e) {
+                return _this.onPointerUp(e);
             });
-            typedoc.$html.on('touchstart', function (e) {
-                return _this.onDocumentMouseDown(e);
+            typedoc.$document.on(typedoc.pointerDown, function (e) {
+                return _this.onDocumentPointerDown(e);
+            });
+            typedoc.$document.on(typedoc.pointerUp, function (e) {
+                return _this.onDocumentPointerUp(e);
             });
         }
         Toggle.prototype.setActive = function (value) {
@@ -679,11 +681,32 @@ var typedoc;
             }, 500);
         };
 
-        Toggle.prototype.onClick = function (event) {
+        Toggle.prototype.onPointerUp = function (event) {
+            if (typedoc.hasPointerMoved)
+                return;
             this.setActive(true);
+            event.preventDefault();
         };
 
-        Toggle.prototype.onDocumentMouseDown = function (e) {
+        Toggle.prototype.onDocumentPointerDown = function (e) {
+            if (this.active) {
+                var $path = $(e.target).parents().addBack();
+                if ($path.hasClass('col-menu')) {
+                    return;
+                }
+
+                if ($path.hasClass('tsd-filter-group')) {
+                    return;
+                }
+
+                this.setActive(false);
+            }
+        };
+
+        Toggle.prototype.onDocumentPointerUp = function (e) {
+            var _this = this;
+            if (typedoc.hasPointerMoved)
+                return;
             if (this.active) {
                 var $path = $(e.target).parents().addBack();
                 if ($path.hasClass('col-menu')) {
@@ -693,15 +716,13 @@ var typedoc;
                         if (href.indexOf('#') != -1) {
                             href = href.substr(0, href.indexOf('#'));
                         }
-                        if ($link.prop('href').substr(0, href.length) != href) {
-                            return;
+                        if ($link.prop('href').substr(0, href.length) == href) {
+                            setTimeout(function () {
+                                return _this.setActive(false);
+                            }, 250);
                         }
-                    } else {
-                        return;
                     }
                 }
-
-                this.setActive(false);
             }
         };
         return Toggle;
@@ -749,6 +770,61 @@ var typedoc;
 
     typedoc.viewport;
     typedoc.registerService(Viewport, 'viewport');
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    
+
+    typedoc.pointerDown = 'mousedown';
+
+    typedoc.pointerMove = 'mousemove';
+
+    typedoc.pointerUp = 'mouseup';
+
+    typedoc.pointerDownPosition = { x: 0, y: 0 };
+
+    typedoc.preventNextClick = false;
+
+    typedoc.isPointerDown = false;
+
+    typedoc.isPointerTouch = false;
+
+    typedoc.hasPointerMoved = false;
+
+    typedoc.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    typedoc.$html.addClass(typedoc.isMobile ? 'is-mobile' : 'not-mobile');
+
+    if (typedoc.isMobile && 'ontouchstart' in document.documentElement) {
+        typedoc.isPointerTouch = true;
+        typedoc.pointerDown = 'touchstart';
+        typedoc.pointerMove = 'touchmove';
+        typedoc.pointerUp = 'touchend';
+    }
+
+    typedoc.$document.on(typedoc.pointerDown, function (e) {
+        typedoc.isPointerDown = true;
+        typedoc.hasPointerMoved = false;
+        var t = (typedoc.pointerDown == 'touchstart' ? e.originalEvent['targetTouches'][0] : e);
+        typedoc.pointerDownPosition.x = t.pageX;
+        typedoc.pointerDownPosition.y = t.pageY;
+    }).on(typedoc.pointerMove, function (e) {
+        if (!typedoc.isPointerDown)
+            return;
+        if (!typedoc.hasPointerMoved) {
+            var t = (typedoc.pointerDown == 'touchstart' ? e.originalEvent['targetTouches'][0] : e);
+            var x = typedoc.pointerDownPosition.x - t.pageX;
+            var y = typedoc.pointerDownPosition.y - t.pageY;
+            typedoc.hasPointerMoved = (Math.sqrt(x * x + y * y) > 10);
+        }
+    }).on(typedoc.pointerUp, function (e) {
+        typedoc.isPointerDown = false;
+    }).on('click', function (e) {
+        if (typedoc.preventNextClick) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            typedoc.preventNextClick = false;
+        }
+    });
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {

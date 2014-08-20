@@ -499,18 +499,18 @@ pre code { padding: 0; font-size: 100%; background-color: transparent; }
   html.default .col-menu { width: 28%; }
   html.default .tsd-navigation { padding-left: 10px; } }
 @media (max-width: 900px) { html.default .col-content { float: none; width: 100%; }
-  html.default .col-menu { position: fixed !important; overflow: auto; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; z-index: 1024; top: 0 !important; bottom: 0 !important; left: auto !important; right: 0 !important; width: 100%; padding: 20px 20px 20px 0; max-width: 450px; visibility: hidden; background-color: white; }
+  html.default .col-menu { position: fixed !important; overflow: auto; -webkit-overflow-scrolling: touch; overflow-scrolling: touch; z-index: 1024; top: 0 !important; bottom: 0 !important; left: auto !important; right: 0 !important; width: 100%; padding: 20px 20px 20px 0; max-width: 450px; visibility: hidden; background-color: white; -webkit-transform: translate(100%, 0); -ms-transform: translate(100%, 0); transform: translate(100%, 0); }
   html.default .overlay { content: ""; display: block; position: fixed; z-index: 1023; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.75); visibility: hidden; }
   html.default.to-has-menu .overlay { -webkit-animation: fade-in 0.4s; animation: fade-in 0.4s; }
-  html.default.to-has-menu header, html.default.to-has-menu .col-content { -webkit-animation: shift-to-left 0.4s; animation: shift-to-left 0.4s; }
+  html.default.to-has-menu header, html.default.to-has-menu footer, html.default.to-has-menu .col-content { -webkit-animation: shift-to-left 0.4s; animation: shift-to-left 0.4s; }
   html.default.to-has-menu .col-menu { -webkit-animation: pop-in-from-right 0.4s; animation: pop-in-from-right 0.4s; }
   html.default.from-has-menu .overlay { -webkit-animation: fade-out 0.4s; animation: fade-out 0.4s; }
-  html.default.from-has-menu header, html.default.from-has-menu .col-content { -webkit-animation: unshift-to-left 0.4s; animation: unshift-to-left 0.4s; }
+  html.default.from-has-menu header, html.default.from-has-menu footer, html.default.from-has-menu .col-content { -webkit-animation: unshift-to-left 0.4s; animation: unshift-to-left 0.4s; }
   html.default.from-has-menu .col-menu { -webkit-animation: pop-out-to-right 0.4s; animation: pop-out-to-right 0.4s; }
   html.default.has-menu body { overflow: hidden; }
   html.default.has-menu .overlay { visibility: visible; }
-  html.default.has-menu header, html.default.has-menu .col-content { -webkit-transform: translate(-25%, 0); -ms-transform: translate(-25%, 0); transform: translate(-25%, 0); }
-  html.default.has-menu .col-menu { visibility: visible; } }
+  html.default.has-menu header, html.default.has-menu footer, html.default.has-menu .col-content { -webkit-transform: translate(-25%, 0); -ms-transform: translate(-25%, 0); transform: translate(-25%, 0); }
+  html.default.has-menu .col-menu { visibility: visible; -webkit-transform: translate(0, 0); -ms-transform: translate(0, 0); transform: translate(0, 0); } }
 
 .tsd-page-title { padding: 70px 0 20px 0; margin: 0 0 40px 0; background: white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.35); }
 .tsd-page-title h1 { margin: 0; }
@@ -527,6 +527,7 @@ html.minimal .content-wrap { padding-left: 300px; }
 html.minimal .tsd-navigation { position: fixed !important; overflow: auto; overflow-scrolling: touch; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 1; left: 0; top: 40px; bottom: 0; width: 300px; padding: 20px; margin: 0; }
 html.minimal .tsd-member .tsd-member { margin-left: 0; }
 html.minimal .tsd-page-toolbar { position: fixed; z-index: 2; }
+html.minimal #tsd-filter .tsd-filter-group { right: 0; -webkit-transform: none; -ms-transform: none; transform: none; }
 html.minimal footer { background-color: transparent; }
 html.minimal footer .container { padding: 0; }
 html.minimal .tsd-generator { padding: 0; }
@@ -560,11 +561,10 @@ dl.tsd-comment-tags p { margin: 0; }
   #tsd-filter label { display: block; padding-right: 20px; } }
 
 footer { border-top: 1px solid #eeeeee; background-color: white; }
+footer.with-border-bottom { border-bottom: 1px solid #eeeeee; }
 footer .tsd-legend-group { font-size: 0; }
 footer .tsd-legend { display: inline-block; width: 25%; padding: 0; font-size: 16px; list-style: none; line-height: 1.333em; vertical-align: top; }
 @media (max-width: 900px) { footer .tsd-legend { width: 50%; } }
-
-.tsd-generator p { margin: 0; padding: 1em 0; border-top: 1px solid #eeeeee; }
 
 .tsd-hierarchy { list-style: square; padding: 0 0 0 20px; margin: 0; }
 .tsd-hierarchy .target { font-weight: bold; }

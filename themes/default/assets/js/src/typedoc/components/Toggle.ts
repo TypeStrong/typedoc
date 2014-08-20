@@ -11,15 +11,12 @@ module typedoc
 
 
         constructor(options:Backbone.ViewOptions<any>) {
-            super(_.defaults(options, {
-                events: {
-                    'click': 'onClick'
-                }
-            }));
+            super(options);
 
             this.className = this.$el.attr('data-toggle');
-            $html.on('mousedown', (e) => this.onDocumentMouseDown(e));
-            $html.on('touchstart', (e) => this.onDocumentMouseDown(e));
+            this.$el.on(pointerUp, (e) => this.onPointerUp(e));
+            $document.on(pointerDown, (e) => this.onDocumentPointerDown(e));
+            $document.on(pointerUp, (e) => this.onDocumentPointerUp(e));
         }
 
 
@@ -36,12 +33,30 @@ module typedoc
         }
 
 
-        onClick(event:JQueryMouseEventObject) {
+        onPointerUp(event:JQueryMouseEventObject) {
+            if (hasPointerMoved) return;
             this.setActive(true);
+            event.preventDefault();
         }
 
 
-        onDocumentMouseDown(e:JQueryMouseEventObject) {
+        onDocumentPointerDown(e:JQueryMouseEventObject) {
+            if (this.active) {
+                var $path = $(e.target).parents().addBack();
+                if ($path.hasClass('col-menu')) {
+                    return;
+                }
+
+                if ($path.hasClass('tsd-filter-group')) {
+                    return;
+                }
+
+                this.setActive(false);
+            }
+        }
+
+        onDocumentPointerUp(e:JQueryMouseEventObject) {
+            if (hasPointerMoved) return;
             if (this.active) {
                 var $path = $(e.target).parents().addBack();
                 if ($path.hasClass('col-menu')) {
@@ -51,15 +66,11 @@ module typedoc
                         if (href.indexOf('#') != -1) {
                             href = href.substr(0, href.indexOf('#'));
                         }
-                        if ($link.prop('href').substr(0, href.length) != href) {
-                            return;
+                        if ($link.prop('href').substr(0, href.length) == href) {
+                            setTimeout(() => this.setActive(false), 250);
                         }
-                    } else {
-                        return;
                     }
                 }
-
-                this.setActive(false);
             }
         }
     }

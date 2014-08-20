@@ -86,6 +86,7 @@ module typedoc
 
             if (this.groups) {
                 this.$el.addClass('active')
+                    .on('touchstart', '.tsd-signature', (event) => this.onClick(event))
                     .on('click', '.tsd-signature', (event) => this.onClick(event));
                 this.$container.addClass('active');
                 this.setIndex(0);
@@ -149,6 +150,7 @@ module typedoc
          * @param e  The related jQuery event object.
          */
         private onClick(e:JQueryMouseEventObject) {
+            e.preventDefault();
             _(this.groups).forEach((group, index) => {
                 if (group.$signature.is(e.currentTarget)) {
                     this.setIndex(index);
