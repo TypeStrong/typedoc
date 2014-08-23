@@ -26,7 +26,7 @@ $ typedoc
 ## Preview
 
 If you want to know what a documentation created with TypeDoc looks like, head over
-to the homepage of the project. We've setup to examples demonstrating the two default
+to the homepage of the project. We've setup examples demonstrating the two default
 themes shipped with the package:
 
 [http://typedoc.io/themes/default](http://typedoc.io/themes/default)<br>
