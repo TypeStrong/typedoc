@@ -26,10 +26,11 @@ $ typedoc
 ## Preview
 
 If you want to know what a documentation created with TypeDoc looks like, head over
-to the GitHub page of the project. It contains an api documentation of TypeDoc generated with
-TypeDoc:
+to the homepage of the project. We've setup to examples demonstrating the two default
+themes shipped with the package:
 
-http://sebastian-lenz.github.io/typedoc
+[http://typedoc.io/themes/default](http://typedoc.io/themes/default)<br>
+[http://typedoc.io/themes/minimal](http://typedoc.io/themes/minimal)
 
 
 ## Usage
@@ -46,161 +47,75 @@ $ typedoc --out path/to/documentation/ path/to/typescript/project/
 
 ### Arguments
 
-`--out <path/to/documentation/>`
+* `--out <path/to/documentation/>`<br>
+  Specifies the location the documentation should be written to.
 
-Specifies the location the documentation should be written to.
+#### Source file handling
+* `--exclude <pattern>`<br>
+  Exclude files by the given pattern when a path is provided as source
+* `--includeDeclarations`<br>
+  Turn on parsing of .d.ts declaration files.
+* `--externalPattern <pattern>`<br>
+  Define a pattern for files that should be considered being external.
+* `--excludeExternals`<br>
+  Prevent externally resolved TypeScript files from being documented.
 
-`--name <Documentation title>`
+#### TypeScript compiler
+* `--module <commonjs or amd>`<br>
+  Specify module code generation: "commonjs" or "amd"
+* `--target <ES3 or ES5>`<br>
+  Specify ECMAScript target version: "ES3" (default), or "ES5"
 
-Set the name of the project that will be used in the header of the template.
+#### Theming
+* `--theme <default|minimal|path/to/theme>`<br>
+  Specify the path to the theme that should be used.
+* `--name <Documentation title>`<br>
+  Set the name of the project that will be used in the header of the template.
+* `--readme <path/to/readme|none>`<br>
+  Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
+  and start the documentation on the globals page.
+* `--hideGenerator`<br>
+  Do not print the TypeDoc link at the end of the page.
+* `--gaID`<br>
+  Set the Google Analytics tracking ID and activate tracking code.
+* `--gaSite <site>`<br>
+  Set the site name for Google Analytics. Defaults to `auto`
 
-`--readme <path/to/readme|none>`
-
-Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
-and start the documentation on the globals page.
-
-`--module <commonjs or amd>`
-
-Specify module code generation: "commonjs" or "amd"
-
-`--target <ES3 or ES5>`
-
-Specify ECMAScript target version: "ES3" (default), or "ES5"
-
-`--exclude <pattern>`
-
-Exclude files by the given pattern when a path is provided as source
-
-`--theme <path/to/theme>`
-
-Specify the path to the theme that should be used
-
-`--includeDeclarations`
-
-Turn on parsing of .d.ts declaration files.
-
-`--externalPattern <pattern>`
-
-Define a pattern for files that should be considered being external.
-
-`--excludeExternals`
-
-Prevent externally resolved TypeScript files from being documented.
-
-`--gaID`
-
-Set the Google Analytics tracking ID and activate tracking code.
-
-`--gaSite <site>`
-
-Set the site name for Google Analytics. Defaults to `auto`.
-
-`--hideGenerator`
-
-Do not print the TypeDoc link at the end of the page.
-
-`--verbose`
-
-Print more information while TypeDoc is running.
+#### Miscellaneous
+* `--version`<br>
+  Display the version number of TypeDoc.
+* `--help`<br>
+  Display a simple cheat sheet.
+* `--verbose`<br>
+  Print more information while TypeDoc is running.
 
 
 ### Gulp
 
-There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten. You can find it on NPM:
-https://www.npmjs.org/package/gulp-typedoc/
+There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten. You can find it on NPM:<br>
+[https://www.npmjs.org/package/gulp-typedoc/](https://www.npmjs.org/package/gulp-typedoc/)
 
 
 ### Grunt
 
-There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:
-https://www.npmjs.org/package/grunt-typedoc
+There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:<br>
+[https://www.npmjs.org/package/grunt-typedoc](https://www.npmjs.org/package/grunt-typedoc)
 
 
-## Document your code
+## Advanced guides and docs
 
-TypeDoc runs the TypeScript compiler and extracts type information from the generated compiler symbols.
-Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
-like classes, enumerations or property types and access modifiers will be automatically detected.
-
-All comments are parsed as markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
-and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight code blocks within markdown sections.
-Additionally you can link to other classes, members or functions using double angle brackets.
+Visit our homepage for advanced guides and an extensive API documentation:<br>
+[http://typedoc.io](http://typedoc.io)
 
 
-### JavaDoc tags
+## Contributing
 
-The documentation generator currently understands these javadoc tags:
-
- * ```@param <param name>```
- * ```@return(s)```
-
-All other tags will be rendered as definition lists, so they are not lost.
+Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
+an issue or create a pull requests:<br>
+[https://github.com/sebastian-lenz/typedoc](https://github.com/sebastian-lenz/typedoc)
 
 
-### Function signatures
+## License
 
-When writing documentation for function signatures, you don't have to repeat yourself. TypeDoc automatically
-copies comments and tags of the function implementation to its signatures for you. Of course you can still
-overwrite them if you wish to.
-
-```typescript
-/**
- * @param text  Comment for parameter ´text´.
- */
-function doSomething(target:any, text:string):number;
-
-/**
- * @param value  Comment for parameter ´value´.
- * @returns      Comment for special return value.
- */
-function doSomething(target:any, value:number):number;
-
-/**
- * Comment for method ´doSomething´.
- * @param target  Comment for parameter ´target´.
- * @returns       Comment for return value.
- */
-function doSomething(target:any, arg:any):number {
-    return 0;
-}
-```
-
-
-### Modules
-
-Modules can be commented like any other elements in TypeScript. As modules can be defined in multiple
-files, TypeDoc selects the longest comment by default. One may override this behaviour with the special
-`@preferred` comment tag.
-
-```typescript
-/**
- * Actual module comment.
- * @preferred
- */
-module MyModule { }
-```
-
-```typescript
-/**
- * Dismissed module comment.
- * This is the longer comment but will be dismissed in favor of the preferred comment.
- */
-module MyModule { }
-```
-
-
-### Dynamic modules
-
-The first doc comment within a file is used as the doc comment of a dynamic module. However, you must
-ensure that the first declaration also has as doc comment.
-
-```typescript
-/**
- * This is a doc comment for a dynamic module.
- */
-
-/**
- * This is a doc comment for "someVar".
- */
-var someVar:string = "value";
-```
+Copyright (c) 2014 [Sebastian Lenz](http://www.sebastian-lenz.de).<br>
+Licensed under the Apache License 2.0.
