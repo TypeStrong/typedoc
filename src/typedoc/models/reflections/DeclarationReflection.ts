@@ -60,6 +60,11 @@ module TypeDoc.Models
          * The number of the line that emitted the declaration.
          */
         line:number;
+
+        /**
+         * URL for displaying the source file.
+         */
+        url?:string;
     }
 
 

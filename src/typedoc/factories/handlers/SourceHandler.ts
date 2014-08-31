@@ -87,8 +87,9 @@ module TypeDoc.Factories
 
             this.basePath.add(fileName);
             state.reflection.sources.push({
+                file:     this.fileMappings[fileName],
                 fileName: fileName,
-                line:     snapshot.getLineNumber(ast.start())
+                line:     snapshot.getLineNumber(ast.start()) + 1
             });
         }
 

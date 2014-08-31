@@ -1,22 +1,51 @@
 module TypeDoc.Models
 {
+    /**
+     * Exposes information about a directory containing source files.
+     *
+     * One my access the root directory of a project through the [[ProjectReflection.directory]]
+     * property. Traverse through directories by utilizing the [[SourceDirectory.parent]] or
+     * [[SourceDirectory.directories]] properties.
+     */
     export class SourceDirectory
     {
-        name:string = null;
-
-        dirName:string = null;
-
-        url:string;
-
+        /**
+         * The parent directory or NULL if this is a root directory.
+         */
         parent:SourceDirectory = null;
 
+        /**
+         * A list of all subdirectories.
+         */
         directories:{[name:string]:SourceDirectory} = {};
 
+        /**
+         * A list of all files in this directory.
+         */
         files:SourceFile[] = [];
 
-        groups:ReflectionGroup[];
+        /**
+         * The name of this directory.
+         */
+        name:string = null;
+
+        /**
+         * The relative path from the root directory to this directory.
+         */
+        dirName:string = null;
+
+        /**
+         * The url of the page displaying the directory contents.
+         */
+        url:string;
 
 
+        /**
+         * Create a new SourceDirectory instance.
+         *
+         * @param name  The new of directory.
+         * @param parent  The parent directory instance.
+         */
         constructor(name?:string, parent?:SourceDirectory) {
             if (name && parent) {
                 this.name    = name;
@@ -26,6 +55,12 @@ module TypeDoc.Models
         }
 
 
+        /**
+         * Return a string describing this directory and its contents.
+         *
+         * @param indent  Used internally for indention.
+         * @returns A string representing this directory and all of its children.
+         */
         toString(indent:string = '') {
             var res = indent + this.name;
 
@@ -42,6 +77,12 @@ module TypeDoc.Models
         }
 
 
+        /**
+         * Return a list of all reflections exposed by the files within this directory.
+         *
+         * @returns An aggregated list of all [[DeclarationReflection]] defined in the
+         * files of this directory.
+         */
         getAllReflections():DeclarationReflection[] {
             var reflections = [];
             this.files.forEach((file) => {
