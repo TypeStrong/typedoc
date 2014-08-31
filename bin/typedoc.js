@@ -3185,7 +3185,7 @@ var TypeDoc;
                 if (out.code == 0) {
                     var url, remotes = out.output.split('\n');
                     for (var i = 0, c = remotes.length; i < c; i++) {
-                        url = /git@github\.com:([^\/]+)\/(.*?)\.git/.exec(remotes[i]);
+                        url = /github\.com[:\/]([^\/]+)\/(.*?)\.git/.exec(remotes[i]);
                         if (url) {
                             this.gitHubUser = url[1];
                             this.gitHubProject = url[2];
