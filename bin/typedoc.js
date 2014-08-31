@@ -1538,53 +1538,99 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * Helper class that determines the common base path of a set of files.
+        *
+        * In the first step all files must be passed to [[add]]. Afterwards [[trim]]
+        * can be used to retrieve the shortest path relative to the determined base path.
+        */
         var BasePath = (function () {
             function BasePath() {
+                /**
+                * List of known base paths.
+                */
+                this.basePaths = [];
             }
+            /**
+            * Add the given file path to this set of base paths.
+            *
+            * @param fileName  The absolute filename that should be added to the base path.
+            */
             BasePath.prototype.add = function (fileName) {
-                var dirname = BasePath.normalize(Path.dirname(fileName));
-                if (this.basePath) {
-                    var basePath = this.basePath;
-                    var len = basePath.length;
+                var fileDir = Path.dirname(BasePath.normalize(fileName));
+                var filePath = fileDir.split('/');
 
-                    while (basePath != dirname.substr(0, len)) {
-                        if (len >= dirname.length) {
-                            return;
+                basePaths:
+                for (var n = 0, c = this.basePaths.length; n < c; n++) {
+                    var basePath = this.basePaths[n].split('/');
+                    var mMax = Math.min(basePath.length, filePath.length);
+                    for (var m = 0; m < mMax; m++) {
+                        if (basePath[m] == filePath[m]) {
+                            continue;
                         }
 
-                        var parentPath = BasePath.normalize(Path.resolve(Path.join(basePath, '..')));
-                        if (basePath == parentPath)
-                            break;
-                        basePath = parentPath;
-                        len = basePath.length;
+                        if (m < 1) {
+                            continue basePaths;
+                        } else {
+                            // Partial match, trim the known base path
+                            m += 1;
+                            if (m < basePath.length) {
+                                this.basePaths[n] = basePath.slice(0, m).join('/');
+                            }
+                            return;
+                        }
                     }
 
-                    this.basePath = basePath;
-                } else {
-                    this.basePath = dirname;
+                    // Complete match, nothing to do
+                    return;
                 }
+
+                // Unknown base path, add it
+                this.basePaths.push(fileDir);
             };
 
+            /**
+            * Trim the given filename by the determined base paths.
+            *
+            * @param fileName  The absolute filename that should be trimmed.
+            * @returns The trimmed version of the filename.
+            */
             BasePath.prototype.trim = function (fileName) {
                 fileName = BasePath.normalize(fileName);
-                if (fileName.substr(0, this.basePath.length) == this.basePath) {
-                    return fileName.substr(this.basePath.length + 1);
-                } else {
-                    return fileName;
+                for (var n = 0, c = this.basePaths.length; n < c; n++) {
+                    var basePath = this.basePaths[n];
+                    if (fileName.substr(0, basePath.length) == basePath) {
+                        return fileName.substr(basePath.length + 1);
+                    }
                 }
+
+                return fileName;
             };
 
+            /**
+            * Reset this instance, ignore all paths already passed to [[add]].
+            */
             BasePath.prototype.reset = function () {
-                this.basePath = null;
+                this.basePaths = [];
             };
 
+            /**
+            * Normalize the given path.
+            *
+            * @param path  The path that should be normalized.
+            * @returns Normalized version of the given path.
+            */
             BasePath.normalize = function (path) {
+                // Ensure forward slashes
                 path = path.replace(/\\/g, '/');
+
+                // Remove all surrounding quotes
                 path = path.replace(/^["']+|["']+$/g, '');
-                path = path.replace(/^([^\:]+)\:\//, function (m, m1) {
+
+                // Make Windows drive letters lower case
+                return path.replace(/^([^\:]+)\:\//, function (m, m1) {
                     return m1.toUpperCase() + ':/';
                 });
-                return path;
             };
             return BasePath;
         })();
