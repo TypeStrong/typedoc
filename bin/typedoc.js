@@ -3735,7 +3735,7 @@ var TypeDoc;
                             var childState = state.createChildState(declaration);
 
                             _this.dispatcher.processState(childState);
-                            if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                            if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
                                 childState.reflection.name = state.reflection.name + ' index signature';
                             }
                         });
@@ -3746,7 +3746,7 @@ var TypeDoc;
                             childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
 
                             _this.dispatcher.processState(childState);
-                            if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                            if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
                                 childState.reflection.name = state.reflection.name + ' index signature';
                             }
                         });

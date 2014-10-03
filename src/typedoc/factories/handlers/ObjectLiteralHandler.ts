@@ -31,7 +31,7 @@ module TypeDoc.Factories
                         var childState = state.createChildState(declaration);
 
                         this.dispatcher.processState(childState);
-                        if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                        if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
                             childState.reflection.name = state.reflection.name + ' index signature';
                         }
                     });
@@ -42,7 +42,7 @@ module TypeDoc.Factories
                         childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
 
                         this.dispatcher.processState(childState);
-                        if (childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                        if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
                             childState.reflection.name = state.reflection.name + ' index signature';
                         }
                     });
