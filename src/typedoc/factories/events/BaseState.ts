@@ -144,7 +144,7 @@ module TypeDoc.Factories
             var reflection:Models.DeclarationReflection = null;
             var name = BaseState.getName(declaration);
             this.reflection.children.some((child) => {
-                if (child.name != name) return false;
+                if (child.originalName != name) return false;
                 if ((child.flags & TypeScript.PullElementFlags.Static) !=
                     (declaration.flags & TypeScript.PullElementFlags.Static)) return false;
 

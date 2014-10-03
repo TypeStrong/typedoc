@@ -29,22 +29,14 @@ module TypeDoc.Factories
                     state.reflection.kind = ReflectionHandler.mergeKinds(state.reflection.kind, TypeScript.PullElementKind.ObjectLiteral);
                     literal.getChildDecls().forEach((declaration) => {
                         var childState = state.createChildState(declaration);
-
                         this.dispatcher.processState(childState);
-                        if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
-                            childState.reflection.name = state.reflection.name + ' index signature';
-                        }
                     });
                 } else {
                     literal.getChildDecls().forEach((declaration) => {
                         var childState = state.createChildState(declaration);
                         childState.isFlattened   = true;
                         childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
-
                         this.dispatcher.processState(childState);
-                        if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
-                            childState.reflection.name = state.reflection.name + ' index signature';
-                        }
                     });
                 }
 

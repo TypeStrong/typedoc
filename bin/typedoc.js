@@ -2043,7 +2043,7 @@ var TypeDoc;
 
                 var parent = state.parentState.reflection;
                 var reflection = new TypeDoc.Models.DeclarationReflection();
-                reflection.name = (state.flattenedName ? state.flattenedName + '.' : '') + state.getName();
+                reflection.name = state.getReflectionName();
                 reflection.originalName = state.declaration.name;
                 reflection.parent = parent;
 
@@ -2114,7 +2114,7 @@ var TypeDoc;
 
             Dispatcher.EVENT_CREATE_REFLECTION = 'createReflection';
 
-            Dispatcher.EVENT_MERGE_REFLECTION = Dispatcher.EVENT_MERGE_REFLECTION;
+            Dispatcher.EVENT_MERGE_REFLECTION = 'mergeReflection';
 
             Dispatcher.EVENT_BEGIN_DECLARATION = 'beginDeclaration';
 
@@ -2290,7 +2290,7 @@ var TypeDoc;
                 var reflection = null;
                 var name = BaseState.getName(declaration);
                 this.reflection.children.some(function (child) {
-                    if (child.name != name)
+                    if (child.originalName != name)
                         return false;
                     if ((child.flags & TypeScript.PullElementFlags.Static) != (declaration.flags & TypeScript.PullElementFlags.Static))
                         return false;
@@ -2342,8 +2342,7 @@ var TypeDoc;
                 }
 
                 if (state.isFlattened) {
-                    // state.parentState   = this.parentState;
-                    state.flattenedName = this.flattenedName + '.' + declaration.name;
+                    state.flattenedName = this.flattenedName + '.' + state.getName();
                 }
 
                 return state;
@@ -2373,6 +2372,20 @@ var TypeDoc;
                 state.reflection = this.reflection;
                 state.isInherited = true;
                 return state;
+            };
+
+            DeclarationState.prototype.getReflectionName = function () {
+                if (this.flattenedName) {
+                    if (this.kindOf(TypeScript.PullElementKind.CallSignature)) {
+                        return this.flattenedName + '()';
+                    } else if (this.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                        return this.flattenedName + '[]';
+                    } else {
+                        return this.flattenedName + '.' + this.getName();
+                    }
+                } else {
+                    return this.getName();
+                }
             };
             return DeclarationState;
         })(Factories.BaseState);
@@ -3990,22 +4003,14 @@ var TypeDoc;
                         state.reflection.kind = Factories.ReflectionHandler.mergeKinds(state.reflection.kind, TypeScript.PullElementKind.ObjectLiteral);
                         literal.getChildDecls().forEach(function (declaration) {
                             var childState = state.createChildState(declaration);
-
                             _this.dispatcher.processState(childState);
-                            if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
-                                childState.reflection.name = state.reflection.name + ' index signature';
-                            }
                         });
                     } else {
                         literal.getChildDecls().forEach(function (declaration) {
                             var childState = state.createChildState(declaration);
                             childState.isFlattened = true;
                             childState.flattenedName = state.flattenedName ? state.flattenedName + '.' + state.declaration.name : state.getName();
-
                             _this.dispatcher.processState(childState);
-                            if (childState.reflection && childState.kindOf(TypeScript.PullElementKind.IndexSignature)) {
-                                childState.reflection.name = state.reflection.name + ' index signature';
-                            }
                         });
                     }
 

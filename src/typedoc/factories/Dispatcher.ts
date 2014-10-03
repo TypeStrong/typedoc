@@ -284,7 +284,7 @@ module TypeDoc.Factories
 
             var parent        = <Models.DeclarationReflection>state.parentState.reflection;
             var reflection    = new Models.DeclarationReflection();
-            reflection.name   = (state.flattenedName ? state.flattenedName + '.' : '') + state.getName();
+            reflection.name   = state.getReflectionName();
             reflection.originalName = state.declaration.name;
             reflection.parent = parent;
 

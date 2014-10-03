@@ -786,6 +786,7 @@ declare module TypeDoc.Factories {
         */
         public createSignatureState(): DeclarationState;
         public createInheritanceState(declaration: TypeScript.PullDecl): DeclarationState;
+        public getReflectionName(): string;
     }
 }
 declare module TypeDoc.Factories {

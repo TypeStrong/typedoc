@@ -28,8 +28,7 @@ module TypeDoc.Factories
             }
 
             if (state.isFlattened) {
-                // state.parentState   = this.parentState;
-                state.flattenedName = this.flattenedName + '.' + declaration.name;
+                state.flattenedName = this.flattenedName + '.' + state.getName();
             }
 
             return state;
@@ -61,6 +60,21 @@ module TypeDoc.Factories
             state.reflection  = this.reflection;
             state.isInherited = true;
             return state;
+        }
+
+
+        getReflectionName():string {
+            if (this.flattenedName) {
+                if (this.kindOf(TypeScript.PullElementKind.CallSignature)) {
+                    return this.flattenedName + '()';
+                } else if (this.kindOf(TypeScript.PullElementKind.IndexSignature)) {
+                    return this.flattenedName + '[]';
+                } else {
+                    return this.flattenedName + '.' + this.getName();
+                }
+            } else {
+                return this.getName();
+            }
         }
     }
 }

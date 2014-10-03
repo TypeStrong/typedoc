@@ -38,6 +38,24 @@ class flattenedClass
         test:string;
     };
 
+    /**
+     * An object with multiple call signatures.
+     * @see https://github.com/sebastian-lenz/typedoc/issues/27
+     */
+    public multipleCallSignatures: {
+        /**
+         * Simple call signature.
+         * @returns The current value.
+         */
+        (): number;
+        /**
+         * Call signature with parameters.
+         * @param value The desired value.
+         * @returns The calling Foo.
+         */
+        (value:number):flattenedClass;
+    };
+
 
     /**
      * A constructor that accepts an option object defined inline.
