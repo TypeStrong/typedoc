@@ -42,6 +42,9 @@ module TypeDoc.Factories
             var name   = '';
             var target = <Models.DeclarationReflection>reflection.parent;
             push(reflection);
+            if (name == '') {
+                return;
+            }
 
             while (target instanceof Models.DeclarationReflection) {
                 if (target.comment) {

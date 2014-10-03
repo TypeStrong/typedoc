@@ -2044,7 +2044,7 @@ var TypeDoc;
                 var parent = state.parentState.reflection;
                 var reflection = new TypeDoc.Models.DeclarationReflection();
                 reflection.name = state.getReflectionName();
-                reflection.originalName = state.declaration.name;
+                reflection.originalName = state.getName();
                 reflection.parent = parent;
 
                 state.reflection = reflection;
@@ -2746,6 +2746,9 @@ var TypeDoc;
                 var name = '';
                 var target = reflection.parent;
                 push(reflection);
+                if (name == '') {
+                    return;
+                }
 
                 while (target instanceof TypeDoc.Models.DeclarationReflection) {
                     if (target.comment) {

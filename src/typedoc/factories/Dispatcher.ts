@@ -285,7 +285,7 @@ module TypeDoc.Factories
             var parent        = <Models.DeclarationReflection>state.parentState.reflection;
             var reflection    = new Models.DeclarationReflection();
             reflection.name   = state.getReflectionName();
-            reflection.originalName = state.declaration.name;
+            reflection.originalName = state.getName();
             reflection.parent = parent;
 
             state.reflection = reflection;
