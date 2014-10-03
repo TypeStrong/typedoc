@@ -585,9 +585,10 @@ footer .tsd-legend { display: inline-block; width: 25%; padding: 0; font-size: 1
 
 .tsd-flag { display: inline-block; padding: 1px 5px; border-radius: 4px; color: white; background-color: gray; text-indent: 0; font-size: 14px; font-weight: normal; }
 
+.tsd-anchor { position: absolute; top: -100px; }
+
 .tsd-member { position: relative; }
-.tsd-member .anchor { position: absolute; top: -100px; }
-.tsd-member .anchor + h3 { margin-top: 0; margin-bottom: 0; border-bottom: none; }
+.tsd-member .tsd-anchor + h3 { margin-top: 0; margin-bottom: 0; border-bottom: none; }
 
 .tsd-navigation { padding: 0 0 0 40px; }
 .tsd-navigation a { display: block; padding-top: 2px; padding-bottom: 2px; border-left: 2px solid transparent; color: #222222; text-decoration: none; -webkit-transition: border-left-color 0.1s; transition: border-left-color 0.1s; }

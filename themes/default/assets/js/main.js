@@ -184,7 +184,6 @@ var typedoc;
             var base = window.location.href;
             if (base.indexOf('#') != -1) {
                 base = base.substr(0, base.indexOf('#'));
-                console.log(base);
             }
 
             this.$el.find('a').each(function (index, el) {
@@ -195,7 +194,7 @@ var typedoc;
                     return;
 
                 var hash = href.substr(href.indexOf('#') + 1);
-                var $anchor = $('a.anchor[name=' + hash + ']');
+                var $anchor = $('a.tsd-anchor[name=' + hash + ']');
                 if ($anchor.length == 0)
                     return;
 
@@ -658,6 +657,9 @@ var typedoc;
             this.className = this.$el.attr('data-toggle');
             this.$el.on(typedoc.pointerUp, function (e) {
                 return _this.onPointerUp(e);
+            });
+            this.$el.on('click', function (e) {
+                return e.preventDefault();
             });
             typedoc.$document.on(typedoc.pointerDown, function (e) {
                 return _this.onDocumentPointerDown(e);

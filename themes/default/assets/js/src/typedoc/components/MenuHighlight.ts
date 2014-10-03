@@ -66,7 +66,6 @@ module typedoc
             var base = window.location.href;
             if (base.indexOf('#') != -1) {
                 base = base.substr(0, base.indexOf('#'));
-                console.log(base);
             }
 
             this.$el.find('a').each((index, el:HTMLAnchorElement) => {
@@ -75,7 +74,7 @@ module typedoc
                 if (href.substr(0, base.length) != base) return;
 
                 var hash = href.substr(href.indexOf('#') + 1);
-                var $anchor = $('a.anchor[name=' + hash + ']');
+                var $anchor = $('a.tsd-anchor[name=' + hash + ']');
                 if ($anchor.length == 0) return;
 
                 this.anchors.push({
