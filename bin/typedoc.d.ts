@@ -10,6 +10,7 @@ declare var Util: any;
 declare var VM: any;
 declare var Path: any;
 declare var FS: any;
+declare var ShellJS: any;
 declare var typeScriptPath: any;
 declare module TypeScript {
     class SourceFile {
@@ -375,11 +376,40 @@ declare module TypeDoc.Factories {
     }
 }
 declare module TypeDoc.Factories {
+    /**
+    * Helper class that determines the common base path of a set of files.
+    *
+    * In the first step all files must be passed to [[add]]. Afterwards [[trim]]
+    * can be used to retrieve the shortest path relative to the determined base path.
+    */
     class BasePath {
-        public basePath: string;
+        /**
+        * List of known base paths.
+        */
+        private basePaths;
+        /**
+        * Add the given file path to this set of base paths.
+        *
+        * @param fileName  The absolute filename that should be added to the base path.
+        */
         public add(fileName: string): void;
+        /**
+        * Trim the given filename by the determined base paths.
+        *
+        * @param fileName  The absolute filename that should be trimmed.
+        * @returns The trimmed version of the filename.
+        */
         public trim(fileName: string): string;
+        /**
+        * Reset this instance, ignore all paths already passed to [[add]].
+        */
         public reset(): void;
+        /**
+        * Normalize the given path.
+        *
+        * @param path  The path that should be normalized.
+        * @returns Normalized version of the given path.
+        */
         static normalize(path: string): string;
     }
 }
@@ -1042,6 +1072,41 @@ declare module TypeDoc.Factories {
         * @param state  The state that describes the current declaration and reflection.
         */
         private onEndDeclaration(state);
+    }
+}
+declare module TypeDoc.Factories {
+    /**
+    * A handler that watches for repositories with GitHub origin and links
+    * their source files to the related GitHub pages.
+    */
+    class GitHubHandler extends BaseHandler {
+        /**
+        * List of known repositories.
+        */
+        private repositories;
+        /**
+        * List of paths known to be not under git control.
+        */
+        private ignoredPaths;
+        /**
+        * Create a new GitHubHandler instance.
+        *
+        * @param dispatcher  The dispatcher this handler should be attached to.
+        */
+        constructor(dispatcher: Dispatcher);
+        /**
+        * Check whether the given file is placed inside a repository.
+        *
+        * @param fileName  The name of the file a repository should be looked for.
+        * @returns The found repository info or NULL.
+        */
+        private getRepository(fileName);
+        /**
+        * Triggered when the dispatcher leaves the resolving phase.
+        *
+        * @param event  An event object containing the related project and compiler instance.
+        */
+        private onEndResolve(event);
     }
 }
 declare module TypeDoc.Factories {
@@ -1893,6 +1958,10 @@ declare module TypeDoc.Models {
         * The number of the line that emitted the declaration.
         */
         line: number;
+        /**
+        * URL for displaying the source file.
+        */
+        url?: string;
     }
     /**
     * A reflection that represents a single declaration emitted by the TypeScript compiler.
@@ -2153,30 +2222,110 @@ declare module TypeDoc.Models {
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * Exposes information about a directory containing source files.
+    *
+    * One my access the root directory of a project through the [[ProjectReflection.directory]]
+    * property. Traverse through directories by utilizing the [[SourceDirectory.parent]] or
+    * [[SourceDirectory.directories]] properties.
+    */
     class SourceDirectory {
-        public name: string;
-        public dirName: string;
-        public url: string;
+        /**
+        * The parent directory or NULL if this is a root directory.
+        */
         public parent: SourceDirectory;
+        /**
+        * A list of all subdirectories.
+        */
         public directories: {
             [name: string]: SourceDirectory;
         };
+        /**
+        * A list of all files in this directory.
+        */
         public files: SourceFile[];
-        public groups: ReflectionGroup[];
+        /**
+        * The name of this directory.
+        */
+        public name: string;
+        /**
+        * The relative path from the root directory to this directory.
+        */
+        public dirName: string;
+        /**
+        * The url of the page displaying the directory contents.
+        */
+        public url: string;
+        /**
+        * Create a new SourceDirectory instance.
+        *
+        * @param name  The new of directory.
+        * @param parent  The parent directory instance.
+        */
         constructor(name?: string, parent?: SourceDirectory);
+        /**
+        * Return a string describing this directory and its contents.
+        *
+        * @param indent  Used internally for indention.
+        * @returns A string representing this directory and all of its children.
+        */
         public toString(indent?: string): string;
+        /**
+        * Return a list of all reflections exposed by the files within this directory.
+        *
+        * @returns An aggregated list of all [[DeclarationReflection]] defined in the
+        * files of this directory.
+        */
         public getAllReflections(): DeclarationReflection[];
     }
 }
 declare module TypeDoc.Models {
+    /**
+    * Exposes information about a source file.
+    *
+    * One my access a list of all source files through the [[ProjectReflection.files]] property or as
+    * a tree structure through the [[ProjectReflection.directory]] property.
+    *
+    * Furthermore each reflection carries references to the related SourceFile with their
+    * [[DeclarationReflection.sources]] property. It is an array of of [[IDeclarationSource]] instances
+    * containing the reference in their [[IDeclarationSource.file]] field.
+    */
     class SourceFile {
-        public name: string;
+        /**
+        * The original full system file name.
+        */
+        public fullFileName: string;
+        /**
+        * A trimmed version of the file name. Contains only the path relative to the
+        * determined base path.
+        */
         public fileName: string;
+        /**
+        * The base name of the file.
+        */
+        public name: string;
+        /**
+        * A url pointing to a page displaying the contents of this file.
+        */
         public url: string;
+        /**
+        * The representation of the parent directory of this source file.
+        */
         public parent: SourceDirectory;
+        /**
+        * A list of all reflections that are declared in this file.
+        */
         public reflections: DeclarationReflection[];
+        /**
+        * A grouped list of the reflections declared in this file.
+        */
         public groups: ReflectionGroup[];
-        constructor(fileName: string);
+        /**
+        * Create a new SourceFile instance.
+        *
+        * @param fullFileName  The full file name.
+        */
+        constructor(fullFileName: string);
     }
 }
 declare module TypeDoc.Models {

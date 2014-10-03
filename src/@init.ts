@@ -12,6 +12,7 @@ var Util = require('util');
 var VM = require('vm');
 var Path = require('path');
 var FS = require('fs-extra');
+var ShellJS = require('shelljs');
 
 var typeScriptPath = Path.dirname(require.resolve('typescript'));
 if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {

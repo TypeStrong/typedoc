@@ -8,6 +8,7 @@ var Util = require('util');
 var VM = require('vm');
 var Path = require('path');
 var FS = require('fs-extra');
+var ShellJS = require('shelljs');
 
 var typeScriptPath = Path.dirname(require.resolve('typescript'));
 if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {
@@ -1538,53 +1539,99 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
+        /**
+        * Helper class that determines the common base path of a set of files.
+        *
+        * In the first step all files must be passed to [[add]]. Afterwards [[trim]]
+        * can be used to retrieve the shortest path relative to the determined base path.
+        */
         var BasePath = (function () {
             function BasePath() {
+                /**
+                * List of known base paths.
+                */
+                this.basePaths = [];
             }
+            /**
+            * Add the given file path to this set of base paths.
+            *
+            * @param fileName  The absolute filename that should be added to the base path.
+            */
             BasePath.prototype.add = function (fileName) {
-                var dirname = BasePath.normalize(Path.dirname(fileName));
-                if (this.basePath) {
-                    var basePath = this.basePath;
-                    var len = basePath.length;
+                var fileDir = Path.dirname(BasePath.normalize(fileName));
+                var filePath = fileDir.split('/');
 
-                    while (basePath != dirname.substr(0, len)) {
-                        if (len >= dirname.length) {
-                            return;
+                basePaths:
+                for (var n = 0, c = this.basePaths.length; n < c; n++) {
+                    var basePath = this.basePaths[n].split('/');
+                    var mMax = Math.min(basePath.length, filePath.length);
+                    for (var m = 0; m < mMax; m++) {
+                        if (basePath[m] == filePath[m]) {
+                            continue;
                         }
 
-                        var parentPath = BasePath.normalize(Path.resolve(Path.join(basePath, '..')));
-                        if (basePath == parentPath)
-                            break;
-                        basePath = parentPath;
-                        len = basePath.length;
+                        if (m < 1) {
+                            continue basePaths;
+                        } else {
+                            // Partial match, trim the known base path
+                            m += 1;
+                            if (m < basePath.length) {
+                                this.basePaths[n] = basePath.slice(0, m).join('/');
+                            }
+                            return;
+                        }
                     }
 
-                    this.basePath = basePath;
-                } else {
-                    this.basePath = dirname;
+                    // Complete match, nothing to do
+                    return;
                 }
+
+                // Unknown base path, add it
+                this.basePaths.push(fileDir);
             };
 
+            /**
+            * Trim the given filename by the determined base paths.
+            *
+            * @param fileName  The absolute filename that should be trimmed.
+            * @returns The trimmed version of the filename.
+            */
             BasePath.prototype.trim = function (fileName) {
                 fileName = BasePath.normalize(fileName);
-                if (fileName.substr(0, this.basePath.length) == this.basePath) {
-                    return fileName.substr(this.basePath.length + 1);
-                } else {
-                    return fileName;
+                for (var n = 0, c = this.basePaths.length; n < c; n++) {
+                    var basePath = this.basePaths[n];
+                    if (fileName.substr(0, basePath.length) == basePath) {
+                        return fileName.substr(basePath.length + 1);
+                    }
                 }
+
+                return fileName;
             };
 
+            /**
+            * Reset this instance, ignore all paths already passed to [[add]].
+            */
             BasePath.prototype.reset = function () {
-                this.basePath = null;
+                this.basePaths = [];
             };
 
+            /**
+            * Normalize the given path.
+            *
+            * @param path  The path that should be normalized.
+            * @returns Normalized version of the given path.
+            */
             BasePath.normalize = function (path) {
+                // Ensure forward slashes
                 path = path.replace(/\\/g, '/');
+
+                // Remove all surrounding quotes
                 path = path.replace(/^["']+|["']+$/g, '');
-                path = path.replace(/^([^\:]+)\:\//, function (m, m1) {
+
+                // Make Windows drive letters lower case
+                return path.replace(/^([^\:]+)\:\//, function (m, m1) {
                     return m1.toUpperCase() + ':/';
                 });
-                return path;
             };
             return BasePath;
         })();
@@ -3113,6 +3160,216 @@ var TypeDoc;
 (function (TypeDoc) {
     (function (Factories) {
         /**
+        * Stores data of a repository.
+        */
+        var Repository = (function () {
+            /**
+            * Create a new Repository instance.
+            *
+            * @param path  The root path of the repository.
+            */
+            function Repository(path) {
+                var _this = this;
+                /**
+                * The name of the branch this repository is on right now.
+                */
+                this.branch = 'master';
+                /**
+                * A list of all files tracked by the repository.
+                */
+                this.files = [];
+                this.path = path;
+                ShellJS.pushd(path);
+
+                var out = ShellJS.exec('git ls-remote --get-url', { silent: true });
+                if (out.code == 0) {
+                    var url, remotes = out.output.split('\n');
+                    for (var i = 0, c = remotes.length; i < c; i++) {
+                        url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
+                        if (url) {
+                            this.gitHubUser = url[1];
+                            this.gitHubProject = url[2];
+                            if (this.gitHubProject.substr(-4) == '.git') {
+                                this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                out = ShellJS.exec('git ls-files', { silent: true });
+                if (out.code == 0) {
+                    out.output.split('\n').forEach(function (file) {
+                        if (file != '') {
+                            _this.files.push(Factories.BasePath.normalize(path + '/' + file));
+                        }
+                    });
+                }
+
+                out = ShellJS.exec('git rev-parse --abbrev-ref HEAD', { silent: true });
+                if (out.code == 0) {
+                    this.branch = out.output.replace('\n', '');
+                }
+
+                ShellJS.popd();
+            }
+            /**
+            * Check whether the given file is tracked by this repository.
+            *
+            * @param fileName  The name of the file to test for.
+            * @returns TRUE when the file is part of the repository, otherwise FALSE.
+            */
+            Repository.prototype.contains = function (fileName) {
+                return this.files.indexOf(fileName) != -1;
+            };
+
+            /**
+            * Get the URL of the given file on GitHub.
+            *
+            * @param fileName  The file whose GitHub URL should be determined.
+            * @returns An url pointing to the web preview of the given file or NULL.
+            */
+            Repository.prototype.getGitHubURL = function (fileName) {
+                if (!this.gitHubUser || !this.gitHubProject || !this.contains(fileName)) {
+                    return null;
+                }
+
+                return [
+                    'https://github.com',
+                    this.gitHubUser,
+                    this.gitHubProject,
+                    'blob',
+                    this.branch,
+                    fileName.substr(this.path.length + 1)
+                ].join('/');
+            };
+
+            /**
+            * Try to create a new repository instance.
+            *
+            * Checks whether the given path is the root of a valid repository and if so
+            * creates a new instance of [[Repository]].
+            *
+            * @param path  The potential repository root.
+            * @returns A new instance of [[Repository]] or NULL.
+            */
+            Repository.tryCreateRepository = function (path) {
+                var out, repository = null;
+
+                ShellJS.pushd(path);
+                out = ShellJS.exec('git rev-parse --show-toplevel', { silent: true });
+                ShellJS.popd();
+
+                if (out.code != 0)
+                    return null;
+                return new Repository(Factories.BasePath.normalize(out.output.replace("\n", '')));
+            };
+            return Repository;
+        })();
+
+        /**
+        * A handler that watches for repositories with GitHub origin and links
+        * their source files to the related GitHub pages.
+        */
+        var GitHubHandler = (function (_super) {
+            __extends(GitHubHandler, _super);
+            /**
+            * Create a new GitHubHandler instance.
+            *
+            * @param dispatcher  The dispatcher this handler should be attached to.
+            */
+            function GitHubHandler(dispatcher) {
+                _super.call(this, dispatcher);
+                /**
+                * List of known repositories.
+                */
+                this.repositories = {};
+                /**
+                * List of paths known to be not under git control.
+                */
+                this.ignoredPaths = [];
+
+                ShellJS.config.silent = true;
+                if (ShellJS.which('git')) {
+                    dispatcher.on(Factories.Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this);
+                }
+            }
+            /**
+            * Check whether the given file is placed inside a repository.
+            *
+            * @param fileName  The name of the file a repository should be looked for.
+            * @returns The found repository info or NULL.
+            */
+            GitHubHandler.prototype.getRepository = function (fileName) {
+                // Check for known non-repositories
+                var dirName = Path.dirname(fileName);
+                for (var i = 0, c = this.ignoredPaths.length; i < c; i++) {
+                    if (this.ignoredPaths[i] == dirName) {
+                        return null;
+                    }
+                }
+
+                for (var path in this.repositories) {
+                    if (!this.repositories.hasOwnProperty(path))
+                        continue;
+                    if (fileName.substr(0, path.length) == path) {
+                        return this.repositories[path];
+                    }
+                }
+
+                // Try to create a new repository
+                var repository = Repository.tryCreateRepository(dirName);
+                if (repository) {
+                    this.repositories[repository.path] = repository;
+                    return repository;
+                }
+
+                // No repository found, add path to ignored paths
+                var segments = dirName.split('/');
+                for (var i = segments.length; i > 0; i--) {
+                    this.ignoredPaths.push(segments.slice(0, i).join('/'));
+                }
+
+                return null;
+            };
+
+            /**
+            * Triggered when the dispatcher leaves the resolving phase.
+            *
+            * @param event  An event object containing the related project and compiler instance.
+            */
+            GitHubHandler.prototype.onEndResolve = function (event) {
+                var _this = this;
+                event.project.files.forEach(function (sourceFile) {
+                    var repository = _this.getRepository(sourceFile.fullFileName);
+                    if (repository) {
+                        sourceFile.url = repository.getGitHubURL(sourceFile.fullFileName);
+                    }
+                });
+
+                event.project.reflections.forEach(function (reflection) {
+                    reflection.sources.forEach(function (source) {
+                        if (source.file && source.file.url) {
+                            source.url = source.file.url + '#L' + source.line;
+                        }
+                    });
+                });
+            };
+            return GitHubHandler;
+        })(Factories.BaseHandler);
+        Factories.GitHubHandler = GitHubHandler;
+
+        /**
+        * Register this handler.
+        */
+        Factories.Dispatcher.HANDLERS.push(GitHubHandler);
+    })(TypeDoc.Factories || (TypeDoc.Factories = {}));
+    var Factories = TypeDoc.Factories;
+})(TypeDoc || (TypeDoc = {}));
+var TypeDoc;
+(function (TypeDoc) {
+    (function (Factories) {
+        /**
         * A handler that sorts and groups the found reflections in the resolving phase.
         *
         * The handler sets the ´groups´ property of all reflections.
@@ -4465,8 +4722,9 @@ var TypeDoc;
 
                 this.basePath.add(fileName);
                 state.reflection.sources.push({
+                    file: this.fileMappings[fileName],
                     fileName: fileName,
-                    line: snapshot.getLineNumber(ast.start())
+                    line: snapshot.getLineNumber(ast.start()) + 1
                 });
             };
 
@@ -5280,19 +5538,53 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * Exposes information about a directory containing source files.
+        *
+        * One my access the root directory of a project through the [[ProjectReflection.directory]]
+        * property. Traverse through directories by utilizing the [[SourceDirectory.parent]] or
+        * [[SourceDirectory.directories]] properties.
+        */
         var SourceDirectory = (function () {
+            /**
+            * Create a new SourceDirectory instance.
+            *
+            * @param name  The new of directory.
+            * @param parent  The parent directory instance.
+            */
             function SourceDirectory(name, parent) {
-                this.name = null;
-                this.dirName = null;
+                /**
+                * The parent directory or NULL if this is a root directory.
+                */
                 this.parent = null;
+                /**
+                * A list of all subdirectories.
+                */
                 this.directories = {};
+                /**
+                * A list of all files in this directory.
+                */
                 this.files = [];
+                /**
+                * The name of this directory.
+                */
+                this.name = null;
+                /**
+                * The relative path from the root directory to this directory.
+                */
+                this.dirName = null;
                 if (name && parent) {
                     this.name = name;
                     this.dirName = (parent.dirName ? parent.dirName + '/' : '') + name;
                     this.parent = parent;
                 }
             }
+            /**
+            * Return a string describing this directory and its contents.
+            *
+            * @param indent  Used internally for indention.
+            * @returns A string representing this directory and all of its children.
+            */
             SourceDirectory.prototype.toString = function (indent) {
                 if (typeof indent === "undefined") { indent = ''; }
                 var res = indent + this.name;
@@ -5310,6 +5602,12 @@ var TypeDoc;
                 return res;
             };
 
+            /**
+            * Return a list of all reflections exposed by the files within this directory.
+            *
+            * @returns An aggregated list of all [[DeclarationReflection]] defined in the
+            * files of this directory.
+            */
             SourceDirectory.prototype.getAllReflections = function () {
                 var reflections = [];
                 this.files.forEach(function (file) {
@@ -5328,11 +5626,30 @@ var TypeDoc;
 var TypeDoc;
 (function (TypeDoc) {
     (function (Models) {
+        /**
+        * Exposes information about a source file.
+        *
+        * One my access a list of all source files through the [[ProjectReflection.files]] property or as
+        * a tree structure through the [[ProjectReflection.directory]] property.
+        *
+        * Furthermore each reflection carries references to the related SourceFile with their
+        * [[DeclarationReflection.sources]] property. It is an array of of [[IDeclarationSource]] instances
+        * containing the reference in their [[IDeclarationSource.file]] field.
+        */
         var SourceFile = (function () {
-            function SourceFile(fileName) {
+            /**
+            * Create a new SourceFile instance.
+            *
+            * @param fullFileName  The full file name.
+            */
+            function SourceFile(fullFileName) {
+                /**
+                * A list of all reflections that are declared in this file.
+                */
                 this.reflections = [];
-                this.fileName = fileName;
-                this.name = Path.basename(fileName);
+                this.fileName = fullFileName;
+                this.fullFileName = fullFileName;
+                this.name = Path.basename(fullFileName);
             }
             return SourceFile;
         })();
