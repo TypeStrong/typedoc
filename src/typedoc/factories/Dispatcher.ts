@@ -113,7 +113,7 @@ module TypeDoc.Factories
          * Triggered when the dispatcher merges an existing reflection with a new declaration.
          * @event
          */
-        static EVENT_MERGE_REFLECTION:string = Dispatcher.EVENT_MERGE_REFLECTION;
+        static EVENT_MERGE_REFLECTION:string = 'mergeReflection';
 
         /**
          * Triggered when the dispatcher starts processing a declaration.
