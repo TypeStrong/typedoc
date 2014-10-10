@@ -28,7 +28,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "typescript": "^1.0.1",
+    "typescript": "1.0.x",
     "fs-extra": "^0.10.0",
     "minimatch": "^0.3.0",
     "handlebars": "^2.0.0-alpha.4",
