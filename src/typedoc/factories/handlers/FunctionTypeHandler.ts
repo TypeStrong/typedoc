@@ -42,6 +42,9 @@ module TypeDoc.Factories
 
                 state.reflection.type = TypeHandler.createNamedType('Function');
                 childState.reflection.name = state.reflection.name + ' function signature';
+                childState.reflection.signatures.forEach((child) => {
+                    child.isSignature = true;
+                });
             }
         }
     }

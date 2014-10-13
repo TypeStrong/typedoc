@@ -14,11 +14,11 @@ export function exportedFunction():void { }
 
 /**
  * This is a function with multiple arguments and a return value.
- * @param paramA  This is a string parameter.
- * @param paramB  This is a parameter flagged with any.
+ * @param paramZ  This is a string parameter.
+ * @param paramG  This is a parameter flagged with any.
  *     This sentence is placed in the next line.
  *
- * @param paramC
+ * @param paramA
  * This is a **parameter** pointing to an interface.
  *
  * ~~~
@@ -27,7 +27,27 @@ export function exportedFunction():void { }
  * ~~~
  *
  */
-export function functionWithArguments(paramA:string, paramB:any, paramC:classes.INameInterface):number {
+var variableFunction = function(paramZ:string, paramG:any, paramA:classes.INameInterface):number {
+    return 0;
+};
+
+
+/**
+ * This is a function with multiple arguments and a return value.
+ * @param paramZ  This is a string parameter.
+ * @param paramG  This is a parameter flagged with any.
+ *     This sentence is placed in the next line.
+ *
+ * @param paramA
+ * This is a **parameter** pointing to an interface.
+ *
+ * ~~~
+ * var value:BaseClass = new BaseClass('test');
+ * functionWithArguments('arg', 0, value);
+ * ~~~
+ *
+ */
+export function functionWithArguments(paramZ:string, paramG:any, paramA:classes.INameInterface):number {
     return 0;
 }
 

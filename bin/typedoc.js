@@ -3159,6 +3159,9 @@ var TypeDoc;
 
                     state.reflection.type = Factories.TypeHandler.createNamedType('Function');
                     childState.reflection.name = state.reflection.name + ' function signature';
+                    childState.reflection.signatures.forEach(function (child) {
+                        child.isSignature = true;
+                    });
                 }
             };
             return FunctionTypeHandler;
