@@ -13,13 +13,25 @@ module.exports = function(grunt)
                 src: ['src/**/*.ts'],
                 out: 'bin/typedoc.js'
             },
-            compiler: {
+            typescript: {
                 options: {
                     sourceMap: false,
                     declaration: true
                 },
-                src: ['typescript/src/compiler/typescript.ts'],
-                out: 'src/lib/typescript/typescript.js'
+                src: [
+                    'typescript/src/compiler/core.ts',
+                    'typescript/src/compiler/sys.ts',
+                    'typescript/src/compiler/types.ts',
+                    'typescript/src/compiler/scanner.ts',
+                    'typescript/src/compiler/parser.ts',
+                    'typescript/src/compiler/binder.ts',
+                    'typescript/src/compiler/checker.ts',
+                    'typescript/src/compiler/emitter.ts',
+                    'typescript/src/compiler/commandLineParser.ts',
+                    'typescript/src/compiler/tsc.ts',
+                    'typescript/src/compiler/diagnosticInformationMap.generated.ts'
+                ],
+                out: 'src/lib/typescript/tsc.js'
             }
         },
         'string-replace': {
@@ -36,7 +48,7 @@ module.exports = function(grunt)
             }
         },
         watch: {
-            typescript: {
+            source: {
                 files: ['src/**/*.ts'],
                 tasks: ['ts:typedoc', 'string-replace:version']
             }
@@ -49,5 +61,4 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-ts');
 
     grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('compiler', ['ts:compiler']);
 };
