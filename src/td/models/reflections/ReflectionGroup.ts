@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td.models
 {
     /**
      * A group of reflections. All reflections in a group are of the same kind.
@@ -17,12 +17,12 @@ module TypeDoc.Models
         /**
          * The original typescript kind of the children of this group.
          */
-        kind:TypeScript.PullElementKind;
+        kind:ts.SyntaxKind;
 
         /**
          * All reflections of this group.
          */
-        children:DeclarationReflection[] = [];
+        children:Reflection[] = [];
 
         /**
          * A list of generated css classes that should be applied to representations of this
@@ -65,7 +65,7 @@ module TypeDoc.Models
          * @param title The title of this group.
          * @param kind  The original typescript kind of the children of this group.
          */
-        constructor(title:string, kind:TypeScript.PullElementKind) {
+        constructor(title:string, kind:ts.SyntaxKind) {
             this.title = title;
             this.kind = kind;
 

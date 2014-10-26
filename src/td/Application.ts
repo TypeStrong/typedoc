@@ -1,5 +1,6 @@
 /// <reference path="EventDispatcher.ts" />
 /// <reference path="Settings.ts" />
+/// <reference path="converter/Converter.ts" />
 
 /**
  * The TypeDoc main module and namespace.
@@ -64,7 +65,7 @@ module td
      * and emit a series of events while processing the project. Subscribe to these Events
      * to control the application flow or alter the output.
      */
-    export class Application implements IApplication
+    export class Application implements ILogger, IApplication
     {
         /**
          * The settings used by the dispatcher and the renderer.
@@ -72,9 +73,9 @@ module td
         settings:Settings;
 
         /**
-         * The dispatcher used to create the declaration reflections.
+         * The converter used to create the declaration reflections.
          */
-        // dispatcher:Factories.Dispatcher;
+        converter:converter.Converter;
 
         /**
          * The renderer used to generate the documentation output.
@@ -99,8 +100,8 @@ module td
          * @param settings  The settings used by the dispatcher and the renderer.
          */
         constructor(settings:Settings = new Settings()) {
-            this.settings   = settings;
-            // this.dispatcher = new Factories.Dispatcher(this);
+            this.settings  = settings;
+            this.converter = new converter.Converter();
             // this.renderer   = new Output.Renderer(this);
         }
 
@@ -153,7 +154,7 @@ module td
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         public generate(inputFiles:string[], outputDirectory:string) {
-            // var project = this.dispatcher.createProject(inputFiles);
+            var project = this.converter.convert(inputFiles, this.settings);
             // this.renderer.render(project, outputDirectory);
         }
 
@@ -165,7 +166,7 @@ module td
          */
         public getTypeScriptVersion():string {
             var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
-            return json.version
+            return json.version;
         }
     }
 }

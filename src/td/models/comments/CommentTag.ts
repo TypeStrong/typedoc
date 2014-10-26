@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td.models
 {
     /**
      * A model that represents a single javadoc comment tag.

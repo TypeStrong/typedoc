@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td.models
 {
     /**
      * Exposes information about a source file.

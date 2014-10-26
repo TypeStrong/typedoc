@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td.models
 {
     /**
      * Alias to TypeScript.PullElementKind
@@ -74,7 +74,7 @@ module TypeDoc.Models
      * All parts of a project are represented by DeclarationReflection instances. The actual
      * kind of a reflection is stored in its ´kind´ member.
      */
-    export class DeclarationReflection extends BaseReflection
+    export class Declaration extends Container
     {
         /**
          * The definition of the underlying symbol.
@@ -180,14 +180,14 @@ module TypeDoc.Models
          *
          * Applies to interface and class members.
          */
-        overwrites:BaseType;
+        overwrites:Type;
 
         /**
          * A type that points to the reflection this reflection has been inherited from.
          *
          * Applies to interface and class members.
          */
-        inheritedFrom:BaseType;
+        inheritedFrom:Type;
 
         /**
          * A list of generated css classes that should be applied to representations of this

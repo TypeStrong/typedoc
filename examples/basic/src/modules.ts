@@ -25,4 +25,14 @@ export module MyModule
     {
 
     }
+
+
+    export var exportedModuleVariable:string = 'foo';
+
+    var moduleVariable:string = 'foo';
 }
+
+
+export var exportedGlobalVariable:string = 'foo';
+
+var globalVariable:string = 'foo';

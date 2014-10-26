@@ -1,6 +1,6 @@
-module TypeDoc.Models
+module td.models
 {
-    export class BaseType
+    export class Type
     {
         toString():string {
             return 'void';
