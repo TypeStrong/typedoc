@@ -28,19 +28,19 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "typescript": "1.0.x",
-    "fs-extra": "^0.10.0",
-    "minimatch": "^0.3.0",
-    "handlebars": "^2.0.0-alpha.4",
+    "typescript": "1.1.x",
+    "fs-extra": "^0.12.0",
+    "minimatch": "^1.0.0",
+    "handlebars": "^2.0.0",
     "marked": "^0.3.2",
-    "highlight.js": "^8.1.0",
+    "highlight.js": "^8.3.0",
     "shelljs": "^0.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-string-replace": "^0.2.7",
-    "grunt-ts": "^1.11.3"
+    "grunt-string-replace": "^1.0.0",
+    "grunt-ts": "^1.12.1"
   },
   "files": [
     "bin",
