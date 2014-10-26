@@ -80,7 +80,7 @@ export function functionWithDefaults(value:string = 'defaultValue'):string {
 export function multipleSignatures(value:string):string;
 
 /**
- * This is the second signature a function with multiple signatures.
+ * This is the second signature of a function with multiple signatures.
  *
  * @param value       An object containing the name value.
  * @param value.name  A value of the object.

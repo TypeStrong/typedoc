@@ -434,8 +434,13 @@ module td.converter
 
 
             function parseFunctionDeclaration(node:ts.MethodDeclaration, scope:Container) {
+                var hasBody = !!node.body;
                 var method = createChild(scope, node);
-                createSignature(method, node, SignatureType.Call);
+                if (!hasBody || !method.callSignatures) {
+                    createSignature(method, node, SignatureType.Call);
+                } else {
+                    createSourceReference(method, node);
+                }
             }
 
 
