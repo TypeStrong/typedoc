@@ -6,22 +6,22 @@
   "bundle": "src/lib/tsd.d.ts",
   "installed": {
     "fs-extra/fs-extra.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     },
     "handlebars/handlebars.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     },
     "highlightjs/highlightjs.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     },
     "marked/marked.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     },
     "minimatch/minimatch.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     },
     "node/node.d.ts": {
-      "commit": "fa897a954c351766b00f393548a14ed36c189d87"
+      "commit": "bd9a1922e44ddf35953587a92c5caf4242bf6ea5"
     }
   }
 }

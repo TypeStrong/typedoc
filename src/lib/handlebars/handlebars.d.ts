@@ -26,25 +26,31 @@ interface HandlebarsCommon {
     createFrame(object: any): any;
 
     Exception(message: string): void;
-    SafeString: typeof SafeString;
+    SafeString: typeof hbs.SafeString;
 
     logger: Logger;
     log(level: number, obj: any): void;
 }
 
 interface HandlebarsStatic extends HandlebarsCommon {
-    parse(input: string): boolean;
+    parse(input: string): hbs.AST.ProgramNode;
     compile(input: any, options?: any): HandlebarsTemplateDelegate;
 }
 
-interface HandlebarsRuntimeStatic extends HandlebarsCommon {
-    // Handlebars.templates is the default template namespace in precompiler.
-    templates: { (s: string): HandlebarsTemplateDelegate }[];
+interface HandlebarsTemplates {
+    [index: string]: HandlebarsTemplateDelegate;
 }
 
-declare class SafeString {
-    constructor(str: string);
-    static toString(): string;
+interface HandlebarsRuntimeStatic extends HandlebarsCommon {
+    // Handlebars.templates is the default template namespace in precompiler.
+    templates: HandlebarsTemplates;
+}
+
+declare module hbs {
+    class SafeString {
+        constructor(str: string);
+        static toString(): string;
+    }
 }
 
 interface Logger {
@@ -57,6 +63,115 @@ interface Logger {
     methodMap: { [level: number]: string };
 
     log(level: number, obj: string): void;
+}
+
+declare module hbs {
+    module AST {
+        interface IStripInfo {
+            left?: boolean;
+            right?: boolean;
+            inlineStandalone?: boolean;
+        }
+
+        class NodeBase {
+            firstColumn: number;
+            firstLine: number;
+            lastColumn: number;
+            lastLine: number;
+            type: string;
+        }
+
+        class ProgramNode extends NodeBase {
+            statements: NodeBase[];
+        }
+
+        class IdNode extends NodeBase {
+            original: string;
+            parts: string[];
+            string: string;
+            depth: number;
+            idName: string;
+            isSimple: boolean;
+            stringModeValue: string;
+        }
+
+        class HashNode extends NodeBase {
+            pairs: {0: string;
+                    1: NodeBase}[];
+        }
+
+        class SexprNode extends NodeBase {
+            hash: HashNode;
+            id: NodeBase;
+            params: NodeBase[];
+            isHelper: boolean;
+            eligibleHelper: boolean;
+        }
+
+        class MustacheNode extends NodeBase {
+            strip: IStripInfo;
+            escaped: boolean;
+            sexpr: SexprNode;
+
+        }
+
+        class BlockNode extends NodeBase {
+            mustache: MustacheNode;
+            program: ProgramNode;
+            inverse: ProgramNode;
+            strip: IStripInfo;
+            isInverse: boolean;
+        }
+
+        class PartialNameNode extends NodeBase {
+            name: string;
+        }
+
+        class PartialNode extends NodeBase {
+            partialName: PartialNameNode;
+            context: NodeBase;
+            hash: HashNode;
+            strip: IStripInfo;
+        }
+
+        class RawBlockNode extends NodeBase {
+            mustache: MustacheNode;
+            program: ProgramNode;
+        }
+
+        class ContentNode extends NodeBase {
+            original: string;
+            string: string;
+        }
+
+        class DataNode extends NodeBase {
+            id: IdNode;
+            stringModeValue: string;
+            idName: string;
+        }
+
+        class StringNode extends NodeBase {
+            original: string;
+            string: string;
+            stringModeValue: string;
+        }
+
+        class NumberNode extends NodeBase {
+            original: string;
+            number: string;
+            stringModeValue: number;
+        }
+
+        class BooleanNode extends NodeBase {
+            bool: string;
+            stringModeValue: boolean;
+        }
+
+        class CommentNode extends NodeBase {
+            comment: string;
+            strip: IStripInfo;
+        }
+    }
 }
 
 declare module "handlebars" {
