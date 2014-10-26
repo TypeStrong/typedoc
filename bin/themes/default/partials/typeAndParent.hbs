@@ -1,9 +1,0 @@
-{{#if this}}
-    {{#if reflection}}
-        <a href="{{relativeURL reflection.parent.url}}">{{reflection.parent.name}}</a>.<a href="{{relativeURL reflection.url}}">{{reflection.name}}</a>{{#if isArray}}[]{{/if}}
-    {{else}}
-        {{this}}
-    {{/if}}
-{{else}}
-    void
-{{/if}}
