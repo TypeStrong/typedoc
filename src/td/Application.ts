@@ -1,3 +1,6 @@
+/// <reference path="EventDispatcher.ts" />
+/// <reference path="Settings.ts" />
+
 /**
  * The TypeDoc main module and namespace.
  *
@@ -5,7 +8,7 @@
  * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
-module TypeDoc
+module td
 {
     /**
      * List of known log levels. Used to specify the urgency of a log message.
@@ -17,6 +20,17 @@ module TypeDoc
         Info,
         Warn,
         Error
+    }
+
+
+    export interface ILogger {
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         */
+        log(message:string, level?:LogLevel):void;
     }
 
 
@@ -33,13 +47,6 @@ module TypeDoc
          */
         settings:Settings;
 
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level  The urgency of the log message.
-         */
-        log(message:string, level?:LogLevel):void;
     }
 
 
@@ -67,12 +74,12 @@ module TypeDoc
         /**
          * The dispatcher used to create the declaration reflections.
          */
-        dispatcher:Factories.Dispatcher;
+        // dispatcher:Factories.Dispatcher;
 
         /**
          * The renderer used to generate the documentation output.
          */
-        renderer:Output.Renderer;
+        // renderer:Output.Renderer;
 
         /**
          * Has an error been raised through the log method?
@@ -93,8 +100,8 @@ module TypeDoc
          */
         constructor(settings:Settings = new Settings()) {
             this.settings   = settings;
-            this.dispatcher = new Factories.Dispatcher(this);
-            this.renderer   = new Output.Renderer(this);
+            // this.dispatcher = new Factories.Dispatcher(this);
+            // this.renderer   = new Output.Renderer(this);
         }
 
 
@@ -102,14 +109,21 @@ module TypeDoc
          * Run TypeDoc from the command line.
          */
         public runFromCommandline() {
-            if (this.settings.readFromCommandline(this)) {
-                this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), typeScriptPath), LogLevel.Verbose);
+            if (this.settings.parseCommandLine(this)) {
+                if (this.settings.shouldPrintVersionOnly) {
+                    // opts.printVersion();
+                } else if (this.settings.inputFiles.length === 0 || this.settings.needsHelp) {
+                    // opts.printUsage();
+                } else {
+                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Verbose);
 
-                this.settings.expandInputFiles();
-                this.generate(this.settings.inputFiles, this.settings.outputDirectory);
+                    this.settings.expandInputFiles();
+                    this.settings.out = Path.resolve(this.settings.out);
+                    this.generate(this.settings.inputFiles, this.settings.out);
 
-                if (!this.hasErrors) {
-                    this.log(Util.format('Documentation generated at %s', this.settings.outputDirectory));
+                    if (!this.hasErrors) {
+                        this.log(Util.format('Documentation generated at %s', this.settings.out));
+                    }
                 }
             }
         }
@@ -139,8 +153,8 @@ module TypeDoc
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         public generate(inputFiles:string[], outputDirectory:string) {
-            var project = this.dispatcher.createProject(inputFiles);
-            this.renderer.render(project, outputDirectory);
+            // var project = this.dispatcher.createProject(inputFiles);
+            // this.renderer.render(project, outputDirectory);
         }
 
 
@@ -150,7 +164,7 @@ module TypeDoc
          * @returns The version number of the loaded TypeScript package.
          */
         public getTypeScriptVersion():string {
-            var json = JSON.parse(FS.readFileSync(Path.join(typeScriptPath, '..', 'package.json'), 'utf8'));
+            var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
             return json.version
         }
     }

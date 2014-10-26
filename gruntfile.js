@@ -10,7 +10,11 @@ module.exports = function(grunt)
                     comments: true,
                     sourceMap: false
                 },
-                src: ['src/**/*.ts'],
+                src: [
+                    'src/@init.ts',
+                    'src/td/Application.ts',
+                    'src/~bootstrap.ts'
+                ],
                 out: 'bin/typedoc.js'
             },
             typescript: {

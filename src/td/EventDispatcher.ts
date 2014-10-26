@@ -1,4 +1,4 @@
-module TypeDoc
+module td
 {
     export interface IListener {
         handler:Function;

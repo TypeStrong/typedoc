@@ -3255,9 +3255,6 @@ interface System {
 interface FileWatcher {
     close(): void;
 }
-declare var require: any;
-declare var module: any;
-declare var process: any;
 declare var global: any;
 declare var sys: System;
 declare module ts {

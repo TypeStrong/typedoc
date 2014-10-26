@@ -1,1 +1,1 @@
-module.exports = TypeDoc;
+module.exports = td;

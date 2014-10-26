@@ -1,23 +1,46 @@
 /// <reference path="lib/tsd.d.ts" />
 
-declare module TypeScript {
-    var typescriptPath:string;
+module td
+{
+    /*
+     * Node modules
+     */
+    export var Util:any = require('util');
+    export var VM:any   = require('vm');
+    export var Path:any = require('path');
+
+
+    /*
+     * External modules
+     */
+    export var Handlebars:HandlebarsStatic = require('handlebars');
+    export var Marked:MarkedStatic         = require('marked');
+    export var HighlightJS:any             = require('highlight.js');
+    export var Minimatch:any               = require('minimatch');
+    export var FS:any                      = require('fs-extra');
+    export var ShellJS:any                 = require('shelljs');
+
+
+    /*
+     * Locate TypeScript
+     */
+    export var tsPath = (function() {
+        var path = Path.dirname(require.resolve('typescript'));
+        if (!FS.existsSync(Path.resolve(path, 'tsc.js'))) {
+            process.stderr.write('Could not find ´tsc.js´. Please install typescript, e.g. \'npm install typescript\'.\n');
+            process.exit();
+        } else {
+            return path;
+        }
+    })();
 }
 
-var Handlebars:HandlebarsStatic = require('handlebars');
-var Marked:MarkedStatic = require('marked');
-var HighlightJS = require('highlight.js');
-var Minimatch = require('minimatch');
-var Util = require('util');
-var VM = require('vm');
-var Path = require('path');
-var FS = require('fs-extra');
-var ShellJS = require('shelljs');
 
-var typeScriptPath = Path.dirname(require.resolve('typescript'));
-if (!FS.existsSync(Path.resolve(typeScriptPath, 'typescript.js'))) {
-    process.stderr.write('Could not find ´typescript.js´. Please install typescript, e.g. \'npm install typescript\'.\n');
-    process.exit();
-}
-
-eval(FS.readFileSync(Path.resolve(typeScriptPath, 'typescript.js'), 'utf-8'));
+/*
+ * Load TypeScript
+ */
+eval((function() {
+    var fileName = td.Path.resolve(td.tsPath, 'tsc.js');
+    var contents = td.FS.readFileSync(fileName, 'utf-8');
+    return contents.replace('ts.executeCommandLine(sys.args);', '');
+})());
