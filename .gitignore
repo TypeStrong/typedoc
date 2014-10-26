@@ -4,7 +4,10 @@
 .baseDir.js
 .baseDir.ts
 
-/node_modules/
+/src/lib/typescript/tsc.js
+
 /etc/
 /examples/*/doc
-/src/lib/typescript/tsc.js
+/examples/definitelytyped/src/
+/node_modules/
+/typescript/
