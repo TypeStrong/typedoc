@@ -2017,7 +2017,11 @@ var TypeDoc;
                 if (state.isDefaultPrevented)
                     return;
 
-                var children = Factories.ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+                var children = state.declaration.getChildDecls();
+                if (!state.isSignature) {
+                    children = Factories.ReflectionHandler.sortDeclarations(children);
+                }
+
                 children.forEach(function (declaration) {
                     _this.processState(state.createChildState(declaration));
                 });

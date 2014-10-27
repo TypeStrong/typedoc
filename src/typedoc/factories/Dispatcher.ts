@@ -257,7 +257,11 @@ module TypeDoc.Factories
             this.dispatch(Dispatcher.EVENT_DECLARATION, state);
             if (state.isDefaultPrevented) return;
 
-            var children = ReflectionHandler.sortDeclarations(state.declaration.getChildDecls());
+            var children = state.declaration.getChildDecls();
+            if (!state.isSignature) {
+                children = ReflectionHandler.sortDeclarations(children);
+            }
+
             children.forEach((declaration) => {
                 this.processState(state.createChildState(declaration));
             });
