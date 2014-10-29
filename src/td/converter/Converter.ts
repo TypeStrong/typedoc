@@ -1,5 +1,6 @@
 /// <reference path="../models/comments/Comment.ts" />
 /// <reference path="../models/comments/CommentTag.ts" />
+/// <reference path="../PluginHost.ts" />
 
 module td.converter
 {
@@ -51,21 +52,140 @@ module td.converter
     }
 
 
+    export interface ISourceContainer
+    {
+        sources:ISourceReference[];
+    }
+
+
+    export interface ICommentContainer
+    {
+        comment:models.Comment;
+    }
+
+
+    export enum ReflectionKind
+    {
+        Global = 0,
+        ExternalModule = 1,
+        Module = 2,
+        Enum = 4,
+        EnumMember = 16,
+        Variable = 32,
+        Function = 64,
+        Class = 128,
+        Interface = 256,
+        Constructor = 512,
+        Property = 1024,
+        Method = 2048,
+        CallSignature = 4096,
+        IndexSignature = 8192,
+        ConstructorSignature = 16384,
+        Parameter = 32768,
+
+        ClassOrInterface = Class | Interface,
+        VariableOrProperty = Variable | Property,
+        FunctionOrMethod = Function | Method,
+        SomeSignature = CallSignature | IndexSignature | ConstructorSignature
+    }
+
+
     export class Reflection
     {
-        parent:Reflection;
-
         id:number;
 
         name:string;
 
-        qualifiedName:string;
+        kind:ReflectionKind;
+
+        parent:Reflection;
+
+
+        constructor(parent?:Reflection, name?:string, kind?:ReflectionKind) {
+            this.name = name;
+            this.parent = parent;
+            this.kind = kind;
+        }
+
+
+        toString() {
+            return ReflectionKind[this.kind] + ' ' + this.name;
+        }
+
+
+        toStringHierarchy(indent:string = '') {
+            return indent + this.toString();
+        }
+    }
+
+
+    export class Signature extends Reflection implements ISourceContainer, ICommentContainer
+    {
+        parent:Container;
 
         comment:models.Comment;
 
-        kind:ts.SyntaxKind;
+        sources:ISourceReference[];
+
+        parameters:Parameter[];
+
+
+        toStringHierarchy(indent:string = '') {
+            var lines = [indent + this.toString()];
+
+            if (this.parameters) {
+                indent += '  ';
+                this.parameters.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
+            }
+
+            return lines.join('\n');
+        }
+    }
+
+
+    export class Parameter extends Reflection implements ICommentContainer
+    {
+        parent:Signature;
+
+        comment:models.Comment;
+    }
+
+
+    export class Container extends Reflection
+    {
+        parent:Container;
+
+        children:ts.Map<Declaration>;
+
+
+        toStringHierarchy(indent:string = '') {
+            var lines = [indent + this.toString()];
+            indent += '  ';
+
+            if (this.children) {
+                for (var key in this.children) {
+                    lines.push(this.children[key].toStringHierarchy(indent));
+                }
+            }
+
+            return lines.join('\n');
+        }
+    }
+
+
+    export class Declaration extends Container implements ISourceContainer, ICommentContainer
+    {
+        comment:models.Comment;
 
         sources:ISourceReference[];
+
+        callSignatures:Signature[];
+
+        constructorSignatures:Signature[];
+
+        indexSignatures:Signature[];
+
+        defaultValue:string;
 
         isPrivate:boolean;
 
@@ -78,66 +198,25 @@ module td.converter
         isExported:boolean;
 
 
-
-        constructor(parent?:Reflection, name?:string) {
-            this.name = name;
-            this.qualifiedName = name;
-            this.parent = parent;
-        }
-
-
-        toString(indent:string = '') {
-            return indent + this.qualifiedName;
-        }
-    }
-
-
-    export class Signature extends Reflection
-    {
-        parent:Container;
-
-        parameters:Parameter[];
-    }
-
-
-    export class Parameter extends Reflection
-    {
-        parent:Signature;
-    }
-
-
-    export class Container extends Reflection
-    {
-        parent:Container;
-
-        children:ts.Map<Container>;
-
-        callSignatures:Signature[];
-
-        constructorSignatures:Signature[];
-
-        indexSignatures:Signature[];
-
-
-        toString(indent:string = '') {
-            var lines = [super.toString(indent)];
+        toStringHierarchy(indent:string = '') {
+            var lines = [indent + this.toString()];
             indent += '  ';
 
             if (this.constructorSignatures) {
-                this.constructorSignatures.forEach((n) => { lines.push(n.toString(indent)); });
+                this.constructorSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
             }
 
             if (this.indexSignatures) {
-                this.indexSignatures.forEach((n) => { lines.push(n.toString(indent)); });
+                this.indexSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
             }
 
             if (this.callSignatures) {
-                this.callSignatures.forEach((n) => { lines.push(n.toString(indent)); });
+                this.callSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
             }
 
             if (this.children) {
                 for (var key in this.children) {
-                    lines.push(this.children[key].toString(indent));
+                    lines.push(this.children[key].toStringHierarchy(indent));
                 }
             }
 
@@ -159,74 +238,87 @@ module td.converter
 
 
 
-    export class Converter extends EventDispatcher
+    export class Converter extends PluginHost
     {
+        constructor() {
+            super();
+            this.plugins = Converter.loadPlugins(this);
+        }
+
+
         /**
          */
         convert(fileNames:string[], settings:Settings):IConverterResult {
             var host    = this.createCompilerHost(settings.compilerOptions);
             var program = ts.createProgram(fileNames, settings.compilerOptions, host);
             var checker = program.getTypeChecker(true);
-            var project = new Project(null, 'TypeScript project');
+            var project = new Project(null, 'TypeScript project', ReflectionKind.Global);
             var result  = {
                 project: project,
                 errors: program.getDiagnostics().concat(checker.getDiagnostics())
             };
 
             program.getSourceFiles().forEach((sourceFile) => {
-                parse(sourceFile, project);
+                visit(sourceFile, project);
             });
 
-            console.log(project.toString());
+            project.reflections.forEach((reflection) => this.dispatch('resolve', project, reflection));
+
+            console.log(project.toStringHierarchy());
             return result;
 
 
             /**
              * Parse the given node.
              */
-            function parse(node:ts.Node, scope:Container) {
+            function visit(node:ts.Node, scope:Container) {
                 switch (node.kind) {
                     case ts.SyntaxKind.ClassDeclaration:
-                        parseClassDeclaration(<ts.ClassDeclaration>node, scope);
+                        visitClassDeclaration(<ts.ClassDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.InterfaceDeclaration:
-                        parseInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope);
+                        visitInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.SourceFile:
-                        parseSourceFile(<ts.SourceFile>node, scope);
+                        visitSourceFile(<ts.SourceFile>node, scope);
                         break;
                     case ts.SyntaxKind.ModuleDeclaration:
-                        parseModuleDeclaration(<ts.ModuleDeclaration>node, scope);
+                        visitModuleDeclaration(<ts.ModuleDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.VariableStatement:
-                        parseVariableStatement(<ts.VariableStatement>node, scope);
+                        visitVariableStatement(<ts.VariableStatement>node, scope);
                         break;
+                    case ts.SyntaxKind.Property:
+                    case ts.SyntaxKind.PropertyAssignment:
                     case ts.SyntaxKind.VariableDeclaration:
-                        parseVariableDeclaration(<ts.VariableDeclaration>node, scope);
+                        visitVariableDeclaration(<ts.VariableDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.EnumDeclaration:
-                        parseEnumDeclaration(<ts.EnumDeclaration>node, scope);
+                        visitEnumDeclaration(<ts.EnumDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.EnumMember:
-                        parseEnumMember(<ts.EnumMember>node, scope);
+                        visitEnumMember(<ts.EnumMember>node, scope);
                         break;
                     case ts.SyntaxKind.Constructor:
                     case ts.SyntaxKind.ConstructSignature:
-                        parseConstructor(<ts.ConstructorDeclaration>node, scope);
+                        visitConstructor(<ts.ConstructorDeclaration>node, scope);
                         break;
                     case ts.SyntaxKind.Method:
                     case ts.SyntaxKind.FunctionDeclaration:
-                        parseFunctionDeclaration(<ts.MethodDeclaration>node, scope);
+                        visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
+                        break;
+                    case ts.SyntaxKind.CallSignature:
+                        visitSignature(<ts.SignatureDeclaration>node, scope, SignatureType.Call);
                         break;
                     case ts.SyntaxKind.IndexSignature:
-                        parseIndexSignature(<ts.SignatureDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.Property:
-                        parseProperty(<ts.PropertyDeclaration>node, scope);
+                        visitSignature(<ts.SignatureDeclaration>node, scope, SignatureType.Index);
                         break;
                     case ts.SyntaxKind.Block:
                     case ts.SyntaxKind.ModuleBlock:
-                        parseBlock(<ts.Block>node, scope);
+                        visitBlock(<ts.Block>node, scope);
+                        break;
+                    case ts.SyntaxKind.ObjectLiteral:
+                        visitObjectLiteral(<ts.ObjectLiteral>node, scope);
                         break;
                     default:
                         console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
@@ -249,25 +341,18 @@ module td.converter
             }
 
 
-            function createChild(container:Container, node:ts.Node, name:string = node.symbol.name):Container {
-                var child;
+            function createDeclaration(container:Container, node:ts.Node, kind:ReflectionKind, name:string = node.symbol.name):Declaration {
+                var child:Declaration;
 
                 if (!container.children) container.children = {};
                 if (!container.children[name]) {
-                    child = new Container(container, name);
-                    child.kind        = node.kind;
-                    child.flags       = node.flags;
-                    child.isPrivate   = (node.flags & ts.NodeFlags.Private);
-                    child.isProtected = (node.flags & ts.NodeFlags.Protected);
-                    child.isPublic    = (node.flags & ts.NodeFlags.Public);
-                    child.isStatic    = (node.flags & ts.NodeFlags.Static);
-                    child.isExported  = (node.flags & ts.NodeFlags.Export);
+                    child = new Declaration(container, name, kind);
+                    child.isPrivate   = !!(node.flags & ts.NodeFlags.Private);
+                    child.isProtected = !!(node.flags & ts.NodeFlags.Protected);
+                    child.isPublic    = !!(node.flags & ts.NodeFlags.Public);
+                    child.isStatic    = !!(node.flags & ts.NodeFlags.Static);
+                    child.isExported  = !!(node.flags & ts.NodeFlags.Export);
 
-                    if (node.symbol) {
-                        child.qualifiedName = checker.getFullyQualifiedName(node.symbol);
-                    } else {
-                        child.qualifiedName = name;
-                    }
 
                     container.children[name] = child;
                     registerReflection(child, node);
@@ -276,43 +361,56 @@ module td.converter
                 }
 
                 createSourceReference(child, node);
+                createComment(child, node);
                 return child;
             }
 
 
-            function createSignature(container:Container, node:ts.SignatureDeclaration, type:SignatureType):Signature {
-                var name, prop;
+            function createSignature(container:Declaration, node:ts.SignatureDeclaration, type:SignatureType):Signature {
+                var name, prop, kind;
                 switch (type) {
                     case SignatureType.Index:
                         prop = container.indexSignatures || (container.indexSignatures = []);
                         name = '__index';
+                        kind = ReflectionKind.IndexSignature;
                         break;
                     case SignatureType.Constructor:
                         prop = container.constructorSignatures || (container.constructorSignatures = []);
                         name = '__construct';
+                        kind = ReflectionKind.ConstructorSignature;
                         break;
                     default :
                         prop = container.callSignatures || (container.callSignatures = []);
                         name = '__call';
+                        kind = ReflectionKind.CallSignature;
                 }
 
-                var signature = new Signature(container, name);
+                var signature = new Signature(container, name, kind);
                 prop.push(signature);
 
                 node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
-
+                    createParameter(signature, parameter);
                 });
 
                 registerReflection(signature, node);
                 createSourceReference(signature, node);
+                createComment(signature, node);
                 return signature;
             }
 
 
-            function createSourceReference(reflection:Reflection, node:ts.Node) {
-                var sourceFile = <ts.SourceFile>node;
-                while (sourceFile.parent) sourceFile = <ts.SourceFile>sourceFile.parent;
+            function createParameter(signature:Signature, node:ts.ParameterDeclaration) {
+                var parameter = new Parameter(signature, node.symbol.name, ReflectionKind.Parameter);
 
+                if (!signature.parameters) signature.parameters = [];
+                signature.parameters.push(parameter);
+
+                registerReflection(parameter, node);
+            }
+
+
+            function createSourceReference(reflection:ISourceContainer, node:ts.Node) {
+                var sourceFile = ts.getSourceFileOfNode(node);
                 var fileName = sourceFile.filename;
                 var file:ISourceFile;
                 if (!project.files[fileName]) {
@@ -331,8 +429,11 @@ module td.converter
                     line:      position.line,
                     character: position.character
                 });
+            }
 
 
+            function createComment(reflection:ICommentContainer, node:ts.Node) {
+                var sourceFile = ts.getSourceFileOfNode(node);
                 var comments = ts.getJsDocComments(node, sourceFile);
                 if (comments) {
                     comments.forEach((comment) => {
@@ -342,28 +443,28 @@ module td.converter
             }
 
 
-            function parseSourceFile(sourceFile:ts.SourceFile, scope:Container) {
-                if (sourceFile.flags & ts.NodeFlags.DeclarationFile) {
+            function visitSourceFile(sourceFile:ts.SourceFile, scope:Container) {
+                if (ts.isDeclarationFile(sourceFile)) {
                     return;
-                } else if (settings.compilerOptions.module == ts.ModuleKind.AMD) {
-                    scope = createChild(scope, sourceFile, sourceFile.filename);
+                } else if (ts.shouldEmitToOwnFile(sourceFile, settings.compilerOptions)) {
+                    scope = createDeclaration(scope, sourceFile, ReflectionKind.ExternalModule, sourceFile.filename);
                 }
 
-                parseBlock(sourceFile, scope);
+                visitBlock(sourceFile, scope);
             }
 
 
-            function parseModuleDeclaration(node:ts.ModuleDeclaration, scope:Container) {
-                var container = createChild(scope, node);
-                parse(node.body, container);
+            function visitModuleDeclaration(node:ts.ModuleDeclaration, scope:Container) {
+                var container = createDeclaration(scope, node, ReflectionKind.Module);
+                visit(node.body, container);
             }
 
 
-            function parseClassDeclaration(node:ts.ClassDeclaration, scope:Container) {
-                var container = createChild(scope, node);
+            function visitClassDeclaration(node:ts.ClassDeclaration, scope:Container) {
+                var container = createDeclaration(scope, node, ReflectionKind.Class);
 
                 node.members.forEach((member) => {
-                    parse(member, container);
+                    visit(member, container);
                 });
 
                 if (node.baseType) {
@@ -375,11 +476,11 @@ module td.converter
             }
 
 
-            function parseInterfaceDeclaration(node:ts.InterfaceDeclaration, scope:Container) {
-                var container = createChild(scope, node);
+            function visitInterfaceDeclaration(node:ts.InterfaceDeclaration, scope:Container) {
+                var container = createDeclaration(scope, node, ReflectionKind.Interface);
 
                 node.members.forEach((member, isInherit) => {
-                    parse(member, container);
+                    visit(member, container);
                 });
 
                 if (node.baseTypes) {
@@ -398,44 +499,83 @@ module td.converter
             }
 
 
-            function parseBlock(node:ts.Block, scope:Container) {
+            function visitBlock(node:ts.Block, scope:Container) {
                 node.statements.forEach((statement) => {
-                    parse(statement, scope);
+                    visit(statement, scope);
                 });
             }
 
 
-            function parseVariableStatement(node:ts.VariableStatement, scope:Container) {
+            function visitVariableStatement(node:ts.VariableStatement, scope:Container) {
                 node.declarations.forEach((variableDeclaration) => {
-                    parseVariableDeclaration(variableDeclaration, scope);
+                    visitVariableDeclaration(variableDeclaration, scope);
                 });
             }
 
 
-            function parseVariableDeclaration(node:ts.VariableDeclaration, scope:Container) {
-                createChild(scope, node);
+            function visitVariableDeclaration(node:ts.VariableDeclaration, scope:Container) {
+                var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
+                var variable = createDeclaration(scope, node, kind);
+
+                if (node.initializer) {
+                    switch (node.initializer.kind) {
+                        case ts.SyntaxKind.ArrowFunction:
+                        case ts.SyntaxKind.FunctionExpression:
+                            visitSignature(<ts.SignatureDeclaration>node.initializer, variable, SignatureType.Call);
+                            if (variable.kind == kind) {
+                                variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+                            }
+                            break;
+                        case ts.SyntaxKind.ObjectLiteral:
+                            visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
+                            break;
+                        case ts.SyntaxKind.StringLiteral:
+                            variable.defaultValue = '"' + (<ts.LiteralExpression>node).text + '"';
+                            break;
+                        case ts.SyntaxKind.NumericLiteral:
+                            variable.defaultValue = (<ts.LiteralExpression>node).text;
+                            break;
+                        case ts.SyntaxKind.TrueKeyword:
+                            variable.defaultValue = 'true';
+                            break;
+                        case ts.SyntaxKind.FalseKeyword:
+                            variable.defaultValue = 'false';
+                            break;
+                    }
+                }
             }
 
 
-            function parseEnumDeclaration(node:ts.EnumDeclaration, scope:Container) {
-                scope = createChild(scope, node);
-                node.members.forEach((node) => parseEnumMember(node, scope));
+            function visitEnumDeclaration(node:ts.EnumDeclaration, scope:Container) {
+                scope = createDeclaration(scope, node, ReflectionKind.Enum);
+                node.members.forEach((node) => {
+                    visitEnumMember(node, scope)
+                });
             }
 
 
-            function parseEnumMember(node:ts.EnumMember, scope:Container) {
-                createChild(scope, node);
+            function visitEnumMember(node:ts.EnumMember, scope:Container) {
+                createDeclaration(scope, node, ReflectionKind.EnumMember);
             }
 
 
-            function parseConstructor(node:ts.ConstructorDeclaration, scope:Container) {
-                createSignature(scope, node, SignatureType.Constructor);
-            }
-
-
-            function parseFunctionDeclaration(node:ts.MethodDeclaration, scope:Container) {
+            function visitConstructor(node:ts.ConstructorDeclaration, scope:Container) {
                 var hasBody = !!node.body;
-                var method = createChild(scope, node);
+                var method = createDeclaration(scope, node, ReflectionKind.Constructor);
+
+                if (!hasBody || !method.callSignatures) {
+                    createSignature(method, node, SignatureType.Constructor);
+                } else {
+                    createSourceReference(method, node);
+                }
+            }
+
+
+            function visitFunctionDeclaration(node:ts.MethodDeclaration, scope:Container) {
+                var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+                var hasBody = !!node.body;
+                var method = createDeclaration(scope, node, kind);
+
                 if (!hasBody || !method.callSignatures) {
                     createSignature(method, node, SignatureType.Call);
                 } else {
@@ -444,26 +584,26 @@ module td.converter
             }
 
 
-            function parseIndexSignature(node:ts.SignatureDeclaration, scope:Container) {
-                createSignature(scope, node, SignatureType.Index);
+            function visitSignature(node:ts.SignatureDeclaration, scope:Container, type:SignatureType) {
+                if (scope instanceof Declaration) {
+                    createSignature(<Declaration>scope, node, type);
+                }
             }
 
 
-            function parseProperty(node:ts.PropertyDeclaration, scope:Container) {
-                createChild(scope, node);
+            function visitObjectLiteral(node:ts.ObjectLiteral, scope:Container) {
+                if (node.properties) {
+                    node.properties.forEach((node) => visit(node, scope));
+                }
             }
 
 
             function inherit(node:ts.Node, target:Container) {
                 var tree = new Container();
-                parse(node, tree);
+                visit(node, tree);
 
                 for (var key in tree.children) {
-                    var parent = <Container>tree.children[key];
-                    if (parent.constructorSignatures && !target.constructorSignatures) {
-                        target.constructorSignatures = parent.constructorSignatures;
-                    }
-
+                    var parent = tree.children[key];
                     if (!target.children) target.children = {};
                     for (var childName in parent.children) {
                         if (target.children[childName]) {

@@ -36,3 +36,14 @@ export module MyModule
 export var exportedGlobalVariable:string = 'foo';
 
 var globalVariable:string = 'foo';
+
+var objectLiteral = {
+    valueZ: 'foo',
+    valueY: function() { return 'foo'; },
+    valueX: {
+        valueZ: 'foo',
+        valueY: () => 'foo'
+    },
+    valueA: 100,
+    valueB: true
+};

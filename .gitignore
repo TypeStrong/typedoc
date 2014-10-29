@@ -8,6 +8,6 @@
 
 /etc/
 /examples/*/doc
-/examples/definitelytyped/src/
+/examples/definitely-typed/src/
 /node_modules/
 /typescript/
