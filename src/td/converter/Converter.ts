@@ -64,6 +64,19 @@ module td.converter
     }
 
 
+    export interface IDefaultValueContainer
+    {
+        defaultValue:string;
+    }
+
+
+    export interface ITypeContainer
+    {
+        type:Type;
+    }
+
+
+
     export enum ReflectionKind
     {
         Global = 0,
@@ -119,7 +132,7 @@ module td.converter
     }
 
 
-    export class Signature extends Reflection implements ISourceContainer, ICommentContainer
+    export class Signature extends Reflection implements ISourceContainer, ICommentContainer, ITypeContainer
     {
         parent:Container;
 
@@ -128,6 +141,8 @@ module td.converter
         sources:ISourceReference[];
 
         parameters:Parameter[];
+
+        type:Type;
 
 
         toStringHierarchy(indent:string = '') {
@@ -143,11 +158,17 @@ module td.converter
     }
 
 
-    export class Parameter extends Reflection implements ICommentContainer
+    export class Parameter extends Reflection implements ICommentContainer, IDefaultValueContainer, ITypeContainer
     {
         parent:Signature;
 
         comment:models.Comment;
+
+        defaultValue:string;
+
+        type:Type;
+
+        isOptional:boolean;
     }
 
 
@@ -173,9 +194,11 @@ module td.converter
     }
 
 
-    export class Declaration extends Container implements ISourceContainer, ICommentContainer
+    export class Declaration extends Container implements ISourceContainer, ICommentContainer, IDefaultValueContainer, ITypeContainer
     {
         comment:models.Comment;
+
+        type:Type;
 
         sources:ISourceReference[];
 
@@ -196,6 +219,8 @@ module td.converter
         isStatic:boolean;
 
         isExported:boolean;
+
+        isOptional:boolean;
 
 
         toStringHierarchy(indent:string = '') {
@@ -237,6 +262,12 @@ module td.converter
     }
 
 
+    export class Type
+    {
+        isArray:boolean;
+    }
+
+
 
     export class Converter extends PluginHost
     {
@@ -255,7 +286,7 @@ module td.converter
             var project = new Project(null, 'TypeScript project', ReflectionKind.Global);
             var result  = {
                 project: project,
-                errors: program.getDiagnostics().concat(checker.getDiagnostics())
+                errors: program.getDiagnostics().concat(checker.getDiagnostics()).concat()
             };
 
             program.getSourceFiles().forEach((sourceFile) => {
@@ -266,64 +297,6 @@ module td.converter
 
             console.log(project.toStringHierarchy());
             return result;
-
-
-            /**
-             * Parse the given node.
-             */
-            function visit(node:ts.Node, scope:Container) {
-                switch (node.kind) {
-                    case ts.SyntaxKind.ClassDeclaration:
-                        visitClassDeclaration(<ts.ClassDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.InterfaceDeclaration:
-                        visitInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.SourceFile:
-                        visitSourceFile(<ts.SourceFile>node, scope);
-                        break;
-                    case ts.SyntaxKind.ModuleDeclaration:
-                        visitModuleDeclaration(<ts.ModuleDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.VariableStatement:
-                        visitVariableStatement(<ts.VariableStatement>node, scope);
-                        break;
-                    case ts.SyntaxKind.Property:
-                    case ts.SyntaxKind.PropertyAssignment:
-                    case ts.SyntaxKind.VariableDeclaration:
-                        visitVariableDeclaration(<ts.VariableDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.EnumDeclaration:
-                        visitEnumDeclaration(<ts.EnumDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.EnumMember:
-                        visitEnumMember(<ts.EnumMember>node, scope);
-                        break;
-                    case ts.SyntaxKind.Constructor:
-                    case ts.SyntaxKind.ConstructSignature:
-                        visitConstructor(<ts.ConstructorDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.Method:
-                    case ts.SyntaxKind.FunctionDeclaration:
-                        visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
-                        break;
-                    case ts.SyntaxKind.CallSignature:
-                        visitSignature(<ts.SignatureDeclaration>node, scope, SignatureType.Call);
-                        break;
-                    case ts.SyntaxKind.IndexSignature:
-                        visitSignature(<ts.SignatureDeclaration>node, scope, SignatureType.Index);
-                        break;
-                    case ts.SyntaxKind.Block:
-                    case ts.SyntaxKind.ModuleBlock:
-                        visitBlock(<ts.Block>node, scope);
-                        break;
-                    case ts.SyntaxKind.ObjectLiteral:
-                        visitObjectLiteral(<ts.ObjectLiteral>node, scope);
-                        break;
-                    default:
-                        console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
-                }
-            }
 
 
             function registerReflection(reflection:Reflection, node:ts.Node) {
@@ -341,18 +314,22 @@ module td.converter
             }
 
 
-            function createDeclaration(container:Container, node:ts.Node, kind:ReflectionKind, name:string = node.symbol.name):Declaration {
+            function createDeclaration(container:Container, node:ts.Node, kind:ReflectionKind, name?:string):Declaration {
                 var child:Declaration;
+                if (!name) {
+                    if (!node.symbol) return null;
+                    name = node.symbol.name;
+                }
 
                 if (!container.children) container.children = {};
                 if (!container.children[name]) {
                     child = new Declaration(container, name, kind);
-                    child.isPrivate   = !!(node.flags & ts.NodeFlags.Private);
-                    child.isProtected = !!(node.flags & ts.NodeFlags.Protected);
-                    child.isPublic    = !!(node.flags & ts.NodeFlags.Public);
-                    child.isStatic    = !!(node.flags & ts.NodeFlags.Static);
-                    child.isExported  = !!(node.flags & ts.NodeFlags.Export);
-
+                    child.isPrivate   = !!(node.flags & ts.NodeFlags['Private']);
+                    child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
+                    child.isPublic    = !!(node.flags & ts.NodeFlags['Public']);
+                    child.isStatic    = !!(node.flags & ts.NodeFlags['Static']);
+                    child.isExported  = !!(node.flags & ts.NodeFlags['Export']);
+                    child.isOptional  = !!(node.flags & ts.NodeFlags['QuestionMark']);
 
                     container.children[name] = child;
                     registerReflection(child, node);
@@ -393,6 +370,14 @@ module td.converter
                 });
 
                 registerReflection(signature, node);
+
+                if (type == SignatureType.Call) {
+                    var typ = checker.getTypeOfNode(node);
+                    var sig = checker.getSignaturesOfType(typ, ts.SignatureKind.Call);
+                    signature.name += '(' + sig.length + ')';
+                    extractType(node, checker.getReturnTypeOfSignature(sig[0]), signature);
+                }
+
                 createSourceReference(signature, node);
                 createComment(signature, node);
                 return signature;
@@ -401,6 +386,10 @@ module td.converter
 
             function createParameter(signature:Signature, node:ts.ParameterDeclaration) {
                 var parameter = new Parameter(signature, node.symbol.name, ReflectionKind.Parameter);
+                parameter.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
+
+                extractType(node, checker.getTypeOfNode(node), parameter);
+                extractDefaultValue(node, parameter);
 
                 if (!signature.parameters) signature.parameters = [];
                 signature.parameters.push(parameter);
@@ -443,45 +432,195 @@ module td.converter
             }
 
 
-            function visitSourceFile(sourceFile:ts.SourceFile, scope:Container) {
-                if (ts.isDeclarationFile(sourceFile)) {
-                    return;
-                } else if (ts.shouldEmitToOwnFile(sourceFile, settings.compilerOptions)) {
-                    scope = createDeclaration(scope, sourceFile, ReflectionKind.ExternalModule, sourceFile.filename);
+            function extractType(node:ts.Node, type:ts.Type, reflection:Reflection) {
+                reflection.name += ' ' + flagsToString(type.flags, ts.TypeFlags);
+            }
+
+
+            function extractDefaultValue(node:ts.VariableDeclaration, reflection:IDefaultValueContainer) {
+                if (!node.initializer) return;
+
+                if (reflection instanceof Declaration) {
+                    var declaration = <Declaration>reflection;
+                    switch (node.initializer.kind) {
+                        case ts.SyntaxKind['ArrowFunction']:
+                        case ts.SyntaxKind['FunctionExpression']:
+                            visitSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, declaration, SignatureType.Call);
+                            return;
+                        case ts.SyntaxKind['ObjectLiteral']:
+                            visitObjectLiteral(<ts.ObjectLiteral>node.initializer, declaration);
+                            return;
+                    }
                 }
 
-                visitBlock(sourceFile, scope);
+                switch (node.initializer.kind) {
+                    case ts.SyntaxKind['StringLiteral']:
+                        reflection.defaultValue = '"' + (<ts.LiteralExpression>node).text + '"';
+                        break;
+                    case ts.SyntaxKind['NumericLiteral']:
+                        reflection.defaultValue = (<ts.LiteralExpression>node).text;
+                        break;
+                    case ts.SyntaxKind['TrueKeyword']:
+                        reflection.defaultValue = 'true';
+                        break;
+                    case ts.SyntaxKind['FalseKeyword']:
+                        reflection.defaultValue = 'false';
+                        break;
+                }
             }
 
 
-            function visitModuleDeclaration(node:ts.ModuleDeclaration, scope:Container) {
-                var container = createDeclaration(scope, node, ReflectionKind.Module);
-                visit(node.body, container);
+            /**
+             * Analyze the given node and create a suitable reflection.
+             *
+             * This function checks the kind of the node and delegates to the matching function implementation.
+             *
+             * @param node   The compiler node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visit(node:ts.Node, scope:Container):Reflection {
+                switch (node.kind) {
+                    case ts.SyntaxKind['ClassDeclaration']:
+                        return visitClassDeclaration(<ts.ClassDeclaration>node, scope);
+                    case ts.SyntaxKind['InterfaceDeclaration']:
+                        return visitInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope);
+                    case ts.SyntaxKind['SourceFile']:
+                        return visitSourceFile(<ts.SourceFile>node, scope);
+                    case ts.SyntaxKind['ModuleDeclaration']:
+                        return visitModuleDeclaration(<ts.ModuleDeclaration>node, scope);
+                    case ts.SyntaxKind['VariableStatement']:
+                        return visitVariableStatement(<ts.VariableStatement>node, scope);
+                    case ts.SyntaxKind['Property']:
+                    case ts.SyntaxKind['PropertyAssignment']:
+                    case ts.SyntaxKind['VariableDeclaration']:
+                        return visitVariableDeclaration(<ts.VariableDeclaration>node, scope);
+                    case ts.SyntaxKind['EnumDeclaration']:
+                        return visitEnumDeclaration(<ts.EnumDeclaration>node, scope);
+                    case ts.SyntaxKind['EnumMember']:
+                        return visitEnumMember(<ts.EnumMember>node, scope);
+                    case ts.SyntaxKind['Constructor']:
+                    case ts.SyntaxKind['ConstructSignature']:
+                        return visitConstructor(<ts.ConstructorDeclaration>node, scope);
+                    case ts.SyntaxKind['Method']:
+                    case ts.SyntaxKind['FunctionDeclaration']:
+                        return visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
+                    case ts.SyntaxKind['CallSignature']:
+                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Call);
+                    case ts.SyntaxKind['IndexSignature']:
+                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Index);
+                    case ts.SyntaxKind['Block']:
+                    case ts.SyntaxKind['ModuleBlock']:
+                        return visitBlock(<ts.Block>node, scope);
+                    case ts.SyntaxKind['ObjectLiteral']:
+                        return visitObjectLiteral(<ts.ObjectLiteral>node, scope);
+                    default:
+                        console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
+                        return null;
+                }
             }
 
 
-            function visitClassDeclaration(node:ts.ClassDeclaration, scope:Container) {
-                var container = createDeclaration(scope, node, ReflectionKind.Class);
+            /**
+             * Analyze the given block node and create a suitable reflection.
+             *
+             * @param node   The source file node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitBlock(node:ts.Block, scope:Container):Reflection {
+                if (node.statements) {
+                    node.statements.forEach((statement) => {
+                        visit(statement, scope);
+                    });
+                }
 
-                node.members.forEach((member) => {
-                    visit(member, container);
-                });
+                return scope;
+            }
+
+
+            /**
+             * Analyze the given source file node and create a suitable reflection.
+             *
+             * @param node   The source file node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitSourceFile(node:ts.SourceFile, scope:Container):Reflection {
+                // TypeScript 1.3: ts.isDeclarationFile(node)
+                if (node.flags & ts.NodeFlags['DeclarationFile']) {
+                    return;
+
+                // TypeScript 1.3: ts.shouldEmitToOwnFile(node, settings.compilerOptions)
+                } else if ((ts.isExternalModule(node) || !settings.compilerOptions.out)) {
+                    scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
+                }
+
+                visitBlock(node, scope);
+                return scope;
+            }
+
+
+            /**
+             * Analyze the given module node and create a suitable reflection.
+             *
+             * @param node   The module node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitModuleDeclaration(node:ts.ModuleDeclaration, scope:Container):Reflection {
+                var reflection = createDeclaration(scope, node, ReflectionKind.Module);
+
+                if (node.body) {
+                    visit(node.body, reflection);
+                }
+
+                return reflection;
+            }
+
+
+            /**
+             * Analyze the given class declaration node and create a suitable reflection.
+             *
+             * @param node   The class declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitClassDeclaration(node:ts.ClassDeclaration, scope:Container):Reflection {
+                var reflection = createDeclaration(scope, node, ReflectionKind.Class);
+
+                if (node.members) {
+                    node.members.forEach((member) => {
+                        visit(member, reflection);
+                    });
+                }
 
                 if (node.baseType) {
                     var type = checker.getTypeOfNode(node.baseType);
                     type.symbol.declarations.forEach((declaration) => {
-                        inherit(declaration, container);
+                        inherit(declaration, reflection);
                     });
                 }
+
+                return reflection;
             }
 
 
-            function visitInterfaceDeclaration(node:ts.InterfaceDeclaration, scope:Container) {
-                var container = createDeclaration(scope, node, ReflectionKind.Interface);
+            /**
+             * Analyze the given interface declaration node and create a suitable reflection.
+             *
+             * @param node   The interface declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitInterfaceDeclaration(node:ts.InterfaceDeclaration, scope:Container):Reflection {
+                var reflection = createDeclaration(scope, node, ReflectionKind.Interface);
 
-                node.members.forEach((member, isInherit) => {
-                    visit(member, container);
-                });
+                if (node.members) {
+                    node.members.forEach((member, isInherit) => {
+                        visit(member, reflection);
+                    });
+                }
 
                 if (node.baseTypes) {
                     node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
@@ -492,113 +631,182 @@ module td.converter
                         }
 
                         type.symbol.declarations.forEach((declaration) => {
-                            inherit(declaration, container);
+                            inherit(declaration, reflection);
                         });
                     });
                 }
+
+                return reflection;
             }
 
 
-            function visitBlock(node:ts.Block, scope:Container) {
-                node.statements.forEach((statement) => {
-                    visit(statement, scope);
-                });
+            /**
+             * Analyze the given variable statement node and create a suitable reflection.
+             *
+             * @param node   The variable statement node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitVariableStatement(node:ts.VariableStatement, scope:Container):Reflection {
+                if (node.declarations) {
+                    node.declarations.forEach((variableDeclaration) => {
+                        visitVariableDeclaration(variableDeclaration, scope);
+                    });
+                }
+
+                return scope;
             }
 
 
-            function visitVariableStatement(node:ts.VariableStatement, scope:Container) {
-                node.declarations.forEach((variableDeclaration) => {
-                    visitVariableDeclaration(variableDeclaration, scope);
-                });
-            }
-
-
-            function visitVariableDeclaration(node:ts.VariableDeclaration, scope:Container) {
+            /**
+             * Analyze the given variable declaration node and create a suitable reflection.
+             *
+             * @param node   The variable declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitVariableDeclaration(node:ts.VariableDeclaration, scope:Container):Reflection {
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
                 var variable = createDeclaration(scope, node, kind);
+                if (variable) {
+                    extractType(node, checker.getTypeOfNode(node), variable);
+                    extractDefaultValue(node, variable);
 
-                if (node.initializer) {
-                    switch (node.initializer.kind) {
-                        case ts.SyntaxKind.ArrowFunction:
-                        case ts.SyntaxKind.FunctionExpression:
-                            visitSignature(<ts.SignatureDeclaration>node.initializer, variable, SignatureType.Call);
-                            if (variable.kind == kind) {
-                                variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
-                            }
-                            break;
-                        case ts.SyntaxKind.ObjectLiteral:
-                            visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
-                            break;
-                        case ts.SyntaxKind.StringLiteral:
-                            variable.defaultValue = '"' + (<ts.LiteralExpression>node).text + '"';
-                            break;
-                        case ts.SyntaxKind.NumericLiteral:
-                            variable.defaultValue = (<ts.LiteralExpression>node).text;
-                            break;
-                        case ts.SyntaxKind.TrueKeyword:
-                            variable.defaultValue = 'true';
-                            break;
-                        case ts.SyntaxKind.FalseKeyword:
-                            variable.defaultValue = 'false';
-                            break;
+                    if (variable.kind == kind && variable.callSignatures) {
+                        variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
                     }
                 }
+
+                return variable;
             }
 
 
-            function visitEnumDeclaration(node:ts.EnumDeclaration, scope:Container) {
-                scope = createDeclaration(scope, node, ReflectionKind.Enum);
-                node.members.forEach((node) => {
-                    visitEnumMember(node, scope)
-                });
+            /**
+             * Analyze the given enumeration declaration node and create a suitable reflection.
+             *
+             * @param node   The enumeration declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitEnumDeclaration(node:ts.EnumDeclaration, scope:Container):Reflection {
+                var enumeration = createDeclaration(scope, node, ReflectionKind.Enum);
+
+                if (enumeration && node.members) {
+                    node.members.forEach((node) => {
+                        visitEnumMember(node, enumeration);
+                    });
+                }
+
+                return enumeration;
             }
 
 
-            function visitEnumMember(node:ts.EnumMember, scope:Container) {
-                createDeclaration(scope, node, ReflectionKind.EnumMember);
+            /**
+             * Analyze the given enumeration member node and create a suitable reflection.
+             *
+             * @param node   The enumeration member node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitEnumMember(node:ts.EnumMember, scope:Container):Reflection {
+                var member = createDeclaration(scope, node, ReflectionKind.EnumMember);
+                if (member) {
+                    extractDefaultValue(node, member);
+                }
+
+                return member;
             }
 
 
-            function visitConstructor(node:ts.ConstructorDeclaration, scope:Container) {
+            /**
+             * Analyze the given constructor declaration node and create a suitable reflection.
+             *
+             * @param node   The constructor declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitConstructor(node:ts.ConstructorDeclaration, scope:Container):Reflection {
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, ReflectionKind.Constructor);
-
-                if (!hasBody || !method.callSignatures) {
-                    createSignature(method, node, SignatureType.Constructor);
-                } else {
-                    createSourceReference(method, node);
+                if (method) {
+                    if (!hasBody || !method.callSignatures) {
+                        createSignature(method, node, SignatureType.Constructor);
+                    } else {
+                        createSourceReference(method, node);
+                    }
                 }
+
+                return method;
             }
 
 
-            function visitFunctionDeclaration(node:ts.MethodDeclaration, scope:Container) {
+            /**
+             * Analyze the given function declaration node and create a suitable reflection.
+             *
+             * @param node   The function declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitFunctionDeclaration(node:ts.FunctionDeclaration, scope:Container):Reflection {
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, kind);
 
-                if (!hasBody || !method.callSignatures) {
-                    createSignature(method, node, SignatureType.Call);
-                } else {
-                    createSourceReference(method, node);
+                if (method) {
+                    if (!hasBody || !method.callSignatures) {
+                        createSignature(method, node, SignatureType.Call);
+                    } else {
+                        createSourceReference(method, node);
+                    }
                 }
+
+                return method;
             }
 
 
-            function visitSignature(node:ts.SignatureDeclaration, scope:Container, type:SignatureType) {
+            /**
+             * Analyze the given signature declaration node and create a suitable reflection.
+             *
+             * @param node   The signature declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @param type   The type (call, index or constructor) of the signature.
+             * @return The resulting reflection or NULL.
+             */
+            function visitSignatureDeclaration(node:ts.SignatureDeclaration, scope:Container, type?:SignatureType):Reflection {
                 if (scope instanceof Declaration) {
-                    createSignature(<Declaration>scope, node, type);
+                    createSignature(<Declaration>scope, node, type || SignatureType.Call);
                 }
+
+                return scope;
             }
 
 
-            function visitObjectLiteral(node:ts.ObjectLiteral, scope:Container) {
+            /**
+             * Analyze the given object literal node and create a suitable reflection.
+             *
+             * @param node   The object literal node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitObjectLiteral(node:ts.ObjectLiteral, scope:Container):Reflection {
                 if (node.properties) {
-                    node.properties.forEach((node) => visit(node, scope));
+                    node.properties.forEach((node) => {
+                        visit(node, scope);
+                    });
                 }
+
+                return scope;
             }
 
 
-            function inherit(node:ts.Node, target:Container) {
+            /**
+             * Apply all children of the given node to the given target reflection.
+             *
+             * @param node    The node whose children should be analyzed.
+             * @param target  The reflection the children should be copied to.
+             * @return The resulting reflection.
+             */
+            function inherit(node:ts.Node, target:Container):Reflection {
                 var tree = new Container();
                 visit(node, tree);
 
@@ -613,6 +821,8 @@ module td.converter
                         }
                     }
                 }
+
+                return target;
             }
 
 

@@ -27,22 +27,24 @@ export module MyModule
     }
 
 
-    export var exportedModuleVariable:string = 'foo';
+    export var exportedModuleVariable = 'foo';
 
-    var moduleVariable:string = 'foo';
+    var moduleVariable = [100, 200];
+
+    var moduleVariable2:number[];
 }
 
 
-export var exportedGlobalVariable:string = 'foo';
+export var exportedGlobalVariable = 'foo';
 
-var globalVariable:string = 'foo';
+var globalVariable = 'foo';
 
 var objectLiteral = {
     valueZ: 'foo',
     valueY: function() { return 'foo'; },
     valueX: {
         valueZ: 'foo',
-        valueY: () => 'foo'
+        valueY: (z:string) => { return {a:'test', b:z}; }
     },
     valueA: 100,
     valueB: true
