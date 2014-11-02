@@ -52,25 +52,25 @@ module td.converter
     }
 
 
-    export interface ISourceContainer
+    export interface ISourceContainer extends Reflection
     {
         sources:ISourceReference[];
     }
 
 
-    export interface ICommentContainer
+    export interface ICommentContainer extends Reflection
     {
         comment:models.Comment;
     }
 
 
-    export interface IDefaultValueContainer
+    export interface IDefaultValueContainer extends Reflection
     {
         defaultValue:string;
     }
 
 
-    export interface ITypeContainer
+    export interface ITypeContainer extends Reflection
     {
         type:Type;
     }
@@ -95,6 +95,7 @@ module td.converter
         IndexSignature = 8192,
         ConstructorSignature = 16384,
         Parameter = 32768,
+        TypeLiteral = 65536,
 
         ClassOrInterface = Class | Interface,
         VariableOrProperty = Variable | Property,
@@ -145,11 +146,20 @@ module td.converter
         type:Type;
 
 
+        toString() {
+            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        }
+
+
         toStringHierarchy(indent:string = '') {
             var lines = [indent + this.toString()];
+            indent += '  ';
+
+            if (this.type instanceof ReflectionType) {
+                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
+            }
 
             if (this.parameters) {
-                indent += '  ';
                 this.parameters.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
             }
 
@@ -169,6 +179,23 @@ module td.converter
         type:Type;
 
         isOptional:boolean;
+
+
+        toString() {
+            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        }
+
+
+        toStringHierarchy(indent:string = '') {
+            var lines = [indent + this.toString()];
+            indent += '  ';
+
+            if (this.type instanceof ReflectionType) {
+                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
+            }
+
+            return lines.join('\n');
+        }
     }
 
 
@@ -223,9 +250,18 @@ module td.converter
         isOptional:boolean;
 
 
+        toString() {
+            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        }
+
+
         toStringHierarchy(indent:string = '') {
             var lines = [indent + this.toString()];
             indent += '  ';
+
+            if (this.type instanceof ReflectionType) {
+                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
+            }
 
             if (this.constructorSignatures) {
                 this.constructorSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
@@ -267,6 +303,55 @@ module td.converter
         isArray:boolean;
     }
 
+
+    export class IntrinsicType extends Type
+    {
+        name:string;
+
+
+        constructor(name:string) {
+            super();
+            this.name = name;
+        }
+
+
+        toString() {
+            return this.name + (this.isArray ? '[]' : '');
+        }
+    }
+
+
+    export class TypeReference extends Type
+    {
+        symbolID:number;
+
+
+        constructor(symbolID:number) {
+            super();
+            this.symbolID = symbolID;
+        }
+
+
+        toString() {
+            return '=> ' + this.symbolID + (this.isArray ? '[]' : '');
+        }
+    }
+
+    export class ReflectionType extends Type
+    {
+        declaration:Declaration;
+
+
+        constructor(declaration:Declaration) {
+            super();
+            this.declaration = declaration;
+        }
+
+
+        toString() {
+            return 'object';
+        }
+    }
 
 
     export class Converter extends PluginHost
@@ -344,22 +429,25 @@ module td.converter
 
 
             function createSignature(container:Declaration, node:ts.SignatureDeclaration, type:SignatureType):Signature {
-                var name, prop, kind;
+                var name, prop, kind, tsKind;
                 switch (type) {
                     case SignatureType.Index:
-                        prop = container.indexSignatures || (container.indexSignatures = []);
-                        name = '__index';
-                        kind = ReflectionKind.IndexSignature;
+                        prop   = container.indexSignatures || (container.indexSignatures = []);
+                        name   = '__index';
+                        kind   = ReflectionKind.IndexSignature;
+                        tsKind = -1;
                         break;
                     case SignatureType.Constructor:
-                        prop = container.constructorSignatures || (container.constructorSignatures = []);
-                        name = '__construct';
-                        kind = ReflectionKind.ConstructorSignature;
+                        prop   = container.constructorSignatures || (container.constructorSignatures = []);
+                        name   = '__construct';
+                        kind   = ReflectionKind.ConstructorSignature;
+                        tsKind = ts.SignatureKind['Construct'];
                         break;
                     default :
-                        prop = container.callSignatures || (container.callSignatures = []);
-                        name = '__call';
-                        kind = ReflectionKind.CallSignature;
+                        prop   = container.callSignatures || (container.callSignatures = []);
+                        name   = '__call';
+                        kind   = ReflectionKind.CallSignature;
+                        tsKind = ts.SignatureKind['Call'];
                 }
 
                 var signature = new Signature(container, name, kind);
@@ -371,11 +459,15 @@ module td.converter
 
                 registerReflection(signature, node);
 
-                if (type == SignatureType.Call) {
-                    var typ = checker.getTypeOfNode(node);
-                    var sig = checker.getSignaturesOfType(typ, ts.SignatureKind.Call);
-                    signature.name += '(' + sig.length + ')';
-                    extractType(node, checker.getReturnTypeOfSignature(sig[0]), signature);
+                if (tsKind != -1) {
+                    var tsType = checker.getTypeOfNode(node);
+                    checker.getSignaturesOfType(tsType, tsKind).forEach((tsSignature) => {
+                        if (tsSignature.declaration == node) {
+                            extractType(node, checker.getReturnTypeOfSignature(tsSignature), signature);
+                        }
+                    });
+                } else {
+                    extractType(node, checker.getTypeOfNode(node.type), signature);
                 }
 
                 createSourceReference(signature, node);
@@ -432,8 +524,44 @@ module td.converter
             }
 
 
-            function extractType(node:ts.Node, type:ts.Type, reflection:Reflection) {
-                reflection.name += ' ' + flagsToString(type.flags, ts.TypeFlags);
+            function extractType(node:ts.Node, type:ts.Type, reflection:ITypeContainer) {
+                if (type.flags & ts.TypeFlags['Intrinsic']) {
+                    reflection.type = new IntrinsicType((<ts.IntrinsicType>type).intrinsicName);
+                } else if (type.flags & ts.TypeFlags['Enum']) {
+                    reflection.type = new TypeReference(type.symbol.id);
+                } else if (type.flags & ts.TypeFlags['ObjectType']) {
+                    if (type.symbol) {
+                        if (type.flags & ts.TypeFlags['Anonymous']) {
+                            if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
+                                var declaration = new Declaration();
+                                declaration.kind = ReflectionKind.TypeLiteral;
+                                declaration.name = '__type';
+                                type.symbol.declarations.forEach((node) => {
+                                    visit(node, declaration);
+                                });
+                                reflection.type = new ReflectionType(declaration);
+                            } else {
+                                reflection.type = new IntrinsicType('object');
+                            }
+                        } else {
+                            reflection.type = new TypeReference(type.symbol.id);
+                        }
+                    } else {
+                        var typeNode = <ts.TypeNode>node['type'];
+                        if (typeNode && typeNode['elementType']) {
+                            extractType(node, checker.getTypeOfNode(typeNode['elementType']), reflection);
+                            if (reflection.type) {
+                                reflection.type.isArray = true;
+                            } else {
+                                reflection.type = new IntrinsicType('object');
+                            }
+                        } else {
+                            reflection.type = new IntrinsicType('object');
+                        }
+                    }
+                } else {
+                    reflection.name += ' ' + flagsToString(type.flags, ts.TypeFlags);
+                }
             }
 
 
@@ -514,6 +642,8 @@ module td.converter
                         return visitBlock(<ts.Block>node, scope);
                     case ts.SyntaxKind['ObjectLiteral']:
                         return visitObjectLiteral(<ts.ObjectLiteral>node, scope);
+                    case ts.SyntaxKind['TypeLiteral']:
+                        return visitTypeLiteral(<ts.TypeLiteralNode>node, scope);
                     default:
                         console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
                         return null;
@@ -669,11 +799,12 @@ module td.converter
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
                 var variable = createDeclaration(scope, node, kind);
                 if (variable) {
-                    extractType(node, checker.getTypeOfNode(node), variable);
                     extractDefaultValue(node, variable);
 
                     if (variable.kind == kind && variable.callSignatures) {
                         variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+                    } else {
+                        extractType(node, checker.getTypeOfNode(node), variable);
                     }
                 }
 
@@ -791,6 +922,24 @@ module td.converter
             function visitObjectLiteral(node:ts.ObjectLiteral, scope:Container):Reflection {
                 if (node.properties) {
                     node.properties.forEach((node) => {
+                        visit(node, scope);
+                    });
+                }
+
+                return scope;
+            }
+
+
+            /**
+             * Analyze the given type literal node and create a suitable reflection.
+             *
+             * @param node   The type literal node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitTypeLiteral(node:ts.TypeLiteralNode, scope:Container):Reflection {
+                if (node.members) {
+                    node.members.forEach((node) => {
                         visit(node, scope);
                     });
                 }

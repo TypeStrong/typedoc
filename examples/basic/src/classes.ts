@@ -61,6 +61,7 @@ export class BaseClass implements INameInterface
      * Static members should not be inherited.
      */
     static instance:BaseClass;
+    static instances:BaseClass[];
 
     /**
      * This is an instance member of an internal class.

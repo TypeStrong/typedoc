@@ -96,6 +96,7 @@ function flattenedCallback(callback:(param:number, optionalParam?:string) => str
  * @param options.moreOptions.moreValues  A value of the typed child object.
  */
 function flattenedObject(options:{
+    [name:string]:any;
     value?:string;
     anotherValue?:string;
     moreOptions?:{
