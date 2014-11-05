@@ -183,6 +183,15 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public printName():void {
         this.print(this.getName());
     }
+
+
+    public get nameProperty():string {
+        return this.name;
+    }
+
+    public set nameProperty(value:string) {
+        this.name = value;
+    }
 }
 
 
@@ -215,4 +224,10 @@ export class GenericClass<T>
     public getValue():T {
         return this.value;
     }
+}
+
+
+export class NonGenericClass extends GenericClass<string>
+{
+
 }
