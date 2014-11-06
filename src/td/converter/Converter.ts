@@ -435,7 +435,7 @@ module td.converter
             var typeParameters:{[name:string]:Type} = {};
 
             program.getSourceFiles().forEach((sourceFile) => {
-                visit(sourceFile, project);
+                visitSourceFile(sourceFile, project);
             });
 
             project.reflections.forEach((reflection) => this.dispatch('resolve', project, reflection));
@@ -794,9 +794,9 @@ module td.converter
                     case ts.SyntaxKind['FunctionDeclaration']:
                         return visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
                     case ts.SyntaxKind['GetAccessor']:
-                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Get);
+                        return visitAccessorDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Get);
                     case ts.SyntaxKind['SetAccessor']:
-                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Set);
+                        return visitAccessorDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Set);
                     case ts.SyntaxKind['CallSignature']:
                         return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Call);
                     case ts.SyntaxKind['IndexSignature']:
@@ -1092,16 +1092,28 @@ module td.converter
              * @return The resulting reflection or NULL.
              */
             function visitSignatureDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection, type?:SignatureType):Reflection {
-                if (type && (type == SignatureType.Get || type == SignatureType.Set)) {
-                    var getterSetter = createDeclaration(scope, node, ReflectionKind.Accessor);
-                    if (getterSetter) {
-                        createSignature(getterSetter, node, type);
-                    }
-                } else if (scope instanceof DeclarationReflection) {
+                if (scope instanceof DeclarationReflection) {
                     createSignature(<DeclarationReflection>scope, node, type || SignatureType.Call);
                 }
 
                 return scope;
+            }
+
+
+            /**
+             * Analyze the given getter or setter declaration node and create a suitable reflection.
+             *
+             * @param node   The signature declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection, type:SignatureType):Reflection {
+                var accessor = createDeclaration(scope, node, ReflectionKind.Accessor);
+                if (accessor) {
+                    createSignature(accessor, node, type);
+                }
+
+                return accessor;
             }
 
 
