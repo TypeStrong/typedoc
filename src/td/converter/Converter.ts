@@ -209,6 +209,8 @@ module td
                     return extractIntrinsicType(node, <ts.IntrinsicType>type);
                 } else if (type.flags & ts.TypeFlags['Enum']) {
                     return extractEnumType(node, type);
+                } else if (type.flags & ts.TypeFlags['Tuple']) {
+                    return extractTupleType(<ts.TupleTypeNode>node, <ts.TupleType>type);
                 } else if (type.flags & ts.TypeFlags['TypeParameter']) {
                     return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
                 } else if (type.flags & ts.TypeFlags['StringLiteral']) {
@@ -231,14 +233,26 @@ module td
             }
 
 
+            function extractTupleType(node:ts.TupleTypeNode, type:ts.TupleType):Type {
+                var elements = [];
+                node.elementTypes.forEach((elementNode) => {
+                    elements.push(extractType(elementNode, checker.getTypeOfNode(elementNode)));
+                });
+
+                return new TupleType(elements);
+            }
+
+
             function extractTypeParameterType(node:ts.TypeReferenceNode, type:ts.Type):Type {
-                var name = node.typeName['text'];
-                if (typeParameters[name]) {
-                    return typeParameters[name];
-                } else {
-                    var result = new TypeParameterType();
-                    result.name = name;
-                    return result;
+                if (node) {
+                    var name = node.typeName['text'];
+                    if (typeParameters[name]) {
+                        return typeParameters[name];
+                    } else {
+                        var result = new TypeParameterType();
+                        result.name = name;
+                        return result;
+                    }
                 }
             }
 

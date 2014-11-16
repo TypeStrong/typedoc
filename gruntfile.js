@@ -34,6 +34,7 @@ module.exports = function(grunt)
                     'src/td/models/types/ReferenceType.ts',
                     'src/td/models/types/ReflectionType.ts',
                     'src/td/models/types/StringLiteralType.ts',
+                    'src/td/models/types/TupleType.ts',
                     'src/td/models/types/TypeParameterType.ts',
                     'src/td/models/types/UnknownType.ts',
                     'src/~bootstrap.ts'
