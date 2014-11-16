@@ -1,10 +1,5 @@
 module td
 {
-    export interface IPlugin {
-        (instance:any):IPluginInterface;
-    }
-
-
     export interface IPluginInterface {
         remove();
     }
@@ -14,14 +9,14 @@ module td
     {
         plugins:ts.Map<IPluginInterface>;
 
-        static PLUGINS:ts.Map<IPlugin>;
+        static PLUGINS:{[name:string]:any};
 
 
-        addPlugin(name:string, plugin:IPlugin):IPluginInterface {
+        addPlugin(name:string, plugin:any):IPluginInterface {
             if (this.plugins[name]) {
                 return null;
             } else {
-                return this.plugins[name] = plugin(this);
+                return this.plugins[name] = new plugin(this);
             }
         }
 
@@ -46,7 +41,7 @@ module td
         }
 
 
-        static registerPlugin(name:string, plugin:IPlugin) {
+        static registerPlugin(name:string, plugin:any) {
             if (!this.PLUGINS) this.PLUGINS = {};
             this.PLUGINS[name] = plugin;
         }
@@ -56,7 +51,7 @@ module td
             var plugins:ts.Map<IPluginInterface> = {};
             for (var name in this.PLUGINS) {
                 if (!this.PLUGINS.hasOwnProperty(name)) continue;
-                plugins[name] = this.PLUGINS[name](instance);
+                plugins[name] = new this.PLUGINS[name](instance);
             }
 
             return plugins;

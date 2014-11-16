@@ -40,8 +40,8 @@ module td
         TypeLiteral = 65536,
         TypeParameter = 131072,
         Accessor = 262144,
-        Getter = 524288,
-        Setter = 1048576,
+        GetSignature = 524288,
+        SetSignature = 1048576,
 
         ClassOrInterface = Class | Interface,
         VariableOrProperty = Variable | Property,

@@ -1,21 +1,30 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
      * the generated reflections.
      */
-    export class CommentHandler extends BaseHandler
+    export class CommentPlugin implements IPluginInterface
     {
+        converter:Converter;
+
+
         /**
-         * Create a new CommentHandler instance.
+         * Create a new CommentPlugin instance.
          *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            this.converter = converter;
+            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+            converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration, this);
+            converter.on(Converter.EVENT_RESOLVE,            this.onResolve,     this);
+        }
 
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE,     this.onResolve,     this);
+
+        remove() {
+            this.converter.off(null, null, this);
+            this.converter = null;
         }
 
 
@@ -26,15 +35,12 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(state:DeclarationState) {
-            var isInherit = false;
-            if (state.isInherited) {
-                isInherit = state.reflection.comment && state.reflection.comment.hasTag('inherit');
-            }
-
-            if (!state.reflection.comment || isInherit) {
-                CommentHandler.findComments(state).forEach((comment) => {
-                    state.reflection.comment = CommentHandler.parseDocComment(comment);
+        private onDeclaration(reflection:ICommentContainer, node:ts.Node) {
+            var sourceFile = ts.getSourceFileOfNode(node);
+            var comments = ts.getJsDocComments(node, sourceFile);
+            if (comments) {
+                comments.forEach((comment) => {
+                    reflection.comment = CommentPlugin.parseComment(sourceFile.text.substring(comment.pos, comment.end), reflection.comment);
                 });
             }
         }
@@ -51,25 +57,26 @@ module TypeDoc.Factories
          *
          * @param event  The event containing the reflection to resolve.
          */
-        private onResolve(event:ReflectionEvent) {
-            var reflection = event.reflection;
-            if (reflection.signatures) {
+        private onResolve(reflection:DeclarationReflection) {
+            if (!(reflection instanceof DeclarationReflection)) return;
+            var signatures = reflection.getAllSignatures();
+            if (signatures.length) {
                 var comment = reflection.comment;
                 if (comment && comment.hasTag('returns')) {
                     comment.returns = comment.getTag('returns').text;
-                    CommentHandler.removeTags(comment, 'returns');
+                    CommentPlugin.removeTags(comment, 'returns');
                 }
 
-                reflection.signatures.forEach((signature) => {
+                signatures.forEach((signature) => {
                     var childComment = signature.comment;
                     if (childComment && childComment.hasTag('returns')) {
                         childComment.returns = childComment.getTag('returns').text;
-                        CommentHandler.removeTags(childComment, 'returns');
+                        CommentPlugin.removeTags(childComment, 'returns');
                     }
 
                     if (comment) {
                         if (!childComment) {
-                            childComment = signature.comment = new Models.Comment();
+                            childComment = signature.comment = new Comment();
                         }
 
                         childComment.shortText = childComment.shortText || comment.shortText;
@@ -77,36 +84,22 @@ module TypeDoc.Factories
                         childComment.returns   = childComment.returns   || comment.returns;
                     }
 
-                    signature.children.forEach((parameter) => {
-                        var tag;
-                        if (childComment)    tag = childComment.getTag('param', parameter.name);
-                        if (comment && !tag) tag = comment.getTag('param', parameter.name);
-                        if (tag) {
-                            parameter.comment = new Models.Comment(tag.text);
-                        }
-                    });
+                    if (signature.parameters) {
+                        signature.parameters.forEach((parameter) => {
+                            var tag;
+                            if (childComment)    tag = childComment.getTag('param', parameter.name);
+                            if (comment && !tag) tag = comment.getTag('param', parameter.name);
+                            if (tag) {
+                                parameter.comment = new Comment(tag.text);
+                            }
+                        });
+                    }
 
-                    CommentHandler.removeTags(childComment, 'param');
+                    CommentPlugin.removeTags(childComment, 'param');
                 });
 
-                CommentHandler.removeTags(comment, 'param');
+                CommentPlugin.removeTags(comment, 'param');
             }
-        }
-
-
-        /**
-         * Test whether the given TypeScript comment instance is a doc comment.
-         *
-         * @param comment  The TypeScript comment that should be tested.
-         * @returns        True when the comment is a doc comment, otherwise false.
-         */
-        static isDocComment(comment:TypeScript.Comment):boolean {
-            if (comment.kind() === TypeScript.SyntaxKind.MultiLineCommentTrivia) {
-                var fullText = comment.fullText();
-                return fullText.charAt(2) === "*" && fullText.charAt(3) !== "/";
-            }
-
-            return false;
         }
 
 
@@ -116,7 +109,7 @@ module TypeDoc.Factories
          * @param comment  The comment that should be modified.
          * @param tagName  The name of the that that should be removed.
          */
-        static removeTags(comment:Models.Comment, tagName:string) {
+        static removeTags(comment:Comment, tagName:string) {
             if (!comment || !comment.tags) return;
 
             var i = 0, c = comment.tags.length;
@@ -132,63 +125,13 @@ module TypeDoc.Factories
 
 
         /**
-         * Find all doc comments associated with the declaration of the given state
-         * and return their plain text.
-         *
-         * Variable declarations need a special treatment, their comments are stored with the
-         * surrounding VariableStatement ast element. Their ast hierarchy looks like this:
-         * > VariableStatement &#8594; VariableDeclaration &#8594; SeparatedList &#8594; VariableDeclarator
-         *
-         * This reflect the possibility of JavaScript to define multiple variables with a single ```var```
-         * statement. We therefore have to check whether the VariableStatement contains only one variable
-         * and then can assign the comment of the VariableStatement to the VariableDeclarator declaration.
-         *
-         * @param state  The state containing the declaration whose comments should be extracted.
-         * @returns A list of all doc comments associated with the state.
-         */
-        static findComments(state:DeclarationState):string[] {
-            var decl = state.declaration;
-            var ast  = decl.ast();
-
-            if (ast.kind() == TypeScript.SyntaxKind.VariableDeclarator) {
-                var list = ast.parent;
-                if (list.kind() != TypeScript.SyntaxKind.SeparatedList) {
-                    return [];
-                }
-
-                var snapshot   = state.getSnapshot(ast.fileName());
-                var astSource  = snapshot.getText(ast.start(), ast.end());
-                var listSource = snapshot.getText(list.start(), list.end());
-                if (astSource != listSource) {
-                    return [];
-                }
-
-                ast = list.parent.parent;
-            }
-
-            var comments = ast.preComments();
-            if (!comments || comments.length == 0) {
-                return [];
-            }
-
-            var result = [];
-            comments.forEach((comment:TypeScript.Comment) => {
-                if (!CommentHandler.isDocComment(comment)) return;
-                result.push(comment.fullText());
-            });
-
-            return result;
-        }
-
-
-        /**
          * Parse the given doc comment string.
          *
          * @param text     The doc comment string that should be parsed.
          * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
          * @returns        A populated [[Models.Comment]] instance.
          */
-        static parseDocComment(text:string, comment:Models.Comment = new Models.Comment()):Models.Comment {
+        static parseComment(text:string, comment:Comment = new Comment()):Comment {
             function consumeTypeData(line:string):string {
                 line = line.replace(/^\{[^\}]*\}/, '');
                 line = line.replace(/^\[[^\]]*\]/, '');
@@ -198,7 +141,7 @@ module TypeDoc.Factories
             text = text.replace(/^\s*\/\*+/, '');
             text = text.replace(/\*+\/\s*$/, '');
 
-            var currentTag:Models.CommentTag;
+            var currentTag:CommentTag;
             var shortText:number = 0;
             var lines = text.split(/\r\n?|\n/);
             lines.forEach((line) => {
@@ -223,7 +166,7 @@ module TypeDoc.Factories
                         line = consumeTypeData(line);
                     }
 
-                    currentTag = new Models.CommentTag(tagName, paramName, line);
+                    currentTag = new CommentTag(tagName, paramName, line);
                     if (!comment.tags) comment.tags = [];
                     comment.tags.push(currentTag);
                 } else {
@@ -252,5 +195,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(CommentHandler);
+    Converter.registerPlugin('CommentPlugin', CommentPlugin);
 }

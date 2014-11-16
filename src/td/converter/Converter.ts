@@ -26,18 +26,27 @@ module td
     }
 
 
-    export enum SignatureType
-    {
-        Call,
-        Constructor,
-        Index,
-        Get,
-        Set
+    export interface IConverterScope {
+        getTypeChecker():ts.TypeChecker;
+        getProject():ProjectReflection;
     }
 
 
     export class Converter extends PluginHost
     {
+        static EVENT_BEGIN:string = 'begin';
+        static EVENT_END:string = 'end';
+
+        static EVENT_FILE_BEGIN:string = 'fileBegin';
+        static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
+        static EVENT_CREATE_SIGNATURE:string = 'createSignature';
+
+        static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
+        static EVENT_RESOLVE_END:string = 'resolveEnd';
+        static EVENT_RESOLVE:string = 'resolveReflection';
+
+
+
         constructor() {
             super();
             this.plugins = Converter.loadPlugins(this);
@@ -52,15 +61,20 @@ module td
          */
         convert(fileNames:string[], settings:Settings):IConverterResult {
             var dispatcher = this;
-            var host       = this.createCompilerHost(settings.compilerOptions);
-            var program    = ts.createProgram(fileNames, settings.compilerOptions, host);
-            var checker    = program.getTypeChecker(true);
-            var project    = new ProjectReflection(settings.name);
+            var host = this.createCompilerHost(settings.compilerOptions);
+            var program = ts.createProgram(fileNames, settings.compilerOptions, host);
+            var checker = program.getTypeChecker(true);
+            var project = new ProjectReflection(settings.name);
 
-            var isInherit             = false;
+            var isInherit = false;
             var inheritParent:ts.Node = null;
-            var inherited:string[]    = [];
+            var inherited:string[] = [];
             var typeParameters:{[name:string]:Type} = {};
+
+            var scope:IConverterScope = {
+                getTypeChecker: () => checker,
+                getProject: () => project
+            }
 
             return compile();
 
@@ -68,14 +82,20 @@ module td
             function compile():IConverterResult {
                 var errors = program.getDiagnostics();
                 errors = errors.concat(checker.getDiagnostics());
+                dispatcher.dispatch(Converter.EVENT_BEGIN, scope)
 
                 program.getSourceFiles().forEach((sourceFile) => {
+                    dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, sourceFile, scope)
                     visitSourceFile(sourceFile, project);
                 });
 
+                dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, scope)
                 project.reflections.forEach((reflection) => {
-                    dispatcher.dispatch('resolve', project, reflection)
+                    dispatcher.dispatch(Converter.EVENT_RESOLVE, reflection, scope)
                 });
+
+                dispatcher.dispatch(Converter.EVENT_RESOLVE_END, scope)
+                dispatcher.dispatch(Converter.EVENT_END, scope)
 
                 return {
                     errors: errors,
@@ -109,12 +129,12 @@ module td
                 if (!container.children) container.children = {};
                 if (!container.children[name]) {
                     child = new DeclarationReflection(container, name, kind);
-                    child.isPrivate   = !!(node.flags & ts.NodeFlags['Private']);
+                    child.isPrivate = !!(node.flags & ts.NodeFlags['Private']);
                     child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
-                    child.isPublic    = !!(node.flags & ts.NodeFlags['Public']);
-                    child.isStatic    = !!(node.flags & ts.NodeFlags['Static']);
-                    child.isExported  = !!(node.flags & ts.NodeFlags['Export']);
-                    child.isOptional  = !!(node.flags & ts.NodeFlags['QuestionMark']);
+                    child.isPublic = !!(node.flags & ts.NodeFlags['Public']);
+                    child.isStatic = !!(node.flags & ts.NodeFlags['Static']);
+                    child.isExported = !!(node.flags & ts.NodeFlags['Export']);
+                    child.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
 
                     if (container.kind == ReflectionKind.Class && node.parent.kind != ts.SyntaxKind['ClassDeclaration']) {
                         child.isStatic = true;
@@ -134,8 +154,7 @@ module td
                     }
                 }
 
-                createSourceReference(child, node);
-                createComment(child, node);
+                dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, child, node, scope);
                 return child;
             }
 
@@ -162,8 +181,7 @@ module td
                         signature.type = extractType(node.type, checker.getTypeOfNode(node));
                     }
 
-                    createSourceReference(signature, node);
-                    createComment(signature, node);
+                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, signature, node, scope);
                 });
 
                 return signature;
@@ -181,39 +199,6 @@ module td
                 signature.parameters.push(parameter);
 
                 registerReflection(parameter, node);
-            }
-
-
-            function createSourceReference(reflection:ISourceContainer, node:ts.Node) {
-                var sourceFile = ts.getSourceFileOfNode(node);
-                var fileName = sourceFile.filename;
-                var file:SourceFile;
-                if (!project.files[fileName]) {
-                    file = project.files[fileName] = new SourceFile(fileName);
-                } else {
-                    file = project.files[fileName];
-                }
-
-                var position = sourceFile.getLineAndCharacterFromPosition(node.pos);
-
-                if (!reflection.sources) reflection.sources = [];
-                reflection.sources.push({
-                    file:      file,
-                    fileName:  fileName,
-                    line:      position.line,
-                    character: position.character
-                });
-            }
-
-
-            function createComment(reflection:ICommentContainer, node:ts.Node) {
-                var sourceFile = ts.getSourceFileOfNode(node);
-                var comments = ts.getJsDocComments(node, sourceFile);
-                if (comments) {
-                    comments.forEach((comment) => {
-                        reflection.comment = parseComment(sourceFile.text.substring(comment.pos, comment.end), reflection.comment);
-                    });
-                }
             }
 
 
@@ -385,17 +370,17 @@ module td
              * @return The resulting reflection.
              */
             function inherit(node:ts.Node, target:ContainerReflection, typeArguments?:Type[]):Reflection {
-                var wasInherit       = isInherit;
-                var oldInherited     = inherited;
+                var wasInherit = isInherit;
+                var oldInherited = inherited;
                 var oldInheritParent = inheritParent;
-                isInherit     = true;
+                isInherit = true;
                 inheritParent = node;
-                inherited     = target.children ? Object.keys(target.children) : [];
+                inherited = target.children ? Object.keys(target.children) : [];
 
                 visit(node, target, typeArguments);
 
-                isInherit     = wasInherit;
-                inherited     = oldInherited;
+                isInherit = wasInherit;
+                inherited = oldInherited;
                 inheritParent = oldInheritParent;
                 return target;
             }
@@ -498,7 +483,7 @@ module td
                 if (node.flags & ts.NodeFlags['DeclarationFile']) {
                     return;
 
-                // TypeScript 1.3: ts.shouldEmitToOwnFile(node, settings.compilerOptions)
+                    // TypeScript 1.3: ts.shouldEmitToOwnFile(node, settings.compilerOptions)
                 } else if ((ts.isExternalModule(node) || !settings.compilerOptions.out)) {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                 }
@@ -704,8 +689,6 @@ module td
                         var signature = createSignature(method, node, '__constructor', ReflectionKind.ConstructorSignature);
                         method.constructorSignatures = method.constructorSignatures || [];
                         method.constructorSignatures.push(signature);
-                    } else {
-                        createSourceReference(method, node);
                     }
                 }
 
@@ -728,10 +711,8 @@ module td
                 if (method) {
                     if (!hasBody || !method.callSignatures) {
                         var signature = createSignature(method, node, '__call', ReflectionKind.CallSignature);
-                        method.callSignatures = method.callSignatures || [];
+                        if (!method.callSignatures) method.callSignatures = [];
                         method.callSignatures.push(signature);
-                    } else {
-                        createSourceReference(method, node);
                     }
                 }
 
@@ -750,7 +731,7 @@ module td
             function visitCallSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
                     var signature = createSignature(<DeclarationReflection>scope, node, '__call', ReflectionKind.CallSignature);
-                    scope.callSignatures = scope.callSignatures || [];
+                    if (!scope.callSignatures) scope.callSignatures = [];
                     scope.callSignatures.push(signature);
                 }
 
@@ -769,7 +750,6 @@ module td
             function visitIndexSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
                     var signature = createSignature(<DeclarationReflection>scope, node, '__index', ReflectionKind.IndexSignature);
-                    signature.name = '__index';
                     scope.indexSignature = signature;
                 }
 
@@ -787,8 +767,7 @@ module td
             function visitGetAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection):Reflection {
                 var accessor = createDeclaration(scope, node, ReflectionKind.Accessor);
                 if (accessor) {
-                    var signature = createSignature(accessor, node, '__get', ReflectionKind.Getter);
-                    signature.name = '__get';
+                    var signature = createSignature(accessor, node, '__get', ReflectionKind.GetSignature);
                     accessor.getSignature = signature;
                 }
 
@@ -806,8 +785,7 @@ module td
             function visitSetAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection):Reflection {
                 var accessor = createDeclaration(scope, node, ReflectionKind.Accessor);
                 if (accessor) {
-                    var signature = createSignature(accessor, node, '__set', ReflectionKind.Setter);
-                    signature.name = '__set';
+                    var signature = createSignature(accessor, node, '__set', ReflectionKind.SetSignature);
                     accessor.setSignature = signature;
                 }
 
@@ -848,73 +826,6 @@ module td
                 }
 
                 return scope;
-            }
-
-
-            /**
-             * Parse the given doc comment string.
-             *
-             * @param text     The doc comment string that should be parsed.
-             * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
-             * @returns        A populated [[Models.Comment]] instance.
-             */
-            function parseComment(text:string, comment:Comment = new Comment()):Comment {
-                function consumeTypeData(line:string):string {
-                    line = line.replace(/^\{[^\}]*\}/, '');
-                    line = line.replace(/^\[[^\]]*\]/, '');
-                    return line.trim();
-                }
-
-                text = text.replace(/^\s*\/\*+/, '');
-                text = text.replace(/\*+\/\s*$/, '');
-
-                var currentTag:CommentTag;
-                var shortText:number = 0;
-                var lines = text.split(/\r\n?|\n/);
-                lines.forEach((line) => {
-                    line = line.replace(/^\s*\*? ?/, '');
-                    line = line.replace(/\s*$/, '');
-
-                    var tag = /^@(\w+)/.exec(line);
-                    if (tag) {
-                        var tagName = tag[1].toLowerCase();
-                        line = line.substr(tagName.length + 1).trim();
-
-                        if (tagName == 'return') tagName = 'returns';
-                        if (tagName == 'param') {
-                            line = consumeTypeData(line);
-                            var param = /[^\s]+/.exec(line);
-                            if (param) {
-                                var paramName = param[0];
-                                line = line.substr(paramName.length + 1).trim();
-                            }
-                            line = consumeTypeData(line);
-                        } else if (tagName == 'returns') {
-                            line = consumeTypeData(line);
-                        }
-
-                        currentTag = new CommentTag(tagName, paramName, line);
-                        if (!comment.tags) comment.tags = [];
-                        comment.tags.push(currentTag);
-                    } else {
-                        if (currentTag) {
-                            currentTag.text += '\n' + line;
-                        } else if (line == '' && shortText == 0) {
-                            // Ignore
-                        } else if (line == '' && shortText == 1) {
-                            shortText = 2;
-                        } else {
-                            if (shortText == 2) {
-                                comment.text += (comment.text == '' ? '' : '\n') + line;
-                            } else {
-                                comment.shortText += (comment.shortText == '' ? '' : '\n') + line;
-                                shortText = 1;
-                            }
-                        }
-                    }
-                });
-
-                return comment;
             }
         }
 

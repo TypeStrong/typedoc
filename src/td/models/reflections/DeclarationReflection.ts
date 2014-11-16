@@ -225,6 +225,17 @@ module td
             return this.kindOf(TypeScript.PullElementKind.SomeContainer);
         }
          */
+        getAllSignatures():SignatureReflection[] {
+            var result = [];
+
+            if (this.callSignatures) result = result.concat(this.callSignatures);
+            if (this.constructorSignatures) result = result.concat(this.constructorSignatures);
+            if (this.indexSignature) result.push(this.indexSignature);
+            if (this.getSignature) result.push(this.getSignature);
+            if (this.setSignature) result.push(this.setSignature);
+
+            return result;
+        }
 
 
         /**

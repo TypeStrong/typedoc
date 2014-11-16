@@ -1,10 +1,12 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * A handler that attaches source file information to reflections.
      */
-    export class SourceHandler extends BaseHandler
+    export class SourcePlugin implements IPluginInterface
     {
+        converter:Converter;
+
         /**
          * Helper for resolving the base path of all source files.
          */
@@ -13,7 +15,7 @@ module TypeDoc.Factories
         /**
          * A map of all generated [[SourceFile]] instances.
          */
-        private fileMappings:{[name:string]:Models.SourceFile} = {};
+        private fileMappings:{[name:string]:SourceFile} = {};
 
 
         /**
@@ -21,15 +23,33 @@ module TypeDoc.Factories
          *
          * @param dispatcher  The dispatcher this handler should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            this.converter = converter;
 
-            dispatcher.on(Dispatcher.EVENT_BEGIN,          this.onBegin,         this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
-            dispatcher.on(Dispatcher.EVENT_DECLARATION,    this.onDeclaration,   this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE,  this.onBeginResolve,  this);
-            dispatcher.on(Dispatcher.EVENT_RESOLVE,        this.onResolve,       this);
-            dispatcher.on(Dispatcher.EVENT_END_RESOLVE,    this.onEndResolve,    this, 512);
+            converter.on(Converter.EVENT_BEGIN,              this.onBegin,         this);
+            converter.on(Converter.EVENT_FILE_BEGIN,         this.onBeginDocument, this);
+            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,   this);
+            converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration,   this);
+            converter.on(Converter.EVENT_RESOLVE_BEGIN,      this.onBeginResolve,  this);
+            converter.on(Converter.EVENT_RESOLVE,            this.onResolve,       this);
+            converter.on(Converter.EVENT_RESOLVE_END,        this.onEndResolve,    this);
+        }
+
+
+        remove() {
+            this.converter.off(null, null, this);
+            this.converter = null;
+        }
+
+
+        private getSourceFile(fileName:string, scope:IConverterScope):SourceFile {
+            if (!this.fileMappings[fileName]) {
+                var file = new SourceFile(fileName);
+                this.fileMappings[fileName] = file;
+                scope.getProject().files.push(file);
+            }
+
+            return this.fileMappings[fileName];
         }
 
 
@@ -38,7 +58,7 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onBegin(event:DispatcherEvent) {
+        private onBegin() {
             this.basePath.reset();
             this.fileMappings = {};
         }
@@ -51,15 +71,10 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onBeginDocument(state:DocumentState) {
-            var fileName = state.document.fileName;
+        private onBeginDocument(sourceFile:ts.SourceFile, scope:IConverterScope) {
+            var fileName = sourceFile.filename;
             this.basePath.add(fileName);
-
-            if (!this.fileMappings[fileName]) {
-                var file = new Models.SourceFile(fileName);
-                this.fileMappings[fileName] = file;
-                state.project.files.push(file);
-            }
+            this.getSourceFile(fileName, scope);
         }
 
 
@@ -70,26 +85,22 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(state:DeclarationState) {
-            if (state.isInherited) {
-                if (state.kindOf([Models.Kind.Class, Models.Kind.Interface])) return;
-                if (state.reflection.overwrites) return;
-            } else if (!state.isSignature && !state.kindOf(Models.Kind.Parameter)) {
-                var fileName = state.originalDeclaration.ast().fileName();
-                if (this.fileMappings[fileName]) {
-                    this.fileMappings[fileName].reflections.push(state.reflection);
-                }
+        private onDeclaration(reflection:ISourceContainer, node:ts.Node, scope:IConverterScope) {
+            var sourceFile      = ts.getSourceFileOfNode(node);
+            var fileName        = sourceFile.filename;
+            var file:SourceFile = this.getSourceFile(fileName, scope);
+            var position        = sourceFile.getLineAndCharacterFromPosition(node.pos);
+
+            if (!reflection.sources) reflection.sources = [];
+            if (reflection instanceof DeclarationReflection) {
+                file.reflections.push(<DeclarationReflection>reflection);
             }
 
-            var ast      = state.declaration.ast();
-            var fileName = state.declaration.ast().fileName();
-            var snapshot = state.getSnapshot(fileName);
-
-            this.basePath.add(fileName);
-            state.reflection.sources.push({
-                file:     this.fileMappings[fileName],
+            reflection.sources.push({
+                file: file,
                 fileName: fileName,
-                line:     snapshot.getLineNumber(ast.start()) + 1
+                line: position.line,
+                character: position.character
             });
         }
 
@@ -99,8 +110,8 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onBeginResolve(event:DispatcherEvent) {
-            event.project.files.forEach((file) => {
+        private onBeginResolve(scope:IConverterScope) {
+            scope.getProject().files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
@@ -112,8 +123,9 @@ module TypeDoc.Factories
          *
          * @param event  The event containing the reflection to resolve.
          */
-        private onResolve(event:ReflectionEvent) {
-            event.reflection.sources.forEach((source) => {
+        private onResolve(reflection:ISourceContainer) {
+            if (!reflection.sources) return;
+            reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
@@ -124,18 +136,12 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onEndResolve(event:DispatcherEvent) {
-            var home = event.project.directory;
-            event.project.files.forEach((file) => {
+        private onEndResolve(scope:IConverterScope) {
+            var project = scope.getProject();
+            var home = project.directory;
+            project.files.forEach((file) => {
                 var reflections = [];
                 file.reflections.forEach((reflection) => {
-                    if (reflection.sources.length > 1) return;
-                    var parent = reflection.parent;
-                    while (!(parent instanceof Models.ProjectReflection)) {
-                        if (reflections.indexOf(<Models.DeclarationReflection>parent) != -1) return;
-                        parent = parent.parent;
-                    }
-
                     reflections.push(reflection);
                 });
 
@@ -144,14 +150,14 @@ module TypeDoc.Factories
                 if (path != '.') {
                     path.split('/').forEach((path) => {
                         if (!directory.directories[path]) {
-                            directory.directories[path] = new Models.SourceDirectory(path, directory);
+                            directory.directories[path] = new SourceDirectory(path, directory);
                         }
                         directory = directory.directories[path];
                     });
                 }
 
                 directory.files.push(file);
-                reflections.sort(GroupHandler.sortCallback);
+                // reflections.sort(GroupHandler.sortCallback);
                 file.parent = directory;
                 file.reflections = reflections;
             });
@@ -162,5 +168,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(SourceHandler);
+    Converter.registerPlugin('SourcePlugin', SourcePlugin);
 }

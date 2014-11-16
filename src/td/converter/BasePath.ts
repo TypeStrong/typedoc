@@ -1,4 +1,4 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * Helper class that determines the common base path of a set of files.
