@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * An event emitted by the [[Renderer]] class before and after the
@@ -14,7 +14,7 @@ module TypeDoc.Output
         /**
          * The project the renderer is currently processing.
          */
-        project:Models.ProjectReflection;
+        project:ProjectReflection;
 
         /**
          * The settings that have been passed to TypeDoc.
@@ -49,12 +49,12 @@ module TypeDoc.Output
         /**
          * The primary navigation structure of this page.
          */
-        navigation:Models.NavigationItem;
+        navigation:NavigationItem;
 
         /**
          * The table of contents structure of this page.
          */
-        toc:Models.NavigationItem;
+        toc:NavigationItem;
 
         /**
          * The final html content of this page.

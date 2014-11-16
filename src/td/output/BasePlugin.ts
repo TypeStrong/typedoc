@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * Base class of all plugins that can be attached to the [[Renderer]].

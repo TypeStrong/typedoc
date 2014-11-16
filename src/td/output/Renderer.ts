@@ -6,7 +6,7 @@
  * series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
  * alter the generated output.
  */
-module TypeDoc.Output
+module td
 {
     /**
      * Interface representation of a handlebars template.
@@ -14,6 +14,41 @@ module TypeDoc.Output
     export interface IHandlebarTemplate {
         (context?: any, options?: any):string;
     }
+
+
+    var existingDirectories:ts.Map<boolean> = {};
+
+
+    function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
+
+        function directoryExists(directoryPath: string): boolean {
+            if (ts.hasProperty(existingDirectories, directoryPath)) {
+                return true;
+            }
+            if (sys.directoryExists(directoryPath)) {
+                existingDirectories[directoryPath] = true;
+                return true;
+            }
+            return false;
+        }
+
+        function ensureDirectoriesExist(directoryPath: string) {
+            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
+                var parentDirectory = ts.getDirectoryPath(directoryPath);
+                ensureDirectoriesExist(parentDirectory);
+                sys.createDirectory(directoryPath);
+            }
+        }
+
+        try {
+            ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
+            sys.writeFile(fileName, data, writeByteOrderMark);
+        }
+        catch (e) {
+            if (onError) onError(e.message);
+        }
+    }
+
 
 
     /**
@@ -205,7 +240,7 @@ module TypeDoc.Output
          * @param project  The project that should be rendered.
          * @param outputDirectory  The path of the directory the documentation should be rendered to.
          */
-        render(project:Models.ProjectReflection, outputDirectory:string) {
+        render(project:ProjectReflection, outputDirectory:string) {
             this.application.log('Starting renderer', LogLevel.Verbose);
 
             if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
@@ -220,7 +255,7 @@ module TypeDoc.Output
 
             this.dispatch(Renderer.EVENT_BEGIN, output);
             if (!output.isDefaultPrevented) {
-                output.urls.forEach((mapping:Models.UrlMapping) => {
+                output.urls.forEach((mapping:UrlMapping) => {
                     this.renderDocument(output.createPageEvent(mapping));
                 });
 
@@ -252,7 +287,7 @@ module TypeDoc.Output
             }
 
             try {
-                TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, page.filename, page.contents, true);
+                writeFile(page.filename, page.contents, true);
             } catch (error) {
                 this.application.log(Util.format('Error: Could not write %s', page.filename), LogLevel.Error);
                 return false;

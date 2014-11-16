@@ -40,7 +40,7 @@ module td
      * All classes should expect this interface allowing other third parties
      * to use their own implementation.
      */
-    export interface IApplication
+    export interface IApplication extends ILogger
     {
         /**
          * The settings used by the dispatcher and the renderer.

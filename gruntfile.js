@@ -37,6 +37,14 @@ module.exports = function(grunt)
                     'src/td/models/types/TupleType.ts',
                     'src/td/models/types/TypeParameterType.ts',
                     'src/td/models/types/UnknownType.ts',
+                    'src/td/models/renderer/NavigationItem.ts',
+                    'src/td/models/renderer/UrlMapping.ts',
+                    'src/td/output/BasePlugin.ts',
+                    'src/td/output/BaseTheme.ts',
+                    'src/td/output/DefaultTheme.ts',
+                    'src/td/output/Renderer.ts',
+                    'src/td/output/events/OutputEvent.ts',
+                    'src/td/output/events/OutputPageEvent.ts',
                     'src/~bootstrap.ts'
                 ],
                 out: 'bin/typedoc.js'

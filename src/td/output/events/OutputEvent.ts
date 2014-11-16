@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * An event emitted by the [[Renderer]] class at the very beginning and
@@ -12,7 +12,7 @@ module TypeDoc.Output
         /**
          * The project the renderer is currently processing.
          */
-        project:Models.ProjectReflection;
+        project:ProjectReflection;
 
         /**
          * The settings that have been passed to TypeDoc.
@@ -29,7 +29,7 @@ module TypeDoc.Output
          *
          * This list can be altered during the [[Renderer.EVENT_BEGIN]] event.
          */
-        urls:Models.UrlMapping[];
+        urls:UrlMapping[];
 
 
         /**
@@ -39,7 +39,7 @@ module TypeDoc.Output
          * @param mapping  The mapping that defines the generated [[OutputPageEvent]] state.
          * @returns A newly created [[OutputPageEvent]] instance.
          */
-        public createPageEvent(mapping:Models.UrlMapping):OutputPageEvent {
+        public createPageEvent(mapping:UrlMapping):OutputPageEvent {
             var event = new OutputPageEvent();
             event.project      = this.project;
             event.settings     = this.settings;

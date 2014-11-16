@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * Base class of all themes.
@@ -100,7 +100,7 @@ module TypeDoc.Output
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project:Models.ProjectReflection):Models.UrlMapping[] {
+        getUrls(project:ProjectReflection):UrlMapping[] {
             return [];
         }
 
@@ -118,7 +118,7 @@ module TypeDoc.Output
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project:Models.ProjectReflection):Models.NavigationItem {
+        getNavigation(project:ProjectReflection):NavigationItem {
             return null;
         }
     }

@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td
 {
     /**
      *

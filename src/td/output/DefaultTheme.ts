@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -10,7 +10,7 @@ module TypeDoc.Output
         /**
          * [[DeclarationReflection.kind]] this rule applies to.
          */
-        kind:TypeScript.PullElementKind[];
+        kind:ReflectionKind;
 
         /**
          * Can this mapping have children or should all further reflections be rendered
@@ -40,32 +40,27 @@ module TypeDoc.Output
          * Mappings of reflections kinds to templates used by this theme.
          */
         static MAPPINGS:ITemplateMapping[] = [{
-            kind:      [TypeScript.PullElementKind.Class],
+            kind:      [ReflectionKind.Class],
             isLeaf:    true,
             directory: 'classes',
             template:  'reflection.hbs'
         },{
-            kind:      [TypeScript.PullElementKind.Interface],
+            kind:      [ReflectionKind.Interface],
             isLeaf:    true,
             directory: 'interfaces',
             template:  'reflection.hbs'
         },{
-            kind:      [TypeScript.PullElementKind.Enum],
+            kind:      [ReflectionKind.Enum],
             isLeaf:    true,
             directory: 'enums',
             template:  'reflection.hbs'
         },{
-            kind:      [TypeScript.PullElementKind.Container, TypeScript.PullElementKind.DynamicModule],
+            kind:      [ReflectionKind.Module, ReflectionKind.ExternalModule],
             isLeaf:    false,
             directory: 'modules',
             template:  'reflection.hbs'
         },{
-            kind:      [TypeScript.PullElementKind.Script],
-            isLeaf:    false,
-            directory: 'scripts',
-            template:  'reflection.hbs'
-        }, {
-            kind:      [TypeScript.PullElementKind.ObjectLiteral],
+            kind:      [ReflectionKind.ObjectLiteral],
             isLeaf:    false,
             directory: 'objects',
             template:  'reflection.hbs'
@@ -109,16 +104,16 @@ module TypeDoc.Output
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project:Models.ProjectReflection):Models.UrlMapping[] {
+        getUrls(project:ProjectReflection):UrlMapping[] {
             var urls = [];
 
             if (this.renderer.application.settings.readme == 'none') {
                 project.url = 'index.html';
-                urls.push(new Models.UrlMapping('index.html', project, 'reflection.hbs'));
+                urls.push(new UrlMapping('index.html', project, 'reflection.hbs'));
             } else {
                 project.url = 'globals.html';
-                urls.push(new Models.UrlMapping('globals.html', project, 'reflection.hbs'));
-                urls.push(new Models.UrlMapping('index.html',   project, 'index.hbs'));
+                urls.push(new UrlMapping('globals.html', project, 'reflection.hbs'));
+                urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
             }
 
             project.children.forEach((child) => {
@@ -135,14 +130,14 @@ module TypeDoc.Output
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project:Models.ProjectReflection):Models.NavigationItem {
+        getNavigation(project:ProjectReflection):NavigationItem {
             /**
              * Test whether the given list of modules contains an external module.
              *
              * @param modules  The list of modules to test.
              * @returns        TRUE if any of the modules is marked as being external.
              */
-            function containsExternals(modules:Models.DeclarationReflection[]):boolean {
+            function containsExternals(modules:DeclarationReflection[]):boolean {
                 for (var index = 0, length = modules.length; index < length; index++) {
                     if (modules[index].isExternal) return true;
                 }
@@ -155,8 +150,8 @@ module TypeDoc.Output
              *
              * @param modules  The list of modules that should be sorted.
              */
-            function sortReflections(modules:Models.DeclarationReflection[]) {
-                modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
+            function sortReflections(modules:DeclarationReflection[]) {
+                modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
                     if (a.isExternal && !b.isExternal) return  1;
                     if (!a.isExternal && b.isExternal) return -1;
                     return a.getFullName() < b.getFullName() ? -1 : 1;
@@ -171,7 +166,7 @@ module TypeDoc.Output
              * @param reflection  The reflection whose children urls should be included.
              * @param item        The navigation node whose dedicated urls should be set.
              */
-            function includeDedicatedUrls(reflection:Models.DeclarationReflection, item:Models.NavigationItem) {
+            function includeDedicatedUrls(reflection:DeclarationReflection, item:NavigationItem) {
                 (function walk(reflection) {
                     reflection.children.forEach((child) => {
                         if (child.hasOwnDocument && !child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
@@ -189,14 +184,14 @@ module TypeDoc.Output
              * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
              * @param parent      The parent NavigationItem of the newly created nodes.
              */
-            function buildChildren(reflection:Models.DeclarationReflection, parent:Models.NavigationItem) {
+            function buildChildren(reflection:DeclarationReflection, parent:NavigationItem) {
                 var modules = reflection.getChildrenByKind(TypeScript.PullElementKind.SomeContainer);
-                modules.sort((a:Models.DeclarationReflection, b:Models.DeclarationReflection) => {
+                modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
                     return a.getFullName() < b.getFullName() ? -1 : 1;
                 });
 
                 modules.forEach((reflection) => {
-                    var item = Models.NavigationItem.create(reflection, parent);
+                    var item = NavigationItem.create(reflection, parent);
                     includeDedicatedUrls(reflection, item);
                     buildChildren(reflection, item);
                 });
@@ -211,22 +206,22 @@ module TypeDoc.Output
              * @param parent       The parent NavigationItem of the newly created nodes.
              * @param callback     Optional callback invoked for each generated node.
              */
-            function buildGroups(reflections:Models.DeclarationReflection[], parent:Models.NavigationItem,
-                                 callback?:(reflection:Models.DeclarationReflection, item:Models.NavigationItem) => void) {
+            function buildGroups(reflections:DeclarationReflection[], parent:NavigationItem,
+                                 callback?:(reflection:DeclarationReflection, item:NavigationItem) => void) {
                 var state = -1;
                 var hasExternals = containsExternals(reflections);
                 sortReflections(reflections);
 
                 reflections.forEach((reflection) => {
                     if (hasExternals && !reflection.isExternal && state != 1) {
-                        new Models.NavigationItem('Internals', null, parent, "tsd-is-external");
+                        new NavigationItem('Internals', null, parent, "tsd-is-external");
                         state = 1;
                     } else if (hasExternals && reflection.isExternal && state != 2) {
-                        new Models.NavigationItem('Externals', null, parent, "tsd-is-external");
+                        new NavigationItem('Externals', null, parent, "tsd-is-external");
                         state = 2;
                     }
 
-                    var item = Models.NavigationItem.create(reflection, parent);
+                    var item = NavigationItem.create(reflection, parent);
                     includeDedicatedUrls(reflection, item);
                     if (callback) callback(reflection, item);
                 });
@@ -239,9 +234,9 @@ module TypeDoc.Output
              * @param hasSeparateGlobals  Has the project a separated globals.html file?
              * @return                    The root node of the generated navigation structure.
              */
-            function build(hasSeparateGlobals:boolean):Models.NavigationItem {
-                var root = new Models.NavigationItem('Index', 'index.html');
-                var globals = new Models.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+            function build(hasSeparateGlobals:boolean):NavigationItem {
+                var root = new NavigationItem('Index', 'index.html');
+                var globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
                 globals.isGlobals = true;
 
                 var modules = project.getReflectionsByKind(TypeScript.PullElementKind.SomeContainer);
@@ -287,11 +282,11 @@ module TypeDoc.Output
          * @param separator   The separator used to generate the url.
          * @returns           The generated url.
          */
-        static getUrl(reflection:Models.BaseReflection, relative?:Models.BaseReflection, separator:string = '.'):string {
+        static getUrl(reflection:BaseReflection, relative?:BaseReflection, separator:string = '.'):string {
             var url = reflection.getAlias();
 
             if (reflection.parent && reflection.parent != relative &&
-                !(reflection.parent instanceof Models.ProjectReflection))
+                !(reflection.parent instanceof ProjectReflection))
                 url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
 
             return url;
@@ -304,7 +299,7 @@ module TypeDoc.Output
          * @param reflection  The reflection whose mapping should be resolved.
          * @returns           The found mapping or NULL if no mapping could be found.
          */
-        static getMapping(reflection:Models.DeclarationReflection):ITemplateMapping {
+        static getMapping(reflection:DeclarationReflection):ITemplateMapping {
             for (var i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
                 var mapping = DefaultTheme.MAPPINGS[i];
                 if (reflection.kindOf(mapping.kind)) {
@@ -323,11 +318,11 @@ module TypeDoc.Output
          * @param urls        The array the url should be appended to.
          * @returns           The altered urls array.
          */
-        static buildUrls(reflection:Models.DeclarationReflection, urls:Models.UrlMapping[]):Models.UrlMapping[] {
+        static buildUrls(reflection:DeclarationReflection, urls:UrlMapping[]):UrlMapping[] {
             var mapping = DefaultTheme.getMapping(reflection);
             if (mapping) {
                 var url = Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
-                urls.push(new Models.UrlMapping(url, reflection, mapping.template));
+                urls.push(new UrlMapping(url, reflection, mapping.template));
 
                 reflection.url            = url;
                 reflection.anchor         = null;
@@ -354,7 +349,7 @@ module TypeDoc.Output
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection:Models.DeclarationReflection, container:Models.BaseReflection) {
+        static applyAnchorUrl(reflection:DeclarationReflection, container:BaseReflection) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
             if (reflection.isStatic) {
                 anchor = 'static-' + anchor;
@@ -365,7 +360,7 @@ module TypeDoc.Output
             reflection.hasOwnDocument = false;
 
             reflection.children.forEach((child) => {
-                if (!child.kindOf(Models.Kind.Parameter)) {
+                if (!child.kindOf(Kind.Parameter)) {
                     DefaultTheme.applyAnchorUrl(child, container);
                 }
             });
@@ -378,13 +373,13 @@ module TypeDoc.Output
          *
          * @param reflection  The reflection whose cssClasses property should be generated.
          */
-        static applyReflectionClasses(reflection:Models.DeclarationReflection) {
+        static applyReflectionClasses(reflection:DeclarationReflection) {
             var classes = [];
-            var kind    = Models.Kind[reflection.kind];
+            var kind    = Kind[reflection.kind];
             classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
 
-            if (reflection.parent && reflection.parent instanceof Models.DeclarationReflection) {
-                kind = Models.Kind[(<Models.DeclarationReflection>reflection.parent).kind];
+            if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
+                kind = Kind[(<DeclarationReflection>reflection.parent).kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
             }
 
@@ -405,7 +400,7 @@ module TypeDoc.Output
          *
          * @param group  The reflection group whose cssClasses property should be generated.
          */
-        static applyGroupClasses(group:Models.ReflectionGroup) {
+        static applyGroupClasses(group:ReflectionGroup) {
             var classes = [];
             if (group.allChildrenAreInherited)  classes.push('tsd-is-inherited');
             if (group.allChildrenArePrivate)    classes.push('tsd-is-private');

@@ -1,4 +1,4 @@
-module TypeDoc.Models
+module td
 {
     /**
      * A hierarchical model holding the data of single node within the navigation.
@@ -98,7 +98,7 @@ module TypeDoc.Models
          * @param parent         The parent navigation node.
          * @param useShortNames  Force this function to always use short names.
          */
-        static create(reflection:Models.DeclarationReflection, parent?:Models.NavigationItem, useShortNames?:boolean) {
+        static create(reflection:DeclarationReflection, parent?:NavigationItem, useShortNames?:boolean) {
             var name;
             if (useShortNames || (parent && parent.parent)) {
                 name = reflection.name;
@@ -111,7 +111,7 @@ module TypeDoc.Models
                 name = '<em>' + reflection.kindString + '</em>';
             }
 
-            return new Models.NavigationItem(name, reflection.url, parent, reflection.cssClasses);
+            return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
         }
     }
 }
