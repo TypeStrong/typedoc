@@ -481,12 +481,10 @@ module td
              * @return The resulting reflection or NULL.
              */
             function visitSourceFile(node:ts.SourceFile, scope:ContainerReflection):Reflection {
-                // TypeScript 1.3: ts.isDeclarationFile(node)
-                if (node.flags & ts.NodeFlags['DeclarationFile']) {
+                if (ts.isDeclarationFile(node)) {
                     return;
 
-                    // TypeScript 1.3: ts.shouldEmitToOwnFile(node, settings.compilerOptions)
-                } else if ((ts.isExternalModule(node) || !settings.compilerOptions.out)) {
+                } else if (ts.shouldEmitToOwnFile(node, settings.compilerOptions)) {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                 }
 
