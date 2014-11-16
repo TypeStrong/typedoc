@@ -1,21 +1,19 @@
-module TypeDoc.Models
+module td
 {
-    export class ReflectionType extends BaseType
+
+    export class ReflectionType extends Type
     {
-        reflection:DeclarationReflection;
-
-        isArray:boolean;
+        declaration:DeclarationReflection;
 
 
-        constructor(reflection:DeclarationReflection, isArray:boolean) {
+        constructor(declaration:DeclarationReflection) {
             super();
-            this.reflection = reflection;
-            this.isArray = isArray;
+            this.declaration = declaration;
         }
 
 
-        toString():string {
-            return this.reflection.name;
+        toString() {
+            return 'object';
         }
     }
 }

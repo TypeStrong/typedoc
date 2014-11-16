@@ -1,4 +1,4 @@
-module td.models
+module td
 {
     /**
      * A group of reflections. All reflections in a group are of the same kind.
@@ -17,7 +17,7 @@ module td.models
         /**
          * The original typescript kind of the children of this group.
          */
-        kind:ts.SyntaxKind;
+        kind:ReflectionKind;
 
         /**
          * All reflections of this group.
@@ -65,17 +65,16 @@ module td.models
          * @param title The title of this group.
          * @param kind  The original typescript kind of the children of this group.
          */
-        constructor(title:string, kind:ts.SyntaxKind) {
+        constructor(title:string, kind:ReflectionKind) {
             this.title = title;
             this.kind = kind;
 
-            this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
+            // this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
         }
 
 
         /**
          * Do all children of this group have a separate document?
-         */
         private getAllChildrenHaveOwnDocument():boolean {
             var onlyOwnDocuments = true;
             this.children.forEach((child) => {
@@ -84,5 +83,6 @@ module td.models
 
             return onlyOwnDocuments;
         }
+         */
     }
 }

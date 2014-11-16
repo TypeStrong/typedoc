@@ -1,6 +1,6 @@
-module TypeDoc.Models
+module td
 {
-    export class StringConstantType extends BaseType
+    export class StringLiteralType extends Type
     {
         value:string;
 

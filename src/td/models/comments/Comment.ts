@@ -1,4 +1,4 @@
-module td.models
+module td
 {
     /**
      * A model that represents a javadoc comment.
@@ -46,7 +46,7 @@ module td.models
          * @returns TRUE when this comment has a visible component.
          */
         hasVisibleComponent():boolean {
-            return !!this.shortText || !!this.text || !!this.tags;
+            return <boolean>(this.shortText || this.text || this.tags);
         }
 
 

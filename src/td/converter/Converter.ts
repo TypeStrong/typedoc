@@ -1,8 +1,6 @@
-/// <reference path="../models/comments/Comment.ts" />
-/// <reference path="../models/comments/CommentTag.ts" />
 /// <reference path="../PluginHost.ts" />
 
-module td.converter
+module td
 {
     /**
      * Return a string that explains the given flag bit mask.
@@ -38,377 +36,6 @@ module td.converter
     }
 
 
-    export interface ISourceReference
-    {
-        file:ISourceFile;
-
-        line:number;
-
-        character:number;
-    }
-
-
-    export interface ISourceFile
-    {
-        fileName:string;
-    }
-
-
-    export interface ISourceContainer extends Reflection
-    {
-        sources:ISourceReference[];
-    }
-
-
-    export interface ICommentContainer extends Reflection
-    {
-        comment:models.Comment;
-    }
-
-
-    export interface IDefaultValueContainer extends Reflection
-    {
-        defaultValue:string;
-    }
-
-
-    export interface ITypeContainer extends Reflection
-    {
-        type:Type;
-    }
-
-
-    export interface ITypeParameterContainer extends Reflection
-    {
-        typeParameters:TypeParameterType[];
-    }
-
-
-
-    export enum ReflectionKind
-    {
-        Global = 0,
-        ExternalModule = 1,
-        Module = 2,
-        Enum = 4,
-        EnumMember = 16,
-        Variable = 32,
-        Function = 64,
-        Class = 128,
-        Interface = 256,
-        Constructor = 512,
-        Property = 1024,
-        Method = 2048,
-        CallSignature = 4096,
-        IndexSignature = 8192,
-        ConstructorSignature = 16384,
-        Parameter = 32768,
-        TypeLiteral = 65536,
-        TypeParameter = 131072,
-        Accessor = 262144,
-        Getter = 524288,
-        Setter = 1048576,
-
-        ClassOrInterface = Class | Interface,
-        VariableOrProperty = Variable | Property,
-        FunctionOrMethod = Function | Method,
-        SomeSignature = CallSignature | IndexSignature | ConstructorSignature
-    }
-
-
-    export class Reflection
-    {
-        id:number;
-
-        name:string;
-
-        kind:ReflectionKind;
-
-        parent:Reflection;
-
-
-        constructor(parent?:Reflection, name?:string, kind?:ReflectionKind) {
-            this.name = name;
-            this.parent = parent;
-            this.kind = kind;
-        }
-
-
-        toString() {
-            return ReflectionKind[this.kind] + ' ' + this.name;
-        }
-
-
-        toStringHierarchy(indent:string = '') {
-            return indent + this.toString();
-        }
-    }
-
-
-    export class SignatureReflection extends Reflection implements ISourceContainer, ICommentContainer, ITypeContainer, ITypeParameterContainer
-    {
-        parent:ContainerReflection;
-
-        comment:models.Comment;
-
-        sources:ISourceReference[];
-
-        parameters:ParameterReflection[];
-
-        typeParameters:TypeParameterType[];
-
-        type:Type;
-
-
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
-        }
-
-
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.typeParameters) {
-                this.typeParameters.forEach((n) => { lines.push(indent + n.toString()); });
-            }
-
-            if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
-            }
-
-            if (this.parameters) {
-                this.parameters.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
-            }
-
-            return lines.join('\n');
-        }
-    }
-
-
-    export class ParameterReflection extends Reflection implements ICommentContainer, IDefaultValueContainer, ITypeContainer
-    {
-        parent:SignatureReflection;
-
-        comment:models.Comment;
-
-        defaultValue:string;
-
-        type:Type;
-
-        isOptional:boolean;
-
-
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
-        }
-
-
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
-            }
-
-            return lines.join('\n');
-        }
-    }
-
-
-    export class ContainerReflection extends Reflection
-    {
-        parent:ContainerReflection;
-
-        children:ts.Map<DeclarationReflection>;
-
-
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.children) {
-                for (var key in this.children) {
-                    lines.push(this.children[key].toStringHierarchy(indent));
-                }
-            }
-
-            return lines.join('\n');
-        }
-    }
-
-
-    export class DeclarationReflection extends ContainerReflection implements ISourceContainer, ICommentContainer, IDefaultValueContainer, ITypeContainer, ITypeParameterContainer
-    {
-        comment:models.Comment;
-
-        type:Type;
-
-        typeParameters:TypeParameterType[];
-
-        sources:ISourceReference[];
-
-        callSignatures:SignatureReflection[];
-
-        constructorSignatures:SignatureReflection[];
-
-        indexSignature:SignatureReflection;
-
-        getSignature:SignatureReflection;
-
-        setSignature:SignatureReflection;
-
-        defaultValue:string;
-
-        isPrivate:boolean;
-
-        isProtected:boolean;
-
-        isPublic:boolean;
-
-        isStatic:boolean;
-
-        isExported:boolean;
-
-        isOptional:boolean;
-
-        overwrites:Type;
-
-        inheritedFrom:Type;
-
-
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
-        }
-
-
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.typeParameters) {
-                this.typeParameters.forEach((n) => { lines.push(indent + n.toString()); });
-            }
-
-            if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
-            }
-
-            if (this.constructorSignatures) {
-                this.constructorSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
-            }
-
-            if (this.indexSignature) {
-                lines.push(this.indexSignature.toStringHierarchy(indent));
-            }
-
-            if (this.getSignature) {
-                lines.push(this.getSignature.toStringHierarchy(indent));
-            }
-
-            if (this.setSignature) {
-                lines.push(this.setSignature.toStringHierarchy(indent));
-            }
-
-            if (this.callSignatures) {
-                this.callSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
-            }
-
-            if (this.children) {
-                for (var key in this.children) {
-                    lines.push(this.children[key].toStringHierarchy(indent));
-                }
-            }
-
-            return lines.join('\n');
-        }
-    }
-
-
-    export class Project extends ContainerReflection
-    {
-        reflections:Reflection[] = [];
-
-        nodeMapping:{[id:number]:number} = {};
-
-        symbolMapping:{[id:number]:number} = {};
-
-        files:ts.Map<ISourceFile> = {};
-    }
-
-
-
-
-    export class Type
-    {
-        isArray:boolean;
-    }
-
-
-    export class IntrinsicType extends Type
-    {
-        name:string;
-
-
-        constructor(name:string) {
-            super();
-            this.name = name;
-        }
-
-
-        toString() {
-            return this.name + (this.isArray ? '[]' : '');
-        }
-    }
-
-
-    export class ReferenceType extends Type
-    {
-        symbolID:number;
-
-
-        constructor(symbolID:number) {
-            super();
-            this.symbolID = symbolID;
-        }
-
-
-        toString() {
-            return '=> ' + this.symbolID + (this.isArray ? '[]' : '');
-        }
-    }
-
-    export class ReflectionType extends Type
-    {
-        declaration:DeclarationReflection;
-
-
-        constructor(declaration:DeclarationReflection) {
-            super();
-            this.declaration = declaration;
-        }
-
-
-        toString() {
-            return 'object';
-        }
-    }
-
-
-    export class TypeParameterType extends Type
-    {
-        name:string;
-
-        constraint:Type;
-
-
-        toString() {
-            return this.name;
-        }
-    }
-
-
     export class Converter extends PluginHost
     {
         constructor() {
@@ -418,30 +45,43 @@ module td.converter
 
 
         /**
+         * Compile the given source files and create a reflection tree for them.
+         *
+         * @param fileNames  Array of the file names that should be compiled.
+         * @param settings   The settings that should be used to compile the files.
          */
         convert(fileNames:string[], settings:Settings):IConverterResult {
-            var host    = this.createCompilerHost(settings.compilerOptions);
-            var program = ts.createProgram(fileNames, settings.compilerOptions, host);
-            var checker = program.getTypeChecker(true);
-            var project = new Project(null, 'TypeScript project', ReflectionKind.Global);
-            var result  = {
-                project: project,
-                errors: program.getDiagnostics().concat(checker.getDiagnostics())
-            };
+            var dispatcher = this;
+            var host       = this.createCompilerHost(settings.compilerOptions);
+            var program    = ts.createProgram(fileNames, settings.compilerOptions, host);
+            var checker    = program.getTypeChecker(true);
+            var project    = new ProjectReflection(settings.name);
 
-            var isInherit = false;
-            var inheritParent:ts.Node;
-            var inherited:string[] = [];
+            var isInherit             = false;
+            var inheritParent:ts.Node = null;
+            var inherited:string[]    = [];
             var typeParameters:{[name:string]:Type} = {};
 
-            program.getSourceFiles().forEach((sourceFile) => {
-                visitSourceFile(sourceFile, project);
-            });
+            return compile();
 
-            project.reflections.forEach((reflection) => this.dispatch('resolve', project, reflection));
 
-            console.log(project.toStringHierarchy());
-            return result;
+            function compile():IConverterResult {
+                var errors = program.getDiagnostics();
+                errors = errors.concat(checker.getDiagnostics());
+
+                program.getSourceFiles().forEach((sourceFile) => {
+                    visitSourceFile(sourceFile, project);
+                });
+
+                project.reflections.forEach((reflection) => {
+                    dispatcher.dispatch('resolve', project, reflection)
+                });
+
+                return {
+                    errors: errors,
+                    project: project
+                }
+            }
 
 
             function registerReflection(reflection:Reflection, node:ts.Node) {
@@ -449,11 +89,11 @@ module td.converter
                 reflection.id = id;
                 project.reflections.push(reflection);
 
-                if (node.id) {
+                if (node.id && !project.nodeMapping[node.id]) {
                     project.nodeMapping[node.id] = id;
                 }
 
-                if (node.symbol && node.symbol.id) {
+                if (node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
                     project.symbolMapping[node.symbol.id] = id;
                 }
             }
@@ -476,6 +116,10 @@ module td.converter
                     child.isExported  = !!(node.flags & ts.NodeFlags['Export']);
                     child.isOptional  = !!(node.flags & ts.NodeFlags['QuestionMark']);
 
+                    if (container.kind == ReflectionKind.Class && node.parent.kind != ts.SyntaxKind['ClassDeclaration']) {
+                        child.isStatic = true;
+                    }
+
                     container.children[name] = child;
                     registerReflection(child, node);
 
@@ -496,71 +140,32 @@ module td.converter
             }
 
 
-            function createSignature(container:DeclarationReflection, node:ts.SignatureDeclaration, type:SignatureType):SignatureReflection {
-                var name, prop, kind, tsKind;
-                switch (type) {
-                    case SignatureType.Index:
-                        prop   = 'indexSignature';
-                        name   = '__index';
-                        kind   = ReflectionKind.IndexSignature;
-                        tsKind = -1;
-                        break;
-                    case SignatureType.Get:
-                        prop   = 'getSignature';
-                        name   = '__get';
-                        kind   = ReflectionKind.Getter;
-                        tsKind = -1;
-                        break;
-                    case SignatureType.Set:
-                        prop   = 'setSignature';
-                        name   = '__set';
-                        kind   = ReflectionKind.Setter;
-                        tsKind = -1;
-                        break;
-                    case SignatureType.Constructor:
-                        prop   = container.constructorSignatures || (container.constructorSignatures = []);
-                        name   = '__constructor';
-                        kind   = ReflectionKind.ConstructorSignature;
-                        tsKind = ts.SignatureKind['Construct'];
-                        break;
-                    default :
-                        prop   = container.callSignatures || (container.callSignatures = []);
-                        name   = '__call';
-                        kind   = ReflectionKind.CallSignature;
-                        tsKind = ts.SignatureKind['Call'];
-                }
-
+            function createSignature(container:DeclarationReflection, node:ts.SignatureDeclaration, name:string, kind:ReflectionKind):SignatureReflection {
                 var signature = new SignatureReflection(container, name, kind);
-                if (typeof prop == 'string') {
-                    container[prop] = signature;
-                } else {
-                    prop.push(signature);
-                }
+                withTypeParameters(signature, node.typeParameters, null, true, () => {
+                    node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
+                        createParameter(signature, parameter);
+                    });
 
-                var oldTypeParameters = typeParameters;
-                typeParameters = extractTypeParameters(signature, node.typeParameters, null, oldTypeParameters);
+                    registerReflection(signature, node);
 
-                node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
-                    createParameter(signature, parameter);
+                    if (kind == ReflectionKind.CallSignature) {
+                        var type = checker.getTypeOfNode(node);
+                        checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
+                            if (tsSignature.declaration == node) {
+                                signature.type = extractType(node.type, checker.getReturnTypeOfSignature(tsSignature));
+                            }
+                        });
+                    }
+
+                    if (!signature.type) {
+                        signature.type = extractType(node.type, checker.getTypeOfNode(node));
+                    }
+
+                    createSourceReference(signature, node);
+                    createComment(signature, node);
                 });
 
-                registerReflection(signature, node);
-
-                if (tsKind != -1) {
-                    var tsType = checker.getTypeOfNode(node);
-                    checker.getSignaturesOfType(tsType, tsKind).forEach((tsSignature) => {
-                        if (tsSignature.declaration == node) {
-                            signature.type = extractType(node.type, checker.getReturnTypeOfSignature(tsSignature));
-                        }
-                    });
-                } else {
-                    signature.type = extractType(node.type, checker.getTypeOfNode(node));
-                }
-
-                createSourceReference(signature, node);
-                createComment(signature, node);
-
-                typeParameters = oldTypeParameters;
                 return signature;
             }
 
@@ -582,11 +187,9 @@ module td.converter
             function createSourceReference(reflection:ISourceContainer, node:ts.Node) {
                 var sourceFile = ts.getSourceFileOfNode(node);
                 var fileName = sourceFile.filename;
-                var file:ISourceFile;
+                var file:SourceFile;
                 if (!project.files[fileName]) {
-                    file = project.files[fileName] = {
-                        fileName: fileName
-                    };
+                    file = project.files[fileName] = new SourceFile(fileName);
                 } else {
                     file = project.files[fileName];
                 }
@@ -596,6 +199,7 @@ module td.converter
                 if (!reflection.sources) reflection.sources = [];
                 reflection.sources.push({
                     file:      file,
+                    fileName:  fileName,
                     line:      position.line,
                     character: position.character
                 });
@@ -615,46 +219,83 @@ module td.converter
 
             function extractType(node:ts.TypeNode, type:ts.Type):Type {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
-                    return new IntrinsicType((<ts.IntrinsicType>type).intrinsicName);
+                    return extractIntrinsicType(node, <ts.IntrinsicType>type);
                 } else if (type.flags & ts.TypeFlags['Enum']) {
-                    return new ReferenceType(type.symbol.id);
+                    return extractEnumType(node, type);
                 } else if (type.flags & ts.TypeFlags['TypeParameter']) {
-                    var name = (<ts.TypeReferenceNode>node).typeName['text'];
-                    return typeParameters[name];
+                    return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
+                } else if (type.flags & ts.TypeFlags['StringLiteral']) {
+                    return extractStringLiteralType(node, <ts.StringLiteralType>type);
                 } else if (type.flags & ts.TypeFlags['ObjectType']) {
-                    if (type.symbol) {
-                        if (type.flags & ts.TypeFlags['Anonymous']) {
-                            if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
-                                var declaration = new DeclarationReflection();
-                                declaration.kind = ReflectionKind.TypeLiteral;
-                                declaration.name = '__type';
-                                type.symbol.declarations.forEach((node) => {
-                                    visit(node, declaration);
-                                });
-                                return new ReflectionType(declaration);
-                            } else {
-                                return new IntrinsicType('object');
-                            }
-                        } else {
-                            return new ReferenceType(type.symbol.id);
-                        }
-                    } else {
-                        if (node && node['elementType']) {
-                            var result = extractType(node['elementType'], checker.getTypeOfNode(node['elementType']));
-                            if (result) {
-                                result.isArray = true;
-                                return result;
-                            } else {
-                                return new IntrinsicType('object');
-                            }
+                    return extractObjectType(node, type);
+                } else {
+                    return extractUnknownType(node, type);
+                }
+            }
+
+
+            function extractIntrinsicType(node:ts.TypeNode, type:ts.IntrinsicType):Type {
+                return new IntrinsicType(type.intrinsicName);
+            }
+
+
+            function extractEnumType(node:ts.TypeNode, type:ts.Type):Type {
+                return new ReferenceType(type.symbol.id);
+            }
+
+
+            function extractTypeParameterType(node:ts.TypeReferenceNode, type:ts.Type):Type {
+                var name = node.typeName['text'];
+                if (typeParameters[name]) {
+                    return typeParameters[name];
+                } else {
+                    var result = new TypeParameterType();
+                    result.name = name;
+                    return result;
+                }
+            }
+
+
+            function extractStringLiteralType(node:ts.TypeNode, type:ts.StringLiteralType):Type {
+                return new StringLiteralType(type.text);
+            }
+
+
+            function extractObjectType(node:ts.TypeNode, type:ts.Type):Type {
+                if (type.symbol) {
+                    if (type.flags & ts.TypeFlags['Anonymous']) {
+                        if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
+                            var declaration = new DeclarationReflection();
+                            declaration.kind = ReflectionKind.TypeLiteral;
+                            declaration.name = '__type';
+                            type.symbol.declarations.forEach((node) => {
+                                visit(node, declaration);
+                            });
+                            return new ReflectionType(declaration);
                         } else {
                             return new IntrinsicType('object');
                         }
+                    } else {
+                        return new ReferenceType(type.symbol.id);
                     }
                 } else {
-                    console.log('Unhadeled type: ' + flagsToString(type.flags, ts.TypeFlags));
-                    return new IntrinsicType('any');
+                    if (node && node['elementType']) {
+                        var result = extractType(node['elementType'], checker.getTypeOfNode(node['elementType']));
+                        if (result) {
+                            result.isArray = true;
+                            return result;
+                        } else {
+                            return new IntrinsicType('object');
+                        }
+                    } else {
+                        return new IntrinsicType('object');
+                    }
                 }
+            }
+
+
+            function extractUnknownType(node:ts.TypeNode, type:ts.Type):Type {
+                return new UnknownType(checker.typeToString(type));
             }
 
 
@@ -666,7 +307,7 @@ module td.converter
                     switch (node.initializer.kind) {
                         case ts.SyntaxKind['ArrowFunction']:
                         case ts.SyntaxKind['FunctionExpression']:
-                            visitSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, declaration, SignatureType.Call);
+                            visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, declaration);
                             return;
                         case ts.SyntaxKind['ObjectLiteral']:
                             visitObjectLiteral(<ts.ObjectLiteral>node.initializer, declaration);
@@ -691,36 +332,6 @@ module td.converter
             }
 
 
-            function extractTypeParameters(reflection:ITypeParameterContainer, typeParameters?:ts.NodeArray<ts.TypeParameterDeclaration>, typeArguments?:Type[], context?:{[name:string]:Type}):{[name:string]:Type} {
-                var result:{[name:string]:Type} = {};
-
-                if (context) {
-                    for (var key in context) {
-                        result[key] = context[key];
-                    }
-                }
-
-                if (typeParameters) {
-                    typeParameters.forEach((declaration:ts.TypeParameterDeclaration, index:number) => {
-                        var name = declaration.symbol.name;
-                        if (typeArguments && typeArguments[index]) {
-                            result[name] = typeArguments[index];
-                        } else {
-                            var typeParameter = new TypeParameterType();
-                            typeParameter.name = declaration.symbol.name;
-                            if (declaration.constraint) typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
-                            result[name] = typeParameter;
-
-                            if (!reflection.typeParameters) reflection.typeParameters = [];
-                            reflection.typeParameters.push(typeParameter);
-                        }
-                    });
-                }
-
-                return result;
-            }
-
-
             function extractTypeArguments(typeArguments:ts.NodeArray<ts.TypeNode>):Type[] {
                 var result:Type[] = [];
 
@@ -731,6 +342,38 @@ module td.converter
                 }
 
                 return result;
+            }
+
+
+            function withTypeParameters(reflection:ITypeParameterContainer, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, typeArguments:Type[], keepTypeParameters:boolean, callback:Function) {
+                var oldTypeParameters = typeParameters;
+                typeParameters = {};
+
+                if (keepTypeParameters) {
+                    for (var key in oldTypeParameters) {
+                        typeParameters[key] = oldTypeParameters[key];
+                    }
+                }
+
+                if (parameters) {
+                    parameters.forEach((declaration:ts.TypeParameterDeclaration, index:number) => {
+                        var name = declaration.symbol.name;
+                        if (typeArguments && typeArguments[index]) {
+                            typeParameters[name] = typeArguments[index];
+                        } else {
+                            var typeParameter = new TypeParameterType();
+                            typeParameter.name = declaration.symbol.name;
+                            if (declaration.constraint) typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                            typeParameters[name] = typeParameter;
+
+                            if (!reflection.typeParameters) reflection.typeParameters = [];
+                            reflection.typeParameters.push(typeParameter);
+                        }
+                    });
+                }
+
+                callback();
+                typeParameters = oldTypeParameters;
             }
 
 
@@ -794,13 +437,13 @@ module td.converter
                     case ts.SyntaxKind['FunctionDeclaration']:
                         return visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
                     case ts.SyntaxKind['GetAccessor']:
-                        return visitAccessorDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Get);
+                        return visitGetAccessorDeclaration(<ts.SignatureDeclaration>node, scope);
                     case ts.SyntaxKind['SetAccessor']:
-                        return visitAccessorDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Set);
+                        return visitSetAccessorDeclaration(<ts.SignatureDeclaration>node, scope);
                     case ts.SyntaxKind['CallSignature']:
-                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Call);
+                        return visitCallSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
                     case ts.SyntaxKind['IndexSignature']:
-                        return visitSignatureDeclaration(<ts.SignatureDeclaration>node, scope, SignatureType.Index);
+                        return visitIndexSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
                     case ts.SyntaxKind['Block']:
                     case ts.SyntaxKind['ModuleBlock']:
                         return visitBlock(<ts.Block>node, scope);
@@ -824,7 +467,17 @@ module td.converter
              */
             function visitBlock(node:ts.Block, scope:ContainerReflection):Reflection {
                 if (node.statements) {
+                    var prefered = [ts.SyntaxKind['ClassDeclaration'], ts.SyntaxKind['InterfaceDeclaration'], ts.SyntaxKind['EnumDeclaration']];
+                    var statements = [];
                     node.statements.forEach((statement) => {
+                        if (prefered.indexOf(statement.kind) != -1) {
+                            visit(statement, scope);
+                        } else {
+                            statements.push(statement);
+                        }
+                    });
+
+                    statements.forEach((statement) => {
                         visit(statement, scope);
                     });
                 }
@@ -889,23 +542,25 @@ module td.converter
                 }
 
                 if (reflection) {
-                    var oldTypeParameters = typeParameters;
-                    typeParameters = extractTypeParameters(reflection, node.typeParameters, typeArguments);
+                    withTypeParameters(reflection, node.typeParameters, typeArguments, false, () => {
+                        if (node.members) {
+                            node.members.forEach((member) => {
+                                visit(member, reflection);
+                            });
+                        }
 
-                    if (node.members) {
-                        node.members.forEach((member) => {
-                            visit(member, reflection);
-                        });
-                    }
+                        if (node.baseType) {
+                            var type = checker.getTypeOfNode(node.baseType);
+                            if (!type || !type.symbol) {
+                                console.log('Error: No type for ' + checker.typeToString(type));
+                                return;
+                            }
 
-                    if (node.baseType) {
-                        var type = checker.getTypeOfNode(node.baseType);
-                        type.symbol.declarations.forEach((declaration) => {
-                            inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
-                        });
-                    }
-
-                    typeParameters = oldTypeParameters;
+                            type.symbol.declarations.forEach((declaration) => {
+                                inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
+                            });
+                        }
+                    });
                 }
 
                 return reflection;
@@ -928,30 +583,27 @@ module td.converter
                 }
 
                 if (reflection) {
-                    var oldTypeParameters = typeParameters;
-                    typeParameters = extractTypeParameters(reflection, node.typeParameters, typeArguments);
-
-                    if (node.members) {
-                        node.members.forEach((member, isInherit) => {
-                            visit(member, reflection);
-                        });
-                    }
-
-                    if (node.baseTypes) {
-                        node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
-                            var type = checker.getTypeOfNode(baseType);
-                            if (!type || !type.symbol) {
-                                console.log('Error: No type for ' + baseType.typeName['text']);
-                                return;
-                            }
-
-                            type.symbol.declarations.forEach((declaration) => {
-                                inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
+                    withTypeParameters(reflection, node.typeParameters, typeArguments, false, () => {
+                        if (node.members) {
+                            node.members.forEach((member, isInherit) => {
+                                visit(member, reflection);
                             });
-                        });
-                    }
+                        }
 
-                    typeParameters = oldTypeParameters;
+                        if (node.baseTypes) {
+                            node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
+                                var type = checker.getTypeOfNode(baseType);
+                                if (!type || !type.symbol) {
+                                    console.log('Error: No type for ' + baseType.typeName['text']);
+                                    return;
+                                }
+
+                                type.symbol.declarations.forEach((declaration) => {
+                                    inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
+                                });
+                            });
+                        }
+                    });
                 }
 
                 return reflection;
@@ -1049,7 +701,9 @@ module td.converter
                 var method = createDeclaration(scope, node, ReflectionKind.Constructor);
                 if (method) {
                     if (!hasBody || !method.constructorSignatures) {
-                        createSignature(method, node, SignatureType.Constructor);
+                        var signature = createSignature(method, node, '__constructor', ReflectionKind.ConstructorSignature);
+                        method.constructorSignatures = method.constructorSignatures || [];
+                        method.constructorSignatures.push(signature);
                     } else {
                         createSourceReference(method, node);
                     }
@@ -1073,7 +727,9 @@ module td.converter
 
                 if (method) {
                     if (!hasBody || !method.callSignatures) {
-                        createSignature(method, node, SignatureType.Call);
+                        var signature = createSignature(method, node, '__call', ReflectionKind.CallSignature);
+                        method.callSignatures = method.callSignatures || [];
+                        method.callSignatures.push(signature);
                     } else {
                         createSourceReference(method, node);
                     }
@@ -1084,16 +740,18 @@ module td.converter
 
 
             /**
-             * Analyze the given signature declaration node and create a suitable reflection.
+             * Analyze the given call signature declaration node and create a suitable reflection.
              *
              * @param node   The signature declaration node that should be analyzed.
              * @param scope  The reflection representing the current scope.
              * @param type   The type (call, index or constructor) of the signature.
              * @return The resulting reflection or NULL.
              */
-            function visitSignatureDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection, type?:SignatureType):Reflection {
+            function visitCallSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
-                    createSignature(<DeclarationReflection>scope, node, type || SignatureType.Call);
+                    var signature = createSignature(<DeclarationReflection>scope, node, '__call', ReflectionKind.CallSignature);
+                    scope.callSignatures = scope.callSignatures || [];
+                    scope.callSignatures.push(signature);
                 }
 
                 return scope;
@@ -1101,16 +759,56 @@ module td.converter
 
 
             /**
-             * Analyze the given getter or setter declaration node and create a suitable reflection.
+             * Analyze the given index signature declaration node and create a suitable reflection.
+             *
+             * @param node   The signature declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @param type   The type (call, index or constructor) of the signature.
+             * @return The resulting reflection or NULL.
+             */
+            function visitIndexSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
+                if (scope instanceof DeclarationReflection) {
+                    var signature = createSignature(<DeclarationReflection>scope, node, '__index', ReflectionKind.IndexSignature);
+                    signature.name = '__index';
+                    scope.indexSignature = signature;
+                }
+
+                return scope;
+            }
+
+
+            /**
+             * Analyze the given getter declaration node and create a suitable reflection.
              *
              * @param node   The signature declaration node that should be analyzed.
              * @param scope  The reflection representing the current scope.
              * @return The resulting reflection or NULL.
              */
-            function visitAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection, type:SignatureType):Reflection {
+            function visitGetAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection):Reflection {
                 var accessor = createDeclaration(scope, node, ReflectionKind.Accessor);
                 if (accessor) {
-                    createSignature(accessor, node, type);
+                    var signature = createSignature(accessor, node, '__get', ReflectionKind.Getter);
+                    signature.name = '__get';
+                    accessor.getSignature = signature;
+                }
+
+                return accessor;
+            }
+
+
+            /**
+             * Analyze the given setter declaration node and create a suitable reflection.
+             *
+             * @param node   The signature declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitSetAccessorDeclaration(node:ts.SignatureDeclaration, scope:ContainerReflection):Reflection {
+                var accessor = createDeclaration(scope, node, ReflectionKind.Accessor);
+                if (accessor) {
+                    var signature = createSignature(accessor, node, '__set', ReflectionKind.Setter);
+                    signature.name = '__set';
+                    accessor.setSignature = signature;
                 }
 
                 return accessor;
@@ -1160,7 +858,7 @@ module td.converter
              * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
              * @returns        A populated [[Models.Comment]] instance.
              */
-            function parseComment(text:string, comment:models.Comment = new models.Comment()):models.Comment {
+            function parseComment(text:string, comment:Comment = new Comment()):Comment {
                 function consumeTypeData(line:string):string {
                     line = line.replace(/^\{[^\}]*\}/, '');
                     line = line.replace(/^\[[^\]]*\]/, '');
@@ -1170,7 +868,7 @@ module td.converter
                 text = text.replace(/^\s*\/\*+/, '');
                 text = text.replace(/\*+\/\s*$/, '');
 
-                var currentTag:models.CommentTag;
+                var currentTag:CommentTag;
                 var shortText:number = 0;
                 var lines = text.split(/\r\n?|\n/);
                 lines.forEach((line) => {
@@ -1195,7 +893,7 @@ module td.converter
                             line = consumeTypeData(line);
                         }
 
-                        currentTag = new models.CommentTag(tagName, paramName, line);
+                        currentTag = new CommentTag(tagName, paramName, line);
                         if (!comment.tags) comment.tags = [];
                         comment.tags.push(currentTag);
                     } else {

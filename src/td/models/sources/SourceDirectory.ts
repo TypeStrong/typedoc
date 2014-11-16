@@ -1,4 +1,4 @@
-module td.models
+module td
 {
     /**
      * Exposes information about a directory containing source files.
@@ -89,7 +89,7 @@ module td.models
                 reflections.push.apply(reflections, file.reflections);
             });
 
-            reflections.sort(Factories.GroupHandler.sortCallback);
+            // reflections.sort(Factories.GroupHandler.sortCallback);
             return reflections;
         }
     }

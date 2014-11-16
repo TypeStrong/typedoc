@@ -1,6 +1,6 @@
-module TypeDoc.Models
+module td
 {
-    export class NamedType extends BaseType
+    export class IntrinsicType extends Type
     {
         name:string;
 
@@ -11,8 +11,8 @@ module TypeDoc.Models
         }
 
 
-        toString():string {
-            return this.name;
+        toString() {
+            return this.name + (this.isArray ? '[]' : '');
         }
     }
 }

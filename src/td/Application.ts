@@ -1,6 +1,5 @@
 /// <reference path="EventDispatcher.ts" />
 /// <reference path="Settings.ts" />
-/// <reference path="converter/Converter.ts" />
 
 /**
  * The TypeDoc main module and namespace.
@@ -75,7 +74,7 @@ module td
         /**
          * The converter used to create the declaration reflections.
          */
-        converter:converter.Converter;
+        converter:Converter;
 
         /**
          * The renderer used to generate the documentation output.
@@ -101,7 +100,7 @@ module td
          */
         constructor(settings:Settings = new Settings()) {
             this.settings  = settings;
-            this.converter = new converter.Converter();
+            this.converter = new Converter();
             // this.renderer   = new Output.Renderer(this);
         }
 
@@ -154,7 +153,10 @@ module td
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         public generate(inputFiles:string[], outputDirectory:string) {
-            var project = this.converter.convert(inputFiles, this.settings);
+            var result = this.converter.convert(inputFiles, this.settings);
+            console.log(result.project.toStringHierarchy());
+
+
             // this.renderer.render(project, outputDirectory);
         }
 

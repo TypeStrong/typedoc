@@ -1,4 +1,4 @@
-module td.models
+module td
 {
     /**
      * Exposes information about a source file.

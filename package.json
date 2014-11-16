@@ -29,12 +29,13 @@
   },
   "dependencies": {
     "typescript": "1.1.x",
+    "typedoc-plugin-default-themes": "^0.2.0",
+    "typedoc-plugin-github": "^0.2.0",
     "fs-extra": "^0.12.0",
     "minimatch": "^1.0.0",
     "handlebars": "^2.0.0",
     "marked": "^0.3.2",
-    "highlight.js": "^8.3.0",
-    "shelljs": "^0.3.0"
+    "highlight.js": "^8.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -51,6 +52,7 @@
   },
   "keywords": [
     "typescript",
-    "documentation"
+    "documentation",
+    "generator"
   ]
 }
