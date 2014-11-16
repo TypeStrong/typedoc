@@ -5,7 +5,10 @@ module td
      */
     export class SourcePlugin implements IPluginInterface
     {
-        converter:Converter;
+        /**
+         * The converter this plugin is attached to.
+         */
+        private converter:Converter;
 
         /**
          * Helper for resolving the base path of all source files.
@@ -21,7 +24,7 @@ module td
         /**
          * Create a new SourceHandler instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
             this.converter = converter;
@@ -36,6 +39,9 @@ module td
         }
 
 
+        /**
+         * Removes this plugin.
+         */
         remove() {
             this.converter.off(null, null, this);
             this.converter = null;

@@ -1,4 +1,4 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * A handler that tries to find the package.json and readme.md files of the
@@ -8,8 +8,13 @@ module TypeDoc.Factories
      * and records the nearest package info files it can find. Within the resolve files, the
      * contents of the found files will be read and appended to the ProjectReflection.
      */
-    export class PackageHandler extends BaseHandler
+    export class PackagePlugin implements IPluginInterface
     {
+        /**
+         * The converter this plugin is attached to.
+         */
+        private converter:Converter;
+
         /**
          * The file name of the found readme.md file.
          */
@@ -34,14 +39,23 @@ module TypeDoc.Factories
         /**
          * Create a new PackageHandler instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            this.converter = converter;
 
-            dispatcher.on(Dispatcher.EVENT_BEGIN, this.onBegin,                  this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_DOCUMENT, this.onBeginDocument, this);
-            dispatcher.on(Dispatcher.EVENT_BEGIN_RESOLVE,  this.onBeginResolve,  this);
+            converter.on(Converter.EVENT_BEGIN,         this.onBegin,         this);
+            converter.on(Converter.EVENT_FILE_BEGIN,    this.onBeginDocument, this);
+            converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve,  this);
+        }
+
+
+        /**
+         * Removes this plugin.
+         */
+        remove() {
+            this.converter.off(null, null, this);
+            this.converter = null;
         }
 
 
@@ -50,12 +64,12 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onBegin(event:DispatcherEvent) {
+        private onBegin(scope:IConverterScope) {
             this.readmeFile  = null;
             this.packageFile = null;
             this.visited     = [];
 
-            var readme = event.dispatcher.application.settings.readme;
+            var readme = scope.getSettings().readme;
             this.noReadmeFile = (readme == 'none');
             if (!this.noReadmeFile && readme) {
                 readme = Path.resolve(readme);
@@ -71,12 +85,12 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onBeginDocument(state:DocumentState) {
+        private onBeginDocument(sourceFile:ts.SourceFile) {
             if (this.readmeFile && this.packageFile) {
                 return;
             }
 
-            var fileName = state.document.fileName;
+            var fileName = sourceFile.filename;
             var dirName, parentDir = Path.resolve(Path.dirname(fileName));
             do {
                 dirName = parentDir;
@@ -106,8 +120,8 @@ module TypeDoc.Factories
          *
          * @param event  The event containing the project and compiler.
          */
-        private onBeginResolve(event:DispatcherEvent) {
-            var project = event.project;
+        private onBeginResolve(scope:IConverterScope) {
+            var project = scope.getProject();
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }
@@ -125,5 +139,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(PackageHandler);
+    Converter.registerPlugin('PackagePlugin', PackagePlugin);
 }

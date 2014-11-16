@@ -6,13 +6,16 @@ module td
      */
     export class CommentPlugin implements IPluginInterface
     {
-        converter:Converter;
+        /**
+         * The converter this plugin is attached to.
+         */
+        private converter:Converter;
 
 
         /**
          * Create a new CommentPlugin instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
             this.converter = converter;
@@ -22,6 +25,9 @@ module td
         }
 
 
+        /**
+         * Removes this plugin.
+         */
         remove() {
             this.converter.off(null, null, this);
             this.converter = null;

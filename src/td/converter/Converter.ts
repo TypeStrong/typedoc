@@ -29,6 +29,7 @@ module td
     export interface IConverterScope {
         getTypeChecker():ts.TypeChecker;
         getProject():ProjectReflection;
+        getSettings():Settings;
     }
 
 
@@ -73,7 +74,8 @@ module td
 
             var scope:IConverterScope = {
                 getTypeChecker: () => checker,
-                getProject: () => project
+                getProject:     () => project,
+                getSettings:    () => settings
             }
 
             return compile();
