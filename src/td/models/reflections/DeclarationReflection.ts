@@ -144,6 +144,11 @@ module td
         isExported:boolean;
 
         /**
+         * Is this a declaration from an external document?
+         */
+        isExternal:boolean;
+
+        /**
          * Whether this reflection is an optional component or not.
          *
          * Applies to function parameters and object members.
@@ -184,39 +189,6 @@ module td
          */
         typeHierarchy:IDeclarationHierarchy;
 
-        /**
-         * A list of generated css classes that should be applied to representations of this
-         * reflection in the generated markup.
-         */
-        cssClasses:string;
-
-
-
-        /**
-         * @param kind  The kind to test for.
-        kindOf(kind:TypeScript.PullElementKind):boolean;
-         */
-
-        /**
-         * @param kind  An array of kinds to test for.
-        kindOf(kind:TypeScript.PullElementKind[]):boolean;
-         */
-
-        /**
-         * Test whether this reflection is of the given kind.
-        kindOf(kind:any):boolean {
-            if (Array.isArray(kind)) {
-                for (var i = 0, c = kind.length; i < c; i++) {
-                    if ((this.kind & kind[i]) !== 0) {
-                        return true;
-                    }
-                }
-                return false;
-            } else {
-                return (this.kind & kind) !== 0;
-            }
-        }
-         */
 
 
         /**
@@ -284,9 +256,9 @@ module td
             }
 
             if (this.children) {
-                for (var key in this.children) {
-                    lines.push(this.children[key].toStringHierarchy(indent));
-                }
+                this.children.forEach((child) => {
+                    lines.push(child.toStringHierarchy(indent));
+                });
             }
 
             return lines.join('\n');

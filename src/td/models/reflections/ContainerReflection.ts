@@ -7,7 +7,7 @@ module td
         /**
          * The children of this reflection.
          */
-        children:{[name:string]:DeclarationReflection};
+        children:DeclarationReflection[];
 
         /**
          * All children grouped by their kind.
@@ -55,7 +55,8 @@ module td
          *
          * @param kind  The desired kind of children.
          * @returns     An array containing all children with the desired kind.
-        getChildrenByKind(kind:TypeScript.PullElementKind):DeclarationReflection[] {
+         */
+        getChildrenByKind(kind:ReflectionKind):DeclarationReflection[] {
             var values = [];
             this.children.forEach((child) => {
                 if (child.kindOf(kind)) {
@@ -64,7 +65,6 @@ module td
             });
             return values;
         }
-         */
 
 
         /**
@@ -99,9 +99,9 @@ module td
             indent += '  ';
 
             if (this.children) {
-                for (var key in this.children) {
-                    lines.push(this.children[key].toStringHierarchy(indent));
-                }
+                this.children.forEach((child) => {
+                    lines.push(child.toStringHierarchy(indent));
+                });
             }
 
             return lines.join('\n');

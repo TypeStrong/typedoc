@@ -60,7 +60,8 @@ module td
          *
          * @param kind  The desired kind of reflection.
          * @returns     An array containing all reflections with the desired kind.
-        getReflectionsByKind(kind:TypeScript.PullElementKind):DeclarationReflection[] {
+         */
+        getReflectionsByKind(kind:ReflectionKind):DeclarationReflection[] {
             var values = [];
             this.reflections.forEach((reflection) => {
                 if (reflection.kindOf(kind)) {
@@ -69,7 +70,6 @@ module td
             });
             return values;
         }
-         */
 
 
         /**

@@ -122,14 +122,18 @@ module td
 
 
             function createDeclaration(container:ContainerReflection, node:ts.Node, kind:ReflectionKind, name?:string):DeclarationReflection {
-                var child:DeclarationReflection;
                 if (!name) {
                     if (!node.symbol) return null;
                     name = node.symbol.name;
                 }
 
-                if (!container.children) container.children = {};
-                if (!container.children[name]) {
+                var child:DeclarationReflection;
+                if (!container.children) container.children = [];
+                container.children.forEach((n) => {
+                    if (n.name == name) child = n;
+                });
+
+                if (!child) {
                     child = new DeclarationReflection(container, name, kind);
                     child.isPrivate = !!(node.flags & ts.NodeFlags['Private']);
                     child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
@@ -142,14 +146,13 @@ module td
                         child.isStatic = true;
                     }
 
-                    container.children[name] = child;
+                    container.children.push(child);
                     registerReflection(child, node);
 
                     if (isInherit && node.parent == inheritParent) {
                         child.inheritedFrom = new ReferenceType(node.symbol.id);
                     }
                 } else {
-                    child = container.children[name];
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         child.overwrites = new ReferenceType(node.symbol.id);
                         return null;

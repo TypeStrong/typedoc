@@ -98,7 +98,7 @@ module td
          * @param parent         The parent navigation node.
          * @param useShortNames  Force this function to always use short names.
          */
-        static create(reflection:DeclarationReflection, parent?:NavigationItem, useShortNames?:boolean) {
+        static create(reflection:Reflection, parent?:NavigationItem, useShortNames?:boolean) {
             var name;
             if (useShortNames || (parent && parent.parent)) {
                 name = reflection.name;
@@ -111,7 +111,7 @@ module td
                 name = '<em>' + reflection.kindString + '</em>';
             }
 
-            return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
+            return new NavigationItem(name, reflection.location.url, parent, reflection.location.cssClasses);
         }
     }
 }

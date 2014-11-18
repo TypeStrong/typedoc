@@ -42,11 +42,13 @@ module td
         Accessor = 262144,
         GetSignature = 524288,
         SetSignature = 1048576,
+        ObjectLiteral = 2097152,
 
         ClassOrInterface = Class | Interface,
         VariableOrProperty = Variable | Property,
         FunctionOrMethod = Function | Method,
-        SomeSignature = CallSignature | IndexSignature | ConstructorSignature
+        SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
+        SomeModule = Module | ExternalModule
     }
 
 
@@ -77,6 +79,33 @@ module td
     export interface ITypeParameterContainer extends Reflection
     {
         typeParameters:TypeParameterType[];
+    }
+
+
+    export interface ILocation
+    {
+        /**
+         * The url of this reflection in the generated documentation.
+         */
+        url:string;
+
+        /**
+         * The name of the anchor of this child.
+         */
+        anchor?:string;
+
+        /**
+         * Is the url pointing to an individual document?
+         *
+         * When FALSE, the url points to an anchor tag on a page of a different reflection.
+         */
+        hasOwnDocument?:boolean;
+
+        /**
+         * A list of generated css classes that should be applied to representations of this
+         * reflection in the generated markup.
+         */
+        cssClasses?:string;
     }
 
 
@@ -128,34 +157,14 @@ module td
          */
         // comment:Comment;
 
-        /**
-         * The url of this reflection in the generated documentation.
-         */
-        // url:string;
-
-        /**
-         * The name of the anchor of this child.
-         */
-        // anchor:string;
-
-        /**
-         * Is the url pointing to an individual document?
-         *
-         * When FALSE, the url points to an anchor tag on a page of a different reflection.
-         */
-        // hasOwnDocument:boolean = false;
-
-        /**
-         * Is this a declaration from an external document?
-         */
-        // isExternal:boolean;
+        location:ILocation;
 
         /**
          * Url safe alias for this reflection.
          *
          * @see [[BaseReflection.getAlias]]
          */
-        // private alias:string;
+        private _alias:string;
 
 
 
@@ -166,7 +175,35 @@ module td
             this.id     = REFLECTION_ID++;
             this.parent = parent;
             this.name   = name;
+            this.originalName = name;
             this.kind   = kind;
+        }
+
+
+        /**
+         * @param kind  The kind to test for.
+         */
+        kindOf(kind:ReflectionKind):boolean;
+
+        /**
+         * @param kind  An array of kinds to test for.
+         */
+        kindOf(kind:ReflectionKind[]):boolean;
+
+        /**
+         * Test whether this reflection is of the given kind.
+         */
+        kindOf(kind:any):boolean {
+            if (Array.isArray(kind)) {
+                for (var i = 0, c = kind.length; i < c; i++) {
+                    if ((this.kind & kind[i]) !== 0) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                return (this.kind & kind) !== 0;
+            }
         }
 
 
@@ -189,17 +226,17 @@ module td
 
         /**
          * Return an url safe alias for this reflection.
+         */
         getAlias():string {
-            if (!this.alias) {
-                this.alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                if (this.alias == '') {
-                    this.alias = 'symbol-' + this.id;
+            if (!this._alias) {
+                this._alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                if (this._alias == '') {
+                    this._alias = 'node-' + this.id;
                 }
             }
 
-            return this.alias;
+            return this._alias;
         }
-         */
 
 
         /**

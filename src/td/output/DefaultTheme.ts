@@ -10,7 +10,7 @@ module td
         /**
          * [[DeclarationReflection.kind]] this rule applies to.
          */
-        kind:ReflectionKind;
+        kind:ReflectionKind[];
 
         /**
          * Can this mapping have children or should all further reflections be rendered
@@ -108,10 +108,10 @@ module td
             var urls = [];
 
             if (this.renderer.application.settings.readme == 'none') {
-                project.url = 'index.html';
+                project.location = {url:'index.html'};
                 urls.push(new UrlMapping('index.html', project, 'reflection.hbs'));
             } else {
-                project.url = 'globals.html';
+                project.location = {url:'globals.html'};
                 urls.push(new UrlMapping('globals.html', project, 'reflection.hbs'));
                 urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
             }
@@ -169,9 +169,9 @@ module td
             function includeDedicatedUrls(reflection:DeclarationReflection, item:NavigationItem) {
                 (function walk(reflection) {
                     reflection.children.forEach((child) => {
-                        if (child.hasOwnDocument && !child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                        if (child.location.hasOwnDocument && !child.kindOf(ReflectionKind.SomeModule)) {
                             if (!item.dedicatedUrls) item.dedicatedUrls = [];
-                            item.dedicatedUrls.push(child.url);
+                            item.dedicatedUrls.push(child.location.url);
                             walk(child);
                         }
                     });
@@ -185,7 +185,7 @@ module td
              * @param parent      The parent NavigationItem of the newly created nodes.
              */
             function buildChildren(reflection:DeclarationReflection, parent:NavigationItem) {
-                var modules = reflection.getChildrenByKind(TypeScript.PullElementKind.SomeContainer);
+                var modules = reflection.getChildrenByKind(ReflectionKind.SomeModule);
                 modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
                     return a.getFullName() < b.getFullName() ? -1 : 1;
                 });
@@ -239,11 +239,11 @@ module td
                 var globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
                 globals.isGlobals = true;
 
-                var modules = project.getReflectionsByKind(TypeScript.PullElementKind.SomeContainer);
+                var modules = project.getReflectionsByKind(ReflectionKind.SomeModule);
                 if (modules.length < 10) {
                     buildGroups(modules, root);
                 } else {
-                    buildGroups(project.getChildrenByKind(TypeScript.PullElementKind.SomeContainer), root, buildChildren);
+                    buildGroups(project.getChildrenByKind(ReflectionKind.SomeModule), root, buildChildren);
                 }
 
                 return root;
@@ -265,10 +265,12 @@ module td
             }
 
             event.project.reflections.forEach((reflection) => {
-                DefaultTheme.applyReflectionClasses(reflection);
+                if (reflection instanceof DeclarationReflection) {
+                    DefaultTheme.applyReflectionClasses(<DeclarationReflection>reflection);
+                }
 
-                if (reflection.groups) {
-                    reflection.groups.forEach(DefaultTheme.applyGroupClasses);
+                if (reflection instanceof ContainerReflection && reflection['groups']) {
+                    reflection['groups'].forEach(DefaultTheme.applyGroupClasses);
                 }
             });
         }
@@ -282,7 +284,7 @@ module td
          * @param separator   The separator used to generate the url.
          * @returns           The generated url.
          */
-        static getUrl(reflection:BaseReflection, relative?:BaseReflection, separator:string = '.'):string {
+        static getUrl(reflection:Reflection, relative?:Reflection, separator:string = '.'):string {
             var url = reflection.getAlias();
 
             if (reflection.parent && reflection.parent != relative &&
@@ -324,10 +326,7 @@ module td
                 var url = Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
                 urls.push(new UrlMapping(url, reflection, mapping.template));
 
-                reflection.url            = url;
-                reflection.anchor         = null;
-                reflection.hasOwnDocument = true;
-
+                reflection.location = {url:url, hasOwnDocument:true};
                 reflection.children.forEach((child) => {
                     if (mapping.isLeaf) {
                         DefaultTheme.applyAnchorUrl(child, reflection);
@@ -349,20 +348,20 @@ module td
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection:DeclarationReflection, container:BaseReflection) {
+        static applyAnchorUrl(reflection:DeclarationReflection, container:ContainerReflection) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
             if (reflection.isStatic) {
                 anchor = 'static-' + anchor;
             }
 
-            reflection.url            = container.url + '#' + anchor;
-            reflection.anchor         = anchor;
-            reflection.hasOwnDocument = false;
+            reflection.location = {
+                url: container.location.url + '#' + anchor,
+                anchor: anchor,
+                hasOwnDocument: false
+            }
 
             reflection.children.forEach((child) => {
-                if (!child.kindOf(Kind.Parameter)) {
-                    DefaultTheme.applyAnchorUrl(child, container);
-                }
+                DefaultTheme.applyAnchorUrl(child, container);
             });
         }
 
@@ -375,11 +374,11 @@ module td
          */
         static applyReflectionClasses(reflection:DeclarationReflection) {
             var classes = [];
-            var kind    = Kind[reflection.kind];
+            var kind    = ReflectionKind[reflection.kind];
             classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
 
             if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-                kind = Kind[(<DeclarationReflection>reflection.parent).kind];
+                kind = ReflectionKind[reflection.parent.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
             }
 
@@ -390,7 +389,7 @@ module td
             if (reflection.isExternal)    classes.push('tsd-is-external');
             if (!reflection.isExported)   classes.push('tsd-is-not-exported');
 
-            reflection.cssClasses = classes.join(' ');
+            reflection.location.cssClasses = classes.join(' ');
         }
 
 
