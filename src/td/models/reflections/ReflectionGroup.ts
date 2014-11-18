@@ -22,7 +22,7 @@ module td
         /**
          * All reflections of this group.
          */
-        children:Reflection[] = [];
+        children:DeclarationReflection[] = [];
 
         /**
          * A list of generated css classes that should be applied to representations of this

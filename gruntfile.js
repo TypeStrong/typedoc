@@ -16,6 +16,7 @@ module.exports = function(grunt)
                     'src/td/converter/Converter.ts',
                     'src/td/converter/BasePath.ts',
                     'src/td/converter/plugins/CommentPlugin.ts',
+                    'src/td/converter/plugins/GroupPlugin.ts',
                     'src/td/converter/plugins/PackagePlugin.ts',
                     'src/td/converter/plugins/SourcePlugin.ts',
                     'src/td/models/comments/Comment.ts',

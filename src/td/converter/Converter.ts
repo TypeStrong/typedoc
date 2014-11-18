@@ -305,20 +305,6 @@ module td
 
             function extractDefaultValue(node:ts.VariableDeclaration, reflection:IDefaultValueContainer) {
                 if (!node.initializer) return;
-
-                if (reflection instanceof DeclarationReflection) {
-                    var declaration = <DeclarationReflection>reflection;
-                    switch (node.initializer.kind) {
-                        case ts.SyntaxKind['ArrowFunction']:
-                        case ts.SyntaxKind['FunctionExpression']:
-                            visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, declaration);
-                            return;
-                        case ts.SyntaxKind['ObjectLiteral']:
-                            visitObjectLiteral(<ts.ObjectLiteral>node.initializer, declaration);
-                            return;
-                    }
-                }
-
                 switch (node.initializer.kind) {
                     case ts.SyntaxKind['StringLiteral']:
                         reflection.defaultValue = '"' + (<ts.LiteralExpression>node).text + '"';
@@ -641,11 +627,23 @@ module td
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
                 var variable = createDeclaration(scope, node, kind);
                 if (variable) {
-                    extractDefaultValue(node, variable);
+                    if (node.initializer) {
+                        switch (node.initializer.kind) {
+                            case ts.SyntaxKind['ArrowFunction']:
+                            case ts.SyntaxKind['FunctionExpression']:
+                                variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+                                visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, variable);
+                                break;
+                            case ts.SyntaxKind['ObjectLiteral']:
+                                variable.kind = ReflectionKind.ObjectLiteral;
+                                visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
+                                break;
+                            default:
+                                extractDefaultValue(node, variable);
+                        }
+                    }
 
-                    if (variable.kind == kind && variable.callSignatures) {
-                        variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
-                    } else {
+                    if (variable.kind == kind) {
                         variable.type = extractType(node.type, checker.getTypeOfNode(node));
                     }
                 }

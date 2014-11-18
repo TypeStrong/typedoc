@@ -1,30 +1,45 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * A handler that sorts and groups the found reflections in the resolving phase.
      *
      * The handler sets the ´groups´ property of all reflections.
      */
-    export class GroupHandler extends BaseHandler
+    export class GroupPlugin
     {
+        /**
+         * The converter this plugin is attached to.
+         */
+        private converter:Converter;
+
         /**
          * Define the sort order of reflections.
          */
         static WEIGHTS = [
-            TypeScript.PullElementKind.DynamicModule,
-            TypeScript.PullElementKind.Container,
-            TypeScript.PullElementKind.Enum,
-            TypeScript.PullElementKind.Interface,
-            TypeScript.PullElementKind.Class,
-            TypeScript.PullElementKind.ObjectLiteral,
-            TypeScript.PullElementKind.EnumMember,
-            TypeScript.PullElementKind.ConstructorMethod,
-            TypeScript.PullElementKind.Property,
-            TypeScript.PullElementKind.GetAccessor,
-            TypeScript.PullElementKind.SetAccessor,
-            TypeScript.PullElementKind.Method,
-            TypeScript.PullElementKind.Function,
-            TypeScript.PullElementKind.Variable
+            ReflectionKind.Global,
+            ReflectionKind.ExternalModule,
+            ReflectionKind.Module,
+            ReflectionKind.Enum,
+            ReflectionKind.EnumMember,
+            ReflectionKind.Class,
+            ReflectionKind.Interface,
+
+            ReflectionKind.Constructor,
+            ReflectionKind.Property,
+            ReflectionKind.Variable,
+            ReflectionKind.Function,
+            ReflectionKind.Accessor,
+            ReflectionKind.Method,
+            ReflectionKind.ObjectLiteral,
+
+            ReflectionKind.Parameter,
+            ReflectionKind.TypeParameter,
+            ReflectionKind.TypeLiteral,
+            ReflectionKind.CallSignature,
+            ReflectionKind.ConstructorSignature,
+            ReflectionKind.IndexSignature,
+            ReflectionKind.GetSignature,
+            ReflectionKind.SetSignature,
         ];
 
         /**
@@ -32,9 +47,8 @@ module TypeDoc.Factories
          */
         static SINGULARS = (function() {
             var singulars = {};
-            singulars[TypeScript.PullElementKind.Container]  = 'Module';
-            singulars[TypeScript.PullElementKind.Enum]       = 'Enumeration';
-            singulars[TypeScript.PullElementKind.EnumMember] = 'Enumeration member';
+            singulars[ReflectionKind.Enum]       = 'Enumeration';
+            singulars[ReflectionKind.EnumMember] = 'Enumeration member';
             return singulars;
         })();
 
@@ -43,25 +57,32 @@ module TypeDoc.Factories
          */
         static PLURALS = (function() {
             var plurals = {};
-            plurals[TypeScript.PullElementKind.Container]  = 'Modules';
-            plurals[TypeScript.PullElementKind.Class]      = 'Classes';
-            plurals[TypeScript.PullElementKind.Property]   = 'Properties';
-            plurals[TypeScript.PullElementKind.Enum]       = 'Enumerations';
-            plurals[TypeScript.PullElementKind.EnumMember] = 'Enumeration members';
+            plurals[ReflectionKind.Class]      = 'Classes';
+            plurals[ReflectionKind.Property]   = 'Properties';
+            plurals[ReflectionKind.Enum]       = 'Enumerations';
+            plurals[ReflectionKind.EnumMember] = 'Enumeration members';
             return plurals;
         })();
 
 
 
         /**
-         * Create a new GroupHandler instance.
+         * Create a new GroupPlugin instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            this.converter = converter;
+            converter.on(Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+        }
 
-            dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this);
+
+        /**
+         * Removes this plugin.
+         */
+        remove() {
+            this.converter.off(null, null, this);
+            this.converter = null;
         }
 
 
@@ -69,9 +90,9 @@ module TypeDoc.Factories
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onEndResolve(event:DispatcherEvent) {
+        private onEndResolve(scope:IConverterScope) {
             function walkDirectory(directory) {
-                directory.groups = GroupHandler.getReflectionGroups(directory.getAllReflections());
+                directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
                 for (var key in directory.directories) {
                     if (!directory.directories.hasOwnProperty(key)) continue;
@@ -79,23 +100,26 @@ module TypeDoc.Factories
                 }
             }
 
-            var project = event.project;
+            var project = scope.getProject();
             if (project.children && project.children.length > 0) {
-                project.children.sort(GroupHandler.sortCallback);
-                project.groups = GroupHandler.getReflectionGroups(project.children);
+                project.children.sort(GroupPlugin.sortCallback);
+                project.groups = GroupPlugin.getReflectionGroups(project.children);
             }
 
             project.reflections.forEach((reflection) => {
-                reflection.kindString = GroupHandler.getKindSingular(reflection.kind);
-                if (!reflection.isSignature && reflection.children && reflection.children.length > 0) {
-                    reflection.children.sort(GroupHandler.sortCallback);
-                    reflection.groups = GroupHandler.getReflectionGroups(reflection.children);
+                reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
+                if (reflection instanceof ContainerReflection) {
+                    var container = <ContainerReflection>reflection;
+                    if (container.children && container.children.length > 0) {
+                        container.children.sort(GroupPlugin.sortCallback);
+                        container.groups = GroupPlugin.getReflectionGroups(container.children);
+                    }
                 }
             });
 
             walkDirectory(project.directory);
             project.files.forEach((file) => {
-                file.groups = GroupHandler.getReflectionGroups(file.reflections);
+                file.groups = GroupPlugin.getReflectionGroups(file.reflections);
             });
         }
 
@@ -108,8 +132,8 @@ module TypeDoc.Factories
          * @param reflections  The reflections that should be grouped.
          * @returns An array containing all children of the given reflection grouped by their kind.
          */
-        static getReflectionGroups(reflections:Models.DeclarationReflection[]):Models.ReflectionGroup[] {
-            var groups:Models.ReflectionGroup[] = [];
+        static getReflectionGroups(reflections:DeclarationReflection[]):ReflectionGroup[] {
+            var groups:ReflectionGroup[] = [];
             reflections.forEach((child) => {
                 for (var i = 0; i < groups.length; i++) {
                     var group = groups[i];
@@ -121,7 +145,7 @@ module TypeDoc.Factories
                     return;
                 }
 
-                var group = new Models.ReflectionGroup(GroupHandler.getKindPlural(child.kind), child.kind);
+                var group = new ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
                 group.children.push(child);
                 groups.push(group);
             });
@@ -151,8 +175,8 @@ module TypeDoc.Factories
          * @param kind  The original typescript kind identifier.
          * @returns A human readable version of the given typescript kind identifier.
          */
-        private static getKindString(kind:TypeScript.PullElementKind):string {
-            var str = TypeScript.PullElementKind[kind];
+        private static getKindString(kind:ReflectionKind):string {
+            var str = ReflectionKind[kind];
             str = str.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
             return str;
         }
@@ -164,11 +188,11 @@ module TypeDoc.Factories
          * @param kind The original internal typescript kind identifier.
          * @returns The singular name of the given internal typescript kind identifier
          */
-        static getKindSingular(kind:TypeScript.PullElementKind):string {
-            if (GroupHandler.SINGULARS[kind]) {
-                return GroupHandler.SINGULARS[kind];
+        static getKindSingular(kind:ReflectionKind):string {
+            if (GroupPlugin.SINGULARS[kind]) {
+                return GroupPlugin.SINGULARS[kind];
             } else {
-                return GroupHandler.getKindString(kind);
+                return GroupPlugin.getKindString(kind);
             }
         }
 
@@ -179,9 +203,9 @@ module TypeDoc.Factories
          * @param kind The original internal typescript kind identifier.
          * @returns The plural name of the given internal typescript kind identifier
          */
-        static getKindPlural(kind:TypeScript.PullElementKind):string {
-            if (GroupHandler.PLURALS[kind]) {
-                return GroupHandler.PLURALS[kind];
+        static getKindPlural(kind:ReflectionKind):string {
+            if (GroupPlugin.PLURALS[kind]) {
+                return GroupPlugin.PLURALS[kind];
             } else {
                 return this.getKindString(kind) + 's';
             }
@@ -189,15 +213,15 @@ module TypeDoc.Factories
 
 
         /**
-         * Callback used to sort reflections by weight defined by ´GroupHandler.WEIGHTS´ and name.
+         * Callback used to sort reflections by weight defined by ´GroupPlugin.WEIGHTS´ and name.
          *
          * @param a The left reflection to sort.
          * @param b The right reflection to sort.
          * @returns The sorting weight.
          */
-        static sortCallback(a:Models.DeclarationReflection, b:Models.DeclarationReflection):number {
-            var aWeight = GroupHandler.WEIGHTS.indexOf(a.kind);
-            var bWeight = GroupHandler.WEIGHTS.indexOf(b.kind);
+        static sortCallback(a:Reflection, b:Reflection):number {
+            var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
+            var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
             if (aWeight == bWeight) {
                 if (a.name == b.name) return 0;
                 return a.name > b.name ? 1 : -1;
@@ -209,5 +233,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(GroupHandler);
+    Converter.registerPlugin('GroupPlugin', GroupPlugin);
 }
