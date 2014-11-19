@@ -1,0 +1,64 @@
+$icons:
+    (acceptable-alias, all, catch-block, catch-variable, global, none, primitive, type-alias, type-parameter, with-block, parameter),
+    (container, dynamic-module, script),
+    (interface),
+    (enum),
+    (enum-member),
+    (class),
+    (object-literal, object-type),
+    (property, variable),
+    (call-signature, function, function-expression, function-type, get-accessor, method, set-accessor),
+    (construct-signature, constructor-method, constructor-type),
+    (index-signature);
+
+.tsd-kind-icon {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    text-indent: -20px;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 17px;
+        height: 17px;
+        margin: 0 3px 2px 0;
+        background-image: url(../images/icons.png);
+
+        @include retina {
+            background-image: url(../images/icons@2x.png);
+            background-size: 187px 102px;
+        }
+    }
+}
+
+@for $index from 1 through length($icons) {
+    @each $kind in nth($icons, $index) {
+        .tsd-kind-#{$kind} > .tsd-kind-icon:before {
+            background-position: -#{17 * ($index - 1)}px 0;
+        }
+
+        @if ($index > 7) {
+            .tsd-parent-kind-interface.tsd-kind-#{$kind} > .tsd-kind-icon:before {
+                background-position: -#{17 * ($index - 1)}px -17px;
+            }
+
+            .tsd-parent-kind-class.tsd-kind-#{$kind} > .tsd-kind-icon:before {
+                background-position: -#{17 * ($index - 1)}px -34px;
+            }
+
+            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-inherited > .tsd-kind-icon:before {
+                background-position: -#{17 * ($index - 1)}px -51px;
+            }
+
+            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-private > .tsd-kind-icon:before {
+                background-position: -#{17 * ($index - 1)}px -68px;
+            }
+
+            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-static > .tsd-kind-icon:before {
+                background-position: -#{17 * ($index - 1)}px -85px;
+            }
+        }
+    }
+}
