@@ -86,5 +86,23 @@ module td
             }
             return null;
         }
+
+
+        /**
+         * Return a raw object representation of this comment.
+         */
+        toObject():any {
+            var result:any = {};
+            if (this.shortText) result.shortText = this.shortText;
+            if (this.text)      result.text      = this.text;
+            if (this.returns)   result.returns   = this.returns;
+
+            if (this.tags && this.tags.length) {
+                result.tags = [];
+                this.tags.forEach((tag) => result.tags.push(tag.toObject()));
+            }
+
+            return result;
+        }
     }
 }

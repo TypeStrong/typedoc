@@ -4,33 +4,18 @@ module td
      * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
      * the generated reflections.
      */
-    export class CommentPlugin implements IPluginInterface
+    export class CommentPlugin extends ConverterPlugin
     {
-        /**
-         * The converter this plugin is attached to.
-         */
-        private converter:Converter;
-
-
         /**
          * Create a new CommentPlugin instance.
          *
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
-            this.converter = converter;
+            super(converter);
             converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
             converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration, this);
             converter.on(Converter.EVENT_RESOLVE,            this.onResolve,     this);
-        }
-
-
-        /**
-         * Removes this plugin.
-         */
-        remove() {
-            this.converter.off(null, null, this);
-            this.converter = null;
         }
 
 
@@ -41,12 +26,12 @@ module td
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(reflection:ICommentContainer, node:ts.Node) {
-            var sourceFile = ts.getSourceFileOfNode(node);
-            var comments = ts.getJsDocComments(node, sourceFile);
+        private onDeclaration(event:CompilerEvent) {
+            var sourceFile = ts.getSourceFileOfNode(event.node);
+            var comments = ts.getJsDocComments(event.node, sourceFile);
             if (comments) {
                 comments.forEach((comment) => {
-                    reflection.comment = CommentPlugin.parseComment(sourceFile.text.substring(comment.pos, comment.end), reflection.comment);
+                    event.reflection.comment = CommentPlugin.parseComment(sourceFile.text.substring(comment.pos, comment.end), event.reflection.comment);
                 });
             }
         }
@@ -63,8 +48,10 @@ module td
          *
          * @param event  The event containing the reflection to resolve.
          */
-        private onResolve(reflection:DeclarationReflection) {
+        private onResolve(event:ResolveEvent) {
+            var reflection = <DeclarationReflection>event.reflection;
             if (!(reflection instanceof DeclarationReflection)) return;
+
             var signatures = reflection.getAllSignatures();
             if (signatures.length) {
                 var comment = reflection.comment;

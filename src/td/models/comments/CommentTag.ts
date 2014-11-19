@@ -31,5 +31,22 @@ module td
             this.paramName = paramName || '';
             this.text = text || '';
         }
+
+
+        /**
+         * Return a raw object representation of this tag.
+         */
+        toObject():any {
+            var result:any = {
+                tag:  this.tagName,
+                text: this.text
+            };
+
+            if (this.paramName) {
+                result.param = this.paramName;
+            }
+
+            return result;
+        }
     }
 }

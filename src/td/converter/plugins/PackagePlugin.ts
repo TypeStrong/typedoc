@@ -8,13 +8,8 @@ module td
      * and records the nearest package info files it can find. Within the resolve files, the
      * contents of the found files will be read and appended to the ProjectReflection.
      */
-    export class PackagePlugin implements IPluginInterface
+    export class PackagePlugin extends ConverterPlugin
     {
-        /**
-         * The converter this plugin is attached to.
-         */
-        private converter:Converter;
-
         /**
          * The file name of the found readme.md file.
          */
@@ -42,20 +37,10 @@ module td
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
-            this.converter = converter;
-
+            super(converter);
             converter.on(Converter.EVENT_BEGIN,         this.onBegin,         this);
             converter.on(Converter.EVENT_FILE_BEGIN,    this.onBeginDocument, this);
             converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve,  this);
-        }
-
-
-        /**
-         * Removes this plugin.
-         */
-        remove() {
-            this.converter.off(null, null, this);
-            this.converter = null;
         }
 
 
@@ -64,12 +49,12 @@ module td
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onBegin(scope:IConverterScope) {
+        private onBegin(event:ConverterEvent) {
             this.readmeFile  = null;
             this.packageFile = null;
             this.visited     = [];
 
-            var readme = scope.getSettings().readme;
+            var readme = event.getSettings().readme;
             this.noReadmeFile = (readme == 'none');
             if (!this.noReadmeFile && readme) {
                 readme = Path.resolve(readme);
@@ -85,12 +70,12 @@ module td
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onBeginDocument(sourceFile:ts.SourceFile) {
+        private onBeginDocument(event:CompilerEvent) {
             if (this.readmeFile && this.packageFile) {
                 return;
             }
 
-            var fileName = sourceFile.filename;
+            var fileName = (<ts.SourceFile>event.node).filename;
             var dirName, parentDir = Path.resolve(Path.dirname(fileName));
             do {
                 dirName = parentDir;
@@ -120,8 +105,8 @@ module td
          *
          * @param event  The event containing the project and compiler.
          */
-        private onBeginResolve(scope:IConverterScope) {
-            var project = scope.getProject();
+        private onBeginResolve(event:ConverterEvent) {
+            var project = event.getProject();
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }

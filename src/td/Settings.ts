@@ -42,6 +42,16 @@ module td
             code: 0
         }
     },{
+        name: "json",
+        type: "string",
+        scope: OptionScope.TypeDoc,
+        paramType: ts.Diagnostics.DIRECTORY,
+        description: {
+            key: 'Specifies the location and file name a json file describing the project is written to.',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
+    },{
         name: "theme",
         type: "string",
         scope: OptionScope.TypeDoc,
@@ -165,6 +175,11 @@ module td
          * The path of the output directory.
          */
         out:string;
+
+        /**
+         * Path and filename of the json file.
+         */
+        json:string;
 
         /**
          * The path of the theme that should be used.

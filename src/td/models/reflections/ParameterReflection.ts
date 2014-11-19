@@ -1,6 +1,6 @@
 module td
 {
-    export class ParameterReflection extends Reflection implements ICommentContainer, IDefaultValueContainer, ITypeContainer
+    export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer
     {
         parent:SignatureReflection;
 
@@ -30,6 +30,9 @@ module td
         }
 
 
+        /**
+         * Return a string representation of this reflection.
+         */
         toString() {
             return super.toString() + (this.type ? ':' + this.type.toString() :  '');
         }

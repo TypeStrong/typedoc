@@ -3,13 +3,8 @@ module td
     /**
      * A handler that attaches source file information to reflections.
      */
-    export class SourcePlugin implements IPluginInterface
+    export class SourcePlugin extends ConverterPlugin
     {
-        /**
-         * The converter this plugin is attached to.
-         */
-        private converter:Converter;
-
         /**
          * Helper for resolving the base path of all source files.
          */
@@ -27,8 +22,7 @@ module td
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
-            this.converter = converter;
-
+            super(converter);
             converter.on(Converter.EVENT_BEGIN,              this.onBegin,         this);
             converter.on(Converter.EVENT_FILE_BEGIN,         this.onBeginDocument, this);
             converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,   this);
@@ -39,20 +33,11 @@ module td
         }
 
 
-        /**
-         * Removes this plugin.
-         */
-        remove() {
-            this.converter.off(null, null, this);
-            this.converter = null;
-        }
-
-
-        private getSourceFile(fileName:string, scope:IConverterScope):SourceFile {
+        private getSourceFile(fileName:string, project:ProjectReflection):SourceFile {
             if (!this.fileMappings[fileName]) {
                 var file = new SourceFile(fileName);
                 this.fileMappings[fileName] = file;
-                scope.getProject().files.push(file);
+                project.files.push(file);
             }
 
             return this.fileMappings[fileName];
@@ -77,10 +62,10 @@ module td
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onBeginDocument(sourceFile:ts.SourceFile, scope:IConverterScope) {
-            var fileName = sourceFile.filename;
+        private onBeginDocument(event:CompilerEvent) {
+            var fileName = (<ts.SourceFile>event.node).filename;
             this.basePath.add(fileName);
-            this.getSourceFile(fileName, scope);
+            this.getSourceFile(fileName, event.getProject());
         }
 
 
@@ -91,18 +76,18 @@ module td
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(reflection:ISourceContainer, node:ts.Node, scope:IConverterScope) {
-            var sourceFile      = ts.getSourceFileOfNode(node);
+        private onDeclaration(event:CompilerEvent) {
+            var sourceFile      = ts.getSourceFileOfNode(event.node);
             var fileName        = sourceFile.filename;
-            var file:SourceFile = this.getSourceFile(fileName, scope);
-            var position        = sourceFile.getLineAndCharacterFromPosition(node.pos);
+            var file:SourceFile = this.getSourceFile(fileName, event.getProject());
+            var position        = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
 
-            if (!reflection.sources) reflection.sources = [];
-            if (reflection instanceof DeclarationReflection) {
-                file.reflections.push(<DeclarationReflection>reflection);
+            if (!event.reflection.sources) event.reflection.sources = [];
+            if (event.reflection instanceof DeclarationReflection) {
+                file.reflections.push(<DeclarationReflection>event.reflection);
             }
 
-            reflection.sources.push({
+            event.reflection.sources.push({
                 file: file,
                 fileName: fileName,
                 line: position.line,
@@ -116,8 +101,8 @@ module td
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onBeginResolve(scope:IConverterScope) {
-            scope.getProject().files.forEach((file) => {
+        private onBeginResolve(event:ConverterEvent) {
+            event.getProject().files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
@@ -129,9 +114,9 @@ module td
          *
          * @param event  The event containing the reflection to resolve.
          */
-        private onResolve(reflection:ISourceContainer) {
-            if (!reflection.sources) return;
-            reflection.sources.forEach((source) => {
+        private onResolve(event:ResolveEvent) {
+            if (!event.reflection.sources) return;
+            event.reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
@@ -142,8 +127,8 @@ module td
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onEndResolve(scope:IConverterScope) {
-            var project = scope.getProject();
+        private onEndResolve(event:ConverterEvent) {
+            var project = event.getProject();
             var home = project.directory;
             project.files.forEach((file) => {
                 var reflections = [];

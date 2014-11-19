@@ -61,10 +61,8 @@ module td
      * All parts of a project are represented by DeclarationReflection instances. The actual
      * kind of a reflection is stored in its ´kind´ member.
      */
-    export class DeclarationReflection extends ContainerReflection implements ISourceContainer, ICommentContainer, IDefaultValueContainer, ITypeContainer, ITypeParameterContainer
+    export class DeclarationReflection extends ContainerReflection implements IDefaultValueContainer, ITypeContainer, ITypeParameterContainer
     {
-        comment:Comment;
-
         /**
          * The type of the reflection.
          *
@@ -74,11 +72,6 @@ module td
         type:Type;
 
         typeParameters:TypeParameterType[];
-
-        /**
-         * A list of all source files that contributed to this reflection.
-         */
-        sources:ISourceReference[];
 
         /**
          * A list of call signatures attached to this declaration.

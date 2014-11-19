@@ -26,13 +26,6 @@ module td
     }
 
 
-    export interface IConverterScope {
-        getTypeChecker():ts.TypeChecker;
-        getProject():ProjectReflection;
-        getSettings():Settings;
-    }
-
-
     export class Converter extends PluginHost
     {
         static EVENT_BEGIN:string = 'begin';
@@ -62,21 +55,17 @@ module td
          */
         convert(fileNames:string[], settings:Settings):IConverterResult {
             var dispatcher = this;
-            var host = this.createCompilerHost(settings.compilerOptions);
+            var host    = this.createCompilerHost(settings.compilerOptions);
             var program = ts.createProgram(fileNames, settings.compilerOptions, host);
             var checker = program.getTypeChecker(true);
             var project = new ProjectReflection(settings.name);
+            var event   = new CompilerEvent(checker, project, settings);
 
             var isInherit = false;
             var inheritParent:ts.Node = null;
             var inherited:string[] = [];
             var typeParameters:{[name:string]:Type} = {};
 
-            var scope:IConverterScope = {
-                getTypeChecker: () => checker,
-                getProject:     () => project,
-                getSettings:    () => settings
-            }
 
             return compile();
 
@@ -84,20 +73,26 @@ module td
             function compile():IConverterResult {
                 var errors = program.getDiagnostics();
                 errors = errors.concat(checker.getDiagnostics());
-                dispatcher.dispatch(Converter.EVENT_BEGIN, scope)
+
+                var converterEvent = new ConverterEvent(checker, project, settings);
+                dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
 
                 program.getSourceFiles().forEach((sourceFile) => {
-                    dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, sourceFile, scope)
+                    event.node = sourceFile;
+                    event.reflection = project;
+                    dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
                     visitSourceFile(sourceFile, project);
                 });
 
-                dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, scope)
+                dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
+                var resolveEvent = new ResolveEvent(checker, project, settings);
                 project.reflections.forEach((reflection) => {
-                    dispatcher.dispatch(Converter.EVENT_RESOLVE, reflection, scope)
+                    resolveEvent.reflection = reflection;
+                    dispatcher.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
                 });
 
-                dispatcher.dispatch(Converter.EVENT_RESOLVE_END, scope)
-                dispatcher.dispatch(Converter.EVENT_END, scope)
+                dispatcher.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
+                dispatcher.dispatch(Converter.EVENT_END, converterEvent);
 
                 return {
                     errors: errors,
@@ -159,7 +154,10 @@ module td
                     }
                 }
 
-                dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, child, node, scope);
+                event.reflection = child;
+                event.node = node;
+                dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
+
                 return child;
             }
 
@@ -186,7 +184,9 @@ module td
                         signature.type = extractType(node.type, checker.getTypeOfNode(node));
                     }
 
-                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, signature, node, scope);
+                    event.reflection = signature;
+                    event.node = node;
+                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
                 });
 
                 return signature;

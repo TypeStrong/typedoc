@@ -1,4 +1,8 @@
 /**
+ * ...
+ */
+
+/**
  * This is a module. Unfortunately TypeScript does not parse comments above modules.
  */
 export module MyModule
@@ -21,6 +25,9 @@ export module MyModule
     };
 
 
+    /**
+     * This is a submodule.
+     */
     export module MySubmodule
     {
 

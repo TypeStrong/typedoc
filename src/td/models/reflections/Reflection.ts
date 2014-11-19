@@ -52,18 +52,6 @@ module td
     }
 
 
-    export interface ISourceContainer extends Reflection
-    {
-        sources:ISourceReference[];
-    }
-
-
-    export interface ICommentContainer extends Reflection
-    {
-        comment:Comment;
-    }
-
-
     export interface IDefaultValueContainer extends Reflection
     {
         defaultValue:string;
@@ -173,7 +161,12 @@ module td
         /**
          * The parsed documentation comment attached to this reflection.
          */
-        // comment:Comment;
+        comment:Comment;
+
+        /**
+         * A list of all source files that contributed to this reflection.
+         */
+        sources:ISourceReference[];
 
         location:ILocation;
 
@@ -282,7 +275,7 @@ module td
          * Return a raw object representation of this reflection.
          */
         toObject():any {
-            var result = {
+            var result:any = {
                 id:         this.id,
                 name:       this.name,
                 kind:       this.kind,
@@ -291,7 +284,11 @@ module td
             };
 
             if (this.originalName != this.name) {
-                result['originalName'] = this.originalName;
+                result.originalName = this.originalName;
+            }
+
+            if (this.comment) {
+                result.comment = this.comment.toObject();
             }
 
             this.traverse((child, property) => {

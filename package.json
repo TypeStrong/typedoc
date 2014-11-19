@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "typescript": "1.3.x",
+    "typedoc-default-themes": "^0.2.0",
     "fs-extra": "^0.12.0",
     "minimatch": "^1.0.0",
     "handlebars": "^2.0.0",

@@ -50,6 +50,38 @@ module td
     }
 
 
+    var existingDirectories:ts.Map<boolean> = {};
+
+    export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
+        function directoryExists(directoryPath: string): boolean {
+            if (ts.hasProperty(existingDirectories, directoryPath)) {
+                return true;
+            }
+            if (sys.directoryExists(directoryPath)) {
+                existingDirectories[directoryPath] = true;
+                return true;
+            }
+            return false;
+        }
+
+        function ensureDirectoriesExist(directoryPath: string) {
+            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
+                var parentDirectory = ts.getDirectoryPath(directoryPath);
+                ensureDirectoriesExist(parentDirectory);
+                sys.createDirectory(directoryPath);
+            }
+        }
+
+        try {
+            ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
+            sys.writeFile(fileName, data, writeByteOrderMark);
+        }
+        catch (e) {
+            if (onError) onError(e.message);
+        }
+    }
+
+
     /**
      * The default TypeDoc main application class.
      *
@@ -102,6 +134,7 @@ module td
             this.settings  = settings;
             this.converter = new Converter();
             // this.renderer   = new Output.Renderer(this);
+            require.
         }
 
 
@@ -154,9 +187,12 @@ module td
          */
         public generate(inputFiles:string[], outputDirectory:string) {
             var result = this.converter.convert(inputFiles, this.settings);
+
+            if (this.settings.json) {
+                writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
+            }
+
             console.log(result.project.toStringHierarchy());
-
-
             // this.renderer.render(project, outputDirectory);
         }
 

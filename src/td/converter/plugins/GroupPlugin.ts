@@ -5,13 +5,8 @@ module td
      *
      * The handler sets the ´groups´ property of all reflections.
      */
-    export class GroupPlugin
+    export class GroupPlugin extends ConverterPlugin
     {
-        /**
-         * The converter this plugin is attached to.
-         */
-        private converter:Converter;
-
         /**
          * Define the sort order of reflections.
          */
@@ -72,17 +67,8 @@ module td
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter:Converter) {
-            this.converter = converter;
+            super(converter);
             converter.on(Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
-        }
-
-
-        /**
-         * Removes this plugin.
-         */
-        remove() {
-            this.converter.off(null, null, this);
-            this.converter = null;
         }
 
 
@@ -90,7 +76,7 @@ module td
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
          */
-        private onEndResolve(scope:IConverterScope) {
+        private onEndResolve(event:ResolveEvent) {
             function walkDirectory(directory) {
                 directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
@@ -100,7 +86,7 @@ module td
                 }
             }
 
-            var project = scope.getProject();
+            var project = event.getProject();
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);

@@ -1,12 +1,8 @@
 module td
 {
-    export class SignatureReflection extends Reflection implements ISourceContainer, ICommentContainer, ITypeContainer, ITypeParameterContainer
+    export class SignatureReflection extends Reflection implements ITypeContainer, ITypeParameterContainer
     {
         parent:ContainerReflection;
-
-        comment:Comment;
-
-        sources:ISourceReference[];
 
         parameters:ParameterReflection[];
 
