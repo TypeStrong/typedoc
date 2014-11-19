@@ -15,28 +15,44 @@ module td
         type:Type;
 
 
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
-        }
-
-
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.typeParameters) {
-                this.typeParameters.forEach((n) => { lines.push(indent + n.toString()); });
-            }
-
+        /**
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
+         */
+        traverse(callback:ITraverseCallback) {
             if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
+                callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
             }
 
             if (this.parameters) {
-                this.parameters.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
+                this.parameters.forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
             }
 
-            return lines.join('\n');
+            super.traverse(callback);
+        }
+
+
+        /**
+         * Return a string representation of this reflection.
+         */
+        toString():string {
+            var result = super.toString();
+
+            if (this.typeParameters) {
+                var parameters = [];
+                this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
+                result += '<' + parameters.join(', ') + '>';
+            }
+
+            if (this.type) {
+                result += ':' + this.type.toString();
+            }
+
+            return result;
         }
     }
 }

@@ -13,20 +13,25 @@ module td
         isOptional:boolean;
 
 
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        /**
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
+         */
+        traverse(callback:ITraverseCallback) {
+            if (this.type instanceof ReflectionType) {
+                callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            }
+
+            super.traverse(callback);
         }
 
 
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
-            if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
-            }
-
-            return lines.join('\n');
+        toString() {
+            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
         }
     }
 }

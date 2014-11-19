@@ -94,17 +94,34 @@ module td
          */
 
 
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
-
+        /**
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
+         */
+        traverse(callback:ITraverseCallback) {
             if (this.children) {
-                this.children.forEach((child) => {
-                    lines.push(child.toStringHierarchy(indent));
-                });
+                this.children.forEach((child) => callback(child, TraverseProperty.Children));
+            }
+        }
+
+
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject():any {
+            var result = super.toObject();
+
+            if (this.groups) {
+                var groups = [];
+                this.groups.forEach((group) => groups.push(group.toObject()));
+                result['groups'] = groups;
             }
 
-            return lines.join('\n');
+            return result;
         }
     }
 }

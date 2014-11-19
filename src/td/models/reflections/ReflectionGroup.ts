@@ -75,14 +75,33 @@ module td
 
         /**
          * Do all children of this group have a separate document?
+         */
         private getAllChildrenHaveOwnDocument():boolean {
             var onlyOwnDocuments = true;
             this.children.forEach((child) => {
-                onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
+                onlyOwnDocuments = onlyOwnDocuments && child.location.hasOwnDocument;
             });
 
             return onlyOwnDocuments;
         }
+
+
+        /**
+         * Return a raw object representation of this reflection group.
          */
+        toObject():any {
+            var result = {
+                title: this.title,
+                kind:  this.kind
+            };
+
+            if (this.children) {
+                var children = [];
+                this.children.forEach((child) => children.push(child.id));
+                result['children'] = children;
+            }
+
+            return result;
+        }
     }
 }

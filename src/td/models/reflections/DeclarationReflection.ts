@@ -169,10 +169,6 @@ module td
          */
         inheritedFrom:Type;
 
-
-
-
-
         /**
          * A list of all types this reflection extends (e.g. the parent classes).
          */
@@ -211,57 +207,71 @@ module td
 
 
         /**
-         * Return a string representation of this reflection.
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
          */
-        toString() {
-            return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        traverse(callback:ITraverseCallback) {
+            if (this.type instanceof ReflectionType) {
+                callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            }
+
+            if (this.constructorSignatures) {
+                this.constructorSignatures.forEach((signature) => callback(signature, TraverseProperty.ConstructorSignatures));
+            }
+
+            if (this.indexSignature) {
+                callback(this.indexSignature, TraverseProperty.IndexSignature);
+            }
+
+            if (this.getSignature) {
+                callback(this.getSignature, TraverseProperty.GetSignature);
+            }
+
+            if (this.setSignature) {
+                callback(this.setSignature, TraverseProperty.SetSignature);
+            }
+
+            if (this.callSignatures) {
+                this.callSignatures.forEach((n) => callback(n, TraverseProperty.CallSignatures));
+            }
+
+            super.traverse(callback);
         }
 
 
         /**
-         * Return a string representation of this reflection and all of its children.
-         *
-         * @param indent  Used internally to indent child reflections.
+         * Return a raw object representation of this reflection.
          */
-        toStringHierarchy(indent:string = '') {
-            var lines = [indent + this.toString()];
-            indent += '  ';
+        toObject():any {
+            var result = super.toObject();
+
+
+
+            return result;
+        }
+
+
+        /**
+         * Return a string representation of this reflection.
+         */
+        toString():string {
+            var result = super.toString();
 
             if (this.typeParameters) {
-                this.typeParameters.forEach((n) => { lines.push(indent + n.toString()); });
+                var parameters = [];
+                this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
+                result += '<' + parameters.join(', ') + '>';
             }
 
-            if (this.type instanceof ReflectionType) {
-                lines.push((<ReflectionType>this.type).declaration.toStringHierarchy(indent));
+            if (this.type) {
+                result += ':' + this.type.toString();
             }
 
-            if (this.constructorSignatures) {
-                this.constructorSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
-            }
-
-            if (this.indexSignature) {
-                lines.push(this.indexSignature.toStringHierarchy(indent));
-            }
-
-            if (this.getSignature) {
-                lines.push(this.getSignature.toStringHierarchy(indent));
-            }
-
-            if (this.setSignature) {
-                lines.push(this.setSignature.toStringHierarchy(indent));
-            }
-
-            if (this.callSignatures) {
-                this.callSignatures.forEach((n) => { lines.push(n.toStringHierarchy(indent)); });
-            }
-
-            if (this.children) {
-                this.children.forEach((child) => {
-                    lines.push(child.toStringHierarchy(indent));
-                });
-            }
-
-            return lines.join('\n');
+            return result;
         }
     }
 }

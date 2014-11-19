@@ -82,6 +82,24 @@ module td
     }
 
 
+    export enum TraverseProperty {
+        Children,
+        Parameters,
+        TypeLiteral,
+        ConstructorSignatures,
+        CallSignatures,
+        IndexSignature,
+        GetSignature,
+        SetSignature
+    }
+
+
+    export interface ITraverseCallback
+    {
+        (reflection:Reflection, property:TraverseProperty):void;
+    }
+
+
     export interface ILocation
     {
         /**
@@ -250,6 +268,44 @@ module td
 
 
         /**
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
+         */
+        traverse(callback:ITraverseCallback) { }
+
+
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject():any {
+            var result = {
+                id:         this.id,
+                name:       this.name,
+                kind:       this.kind,
+                kindString: this.kindString,
+                alias:      this.getAlias()
+            };
+
+            if (this.originalName != this.name) {
+                result['originalName'] = this.originalName;
+            }
+
+            this.traverse((child, property) => {
+                var name = TraverseProperty[property];
+                name = name.substr(0, 1).toLowerCase() + name.substr(1);
+                if (!result[name]) result[name] = [];
+                result[name].push(child.toObject());
+            });
+
+            return result;
+        }
+
+
+        /**
          * Return a string representation of this reflection.
          */
         toString():string {
@@ -263,7 +319,14 @@ module td
          * @param indent  Used internally to indent child reflections.
          */
         toStringHierarchy(indent:string = '') {
-            return indent + this.toString();
+            var lines = [indent + this.toString()];
+
+            indent += '  ';
+            this.traverse((child, property) => {
+                lines.push(child.toStringHierarchy(indent));
+            });
+
+            return lines.join('\n');
         }
     }
 }
