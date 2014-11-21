@@ -4,8 +4,6 @@ module td
     {
         parent:SignatureReflection;
 
-        comment:Comment;
-
         defaultValue:string;
 
         type:Type;

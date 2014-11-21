@@ -60,6 +60,13 @@ export enum Size
 
 
 /**
+ * AnotherSize...
+ * @resolve
+ */
+export var AnotherSize:Size = Size;
+
+
+/**
  * This comment is ignored, as the enumeration is already defined.
  */
 export module Size

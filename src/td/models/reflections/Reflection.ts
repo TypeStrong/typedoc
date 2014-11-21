@@ -66,7 +66,7 @@ module td
 
     export interface ITypeParameterContainer extends Reflection
     {
-        typeParameters:TypeParameterType[];
+        typeParameters:TypeParameterReflection[];
     }
 
 
@@ -74,6 +74,7 @@ module td
         Children,
         Parameters,
         TypeLiteral,
+        TypeParameter,
         ConstructorSignatures,
         CallSignatures,
         IndexSignature,

@@ -11,11 +11,11 @@ module td
         /**
          * A list of all reflections within the project.
          */
-        reflections:Reflection[] = [];
+        reflections:{[id:number]:Reflection} = {};
 
-        nodeMapping:{[id:number]:number} = {};
+        nodeMapping:{[nodeId:number]:number} = {};
 
-        symbolMapping:{[id:number]:number} = {};
+        symbolMapping:{[symbolId:number]:number} = {};
 
         /**
          * The root directory of the project.
@@ -63,11 +63,13 @@ module td
          */
         getReflectionsByKind(kind:ReflectionKind):DeclarationReflection[] {
             var values = [];
-            this.reflections.forEach((reflection) => {
+            for (var id in this.reflections) {
+                var reflection = this.reflections[id];
                 if (reflection.kindOf(kind)) {
                     values.push(reflection);
                 }
-            });
+            }
+
             return values;
         }
 

@@ -1,19 +1,19 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * A handler that moves comments with dot syntax to their target.
      */
-    export class DeepCommentHandler extends BaseHandler
+    export class DeepCommentPlugin extends ConverterPlugin
     {
         /**
          * Create a new CommentHandler instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            super(converter);
 
-            dispatcher.on(Dispatcher.EVENT_DECLARATION, this.onDeclaration, this, -512);
+            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this, -512);
         }
 
 
@@ -22,15 +22,15 @@ module TypeDoc.Factories
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(state:DeclarationState) {
-            var reflection = state.reflection;
+        private onDeclaration(event:CompilerEvent) {
+            var reflection = <DeclarationReflection>event.reflection;
             if (reflection.comment) {
                 return;
             }
 
-            function push(reflection:Models.DeclarationReflection) {
+            function push(reflection:DeclarationReflection) {
                 var part = reflection.originalName;
-                if (reflection.isSignature) {
+                if (reflection instanceof SignatureReflection) {
                     part = '';
                 }
 
@@ -40,23 +40,23 @@ module TypeDoc.Factories
             }
 
             var name   = '';
-            var target = <Models.DeclarationReflection>reflection.parent;
+            var target = <DeclarationReflection>reflection.parent;
             push(reflection);
             if (name == '') {
                 return;
             }
 
-            while (target instanceof Models.DeclarationReflection) {
+            while (target instanceof DeclarationReflection) {
                 if (target.comment) {
                     var tag = target.comment.getTag('param', name);
                     if (tag) {
                         target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
-                        reflection.comment = new Models.Comment('', tag.text);
+                        reflection.comment = new Comment('', tag.text);
                         break;
                     }
                 }
 
-                target = <Models.DeclarationReflection>target.parent;
+                target = <DeclarationReflection>target.parent;
             }
         }
     }
@@ -65,5 +65,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(DeepCommentHandler);
+    Converter.registerPlugin('DeepCommentPlugin', DeepCommentPlugin);
 }

@@ -92,7 +92,8 @@ module td
                 project.groups = GroupPlugin.getReflectionGroups(project.children);
             }
 
-            project.reflections.forEach((reflection) => {
+            for (var id in project.reflections) {
+                var reflection = project.reflections[id];
                 reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
                 if (reflection instanceof ContainerReflection) {
                     var container = <ContainerReflection>reflection;
@@ -101,7 +102,7 @@ module td
                         container.groups = GroupPlugin.getReflectionGroups(container.children);
                     }
                 }
-            });
+            }
 
             walkDirectory(project.directory);
             project.files.forEach((file) => {

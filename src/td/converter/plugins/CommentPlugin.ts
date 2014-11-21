@@ -1,11 +1,39 @@
 module td
 {
     /**
+     * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
+     */
+    interface IModuleComment
+    {
+        /**
+         * The module reflection this comment is targeting.
+         */
+        reflection:Reflection;
+
+        /**
+         * The full text of the best matched comment.
+         */
+        fullText:string;
+
+        /**
+         * Has the full text been marked as being preferred?
+         */
+        isPreferred:boolean;
+    }
+
+
+    /**
      * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
      * the generated reflections.
      */
     export class CommentPlugin extends ConverterPlugin
     {
+        /**
+         * List of discovered module comments.
+         */
+        private comments:{[id:number]:IModuleComment};
+
+
         /**
          * Create a new CommentPlugin instance.
          *
@@ -13,9 +41,42 @@ module td
          */
         constructor(converter:Converter) {
             super(converter);
-            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-            converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration, this);
-            converter.on(Converter.EVENT_RESOLVE,            this.onResolve,     this);
+            converter.on(Converter.EVENT_BEGIN,              this.onBegin,        this);
+            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,  this);
+            converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration,  this);
+            converter.on(Converter.EVENT_RESOLVE_BEGIN,      this.onBeginResolve, this);
+            converter.on(Converter.EVENT_RESOLVE,            this.onResolve,      this);
+        }
+
+
+        private storeModuleComment(comment:string, reflection:Reflection) {
+            var isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
+
+            if (this.comments[reflection.id]) {
+                var info = this.comments[reflection.id];
+                if (!isPreferred && (info.isPreferred || info.fullText.length > comment.length)) {
+                    return;
+                }
+
+                info.fullText    = comment;
+                info.isPreferred = isPreferred;
+            } else {
+                this.comments[reflection.id] = {
+                    reflection:  reflection,
+                    fullText:    comment,
+                    isPreferred: isPreferred
+                };
+            }
+        }
+
+
+        /**
+         * Triggered once per project before the dispatcher invokes the compiler.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onBegin(event:ConverterEvent) {
+            this.comments = {};
         }
 
 
@@ -27,12 +88,37 @@ module td
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event:CompilerEvent) {
-            var sourceFile = ts.getSourceFileOfNode(event.node);
-            var comments = ts.getJsDocComments(event.node, sourceFile);
-            if (comments) {
-                comments.forEach((comment) => {
-                    event.reflection.comment = CommentPlugin.parseComment(sourceFile.text.substring(comment.pos, comment.end), event.reflection.comment);
-                });
+            if (event.reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+                return;
+            }
+
+            var comment = CommentPlugin.getComment(event.node);
+            if (comment) {
+                if (event.reflection.kindOf(ReflectionKind.Module)) {
+                    this.storeModuleComment(comment, event.reflection);
+                } else {
+                    event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
+                }
+            }
+        }
+
+
+        /**
+         * Triggered when the dispatcher enters the resolving phase.
+         *
+         * @param event  An event object containing the related project and compiler instance.
+         */
+        private onBeginResolve(event:ConverterEvent) {
+            for (var id in this.comments) {
+                if (!this.comments.hasOwnProperty(id)) {
+                    continue;
+                }
+
+                var info    = this.comments[id];
+                var comment = CommentPlugin.parseComment(info.fullText);
+                CommentPlugin.removeTags(comment, 'preferred');
+
+                info.reflection.comment = comment;
             }
         }
 
@@ -92,6 +178,61 @@ module td
                 });
 
                 CommentPlugin.removeTags(comment, 'param');
+            }
+        }
+
+
+        /**
+         * Return the raw comment string for the given node.
+         *
+         * @param node  The node whose comment should be resolved.
+         * @returns     The raw comment string or NULL if no comment could be found.
+         */
+        static getComment(node:ts.Node):string {
+            var sourceFile = ts.getSourceFileOfNode(node);
+            var target = node;
+
+            if (node.kind == ts.SyntaxKind.ModuleDeclaration) {
+                var a, b;
+
+                // Ignore comments for cascaded modules, e.g. module A.B { }
+                if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                    a = <ts.ModuleDeclaration>node;
+                    b = <ts.ModuleDeclaration>node.nextContainer;
+                    if (a.name.end + 1 == b.name.pos) {
+                        return null;
+                    }
+                }
+
+                // Pull back comments of cascaded modules
+                while (target.parent && target.parent.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                    a = <ts.ModuleDeclaration>target;
+                    b = <ts.ModuleDeclaration>target.parent;
+                    if (a.name.pos == b.name.end + 1) {
+                        target = target.parent;
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            if (node.parent && node.parent.kind == ts.SyntaxKind['VariableStatement']) {
+                target = node.parent;
+            }
+
+            var comments = ts.getJsDocComments(target, sourceFile);
+            if (comments) {
+                var comment;
+                if (node.kind == ts.SyntaxKind['SourceFile']) {
+                    if (comments.length == 1) return null;
+                    comment = comments[0];
+                } else {
+                    comment = comments[comments.length - 1];
+                }
+
+                return sourceFile.text.substring(comment.pos, comment.end);
+            } else {
+                return null;
             }
         }
 

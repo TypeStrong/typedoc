@@ -8,7 +8,7 @@ module td
      * @param value  A bit mask containing TypeScript.PullElementFlags bits.
      * @returns A string describing the given bit mask.
      */
-    function flagsToString(value:any, flags:any):string {
+    export function flagsToString(value:any, flags:any):string {
         var items = [];
         for (var flag in flags) {
             if (!flags.hasOwnProperty(flag)) continue;
@@ -61,6 +61,9 @@ module td
             var project = new ProjectReflection(settings.name);
             var event   = new CompilerEvent(checker, project, settings);
 
+            var isExternal = false;
+            var externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
+
             var isInherit = false;
             var inheritParent:ts.Node = null;
             var inherited:string[] = [];
@@ -86,10 +89,10 @@ module td
 
                 dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
                 var resolveEvent = new ResolveEvent(checker, project, settings);
-                project.reflections.forEach((reflection) => {
-                    resolveEvent.reflection = reflection;
+                for (var id in project.reflections) {
+                    resolveEvent.reflection = project.reflections[id];
                     dispatcher.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
-                });
+                }
 
                 dispatcher.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
                 dispatcher.dispatch(Converter.EVENT_END, converterEvent);
@@ -102,16 +105,14 @@ module td
 
 
             function registerReflection(reflection:Reflection, node:ts.Node) {
-                var id = project.reflections.length;
-                reflection.id = id;
-                project.reflections.push(reflection);
+                project.reflections[reflection.id] = reflection;
 
                 if (node.id && !project.nodeMapping[node.id]) {
-                    project.nodeMapping[node.id] = id;
+                    project.nodeMapping[node.id] = reflection.id;
                 }
 
                 if (node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
-                    project.symbolMapping[node.symbol.id] = id;
+                    project.symbolMapping[node.symbol.id] = reflection.id;
                 }
             }
 
@@ -123,19 +124,30 @@ module td
                 }
 
                 var child:DeclarationReflection;
+                var isStatic = !!(node.flags & ts.NodeFlags['Static']);
+                if (container.kind == ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind['ClassDeclaration'])) {
+                    isStatic = true;
+                }
+
+                var isPrivate = !!(node.flags & ts.NodeFlags['Private']);
+                if (isInherit && isPrivate) {
+                    return null;
+                }
+
                 if (!container.children) container.children = [];
                 container.children.forEach((n) => {
-                    if (n.name == name) child = n;
+                    if (n.name == name && n.isStatic == isStatic) child = n;
                 });
 
                 if (!child) {
                     child = new DeclarationReflection(container, name, kind);
-                    child.isPrivate = !!(node.flags & ts.NodeFlags['Private']);
+                    child.isStatic    = isStatic;
+                    child.isExternal  = isExternal;
+                    child.isPrivate   = isPrivate;
                     child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
-                    child.isPublic = !!(node.flags & ts.NodeFlags['Public']);
-                    child.isStatic = !!(node.flags & ts.NodeFlags['Static']);
-                    child.isExported = !!(node.flags & ts.NodeFlags['Export']);
-                    child.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
+                    child.isPublic    = !!(node.flags & ts.NodeFlags['Public']);
+                    child.isExported  = !!(node.flags & ts.NodeFlags['Export']);
+                    child.isOptional  = !!(node.flags & ts.NodeFlags['QuestionMark']);
 
                     if (container.kind == ReflectionKind.Class && node.parent.kind != ts.SyntaxKind['ClassDeclaration']) {
                         child.isStatic = true;
@@ -353,11 +365,13 @@ module td
                         } else {
                             var typeParameter = new TypeParameterType();
                             typeParameter.name = declaration.symbol.name;
-                            if (declaration.constraint) typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                            if (declaration.constraint) {
+                                typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                            }
                             typeParameters[name] = typeParameter;
 
                             if (!reflection.typeParameters) reflection.typeParameters = [];
-                            reflection.typeParameters.push(typeParameter);
+                            reflection.typeParameters.push(new TypeParameterReflection(reflection, typeParameter));
                         }
                     });
                 }
@@ -484,9 +498,19 @@ module td
              * @return The resulting reflection or NULL.
              */
             function visitSourceFile(node:ts.SourceFile, scope:ContainerReflection):Reflection {
-                if (ts.isDeclarationFile(node)) {
-                    return;
+                isExternal = fileNames.indexOf(node.filename) == -1;
+                if (externalPattern) {
+                    isExternal = isExternal || externalPattern.match(node.filename);
+                }
 
+                if (isExternal && settings.excludeExternals) {
+                    return scope;
+                }
+
+                if (ts.isDeclarationFile(node)) {
+                    if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
+                        return scope;
+                    }
                 } else if (ts.shouldEmitToOwnFile(node, settings.compilerOptions)) {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                 }
@@ -539,13 +563,22 @@ module td
 
                         if (node.baseType) {
                             var type = checker.getTypeOfNode(node.baseType);
-                            if (!type || !type.symbol) {
-                                console.log('Error: No type for ' + checker.typeToString(type));
-                                return;
-                            }
 
-                            type.symbol.declarations.forEach((declaration) => {
-                                inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
+                            if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                            reflection.extendedTypes.push(extractType(node.baseType, type));
+
+                            if (type && type.symbol) {
+                                type.symbol.declarations.forEach((declaration) => {
+                                    inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
+                                });
+                            }
+                        }
+
+                        if (node.implementedTypes) {
+                            reflection.implementedTypes = [];
+                            node.implementedTypes.forEach((implementedType:ts.TypeReferenceNode) => {
+                                var type = checker.getTypeOfNode(implementedType);
+                                reflection.implementedTypes.push(extractType(implementedType, type));
                             });
                         }
                     });
@@ -579,16 +612,16 @@ module td
                         }
 
                         if (node.baseTypes) {
+                            reflection.extendedTypes = [];
                             node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
                                 var type = checker.getTypeOfNode(baseType);
-                                if (!type || !type.symbol) {
-                                    console.log('Error: No type for ' + baseType.typeName['text']);
-                                    return;
-                                }
+                                reflection.extendedTypes.push(extractType(baseType, type));
 
-                                type.symbol.declarations.forEach((declaration) => {
-                                    inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
-                                });
+                                if (type && type.symbol) {
+                                    type.symbol.declarations.forEach((declaration) => {
+                                        inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
+                                    });
+                                }
                             });
                         }
                     });
@@ -624,6 +657,18 @@ module td
              * @return The resulting reflection or NULL.
              */
             function visitVariableDeclaration(node:ts.VariableDeclaration, scope:ContainerReflection):Reflection {
+                var comment = CommentPlugin.getComment(node);
+                if (comment && /\@resolve/.test(comment)) {
+                    var resolveType = checker.getTypeOfNode(node);
+                    if (resolveType && resolveType.symbol) {
+                        var resolved = visit(resolveType.symbol.declarations[0], scope);
+                        if (resolved) {
+                            resolved.name = node.symbol.name;
+                        }
+                        return resolved;
+                    }
+                }
+
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
                 var variable = createDeclaration(scope, node, kind);
                 if (variable) {

@@ -134,7 +134,6 @@ module td
             this.settings  = settings;
             this.converter = new Converter();
             // this.renderer   = new Output.Renderer(this);
-            require.
         }
 
 

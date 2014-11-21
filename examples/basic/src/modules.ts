@@ -30,7 +30,7 @@ export module MyModule
      */
     export module MySubmodule
     {
-
+        var a:string;
     }
 
 
@@ -41,11 +41,28 @@ export module MyModule
     var moduleVariable2:number[];
 }
 
+/**
+ * This is a submodule with the preferred comment.
+ * @preferred
+ */
+export module MyModule.MySubmodule
+{
+    var b:string;
+}
 
+/**
+ * An exported global variable.
+ */
 export var exportedGlobalVariable = 'foo';
 
+/**
+ * A non-exported global variable.
+ */
 var globalVariable = 'foo';
 
+/**
+ * An object literal.
+ */
 var objectLiteral = {
     valueZ: 'foo',
     valueY: function() { return 'foo'; },

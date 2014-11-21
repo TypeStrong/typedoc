@@ -7,9 +7,10 @@ module td
         reflection:Reflection;
 
 
-        constructor(symbolID:number) {
+        constructor(symbolID:number, reflection?:Reflection) {
             super();
             this.symbolID = symbolID;
+            this.reflection = reflection;
         }
 
 

@@ -71,7 +71,7 @@ module td
          */
         type:Type;
 
-        typeParameters:TypeParameterType[];
+        typeParameters:TypeParameterReflection[];
 
         /**
          * A list of call signatures attached to this declaration.
@@ -173,6 +173,16 @@ module td
         extendedBy:Type[];
 
         /**
+         * A list of all types this reflection implements.
+         */
+        implementedTypes:Type[];
+
+        /**
+         * A list of all types that implement this reflection.
+         */
+        implementedBy:Type[];
+
+        /**
          * Contains a simplified representation of the type hierarchy suitable for being
          * rendered in templates.
          */
@@ -208,6 +218,10 @@ module td
          * @param callback  The callback function that should be applied for each child reflection.
          */
         traverse(callback:ITraverseCallback) {
+            if (this.typeParameters) {
+                this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+            }
+
             if (this.type instanceof ReflectionType) {
                 callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
             }

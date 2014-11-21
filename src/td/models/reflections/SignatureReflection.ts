@@ -6,7 +6,7 @@ module td
 
         parameters:ParameterReflection[];
 
-        typeParameters:TypeParameterType[];
+        typeParameters:TypeParameterReflection[];
 
         type:Type;
 
@@ -22,6 +22,10 @@ module td
         traverse(callback:ITraverseCallback) {
             if (this.type instanceof ReflectionType) {
                 callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            }
+
+            if (this.typeParameters) {
+                this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
             }
 
             if (this.parameters) {

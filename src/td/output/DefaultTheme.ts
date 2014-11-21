@@ -264,7 +264,8 @@ module td
                 event.project.groups.forEach(DefaultTheme.applyGroupClasses);
             }
 
-            event.project.reflections.forEach((reflection) => {
+            for (var id in event.project.reflections) {
+                var reflection = event.project.reflections[id];
                 if (reflection instanceof DeclarationReflection) {
                     DefaultTheme.applyReflectionClasses(<DeclarationReflection>reflection);
                 }
@@ -272,7 +273,7 @@ module td
                 if (reflection instanceof ContainerReflection && reflection['groups']) {
                     reflection['groups'].forEach(DefaultTheme.applyGroupClasses);
                 }
-            });
+            }
         }
 
 

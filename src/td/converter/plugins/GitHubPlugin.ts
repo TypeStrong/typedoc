@@ -1,4 +1,4 @@
-module TypeDoc.Factories
+module td
 {
     /**
      * Stores data of a repository.
@@ -133,7 +133,7 @@ module TypeDoc.Factories
      * A handler that watches for repositories with GitHub origin and links
      * their source files to the related GitHub pages.
      */
-    export class GitHubHandler extends BaseHandler
+    export class GitHubPlugin extends ConverterPlugin
     {
         /**
          * List of known repositories.
@@ -149,14 +149,14 @@ module TypeDoc.Factories
         /**
          * Create a new GitHubHandler instance.
          *
-         * @param dispatcher  The dispatcher this handler should be attached to.
+         * @param converter  The converter this plugin should be attached to.
          */
-        constructor(dispatcher:Dispatcher) {
-            super(dispatcher);
+        constructor(converter:Converter) {
+            super(converter);
 
             ShellJS.config.silent = true;
             if (ShellJS.which('git')) {
-                dispatcher.on(Dispatcher.EVENT_END_RESOLVE, this.onEndResolve, this);
+                converter.on(Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
         }
 
@@ -206,21 +206,23 @@ module TypeDoc.Factories
          *
          * @param event  An event object containing the related project and compiler instance.
          */
-        private onEndResolve(event:DispatcherEvent) {
-            event.project.files.forEach((sourceFile) => {
+        private onEndResolve(event:ConverterEvent) {
+            var project = event.getProject();
+            project.files.forEach((sourceFile) => {
                 var repository = this.getRepository(sourceFile.fullFileName);
                 if (repository) {
                     sourceFile.url = repository.getGitHubURL(sourceFile.fullFileName);
                 }
             });
 
-            event.project.reflections.forEach((reflection) => {
-                reflection.sources.forEach((source) => {
+            for (var key in project.reflections) {
+                var reflection = project.reflections[key];
+                if (reflection.sources) reflection.sources.forEach((source) => {
                     if (source.file && source.file.url) {
                         source.url = source.file.url + '#L' + source.line;
                     }
                 });
-            });
+            }
         }
     }
 
@@ -228,5 +230,5 @@ module TypeDoc.Factories
     /**
      * Register this handler.
      */
-    Dispatcher.HANDLERS.push(GitHubHandler);
+    Converter.registerPlugin('GitHubPlugin', GitHubPlugin);
 }
