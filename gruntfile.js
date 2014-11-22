@@ -10,8 +10,11 @@ module.exports = function(grunt)
                     basePath: 'themes',
                     declaration: false
                 },
-                src: ['themes/**/theme.ts'],
-                outDir: 'bin/themes'
+                src: [
+                    'src/plugin.ts',
+                    'src/*/theme.ts'
+                ],
+                outDir: 'bin'
             },
             themeDefault: {
                 options: {
@@ -20,8 +23,51 @@ module.exports = function(grunt)
                     basePath: 'themes',
                     declaration: false
                 },
-                src: ['themes/default/assets/js/src/**/*.ts'],
-                out: 'themes/default/assets/js/main.js'
+                src: ['src/default/assets/js/src/**/*.ts'],
+                out: 'src/default/assets/js/main.js'
+            }
+        },
+        uglify: {
+            themeDefault: {
+                options: {
+                    mangle: false
+                },
+                files: {
+                    'bin/default/assets/js/main.js': [
+                        'src/default/assets/js/lib/jquery-2.1.1.min.js',
+                        'src/default/assets/js/lib/underscore-1.6.0.min.js',
+                        'src/default/assets/js/lib/backbone-1.1.2.min.js',
+                        'src/default/assets/js/lib/lunr.min.js',
+                        'src/default/assets/js/main.js'
+                    ]
+                }
+            }
+        },
+        'string-replace': {
+            themeMinimal: {
+                files: {
+                    'bin/minimal/layouts/default.hbs': ['src/minimal/layouts/default.hbs']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /{{ CSS }}/g,
+                        replacement: function() {
+                            var css = grunt.file.read('bin/default/assets/css/main.css');
+                            return css.replace(/url\(([^\)]*)\)/g, function(match, file) {
+                                if (match.indexOf(':') != -1) return match;
+                                var path = require('path'), fs = require('fs');
+                                var file = path.resolve('bin/default/assets/css', file);
+                                var data = fs.readFileSync(file, 'base64');
+                                return 'url(data:image/png;base64,' + data + ')';
+                            });
+                        }
+                    }, {
+                        pattern: /{{ JS }}/g,
+                        replacement: function() {
+                            return grunt.file.read('bin/default/assets/js/main.js').replace('{{', '{/**/{');
+                        }
+                    }]
+                }
             }
         },
         sass: {
@@ -32,9 +78,9 @@ module.exports = function(grunt)
             themeDefault: {
                 files: [{
                     expand: true,
-                    cwd: './',
-                    src: 'themes/**/*.sass',
-                    dest: 'bin',
+                    cwd: 'src/default/assets/css',
+                    src: '**/*.sass',
+                    dest: 'bin/default/assets/css',
                     ext: '.css'
                 }]
             }
@@ -45,76 +91,59 @@ module.exports = function(grunt)
             },
             themeDefault: {
                 expand: true,
-                src: 'bin/themes/**/*.css',
+                src: 'bin/**/*.css',
                 dest: './'
-            }
-        },
-        uglify: {
-            themeDefault: {
-                options: {
-                    mangle: false
-                },
-                files: {
-                    'bin/themes/default/assets/js/main.js': [
-                        'themes/default/assets/js/lib/jquery-2.1.1.min.js',
-                        'themes/default/assets/js/lib/underscore-1.6.0.min.js',
-                        'themes/default/assets/js/lib/backbone-1.1.2.min.js',
-                        'themes/default/assets/js/lib/lunr.min.js',
-                        'themes/default/assets/js/main.js'
-                    ]
-                }
-            }
-        },
-        'string-replace': {
-            themeMinimal: {
-                files: {
-                    'bin/themes/minimal/layouts/default.hbs': ['themes/minimal/layouts/default.hbs']
-                },
-                options: {
-                    replacements: [{
-                        pattern: /{{ CSS }}/g,
-                        replacement: function() {
-                            var css = grunt.file.read('bin/themes/default/assets/css/main.css');
-                            return css.replace(/url\(([^\)]*)\)/g, function(match, file) {
-                                if (match.indexOf(':') != -1) return match;
-                                var path = require('path'), fs = require('fs');
-                                var file = path.resolve('bin/themes/default/assets/css', file);
-                                var data = fs.readFileSync(file, 'base64');
-                                return 'url(data:image/png;base64,' + data + ')';
-                            });
-                        }
-                    }, {
-                        pattern: /{{ JS }}/g,
-                        replacement: function() {
-                            return grunt.file.read('bin/themes/default/assets/js/main.js').replace('{{', '{/**/{');
-                        }
-                    }]
-                }
             }
         },
         copy: {
             themeDefault: {
-                files: {
-                    'examples/self/doc/assets/css/main.css': 'bin/themes/default/assets/css/main.css',
-                    'examples/self/doc/assets/js/main.js': 'bin/themes/default/assets/js/main.js'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'src/default',
+                    src: ['**/*.hbs'],
+                    dest: 'bin/default'
+                }]
+            },
+            themeDefault2Minimal: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/default/partials',
+                    src: ['**/*.hbs'],
+                    dest: 'bin/minimal/partials'
+                }]
+            },
+            themeMinimal: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/minimal',
+                    src: ['**/*.hbs'],
+                    dest: 'bin/minimal'
+                }]
             }
         },
         watch: {
             themes: {
-                files: ['themes/**/theme.ts'],
+                files: ['src/plugin.ts', 'src/*/theme.ts'],
                 tasks: ['ts:themes']
             },
-            themeDefaultTypescript: {
-                files: ['themes/default/assets/js/src/**/*.ts'],
-                tasks: ['ts:themeDefault', 'uglify:themeDefault', 'copy:themeDefault', 'string-replace:themeMinimal']
+            js: {
+                files: ['src/default/assets/js/src/**/*.ts'],
+                tasks: ['js']
             },
-            themeDefaultSass: {
-                files: ['themes/default/**/*.sass'],
-                tasks: ['sass:themeDefault', 'autoprefixer', 'copy:themeDefault', 'string-replace:themeMinimal']
+            css: {
+                files: ['src/default/assets/css/**/*.sass'],
+                tasks: ['css']
             },
-            themeMinimalLayout: {
-                files: ['themes/minimal/layouts/default.hbs'],
+            default: {
+                files: ['src/default/**/*.hbs'],
+                tasks: ['default']
+            },
+            minimal: {
+                files: ['src/minimal/partials/**/*.hbs', 'src/minimal/templates/**/*.hbs'],
+                tasks: ['copy:themeMinimal']
+            },
+            minimalLayout: {
+                files: ['src/minimal/layouts/default.hbs'],
                 tasks: ['string-replace:themeMinimal']
             }
         }
@@ -129,7 +158,7 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-ts');
 
-    grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('compiler', ['ts:compiler']);
-    grunt.registerTask('theme', ['ts:themes', 'ts:themeDefault', 'uglify:themeDefault','sass:themeDefault','autoprefixer','string-replace:themeMinimal']);
+    grunt.registerTask('css', ['sass', 'autoprefixer', 'string-replace']);
+    grunt.registerTask('js', ['ts:themeDefault', 'uglify', 'string-replace']);
+    grunt.registerTask('default', ['ts:themes', 'copy', 'css', 'js']);
 };
