@@ -69,7 +69,7 @@ module td
             this.title = title;
             this.kind = kind;
 
-            // this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
+            this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
         }
 
 
@@ -79,7 +79,7 @@ module td
         private getAllChildrenHaveOwnDocument():boolean {
             var onlyOwnDocuments = true;
             this.children.forEach((child) => {
-                onlyOwnDocuments = onlyOwnDocuments && child.location.hasOwnDocument;
+                onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
             });
 
             return onlyOwnDocuments;

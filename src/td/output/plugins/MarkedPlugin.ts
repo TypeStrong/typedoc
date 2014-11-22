@@ -206,7 +206,7 @@ module td
                 }
 
                 if (reflection) {
-                    return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.location.url), name);
+                    return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.url), name);
                 } else {
                     return match;
                 }

@@ -221,7 +221,7 @@ module td
             }
 
             var comments = ts.getJsDocComments(target, sourceFile);
-            if (comments) {
+            if (comments && comments.length) {
                 var comment;
                 if (node.kind == ts.SyntaxKind['SourceFile']) {
                     if (comments.length == 1) return null;

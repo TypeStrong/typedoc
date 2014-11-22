@@ -79,15 +79,7 @@ module td
          * TypeDoc creates one declaration per function that may contain ore or more
          * signature reflections.
          */
-        callSignatures:SignatureReflection[];
-
-        /**
-         * A list of constructor signatures attached to this declaration.
-         *
-         * TypeDoc creates one declaration per constructor that may contain ore or more
-         * signature reflections.
-         */
-        constructorSignatures:SignatureReflection[];
+        signatures:SignatureReflection[];
 
         /**
          * The index signature of this declaration.
@@ -201,8 +193,7 @@ module td
         getAllSignatures():SignatureReflection[] {
             var result = [];
 
-            if (this.callSignatures) result = result.concat(this.callSignatures);
-            if (this.constructorSignatures) result = result.concat(this.constructorSignatures);
+            if (this.signatures) result = result.concat(this.signatures);
             if (this.indexSignature) result.push(this.indexSignature);
             if (this.getSignature) result.push(this.getSignature);
             if (this.setSignature) result.push(this.setSignature);
@@ -228,8 +219,8 @@ module td
                 callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
             }
 
-            if (this.constructorSignatures) {
-                this.constructorSignatures.forEach((signature) => callback(signature, TraverseProperty.ConstructorSignatures));
+            if (this.signatures) {
+                this.signatures.forEach((signature) => callback(signature, TraverseProperty.Signatures));
             }
 
             if (this.indexSignature) {
@@ -244,10 +235,6 @@ module td
                 callback(this.setSignature, TraverseProperty.SetSignature);
             }
 
-            if (this.callSignatures) {
-                this.callSignatures.forEach((n) => callback(n, TraverseProperty.CallSignatures));
-            }
-
             super.traverse(callback);
         }
 
@@ -257,9 +244,6 @@ module td
          */
         toObject():any {
             var result = super.toObject();
-
-
-
             return result;
         }
 
@@ -272,7 +256,9 @@ module td
 
             if (this.typeParameters) {
                 var parameters = [];
-                this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
+                this.typeParameters.forEach((parameter) => {
+                    parameters.push(parameter.name)
+                });
                 result += '<' + parameters.join(', ') + '>';
             }
 

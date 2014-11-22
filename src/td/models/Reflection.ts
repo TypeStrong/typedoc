@@ -75,8 +75,7 @@ module td
         Parameters,
         TypeLiteral,
         TypeParameter,
-        ConstructorSignatures,
-        CallSignatures,
+        Signatures,
         IndexSignature,
         GetSignature,
         SetSignature
@@ -86,33 +85,6 @@ module td
     export interface ITraverseCallback
     {
         (reflection:Reflection, property:TraverseProperty):void;
-    }
-
-
-    export interface ILocation
-    {
-        /**
-         * The url of this reflection in the generated documentation.
-         */
-        url:string;
-
-        /**
-         * The name of the anchor of this child.
-         */
-        anchor?:string;
-
-        /**
-         * Is the url pointing to an individual document?
-         *
-         * When FALSE, the url points to an anchor tag on a page of a different reflection.
-         */
-        hasOwnDocument?:boolean;
-
-        /**
-         * A list of generated css classes that should be applied to representations of this
-         * reflection in the generated markup.
-         */
-        cssClasses?:string;
     }
 
 
@@ -169,7 +141,28 @@ module td
          */
         sources:ISourceReference[];
 
-        location:ILocation;
+        /**
+         * The url of this reflection in the generated documentation.
+         */
+        url:string;
+
+        /**
+         * The name of the anchor of this child.
+         */
+        anchor:string;
+
+        /**
+         * Is the url pointing to an individual document?
+         *
+         * When FALSE, the url points to an anchor tag on a page of a different reflection.
+         */
+        hasOwnDocument:boolean;
+
+        /**
+         * A list of generated css classes that should be applied to representations of this
+         * reflection in the generated markup.
+         */
+        cssClasses:string;
 
         /**
          * Url safe alias for this reflection.

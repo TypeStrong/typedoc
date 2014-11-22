@@ -108,10 +108,10 @@ module td
             var urls = [];
 
             if (this.renderer.application.settings.readme == 'none') {
-                project.location = {url:'index.html'};
+                project.url = 'index.html';
                 urls.push(new UrlMapping('index.html', project, 'reflection.hbs'));
             } else {
-                project.location = {url:'globals.html'};
+                project.url = 'globals.html';
                 urls.push(new UrlMapping('globals.html', project, 'reflection.hbs'));
                 urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
             }
@@ -168,13 +168,14 @@ module td
              */
             function includeDedicatedUrls(reflection:DeclarationReflection, item:NavigationItem) {
                 (function walk(reflection) {
-                    reflection.children.forEach((child) => {
-                        if (child.location.hasOwnDocument && !child.kindOf(ReflectionKind.SomeModule)) {
+                    for (var key in reflection.children) {
+                        var child = reflection.children[key];
+                        if (child.hasOwnDocument && !child.kindOf(ReflectionKind.SomeModule)) {
                             if (!item.dedicatedUrls) item.dedicatedUrls = [];
-                            item.dedicatedUrls.push(child.location.url);
+                            item.dedicatedUrls.push(child.url);
                             walk(child);
                         }
-                    });
+                    }
                 })(reflection);
             }
 
@@ -327,14 +328,16 @@ module td
                 var url = Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
                 urls.push(new UrlMapping(url, reflection, mapping.template));
 
-                reflection.location = {url:url, hasOwnDocument:true};
-                reflection.children.forEach((child) => {
+                reflection.url = url;
+                reflection.hasOwnDocument = true;
+                for (var key in reflection.children) {
+                    var child = reflection.children[key];
                     if (mapping.isLeaf) {
                         DefaultTheme.applyAnchorUrl(child, reflection);
                     } else {
                         DefaultTheme.buildUrls(child, urls);
                     }
-                });
+                }
             } else {
                 DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
             }
@@ -349,20 +352,20 @@ module td
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection:DeclarationReflection, container:ContainerReflection) {
+        static applyAnchorUrl(reflection:Reflection, container:ContainerReflection) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
-            if (reflection.isStatic) {
+            if (reflection['isStatic']) {
                 anchor = 'static-' + anchor;
             }
 
-            reflection.location = {
-                url: container.location.url + '#' + anchor,
-                anchor: anchor,
-                hasOwnDocument: false
-            }
+            reflection.url = container.url + '#' + anchor;
+            reflection.anchor = anchor;
+            reflection.hasOwnDocument = false;
 
-            reflection.children.forEach((child) => {
-                DefaultTheme.applyAnchorUrl(child, container);
+            reflection.traverse((child) => {
+                if (child instanceof DeclarationReflection) {
+                    DefaultTheme.applyAnchorUrl(child, container);
+                }
             });
         }
 
@@ -390,7 +393,7 @@ module td
             if (reflection.isExternal)    classes.push('tsd-is-external');
             if (!reflection.isExported)   classes.push('tsd-is-not-exported');
 
-            reflection.location.cssClasses = classes.join(' ');
+            reflection.cssClasses = classes.join(' ');
         }
 
 

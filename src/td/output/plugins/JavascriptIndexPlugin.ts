@@ -31,7 +31,7 @@ module td
                 var reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
                 if (!(reflection instanceof DeclarationReflection)) continue;
 
-                if (!reflection.location || !reflection.location.url ||
+                if (!reflection.url ||
                     !reflection.name ||
                     reflection.isExternal ||
                     reflection.name == '')
@@ -46,8 +46,8 @@ module td
                     id: rows.length,
                     kind:    reflection.kind,
                     name:    reflection.name,
-                    url:     reflection.location.url,
-                    classes: reflection.location.cssClasses
+                    url:     reflection.url,
+                    classes: reflection.cssClasses
                 };
 
                 if (parent) {

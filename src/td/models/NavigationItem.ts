@@ -111,7 +111,7 @@ module td
                 name = '<em>' + reflection.kindString + '</em>';
             }
 
-            return new NavigationItem(name, reflection.location.url, parent, reflection.location.cssClasses);
+            return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
         }
     }
 }

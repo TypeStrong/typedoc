@@ -342,7 +342,7 @@ module td
          * @returns The path to the theme directory.
          */
         static getThemeDirectory():string {
-            return Path.resolve(Path.join(__dirname, 'themes'));
+            return Path.dirname(require.resolve('typedoc-default-themes'));
         }
 
 

@@ -24,11 +24,12 @@ module td
          */
         getChildrenByKind(kind:ReflectionKind):DeclarationReflection[] {
             var values = [];
-            this.children.forEach((child) => {
+            for (var key in this.children) {
+                var child = this.children[key];
                 if (child.kindOf(kind)) {
                     values.push(child);
                 }
-            });
+            }
             return values;
         }
 
@@ -56,7 +57,10 @@ module td
 
             if (this.groups) {
                 var groups = [];
-                this.groups.forEach((group) => groups.push(group.toObject()));
+                this.groups.forEach((group) => {
+                    groups.push(group.toObject())
+                });
+
                 result['groups'] = groups;
             }
 

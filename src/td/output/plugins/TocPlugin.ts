@@ -48,16 +48,18 @@ module td
          * @param trail   Defines the active trail of expanded toc entries.
          * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model:DeclarationReflection, trail:DeclarationReflection[], parent:NavigationItem) {
+        static buildToc(model:Reflection, trail:Reflection[], parent:NavigationItem) {
             var index = trail.indexOf(model);
-            if (index < trail.length - 1 && model.children.length > 40) {
+            var children = model['children'] || [];
+
+            if (index < trail.length - 1 && children.length > 40) {
                 var child = trail[index + 1];
                 var item = NavigationItem.create(child, parent, true);
                 item.isInPath  = true;
                 item.isCurrent = false;
                 TocPlugin.buildToc(child, trail, item);
             } else {
-                model.children.forEach((child:DeclarationReflection) => {
+                children.forEach((child:DeclarationReflection) => {
                     if (child.kindOf(ReflectionKind.SomeModule)) {
                         return;
                     }

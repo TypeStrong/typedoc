@@ -42,6 +42,18 @@ module td
             code: 0
         }
     },{
+        name: "mode",
+        type: {
+            'file': 'file',
+            'modules': 'modules'
+        },
+        scope: OptionScope.TypeDoc,
+        description: {
+            key: 'Specifies the output mode the project is used to be compiled with.',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
+    },{
         name: "json",
         type: "string",
         scope: OptionScope.TypeDoc,
@@ -175,6 +187,11 @@ module td
          * The path of the output directory.
          */
         out:string;
+
+        /**
+         * Specifies the output mode the project is used to be compiled with.
+         */
+        mode:string = 'modules';
 
         /**
          * Path and filename of the json file.

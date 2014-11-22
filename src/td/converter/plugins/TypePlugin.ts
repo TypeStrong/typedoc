@@ -75,7 +75,7 @@ module td
 
             function resolveType(type:ReferenceType) {
                 if (!(type instanceof ReferenceType)) return;
-                type.reflection = project.reflections[type.symbolID];
+                type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
             }
         }
 

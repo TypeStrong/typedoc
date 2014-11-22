@@ -54,6 +54,10 @@ module td
          * @param settings   The settings that should be used to compile the files.
          */
         convert(fileNames:string[], settings:Settings):IConverterResult {
+            for (var i = 0, c = fileNames.length; i < c; i++) {
+                fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
+            }
+
             var dispatcher = this;
             var host    = this.createCompilerHost(settings.compilerOptions);
             var program = ts.createProgram(fileNames, settings.compilerOptions, host);
@@ -513,7 +517,7 @@ module td
                     if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
                         return scope;
                     }
-                } else if (ts.shouldEmitToOwnFile(node, settings.compilerOptions)) {
+                } else if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                 }
 
@@ -566,8 +570,10 @@ module td
                         if (node.baseType) {
                             var type = checker.getTypeOfNode(node.baseType);
 
-                            if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                            reflection.extendedTypes.push(extractType(node.baseType, type));
+                            if (!isInherit) {
+                                if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                reflection.extendedTypes.push(extractType(node.baseType, type));
+                            }
 
                             if (type && type.symbol) {
                                 type.symbol.declarations.forEach((declaration) => {
@@ -614,10 +620,13 @@ module td
                         }
 
                         if (node.baseTypes) {
-                            reflection.extendedTypes = [];
                             node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
                                 var type = checker.getTypeOfNode(baseType);
-                                reflection.extendedTypes.push(extractType(baseType, type));
+
+                                if (!isInherit) {
+                                    if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                    reflection.extendedTypes.push(extractType(baseType, type));
+                                }
 
                                 if (type && type.symbol) {
                                     type.symbol.declarations.forEach((declaration) => {
@@ -747,10 +756,10 @@ module td
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, ReflectionKind.Constructor);
                 if (method) {
-                    if (!hasBody || !method.constructorSignatures) {
-                        var signature = createSignature(method, node, '__constructor', ReflectionKind.ConstructorSignature);
-                        method.constructorSignatures = method.constructorSignatures || [];
-                        method.constructorSignatures.push(signature);
+                    if (!hasBody || !method.signatures) {
+                        var signature = createSignature(method, node, 'constructor', ReflectionKind.ConstructorSignature);
+                        method.signatures = method.signatures || [];
+                        method.signatures.push(signature);
                     }
                 }
 
@@ -771,10 +780,10 @@ module td
                 var method = createDeclaration(scope, node, kind);
 
                 if (method) {
-                    if (!hasBody || !method.callSignatures) {
-                        var signature = createSignature(method, node, '__call', ReflectionKind.CallSignature);
-                        if (!method.callSignatures) method.callSignatures = [];
-                        method.callSignatures.push(signature);
+                    if (!hasBody || !method.signatures) {
+                        var signature = createSignature(method, node, method.name, ReflectionKind.CallSignature);
+                        if (!method.signatures) method.signatures = [];
+                        method.signatures.push(signature);
                     }
                 }
 
@@ -793,8 +802,8 @@ module td
             function visitCallSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
                     var signature = createSignature(<DeclarationReflection>scope, node, '__call', ReflectionKind.CallSignature);
-                    if (!scope.callSignatures) scope.callSignatures = [];
-                    scope.callSignatures.push(signature);
+                    if (!scope.signatures) scope.signatures = [];
+                    scope.signatures.push(signature);
                 }
 
                 return scope;
