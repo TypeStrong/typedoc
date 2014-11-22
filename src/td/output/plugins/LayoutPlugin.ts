@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * A plugin that wraps the generated output with a layout template.
@@ -6,7 +6,7 @@ module TypeDoc.Output
      * Currently only a default layout is supported. The layout must be stored
      * as ´layouts/default.hbs´ in the theme directory.
      */
-    export class LayoutPlugin extends BasePlugin
+    export class LayoutPlugin extends RendererPlugin
     {
         /**
          * Create a new LayoutPlugin instance.

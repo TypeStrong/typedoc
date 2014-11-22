@@ -111,7 +111,7 @@ module td
         /**
          * The renderer used to generate the documentation output.
          */
-        // renderer:Output.Renderer;
+        renderer:Renderer;
 
         /**
          * Has an error been raised through the log method?
@@ -133,7 +133,7 @@ module td
         constructor(settings:Settings = new Settings()) {
             this.settings  = settings;
             this.converter = new Converter();
-            // this.renderer   = new Output.Renderer(this);
+            this.renderer  = new Renderer(this);
         }
 
 
@@ -191,8 +191,7 @@ module td
                 writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
             }
 
-            console.log(result.project.toStringHierarchy());
-            // this.renderer.render(project, outputDirectory);
+            this.renderer.render(result.project, outputDirectory);
         }
 
 

@@ -455,6 +455,8 @@ module td
                         return visitObjectLiteral(<ts.ObjectLiteral>node, scope);
                     case ts.SyntaxKind['TypeLiteral']:
                         return visitTypeLiteral(<ts.TypeLiteralNode>node, scope);
+                    case ts.SyntaxKind['ExportAssignment']:
+                        return visitExportAssignment(<ts.ExportAssignment>node, scope);
                     default:
                         console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
                         return null;
@@ -883,6 +885,34 @@ module td
                     node.members.forEach((node) => {
                         visit(node, scope);
                     });
+                }
+
+                return scope;
+            }
+
+
+            function visitExportAssignment(node:ts.ExportAssignment, scope:ContainerReflection):Reflection {
+                var type = checker.getTypeOfNode(node.exportName);
+                if (type && type.symbol) {
+                    type.symbol.declarations.forEach((declaration) => {
+                        if (!declaration.symbol) return;
+                        var id = project.symbolMapping[declaration.symbol.id];
+                        if (!id) return;
+
+                        var reflection = project.reflections[id];
+                        if (reflection instanceof DeclarationReflection) {
+                            (<DeclarationReflection>reflection).hasExportAssignment = true;
+                        }
+                        markAsExported(reflection);
+                    });
+                }
+
+                function markAsExported(reflection:Reflection) {
+                    if (reflection instanceof DeclarationReflection) {
+                        (<DeclarationReflection>reflection).isExported = true;
+                    }
+
+                    reflection.traverse(markAsExported);
                 }
 
                 return scope;

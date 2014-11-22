@@ -57,7 +57,7 @@ module td
         /**
          * List of all plugins that are attached to the renderer.
          */
-        plugins:BasePlugin[];
+        plugins:RendererPlugin[];
 
         /**
          * The theme that is used to render the documentation.
@@ -121,7 +121,7 @@ module td
          *
          * @param pluginClass  The class of the plugin that should be attached.
          */
-        addPlugin(pluginClass:typeof BasePlugin) {
+        addPlugin(pluginClass:typeof RendererPlugin) {
             if (this.getPlugin(pluginClass) == null) {
                 this.plugins.push(new pluginClass(this));
             }
@@ -133,7 +133,7 @@ module td
          *
          * @param pluginClass  The class of the plugin that should be detached.
          */
-        removePlugin(pluginClass:typeof BasePlugin) {
+        removePlugin(pluginClass:typeof RendererPlugin) {
             for (var i = 0, c = this.plugins.length; i < c; i++) {
                 if (this.plugins[i] instanceof pluginClass) {
                     this.plugins[i].remove();
@@ -150,7 +150,7 @@ module td
          * @param pluginClass  The class of the plugin that should be retrieved.
          * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
          */
-        getPlugin(pluginClass:typeof BasePlugin):BasePlugin {
+        getPlugin(pluginClass:typeof RendererPlugin):RendererPlugin {
             for (var i = 0, c = this.plugins.length; i < c; i++) {
                 if (this.plugins[i] instanceof pluginClass) {
                     return this.plugins[i];

@@ -148,6 +148,8 @@ module td
          */
         isOptional:boolean;
 
+        hasExportAssignment:boolean;
+
         /**
          * A type that points to the reflection that has been overwritten by this reflection.
          *

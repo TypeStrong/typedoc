@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * A plugin that loads all partials of the current theme.
@@ -6,7 +6,7 @@ module TypeDoc.Output
      * Partials must be placed in the ´partials´ subdirectory of the theme. The plugin first
      * loads the partials of the default theme and then the partials of the current theme.
      */
-    export class PartialsPlugin extends BasePlugin
+    export class PartialsPlugin extends RendererPlugin
     {
         /**
          * Create a new PartialsPlugin instance.

@@ -1,4 +1,4 @@
-module TypeDoc.Output
+module td
 {
     /**
      * A plugin that generates a table of contents for the current page.
@@ -6,7 +6,7 @@ module TypeDoc.Output
      * The table of contents will start at the nearest module or dynamic module. This plugin
      * sets the [[OutputPageEvent.toc]] property.
      */
-    export class TocPlugin extends BasePlugin
+    export class TocPlugin extends RendererPlugin
     {
         /**
          * Create a new TocPlugin instance.
@@ -26,17 +26,17 @@ module TypeDoc.Output
          */
         private onRendererBeginPage(page:OutputPageEvent) {
             var model = page.model;
-            if (!(model instanceof Models.BaseReflection)) {
+            if (!(model instanceof Reflection)) {
                 return;
             }
 
             var trail = [];
-            while (!(model instanceof Models.ProjectReflection) && !model.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+            while (!(model instanceof ProjectReflection) && !model.kindOf(ReflectionKind.SomeModule)) {
                 trail.unshift(model);
                 model = model.parent;
             }
 
-            page.toc = new Models.NavigationItem();
+            page.toc = new NavigationItem();
             TocPlugin.buildToc(model, trail, page.toc);
         }
 
@@ -46,23 +46,23 @@ module TypeDoc.Output
          *
          * @param model   The models whose children should be written to the toc.
          * @param trail   Defines the active trail of expanded toc entries.
-         * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+         * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model:Models.DeclarationReflection, trail:Models.DeclarationReflection[], parent:Models.NavigationItem) {
+        static buildToc(model:DeclarationReflection, trail:DeclarationReflection[], parent:NavigationItem) {
             var index = trail.indexOf(model);
             if (index < trail.length - 1 && model.children.length > 40) {
                 var child = trail[index + 1];
-                var item = Models.NavigationItem.create(child, parent, true);
+                var item = NavigationItem.create(child, parent, true);
                 item.isInPath  = true;
                 item.isCurrent = false;
                 TocPlugin.buildToc(child, trail, item);
             } else {
-                model.children.forEach((child:Models.DeclarationReflection) => {
-                    if (child.kindOf(TypeScript.PullElementKind.SomeContainer)) {
+                model.children.forEach((child:DeclarationReflection) => {
+                    if (child.kindOf(ReflectionKind.SomeModule)) {
                         return;
                     }
 
-                    var item = Models.NavigationItem.create(child, parent, true);
+                    var item = NavigationItem.create(child, parent, true);
                     if (trail.indexOf(child) != -1) {
                         item.isInPath  = true;
                         item.isCurrent = (trail[trail.length - 1] == child);

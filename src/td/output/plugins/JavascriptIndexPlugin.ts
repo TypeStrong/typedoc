@@ -1,11 +1,11 @@
-module TypeDoc.Output
+module td
 {
     /**
      * A plugin that exports an index of the project to a javascript file.
      *
      * The resulting javascript file can be used to build a simple search function.
      */
-    export class JavascriptIndexPlugin extends BasePlugin
+    export class JavascriptIndexPlugin extends RendererPlugin
     {
         /**
          * Create a new JavascriptIndexPlugin instance.
@@ -27,27 +27,27 @@ module TypeDoc.Output
             var rows = [];
             var kinds = {};
 
-            event.project.reflections.forEach((reflection) => {
-                if (!reflection.url ||
+            for (var key in event.project.reflections) {
+                var reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
+                if (!(reflection instanceof DeclarationReflection)) continue;
+
+                if (!reflection.location || !reflection.location.url ||
                     !reflection.name ||
                     reflection.isExternal ||
-                    reflection.name == '' ||
-                    reflection.kindOf(Models.Kind.Parameter))
-                    return;
+                    reflection.name == '')
+                    continue;
 
                 var parent = reflection.parent;
-                if (parent instanceof Models.ProjectReflection) {
+                if (parent instanceof ProjectReflection) {
                     parent = null;
-                } else if ((<Models.DeclarationReflection>parent).signatures) {
-                    return;
                 }
 
                 var row:any = {
                     id: rows.length,
                     kind:    reflection.kind,
                     name:    reflection.name,
-                    url:     reflection.url,
-                    classes: reflection.cssClasses
+                    url:     reflection.location.url,
+                    classes: reflection.location.cssClasses
                 };
 
                 if (parent) {
@@ -55,11 +55,11 @@ module TypeDoc.Output
                 }
 
                 if (!kinds[reflection.kind]) {
-                    kinds[reflection.kind] = Factories.GroupHandler.getKindSingular(reflection.kind);
+                    kinds[reflection.kind] = GroupPlugin.getKindSingular(reflection.kind);
                 }
 
                 rows.push(row);
-            });
+            }
 
             var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
             var data =
@@ -67,7 +67,7 @@ module TypeDoc.Output
                 'typedoc.search = typedoc.search || {};' +
                 'typedoc.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
 
-            TypeScript.IOUtils.writeFileAndFolderStructure(TypeScript.IO, fileName, data, true);
+            writeFile(fileName, data, true);
         }
     }
 

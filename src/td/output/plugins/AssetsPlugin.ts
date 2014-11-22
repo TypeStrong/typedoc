@@ -1,10 +1,10 @@
-module TypeDoc.Output
+module td
 {
     /**
      * A plugin that copies the subdirectory ´assets´ from the current themes
      * source folder to the output directory.
      */
-    export class AssetsPlugin extends BasePlugin
+    export class AssetsPlugin extends RendererPlugin
     {
         /**
          * Should the default assets always be copied to the output directory?

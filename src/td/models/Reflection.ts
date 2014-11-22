@@ -255,10 +255,70 @@ module td
          * Has this reflection a visible comment?
          *
          * @returns TRUE when this reflection has a visible comment.
+         */
         hasComment():boolean {
             return <boolean>(this.comment && this.comment.hasVisibleComponent());
         }
+
+
+        /**
+         * @param name  The name of the child to look for. Might contain a hierarchy.
          */
+        getChildByName(name:string):Reflection;
+
+        /**
+         * @param names  The name hierarchy of the child to look for.
+         */
+        getChildByName(names:string[]):Reflection;
+
+        /**
+         * Return a child by its name.
+         *
+         * @returns The found child or NULL.
+         */
+        getChildByName(arg:any):Reflection {
+            var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+            var name = names[0];
+
+            this.traverse((child) => {
+                if (child.name == name) {
+                    if (names.length <= 1) {
+                        return child;
+                    } else if (child) {
+                        return child.getChildByName(names.slice(1));
+                    }
+                }
+            });
+
+            return null;
+        }
+
+
+        /**
+         * @param name  The name to look for. Might contain a hierarchy.
+         */
+        findReflectionByName(name:string):Reflection;
+
+        /**
+         * @param names  The name hierarchy to look for.
+         */
+        findReflectionByName(names:string[]):Reflection;
+
+        /**
+         * Try to find a reflection by its name.
+         *
+         * @return The found reflection or null.
+         */
+        findReflectionByName(arg:any):Reflection {
+            var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+
+            var reflection = this.getChildByName(names);
+            if (reflection) {
+                return reflection;
+            } else {
+                return this.parent.findReflectionByName(names);
+            }
+        }
 
 
         /**

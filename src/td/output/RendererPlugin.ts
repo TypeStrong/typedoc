@@ -3,7 +3,7 @@ module td
     /**
      * Base class of all plugins that can be attached to the [[Renderer]].
      */
-    export class BasePlugin
+    export class RendererPlugin
     {
         /**
          * The renderer this plugin is attached to.

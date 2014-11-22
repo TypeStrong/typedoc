@@ -76,37 +76,31 @@ module td
 
         /**
          * @param name  The name to look for. Might contain a hierarchy.
-        findReflectionByName(name:string):DeclarationReflection;
          */
+        findReflectionByName(name:string):Reflection;
 
         /**
          * @param names  The name hierarchy to look for.
-        findReflectionByName(names:string[]):DeclarationReflection;
          */
+        findReflectionByName(names:string[]):Reflection;
 
         /**
          * Try to find a reflection by its name.
          *
          * @return The found reflection or null.
-        findReflectionByName(arg:any):DeclarationReflection {
+         */
+        findReflectionByName(arg:any):Reflection {
             var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
             var name = names.pop();
 
-            search: for (var index = 0, length = this.reflections.length; index < length; index++) {
-                var reflection = this.reflections[index];
+            search: for (var key in this.reflections) {
+                var reflection = this.reflections[key];
                 if (reflection.name != name) continue;
 
                 var depth = names.length - 1;
                 var target = reflection;
                 while (target && depth > 0) {
-                    target = <DeclarationReflection>target.parent;
-                    if (!(target instanceof DeclarationReflection)) continue search;
-
-                    if (target.signatures) {
-                        target = <DeclarationReflection>target.parent;
-                        if (!(target instanceof DeclarationReflection)) continue search;
-                    }
-
+                    target = target.parent;
                     if (target.name != names[depth]) continue search;
                     depth -= 1;
                 }
@@ -116,6 +110,5 @@ module td
 
             return null;
         }
-         */
     }
 }
