@@ -1,5 +1,5 @@
-/// <reference path="../../bin/typedoc.d.ts" />
+/// <reference path="../../typings/typedoc.d.ts" />
 
-export class Theme extends TypeDoc.Output.DefaultTheme
+export class Theme extends td.DefaultTheme
 {
 }

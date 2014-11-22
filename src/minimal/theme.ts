@@ -1,6 +1,6 @@
-/// <reference path="../../bin/typedoc.d.ts" />
+/// <reference path="../../typings/typedoc.d.ts" />
 
-export class Theme extends TypeDoc.Output.DefaultTheme
+export class Theme extends td.DefaultTheme
 {
     /**
      * Create a new DefaultTheme instance.
@@ -8,15 +8,15 @@ export class Theme extends TypeDoc.Output.DefaultTheme
      * @param renderer  The renderer this theme is attached to.
      * @param basePath  The base path of this theme.
      */
-    constructor(renderer:TypeDoc.Output.Renderer, basePath:string) {
+    constructor(renderer:td.Renderer, basePath:string) {
         super(renderer, basePath);
 
-        renderer.removePlugin(TypeDoc.Output.AssetsPlugin);
-        renderer.removePlugin(TypeDoc.Output.JavascriptIndexPlugin);
-        renderer.removePlugin(TypeDoc.Output.NavigationPlugin);
-        renderer.removePlugin(TypeDoc.Output.TocPlugin);
+        renderer.removePlugin(td.AssetsPlugin);
+        renderer.removePlugin(td.JavascriptIndexPlugin);
+        renderer.removePlugin(td.NavigationPlugin);
+        renderer.removePlugin(td.TocPlugin);
 
-        renderer.on(TypeDoc.Output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+        renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
     }
 
 
@@ -28,7 +28,7 @@ export class Theme extends TypeDoc.Output.DefaultTheme
      *              otherwise FALSE.
      */
     isOutputDirectory(path:string):boolean {
-        if (!FS.existsSync(Path.join(path, 'index.html'))) return false;
+        if (!td.FS.existsSync(td.Path.join(path, 'index.html'))) return false;
         return true;
     }
 
@@ -40,16 +40,18 @@ export class Theme extends TypeDoc.Output.DefaultTheme
      * @returns        A list of [[UrlMapping]] instances defining which models
      *                 should be rendered to which files.
      */
-    getUrls(project:TypeDoc.Models.ProjectReflection):TypeDoc.Models.UrlMapping[] {
+    getUrls(project:td.ProjectReflection):td.UrlMapping[] {
         var urls = [];
-        urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
+        urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
 
-        project.url = 'index.html';
-        project.anchor         = null;
-        project.hasOwnDocument = true;
+        project.location = {
+            url: 'index.html',
+            anchor: null,
+            hasOwnDocument: true
+        };
 
         project.children.forEach((child) => {
-            TypeDoc.Output.DefaultTheme.applyAnchorUrl(child, project);
+            td.DefaultTheme.applyAnchorUrl(child, project);
         });
 
         return urls;
@@ -61,13 +63,13 @@ export class Theme extends TypeDoc.Output.DefaultTheme
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page:TypeDoc.Output.OutputPageEvent) {
+    private onRendererBeginPage(page:td.OutputPageEvent) {
         var model = page.model;
-        if (!(model instanceof TypeDoc.Models.BaseReflection)) {
+        if (!(model instanceof td.Reflection)) {
             return;
         }
 
-        page.toc = new TypeDoc.Models.NavigationItem();
+        page.toc = new td.NavigationItem();
         Theme.buildToc(page.model, page.toc);
     }
 
@@ -78,9 +80,9 @@ export class Theme extends TypeDoc.Output.DefaultTheme
      * @param model   The models whose children should be written to the toc.
      * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
      */
-    static buildToc(model:TypeDoc.Models.DeclarationReflection, parent:TypeDoc.Models.NavigationItem) {
-        model.children.forEach((child:TypeDoc.Models.DeclarationReflection) => {
-            var item = TypeDoc.Models.NavigationItem.create(child, parent, true);
+    static buildToc(model:td.DeclarationReflection, parent:td.NavigationItem) {
+        model.children.forEach((child:td.DeclarationReflection) => {
+            var item = td.NavigationItem.create(child, parent, true);
             Theme.buildToc(child, item);
         });
     }

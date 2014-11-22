@@ -9,29 +9,31 @@ var Theme = (function (_super) {
     function Theme(renderer, basePath) {
         _super.call(this, renderer, basePath);
 
-        renderer.removePlugin(TypeDoc.Output.AssetsPlugin);
-        renderer.removePlugin(TypeDoc.Output.JavascriptIndexPlugin);
-        renderer.removePlugin(TypeDoc.Output.NavigationPlugin);
-        renderer.removePlugin(TypeDoc.Output.TocPlugin);
+        renderer.removePlugin(td.AssetsPlugin);
+        renderer.removePlugin(td.JavascriptIndexPlugin);
+        renderer.removePlugin(td.NavigationPlugin);
+        renderer.removePlugin(td.TocPlugin);
 
-        renderer.on(TypeDoc.Output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+        renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
     }
     Theme.prototype.isOutputDirectory = function (path) {
-        if (!FS.existsSync(Path.join(path, 'index.html')))
+        if (!td.FS.existsSync(td.Path.join(path, 'index.html')))
             return false;
         return true;
     };
 
     Theme.prototype.getUrls = function (project) {
         var urls = [];
-        urls.push(new TypeDoc.Models.UrlMapping('index.html', project, 'index.hbs'));
+        urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
 
-        project.url = 'index.html';
-        project.anchor = null;
-        project.hasOwnDocument = true;
+        project.location = {
+            url: 'index.html',
+            anchor: null,
+            hasOwnDocument: true
+        };
 
         project.children.forEach(function (child) {
-            TypeDoc.Output.DefaultTheme.applyAnchorUrl(child, project);
+            td.DefaultTheme.applyAnchorUrl(child, project);
         });
 
         return urls;
@@ -39,20 +41,20 @@ var Theme = (function (_super) {
 
     Theme.prototype.onRendererBeginPage = function (page) {
         var model = page.model;
-        if (!(model instanceof TypeDoc.Models.BaseReflection)) {
+        if (!(model instanceof td.Reflection)) {
             return;
         }
 
-        page.toc = new TypeDoc.Models.NavigationItem();
+        page.toc = new td.NavigationItem();
         Theme.buildToc(page.model, page.toc);
     };
 
     Theme.buildToc = function (model, parent) {
         model.children.forEach(function (child) {
-            var item = TypeDoc.Models.NavigationItem.create(child, parent, true);
+            var item = td.NavigationItem.create(child, parent, true);
             Theme.buildToc(child, item);
         });
     };
     return Theme;
-})(TypeDoc.Output.DefaultTheme);
+})(td.DefaultTheme);
 exports.Theme = Theme;

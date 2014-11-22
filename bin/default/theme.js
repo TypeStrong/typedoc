@@ -10,5 +10,5 @@ var Theme = (function (_super) {
         _super.apply(this, arguments);
     }
     return Theme;
-})(TypeDoc.Output.DefaultTheme);
+})(td.DefaultTheme);
 exports.Theme = Theme;
