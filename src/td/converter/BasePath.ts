@@ -59,7 +59,7 @@ module td
          * @param fileName  The absolute filename that should be trimmed.
          * @returns The trimmed version of the filename.
          */
-        trim(fileName:string) {
+        trim(fileName:string):string {
             fileName = BasePath.normalize(fileName);
             for (var n = 0, c = this.basePaths.length; n < c; n++) {
                 var basePath = this.basePaths[n];

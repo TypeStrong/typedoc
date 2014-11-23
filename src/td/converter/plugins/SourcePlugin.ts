@@ -80,7 +80,13 @@ module td
             var sourceFile      = ts.getSourceFileOfNode(event.node);
             var fileName        = sourceFile.filename;
             var file:SourceFile = this.getSourceFile(fileName, event.getProject());
-            var position        = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+
+            var position;
+            if (event.node['name'] && event.node['name'].end) {
+                position = sourceFile.getLineAndCharacterFromPosition(event.node['name'].end);
+            } else {
+                position = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+            }
 
             if (!event.reflection.sources) event.reflection.sources = [];
             if (event.reflection instanceof DeclarationReflection) {
