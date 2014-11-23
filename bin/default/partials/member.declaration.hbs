@@ -4,3 +4,11 @@
 
 {{> member.sources}}
 {{> comment}}
+
+{{#if type}}
+    {{#if type.declaration}}
+        {{#with type.declaration}}
+            {{> member }}
+        {{/with}}
+    {{/if}}
+{{/if}}
