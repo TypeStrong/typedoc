@@ -11,10 +11,10 @@ export class Theme extends td.DefaultTheme
     constructor(renderer:td.Renderer, basePath:string) {
         super(renderer, basePath);
 
-        renderer.removePlugin(td.AssetsPlugin);
-        renderer.removePlugin(td.JavascriptIndexPlugin);
-        renderer.removePlugin(td.NavigationPlugin);
-        renderer.removePlugin(td.TocPlugin);
+        renderer.removePlugin('assets');
+        renderer.removePlugin('javascriptIndex');
+        renderer.removePlugin('navigation');
+        renderer.removePlugin('toc');
 
         renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
     }

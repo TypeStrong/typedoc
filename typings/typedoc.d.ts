@@ -123,6 +123,10 @@ declare module td {
          */
         out: string;
         /**
+         * Specifies the output mode the project is used to be compiled with.
+         */
+        mode: string;
+        /**
          * Path and filename of the json file.
          */
         json: string;
@@ -322,16 +326,30 @@ declare module td {
     interface IPluginInterface {
         remove(): any;
     }
-    class PluginHost extends EventDispatcher {
-        plugins: ts.Map<IPluginInterface>;
-        static PLUGINS: {
-            [x: string]: any;
+    interface IPluginClass<T extends IPluginInterface> {
+        new (instance: PluginHost<T>): T;
+    }
+    class PluginHost<T extends IPluginInterface> extends EventDispatcher {
+        /**
+         * List of all plugins that are attached to this host.
+         */
+        plugins: {
+            [x: string]: T;
         };
-        addPlugin(name: string, plugin: any): IPluginInterface;
+        static PLUGINS: {
+            [x: string]: IPluginClass<IPluginInterface>;
+        };
+        /**
+         * Retrieve a plugin instance.
+         *
+         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+         */
+        getPlugin(name: string): T;
+        addPlugin(name: string, pluginClass: IPluginClass<T>): T;
         removePlugin(name: string): boolean;
         removeAllPlugins(): void;
-        static registerPlugin(name: string, plugin: any): void;
-        static loadPlugins(instance: any): ts.Map<IPluginInterface>;
+        static registerPlugin<T extends IPluginInterface>(name: string, pluginClass: IPluginClass<T>): void;
+        static loadPlugins<T extends IPluginInterface>(instance: PluginHost<T>): void;
     }
 }
 declare module td {
@@ -384,7 +402,7 @@ declare module td {
         project: any;
         errors: ts.Diagnostic[];
     }
-    class Converter extends PluginHost {
+    class Converter extends PluginHost<ConverterPlugin> {
         static EVENT_BEGIN: string;
         static EVENT_END: string;
         static EVENT_FILE_BEGIN: string;
@@ -1048,11 +1066,10 @@ declare module td {
         Parameters = 1,
         TypeLiteral = 2,
         TypeParameter = 3,
-        ConstructorSignatures = 4,
-        CallSignatures = 5,
-        IndexSignature = 6,
-        GetSignature = 7,
-        SetSignature = 8,
+        Signatures = 4,
+        IndexSignature = 5,
+        GetSignature = 6,
+        SetSignature = 7,
     }
     interface ITraverseCallback {
         (reflection: Reflection, property: TraverseProperty): void;
@@ -1486,14 +1503,7 @@ declare module td {
          * TypeDoc creates one declaration per function that may contain ore or more
          * signature reflections.
          */
-        callSignatures: SignatureReflection[];
-        /**
-         * A list of constructor signatures attached to this declaration.
-         *
-         * TypeDoc creates one declaration per constructor that may contain ore or more
-         * signature reflections.
-         */
-        constructorSignatures: SignatureReflection[];
+        signatures: SignatureReflection[];
         /**
          * The index signature of this declaration.
          */
@@ -2041,15 +2051,11 @@ declare module td {
      *    Triggered after the renderer has written all documents. The listener receives
      *    an instance of [[OutputEvent]].
      */
-    class Renderer extends EventDispatcher {
+    class Renderer extends PluginHost<RendererPlugin> {
         /**
          * The application this dispatcher is attached to.
          */
         application: IApplication;
-        /**
-         * List of all plugins that are attached to the renderer.
-         */
-        plugins: RendererPlugin[];
         /**
          * The theme that is used to render the documentation.
          */
@@ -2079,34 +2085,11 @@ declare module td {
          */
         static EVENT_END_PAGE: string;
         /**
-         * Registry containing the plugins, that should be created by default.
-         */
-        static PLUGIN_CLASSES: any[];
-        /**
          * Create a new Renderer instance.
          *
          * @param application  The application this dispatcher is attached to.
          */
         constructor(application: IApplication);
-        /**
-         * Add a plugin to the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be attached.
-         */
-        addPlugin(pluginClass: typeof RendererPlugin): void;
-        /**
-         * Remove a plugin from the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be detached.
-         */
-        removePlugin(pluginClass: typeof RendererPlugin): void;
-        /**
-         * Retrieve a plugin instance.
-         *
-         * @param pluginClass  The class of the plugin that should be retrieved.
-         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
-         */
-        getPlugin(pluginClass: typeof RendererPlugin): RendererPlugin;
         /**
          * Return the template with the given filename.
          *
