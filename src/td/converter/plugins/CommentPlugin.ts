@@ -329,5 +329,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('CommentPlugin', CommentPlugin);
+    Converter.registerPlugin('comment', CommentPlugin);
 }

@@ -230,5 +230,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('GitHubPlugin', GitHubPlugin);
+    Converter.registerPlugin('gitHub', GitHubPlugin);
 }

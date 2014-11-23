@@ -79,5 +79,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(TocPlugin);
+    Renderer.registerPlugin('toc', TocPlugin);
 }

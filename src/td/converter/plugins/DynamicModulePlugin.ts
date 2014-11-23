@@ -78,5 +78,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('DynamicModulePlugin', DynamicModulePlugin);
+    Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
 }

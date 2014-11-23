@@ -75,5 +75,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(JavascriptIndexPlugin);
+    Renderer.registerPlugin('javascriptIndex', JavascriptIndexPlugin);
 }

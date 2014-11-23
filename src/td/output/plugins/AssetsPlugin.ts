@@ -49,5 +49,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
+    Renderer.registerPlugin('assets', AssetsPlugin);
 }

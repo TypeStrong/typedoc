@@ -124,5 +124,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('PackagePlugin', PackagePlugin);
+    Converter.registerPlugin('package', PackagePlugin);
 }

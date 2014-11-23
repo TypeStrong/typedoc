@@ -26,7 +26,7 @@ module td
     }
 
 
-    export class Converter extends PluginHost
+    export class Converter extends PluginHost<ConverterPlugin>
     {
         static EVENT_BEGIN:string = 'begin';
         static EVENT_END:string = 'end';
@@ -43,7 +43,7 @@ module td
 
         constructor() {
             super();
-            this.plugins = Converter.loadPlugins(this);
+            Converter.loadPlugins(this);
         }
 
 

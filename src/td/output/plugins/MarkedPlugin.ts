@@ -319,5 +319,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(MarkedPlugin);
+    Renderer.registerPlugin('marked', MarkedPlugin);
 }

@@ -130,5 +130,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('TypePlugin', TypePlugin);
+    Converter.registerPlugin('type', TypePlugin);
 }

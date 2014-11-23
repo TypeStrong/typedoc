@@ -58,5 +58,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
+    Renderer.registerPlugin('partials', PartialsPlugin);
 }

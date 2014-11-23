@@ -47,17 +47,12 @@ module td
      *    Triggered after the renderer has written all documents. The listener receives
      *    an instance of [[OutputEvent]].
      */
-    export class Renderer extends EventDispatcher
+    export class Renderer extends PluginHost<RendererPlugin>
     {
         /**
          * The application this dispatcher is attached to.
          */
         application:IApplication;
-
-        /**
-         * List of all plugins that are attached to the renderer.
-         */
-        plugins:RendererPlugin[];
 
         /**
          * The theme that is used to render the documentation.
@@ -93,11 +88,6 @@ module td
          */
         static EVENT_END_PAGE:string = 'endPage';
 
-        /**
-         * Registry containing the plugins, that should be created by default.
-         */
-        static PLUGIN_CLASSES:any[] = [];
-
 
 
         /**
@@ -109,57 +99,8 @@ module td
             super();
             this.application = application;
 
-            this.plugins = [];
-            Renderer.PLUGIN_CLASSES.forEach((pluginClass) => {
-                this.addPlugin(pluginClass);
-            });
+            Renderer.loadPlugins(this);
         }
-
-
-        /**
-         * Add a plugin to the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be attached.
-         */
-        addPlugin(pluginClass:typeof RendererPlugin) {
-            if (this.getPlugin(pluginClass) == null) {
-                this.plugins.push(new pluginClass(this));
-            }
-        }
-
-
-        /**
-         * Remove a plugin from the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be detached.
-         */
-        removePlugin(pluginClass:typeof RendererPlugin) {
-            for (var i = 0, c = this.plugins.length; i < c; i++) {
-                if (this.plugins[i] instanceof pluginClass) {
-                    this.plugins[i].remove();
-                    this.plugins.splice(i, 1);
-                    c -= 1;
-                }
-            }
-        }
-
-
-        /**
-         * Retrieve a plugin instance.
-         *
-         * @param pluginClass  The class of the plugin that should be retrieved.
-         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
-         */
-        getPlugin(pluginClass:typeof RendererPlugin):RendererPlugin {
-            for (var i = 0, c = this.plugins.length; i < c; i++) {
-                if (this.plugins[i] instanceof pluginClass) {
-                    return this.plugins[i];
-                }
-            }
-
-            return null;
-        }
-
 
 
         /**

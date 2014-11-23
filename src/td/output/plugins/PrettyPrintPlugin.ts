@@ -162,5 +162,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(PrettyPrintPlugin);
+    Renderer.registerPlugin('prettyPrint', PrettyPrintPlugin);
 }

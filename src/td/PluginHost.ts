@@ -4,19 +4,41 @@ module td
         remove();
     }
 
+    export interface IPluginClass<T extends IPluginInterface> {
+        new(instance:PluginHost<T>):T;
+    }
 
-    export class PluginHost extends EventDispatcher
+
+    export class PluginHost<T extends IPluginInterface> extends EventDispatcher
     {
-        plugins:ts.Map<IPluginInterface>;
+        /**
+         * List of all plugins that are attached to this host.
+         */
+        plugins:{[name:string]:T};
 
-        static PLUGINS:{[name:string]:any};
+        static PLUGINS:{[name:string]:IPluginClass<IPluginInterface>};
 
 
-        addPlugin(name:string, plugin:any):IPluginInterface {
+        /**
+         * Retrieve a plugin instance.
+         *
+         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+         */
+        getPlugin(name:string):T {
+            if (this.plugins[name]) {
+                return this.plugins[name];
+            } else {
+                return null;
+            }
+        }
+
+
+        addPlugin(name:string, pluginClass:IPluginClass<T>):T {
+            if (!this.plugins) this.plugins = {};
             if (this.plugins[name]) {
                 return null;
             } else {
-                return this.plugins[name] = new plugin(this);
+                return this.plugins[name] = new pluginClass(this);
             }
         }
 
@@ -36,25 +58,23 @@ module td
             for (var name in this.plugins) {
                 if (!this.plugins.hasOwnProperty(name)) continue;
                 this.plugins[name].remove();
-                delete this.plugins[name];
             }
+
+            this.plugins = {};
         }
 
 
-        static registerPlugin(name:string, plugin:any) {
+        static registerPlugin<T extends IPluginInterface>(name:string, pluginClass:IPluginClass<T>) {
             if (!this.PLUGINS) this.PLUGINS = {};
-            this.PLUGINS[name] = plugin;
+            this.PLUGINS[name] = pluginClass;
         }
 
 
-        static loadPlugins(instance:any):ts.Map<IPluginInterface> {
-            var plugins:ts.Map<IPluginInterface> = {};
+        static loadPlugins<T extends IPluginInterface>(instance:PluginHost<T>) {
             for (var name in this.PLUGINS) {
                 if (!this.PLUGINS.hasOwnProperty(name)) continue;
-                plugins[name] = new this.PLUGINS[name](instance);
+                instance.addPlugin(name, <IPluginClass<T>>this.PLUGINS[name]);
             }
-
-            return plugins;
         }
     }
 }

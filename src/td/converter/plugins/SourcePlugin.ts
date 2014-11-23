@@ -165,5 +165,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('SourcePlugin', SourcePlugin);
+    Converter.registerPlugin('source', SourcePlugin);
 }

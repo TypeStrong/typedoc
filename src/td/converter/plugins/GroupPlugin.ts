@@ -220,5 +220,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('GroupPlugin', GroupPlugin);
+    Converter.registerPlugin('group', GroupPlugin);
 }

@@ -65,5 +65,5 @@ module td
     /**
      * Register this handler.
      */
-    Converter.registerPlugin('DeepCommentPlugin', DeepCommentPlugin);
+    Converter.registerPlugin('deepComment', DeepCommentPlugin);
 }

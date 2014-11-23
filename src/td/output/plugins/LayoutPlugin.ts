@@ -34,5 +34,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
+    Renderer.registerPlugin('layout', LayoutPlugin);
 }

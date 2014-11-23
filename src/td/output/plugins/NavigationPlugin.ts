@@ -89,5 +89,5 @@ module td
     /**
      * Register this plugin.
      */
-    Renderer.PLUGIN_CLASSES.push(NavigationPlugin);
+    Renderer.registerPlugin('navigation', NavigationPlugin);
 }
