@@ -6,4 +6,3 @@
 .baseDir.ts
 node_modules
 etc
-examples/*/doc

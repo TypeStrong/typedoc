@@ -1,6 +1,6 @@
 {
   "name": "typedoc-default-themes",
-  "description": "Create api documentations for typescript projects.",
+  "description": "Default themes for TypeDoc.",
   "version": "0.2.0",
   "homepage": "http://typedoc.io",
   "main": "bin/plugin.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebastian-lenz/TypeDoc.git"
+    "url": "git://github.com/sebastian-lenz/typedoc-default-themes.git"
   },
   "bugs": {
     "url": "https://github.com/sebastian-lenz/TypeDoc/issues"
@@ -23,6 +23,9 @@
   ],
   "engines": {
     "node": ">=0.10.0"
+  },
+  "peerDependencies": {
+    "typedoc": "0.2.x"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
