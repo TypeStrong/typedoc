@@ -136,7 +136,7 @@ module.exports = function(grunt)
             },
             default: {
                 files: ['src/default/**/*.hbs'],
-                tasks: ['default']
+                tasks: ['copy', 'string-replace']
             },
             minimal: {
                 files: ['src/minimal/partials/**/*.hbs', 'src/minimal/templates/**/*.hbs'],

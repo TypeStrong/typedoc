@@ -1,10 +1,10 @@
 {{> member.sources}}
 {{> comment}}
 
-{{#if children}}
+{{#if parameters}}
     <h4 class="tsd-parameters-title">Parameters</h4>
     <ul class="tsd-parameters">
-        {{#each children}}
+        {{#each parameters}}
             <li>
                 <h5>{{#compact}}
                     {{name}}{{#if isOptional}}?{{/if}}:&nbsp;{{#with type}}{{>type}}{{/with}}
@@ -15,7 +15,7 @@
                 {{/compact}}</h5>
                 {{> comment}}
 
-                {{#if children}}
+                {{#if type.declaration}}
                     {{> parameter}}
                 {{/if}}
             </li>

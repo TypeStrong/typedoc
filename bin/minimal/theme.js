@@ -26,11 +26,9 @@ var Theme = (function (_super) {
         var urls = [];
         urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
 
-        project.location = {
-            url: 'index.html',
-            anchor: null,
-            hasOwnDocument: true
-        };
+        project.url = 'index.html';
+        project.anchor = null;
+        project.hasOwnDocument = true;
 
         project.children.forEach(function (child) {
             td.DefaultTheme.applyAnchorUrl(child, project);
@@ -50,7 +48,8 @@ var Theme = (function (_super) {
     };
 
     Theme.buildToc = function (model, parent) {
-        model.children.forEach(function (child) {
+        var children = model.children || [];
+        children.forEach(function (child) {
             var item = td.NavigationItem.create(child, parent, true);
             Theme.buildToc(child, item);
         });

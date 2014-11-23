@@ -424,6 +424,10 @@ declare module td {
 declare module td {
     class ConverterPlugin implements IPluginInterface {
         /**
+         * The converter this plugin is attached to.
+         */
+        converter: Converter;
+        /**
          * Create a new CommentPlugin instance.
          *
          * @param converter  The converter this plugin should be attached to.
@@ -1053,27 +1057,6 @@ declare module td {
     interface ITraverseCallback {
         (reflection: Reflection, property: TraverseProperty): void;
     }
-    interface ILocation {
-        /**
-         * The url of this reflection in the generated documentation.
-         */
-        url: string;
-        /**
-         * The name of the anchor of this child.
-         */
-        anchor?: string;
-        /**
-         * Is the url pointing to an individual document?
-         *
-         * When FALSE, the url points to an anchor tag on a page of a different reflection.
-         */
-        hasOwnDocument?: boolean;
-        /**
-         * A list of generated css classes that should be applied to representations of this
-         * reflection in the generated markup.
-         */
-        cssClasses?: string;
-    }
     /**
      * Base class for all reflection classes.
      *
@@ -1118,7 +1101,25 @@ declare module td {
          * A list of all source files that contributed to this reflection.
          */
         sources: ISourceReference[];
-        location: ILocation;
+        /**
+         * The url of this reflection in the generated documentation.
+         */
+        url: string;
+        /**
+         * The name of the anchor of this child.
+         */
+        anchor: string;
+        /**
+         * Is the url pointing to an individual document?
+         *
+         * When FALSE, the url points to an anchor tag on a page of a different reflection.
+         */
+        hasOwnDocument: boolean;
+        /**
+         * A list of generated css classes that should be applied to representations of this
+         * reflection in the generated markup.
+         */
+        cssClasses: string;
         /**
          * Url safe alias for this reflection.
          *
@@ -1972,7 +1973,7 @@ declare module td {
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection: DeclarationReflection, container: ContainerReflection): void;
+        static applyAnchorUrl(reflection: Reflection, container: ContainerReflection): void;
         /**
          * Generate the css classes for the given reflection and apply them to the
          * [[DeclarationReflection.cssClasses]] property.
@@ -2600,6 +2601,6 @@ declare module td {
          * @param trail   Defines the active trail of expanded toc entries.
          * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model: DeclarationReflection, trail: DeclarationReflection[], parent: NavigationItem): void;
+        static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem): void;
     }
 }

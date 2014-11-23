@@ -44,11 +44,9 @@ export class Theme extends td.DefaultTheme
         var urls = [];
         urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
 
-        project.location = {
-            url: 'index.html',
-            anchor: null,
-            hasOwnDocument: true
-        };
+        project.url = 'index.html';
+        project.anchor = null;
+        project.hasOwnDocument = true;
 
         project.children.forEach((child) => {
             td.DefaultTheme.applyAnchorUrl(child, project);
@@ -81,7 +79,8 @@ export class Theme extends td.DefaultTheme
      * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
      */
     static buildToc(model:td.DeclarationReflection, parent:td.NavigationItem) {
-        model.children.forEach((child:td.DeclarationReflection) => {
+        var children = model.children || [];
+        children.forEach((child:td.DeclarationReflection) => {
             var item = td.NavigationItem.create(child, parent, true);
             Theme.buildToc(child, item);
         });
