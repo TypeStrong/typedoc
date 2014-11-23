@@ -216,6 +216,18 @@ var td;
             code: 0
         }
     }, {
+        name: "mode",
+        type: {
+            'file': 'file',
+            'modules': 'modules'
+        },
+        scope: 0 /* TypeDoc */,
+        description: {
+            key: 'Specifies the output mode the project is used to be compiled with.',
+            category: 2 /* Message */,
+            code: 0
+        }
+    }, {
         name: "json",
         type: "string",
         scope: 0 /* TypeDoc */,
@@ -338,6 +350,10 @@ var td;
              * The list of source files that should be processed.
              */
             this.inputFiles = [];
+            /**
+             * Specifies the output mode the project is used to be compiled with.
+             */
+            this.mode = 'modules';
             /**
              * The path of the theme that should be used.
              */
@@ -707,12 +723,27 @@ var td;
         function PluginHost() {
             _super.apply(this, arguments);
         }
-        PluginHost.prototype.addPlugin = function (name, plugin) {
+        /**
+         * Retrieve a plugin instance.
+         *
+         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+         */
+        PluginHost.prototype.getPlugin = function (name) {
+            if (this.plugins[name]) {
+                return this.plugins[name];
+            }
+            else {
+                return null;
+            }
+        };
+        PluginHost.prototype.addPlugin = function (name, pluginClass) {
+            if (!this.plugins)
+                this.plugins = {};
             if (this.plugins[name]) {
                 return null;
             }
             else {
-                return this.plugins[name] = new plugin(this);
+                return this.plugins[name] = new pluginClass(this);
             }
         };
         PluginHost.prototype.removePlugin = function (name) {
@@ -730,22 +761,20 @@ var td;
                 if (!this.plugins.hasOwnProperty(name))
                     continue;
                 this.plugins[name].remove();
-                delete this.plugins[name];
             }
+            this.plugins = {};
         };
-        PluginHost.registerPlugin = function (name, plugin) {
+        PluginHost.registerPlugin = function (name, pluginClass) {
             if (!this.PLUGINS)
                 this.PLUGINS = {};
-            this.PLUGINS[name] = plugin;
+            this.PLUGINS[name] = pluginClass;
         };
         PluginHost.loadPlugins = function (instance) {
-            var plugins = {};
             for (var name in this.PLUGINS) {
                 if (!this.PLUGINS.hasOwnProperty(name))
                     continue;
-                plugins[name] = new this.PLUGINS[name](instance);
+                instance.addPlugin(name, this.PLUGINS[name]);
             }
-            return plugins;
         };
         return PluginHost;
     })(td.EventDispatcher);
@@ -865,7 +894,7 @@ var td;
         __extends(Converter, _super);
         function Converter() {
             _super.call(this);
-            this.plugins = Converter.loadPlugins(this);
+            Converter.loadPlugins(this);
         }
         /**
          * Compile the given source files and create a reflection tree for them.
@@ -874,6 +903,9 @@ var td;
          * @param settings   The settings that should be used to compile the files.
          */
         Converter.prototype.convert = function (fileNames, settings) {
+            for (var i = 0, c = fileNames.length; i < c; i++) {
+                fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
+            }
             var dispatcher = this;
             var host = this.createCompilerHost(settings.compilerOptions);
             var program = ts.createProgram(fileNames, settings.compilerOptions, host);
@@ -1274,7 +1306,7 @@ var td;
                         return scope;
                     }
                 }
-                else if (ts.shouldEmitToOwnFile(node, settings.compilerOptions)) {
+                else if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, 1 /* ExternalModule */, node.filename);
                 }
                 visitBlock(node, scope);
@@ -1318,9 +1350,11 @@ var td;
                         }
                         if (node.baseType) {
                             var type = checker.getTypeOfNode(node.baseType);
-                            if (!reflection.extendedTypes)
-                                reflection.extendedTypes = [];
-                            reflection.extendedTypes.push(extractType(node.baseType, type));
+                            if (!isInherit) {
+                                if (!reflection.extendedTypes)
+                                    reflection.extendedTypes = [];
+                                reflection.extendedTypes.push(extractType(node.baseType, type));
+                            }
                             if (type && type.symbol) {
                                 type.symbol.declarations.forEach(function (declaration) {
                                     inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
@@ -1361,10 +1395,13 @@ var td;
                             });
                         }
                         if (node.baseTypes) {
-                            reflection.extendedTypes = [];
                             node.baseTypes.forEach(function (baseType) {
                                 var type = checker.getTypeOfNode(baseType);
-                                reflection.extendedTypes.push(extractType(baseType, type));
+                                if (!isInherit) {
+                                    if (!reflection.extendedTypes)
+                                        reflection.extendedTypes = [];
+                                    reflection.extendedTypes.push(extractType(baseType, type));
+                                }
                                 if (type && type.symbol) {
                                     type.symbol.declarations.forEach(function (declaration) {
                                         inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
@@ -1475,10 +1512,10 @@ var td;
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, 512 /* Constructor */);
                 if (method) {
-                    if (!hasBody || !method.constructorSignatures) {
-                        var signature = createSignature(method, node, '__constructor', 16384 /* ConstructorSignature */);
-                        method.constructorSignatures = method.constructorSignatures || [];
-                        method.constructorSignatures.push(signature);
+                    if (!hasBody || !method.signatures) {
+                        var signature = createSignature(method, node, 'constructor', 16384 /* ConstructorSignature */);
+                        method.signatures = method.signatures || [];
+                        method.signatures.push(signature);
                     }
                 }
                 return method;
@@ -1495,11 +1532,11 @@ var td;
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, kind);
                 if (method) {
-                    if (!hasBody || !method.callSignatures) {
-                        var signature = createSignature(method, node, '__call', 4096 /* CallSignature */);
-                        if (!method.callSignatures)
-                            method.callSignatures = [];
-                        method.callSignatures.push(signature);
+                    if (!hasBody || !method.signatures) {
+                        var signature = createSignature(method, node, method.name, 4096 /* CallSignature */);
+                        if (!method.signatures)
+                            method.signatures = [];
+                        method.signatures.push(signature);
                     }
                 }
                 return method;
@@ -1515,9 +1552,9 @@ var td;
             function visitCallSignatureDeclaration(node, scope) {
                 if (scope instanceof td.DeclarationReflection) {
                     var signature = createSignature(scope, node, '__call', 4096 /* CallSignature */);
-                    if (!scope.callSignatures)
-                        scope.callSignatures = [];
-                    scope.callSignatures.push(signature);
+                    if (!scope.signatures)
+                        scope.signatures = [];
+                    scope.signatures.push(signature);
                 }
                 return scope;
             }
@@ -1907,7 +1944,7 @@ var td;
                 target = node.parent;
             }
             var comments = ts.getJsDocComments(target, sourceFile);
-            if (comments) {
+            if (comments && comments.length) {
                 var comment;
                 if (node.kind == ts.SyntaxKind['SourceFile']) {
                     if (comments.length == 1)
@@ -2016,7 +2053,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('CommentPlugin', CommentPlugin);
+    td.Converter.registerPlugin('comment', CommentPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2077,7 +2114,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('DeepCommentPlugin', DeepCommentPlugin);
+    td.Converter.registerPlugin('deepComment', DeepCommentPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2146,7 +2183,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('DynamicModulePlugin', DynamicModulePlugin);
+    td.Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2338,7 +2375,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('GitHubPlugin', GitHubPlugin);
+    td.Converter.registerPlugin('gitHub', GitHubPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2540,7 +2577,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('GroupPlugin', GroupPlugin);
+    td.Converter.registerPlugin('group', GroupPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2636,7 +2673,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('PackagePlugin', PackagePlugin);
+    td.Converter.registerPlugin('package', PackagePlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2708,7 +2745,13 @@ var td;
             var sourceFile = ts.getSourceFileOfNode(event.node);
             var fileName = sourceFile.filename;
             var file = this.getSourceFile(fileName, event.getProject());
-            var position = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+            var position;
+            if (event.node['name'] && event.node['name'].end) {
+                position = sourceFile.getLineAndCharacterFromPosition(event.node['name'].end);
+            }
+            else {
+                position = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+            }
             if (!event.reflection.sources)
                 event.reflection.sources = [];
             if (event.reflection instanceof td.DeclarationReflection) {
@@ -2781,7 +2824,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('SourcePlugin', SourcePlugin);
+    td.Converter.registerPlugin('source', SourcePlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2856,7 +2899,7 @@ var td;
             function resolveType(type) {
                 if (!(type instanceof td.ReferenceType))
                     return;
-                type.reflection = project.reflections[type.symbolID];
+                type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
             }
         };
         TypePlugin.prototype.postpone = function (reflection) {
@@ -2903,7 +2946,7 @@ var td;
     /**
      * Register this handler.
      */
-    td.Converter.registerPlugin('TypePlugin', TypePlugin);
+    td.Converter.registerPlugin('type', TypePlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -3070,7 +3113,7 @@ var td;
             if (name == '') {
                 name = '<em>' + reflection.kindString + '</em>';
             }
-            return new NavigationItem(name, reflection.location.url, parent, reflection.location.cssClasses);
+            return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
         };
         return NavigationItem;
     })();
@@ -3131,11 +3174,10 @@ var td;
         TraverseProperty[TraverseProperty["Parameters"] = 1] = "Parameters";
         TraverseProperty[TraverseProperty["TypeLiteral"] = 2] = "TypeLiteral";
         TraverseProperty[TraverseProperty["TypeParameter"] = 3] = "TypeParameter";
-        TraverseProperty[TraverseProperty["ConstructorSignatures"] = 4] = "ConstructorSignatures";
-        TraverseProperty[TraverseProperty["CallSignatures"] = 5] = "CallSignatures";
-        TraverseProperty[TraverseProperty["IndexSignature"] = 6] = "IndexSignature";
-        TraverseProperty[TraverseProperty["GetSignature"] = 7] = "GetSignature";
-        TraverseProperty[TraverseProperty["SetSignature"] = 8] = "SetSignature";
+        TraverseProperty[TraverseProperty["Signatures"] = 4] = "Signatures";
+        TraverseProperty[TraverseProperty["IndexSignature"] = 5] = "IndexSignature";
+        TraverseProperty[TraverseProperty["GetSignature"] = 6] = "GetSignature";
+        TraverseProperty[TraverseProperty["SetSignature"] = 7] = "SetSignature";
     })(td.TraverseProperty || (td.TraverseProperty = {}));
     var TraverseProperty = td.TraverseProperty;
     /**
@@ -3329,13 +3371,14 @@ var td;
          * @param kind  The original typescript kind of the children of this group.
          */
         function ReflectionGroup(title, kind) {
+            var _this = this;
             /**
              * All reflections of this group.
              */
             this.children = [];
             this.title = title;
             this.kind = kind;
-            // this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
+            this.allChildrenHaveOwnDocument = (function () { return _this.getAllChildrenHaveOwnDocument(); });
         }
         /**
          * Do all children of this group have a separate document?
@@ -3343,7 +3386,7 @@ var td;
         ReflectionGroup.prototype.getAllChildrenHaveOwnDocument = function () {
             var onlyOwnDocuments = true;
             this.children.forEach(function (child) {
-                onlyOwnDocuments = onlyOwnDocuments && child.location.hasOwnDocument;
+                onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
             });
             return onlyOwnDocuments;
         };
@@ -3519,11 +3562,12 @@ var td;
          */
         ContainerReflection.prototype.getChildrenByKind = function (kind) {
             var values = [];
-            this.children.forEach(function (child) {
+            for (var key in this.children) {
+                var child = this.children[key];
                 if (child.kindOf(kind)) {
                     values.push(child);
                 }
-            });
+            }
             return values;
         };
         /**
@@ -3546,7 +3590,9 @@ var td;
             var result = _super.prototype.toObject.call(this);
             if (this.groups) {
                 var groups = [];
-                this.groups.forEach(function (group) { return groups.push(group.toObject()); });
+                this.groups.forEach(function (group) {
+                    groups.push(group.toObject());
+                });
                 result['groups'] = groups;
             }
             return result;
@@ -3576,10 +3622,8 @@ var td;
          */
         DeclarationReflection.prototype.getAllSignatures = function () {
             var result = [];
-            if (this.callSignatures)
-                result = result.concat(this.callSignatures);
-            if (this.constructorSignatures)
-                result = result.concat(this.constructorSignatures);
+            if (this.signatures)
+                result = result.concat(this.signatures);
             if (this.indexSignature)
                 result.push(this.indexSignature);
             if (this.getSignature)
@@ -3603,20 +3647,17 @@ var td;
             if (this.type instanceof td.ReflectionType) {
                 callback(this.type.declaration, 2 /* TypeLiteral */);
             }
-            if (this.constructorSignatures) {
-                this.constructorSignatures.forEach(function (signature) { return callback(signature, 4 /* ConstructorSignatures */); });
+            if (this.signatures) {
+                this.signatures.forEach(function (signature) { return callback(signature, 4 /* Signatures */); });
             }
             if (this.indexSignature) {
-                callback(this.indexSignature, 6 /* IndexSignature */);
+                callback(this.indexSignature, 5 /* IndexSignature */);
             }
             if (this.getSignature) {
-                callback(this.getSignature, 7 /* GetSignature */);
+                callback(this.getSignature, 6 /* GetSignature */);
             }
             if (this.setSignature) {
-                callback(this.setSignature, 8 /* SetSignature */);
-            }
-            if (this.callSignatures) {
-                this.callSignatures.forEach(function (n) { return callback(n, 5 /* CallSignatures */); });
+                callback(this.setSignature, 7 /* SetSignature */);
             }
             _super.prototype.traverse.call(this, callback);
         };
@@ -3634,7 +3675,9 @@ var td;
             var result = _super.prototype.toString.call(this);
             if (this.typeParameters) {
                 var parameters = [];
-                this.typeParameters.forEach(function (parameter) { return parameters.push(parameter.name); });
+                this.typeParameters.forEach(function (parameter) {
+                    parameters.push(parameter.name);
+                });
                 result += '<' + parameters.join(', ') + '>';
             }
             if (this.type) {
@@ -4078,11 +4121,11 @@ var td;
         DefaultTheme.prototype.getUrls = function (project) {
             var urls = [];
             if (this.renderer.application.settings.readme == 'none') {
-                project.location = { url: 'index.html' };
+                project.url = 'index.html';
                 urls.push(new td.UrlMapping('index.html', project, 'reflection.hbs'));
             }
             else {
-                project.location = { url: 'globals.html' };
+                project.url = 'globals.html';
                 urls.push(new td.UrlMapping('globals.html', project, 'reflection.hbs'));
                 urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
             }
@@ -4134,14 +4177,15 @@ var td;
              */
             function includeDedicatedUrls(reflection, item) {
                 (function walk(reflection) {
-                    reflection.children.forEach(function (child) {
-                        if (child.location.hasOwnDocument && !child.kindOf(td.ReflectionKind.SomeModule)) {
+                    for (var key in reflection.children) {
+                        var child = reflection.children[key];
+                        if (child.hasOwnDocument && !child.kindOf(td.ReflectionKind.SomeModule)) {
                             if (!item.dedicatedUrls)
                                 item.dedicatedUrls = [];
-                            item.dedicatedUrls.push(child.location.url);
+                            item.dedicatedUrls.push(child.url);
                             walk(child);
                         }
-                    });
+                    }
                 })(reflection);
             }
             /**
@@ -4270,15 +4314,17 @@ var td;
             if (mapping) {
                 var url = td.Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
                 urls.push(new td.UrlMapping(url, reflection, mapping.template));
-                reflection.location = { url: url, hasOwnDocument: true };
-                reflection.children.forEach(function (child) {
+                reflection.url = url;
+                reflection.hasOwnDocument = true;
+                for (var key in reflection.children) {
+                    var child = reflection.children[key];
                     if (mapping.isLeaf) {
                         DefaultTheme.applyAnchorUrl(child, reflection);
                     }
                     else {
                         DefaultTheme.buildUrls(child, urls);
                     }
-                });
+                }
             }
             else {
                 DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
@@ -4293,16 +4339,16 @@ var td;
          */
         DefaultTheme.applyAnchorUrl = function (reflection, container) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
-            if (reflection.isStatic) {
+            if (reflection['isStatic']) {
                 anchor = 'static-' + anchor;
             }
-            reflection.location = {
-                url: container.location.url + '#' + anchor,
-                anchor: anchor,
-                hasOwnDocument: false
-            };
-            reflection.children.forEach(function (child) {
-                DefaultTheme.applyAnchorUrl(child, container);
+            reflection.url = container.url + '#' + anchor;
+            reflection.anchor = anchor;
+            reflection.hasOwnDocument = false;
+            reflection.traverse(function (child) {
+                if (child instanceof td.DeclarationReflection) {
+                    DefaultTheme.applyAnchorUrl(child, container);
+                }
             });
         };
         /**
@@ -4331,7 +4377,7 @@ var td;
                 classes.push('tsd-is-external');
             if (!reflection.isExported)
                 classes.push('tsd-is-not-exported');
-            reflection.location.cssClasses = classes.join(' ');
+            reflection.cssClasses = classes.join(' ');
         };
         /**
          * Generate the css classes for the given reflection group and apply them to the
@@ -4440,56 +4486,14 @@ var td;
          * @param application  The application this dispatcher is attached to.
          */
         function Renderer(application) {
-            var _this = this;
             _super.call(this);
             /**
              * Hash map of all loaded templates indexed by filename.
              */
             this.templates = {};
             this.application = application;
-            this.plugins = [];
-            Renderer.PLUGIN_CLASSES.forEach(function (pluginClass) {
-                _this.addPlugin(pluginClass);
-            });
+            Renderer.loadPlugins(this);
         }
-        /**
-         * Add a plugin to the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be attached.
-         */
-        Renderer.prototype.addPlugin = function (pluginClass) {
-            if (this.getPlugin(pluginClass) == null) {
-                this.plugins.push(new pluginClass(this));
-            }
-        };
-        /**
-         * Remove a plugin from the renderer.
-         *
-         * @param pluginClass  The class of the plugin that should be detached.
-         */
-        Renderer.prototype.removePlugin = function (pluginClass) {
-            for (var i = 0, c = this.plugins.length; i < c; i++) {
-                if (this.plugins[i] instanceof pluginClass) {
-                    this.plugins[i].remove();
-                    this.plugins.splice(i, 1);
-                    c -= 1;
-                }
-            }
-        };
-        /**
-         * Retrieve a plugin instance.
-         *
-         * @param pluginClass  The class of the plugin that should be retrieved.
-         * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
-         */
-        Renderer.prototype.getPlugin = function (pluginClass) {
-            for (var i = 0, c = this.plugins.length; i < c; i++) {
-                if (this.plugins[i] instanceof pluginClass) {
-                    return this.plugins[i];
-                }
-            }
-            return null;
-        };
         /**
          * Return the template with the given filename.
          *
@@ -4637,7 +4641,7 @@ var td;
          * @returns The path to the theme directory.
          */
         Renderer.getThemeDirectory = function () {
-            return td.Path.resolve(td.Path.join(__dirname, 'themes'));
+            return td.Path.dirname(require.resolve('typedoc-default-themes'));
         };
         /**
          * Return the path to the default theme.
@@ -4700,12 +4704,8 @@ var td;
          * @event
          */
         Renderer.EVENT_END_PAGE = 'endPage';
-        /**
-         * Registry containing the plugins, that should be created by default.
-         */
-        Renderer.PLUGIN_CLASSES = [];
         return Renderer;
-    })(td.EventDispatcher);
+    })(td.PluginHost);
     td.Renderer = Renderer;
 })(td || (td = {}));
 var td;
@@ -4833,7 +4833,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(AssetsPlugin);
+    td.Renderer.registerPlugin('assets', AssetsPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -4865,7 +4865,7 @@ var td;
                 var reflection = event.project.reflections[key];
                 if (!(reflection instanceof td.DeclarationReflection))
                     continue;
-                if (!reflection.location || !reflection.location.url || !reflection.name || reflection.isExternal || reflection.name == '')
+                if (!reflection.url || !reflection.name || reflection.isExternal || reflection.name == '')
                     continue;
                 var parent = reflection.parent;
                 if (parent instanceof td.ProjectReflection) {
@@ -4875,8 +4875,8 @@ var td;
                     id: rows.length,
                     kind: reflection.kind,
                     name: reflection.name,
-                    url: reflection.location.url,
-                    classes: reflection.location.cssClasses
+                    url: reflection.url,
+                    classes: reflection.cssClasses
                 };
                 if (parent) {
                     row.parent = parent.getFullName();
@@ -4896,7 +4896,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(JavascriptIndexPlugin);
+    td.Renderer.registerPlugin('javascriptIndex', JavascriptIndexPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -4932,7 +4932,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(LayoutPlugin);
+    td.Renderer.registerPlugin('layout', LayoutPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5119,7 +5119,7 @@ var td;
                     reflection = _this.project.findReflectionByName(name);
                 }
                 if (reflection) {
-                    return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.location.url), name);
+                    return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), name);
                 }
                 else {
                     return match;
@@ -5221,7 +5221,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(MarkedPlugin);
+    td.Renderer.registerPlugin('marked', MarkedPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5297,7 +5297,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(NavigationPlugin);
+    td.Renderer.registerPlugin('navigation', NavigationPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5352,7 +5352,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(PartialsPlugin);
+    td.Renderer.registerPlugin('partials', PartialsPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5510,7 +5510,7 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(PrettyPrintPlugin);
+    td.Renderer.registerPlugin('prettyPrint', PrettyPrintPlugin);
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5558,7 +5558,8 @@ var td;
          */
         TocPlugin.buildToc = function (model, trail, parent) {
             var index = trail.indexOf(model);
-            if (index < trail.length - 1 && model.children.length > 40) {
+            var children = model['children'] || [];
+            if (index < trail.length - 1 && children.length > 40) {
                 var child = trail[index + 1];
                 var item = td.NavigationItem.create(child, parent, true);
                 item.isInPath = true;
@@ -5566,7 +5567,7 @@ var td;
                 TocPlugin.buildToc(child, trail, item);
             }
             else {
-                model.children.forEach(function (child) {
+                children.forEach(function (child) {
                     if (child.kindOf(td.ReflectionKind.SomeModule)) {
                         return;
                     }
@@ -5585,6 +5586,6 @@ var td;
     /**
      * Register this plugin.
      */
-    td.Renderer.PLUGIN_CLASSES.push(TocPlugin);
+    td.Renderer.registerPlugin('toc', TocPlugin);
 })(td || (td = {}));
 module.exports = td;
