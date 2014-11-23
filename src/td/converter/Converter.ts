@@ -34,6 +34,7 @@ module td
         static EVENT_FILE_BEGIN:string = 'fileBegin';
         static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
         static EVENT_CREATE_SIGNATURE:string = 'createSignature';
+        static EVENT_FUNCTION_IMPLEMENTATION:string = 'functionImplementation';
 
         static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
         static EVENT_RESOLVE_END:string = 'resolveEnd';
@@ -111,11 +112,7 @@ module td
             function registerReflection(reflection:Reflection, node:ts.Node) {
                 project.reflections[reflection.id] = reflection;
 
-                if (node.id && !project.nodeMapping[node.id]) {
-                    project.nodeMapping[node.id] = reflection.id;
-                }
-
-                if (node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
+                if (!isInherit && node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
                     project.symbolMapping[node.symbol.id] = reflection.id;
                 }
             }
@@ -161,11 +158,18 @@ module td
                     registerReflection(child, node);
 
                     if (isInherit && node.parent == inheritParent) {
-                        child.inheritedFrom = new ReferenceType(node.symbol.id);
+                        if (!child.inheritedFrom) {
+                            child.inheritedFrom = new ReferenceType(node.symbol.id);
+                        }
                     }
                 } else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
-                        child.overwrites = new ReferenceType(node.symbol.id);
+                        if (!child.overwrites) {
+                            var overwrites = child.overwrites = new ReferenceType(node.symbol.id);
+                            child.getAllSignatures().forEach((signature) => {
+                                signature.overwrites = overwrites;
+                            });
+                        }
                         return null;
                     }
                 }
@@ -198,6 +202,10 @@ module td
 
                     if (!signature.type) {
                         signature.type = extractType(node.type, checker.getTypeOfNode(node));
+                    }
+
+                    if (container.inheritedFrom) {
+                        signature.inheritedFrom = new ReferenceType(node.symbol.id);
                     }
 
                     event.reflection = signature;
@@ -398,7 +406,10 @@ module td
                 var oldInheritParent = inheritParent;
                 isInherit = true;
                 inheritParent = node;
-                inherited = target.children ? Object.keys(target.children) : [];
+                inherited = [];
+                if (target.children) target.children.forEach((child) => {
+                    inherited.push(child.name);
+                });
 
                 visit(node, target, typeArguments);
 
@@ -462,7 +473,7 @@ module td
                     case ts.SyntaxKind['ExportAssignment']:
                         return visitExportAssignment(<ts.ExportAssignment>node, scope);
                     default:
-                        console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
+                        // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
                         return null;
                 }
             }
@@ -691,9 +702,9 @@ module td
                                 visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, variable);
                                 break;
                             case ts.SyntaxKind['ObjectLiteral']:
-                                variable.kind = ReflectionKind.ObjectLiteral;
-                                visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
-                                break;
+                                // variable.kind = ReflectionKind.ObjectLiteral;
+                                // visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
+                                // break;
                             default:
                                 extractDefaultValue(node, variable);
                         }
@@ -754,12 +765,18 @@ module td
              */
             function visitConstructor(node:ts.ConstructorDeclaration, scope:ContainerReflection):Reflection {
                 var hasBody = !!node.body;
-                var method = createDeclaration(scope, node, ReflectionKind.Constructor);
+                var method = createDeclaration(scope, node, ReflectionKind.Constructor, 'constructor');
                 if (method) {
                     if (!hasBody || !method.signatures) {
-                        var signature = createSignature(method, node, 'constructor', ReflectionKind.ConstructorSignature);
+                        var name = 'new ' + scope.name;
+                        var signature = createSignature(method, node, name, ReflectionKind.ConstructorSignature);
+                        signature.type = new ReferenceType(-1, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
+                    } else {
+                        event.node = node;
+                        event.reflection = method;
+                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
                     }
                 }
 
@@ -784,6 +801,10 @@ module td
                         var signature = createSignature(method, node, method.name, ReflectionKind.CallSignature);
                         if (!method.signatures) method.signatures = [];
                         method.signatures.push(signature);
+                    } else {
+                        event.node = node;
+                        event.reflection = method;
+                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
                     }
                 }
 

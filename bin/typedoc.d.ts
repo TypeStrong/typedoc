@@ -408,6 +408,7 @@ declare module td {
         static EVENT_FILE_BEGIN: string;
         static EVENT_CREATE_DECLARATION: string;
         static EVENT_CREATE_SIGNATURE: string;
+        static EVENT_FUNCTION_IMPLEMENTATION: string;
         static EVENT_RESOLVE_BEGIN: string;
         static EVENT_RESOLVE_END: string;
         static EVENT_RESOLVE: string;
@@ -499,6 +500,7 @@ declare module td {
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event);
+        private onFunctionImplementation(event);
         /**
          * Triggered when the dispatcher enters the resolving phase.
          *
@@ -1647,9 +1649,6 @@ declare module td {
         reflections: {
             [x: number]: Reflection;
         };
-        nodeMapping: {
-            [x: number]: number;
-        };
         symbolMapping: {
             [x: number]: number;
         };
@@ -1704,6 +1703,18 @@ declare module td {
         parameters: ParameterReflection[];
         typeParameters: TypeParameterReflection[];
         type: Type;
+        /**
+         * A type that points to the reflection that has been overwritten by this reflection.
+         *
+         * Applies to interface and class members.
+         */
+        overwrites: Type;
+        /**
+         * A type that points to the reflection this reflection has been inherited from.
+         *
+         * Applies to interface and class members.
+         */
+        inheritedFrom: Type;
         /**
          * Traverse all potential child reflections of this reflection.
          *

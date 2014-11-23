@@ -41,11 +41,12 @@ module td
          */
         constructor(converter:Converter) {
             super(converter);
-            converter.on(Converter.EVENT_BEGIN,              this.onBegin,        this);
-            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,  this);
-            converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration,  this);
-            converter.on(Converter.EVENT_RESOLVE_BEGIN,      this.onBeginResolve, this);
-            converter.on(Converter.EVENT_RESOLVE,            this.onResolve,      this);
+            converter.on(Converter.EVENT_BEGIN,                   this.onBegin,        this);
+            converter.on(Converter.EVENT_CREATE_DECLARATION,      this.onDeclaration,  this);
+            converter.on(Converter.EVENT_CREATE_SIGNATURE,        this.onDeclaration,  this);
+            converter.on(Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
+            converter.on(Converter.EVENT_RESOLVE_BEGIN,           this.onBeginResolve, this);
+            converter.on(Converter.EVENT_RESOLVE,                 this.onResolve,      this);
         }
 
 
@@ -99,6 +100,14 @@ module td
                 } else {
                     event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
                 }
+            }
+        }
+
+
+        private onFunctionImplementation(event:CompilerEvent) {
+            var comment = CommentPlugin.getComment(event.node);
+            if (comment) {
+                event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
             }
         }
 

@@ -815,7 +815,6 @@ var td;
                     }
                     else {
                         // Partial match, trim the known base path
-                        m += 1;
                         if (m < basePath.length) {
                             this.basePaths[n] = basePath.slice(0, m).join('/');
                         }
@@ -945,10 +944,7 @@ var td;
             }
             function registerReflection(reflection, node) {
                 project.reflections[reflection.id] = reflection;
-                if (node.id && !project.nodeMapping[node.id]) {
-                    project.nodeMapping[node.id] = reflection.id;
-                }
-                if (node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
+                if (!isInherit && node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
                     project.symbolMapping[node.symbol.id] = reflection.id;
                 }
             }
@@ -988,12 +984,19 @@ var td;
                     container.children.push(child);
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
-                        child.inheritedFrom = new td.ReferenceType(node.symbol.id);
+                        if (!child.inheritedFrom) {
+                            child.inheritedFrom = new td.ReferenceType(node.symbol.id);
+                        }
                     }
                 }
                 else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
-                        child.overwrites = new td.ReferenceType(node.symbol.id);
+                        if (!child.overwrites) {
+                            var overwrites = child.overwrites = new td.ReferenceType(node.symbol.id);
+                            child.getAllSignatures().forEach(function (signature) {
+                                signature.overwrites = overwrites;
+                            });
+                        }
                         return null;
                     }
                 }
@@ -1019,6 +1022,9 @@ var td;
                     }
                     if (!signature.type) {
                         signature.type = extractType(node.type, checker.getTypeOfNode(node));
+                    }
+                    if (container.inheritedFrom) {
+                        signature.inheritedFrom = new td.ReferenceType(node.symbol.id);
                     }
                     event.reflection = signature;
                     event.node = node;
@@ -1197,7 +1203,11 @@ var td;
                 var oldInheritParent = inheritParent;
                 isInherit = true;
                 inheritParent = node;
-                inherited = target.children ? Object.keys(target.children) : [];
+                inherited = [];
+                if (target.children)
+                    target.children.forEach(function (child) {
+                        inherited.push(child.name);
+                    });
                 visit(node, target, typeArguments);
                 isInherit = wasInherit;
                 inherited = oldInherited;
@@ -1257,7 +1267,7 @@ var td;
                     case ts.SyntaxKind['ExportAssignment']:
                         return visitExportAssignment(node, scope);
                     default:
-                        console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
+                        // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
                         return null;
                 }
             }
@@ -1458,9 +1468,6 @@ var td;
                                 visitCallSignatureDeclaration(node.initializer, variable);
                                 break;
                             case ts.SyntaxKind['ObjectLiteral']:
-                                variable.kind = 2097152 /* ObjectLiteral */;
-                                visitObjectLiteral(node.initializer, variable);
-                                break;
                             default:
                                 extractDefaultValue(node, variable);
                         }
@@ -1510,12 +1517,19 @@ var td;
              */
             function visitConstructor(node, scope) {
                 var hasBody = !!node.body;
-                var method = createDeclaration(scope, node, 512 /* Constructor */);
+                var method = createDeclaration(scope, node, 512 /* Constructor */, 'constructor');
                 if (method) {
                     if (!hasBody || !method.signatures) {
-                        var signature = createSignature(method, node, 'constructor', 16384 /* ConstructorSignature */);
+                        var name = 'new ' + scope.name;
+                        var signature = createSignature(method, node, name, 16384 /* ConstructorSignature */);
+                        signature.type = new td.ReferenceType(-1, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
+                    }
+                    else {
+                        event.node = node;
+                        event.reflection = method;
+                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
                     }
                 }
                 return method;
@@ -1537,6 +1551,11 @@ var td;
                         if (!method.signatures)
                             method.signatures = [];
                         method.signatures.push(signature);
+                    }
+                    else {
+                        event.node = node;
+                        event.reflection = method;
+                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
                     }
                 }
                 return method;
@@ -1699,6 +1718,7 @@ var td;
         Converter.EVENT_FILE_BEGIN = 'fileBegin';
         Converter.EVENT_CREATE_DECLARATION = 'createDeclaration';
         Converter.EVENT_CREATE_SIGNATURE = 'createSignature';
+        Converter.EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
         Converter.EVENT_RESOLVE_BEGIN = 'resolveBegin';
         Converter.EVENT_RESOLVE_END = 'resolveEnd';
         Converter.EVENT_RESOLVE = 'resolveReflection';
@@ -1791,6 +1811,7 @@ var td;
             converter.on(td.Converter.EVENT_BEGIN, this.onBegin, this);
             converter.on(td.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
             converter.on(td.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+            converter.on(td.Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
             converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             converter.on(td.Converter.EVENT_RESOLVE, this.onResolve, this);
         }
@@ -1839,6 +1860,12 @@ var td;
                 else {
                     event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
                 }
+            }
+        };
+        CommentPlugin.prototype.onFunctionImplementation = function (event) {
+            var comment = CommentPlugin.getComment(event.node);
+            if (comment) {
+                event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
             }
         };
         /**
@@ -2853,30 +2880,25 @@ var td;
             var _this = this;
             var project = event.getProject();
             var reflection = event.reflection;
-            if (reflection.type) {
-                resolveType(reflection.type);
-            }
-            if (reflection instanceof td.DeclarationReflection) {
-                var declaration = reflection;
-                resolveType(declaration.inheritedFrom);
-                resolveType(declaration.overwrites);
-                resolveTypes(declaration.extendedTypes);
-                resolveTypes(declaration.extendedBy);
-                if (declaration.kindOf(td.ReflectionKind.ClassOrInterface)) {
-                    this.postpone(declaration);
-                    walk(declaration.implementedTypes, function (target) {
-                        _this.postpone(target);
-                        if (!target.implementedBy)
-                            target.implementedBy = [];
-                        target.implementedBy.push(new td.ReferenceType(-1, declaration));
-                    });
-                    walk(declaration.extendedTypes, function (target) {
-                        _this.postpone(target);
-                        if (!target.extendedBy)
-                            target.extendedBy = [];
-                        target.extendedBy.push(new td.ReferenceType(-1, declaration));
-                    });
-                }
+            resolveType(reflection.type);
+            resolveType(reflection.inheritedFrom);
+            resolveType(reflection.overwrites);
+            resolveTypes(reflection.extendedTypes);
+            resolveTypes(reflection.extendedBy);
+            if (reflection.kindOf(td.ReflectionKind.ClassOrInterface)) {
+                this.postpone(reflection);
+                walk(reflection.implementedTypes, function (target) {
+                    _this.postpone(target);
+                    if (!target.implementedBy)
+                        target.implementedBy = [];
+                    target.implementedBy.push(new td.ReferenceType(-1, reflection));
+                });
+                walk(reflection.extendedTypes, function (target) {
+                    _this.postpone(target);
+                    if (!target.extendedBy)
+                        target.extendedBy = [];
+                    target.extendedBy.push(new td.ReferenceType(-1, reflection));
+                });
             }
             function walk(types, callback) {
                 if (!types)
@@ -2899,7 +2921,9 @@ var td;
             function resolveType(type) {
                 if (!(type instanceof td.ReferenceType))
                     return;
-                type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                if (type.symbolID != -1) {
+                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                }
             }
         };
         TypePlugin.prototype.postpone = function (reflection) {
@@ -3741,7 +3765,6 @@ var td;
              * A list of all reflections within the project.
              */
             this.reflections = {};
-            this.nodeMapping = {};
             this.symbolMapping = {};
             /**
              * The root directory of the project.

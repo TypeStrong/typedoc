@@ -36,7 +36,6 @@ module td
                         continue basePaths;
                     } else {
                         // Partial match, trim the known base path
-                        m += 1;
                         if (m < basePath.length) {
                             this.basePaths[n] = basePath.slice(0, m).join('/');
                         }

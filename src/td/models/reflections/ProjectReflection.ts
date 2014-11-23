@@ -13,8 +13,6 @@ module td
          */
         reflections:{[id:number]:Reflection} = {};
 
-        nodeMapping:{[nodeId:number]:number} = {};
-
         symbolMapping:{[symbolId:number]:number} = {};
 
         /**

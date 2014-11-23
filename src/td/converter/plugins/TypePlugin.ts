@@ -29,32 +29,26 @@ module td
             var project = event.getProject();
             var reflection = <DeclarationReflection>event.reflection;
 
-            if (reflection.type) {
-                resolveType(<ReferenceType>reflection.type);
-            }
+            resolveType(<ReferenceType>reflection.type);
+            resolveType(<ReferenceType>reflection.inheritedFrom);
+            resolveType(<ReferenceType>reflection.overwrites);
+            resolveTypes(reflection.extendedTypes);
+            resolveTypes(reflection.extendedBy);
 
-            if (reflection instanceof DeclarationReflection) {
-                var declaration = <DeclarationReflection>reflection;
-                resolveType(<ReferenceType>declaration.inheritedFrom);
-                resolveType(<ReferenceType>declaration.overwrites);
-                resolveTypes(declaration.extendedTypes);
-                resolveTypes(declaration.extendedBy);
+            if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
+                this.postpone(reflection);
 
-                if (declaration.kindOf(ReflectionKind.ClassOrInterface)) {
-                    this.postpone(declaration);
+                walk(reflection.implementedTypes, (target) => {
+                    this.postpone(target);
+                    if (!target.implementedBy) target.implementedBy = [];
+                    target.implementedBy.push(new ReferenceType(-1, reflection));
+                });
 
-                    walk(declaration.implementedTypes, (target) => {
-                        this.postpone(target);
-                        if (!target.implementedBy) target.implementedBy = [];
-                        target.implementedBy.push(new ReferenceType(-1, declaration));
-                    });
-
-                    walk(declaration.extendedTypes, (target) => {
-                        this.postpone(target);
-                        if (!target.extendedBy) target.extendedBy = [];
-                        target.extendedBy.push(new ReferenceType(-1, declaration));
-                    });
-                }
+                walk(reflection.extendedTypes, (target) => {
+                    this.postpone(target);
+                    if (!target.extendedBy) target.extendedBy = [];
+                    target.extendedBy.push(new ReferenceType(-1, reflection));
+                });
             }
 
             function walk(types:Type[], callback:{(declaration:DeclarationReflection):void}) {
@@ -75,7 +69,9 @@ module td
 
             function resolveType(type:ReferenceType) {
                 if (!(type instanceof ReferenceType)) return;
-                type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                if (type.symbolID != -1) {
+                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                }
             }
         }
 

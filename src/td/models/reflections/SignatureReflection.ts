@@ -10,6 +10,21 @@ module td
 
         type:Type;
 
+        /**
+         * A type that points to the reflection that has been overwritten by this reflection.
+         *
+         * Applies to interface and class members.
+         */
+        overwrites:Type;
+
+        /**
+         * A type that points to the reflection this reflection has been inherited from.
+         *
+         * Applies to interface and class members.
+         */
+        inheritedFrom:Type;
+
+
 
         /**
          * Traverse all potential child reflections of this reflection.
