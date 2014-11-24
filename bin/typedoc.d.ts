@@ -9,6 +9,7 @@ declare module td {
     var Minimatch: any;
     var FS: any;
     var ShellJS: any;
+    var ProgressBar: any;
     var tsPath: any;
 }
 declare module td {

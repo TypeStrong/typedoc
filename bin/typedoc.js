@@ -16,6 +16,7 @@ var td;
     td.Minimatch = require('minimatch');
     td.FS = require('fs-extra');
     td.ShellJS = require('shelljs');
+    td.ProgressBar = require('progress');
     /*
      * Locate TypeScript
      */
@@ -4553,7 +4554,6 @@ var td;
          */
         Renderer.prototype.render = function (project, outputDirectory) {
             var _this = this;
-            this.application.log('Starting renderer', 0 /* Verbose */);
             if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                 return;
             }
@@ -4562,10 +4562,15 @@ var td;
             output.project = project;
             output.settings = this.application.settings;
             output.urls = this.theme.getUrls(project);
+            var bar = new td.ProgressBar('Rendering [:bar] :percent', {
+                total: output.urls.length,
+                width: 40
+            });
             this.dispatch(Renderer.EVENT_BEGIN, output);
             if (!output.isDefaultPrevented) {
                 output.urls.forEach(function (mapping) {
                     _this.renderDocument(output.createPageEvent(mapping));
+                    bar.tick();
                 });
                 this.dispatch(Renderer.EVENT_END, output);
             }
@@ -4577,7 +4582,6 @@ var td;
          * @return TRUE if the page has been saved to disc, otherwise FALSE.
          */
         Renderer.prototype.renderDocument = function (page) {
-            this.application.log(td.Util.format('Render %s', page.url), 0 /* Verbose */);
             this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
             if (page.isDefaultPrevented) {
                 return false;

@@ -147,8 +147,6 @@ module td
          * @param outputDirectory  The path of the directory the documentation should be rendered to.
          */
         render(project:ProjectReflection, outputDirectory:string) {
-            this.application.log('Starting renderer', LogLevel.Verbose);
-
             if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                 return;
             }
@@ -159,10 +157,16 @@ module td
             output.settings = this.application.settings;
             output.urls = this.theme.getUrls(project);
 
+            var bar = new ProgressBar('Rendering [:bar] :percent', {
+                total: output.urls.length,
+                width: 40
+            });
+
             this.dispatch(Renderer.EVENT_BEGIN, output);
             if (!output.isDefaultPrevented) {
                 output.urls.forEach((mapping:UrlMapping) => {
                     this.renderDocument(output.createPageEvent(mapping));
+                    bar.tick();
                 });
 
                 this.dispatch(Renderer.EVENT_END, output);
@@ -177,8 +181,6 @@ module td
          * @return TRUE if the page has been saved to disc, otherwise FALSE.
          */
         private renderDocument(page:OutputPageEvent):boolean {
-            this.application.log(Util.format('Render %s', page.url), LogLevel.Verbose);
-
             this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
             if (page.isDefaultPrevented) {
                 return false;

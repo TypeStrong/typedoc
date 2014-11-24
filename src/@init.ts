@@ -19,6 +19,8 @@ module td
     export var Minimatch:any               = require('minimatch');
     export var FS:any                      = require('fs-extra');
     export var ShellJS:any                 = require('shelljs');
+    export var ProgressBar:any             = require('progress');
+
 
 
     /*

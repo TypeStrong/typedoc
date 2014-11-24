@@ -35,7 +35,8 @@
     "handlebars": "^2.0.0",
     "marked": "^0.3.2",
     "highlight.js": "^8.4.0",
-    "shelljs": "^0.3.0"
+    "shelljs": "^0.3.0",
+    "progress": "^1.1.8"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
