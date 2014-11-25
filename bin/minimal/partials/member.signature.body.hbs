@@ -9,7 +9,7 @@
                 <h5>{{#compact}}
                     {{name}}{{#if isOptional}}?{{/if}}:&nbsp;{{#with type}}{{>type}}{{/with}}
 
-                    {{#each flagsArray}}
+                    {{#each flags}}
                         &nbsp;<span class="tsd-flag ts-flag{{this}}">{{this}}</span>
                     {{/each}}
                 {{/compact}}</h5>

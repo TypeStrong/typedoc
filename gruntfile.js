@@ -3,19 +3,6 @@ module.exports = function(grunt)
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         ts: {
-            themes: {
-                options: {
-                    sourceMap: false,
-                    module: 'commonjs',
-                    basePath: 'themes',
-                    declaration: false
-                },
-                src: [
-                    'src/plugin.ts',
-                    'src/*/theme.ts'
-                ],
-                outDir: 'bin'
-            },
             themeDefault: {
                 options: {
                     sourceMap: false,
@@ -122,10 +109,6 @@ module.exports = function(grunt)
             }
         },
         watch: {
-            themes: {
-                files: ['src/plugin.ts', 'src/*/theme.ts'],
-                tasks: ['ts:themes']
-            },
             js: {
                 files: ['src/default/assets/js/src/**/*.ts'],
                 tasks: ['js']
@@ -160,5 +143,5 @@ module.exports = function(grunt)
 
     grunt.registerTask('css', ['sass', 'autoprefixer', 'string-replace']);
     grunt.registerTask('js', ['ts:themeDefault', 'uglify', 'string-replace']);
-    grunt.registerTask('default', ['ts:themes', 'copy', 'css', 'js']);
+    grunt.registerTask('default', ['copy', 'css', 'js']);
 };
