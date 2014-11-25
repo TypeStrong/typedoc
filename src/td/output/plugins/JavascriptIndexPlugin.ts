@@ -33,7 +33,7 @@ module td
 
                 if (!reflection.url ||
                     !reflection.name ||
-                    reflection.isExternal ||
+                    reflection.flags.isExternal ||
                     reflection.name == '')
                     continue;
 

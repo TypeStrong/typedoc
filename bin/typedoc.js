@@ -914,6 +914,7 @@ var td;
             var event = new td.CompilerEvent(checker, project, settings);
             var isExternal = false;
             var externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
+            var symbolID = -1024;
             var isInherit = false;
             var inheritParent = null;
             var inherited = [];
@@ -943,10 +944,18 @@ var td;
                     project: project
                 };
             }
+            function getSymbolID(symbol) {
+                if (!symbol)
+                    return null;
+                if (!symbol.id)
+                    symbol.id = symbolID--;
+                return symbol.id;
+            }
             function registerReflection(reflection, node) {
                 project.reflections[reflection.id] = reflection;
-                if (!isInherit && node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
-                    project.symbolMapping[node.symbol.id] = reflection.id;
+                var id = getSymbolID(node.symbol);
+                if (!isInherit && id && !project.symbolMapping[id]) {
+                    project.symbolMapping[id] = reflection.id;
                 }
             }
             function createDeclaration(container, node, kind, name) {
@@ -967,35 +976,35 @@ var td;
                 if (!container.children)
                     container.children = [];
                 container.children.forEach(function (n) {
-                    if (n.name == name && n.isStatic == isStatic)
+                    if (n.name == name && n.flags.isStatic == isStatic)
                         child = n;
                 });
                 if (!child) {
                     child = new td.DeclarationReflection(container, name, kind);
-                    child.isStatic = isStatic;
-                    child.isExternal = isExternal;
-                    child.isPrivate = isPrivate;
-                    child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
-                    child.isPublic = !!(node.flags & ts.NodeFlags['Public']);
-                    child.isExported = !!(node.flags & ts.NodeFlags['Export']);
-                    child.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
-                    if (container.kind == 128 /* Class */ && node.parent.kind != ts.SyntaxKind['ClassDeclaration']) {
-                        child.isStatic = true;
-                    }
+                    child.setFlag(8 /* Static */, isStatic);
+                    child.setFlag(64 /* External */, isExternal);
+                    child.setFlag(1 /* Private */, isPrivate);
+                    child.setFlag(2 /* Protected */, !!(node.flags & ts.NodeFlags['Protected']));
+                    child.setFlag(4 /* Public */, !!(node.flags & ts.NodeFlags['Public']));
+                    child.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
+                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & ts.NodeFlags['Export']));
                     container.children.push(child);
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = new td.ReferenceType(node.symbol.id);
+                            child.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
+                            child.getAllSignatures().forEach(function (signature) {
+                                signature.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
+                            });
                         }
                     }
                 }
                 else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            var overwrites = child.overwrites = new td.ReferenceType(node.symbol.id);
+                            child.overwrites = new td.ReferenceType(getSymbolID(node.symbol));
                             child.getAllSignatures().forEach(function (signature) {
-                                signature.overwrites = overwrites;
+                                signature.overwrites = new td.ReferenceType(getSymbolID(node.symbol));
                             });
                         }
                         return null;
@@ -1025,7 +1034,7 @@ var td;
                         signature.type = extractType(node.type, checker.getTypeOfNode(node));
                     }
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = new td.ReferenceType(node.symbol.id);
+                        signature.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
                     }
                     event.reflection = signature;
                     event.node = node;
@@ -1042,6 +1051,9 @@ var td;
                     signature.parameters = [];
                 signature.parameters.push(parameter);
                 registerReflection(parameter, node);
+                event.reflection = parameter;
+                event.node = node;
+                dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
             }
             function extractType(node, type) {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
@@ -1070,7 +1082,7 @@ var td;
                 return new td.IntrinsicType(type.intrinsicName);
             }
             function extractEnumType(node, type) {
-                return new td.ReferenceType(type.symbol.id);
+                return new td.ReferenceType(getSymbolID(type.symbol));
             }
             function extractTupleType(node, type) {
                 var elements = [];
@@ -1112,7 +1124,7 @@ var td;
                         }
                     }
                     else {
-                        return new td.ReferenceType(type.symbol.id);
+                        return new td.ReferenceType(getSymbolID(type.symbol));
                     }
                 }
                 else {
@@ -1319,8 +1331,12 @@ var td;
                 }
                 else if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, 1 /* ExternalModule */, node.filename);
+                    visitBlock(node, scope);
+                    scope.setFlag(16 /* Exported */);
                 }
-                visitBlock(node, scope);
+                else {
+                    visitBlock(node, scope);
+                }
                 return scope;
             }
             /**
@@ -1659,19 +1675,19 @@ var td;
                     type.symbol.declarations.forEach(function (declaration) {
                         if (!declaration.symbol)
                             return;
-                        var id = project.symbolMapping[declaration.symbol.id];
+                        var id = project.symbolMapping[getSymbolID(declaration.symbol)];
                         if (!id)
                             return;
                         var reflection = project.reflections[id];
                         if (reflection instanceof td.DeclarationReflection) {
-                            reflection.hasExportAssignment = true;
+                            reflection.setFlag(32 /* ExportAssignment */, true);
                         }
                         markAsExported(reflection);
                     });
                 }
                 function markAsExported(reflection) {
                     if (reflection instanceof td.DeclarationReflection) {
-                        reflection.isExported = true;
+                        reflection.setFlag(16 /* Exported */, true);
                     }
                     reflection.traverse(markAsExported);
                 }
@@ -1719,6 +1735,7 @@ var td;
         Converter.EVENT_FILE_BEGIN = 'fileBegin';
         Converter.EVENT_CREATE_DECLARATION = 'createDeclaration';
         Converter.EVENT_CREATE_SIGNATURE = 'createSignature';
+        Converter.EVENT_CREATE_PARAMETER = 'createParameter';
         Converter.EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
         Converter.EVENT_RESOLVE_BEGIN = 'resolveBegin';
         Converter.EVENT_RESOLVE_END = 'resolveEnd';
@@ -2421,8 +2438,20 @@ var td;
          */
         function GroupPlugin(converter) {
             _super.call(this, converter);
+            converter.on(td.Converter.EVENT_RESOLVE, this.onResolve, this);
             converter.on(td.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
         }
+        GroupPlugin.prototype.onResolve = function (event) {
+            var reflection = event.reflection;
+            reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
+            if (reflection instanceof td.ContainerReflection) {
+                var container = reflection;
+                if (container.children && container.children.length > 0) {
+                    container.children.sort(GroupPlugin.sortCallback);
+                    container.groups = GroupPlugin.getReflectionGroups(container.children);
+                }
+            }
+        };
         /**
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
@@ -2440,17 +2469,6 @@ var td;
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);
-            }
-            for (var id in project.reflections) {
-                var reflection = project.reflections[id];
-                reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
-                if (reflection instanceof td.ContainerReflection) {
-                    var container = reflection;
-                    if (container.children && container.children.length > 0) {
-                        container.children.sort(GroupPlugin.sortCallback);
-                        container.groups = GroupPlugin.getReflectionGroups(container.children);
-                    }
-                }
             }
             walkDirectory(project.directory);
             project.files.forEach(function (file) {
@@ -2483,10 +2501,10 @@ var td;
             groups.forEach(function (group) {
                 var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
                 group.children.forEach(function (child) {
-                    someExported = child.isExported || someExported;
+                    someExported = child.flags.isExported || someExported;
+                    allPrivate = child.flags.isPrivate && allPrivate;
+                    allExternal = child.flags.isExternal && allExternal;
                     allInherited = child.inheritedFrom && allInherited;
-                    allPrivate = child.isPrivate && allPrivate;
-                    allExternal = child.isExternal && allExternal;
                 });
                 group.someChildrenAreExported = someExported;
                 group.allChildrenAreInherited = allInherited;
@@ -2545,6 +2563,10 @@ var td;
             var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
             var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
             if (aWeight == bWeight) {
+                if (a.flags.isStatic && !b.flags.isStatic)
+                    return 1;
+                if (!a.flags.isStatic && b.flags.isStatic)
+                    return -1;
                 if (a.name == b.name)
                     return 0;
                 return a.name > b.name ? 1 : -1;
@@ -3194,6 +3216,24 @@ var td;
         ReflectionKind[ReflectionKind["SomeModule"] = ReflectionKind.Module | ReflectionKind.ExternalModule] = "SomeModule";
     })(td.ReflectionKind || (td.ReflectionKind = {}));
     var ReflectionKind = td.ReflectionKind;
+    (function (ReflectionFlag) {
+        ReflectionFlag[ReflectionFlag["Private"] = 1] = "Private";
+        ReflectionFlag[ReflectionFlag["Protected"] = 2] = "Protected";
+        ReflectionFlag[ReflectionFlag["Public"] = 4] = "Public";
+        ReflectionFlag[ReflectionFlag["Static"] = 8] = "Static";
+        ReflectionFlag[ReflectionFlag["Exported"] = 16] = "Exported";
+        ReflectionFlag[ReflectionFlag["ExportAssignment"] = 32] = "ExportAssignment";
+        ReflectionFlag[ReflectionFlag["External"] = 64] = "External";
+        ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
+    })(td.ReflectionFlag || (td.ReflectionFlag = {}));
+    var ReflectionFlag = td.ReflectionFlag;
+    var relevantFlags = [
+        1 /* Private */,
+        2 /* Protected */,
+        8 /* Static */,
+        32 /* ExportAssignment */,
+        128 /* Optional */,
+    ];
     (function (TraverseProperty) {
         TraverseProperty[TraverseProperty["Children"] = 0] = "Children";
         TraverseProperty[TraverseProperty["Parameters"] = 1] = "Parameters";
@@ -3225,6 +3265,7 @@ var td;
              * The symbol name of this reflection.
              */
             this.name = '';
+            this.flags = [];
             this.id = REFLECTION_ID++;
             this.parent = parent;
             this.name = name;
@@ -3262,6 +3303,56 @@ var td;
             }
             else {
                 return this.name;
+            }
+        };
+        /**
+         * Set a flag on this reflection.
+         */
+        Reflection.prototype.setFlag = function (flag, value) {
+            if (value === void 0) { value = true; }
+            var name, index;
+            if (relevantFlags.indexOf(flag) != -1) {
+                name = ReflectionFlag[flag];
+                name = name.replace(/(.)([A-Z])/g, function (m, a, b) { return a + ' ' + b.toLowerCase(); });
+                index = this.flags.indexOf(name);
+            }
+            if (value) {
+                this.flags.flags &= flag;
+                if (name && index == -1) {
+                    this.flags.push(name);
+                }
+            }
+            else {
+                this.flags.flags &= ~flag;
+                if (name && index != -1) {
+                    this.flags.splice(index, 1);
+                }
+            }
+            switch (flag) {
+                case 1 /* Private */:
+                    this.flags.isPrivate = value;
+                    break;
+                case 2 /* Protected */:
+                    this.flags.isProtected = value;
+                    break;
+                case 4 /* Public */:
+                    this.flags.isPublic = value;
+                    break;
+                case 8 /* Static */:
+                    this.flags.isStatic = value;
+                    break;
+                case 16 /* Exported */:
+                    this.flags.isExported = value;
+                    break;
+                case 64 /* External */:
+                    this.flags.isExternal = value;
+                    break;
+                case 128 /* Optional */:
+                    this.flags.isOptional = value;
+                    break;
+                case 32 /* ExportAssignment */:
+                    this.flags.hasExportAssignment = value;
+                    break;
             }
         };
         /**
@@ -3338,13 +3429,20 @@ var td;
                 name: this.name,
                 kind: this.kind,
                 kindString: this.kindString,
-                alias: this.getAlias()
+                alias: this.getAlias(),
+                flags: {}
             };
             if (this.originalName != this.name) {
                 result.originalName = this.originalName;
             }
             if (this.comment) {
                 result.comment = this.comment.toObject();
+            }
+            for (var key in this.flags) {
+                if (parseInt(key) == key)
+                    continue;
+                if (this.flags[key])
+                    result.flags[key] = true;
             }
             this.traverse(function (child, property) {
                 var name = TraverseProperty[property];
@@ -3990,477 +4088,6 @@ var td;
     })(td.Type);
     td.UnknownType = UnknownType;
 })(td || (td = {}));
-var td;
-(function (td) {
-    /**
-     * Base class of all themes.
-     *
-     * A theme defines the logical and graphical output of a documentation. Themes are
-     * directories containing a ```theme.js``` file defining a [[BaseTheme]] subclass and a
-     * series of subdirectories containing templates and assets. You can select a theme
-     * through the ```--theme <path/to/theme>``` commandline argument.
-     *
-     * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
-     * function. It returns an array of [[UrlMapping]] instances defining the target files, models
-     * and templates to use. Additionally themes can subscribe to the events emitted by
-     * [[Renderer]] to control and manipulate the output process.
-     *
-     * The default file structure of a theme looks like this:
-     *
-     * - ```/assets/```<br>
-     *   Contains static assets like stylesheets, images or javascript files used by the theme.
-     *   The [[AssetsPlugin]] will deep copy this directory to the output directory.
-     *
-     * - ```/layouts/```<br>
-     *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
-     *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
-     *   receive the current [[OutputPageEvent]] instance as their handlebars context. Place the
-     *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
-     *
-     * - ```/partials/```<br>
-     *   Contains partial templates that can be used by other templates using handlebars partial
-     *   syntax ```{{> partial-name}}```. The [[PartialsPlugin]] loads all files in this directory
-     *   and combines them with the partials of the default theme.
-     *
-     * - ```/templates/```<br>
-     *   Contains the main templates of the theme. The theme maps models to these templates through
-     *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
-     *   given template within this directory, it will try to find it in the default theme
-     *   ```/templates/``` directory. Templates receive the current [[OutputPageEvent]] instance as
-     *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
-     *
-     * - ```/theme.js```<br>
-     *   A javascript file that returns the definition of a [[BaseTheme]] subclass. This file will
-     *   be executed within the context of TypeDoc, one may directly access all classes and functions
-     *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
-     *   this theme.
-     */
-    var BaseTheme = (function () {
-        /**
-         * Create a new BaseTheme instance.
-         *
-         * @param renderer  The renderer this theme is attached to.
-         * @param basePath  The base path of this theme.
-         */
-        function BaseTheme(renderer, basePath) {
-            this.renderer = renderer;
-            this.basePath = basePath;
-        }
-        /**
-         * Test whether the given path contains a documentation generated by this theme.
-         *
-         * TypeDoc empties the output directory before rendering a project. This function
-         * is used to ensure that only previously generated documentations are deleted.
-         * When this function returns FALSE, the documentation will not be created and an
-         * error message will be displayed.
-         *
-         * Every theme must have an own implementation of this function, the default
-         * implementation always returns FALSE.
-         *
-         * @param path  The path of the directory that should be tested.
-         * @returns     TRUE if the given path seems to be a previous output directory,
-         *              otherwise FALSE.
-         *
-         * @see [[Renderer.prepareOutputDirectory]]
-         */
-        BaseTheme.prototype.isOutputDirectory = function (path) {
-            return false;
-        };
-        /**
-         * Map the models of the given project to the desired output files.
-         *
-         * Every theme must have an own implementation of this function, the default
-         * implementation always returns an empty array.
-         *
-         * @param project  The project whose urls should be generated.
-         * @returns        A list of [[UrlMapping]] instances defining which models
-         *                 should be rendered to which files.
-         */
-        BaseTheme.prototype.getUrls = function (project) {
-            return [];
-        };
-        /**
-         * Create a navigation structure for the given project.
-         *
-         * A navigation is a tree structure consisting of [[NavigationItem]] nodes. This
-         * function should return the root node of the desired navigation tree.
-         *
-         * The [[NavigationPlugin]] will call this hook before a project will be rendered.
-         * The plugin will update the state of the navigation tree and pass it to the
-         * templates.
-         *
-         * @param project  The project whose navigation should be generated.
-         * @returns        The root navigation item.
-         */
-        BaseTheme.prototype.getNavigation = function (project) {
-            return null;
-        };
-        return BaseTheme;
-    })();
-    td.BaseTheme = BaseTheme;
-})(td || (td = {}));
-var td;
-(function (td) {
-    /**
-     * Default theme implementation of TypeDoc. If a theme does not provide a custom
-     * [[BaseTheme]] implementation, this theme class will be used.
-     */
-    var DefaultTheme = (function (_super) {
-        __extends(DefaultTheme, _super);
-        /**
-         * Create a new DefaultTheme instance.
-         *
-         * @param renderer  The renderer this theme is attached to.
-         * @param basePath  The base path of this theme.
-         */
-        function DefaultTheme(renderer, basePath) {
-            _super.call(this, renderer, basePath);
-            renderer.on(td.Renderer.EVENT_BEGIN, this.onRendererBegin, this, 1024);
-        }
-        /**
-         * Test whether the given path contains a documentation generated by this theme.
-         *
-         * @param path  The path of the directory that should be tested.
-         * @returns     TRUE if the given path seems to be a previous output directory,
-         *              otherwise FALSE.
-         */
-        DefaultTheme.prototype.isOutputDirectory = function (path) {
-            if (!td.FS.existsSync(td.Path.join(path, 'index.html')))
-                return false;
-            if (!td.FS.existsSync(td.Path.join(path, 'assets')))
-                return false;
-            if (!td.FS.existsSync(td.Path.join(path, 'assets', 'js', 'main.js')))
-                return false;
-            if (!td.FS.existsSync(td.Path.join(path, 'assets', 'images', 'icons.png')))
-                return false;
-            return true;
-        };
-        /**
-         * Map the models of the given project to the desired output files.
-         *
-         * @param project  The project whose urls should be generated.
-         * @returns        A list of [[UrlMapping]] instances defining which models
-         *                 should be rendered to which files.
-         */
-        DefaultTheme.prototype.getUrls = function (project) {
-            var urls = [];
-            if (this.renderer.application.settings.readme == 'none') {
-                project.url = 'index.html';
-                urls.push(new td.UrlMapping('index.html', project, 'reflection.hbs'));
-            }
-            else {
-                project.url = 'globals.html';
-                urls.push(new td.UrlMapping('globals.html', project, 'reflection.hbs'));
-                urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
-            }
-            project.children.forEach(function (child) {
-                DefaultTheme.buildUrls(child, urls);
-            });
-            return urls;
-        };
-        /**
-         * Create a navigation structure for the given project.
-         *
-         * @param project  The project whose navigation should be generated.
-         * @returns        The root navigation item.
-         */
-        DefaultTheme.prototype.getNavigation = function (project) {
-            /**
-             * Test whether the given list of modules contains an external module.
-             *
-             * @param modules  The list of modules to test.
-             * @returns        TRUE if any of the modules is marked as being external.
-             */
-            function containsExternals(modules) {
-                for (var index = 0, length = modules.length; index < length; index++) {
-                    if (modules[index].isExternal)
-                        return true;
-                }
-                return false;
-            }
-            /**
-             * Sort the given list of modules by name, groups external modules at the bottom.
-             *
-             * @param modules  The list of modules that should be sorted.
-             */
-            function sortReflections(modules) {
-                modules.sort(function (a, b) {
-                    if (a.isExternal && !b.isExternal)
-                        return 1;
-                    if (!a.isExternal && b.isExternal)
-                        return -1;
-                    return a.getFullName() < b.getFullName() ? -1 : 1;
-                });
-            }
-            /**
-             * Find the urls of all children of the given reflection and store them as dedicated urls
-             * of the given NavigationItem.
-             *
-             * @param reflection  The reflection whose children urls should be included.
-             * @param item        The navigation node whose dedicated urls should be set.
-             */
-            function includeDedicatedUrls(reflection, item) {
-                (function walk(reflection) {
-                    for (var key in reflection.children) {
-                        var child = reflection.children[key];
-                        if (child.hasOwnDocument && !child.kindOf(td.ReflectionKind.SomeModule)) {
-                            if (!item.dedicatedUrls)
-                                item.dedicatedUrls = [];
-                            item.dedicatedUrls.push(child.url);
-                            walk(child);
-                        }
-                    }
-                })(reflection);
-            }
-            /**
-             * Create navigation nodes for all container children of the given reflection.
-             *
-             * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
-             * @param parent      The parent NavigationItem of the newly created nodes.
-             */
-            function buildChildren(reflection, parent) {
-                var modules = reflection.getChildrenByKind(td.ReflectionKind.SomeModule);
-                modules.sort(function (a, b) {
-                    return a.getFullName() < b.getFullName() ? -1 : 1;
-                });
-                modules.forEach(function (reflection) {
-                    var item = td.NavigationItem.create(reflection, parent);
-                    includeDedicatedUrls(reflection, item);
-                    buildChildren(reflection, item);
-                });
-            }
-            /**
-             * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
-             * an "internal" and an "external" section when applicable.
-             *
-             * @param reflections  The list of reflections which should be transformed into navigation nodes.
-             * @param parent       The parent NavigationItem of the newly created nodes.
-             * @param callback     Optional callback invoked for each generated node.
-             */
-            function buildGroups(reflections, parent, callback) {
-                var state = -1;
-                var hasExternals = containsExternals(reflections);
-                sortReflections(reflections);
-                reflections.forEach(function (reflection) {
-                    if (hasExternals && !reflection.isExternal && state != 1) {
-                        new td.NavigationItem('Internals', null, parent, "tsd-is-external");
-                        state = 1;
-                    }
-                    else if (hasExternals && reflection.isExternal && state != 2) {
-                        new td.NavigationItem('Externals', null, parent, "tsd-is-external");
-                        state = 2;
-                    }
-                    var item = td.NavigationItem.create(reflection, parent);
-                    includeDedicatedUrls(reflection, item);
-                    if (callback)
-                        callback(reflection, item);
-                });
-            }
-            /**
-             * Build the navigation structure.
-             *
-             * @param hasSeparateGlobals  Has the project a separated globals.html file?
-             * @return                    The root node of the generated navigation structure.
-             */
-            function build(hasSeparateGlobals) {
-                var root = new td.NavigationItem('Index', 'index.html');
-                var globals = new td.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
-                globals.isGlobals = true;
-                var modules = project.getReflectionsByKind(td.ReflectionKind.SomeModule);
-                if (modules.length < 10) {
-                    buildGroups(modules, root);
-                }
-                else {
-                    buildGroups(project.getChildrenByKind(td.ReflectionKind.SomeModule), root, buildChildren);
-                }
-                return root;
-            }
-            return build(this.renderer.application.settings.readme != 'none');
-        };
-        /**
-         * Triggered before the renderer starts rendering a project.
-         *
-         * @param event  An event object describing the current render operation.
-         */
-        DefaultTheme.prototype.onRendererBegin = function (event) {
-            if (event.project.groups) {
-                event.project.groups.forEach(DefaultTheme.applyGroupClasses);
-            }
-            for (var id in event.project.reflections) {
-                var reflection = event.project.reflections[id];
-                if (reflection instanceof td.DeclarationReflection) {
-                    DefaultTheme.applyReflectionClasses(reflection);
-                }
-                if (reflection instanceof td.ContainerReflection && reflection['groups']) {
-                    reflection['groups'].forEach(DefaultTheme.applyGroupClasses);
-                }
-            }
-        };
-        /**
-         * Return a url for the given reflection.
-         *
-         * @param reflection  The reflection the url should be generated for.
-         * @param relative    The parent reflection the url generation should stop on.
-         * @param separator   The separator used to generate the url.
-         * @returns           The generated url.
-         */
-        DefaultTheme.getUrl = function (reflection, relative, separator) {
-            if (separator === void 0) { separator = '.'; }
-            var url = reflection.getAlias();
-            if (reflection.parent && reflection.parent != relative && !(reflection.parent instanceof td.ProjectReflection))
-                url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
-            return url;
-        };
-        /**
-         * Return the template mapping fore the given reflection.
-         *
-         * @param reflection  The reflection whose mapping should be resolved.
-         * @returns           The found mapping or NULL if no mapping could be found.
-         */
-        DefaultTheme.getMapping = function (reflection) {
-            for (var i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
-                var mapping = DefaultTheme.MAPPINGS[i];
-                if (reflection.kindOf(mapping.kind)) {
-                    return mapping;
-                }
-            }
-            return null;
-        };
-        /**
-         * Build the url for the the given reflection and all of its children.
-         *
-         * @param reflection  The reflection the url should be created for.
-         * @param urls        The array the url should be appended to.
-         * @returns           The altered urls array.
-         */
-        DefaultTheme.buildUrls = function (reflection, urls) {
-            var mapping = DefaultTheme.getMapping(reflection);
-            if (mapping) {
-                var url = td.Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
-                urls.push(new td.UrlMapping(url, reflection, mapping.template));
-                reflection.url = url;
-                reflection.hasOwnDocument = true;
-                for (var key in reflection.children) {
-                    var child = reflection.children[key];
-                    if (mapping.isLeaf) {
-                        DefaultTheme.applyAnchorUrl(child, reflection);
-                    }
-                    else {
-                        DefaultTheme.buildUrls(child, urls);
-                    }
-                }
-            }
-            else {
-                DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
-            }
-            return urls;
-        };
-        /**
-         * Generate an anchor url for the given reflection and all of its children.
-         *
-         * @param reflection  The reflection an anchor url should be created for.
-         * @param container   The nearest reflection having an own document.
-         */
-        DefaultTheme.applyAnchorUrl = function (reflection, container) {
-            var anchor = DefaultTheme.getUrl(reflection, container, '.');
-            if (reflection['isStatic']) {
-                anchor = 'static-' + anchor;
-            }
-            reflection.url = container.url + '#' + anchor;
-            reflection.anchor = anchor;
-            reflection.hasOwnDocument = false;
-            reflection.traverse(function (child) {
-                if (child instanceof td.DeclarationReflection) {
-                    DefaultTheme.applyAnchorUrl(child, container);
-                }
-            });
-        };
-        /**
-         * Generate the css classes for the given reflection and apply them to the
-         * [[DeclarationReflection.cssClasses]] property.
-         *
-         * @param reflection  The reflection whose cssClasses property should be generated.
-         */
-        DefaultTheme.applyReflectionClasses = function (reflection) {
-            var classes = [];
-            var kind = td.ReflectionKind[reflection.kind];
-            classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
-            if (reflection.parent && reflection.parent instanceof td.DeclarationReflection) {
-                kind = td.ReflectionKind[reflection.parent.kind];
-                classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + kind));
-            }
-            if (reflection.overwrites)
-                classes.push('tsd-is-overwrite');
-            if (reflection.inheritedFrom)
-                classes.push('tsd-is-inherited');
-            if (reflection.isPrivate)
-                classes.push('tsd-is-private');
-            if (reflection.isStatic)
-                classes.push('tsd-is-static');
-            if (reflection.isExternal)
-                classes.push('tsd-is-external');
-            if (!reflection.isExported)
-                classes.push('tsd-is-not-exported');
-            reflection.cssClasses = classes.join(' ');
-        };
-        /**
-         * Generate the css classes for the given reflection group and apply them to the
-         * [[ReflectionGroup.cssClasses]] property.
-         *
-         * @param group  The reflection group whose cssClasses property should be generated.
-         */
-        DefaultTheme.applyGroupClasses = function (group) {
-            var classes = [];
-            if (group.allChildrenAreInherited)
-                classes.push('tsd-is-inherited');
-            if (group.allChildrenArePrivate)
-                classes.push('tsd-is-private');
-            if (group.allChildrenAreExternal)
-                classes.push('tsd-is-external');
-            if (!group.someChildrenAreExported)
-                classes.push('tsd-is-not-exported');
-            group.cssClasses = classes.join(' ');
-        };
-        /**
-         * Transform a space separated string into a string suitable to be used as a
-         * css class, e.g. "constructor method" > "Constructor-method".
-         */
-        DefaultTheme.toStyleClass = function (str) {
-            return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) { return m1 + '-' + m2; }).toLowerCase();
-        };
-        /**
-         * Mappings of reflections kinds to templates used by this theme.
-         */
-        DefaultTheme.MAPPINGS = [{
-            kind: [128 /* Class */],
-            isLeaf: true,
-            directory: 'classes',
-            template: 'reflection.hbs'
-        }, {
-            kind: [256 /* Interface */],
-            isLeaf: true,
-            directory: 'interfaces',
-            template: 'reflection.hbs'
-        }, {
-            kind: [4 /* Enum */],
-            isLeaf: true,
-            directory: 'enums',
-            template: 'reflection.hbs'
-        }, {
-            kind: [2 /* Module */, 1 /* ExternalModule */],
-            isLeaf: false,
-            directory: 'modules',
-            template: 'reflection.hbs'
-        }, {
-            kind: [2097152 /* ObjectLiteral */],
-            isLeaf: false,
-            directory: 'objects',
-            template: 'reflection.hbs'
-        }];
-        return DefaultTheme;
-    })(td.BaseTheme);
-    td.DefaultTheme = DefaultTheme;
-})(td || (td = {}));
 /**
  * Holds all logic used render and output the final documentation.
  *
@@ -4762,6 +4389,115 @@ var td;
 var td;
 (function (td) {
     /**
+     * Base class of all themes.
+     *
+     * A theme defines the logical and graphical output of a documentation. Themes are
+     * directories containing a ```theme.js``` file defining a [[BaseTheme]] subclass and a
+     * series of subdirectories containing templates and assets. You can select a theme
+     * through the ```--theme <path/to/theme>``` commandline argument.
+     *
+     * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
+     * function. It returns an array of [[UrlMapping]] instances defining the target files, models
+     * and templates to use. Additionally themes can subscribe to the events emitted by
+     * [[Renderer]] to control and manipulate the output process.
+     *
+     * The default file structure of a theme looks like this:
+     *
+     * - ```/assets/```<br>
+     *   Contains static assets like stylesheets, images or javascript files used by the theme.
+     *   The [[AssetsPlugin]] will deep copy this directory to the output directory.
+     *
+     * - ```/layouts/```<br>
+     *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
+     *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
+     *   receive the current [[OutputPageEvent]] instance as their handlebars context. Place the
+     *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
+     *
+     * - ```/partials/```<br>
+     *   Contains partial templates that can be used by other templates using handlebars partial
+     *   syntax ```{{> partial-name}}```. The [[PartialsPlugin]] loads all files in this directory
+     *   and combines them with the partials of the default theme.
+     *
+     * - ```/templates/```<br>
+     *   Contains the main templates of the theme. The theme maps models to these templates through
+     *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
+     *   given template within this directory, it will try to find it in the default theme
+     *   ```/templates/``` directory. Templates receive the current [[OutputPageEvent]] instance as
+     *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
+     *
+     * - ```/theme.js```<br>
+     *   A javascript file that returns the definition of a [[BaseTheme]] subclass. This file will
+     *   be executed within the context of TypeDoc, one may directly access all classes and functions
+     *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
+     *   this theme.
+     */
+    var Theme = (function () {
+        /**
+         * Create a new BaseTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        function Theme(renderer, basePath) {
+            this.renderer = renderer;
+            this.basePath = basePath;
+        }
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * TypeDoc empties the output directory before rendering a project. This function
+         * is used to ensure that only previously generated documentations are deleted.
+         * When this function returns FALSE, the documentation will not be created and an
+         * error message will be displayed.
+         *
+         * Every theme must have an own implementation of this function, the default
+         * implementation always returns FALSE.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         *
+         * @see [[Renderer.prepareOutputDirectory]]
+         */
+        Theme.prototype.isOutputDirectory = function (path) {
+            return false;
+        };
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * Every theme must have an own implementation of this function, the default
+         * implementation always returns an empty array.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        Theme.prototype.getUrls = function (project) {
+            return [];
+        };
+        /**
+         * Create a navigation structure for the given project.
+         *
+         * A navigation is a tree structure consisting of [[NavigationItem]] nodes. This
+         * function should return the root node of the desired navigation tree.
+         *
+         * The [[NavigationPlugin]] will call this hook before a project will be rendered.
+         * The plugin will update the state of the navigation tree and pass it to the
+         * templates.
+         *
+         * @param project  The project whose navigation should be generated.
+         * @returns        The root navigation item.
+         */
+        Theme.prototype.getNavigation = function (project) {
+            return null;
+        };
+        return Theme;
+    })();
+    td.Theme = Theme;
+})(td || (td = {}));
+var td;
+(function (td) {
+    /**
      * An event emitted by the [[Renderer]] class at the very beginning and
      * ending of the entire rendering process.
      *
@@ -4892,7 +4628,7 @@ var td;
                 var reflection = event.project.reflections[key];
                 if (!(reflection instanceof td.DeclarationReflection))
                     continue;
-                if (!reflection.url || !reflection.name || reflection.isExternal || reflection.name == '')
+                if (!reflection.url || !reflection.name || reflection.flags.isExternal || reflection.name == '')
                     continue;
                 var parent = reflection.parent;
                 if (parent instanceof td.ProjectReflection) {
@@ -5614,5 +5350,445 @@ var td;
      * Register this plugin.
      */
     td.Renderer.registerPlugin('toc', TocPlugin);
+})(td || (td = {}));
+var td;
+(function (td) {
+    /**
+     * Default theme implementation of TypeDoc. If a theme does not provide a custom
+     * [[BaseTheme]] implementation, this theme class will be used.
+     */
+    var DefaultTheme = (function (_super) {
+        __extends(DefaultTheme, _super);
+        /**
+         * Create a new DefaultTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        function DefaultTheme(renderer, basePath) {
+            _super.call(this, renderer, basePath);
+            renderer.on(td.Renderer.EVENT_BEGIN, this.onRendererBegin, this, 1024);
+        }
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         */
+        DefaultTheme.prototype.isOutputDirectory = function (path) {
+            if (!td.FS.existsSync(td.Path.join(path, 'index.html')))
+                return false;
+            if (!td.FS.existsSync(td.Path.join(path, 'assets')))
+                return false;
+            if (!td.FS.existsSync(td.Path.join(path, 'assets', 'js', 'main.js')))
+                return false;
+            if (!td.FS.existsSync(td.Path.join(path, 'assets', 'images', 'icons.png')))
+                return false;
+            return true;
+        };
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        DefaultTheme.prototype.getUrls = function (project) {
+            var urls = [];
+            if (this.renderer.application.settings.readme == 'none') {
+                project.url = 'index.html';
+                urls.push(new td.UrlMapping('index.html', project, 'reflection.hbs'));
+            }
+            else {
+                project.url = 'globals.html';
+                urls.push(new td.UrlMapping('globals.html', project, 'reflection.hbs'));
+                urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
+            }
+            project.children.forEach(function (child) {
+                DefaultTheme.buildUrls(child, urls);
+            });
+            return urls;
+        };
+        /**
+         * Create a navigation structure for the given project.
+         *
+         * @param project  The project whose navigation should be generated.
+         * @returns        The root navigation item.
+         */
+        DefaultTheme.prototype.getNavigation = function (project) {
+            /**
+             * Test whether the given list of modules contains an external module.
+             *
+             * @param modules  The list of modules to test.
+             * @returns        TRUE if any of the modules is marked as being external.
+             */
+            function containsExternals(modules) {
+                for (var index = 0, length = modules.length; index < length; index++) {
+                    if (modules[index].flags.isExternal)
+                        return true;
+                }
+                return false;
+            }
+            /**
+             * Sort the given list of modules by name, groups external modules at the bottom.
+             *
+             * @param modules  The list of modules that should be sorted.
+             */
+            function sortReflections(modules) {
+                modules.sort(function (a, b) {
+                    if (a.flags.isExternal && !b.flags.isExternal)
+                        return 1;
+                    if (!a.flags.isExternal && b.flags.isExternal)
+                        return -1;
+                    return a.getFullName() < b.getFullName() ? -1 : 1;
+                });
+            }
+            /**
+             * Find the urls of all children of the given reflection and store them as dedicated urls
+             * of the given NavigationItem.
+             *
+             * @param reflection  The reflection whose children urls should be included.
+             * @param item        The navigation node whose dedicated urls should be set.
+             */
+            function includeDedicatedUrls(reflection, item) {
+                (function walk(reflection) {
+                    for (var key in reflection.children) {
+                        var child = reflection.children[key];
+                        if (child.hasOwnDocument && !child.kindOf(td.ReflectionKind.SomeModule)) {
+                            if (!item.dedicatedUrls)
+                                item.dedicatedUrls = [];
+                            item.dedicatedUrls.push(child.url);
+                            walk(child);
+                        }
+                    }
+                })(reflection);
+            }
+            /**
+             * Create navigation nodes for all container children of the given reflection.
+             *
+             * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
+             * @param parent      The parent NavigationItem of the newly created nodes.
+             */
+            function buildChildren(reflection, parent) {
+                var modules = reflection.getChildrenByKind(td.ReflectionKind.SomeModule);
+                modules.sort(function (a, b) {
+                    return a.getFullName() < b.getFullName() ? -1 : 1;
+                });
+                modules.forEach(function (reflection) {
+                    var item = td.NavigationItem.create(reflection, parent);
+                    includeDedicatedUrls(reflection, item);
+                    buildChildren(reflection, item);
+                });
+            }
+            /**
+             * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
+             * an "internal" and an "external" section when applicable.
+             *
+             * @param reflections  The list of reflections which should be transformed into navigation nodes.
+             * @param parent       The parent NavigationItem of the newly created nodes.
+             * @param callback     Optional callback invoked for each generated node.
+             */
+            function buildGroups(reflections, parent, callback) {
+                var state = -1;
+                var hasExternals = containsExternals(reflections);
+                sortReflections(reflections);
+                reflections.forEach(function (reflection) {
+                    if (hasExternals && !reflection.flags.isExternal && state != 1) {
+                        new td.NavigationItem('Internals', null, parent, "tsd-is-external");
+                        state = 1;
+                    }
+                    else if (hasExternals && reflection.flags.isExternal && state != 2) {
+                        new td.NavigationItem('Externals', null, parent, "tsd-is-external");
+                        state = 2;
+                    }
+                    var item = td.NavigationItem.create(reflection, parent);
+                    includeDedicatedUrls(reflection, item);
+                    if (callback)
+                        callback(reflection, item);
+                });
+            }
+            /**
+             * Build the navigation structure.
+             *
+             * @param hasSeparateGlobals  Has the project a separated globals.html file?
+             * @return                    The root node of the generated navigation structure.
+             */
+            function build(hasSeparateGlobals) {
+                var root = new td.NavigationItem('Index', 'index.html');
+                var globals = new td.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+                globals.isGlobals = true;
+                var modules = project.getReflectionsByKind(td.ReflectionKind.SomeModule);
+                if (modules.length < 10) {
+                    buildGroups(modules, root);
+                }
+                else {
+                    buildGroups(project.getChildrenByKind(td.ReflectionKind.SomeModule), root, buildChildren);
+                }
+                return root;
+            }
+            return build(this.renderer.application.settings.readme != 'none');
+        };
+        /**
+         * Triggered before the renderer starts rendering a project.
+         *
+         * @param event  An event object describing the current render operation.
+         */
+        DefaultTheme.prototype.onRendererBegin = function (event) {
+            if (event.project.groups) {
+                event.project.groups.forEach(DefaultTheme.applyGroupClasses);
+            }
+            for (var id in event.project.reflections) {
+                var reflection = event.project.reflections[id];
+                if (reflection instanceof td.DeclarationReflection) {
+                    DefaultTheme.applyReflectionClasses(reflection);
+                }
+                if (reflection instanceof td.ContainerReflection && reflection['groups']) {
+                    reflection['groups'].forEach(DefaultTheme.applyGroupClasses);
+                }
+            }
+        };
+        /**
+         * Return a url for the given reflection.
+         *
+         * @param reflection  The reflection the url should be generated for.
+         * @param relative    The parent reflection the url generation should stop on.
+         * @param separator   The separator used to generate the url.
+         * @returns           The generated url.
+         */
+        DefaultTheme.getUrl = function (reflection, relative, separator) {
+            if (separator === void 0) { separator = '.'; }
+            var url = reflection.getAlias();
+            if (reflection.parent && reflection.parent != relative && !(reflection.parent instanceof td.ProjectReflection))
+                url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
+            return url;
+        };
+        /**
+         * Return the template mapping fore the given reflection.
+         *
+         * @param reflection  The reflection whose mapping should be resolved.
+         * @returns           The found mapping or NULL if no mapping could be found.
+         */
+        DefaultTheme.getMapping = function (reflection) {
+            for (var i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
+                var mapping = DefaultTheme.MAPPINGS[i];
+                if (reflection.kindOf(mapping.kind)) {
+                    return mapping;
+                }
+            }
+            return null;
+        };
+        /**
+         * Build the url for the the given reflection and all of its children.
+         *
+         * @param reflection  The reflection the url should be created for.
+         * @param urls        The array the url should be appended to.
+         * @returns           The altered urls array.
+         */
+        DefaultTheme.buildUrls = function (reflection, urls) {
+            var mapping = DefaultTheme.getMapping(reflection);
+            if (mapping) {
+                var url = td.Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
+                urls.push(new td.UrlMapping(url, reflection, mapping.template));
+                reflection.url = url;
+                reflection.hasOwnDocument = true;
+                for (var key in reflection.children) {
+                    var child = reflection.children[key];
+                    if (mapping.isLeaf) {
+                        DefaultTheme.applyAnchorUrl(child, reflection);
+                    }
+                    else {
+                        DefaultTheme.buildUrls(child, urls);
+                    }
+                }
+            }
+            else {
+                DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
+            }
+            return urls;
+        };
+        /**
+         * Generate an anchor url for the given reflection and all of its children.
+         *
+         * @param reflection  The reflection an anchor url should be created for.
+         * @param container   The nearest reflection having an own document.
+         */
+        DefaultTheme.applyAnchorUrl = function (reflection, container) {
+            var anchor = DefaultTheme.getUrl(reflection, container, '.');
+            if (reflection['isStatic']) {
+                anchor = 'static-' + anchor;
+            }
+            reflection.url = container.url + '#' + anchor;
+            reflection.anchor = anchor;
+            reflection.hasOwnDocument = false;
+            reflection.traverse(function (child) {
+                if (child instanceof td.DeclarationReflection) {
+                    DefaultTheme.applyAnchorUrl(child, container);
+                }
+            });
+        };
+        /**
+         * Generate the css classes for the given reflection and apply them to the
+         * [[DeclarationReflection.cssClasses]] property.
+         *
+         * @param reflection  The reflection whose cssClasses property should be generated.
+         */
+        DefaultTheme.applyReflectionClasses = function (reflection) {
+            var classes = [];
+            var kind = td.ReflectionKind[reflection.kind];
+            classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
+            if (reflection.parent && reflection.parent instanceof td.DeclarationReflection) {
+                kind = td.ReflectionKind[reflection.parent.kind];
+                classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + kind));
+            }
+            if (reflection.overwrites)
+                classes.push('tsd-is-overwrite');
+            if (reflection.inheritedFrom)
+                classes.push('tsd-is-inherited');
+            if (reflection.flags.isPrivate)
+                classes.push('tsd-is-private');
+            if (reflection.flags.isStatic)
+                classes.push('tsd-is-static');
+            if (reflection.flags.isExternal)
+                classes.push('tsd-is-external');
+            if (!reflection.flags.isExported)
+                classes.push('tsd-is-not-exported');
+            reflection.cssClasses = classes.join(' ');
+        };
+        /**
+         * Generate the css classes for the given reflection group and apply them to the
+         * [[ReflectionGroup.cssClasses]] property.
+         *
+         * @param group  The reflection group whose cssClasses property should be generated.
+         */
+        DefaultTheme.applyGroupClasses = function (group) {
+            var classes = [];
+            if (group.allChildrenAreInherited)
+                classes.push('tsd-is-inherited');
+            if (group.allChildrenArePrivate)
+                classes.push('tsd-is-private');
+            if (group.allChildrenAreExternal)
+                classes.push('tsd-is-external');
+            if (!group.someChildrenAreExported)
+                classes.push('tsd-is-not-exported');
+            group.cssClasses = classes.join(' ');
+        };
+        /**
+         * Transform a space separated string into a string suitable to be used as a
+         * css class, e.g. "constructor method" > "Constructor-method".
+         */
+        DefaultTheme.toStyleClass = function (str) {
+            return str.replace(/(\w)([A-Z])/g, function (m, m1, m2) { return m1 + '-' + m2; }).toLowerCase();
+        };
+        /**
+         * Mappings of reflections kinds to templates used by this theme.
+         */
+        DefaultTheme.MAPPINGS = [{
+            kind: [128 /* Class */],
+            isLeaf: true,
+            directory: 'classes',
+            template: 'reflection.hbs'
+        }, {
+            kind: [256 /* Interface */],
+            isLeaf: true,
+            directory: 'interfaces',
+            template: 'reflection.hbs'
+        }, {
+            kind: [4 /* Enum */],
+            isLeaf: true,
+            directory: 'enums',
+            template: 'reflection.hbs'
+        }, {
+            kind: [2 /* Module */, 1 /* ExternalModule */],
+            isLeaf: false,
+            directory: 'modules',
+            template: 'reflection.hbs'
+        }, {
+            kind: [2097152 /* ObjectLiteral */],
+            isLeaf: false,
+            directory: 'objects',
+            template: 'reflection.hbs'
+        }];
+        return DefaultTheme;
+    })(td.Theme);
+    td.DefaultTheme = DefaultTheme;
+})(td || (td = {}));
+var td;
+(function (td) {
+    var MinimalTheme = (function (_super) {
+        __extends(MinimalTheme, _super);
+        /**
+         * Create a new DefaultTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        function MinimalTheme(renderer, basePath) {
+            _super.call(this, renderer, basePath);
+            renderer.removePlugin('assets');
+            renderer.removePlugin('javascriptIndex');
+            renderer.removePlugin('navigation');
+            renderer.removePlugin('toc');
+            renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+        }
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         */
+        MinimalTheme.prototype.isOutputDirectory = function (path) {
+            if (!td.FS.existsSync(td.Path.join(path, 'index.html')))
+                return false;
+            return true;
+        };
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        MinimalTheme.prototype.getUrls = function (project) {
+            var urls = [];
+            urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
+            project.url = 'index.html';
+            project.anchor = null;
+            project.hasOwnDocument = true;
+            project.children.forEach(function (child) {
+                td.DefaultTheme.applyAnchorUrl(child, project);
+            });
+            return urls;
+        };
+        /**
+         * Triggered before a document will be rendered.
+         *
+         * @param page  An event object describing the current render operation.
+         */
+        MinimalTheme.prototype.onRendererBeginPage = function (page) {
+            var model = page.model;
+            if (!(model instanceof td.Reflection)) {
+                return;
+            }
+            page.toc = new td.NavigationItem();
+            MinimalTheme.buildToc(page.model, page.toc);
+        };
+        /**
+         * Create a toc navigation item structure.
+         *
+         * @param model   The models whose children should be written to the toc.
+         * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+         */
+        MinimalTheme.buildToc = function (model, parent) {
+            var children = model.children || [];
+            children.forEach(function (child) {
+                var item = td.NavigationItem.create(child, parent, true);
+                MinimalTheme.buildToc(child, item);
+            });
+        };
+        return MinimalTheme;
+    })(td.Theme);
+    td.MinimalTheme = MinimalTheme;
 })(td || (td = {}));
 module.exports = td;

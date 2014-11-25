@@ -57,7 +57,7 @@ module td
         /**
          * The theme that is used to render the documentation.
          */
-        theme:BaseTheme;
+        theme:Theme;
 
         /**
          * Hash map of all loaded templates indexed by filename.

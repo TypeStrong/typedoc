@@ -104,45 +104,6 @@ module td
         defaultValue:string;
 
         /**
-         * Is this a private member?
-         */
-        isPrivate:boolean;
-
-        /**
-         * Is this a protected member?
-         */
-        isProtected:boolean;
-
-        /**
-         * Is this a public member?
-         */
-        isPublic:boolean;
-
-        /**
-         * Is this a static member?
-         */
-        isStatic:boolean;
-
-        /**
-         * Is this member exported?
-         */
-        isExported:boolean;
-
-        /**
-         * Is this a declaration from an external document?
-         */
-        isExternal:boolean;
-
-        /**
-         * Whether this reflection is an optional component or not.
-         *
-         * Applies to function parameters and object members.
-         */
-        isOptional:boolean;
-
-        hasExportAssignment:boolean;
-
-        /**
          * A type that points to the reflection that has been overwritten by this reflection.
          *
          * Applies to interface and class members.

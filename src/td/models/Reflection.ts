@@ -52,6 +52,76 @@ module td
     }
 
 
+    export enum ReflectionFlag
+    {
+        Private = 1,
+        Protected = 2,
+        Public = 4,
+        Static = 8,
+        Exported = 16,
+        ExportAssignment = 32,
+        External = 64,
+        Optional = 128,
+    }
+
+
+    var relevantFlags:ReflectionFlag[] = [
+        ReflectionFlag.Private,
+        ReflectionFlag.Protected,
+        ReflectionFlag.Static,
+        ReflectionFlag.ExportAssignment,
+        ReflectionFlag.Optional,
+    ];
+
+
+    export interface IReflectionFlags extends Array<string>
+    {
+        flags?:ReflectionFlag;
+
+        /**
+         * Is this a private member?
+         */
+        isPrivate?:boolean;
+
+        /**
+         * Is this a protected member?
+         */
+        isProtected?:boolean;
+
+        /**
+         * Is this a public member?
+         */
+        isPublic?:boolean;
+
+        /**
+         * Is this a static member?
+         */
+        isStatic?:boolean;
+
+        /**
+         * Is this member exported?
+         */
+        isExported?:boolean;
+
+        /**
+         * Is this a declaration from an external document?
+         */
+        isExternal?:boolean;
+
+        /**
+         * Whether this reflection is an optional component or not.
+         *
+         * Applies to function parameters and object members.
+         */
+        isOptional?:boolean;
+
+        /**
+         *
+         */
+        hasExportAssignment?:boolean;
+    }
+
+
     export interface IDefaultValueContainer extends Reflection
     {
         defaultValue:string;
@@ -125,6 +195,8 @@ module td
          * The human readable string representation of the kind of this reflection.
          */
         kindString:string;
+
+        flags:IReflectionFlags = [];
 
         /**
          * The reflection this reflection is a child of.
@@ -225,6 +297,42 @@ module td
                 return this.parent.getFullName(separator) + separator + this.name;
             } else {
                 return this.name;
+            }
+        }
+
+
+        /**
+         * Set a flag on this reflection.
+         */
+        setFlag(flag:ReflectionFlag, value:boolean = true) {
+            var name, index;
+            if (relevantFlags.indexOf(flag) != -1) {
+                name = ReflectionFlag[flag];
+                name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
+                index = this.flags.indexOf(name);
+            }
+
+            if (value) {
+                this.flags.flags &= flag;
+                if (name && index == -1) {
+                    this.flags.push(name);
+                }
+            } else {
+                this.flags.flags &= ~flag;
+                if (name && index != -1) {
+                    this.flags.splice(index, 1);
+                }
+            }
+
+            switch (flag) {
+                case ReflectionFlag.Private:   this.flags.isPrivate   = value; break;
+                case ReflectionFlag.Protected: this.flags.isProtected = value; break;
+                case ReflectionFlag.Public:    this.flags.isPublic    = value; break;
+                case ReflectionFlag.Static:    this.flags.isStatic    = value; break;
+                case ReflectionFlag.Exported:  this.flags.isExported  = value; break;
+                case ReflectionFlag.External:  this.flags.isExternal  = value; break;
+                case ReflectionFlag.Optional:  this.flags.isOptional  = value; break;
+                case ReflectionFlag.ExportAssignment: this.flags.hasExportAssignment = value; break;
             }
         }
 
@@ -334,7 +442,8 @@ module td
                 name:       this.name,
                 kind:       this.kind,
                 kindString: this.kindString,
-                alias:      this.getAlias()
+                alias:      this.getAlias(),
+                flags:      {}
             };
 
             if (this.originalName != this.name) {
@@ -343,6 +452,11 @@ module td
 
             if (this.comment) {
                 result.comment = this.comment.toObject();
+            }
+
+            for (var key in this.flags) {
+                if (parseInt(key) == key) continue;
+                if (this.flags[key]) result.flags[key] = true;
             }
 
             this.traverse((child, property) => {

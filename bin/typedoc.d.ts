@@ -409,6 +409,7 @@ declare module td {
         static EVENT_FILE_BEGIN: string;
         static EVENT_CREATE_DECLARATION: string;
         static EVENT_CREATE_SIGNATURE: string;
+        static EVENT_CREATE_PARAMETER: string;
         static EVENT_FUNCTION_IMPLEMENTATION: string;
         static EVENT_RESOLVE_BEGIN: string;
         static EVENT_RESOLVE_END: string;
@@ -663,6 +664,7 @@ declare module td {
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter: Converter);
+        private onResolve(event);
         /**
          * Triggered once after all documents have been read and the dispatcher
          * leaves the resolving phase.
@@ -1055,6 +1057,53 @@ declare module td {
         SomeSignature,
         SomeModule,
     }
+    enum ReflectionFlag {
+        Private = 1,
+        Protected = 2,
+        Public = 4,
+        Static = 8,
+        Exported = 16,
+        ExportAssignment = 32,
+        External = 64,
+        Optional = 128,
+    }
+    interface IReflectionFlags extends Array<string> {
+        flags?: ReflectionFlag;
+        /**
+         * Is this a private member?
+         */
+        isPrivate?: boolean;
+        /**
+         * Is this a protected member?
+         */
+        isProtected?: boolean;
+        /**
+         * Is this a public member?
+         */
+        isPublic?: boolean;
+        /**
+         * Is this a static member?
+         */
+        isStatic?: boolean;
+        /**
+         * Is this member exported?
+         */
+        isExported?: boolean;
+        /**
+         * Is this a declaration from an external document?
+         */
+        isExternal?: boolean;
+        /**
+         * Whether this reflection is an optional component or not.
+         *
+         * Applies to function parameters and object members.
+         */
+        isOptional?: boolean;
+        /**
+         *
+         */
+        hasExportAssignment?: boolean;
+    }
     interface IDefaultValueContainer extends Reflection {
         defaultValue: string;
     }
@@ -1109,6 +1158,7 @@ declare module td {
          * The human readable string representation of the kind of this reflection.
          */
         kindString: string;
+        flags: IReflectionFlags;
         /**
          * The reflection this reflection is a child of.
          */
@@ -1167,6 +1217,10 @@ declare module td {
          * @returns The full name of this reflection.
          */
         getFullName(separator?: string): string;
+        /**
+         * Set a flag on this reflection.
+         */
+        setFlag(flag: ReflectionFlag, value?: boolean): void;
         /**
          * Return an url safe alias for this reflection.
          */
@@ -1526,37 +1580,6 @@ declare module td {
          */
         defaultValue: string;
         /**
-         * Is this a private member?
-         */
-        isPrivate: boolean;
-        /**
-         * Is this a protected member?
-         */
-        isProtected: boolean;
-        /**
-         * Is this a public member?
-         */
-        isPublic: boolean;
-        /**
-         * Is this a static member?
-         */
-        isStatic: boolean;
-        /**
-         * Is this member exported?
-         */
-        isExported: boolean;
-        /**
-         * Is this a declaration from an external document?
-         */
-        isExternal: boolean;
-        /**
-         * Whether this reflection is an optional component or not.
-         *
-         * Applies to function parameters and object members.
-         */
-        isOptional: boolean;
-        hasExportAssignment: boolean;
-        /**
          * A type that points to the reflection that has been overwritten by this reflection.
          *
          * Applies to interface and class members.
@@ -1790,233 +1813,6 @@ declare module td {
         constructor(name: string);
     }
 }
-declare module td {
-    /**
-     * Base class of all themes.
-     *
-     * A theme defines the logical and graphical output of a documentation. Themes are
-     * directories containing a ```theme.js``` file defining a [[BaseTheme]] subclass and a
-     * series of subdirectories containing templates and assets. You can select a theme
-     * through the ```--theme <path/to/theme>``` commandline argument.
-     *
-     * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
-     * function. It returns an array of [[UrlMapping]] instances defining the target files, models
-     * and templates to use. Additionally themes can subscribe to the events emitted by
-     * [[Renderer]] to control and manipulate the output process.
-     *
-     * The default file structure of a theme looks like this:
-     *
-     * - ```/assets/```<br>
-     *   Contains static assets like stylesheets, images or javascript files used by the theme.
-     *   The [[AssetsPlugin]] will deep copy this directory to the output directory.
-     *
-     * - ```/layouts/```<br>
-     *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
-     *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
-     *   receive the current [[OutputPageEvent]] instance as their handlebars context. Place the
-     *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
-     *
-     * - ```/partials/```<br>
-     *   Contains partial templates that can be used by other templates using handlebars partial
-     *   syntax ```{{> partial-name}}```. The [[PartialsPlugin]] loads all files in this directory
-     *   and combines them with the partials of the default theme.
-     *
-     * - ```/templates/```<br>
-     *   Contains the main templates of the theme. The theme maps models to these templates through
-     *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
-     *   given template within this directory, it will try to find it in the default theme
-     *   ```/templates/``` directory. Templates receive the current [[OutputPageEvent]] instance as
-     *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
-     *
-     * - ```/theme.js```<br>
-     *   A javascript file that returns the definition of a [[BaseTheme]] subclass. This file will
-     *   be executed within the context of TypeDoc, one may directly access all classes and functions
-     *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
-     *   this theme.
-     */
-    class BaseTheme {
-        /**
-         * The renderer this theme is attached to.
-         */
-        renderer: Renderer;
-        /**
-         * The base path of this theme.
-         */
-        basePath: string;
-        /**
-         * Create a new BaseTheme instance.
-         *
-         * @param renderer  The renderer this theme is attached to.
-         * @param basePath  The base path of this theme.
-         */
-        constructor(renderer: Renderer, basePath: string);
-        /**
-         * Test whether the given path contains a documentation generated by this theme.
-         *
-         * TypeDoc empties the output directory before rendering a project. This function
-         * is used to ensure that only previously generated documentations are deleted.
-         * When this function returns FALSE, the documentation will not be created and an
-         * error message will be displayed.
-         *
-         * Every theme must have an own implementation of this function, the default
-         * implementation always returns FALSE.
-         *
-         * @param path  The path of the directory that should be tested.
-         * @returns     TRUE if the given path seems to be a previous output directory,
-         *              otherwise FALSE.
-         *
-         * @see [[Renderer.prepareOutputDirectory]]
-         */
-        isOutputDirectory(path: string): boolean;
-        /**
-         * Map the models of the given project to the desired output files.
-         *
-         * Every theme must have an own implementation of this function, the default
-         * implementation always returns an empty array.
-         *
-         * @param project  The project whose urls should be generated.
-         * @returns        A list of [[UrlMapping]] instances defining which models
-         *                 should be rendered to which files.
-         */
-        getUrls(project: ProjectReflection): UrlMapping[];
-        /**
-         * Create a navigation structure for the given project.
-         *
-         * A navigation is a tree structure consisting of [[NavigationItem]] nodes. This
-         * function should return the root node of the desired navigation tree.
-         *
-         * The [[NavigationPlugin]] will call this hook before a project will be rendered.
-         * The plugin will update the state of the navigation tree and pass it to the
-         * templates.
-         *
-         * @param project  The project whose navigation should be generated.
-         * @returns        The root navigation item.
-         */
-        getNavigation(project: ProjectReflection): NavigationItem;
-    }
-}
-declare module td {
-    /**
-     * Defines a mapping of a [[Models.Kind]] to a template file.
-     *
-     * Used by [[DefaultTheme]] to map reflections to output files.
-     */
-    interface ITemplateMapping {
-        /**
-         * [[DeclarationReflection.kind]] this rule applies to.
-         */
-        kind: ReflectionKind[];
-        /**
-         * Can this mapping have children or should all further reflections be rendered
-         * to the defined output page?
-         */
-        isLeaf: boolean;
-        /**
-         * The name of the directory the output files should be written to.
-         */
-        directory: string;
-        /**
-         * The name of the template that should be used to render the reflection.
-         */
-        template: string;
-    }
-    /**
-     * Default theme implementation of TypeDoc. If a theme does not provide a custom
-     * [[BaseTheme]] implementation, this theme class will be used.
-     */
-    class DefaultTheme extends BaseTheme {
-        /**
-         * Mappings of reflections kinds to templates used by this theme.
-         */
-        static MAPPINGS: ITemplateMapping[];
-        /**
-         * Create a new DefaultTheme instance.
-         *
-         * @param renderer  The renderer this theme is attached to.
-         * @param basePath  The base path of this theme.
-         */
-        constructor(renderer: Renderer, basePath: string);
-        /**
-         * Test whether the given path contains a documentation generated by this theme.
-         *
-         * @param path  The path of the directory that should be tested.
-         * @returns     TRUE if the given path seems to be a previous output directory,
-         *              otherwise FALSE.
-         */
-        isOutputDirectory(path: string): boolean;
-        /**
-         * Map the models of the given project to the desired output files.
-         *
-         * @param project  The project whose urls should be generated.
-         * @returns        A list of [[UrlMapping]] instances defining which models
-         *                 should be rendered to which files.
-         */
-        getUrls(project: ProjectReflection): UrlMapping[];
-        /**
-         * Create a navigation structure for the given project.
-         *
-         * @param project  The project whose navigation should be generated.
-         * @returns        The root navigation item.
-         */
-        getNavigation(project: ProjectReflection): NavigationItem;
-        /**
-         * Triggered before the renderer starts rendering a project.
-         *
-         * @param event  An event object describing the current render operation.
-         */
-        private onRendererBegin(event);
-        /**
-         * Return a url for the given reflection.
-         *
-         * @param reflection  The reflection the url should be generated for.
-         * @param relative    The parent reflection the url generation should stop on.
-         * @param separator   The separator used to generate the url.
-         * @returns           The generated url.
-         */
-        static getUrl(reflection: Reflection, relative?: Reflection, separator?: string): string;
-        /**
-         * Return the template mapping fore the given reflection.
-         *
-         * @param reflection  The reflection whose mapping should be resolved.
-         * @returns           The found mapping or NULL if no mapping could be found.
-         */
-        static getMapping(reflection: DeclarationReflection): ITemplateMapping;
-        /**
-         * Build the url for the the given reflection and all of its children.
-         *
-         * @param reflection  The reflection the url should be created for.
-         * @param urls        The array the url should be appended to.
-         * @returns           The altered urls array.
-         */
-        static buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[];
-        /**
-         * Generate an anchor url for the given reflection and all of its children.
-         *
-         * @param reflection  The reflection an anchor url should be created for.
-         * @param container   The nearest reflection having an own document.
-         */
-        static applyAnchorUrl(reflection: Reflection, container: ContainerReflection): void;
-        /**
-         * Generate the css classes for the given reflection and apply them to the
-         * [[DeclarationReflection.cssClasses]] property.
-         *
-         * @param reflection  The reflection whose cssClasses property should be generated.
-         */
-        static applyReflectionClasses(reflection: DeclarationReflection): void;
-        /**
-         * Generate the css classes for the given reflection group and apply them to the
-         * [[ReflectionGroup.cssClasses]] property.
-         *
-         * @param group  The reflection group whose cssClasses property should be generated.
-         */
-        static applyGroupClasses(group: ReflectionGroup): void;
-        /**
-         * Transform a space separated string into a string suitable to be used as a
-         * css class, e.g. "constructor method" > "Constructor-method".
-         */
-        static toStyleClass(str: string): string;
-    }
-}
 /**
  * Holds all logic used render and output the final documentation.
  *
@@ -2071,7 +1867,7 @@ declare module td {
         /**
          * The theme that is used to render the documentation.
          */
-        theme: BaseTheme;
+        theme: Theme;
         /**
          * Hash map of all loaded templates indexed by filename.
          */
@@ -2184,6 +1980,111 @@ declare module td {
          * Remove this plugin from the renderer.
          */
         remove(): void;
+    }
+}
+declare module td {
+    /**
+     * Base class of all themes.
+     *
+     * A theme defines the logical and graphical output of a documentation. Themes are
+     * directories containing a ```theme.js``` file defining a [[BaseTheme]] subclass and a
+     * series of subdirectories containing templates and assets. You can select a theme
+     * through the ```--theme <path/to/theme>``` commandline argument.
+     *
+     * The theme class controls which files will be created through the [[BaseTheme.getUrls]]
+     * function. It returns an array of [[UrlMapping]] instances defining the target files, models
+     * and templates to use. Additionally themes can subscribe to the events emitted by
+     * [[Renderer]] to control and manipulate the output process.
+     *
+     * The default file structure of a theme looks like this:
+     *
+     * - ```/assets/```<br>
+     *   Contains static assets like stylesheets, images or javascript files used by the theme.
+     *   The [[AssetsPlugin]] will deep copy this directory to the output directory.
+     *
+     * - ```/layouts/```<br>
+     *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
+     *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
+     *   receive the current [[OutputPageEvent]] instance as their handlebars context. Place the
+     *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
+     *
+     * - ```/partials/```<br>
+     *   Contains partial templates that can be used by other templates using handlebars partial
+     *   syntax ```{{> partial-name}}```. The [[PartialsPlugin]] loads all files in this directory
+     *   and combines them with the partials of the default theme.
+     *
+     * - ```/templates/```<br>
+     *   Contains the main templates of the theme. The theme maps models to these templates through
+     *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
+     *   given template within this directory, it will try to find it in the default theme
+     *   ```/templates/``` directory. Templates receive the current [[OutputPageEvent]] instance as
+     *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
+     *
+     * - ```/theme.js```<br>
+     *   A javascript file that returns the definition of a [[BaseTheme]] subclass. This file will
+     *   be executed within the context of TypeDoc, one may directly access all classes and functions
+     *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
+     *   this theme.
+     */
+    class Theme {
+        /**
+         * The renderer this theme is attached to.
+         */
+        renderer: Renderer;
+        /**
+         * The base path of this theme.
+         */
+        basePath: string;
+        /**
+         * Create a new BaseTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        constructor(renderer: Renderer, basePath: string);
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * TypeDoc empties the output directory before rendering a project. This function
+         * is used to ensure that only previously generated documentations are deleted.
+         * When this function returns FALSE, the documentation will not be created and an
+         * error message will be displayed.
+         *
+         * Every theme must have an own implementation of this function, the default
+         * implementation always returns FALSE.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         *
+         * @see [[Renderer.prepareOutputDirectory]]
+         */
+        isOutputDirectory(path: string): boolean;
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * Every theme must have an own implementation of this function, the default
+         * implementation always returns an empty array.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        getUrls(project: ProjectReflection): UrlMapping[];
+        /**
+         * Create a navigation structure for the given project.
+         *
+         * A navigation is a tree structure consisting of [[NavigationItem]] nodes. This
+         * function should return the root node of the desired navigation tree.
+         *
+         * The [[NavigationPlugin]] will call this hook before a project will be rendered.
+         * The plugin will update the state of the navigation tree and pass it to the
+         * templates.
+         *
+         * @param project  The project whose navigation should be generated.
+         * @returns        The root navigation item.
+         */
+        getNavigation(project: ProjectReflection): NavigationItem;
     }
 }
 declare module td {
@@ -2597,5 +2498,167 @@ declare module td {
          * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
         static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem): void;
+    }
+}
+declare module td {
+    /**
+     * Defines a mapping of a [[Models.Kind]] to a template file.
+     *
+     * Used by [[DefaultTheme]] to map reflections to output files.
+     */
+    interface ITemplateMapping {
+        /**
+         * [[DeclarationReflection.kind]] this rule applies to.
+         */
+        kind: ReflectionKind[];
+        /**
+         * Can this mapping have children or should all further reflections be rendered
+         * to the defined output page?
+         */
+        isLeaf: boolean;
+        /**
+         * The name of the directory the output files should be written to.
+         */
+        directory: string;
+        /**
+         * The name of the template that should be used to render the reflection.
+         */
+        template: string;
+    }
+    /**
+     * Default theme implementation of TypeDoc. If a theme does not provide a custom
+     * [[BaseTheme]] implementation, this theme class will be used.
+     */
+    class DefaultTheme extends Theme {
+        /**
+         * Mappings of reflections kinds to templates used by this theme.
+         */
+        static MAPPINGS: ITemplateMapping[];
+        /**
+         * Create a new DefaultTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        constructor(renderer: Renderer, basePath: string);
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         */
+        isOutputDirectory(path: string): boolean;
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        getUrls(project: ProjectReflection): UrlMapping[];
+        /**
+         * Create a navigation structure for the given project.
+         *
+         * @param project  The project whose navigation should be generated.
+         * @returns        The root navigation item.
+         */
+        getNavigation(project: ProjectReflection): NavigationItem;
+        /**
+         * Triggered before the renderer starts rendering a project.
+         *
+         * @param event  An event object describing the current render operation.
+         */
+        private onRendererBegin(event);
+        /**
+         * Return a url for the given reflection.
+         *
+         * @param reflection  The reflection the url should be generated for.
+         * @param relative    The parent reflection the url generation should stop on.
+         * @param separator   The separator used to generate the url.
+         * @returns           The generated url.
+         */
+        static getUrl(reflection: Reflection, relative?: Reflection, separator?: string): string;
+        /**
+         * Return the template mapping fore the given reflection.
+         *
+         * @param reflection  The reflection whose mapping should be resolved.
+         * @returns           The found mapping or NULL if no mapping could be found.
+         */
+        static getMapping(reflection: DeclarationReflection): ITemplateMapping;
+        /**
+         * Build the url for the the given reflection and all of its children.
+         *
+         * @param reflection  The reflection the url should be created for.
+         * @param urls        The array the url should be appended to.
+         * @returns           The altered urls array.
+         */
+        static buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[];
+        /**
+         * Generate an anchor url for the given reflection and all of its children.
+         *
+         * @param reflection  The reflection an anchor url should be created for.
+         * @param container   The nearest reflection having an own document.
+         */
+        static applyAnchorUrl(reflection: Reflection, container: ContainerReflection): void;
+        /**
+         * Generate the css classes for the given reflection and apply them to the
+         * [[DeclarationReflection.cssClasses]] property.
+         *
+         * @param reflection  The reflection whose cssClasses property should be generated.
+         */
+        static applyReflectionClasses(reflection: DeclarationReflection): void;
+        /**
+         * Generate the css classes for the given reflection group and apply them to the
+         * [[ReflectionGroup.cssClasses]] property.
+         *
+         * @param group  The reflection group whose cssClasses property should be generated.
+         */
+        static applyGroupClasses(group: ReflectionGroup): void;
+        /**
+         * Transform a space separated string into a string suitable to be used as a
+         * css class, e.g. "constructor method" > "Constructor-method".
+         */
+        static toStyleClass(str: string): string;
+    }
+}
+declare module td {
+    class MinimalTheme extends Theme {
+        /**
+         * Create a new DefaultTheme instance.
+         *
+         * @param renderer  The renderer this theme is attached to.
+         * @param basePath  The base path of this theme.
+         */
+        constructor(renderer: Renderer, basePath: string);
+        /**
+         * Test whether the given path contains a documentation generated by this theme.
+         *
+         * @param path  The path of the directory that should be tested.
+         * @returns     TRUE if the given path seems to be a previous output directory,
+         *              otherwise FALSE.
+         */
+        isOutputDirectory(path: string): boolean;
+        /**
+         * Map the models of the given project to the desired output files.
+         *
+         * @param project  The project whose urls should be generated.
+         * @returns        A list of [[UrlMapping]] instances defining which models
+         *                 should be rendered to which files.
+         */
+        getUrls(project: ProjectReflection): UrlMapping[];
+        /**
+         * Triggered before a document will be rendered.
+         *
+         * @param page  An event object describing the current render operation.
+         */
+        private onRendererBeginPage(page);
+        /**
+         * Create a toc navigation item structure.
+         *
+         * @param model   The models whose children should be written to the toc.
+         * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
+         */
+        static buildToc(model: DeclarationReflection, parent: NavigationItem): void;
     }
 }

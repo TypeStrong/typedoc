@@ -43,7 +43,7 @@ module td
      *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
      *   this theme.
      */
-    export class BaseTheme
+    export class Theme
     {
         /**
          * The renderer this theme is attached to.

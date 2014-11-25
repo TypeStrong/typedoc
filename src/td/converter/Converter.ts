@@ -34,6 +34,7 @@ module td
         static EVENT_FILE_BEGIN:string = 'fileBegin';
         static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
         static EVENT_CREATE_SIGNATURE:string = 'createSignature';
+        static EVENT_CREATE_PARAMETER:string = 'createParameter';
         static EVENT_FUNCTION_IMPLEMENTATION:string = 'functionImplementation';
 
         static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
@@ -68,7 +69,7 @@ module td
 
             var isExternal = false;
             var externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
-
+            var symbolID = -1024;
             var isInherit = false;
             var inheritParent:ts.Node = null;
             var inherited:string[] = [];
@@ -109,11 +110,19 @@ module td
             }
 
 
+            function getSymbolID(symbol:ts.Symbol):number {
+                if (!symbol) return null;
+                if (!symbol.id) symbol.id = symbolID--;
+                return symbol.id;
+            }
+
+
             function registerReflection(reflection:Reflection, node:ts.Node) {
                 project.reflections[reflection.id] = reflection;
 
-                if (!isInherit && node.symbol && node.symbol.id && !project.symbolMapping[node.symbol.id]) {
-                    project.symbolMapping[node.symbol.id] = reflection.id;
+                var id = getSymbolID(node.symbol);
+                if (!isInherit && id && !project.symbolMapping[id]) {
+                    project.symbolMapping[id] = reflection.id;
                 }
             }
 
@@ -137,37 +146,36 @@ module td
 
                 if (!container.children) container.children = [];
                 container.children.forEach((n) => {
-                    if (n.name == name && n.isStatic == isStatic) child = n;
+                    if (n.name == name && n.flags.isStatic == isStatic) child = n;
                 });
 
                 if (!child) {
                     child = new DeclarationReflection(container, name, kind);
-                    child.isStatic    = isStatic;
-                    child.isExternal  = isExternal;
-                    child.isPrivate   = isPrivate;
-                    child.isProtected = !!(node.flags & ts.NodeFlags['Protected']);
-                    child.isPublic    = !!(node.flags & ts.NodeFlags['Public']);
-                    child.isExported  = !!(node.flags & ts.NodeFlags['Export']);
-                    child.isOptional  = !!(node.flags & ts.NodeFlags['QuestionMark']);
-
-                    if (container.kind == ReflectionKind.Class && node.parent.kind != ts.SyntaxKind['ClassDeclaration']) {
-                        child.isStatic = true;
-                    }
+                    child.setFlag(ReflectionFlag.Static,    isStatic);
+                    child.setFlag(ReflectionFlag.External,  isExternal);
+                    child.setFlag(ReflectionFlag.Private,   isPrivate);
+                    child.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags['Protected']));
+                    child.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags['Public']));
+                    child.setFlag(ReflectionFlag.Optional,  !!(node.flags & ts.NodeFlags['QuestionMark']));
+                    child.setFlag(ReflectionFlag.Exported,  container.flags.isExported || !!(node.flags & ts.NodeFlags['Export']));
 
                     container.children.push(child);
                     registerReflection(child, node);
 
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = new ReferenceType(node.symbol.id);
+                            child.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
+                            child.getAllSignatures().forEach((signature) => {
+                                signature.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
+                            });
                         }
                     }
                 } else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            var overwrites = child.overwrites = new ReferenceType(node.symbol.id);
+                            child.overwrites = new ReferenceType(getSymbolID(node.symbol));
                             child.getAllSignatures().forEach((signature) => {
-                                signature.overwrites = overwrites;
+                                signature.overwrites = new ReferenceType(getSymbolID(node.symbol));
                             });
                         }
                         return null;
@@ -205,7 +213,7 @@ module td
                     }
 
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = new ReferenceType(node.symbol.id);
+                        signature.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
                     }
 
                     event.reflection = signature;
@@ -228,6 +236,10 @@ module td
                 signature.parameters.push(parameter);
 
                 registerReflection(parameter, node);
+
+                event.reflection = parameter;
+                event.node = node;
+                dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
             }
 
 
@@ -256,7 +268,7 @@ module td
 
 
             function extractEnumType(node:ts.TypeNode, type:ts.Type):Type {
-                return new ReferenceType(type.symbol.id);
+                return new ReferenceType(getSymbolID(type.symbol));
             }
 
 
@@ -304,7 +316,7 @@ module td
                             return new IntrinsicType('object');
                         }
                     } else {
-                        return new ReferenceType(type.symbol.id);
+                        return new ReferenceType(getSymbolID(type.symbol));
                     }
                 } else {
                     if (node && node['elementType']) {
@@ -530,9 +542,12 @@ module td
                     }
                 } else if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
+                    visitBlock(node, scope);
+                    scope.setFlag(ReflectionFlag.Exported);
+                } else {
+                    visitBlock(node, scope);
                 }
 
-                visitBlock(node, scope);
                 return scope;
             }
 
@@ -926,12 +941,12 @@ module td
                 if (type && type.symbol) {
                     type.symbol.declarations.forEach((declaration) => {
                         if (!declaration.symbol) return;
-                        var id = project.symbolMapping[declaration.symbol.id];
+                        var id = project.symbolMapping[getSymbolID(declaration.symbol)];
                         if (!id) return;
 
                         var reflection = project.reflections[id];
                         if (reflection instanceof DeclarationReflection) {
-                            (<DeclarationReflection>reflection).hasExportAssignment = true;
+                            (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
                         }
                         markAsExported(reflection);
                     });
@@ -939,7 +954,7 @@ module td
 
                 function markAsExported(reflection:Reflection) {
                     if (reflection instanceof DeclarationReflection) {
-                        (<DeclarationReflection>reflection).isExported = true;
+                        (<DeclarationReflection>reflection).setFlag(ReflectionFlag.Exported, true);
                     }
 
                     reflection.traverse(markAsExported);

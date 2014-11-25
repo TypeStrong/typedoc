@@ -68,7 +68,21 @@ module td
          */
         constructor(converter:Converter) {
             super(converter);
+            converter.on(Converter.EVENT_RESOLVE, this.onResolve, this);
             converter.on(Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+        }
+
+
+        private onResolve(event:ResolveEvent) {
+            var reflection = event.reflection;
+            reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
+            if (reflection instanceof ContainerReflection) {
+                var container = <ContainerReflection>reflection;
+                if (container.children && container.children.length > 0) {
+                    container.children.sort(GroupPlugin.sortCallback);
+                    container.groups = GroupPlugin.getReflectionGroups(container.children);
+                }
+            }
         }
 
 
@@ -90,18 +104,6 @@ module td
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);
-            }
-
-            for (var id in project.reflections) {
-                var reflection = project.reflections[id];
-                reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
-                if (reflection instanceof ContainerReflection) {
-                    var container = <ContainerReflection>reflection;
-                    if (container.children && container.children.length > 0) {
-                        container.children.sort(GroupPlugin.sortCallback);
-                        container.groups = GroupPlugin.getReflectionGroups(container.children);
-                    }
-                }
             }
 
             walkDirectory(project.directory);
@@ -140,10 +142,10 @@ module td
             groups.forEach((group) => {
                 var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
                 group.children.forEach((child) => {
-                    someExported = child.isExported    || someExported;
-                    allInherited = child.inheritedFrom && allInherited;
-                    allPrivate   = child.isPrivate     && allPrivate;
-                    allExternal  = child.isExternal    && allExternal;
+                    someExported = child.flags.isExported || someExported;
+                    allPrivate   = child.flags.isPrivate  && allPrivate;
+                    allExternal  = child.flags.isExternal && allExternal;
+                    allInherited = child.inheritedFrom    && allInherited;
                 });
 
                 group.someChildrenAreExported = someExported;
@@ -210,6 +212,8 @@ module td
             var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
             var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
             if (aWeight == bWeight) {
+                if (a.flags.isStatic && !b.flags.isStatic) return 1;
+                if (!a.flags.isStatic && b.flags.isStatic) return -1;
                 if (a.name == b.name) return 0;
                 return a.name > b.name ? 1 : -1;
             } else return aWeight - bWeight;

@@ -34,7 +34,7 @@ module td
      * Default theme implementation of TypeDoc. If a theme does not provide a custom
      * [[BaseTheme]] implementation, this theme class will be used.
      */
-    export class DefaultTheme extends BaseTheme
+    export class DefaultTheme extends Theme
     {
         /**
          * Mappings of reflections kinds to templates used by this theme.
@@ -139,7 +139,7 @@ module td
              */
             function containsExternals(modules:DeclarationReflection[]):boolean {
                 for (var index = 0, length = modules.length; index < length; index++) {
-                    if (modules[index].isExternal) return true;
+                    if (modules[index].flags.isExternal) return true;
                 }
                 return false;
             }
@@ -152,8 +152,8 @@ module td
              */
             function sortReflections(modules:DeclarationReflection[]) {
                 modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
-                    if (a.isExternal && !b.isExternal) return  1;
-                    if (!a.isExternal && b.isExternal) return -1;
+                    if (a.flags.isExternal && !b.flags.isExternal) return  1;
+                    if (!a.flags.isExternal && b.flags.isExternal) return -1;
                     return a.getFullName() < b.getFullName() ? -1 : 1;
                 });
             }
@@ -214,10 +214,10 @@ module td
                 sortReflections(reflections);
 
                 reflections.forEach((reflection) => {
-                    if (hasExternals && !reflection.isExternal && state != 1) {
+                    if (hasExternals && !reflection.flags.isExternal && state != 1) {
                         new NavigationItem('Internals', null, parent, "tsd-is-external");
                         state = 1;
-                    } else if (hasExternals && reflection.isExternal && state != 2) {
+                    } else if (hasExternals && reflection.flags.isExternal && state != 2) {
                         new NavigationItem('Externals', null, parent, "tsd-is-external");
                         state = 2;
                     }
@@ -386,12 +386,12 @@ module td
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
             }
 
-            if (reflection.overwrites)    classes.push('tsd-is-overwrite');
-            if (reflection.inheritedFrom) classes.push('tsd-is-inherited');
-            if (reflection.isPrivate)     classes.push('tsd-is-private');
-            if (reflection.isStatic)      classes.push('tsd-is-static');
-            if (reflection.isExternal)    classes.push('tsd-is-external');
-            if (!reflection.isExported)   classes.push('tsd-is-not-exported');
+            if (reflection.overwrites)        classes.push('tsd-is-overwrite');
+            if (reflection.inheritedFrom)     classes.push('tsd-is-inherited');
+            if (reflection.flags.isPrivate)   classes.push('tsd-is-private');
+            if (reflection.flags.isStatic)    classes.push('tsd-is-static');
+            if (reflection.flags.isExternal)  classes.push('tsd-is-external');
+            if (!reflection.flags.isExported) classes.push('tsd-is-not-exported');
 
             reflection.cssClasses = classes.join(' ');
         }
