@@ -1,4 +1,7 @@
-{{> member.sources}}
+{{#unless hideSources}}
+    {{> member.sources}}
+{{/unless}}
+
 {{> comment}}
 
 {{#if parameters}}
@@ -13,10 +16,13 @@
                         &nbsp;<span class="tsd-flag ts-flag{{this}}">{{this}}</span>
                     {{/each}}
                 {{/compact}}</h5>
+
                 {{> comment}}
 
                 {{#if type.declaration}}
-                    {{> parameter}}
+                    {{#with type.declaration}}
+                        {{> parameter}}
+                    {{/with}}
                 {{/if}}
             </li>
         {{/each}}

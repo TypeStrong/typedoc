@@ -1,6 +1,43 @@
 <ul class="tsd-parameters">
+    {{#if signatures}}
+        <li class="tsd-parameter-siganture">
+            <ul class="tsd-signatures {{cssClasses}}">
+                {{#each signatures}}
+                    <li class="tsd-signature tsd-kind-icon">{{> member.signature.title hideName=true }}</li>
+                {{/each}}
+            </ul>
+
+            <ul class="tsd-descriptions">
+                {{#each signatures}}
+                    <li class="tsd-description">{{> member.signature.body hideSources=true }}</li>
+                {{/each}}
+            </ul>
+        </li>
+    {{/if}}
+    {{#if indexSignature}}
+        <li class="tsd-parameter-index-signature">
+            <h5>{{#compact}}
+                <span class="tsd-signature-symbol">[</span>
+                {{#each indexSignature.parameters}}
+                    {{name}}:&nbsp;{{#with type}}{{>type}}{{/with}}
+                {{/each}}
+                <span class="tsd-signature-symbol">]:&nbsp;</span>
+                {{#with indexSignature.type}}{{>type}}{{/with}}
+            {{/compact}}</h5>
+
+            {{#with indexSignature}}
+                {{> comment}}
+            {{/with}}
+
+            {{#if indexSignature.type.declaration}}
+                {{#with indexSignature.type.declaration}}
+                    {{> parameter}}
+                {{/with}}
+            {{/if}}
+        </li>
+    {{/if}}
     {{#each children}}
-        <li>
+        <li class="tsd-parameter">
             {{#if signatures}}
                 <h5>{{#compact}}
                     {{{wbr name}}}<span class="tsd-signature-symbol">{{#if isOptional}}?{{/if}}</span>
@@ -13,8 +50,15 @@
                 {{/compact}}</h5>
 
                 {{> comment}}
+
                 {{#if children}}
                     {{> parameter}}
+                {{/if}}
+
+                {{#if type.declaration}}
+                    {{#with type.declaration}}
+                        {{> parameter}}
+                    {{/with}}
                 {{/if}}
             {{/if}}
         </li>

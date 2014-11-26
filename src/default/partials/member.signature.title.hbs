@@ -1,5 +1,6 @@
 {{#compact}}
-    {{{wbr name}}}<span class="tsd-signature-symbol">(</span>
+    {{#unless hideName}}{{{wbr name}}}{{/unless}}
+    <span class="tsd-signature-symbol">(</span>
     {{#each parameters}}
         {{#if @index}},&nbsp;{{/if}}
         {{name}}
