@@ -203,13 +203,17 @@ module td
                         var type = checker.getTypeOfNode(node);
                         checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
                             if (tsSignature.declaration == node) {
-                                signature.type = extractType(node.type, checker.getReturnTypeOfSignature(tsSignature));
+                                signature.type = extractType(signature, node.type, checker.getReturnTypeOfSignature(tsSignature));
                             }
                         });
                     }
 
                     if (!signature.type) {
-                        signature.type = extractType(node.type, checker.getTypeOfNode(node));
+                        if (node.type) {
+                            signature.type = extractType(signature, node.type, checker.getTypeOfNode(node.type));
+                        } else {
+                            signature.type = extractType(signature, node, checker.getTypeOfNode(node));
+                        }
                     }
 
                     if (container.inheritedFrom) {
@@ -228,7 +232,7 @@ module td
             function createParameter(signature:SignatureReflection, node:ts.ParameterDeclaration) {
                 var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
                 parameter.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
-                parameter.type = extractType(node.type, checker.getTypeOfNode(node));
+                parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
 
                 extractDefaultValue(node, parameter);
 
@@ -243,19 +247,19 @@ module td
             }
 
 
-            function extractType(node:ts.TypeNode, type:ts.Type):Type {
+            function extractType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
                     return extractIntrinsicType(node, <ts.IntrinsicType>type);
                 } else if (type.flags & ts.TypeFlags['Enum']) {
                     return extractEnumType(node, type);
                 } else if (type.flags & ts.TypeFlags['Tuple']) {
-                    return extractTupleType(<ts.TupleTypeNode>node, <ts.TupleType>type);
+                    return extractTupleType(target, <ts.TupleTypeNode>node, <ts.TupleType>type);
                 } else if (type.flags & ts.TypeFlags['TypeParameter']) {
                     return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
                 } else if (type.flags & ts.TypeFlags['StringLiteral']) {
                     return extractStringLiteralType(node, <ts.StringLiteralType>type);
                 } else if (type.flags & ts.TypeFlags['ObjectType']) {
-                    return extractObjectType(node, type);
+                    return extractObjectType(target, node, type);
                 } else {
                     return extractUnknownType(node, type);
                 }
@@ -272,10 +276,10 @@ module td
             }
 
 
-            function extractTupleType(node:ts.TupleTypeNode, type:ts.TupleType):Type {
+            function extractTupleType(target:Reflection, node:ts.TupleTypeNode, type:ts.TupleType):Type {
                 var elements = [];
                 node.elementTypes.forEach((elementNode) => {
-                    elements.push(extractType(elementNode, checker.getTypeOfNode(elementNode)));
+                    elements.push(extractType(target, elementNode, checker.getTypeOfNode(elementNode)));
                 });
 
                 return new TupleType(elements);
@@ -301,13 +305,14 @@ module td
             }
 
 
-            function extractObjectType(node:ts.TypeNode, type:ts.Type):Type {
+            function extractObjectType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
                 if (type.symbol) {
                     if (type.flags & ts.TypeFlags['Anonymous']) {
                         if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
                             var declaration = new DeclarationReflection();
                             declaration.kind = ReflectionKind.TypeLiteral;
                             declaration.name = '__type';
+                            declaration.parent = target;
                             type.symbol.declarations.forEach((node) => {
                                 visit(node, declaration);
                             });
@@ -320,7 +325,7 @@ module td
                     }
                 } else {
                     if (node && node['elementType']) {
-                        var result = extractType(node['elementType'], checker.getTypeOfNode(node['elementType']));
+                        var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
                         if (result) {
                             result.isArray = true;
                             return result;
@@ -358,12 +363,12 @@ module td
             }
 
 
-            function extractTypeArguments(typeArguments:ts.NodeArray<ts.TypeNode>):Type[] {
+            function extractTypeArguments(target:Reflection, typeArguments:ts.NodeArray<ts.TypeNode>):Type[] {
                 var result:Type[] = [];
 
                 if (typeArguments) {
                     typeArguments.forEach((node:ts.TypeNode) => {
-                        result.push(extractType(node, checker.getTypeOfNode(node)));
+                        result.push(extractType(target, node, checker.getTypeOfNode(node)));
                     });
                 }
 
@@ -390,7 +395,7 @@ module td
                             var typeParameter = new TypeParameterType();
                             typeParameter.name = declaration.symbol.name;
                             if (declaration.constraint) {
-                                typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
 
@@ -598,12 +603,12 @@ module td
 
                             if (!isInherit) {
                                 if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                reflection.extendedTypes.push(extractType(node.baseType, type));
+                                reflection.extendedTypes.push(extractType(reflection, node.baseType, type));
                             }
 
                             if (type && type.symbol) {
                                 type.symbol.declarations.forEach((declaration) => {
-                                    inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
+                                    inherit(declaration, reflection, extractTypeArguments(reflection, node.baseType.typeArguments));
                                 });
                             }
                         }
@@ -612,7 +617,7 @@ module td
                             reflection.implementedTypes = [];
                             node.implementedTypes.forEach((implementedType:ts.TypeReferenceNode) => {
                                 var type = checker.getTypeOfNode(implementedType);
-                                reflection.implementedTypes.push(extractType(implementedType, type));
+                                reflection.implementedTypes.push(extractType(reflection, implementedType, type));
                             });
                         }
                     });
@@ -651,12 +656,12 @@ module td
 
                                 if (!isInherit) {
                                     if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(baseType, type));
+                                    reflection.extendedTypes.push(extractType(reflection, baseType, type));
                                 }
 
                                 if (type && type.symbol) {
                                     type.symbol.declarations.forEach((declaration) => {
-                                        inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
+                                        inherit(declaration, reflection, extractTypeArguments(reflection, baseType.typeArguments));
                                     });
                                 }
                             });
@@ -726,7 +731,7 @@ module td
                     }
 
                     if (variable.kind == kind) {
-                        variable.type = extractType(node.type, checker.getTypeOfNode(node));
+                        variable.type = extractType(variable, node.type, checker.getTypeOfNode(node));
                     }
                 }
 

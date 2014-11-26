@@ -13,7 +13,7 @@ module td
         constructor(converter:Converter) {
             super(converter);
 
-            converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this, -512);
+            converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
         }
 
 
@@ -22,15 +22,20 @@ module td
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(event:CompilerEvent) {
-            var reflection = <DeclarationReflection>event.reflection;
-            if (reflection.comment) {
-                return;
+        private onBeginResolve(event:ConverterEvent) {
+            var project = event.getProject();
+            var name;
+            for (var key in project.reflections) {
+                var reflection = project.reflections[key];
+                if (!reflection.comment) {
+                    findDeepComment(reflection);
+                }
             }
 
-            function push(reflection:DeclarationReflection) {
-                var part = reflection.originalName;
-                if (reflection instanceof SignatureReflection) {
+
+            function push(parent:Reflection) {
+                var part = parent.originalName;
+                if (!part || part.substr(0, 2) == '__' || parent instanceof SignatureReflection) {
                     part = '';
                 }
 
@@ -39,24 +44,25 @@ module td
                 }
             }
 
-            var name   = '';
-            var target = <DeclarationReflection>reflection.parent;
-            push(reflection);
-            if (name == '') {
-                return;
-            }
 
-            while (target instanceof DeclarationReflection) {
-                if (target.comment) {
-                    var tag = target.comment.getTag('param', name);
-                    if (tag) {
-                        target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
-                        reflection.comment = new Comment('', tag.text);
-                        break;
+            function findDeepComment(reflection:Reflection) {
+                name = '';
+                push(reflection);
+                var target = reflection.parent;
+
+                while (target && !(target instanceof ProjectReflection)) {
+                    push(target);
+                    if (target.comment) {
+                        var tag = target.comment.getTag('param', name);
+                        if (tag) {
+                            target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
+                            reflection.comment = new Comment('', tag.text);
+                            break;
+                        }
                     }
-                }
 
-                target = <DeclarationReflection>target.parent;
+                    target = target.parent;
+                }
             }
         }
     }

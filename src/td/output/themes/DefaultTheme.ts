@@ -352,7 +352,7 @@ module td
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection:Reflection, container:ContainerReflection) {
+        static applyAnchorUrl(reflection:Reflection, container:Reflection) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
             if (reflection['isStatic']) {
                 anchor = 'static-' + anchor;

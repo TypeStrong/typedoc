@@ -2,8 +2,6 @@ module td
 {
     export class ContainerReflection extends Reflection
     {
-        parent:ContainerReflection;
-
         /**
          * The children of this reflection.
          */

@@ -1026,12 +1026,17 @@ var td;
                         var type = checker.getTypeOfNode(node);
                         checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
                             if (tsSignature.declaration == node) {
-                                signature.type = extractType(node.type, checker.getReturnTypeOfSignature(tsSignature));
+                                signature.type = extractType(signature, node.type, checker.getReturnTypeOfSignature(tsSignature));
                             }
                         });
                     }
                     if (!signature.type) {
-                        signature.type = extractType(node.type, checker.getTypeOfNode(node));
+                        if (node.type) {
+                            signature.type = extractType(signature, node.type, checker.getTypeOfNode(node.type));
+                        }
+                        else {
+                            signature.type = extractType(signature, node, checker.getTypeOfNode(node));
+                        }
                     }
                     if (container.inheritedFrom) {
                         signature.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
@@ -1045,7 +1050,7 @@ var td;
             function createParameter(signature, node) {
                 var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
                 parameter.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
-                parameter.type = extractType(node.type, checker.getTypeOfNode(node));
+                parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
                 extractDefaultValue(node, parameter);
                 if (!signature.parameters)
                     signature.parameters = [];
@@ -1055,7 +1060,7 @@ var td;
                 event.node = node;
                 dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
             }
-            function extractType(node, type) {
+            function extractType(target, node, type) {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
                     return extractIntrinsicType(node, type);
                 }
@@ -1063,7 +1068,7 @@ var td;
                     return extractEnumType(node, type);
                 }
                 else if (type.flags & ts.TypeFlags['Tuple']) {
-                    return extractTupleType(node, type);
+                    return extractTupleType(target, node, type);
                 }
                 else if (type.flags & ts.TypeFlags['TypeParameter']) {
                     return extractTypeParameterType(node, type);
@@ -1072,7 +1077,7 @@ var td;
                     return extractStringLiteralType(node, type);
                 }
                 else if (type.flags & ts.TypeFlags['ObjectType']) {
-                    return extractObjectType(node, type);
+                    return extractObjectType(target, node, type);
                 }
                 else {
                     return extractUnknownType(node, type);
@@ -1084,10 +1089,10 @@ var td;
             function extractEnumType(node, type) {
                 return new td.ReferenceType(getSymbolID(type.symbol));
             }
-            function extractTupleType(node, type) {
+            function extractTupleType(target, node, type) {
                 var elements = [];
                 node.elementTypes.forEach(function (elementNode) {
-                    elements.push(extractType(elementNode, checker.getTypeOfNode(elementNode)));
+                    elements.push(extractType(target, elementNode, checker.getTypeOfNode(elementNode)));
                 });
                 return new td.TupleType(elements);
             }
@@ -1107,13 +1112,14 @@ var td;
             function extractStringLiteralType(node, type) {
                 return new td.StringLiteralType(type.text);
             }
-            function extractObjectType(node, type) {
+            function extractObjectType(target, node, type) {
                 if (type.symbol) {
                     if (type.flags & ts.TypeFlags['Anonymous']) {
                         if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
                             var declaration = new td.DeclarationReflection();
                             declaration.kind = 65536 /* TypeLiteral */;
                             declaration.name = '__type';
+                            declaration.parent = target;
                             type.symbol.declarations.forEach(function (node) {
                                 visit(node, declaration);
                             });
@@ -1129,7 +1135,7 @@ var td;
                 }
                 else {
                     if (node && node['elementType']) {
-                        var result = extractType(node['elementType'], checker.getTypeOfNode(node['elementType']));
+                        var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
                         if (result) {
                             result.isArray = true;
                             return result;
@@ -1164,11 +1170,11 @@ var td;
                         break;
                 }
             }
-            function extractTypeArguments(typeArguments) {
+            function extractTypeArguments(target, typeArguments) {
                 var result = [];
                 if (typeArguments) {
                     typeArguments.forEach(function (node) {
-                        result.push(extractType(node, checker.getTypeOfNode(node)));
+                        result.push(extractType(target, node, checker.getTypeOfNode(node)));
                     });
                 }
                 return result;
@@ -1191,7 +1197,7 @@ var td;
                             var typeParameter = new td.TypeParameterType();
                             typeParameter.name = declaration.symbol.name;
                             if (declaration.constraint) {
-                                typeParameter.constraint = extractType(declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
                             if (!reflection.typeParameters)
@@ -1380,11 +1386,11 @@ var td;
                             if (!isInherit) {
                                 if (!reflection.extendedTypes)
                                     reflection.extendedTypes = [];
-                                reflection.extendedTypes.push(extractType(node.baseType, type));
+                                reflection.extendedTypes.push(extractType(reflection, node.baseType, type));
                             }
                             if (type && type.symbol) {
                                 type.symbol.declarations.forEach(function (declaration) {
-                                    inherit(declaration, reflection, extractTypeArguments(node.baseType.typeArguments));
+                                    inherit(declaration, reflection, extractTypeArguments(reflection, node.baseType.typeArguments));
                                 });
                             }
                         }
@@ -1392,7 +1398,7 @@ var td;
                             reflection.implementedTypes = [];
                             node.implementedTypes.forEach(function (implementedType) {
                                 var type = checker.getTypeOfNode(implementedType);
-                                reflection.implementedTypes.push(extractType(implementedType, type));
+                                reflection.implementedTypes.push(extractType(reflection, implementedType, type));
                             });
                         }
                     });
@@ -1427,11 +1433,11 @@ var td;
                                 if (!isInherit) {
                                     if (!reflection.extendedTypes)
                                         reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(baseType, type));
+                                    reflection.extendedTypes.push(extractType(reflection, baseType, type));
                                 }
                                 if (type && type.symbol) {
                                     type.symbol.declarations.forEach(function (declaration) {
-                                        inherit(declaration, reflection, extractTypeArguments(baseType.typeArguments));
+                                        inherit(declaration, reflection, extractTypeArguments(reflection, baseType.typeArguments));
                                     });
                                 }
                             });
@@ -1490,7 +1496,7 @@ var td;
                         }
                     }
                     if (variable.kind == kind) {
-                        variable.type = extractType(node.type, checker.getTypeOfNode(node));
+                        variable.type = extractType(variable, node.type, checker.getTypeOfNode(node));
                     }
                 }
                 return variable;
@@ -2114,43 +2120,47 @@ var td;
          */
         function DeepCommentPlugin(converter) {
             _super.call(this, converter);
-            converter.on(td.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this, -512);
+            converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
         }
         /**
          * Triggered when the dispatcher starts processing a declaration.
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        DeepCommentPlugin.prototype.onDeclaration = function (event) {
-            var reflection = event.reflection;
-            if (reflection.comment) {
-                return;
+        DeepCommentPlugin.prototype.onBeginResolve = function (event) {
+            var project = event.getProject();
+            var name;
+            for (var key in project.reflections) {
+                var reflection = project.reflections[key];
+                if (!reflection.comment) {
+                    findDeepComment(reflection);
+                }
             }
-            function push(reflection) {
-                var part = reflection.originalName;
-                if (reflection instanceof td.SignatureReflection) {
+            function push(parent) {
+                var part = parent.originalName;
+                if (!part || part.substr(0, 2) == '__' || parent instanceof td.SignatureReflection) {
                     part = '';
                 }
                 if (part && part != '') {
                     name = (name == '' ? part : part + '.' + name);
                 }
             }
-            var name = '';
-            var target = reflection.parent;
-            push(reflection);
-            if (name == '') {
-                return;
-            }
-            while (target instanceof td.DeclarationReflection) {
-                if (target.comment) {
-                    var tag = target.comment.getTag('param', name);
-                    if (tag) {
-                        target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
-                        reflection.comment = new td.Comment('', tag.text);
-                        break;
+            function findDeepComment(reflection) {
+                name = '';
+                push(reflection);
+                var target = reflection.parent;
+                while (target && !(target instanceof td.ProjectReflection)) {
+                    push(target);
+                    if (target.comment) {
+                        var tag = target.comment.getTag('param', name);
+                        if (tag) {
+                            target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
+                            reflection.comment = new td.Comment('', tag.text);
+                            break;
+                        }
                     }
+                    target = target.parent;
                 }
-                target = target.parent;
             }
         };
         return DeepCommentPlugin;

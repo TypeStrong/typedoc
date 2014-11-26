@@ -561,7 +561,7 @@ declare module td {
          *
          * @param state  The state that describes the current declaration and reflection.
          */
-        private onDeclaration(event);
+        private onBeginResolve(event);
     }
 }
 declare module td {
@@ -1464,7 +1464,6 @@ declare module td {
 }
 declare module td {
     class ContainerReflection extends Reflection {
-        parent: ContainerReflection;
         /**
          * The children of this reflection.
          */
@@ -2600,7 +2599,7 @@ declare module td {
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection: Reflection, container: ContainerReflection): void;
+        static applyAnchorUrl(reflection: Reflection, container: Reflection): void;
         /**
          * Generate the css classes for the given reflection and apply them to the
          * [[DeclarationReflection.cssClasses]] property.
