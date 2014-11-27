@@ -52,6 +52,11 @@ module td
 
     var existingDirectories:ts.Map<boolean> = {};
 
+    export function normalizePath(path:string) {
+        return ts.normalizePath(path);
+    }
+
+
     export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
         function directoryExists(directoryPath: string): boolean {
             if (ts.hasProperty(existingDirectories, directoryPath)) {

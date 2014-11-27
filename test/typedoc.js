@@ -7,7 +7,7 @@ describe('TypeDoc', function() {
     var application;
 
     describe('Settings', function() {
-        var inputFiles = Path.join(__dirname, 'fixtures', 'basic');
+        var inputFiles = Path.join(__dirname, 'converter', 'basic');
 
         it('constructs', function() {
             settings = new TypeDoc.Settings();

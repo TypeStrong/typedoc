@@ -1,4 +1,3 @@
-
 export enum TestEnum
 {
     EnumValue1,

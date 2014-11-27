@@ -1,0 +1,365 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "alias": "typedoc",
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"classes\"",
+      "kind": 1,
+      "kindString": "External module",
+      "alias": "_classes_",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/basic/classes.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "TestClass",
+          "kind": 128,
+          "kindString": "Class",
+          "alias": "testclass",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "TestClass comment short text.",
+            "text": "TestClass comment\ntext.\n",
+            "tags": [
+              {
+                "tag": "see",
+                "text": "[[TestClass]] @ fixtures\n"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 6,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "alias": "constructor",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 7,
+                  "name": "new TestClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "alias": "new_testclass",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  }
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "privateProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "alias": "privateproperty",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "privateProperty short text."
+              }
+            },
+            {
+              "id": 3,
+              "name": "publicProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "alias": "publicproperty",
+              "flags": {
+                "isPublic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "publicProperty short text."
+              }
+            },
+            {
+              "id": 5,
+              "name": "staticProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "alias": "staticproperty",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "privateProperty short text."
+              }
+            },
+            {
+              "id": 10,
+              "name": "privateMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "alias": "privatemethod",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "privateMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "alias": "privatemethod",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "privateMethod short text."
+                  }
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "name": "publicMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "alias": "publicmethod",
+              "flags": {
+                "isPublic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 9,
+                  "name": "publicMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "alias": "publicmethod",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "publicMethod short text."
+                  }
+                }
+              ]
+            },
+            {
+              "id": 12,
+              "name": "staticMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "alias": "staticmethod",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 13,
+                  "name": "staticMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "alias": "staticmethod",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMethod short text."
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                6
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                3,
+                5
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                10,
+                8,
+                12
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "\"enums\"",
+      "kind": 1,
+      "kindString": "External module",
+      "alias": "_enums_",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/basic/enums.ts",
+      "children": [
+        {
+          "id": 15,
+          "name": "TestEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "alias": "testenum",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 16,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "alias": "enumvalue1",
+              "flags": {
+                "isExported": true
+              }
+            },
+            {
+              "id": 17,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "alias": "enumvalue2",
+              "flags": {
+                "isExported": true
+              }
+            },
+            {
+              "id": 18,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "alias": "enumvalue3",
+              "flags": {
+                "isExported": true
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                16,
+                17,
+                18
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Enumerations",
+          "kind": 4,
+          "children": [
+            15
+          ]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "\"functions\"",
+      "kind": 1,
+      "kindString": "External module",
+      "alias": "_functions_",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/basic/functions.ts",
+      "children": [
+        {
+          "id": 20,
+          "name": "testFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "alias": "testfunction",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 21,
+              "name": "testFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "alias": "testfunction",
+              "flags": {},
+              "comment": {
+                "shortText": "testFunction comment short text.",
+                "returns": "Return comment.\n"
+              },
+              "parameters": [
+                {
+                  "id": 22,
+                  "name": "testParam",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "alias": "testparam",
+                  "flags": {},
+                  "comment": {
+                    "text": "Test parameter."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            20
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1,
+        14,
+        19
+      ]
+    }
+  ]
+}

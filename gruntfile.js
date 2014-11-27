@@ -61,4 +61,29 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-ts');
 
     grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
+
+    grunt.registerTask('build-test-specs', function() {
+        console.log(__dirname);
+        var FS = require('fs');
+        var Path = require('path');
+        var TD = require(Path.join(__dirname, 'bin', 'typedoc.js'));
+
+        var converter = new TD.Converter();
+        var settings = new TD.Settings();
+        var base = Path.join(__dirname, 'test', 'converter');
+
+        FS.readdirSync(Path.join(base)).forEach(function(directory) {
+            var path = Path.join(base, directory);
+            if (!FS.lstatSync(path).isDirectory()) return;
+
+            settings.inputFiles = [path];
+            settings.expandInputFiles();
+            var result = converter.convert(settings.inputFiles, settings);
+            var data = JSON.stringify(result.project.toObject(), null, '  ');
+            data = data.split(TD.normalizePath(base)).join('%BASE%');
+
+            FS.writeFileSync(Path.join(base, directory, 'specs.json'), data);
+        });
+    });
+
 };
