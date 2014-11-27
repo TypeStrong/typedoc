@@ -6,6 +6,13 @@
     {{/if}}
 {{/with}}
 
+{{#if model.typeParameters}}
+    <section class="tsd-panel tsd-type-parameters">
+        <h3>Type parameters</h3>
+        {{#with model}}{{> typeParameters}}{{/with}}
+    </section>
+{{/if}}
+
 {{#if model.typeHierarchy}}
     <section class="tsd-panel tsd-hierarchy">
         <h3>Hierarchy</h3>

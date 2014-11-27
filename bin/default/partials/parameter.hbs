@@ -40,13 +40,26 @@
         <li class="tsd-parameter">
             {{#if signatures}}
                 <h5>{{#compact}}
-                    {{{wbr name}}}<span class="tsd-signature-symbol">{{#if isOptional}}?{{/if}}</span>
+                    {{{wbr name}}}
+                    <span class="tsd-signature-symbol">
+                        {{#if isOptional}}?{{/if}}
+                        :&nbsp;
+                    </span>
+                    function
                 {{/compact}}</h5>
 
                 {{> member.signatures}}
             {{else}}
                 <h5>{{#compact}}
-                    {{{wbr name}}}<span class="tsd-signature-symbol">{{#if isOptional}}?{{/if}}</span>&nbsp;{{#with type}}{{>type}}{{/with}}
+                    {{#each flags}}
+                        <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
+                    {{/each}}
+                    {{{wbr name}}}
+                    <span class="tsd-signature-symbol">
+                        {{#if flags.isOptional}}?{{/if}}
+                        :&nbsp;
+                    </span>
+                    {{#with type}}{{>type}}{{/with}}
                 {{/compact}}</h5>
 
                 {{> comment}}

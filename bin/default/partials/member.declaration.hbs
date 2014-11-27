@@ -5,10 +5,11 @@
 {{> member.sources}}
 {{> comment}}
 
-{{#if type}}
-    {{#if type.declaration}}
+{{#if type.declaration}}
+    <div class="tsd-type-declaration tsd-typography">
+        <h4>Type declaration</h4>
         {{#with type.declaration}}
-            {{> member }}
+            {{> parameter}}
         {{/with}}
-    {{/if}}
+    </div>
 {{/if}}

@@ -46,7 +46,18 @@
             <ul class="tsd-breadcrumb">
                 {{#with model}}{{> breadcrumb}}{{/with}}
             </ul>
-            <h1>{{model.kindString}} {{model.name}}</h1>
+            <h1>{{#compact}}
+                {{model.kindString}}&nbsp;
+                {{model.name}}
+                {{#if model.typeParameters}}
+                    &lt;
+                    {{#each model.typeParameters}}
+                        {{#if @index}},&nbsp;{{/if}}
+                        {{name}}
+                    {{/each}}
+                    &gt;
+                {{/if}}
+            {{/compact}}</h1>
         </div>
     </div>
 </header>
