@@ -710,7 +710,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.2.0';
+        Application.VERSION = '0.2.0-beta.1';
         return Application;
     })();
     td.Application = Application;
@@ -2999,10 +2999,17 @@ var td;
                 }
             }
             function resolveType(type) {
-                if (!(type instanceof td.ReferenceType))
-                    return;
-                if (type.symbolID != -1) {
-                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                if (type instanceof td.ReferenceType) {
+                    var referenceType = type;
+                    if (!referenceType.reflection && referenceType.symbolID != -1) {
+                        referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
+                    }
+                }
+                else if (type instanceof td.TupleType) {
+                    var tupleType = type;
+                    for (var index = 0, count = tupleType.elements.length; index < count; index++) {
+                        resolveType(tupleType.elements[index]);
+                    }
                 }
             }
         };
