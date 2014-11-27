@@ -216,8 +216,10 @@ export class SubClassB extends BaseClass
 
 /**
  * This is a generic class.
+ *
+ * @param T  This a type parameter.
  */
-export class GenericClass<T>
+export class GenericClass<T extends BaseClass>
 {
     public value:T;
 
@@ -233,7 +235,7 @@ export class GenericClass<T>
 }
 
 
-export class NonGenericClass extends GenericClass<string>
+export class NonGenericClass extends GenericClass<SubClassB>
 {
 
 }

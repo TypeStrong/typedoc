@@ -35,6 +35,7 @@ module td
         static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
         static EVENT_CREATE_SIGNATURE:string = 'createSignature';
         static EVENT_CREATE_PARAMETER:string = 'createParameter';
+        static EVENT_CREATE_TYPE_PARAMETER:string = 'createTypeParameter';
         static EVENT_FUNCTION_IMPLEMENTATION:string = 'functionImplementation';
 
         static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
@@ -247,6 +248,19 @@ module td
             }
 
 
+            function createTypeParameter(reflection:ITypeParameterContainer, typeParameter:TypeParameterType, node:ts.Node) {
+                if (!reflection.typeParameters) reflection.typeParameters = [];
+                var typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
+
+                registerReflection(typeParameterReflection, node);
+                reflection.typeParameters.push(typeParameterReflection);
+
+                event.reflection = typeParameterReflection;
+                event.node = node;
+                dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
+            }
+
+
             function extractType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
                     return extractIntrinsicType(node, <ts.IntrinsicType>type);
@@ -398,9 +412,7 @@ module td
                                 typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
-
-                            if (!reflection.typeParameters) reflection.typeParameters = [];
-                            reflection.typeParameters.push(new TypeParameterReflection(reflection, typeParameter));
+                            createTypeParameter(reflection, typeParameter, declaration);
                         }
                     });
                 }

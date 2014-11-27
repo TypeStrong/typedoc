@@ -1,0 +1,82 @@
+{
+  "id": 33,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 34,
+      "name": "\"generic-function\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/generic-function/generic-function.ts",
+      "children": [
+        {
+          "id": 35,
+          "name": "genericFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 36,
+              "name": "genericFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Generic function short text.",
+                "returns": "Generic function return value.\n"
+              },
+              "typeParameter": [
+                {
+                  "id": 37,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function type parameter."
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 38,
+                  "name": "value",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function parameter."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            35
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        34
+      ]
+    }
+  ]
+}

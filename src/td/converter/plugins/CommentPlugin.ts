@@ -44,6 +44,7 @@ module td
             converter.on(Converter.EVENT_BEGIN,                   this.onBegin,        this);
             converter.on(Converter.EVENT_CREATE_DECLARATION,      this.onDeclaration,  this);
             converter.on(Converter.EVENT_CREATE_SIGNATURE,        this.onDeclaration,  this);
+            converter.on(Converter.EVENT_CREATE_TYPE_PARAMETER,   this.onCreateTypeParameter,  this);
             converter.on(Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
             converter.on(Converter.EVENT_RESOLVE_BEGIN,           this.onBeginResolve, this);
             converter.on(Converter.EVENT_RESOLVE,                 this.onResolve,      this);
@@ -78,6 +79,19 @@ module td
          */
         private onBegin(event:ConverterEvent) {
             this.comments = {};
+        }
+
+
+        private onCreateTypeParameter(event:CompilerEvent) {
+            var reflection = <TypeParameterReflection>event.reflection;
+            var comment = reflection.parent.comment;
+            if (comment) {
+                var tag = comment.getTag('param', reflection.name);
+                if (tag) {
+                    reflection.comment = new Comment(tag.text);
+                    comment.tags.splice(comment.tags.indexOf(tag), 1);
+                }
+            }
         }
 
 
