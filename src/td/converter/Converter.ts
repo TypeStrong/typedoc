@@ -842,7 +842,8 @@ module td
              */
             function visitCallSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
-                    var signature = createSignature(<DeclarationReflection>scope, node, '__call', ReflectionKind.CallSignature);
+                    var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+                    var signature = createSignature(<DeclarationReflection>scope, node, name, ReflectionKind.CallSignature);
                     if (!scope.signatures) scope.signatures = [];
                     scope.signatures.push(signature);
                 }

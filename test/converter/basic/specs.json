@@ -2,7 +2,6 @@
   "id": 0,
   "name": "typedoc",
   "kind": 0,
-  "alias": "typedoc",
   "flags": {},
   "children": [
     {
@@ -10,7 +9,6 @@
       "name": "\"classes\"",
       "kind": 1,
       "kindString": "External module",
-      "alias": "_classes_",
       "flags": {
         "isExported": true
       },
@@ -21,7 +19,6 @@
           "name": "TestClass",
           "kind": 128,
           "kindString": "Class",
-          "alias": "testclass",
           "flags": {
             "isExported": true
           },
@@ -41,7 +38,6 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "alias": "constructor",
               "flags": {
                 "isExported": true
               },
@@ -54,7 +50,6 @@
                   "name": "new TestClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
-                  "alias": "new_testclass",
                   "flags": {},
                   "comment": {
                     "shortText": "Constructor short text."
@@ -67,7 +62,6 @@
               "name": "privateProperty",
               "kind": 1024,
               "kindString": "Property",
-              "alias": "privateproperty",
               "flags": {
                 "isPrivate": true,
                 "isExported": true
@@ -81,7 +75,6 @@
               "name": "publicProperty",
               "kind": 1024,
               "kindString": "Property",
-              "alias": "publicproperty",
               "flags": {
                 "isPublic": true,
                 "isExported": true
@@ -95,7 +88,6 @@
               "name": "staticProperty",
               "kind": 1024,
               "kindString": "Property",
-              "alias": "staticproperty",
               "flags": {
                 "isStatic": true,
                 "isExported": true
@@ -109,7 +101,6 @@
               "name": "privateMethod",
               "kind": 2048,
               "kindString": "Method",
-              "alias": "privatemethod",
               "flags": {
                 "isPrivate": true,
                 "isExported": true
@@ -120,7 +111,6 @@
                   "name": "privateMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "alias": "privatemethod",
                   "flags": {},
                   "comment": {
                     "shortText": "privateMethod short text."
@@ -133,7 +123,6 @@
               "name": "publicMethod",
               "kind": 2048,
               "kindString": "Method",
-              "alias": "publicmethod",
               "flags": {
                 "isPublic": true,
                 "isExported": true
@@ -144,7 +133,6 @@
                   "name": "publicMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "alias": "publicmethod",
                   "flags": {},
                   "comment": {
                     "shortText": "publicMethod short text."
@@ -157,7 +145,6 @@
               "name": "staticMethod",
               "kind": 2048,
               "kindString": "Method",
-              "alias": "staticmethod",
               "flags": {
                 "isStatic": true,
                 "isExported": true
@@ -168,7 +155,6 @@
                   "name": "staticMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "alias": "staticmethod",
                   "flags": {},
                   "comment": {
                     "shortText": "staticMethod short text."
@@ -221,7 +207,6 @@
       "name": "\"enums\"",
       "kind": 1,
       "kindString": "External module",
-      "alias": "_enums_",
       "flags": {
         "isExported": true
       },
@@ -232,7 +217,6 @@
           "name": "TestEnum",
           "kind": 4,
           "kindString": "Enumeration",
-          "alias": "testenum",
           "flags": {
             "isExported": true
           },
@@ -242,7 +226,6 @@
               "name": "EnumValue1",
               "kind": 16,
               "kindString": "Enumeration member",
-              "alias": "enumvalue1",
               "flags": {
                 "isExported": true
               }
@@ -252,7 +235,6 @@
               "name": "EnumValue2",
               "kind": 16,
               "kindString": "Enumeration member",
-              "alias": "enumvalue2",
               "flags": {
                 "isExported": true
               }
@@ -262,7 +244,6 @@
               "name": "EnumValue3",
               "kind": 16,
               "kindString": "Enumeration member",
-              "alias": "enumvalue3",
               "flags": {
                 "isExported": true
               }
@@ -296,7 +277,6 @@
       "name": "\"functions\"",
       "kind": 1,
       "kindString": "External module",
-      "alias": "_functions_",
       "flags": {
         "isExported": true
       },
@@ -307,7 +287,6 @@
           "name": "testFunction",
           "kind": 64,
           "kindString": "Function",
-          "alias": "testfunction",
           "flags": {
             "isExported": true
           },
@@ -317,7 +296,6 @@
               "name": "testFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "alias": "testfunction",
               "flags": {},
               "comment": {
                 "shortText": "testFunction comment short text.",
@@ -329,7 +307,6 @@
                   "name": "testParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "alias": "testparam",
                   "flags": {},
                   "comment": {
                     "text": "Test parameter."

@@ -56,6 +56,11 @@ export class BaseClass implements INameInterface
     public name:string;
 
     /**
+     * This is a simple protected member.
+     */
+    protected kind:number;
+
+    /**
      * This is a static member.
      *
      * Static members should not be inherited.
@@ -138,6 +143,7 @@ export class BaseClass implements INameInterface
      * This is a private function.
      */
     private checkName() {
+        return true;
     }
 
 

@@ -243,6 +243,8 @@ module td
          */
         private _alias:string;
 
+        private _aliases:string[];
+
 
 
         /**
@@ -342,10 +344,25 @@ module td
          */
         getAlias():string {
             if (!this._alias) {
-                this._alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                if (this._alias == '') {
-                    this._alias = 'node-' + this.id;
+                var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                if (alias == '') {
+                    alias = 'reflection-' + this.id;
                 }
+
+                var target = this;
+                while (target.parent && !(target.parent instanceof ProjectReflection) && !target.hasOwnDocument) {
+                    target = target.parent;
+                }
+
+                if (!target._aliases) target._aliases = [];
+                var suffix = '', index = 0;
+                while (target._aliases.indexOf(alias + suffix) != -1) {
+                    suffix = '-' + (++index).toString();
+                }
+
+                alias += suffix;
+                target._aliases.push(alias);
+                this._alias = alias;
             }
 
             return this._alias;
@@ -442,7 +459,6 @@ module td
                 name:       this.name,
                 kind:       this.kind,
                 kindString: this.kindString,
-                alias:      this.getAlias(),
                 flags:      {}
             };
 
