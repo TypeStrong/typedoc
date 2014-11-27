@@ -88,9 +88,6 @@ module td
                 dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
 
                 program.getSourceFiles().forEach((sourceFile) => {
-                    event.node = sourceFile;
-                    event.reflection = project;
-                    dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
                     visitSourceFile(sourceFile, project);
                 });
 
@@ -165,18 +162,18 @@ module td
 
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
+                            child.inheritedFrom = createReferenceType(node.symbol);
                             child.getAllSignatures().forEach((signature) => {
-                                signature.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
+                                signature.inheritedFrom = createReferenceType(node.symbol);
                             });
                         }
                     }
                 } else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            child.overwrites = new ReferenceType(getSymbolID(node.symbol));
+                            child.overwrites = createReferenceType(node.symbol);
                             child.getAllSignatures().forEach((signature) => {
-                                signature.overwrites = new ReferenceType(getSymbolID(node.symbol));
+                                signature.overwrites = createReferenceType(node.symbol);
                             });
                         }
                         return null;
@@ -188,6 +185,13 @@ module td
                 dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
 
                 return child;
+            }
+
+
+            function createReferenceType(symbol:ts.Symbol):ReferenceType {
+                var name = checker.symbolToString(symbol);
+                var id = getSymbolID(symbol);
+                return new ReferenceType(name, id);
             }
 
 
@@ -218,7 +222,7 @@ module td
                     }
 
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = new ReferenceType(getSymbolID(node.symbol));
+                        signature.inheritedFrom = createReferenceType(node.symbol);
                     }
 
                     event.reflection = signature;
@@ -232,10 +236,11 @@ module td
 
             function createParameter(signature:SignatureReflection, node:ts.ParameterDeclaration) {
                 var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
-                parameter.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
+                parameter.setFlag(ReflectionFlag.Optional, !!(node.flags & ts.NodeFlags['QuestionMark']));
 
                 extractDefaultValue(node, parameter);
+                parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
 
                 if (!signature.parameters) signature.parameters = [];
                 signature.parameters.push(parameter);
@@ -286,7 +291,7 @@ module td
 
 
             function extractEnumType(node:ts.TypeNode, type:ts.Type):Type {
-                return new ReferenceType(getSymbolID(type.symbol));
+                return createReferenceType(type.symbol);
             }
 
 
@@ -335,7 +340,7 @@ module td
                             return new IntrinsicType('object');
                         }
                     } else {
-                        return new ReferenceType(getSymbolID(type.symbol));
+                        return createReferenceType(type.symbol);
                     }
                 } else {
                     if (node && node['elementType']) {
@@ -362,16 +367,20 @@ module td
                 if (!node.initializer) return;
                 switch (node.initializer.kind) {
                     case ts.SyntaxKind['StringLiteral']:
-                        reflection.defaultValue = '"' + (<ts.LiteralExpression>node).text + '"';
+                        reflection.defaultValue = '"' + (<ts.LiteralExpression>node.initializer).text + '"';
                         break;
                     case ts.SyntaxKind['NumericLiteral']:
-                        reflection.defaultValue = (<ts.LiteralExpression>node).text;
+                        reflection.defaultValue = (<ts.LiteralExpression>node.initializer).text;
                         break;
                     case ts.SyntaxKind['TrueKeyword']:
                         reflection.defaultValue = 'true';
                         break;
                     case ts.SyntaxKind['FalseKeyword']:
                         reflection.defaultValue = 'false';
+                        break;
+                    default:
+                        var source = ts.getSourceFileOfNode(node);
+                        reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
                         break;
                 }
             }
@@ -464,8 +473,6 @@ module td
                         return visitClassDeclaration(<ts.ClassDeclaration>node, scope, typeArguments);
                     case ts.SyntaxKind['InterfaceDeclaration']:
                         return visitInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope, typeArguments);
-                    case ts.SyntaxKind['SourceFile']:
-                        return visitSourceFile(<ts.SourceFile>node, scope);
                     case ts.SyntaxKind['ModuleDeclaration']:
                         return visitModuleDeclaration(<ts.ModuleDeclaration>node, scope);
                     case ts.SyntaxKind['VariableStatement']:
@@ -557,7 +564,13 @@ module td
                     if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
                         return scope;
                     }
-                } else if (settings.mode == 'modules') {
+                }
+
+                event.node = node;
+                event.reflection = project;
+                dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
+
+                if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                     visitBlock(node, scope);
                     scope.setFlag(ReflectionFlag.Exported);
@@ -703,6 +716,11 @@ module td
             }
 
 
+            function isSimpleObjectLiteral(objectLiteral:ts.ObjectLiteral):boolean {
+                if (!objectLiteral.properties) return true;
+                return objectLiteral.properties.length == 0;
+            }
+
             /**
              * Analyze the given variable declaration node and create a suitable reflection.
              *
@@ -734,9 +752,12 @@ module td
                                 visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, variable);
                                 break;
                             case ts.SyntaxKind['ObjectLiteral']:
-                                // variable.kind = ReflectionKind.ObjectLiteral;
-                                // visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
-                                // break;
+                                if (!isSimpleObjectLiteral(<ts.ObjectLiteral>node.initializer)) {
+                                    variable.kind = ReflectionKind.ObjectLiteral;
+                                    variable.type = new IntrinsicType('object');
+                                    visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
+                                }
+                                break;
                             default:
                                 extractDefaultValue(node, variable);
                         }
@@ -802,7 +823,7 @@ module td
                     if (!hasBody || !method.signatures) {
                         var name = 'new ' + scope.name;
                         var signature = createSignature(method, node, name, ReflectionKind.ConstructorSignature);
-                        signature.type = new ReferenceType(-1, scope);
+                        signature.type = new ReferenceType(scope.name, -1, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
                     } else {
@@ -1016,7 +1037,7 @@ module td
 
             return {
                 getSourceFile: getSourceFile,
-                getDefaultLibFilename: () => ts.combinePaths(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), "lib.d.ts"),
+                getDefaultLibFilename: () => Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'),
                 writeFile: writeFile,
                 getCurrentDirectory: () => currentDirectory || (currentDirectory = sys.getCurrentDirectory()),
                 useCaseSensitiveFileNames: () => sys.useCaseSensitiveFileNames,

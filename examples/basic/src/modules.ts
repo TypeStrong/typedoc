@@ -74,3 +74,17 @@ var objectLiteral = {
     valueA: 100,
     valueB: true
 };
+
+var typeLiteral:{
+    ():string;
+    [name:string]:string;
+    valueZ:string;
+    valueY:{():string;};
+    valueX:{
+        valueZ:string;
+        valueY:{(z:string):{a:string; b:string}; };
+        valueA:number[];
+    };
+    valueA?:number;
+    valueB?:boolean;
+};

@@ -140,10 +140,11 @@ module td
             });
 
             groups.forEach((group) => {
-                var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
+                var someExported = false, allInherited = true, allPrivate = true, allProtected = true, allExternal = true;
                 group.children.forEach((child) => {
                     someExported = child.flags.isExported || someExported;
                     allPrivate   = child.flags.isPrivate  && allPrivate;
+                    allProtected = (child.flags.isPrivate || child.flags.isPrivate) && allProtected;
                     allExternal  = child.flags.isExternal && allExternal;
                     allInherited = child.inheritedFrom    && allInherited;
                 });
@@ -151,6 +152,7 @@ module td
                 group.someChildrenAreExported = someExported;
                 group.allChildrenAreInherited = allInherited;
                 group.allChildrenArePrivate   = allPrivate;
+                group.allChildrenAreProtectedOrPrivate = allProtected;
                 group.allChildrenAreExternal  = allExternal;
             });
 

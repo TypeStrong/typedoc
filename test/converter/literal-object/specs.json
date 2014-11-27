@@ -1,0 +1,177 @@
+{
+  "id": 39,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 40,
+      "name": "\"literal-object\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/literal-object/literal-object.ts",
+      "children": [
+        {
+          "id": 41,
+          "name": "objectLiteral",
+          "kind": 2097152,
+          "kindString": "Object literal",
+          "flags": {},
+          "comment": {
+            "shortText": "An object literal."
+          },
+          "children": [
+            {
+              "id": 51,
+              "name": "valueA",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {}
+            },
+            {
+              "id": 52,
+              "name": "valueB",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {}
+            },
+            {
+              "id": 42,
+              "name": "valueZ",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {}
+            },
+            {
+              "id": 43,
+              "name": "valueY",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 44,
+                  "name": "valueY",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {}
+                }
+              ]
+            },
+            {
+              "id": 45,
+              "name": "valueX",
+              "kind": 2097152,
+              "kindString": "Object literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 50,
+                  "name": "valueA",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {}
+                },
+                {
+                  "id": 46,
+                  "name": "valueZ",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {}
+                },
+                {
+                  "id": 47,
+                  "name": "valueY",
+                  "kind": 64,
+                  "kindString": "Function",
+                  "flags": {},
+                  "signatures": [
+                    {
+                      "id": 48,
+                      "name": "valueY",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 49,
+                          "name": "z",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {}
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Variables",
+                  "kind": 32,
+                  "children": [
+                    50,
+                    46
+                  ]
+                },
+                {
+                  "title": "Functions",
+                  "kind": 64,
+                  "children": [
+                    47
+                  ]
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                51,
+                52,
+                42
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                43
+              ]
+            },
+            {
+              "title": "Object literals",
+              "kind": 2097152,
+              "children": [
+                45
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Object literals",
+          "kind": 2097152,
+          "children": [
+            41
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        40
+      ]
+    }
+  ]
+}

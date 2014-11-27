@@ -67,8 +67,14 @@ export function functionWithOptionalValue(requiredParam:string, optionalParam?:s
  * @param value  An optional return value.
  * @returns The input value or the default value.
  */
-export function functionWithDefaults(value:string = 'defaultValue'):string {
-    return value;
+export function functionWithDefaults(
+    valueA:string = 'defaultValue',
+    valueB:number = 100,
+    valueC:number = Number.NaN,
+    valueD:boolean = true,
+    valueE:boolean = false
+):string {
+    return valueA;
 }
 
 

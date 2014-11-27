@@ -41,13 +41,13 @@ module td
                 walk(reflection.implementedTypes, (target) => {
                     this.postpone(target);
                     if (!target.implementedBy) target.implementedBy = [];
-                    target.implementedBy.push(new ReferenceType(-1, reflection));
+                    target.implementedBy.push(new ReferenceType(reflection.name, -1, reflection));
                 });
 
                 walk(reflection.extendedTypes, (target) => {
                     this.postpone(target);
                     if (!target.extendedBy) target.extendedBy = [];
-                    target.extendedBy.push(new ReferenceType(-1, reflection));
+                    target.extendedBy.push(new ReferenceType(reflection.name, -1, reflection));
                 });
             }
 
@@ -110,7 +110,7 @@ module td
                     push(reflection.extendedTypes);
                 }
 
-                push([new ReferenceType(-1, reflection)]);
+                push([new ReferenceType(reflection.name, -1, reflection)]);
                 hierarchy.isTarget = true;
 
                 if (reflection.extendedBy) {

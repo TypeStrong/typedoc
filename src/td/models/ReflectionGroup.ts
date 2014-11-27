@@ -49,6 +49,11 @@ module td
         allChildrenArePrivate:boolean;
 
         /**
+         * Are all children private or protected members?
+         */
+        allChildrenAreProtectedOrPrivate:boolean;
+
+        /**
          * Are all children external members?
          */
         allChildrenAreExternal:boolean;
@@ -97,7 +102,10 @@ module td
 
             if (this.children) {
                 var children = [];
-                this.children.forEach((child) => children.push(child.id));
+                this.children.forEach((child) => {
+                    children.push(child.id)
+                });
+
                 result['children'] = children;
             }
 

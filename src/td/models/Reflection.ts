@@ -62,6 +62,7 @@ module td
         ExportAssignment = 32,
         External = 64,
         Optional = 128,
+        DefaultValue = 256
     }
 
 
@@ -71,6 +72,7 @@ module td
         ReflectionFlag.Static,
         ReflectionFlag.ExportAssignment,
         ReflectionFlag.Optional,
+        ReflectionFlag.DefaultValue
     ];
 
 

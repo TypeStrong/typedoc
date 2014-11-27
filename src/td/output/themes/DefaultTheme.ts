@@ -59,11 +59,6 @@ module td
             isLeaf:    false,
             directory: 'modules',
             template:  'reflection.hbs'
-        },{
-            kind:      [ReflectionKind.ObjectLiteral],
-            isLeaf:    false,
-            directory: 'objects',
-            template:  'reflection.hbs'
         }];
 
 
@@ -389,6 +384,7 @@ module td
             if (reflection.overwrites)        classes.push('tsd-is-overwrite');
             if (reflection.inheritedFrom)     classes.push('tsd-is-inherited');
             if (reflection.flags.isPrivate)   classes.push('tsd-is-private');
+            if (reflection.flags.isProtected) classes.push('tsd-is-protected');
             if (reflection.flags.isStatic)    classes.push('tsd-is-static');
             if (reflection.flags.isExternal)  classes.push('tsd-is-external');
             if (!reflection.flags.isExported) classes.push('tsd-is-not-exported');
@@ -407,6 +403,7 @@ module td
             var classes = [];
             if (group.allChildrenAreInherited)  classes.push('tsd-is-inherited');
             if (group.allChildrenArePrivate)    classes.push('tsd-is-private');
+            if (group.allChildrenAreProtectedOrPrivate) classes.push('tsd-is-private-protected');
             if (group.allChildrenAreExternal)   classes.push('tsd-is-external');
             if (!group.someChildrenAreExported) classes.push('tsd-is-not-exported');
 

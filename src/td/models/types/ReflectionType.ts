@@ -13,7 +13,11 @@ module td
 
 
         toString() {
-            return 'object';
+            if (!this.declaration.children && this.declaration.signatures) {
+                return 'function';
+            } else {
+                return 'object';
+            }
         }
     }
 }

@@ -8,8 +8,6 @@ module td
 
         type:Type;
 
-        isOptional:boolean;
-
 
         /**
          * Traverse all potential child reflections of this reflection.
