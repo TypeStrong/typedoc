@@ -211,6 +211,9 @@ export class SubClassB extends BaseClass
     constructor(name:string) {
         super(name);
     }
+
+    doSomething(value:[string, SubClassA, SubClassB]) {
+    }
 }
 
 

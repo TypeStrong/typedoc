@@ -67,10 +67,17 @@ module td
                 }
             }
 
-            function resolveType(type:ReferenceType) {
-                if (!(type instanceof ReferenceType)) return;
-                if (type.symbolID != -1) {
-                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+            function resolveType(type:Type) {
+                if (type instanceof ReferenceType) {
+                    var referenceType:ReferenceType = <ReferenceType>type;
+                    if (!referenceType.reflection && referenceType.symbolID != -1) {
+                        referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
+                    }
+                } else if (type instanceof TupleType) {
+                    var tupleType:TupleType = <TupleType>type;
+                    for (var index = 0, count = tupleType.elements.length; index < count; index++) {
+                        resolveType(tupleType.elements[index]);
+                    }
                 }
             }
         }
