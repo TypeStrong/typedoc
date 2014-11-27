@@ -588,6 +588,10 @@ var td;
     })(td.LogLevel || (td.LogLevel = {}));
     var LogLevel = td.LogLevel;
     var existingDirectories = {};
+    function normalizePath(path) {
+        return ts.normalizePath(path);
+    }
+    td.normalizePath = normalizePath;
     function writeFile(fileName, data, writeByteOrderMark, onError) {
         function directoryExists(directoryPath) {
             if (ts.hasProperty(existingDirectories, directoryPath)) {
@@ -926,9 +930,6 @@ var td;
                 var converterEvent = new td.ConverterEvent(checker, project, settings);
                 dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
                 program.getSourceFiles().forEach(function (sourceFile) {
-                    event.node = sourceFile;
-                    event.reflection = project;
-                    dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
                     visitSourceFile(sourceFile, project);
                 });
                 dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
@@ -992,9 +993,9 @@ var td;
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
+                            child.inheritedFrom = createReferenceType(node.symbol);
                             child.getAllSignatures().forEach(function (signature) {
-                                signature.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
+                                signature.inheritedFrom = createReferenceType(node.symbol);
                             });
                         }
                     }
@@ -1002,9 +1003,9 @@ var td;
                 else {
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            child.overwrites = new td.ReferenceType(getSymbolID(node.symbol));
+                            child.overwrites = createReferenceType(node.symbol);
                             child.getAllSignatures().forEach(function (signature) {
-                                signature.overwrites = new td.ReferenceType(getSymbolID(node.symbol));
+                                signature.overwrites = createReferenceType(node.symbol);
                             });
                         }
                         return null;
@@ -1014,6 +1015,11 @@ var td;
                 event.node = node;
                 dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
                 return child;
+            }
+            function createReferenceType(symbol) {
+                var name = checker.symbolToString(symbol);
+                var id = getSymbolID(symbol);
+                return new td.ReferenceType(name, id);
             }
             function createSignature(container, node, name, kind) {
                 var signature = new td.SignatureReflection(container, name, kind);
@@ -1039,7 +1045,7 @@ var td;
                         }
                     }
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = new td.ReferenceType(getSymbolID(node.symbol));
+                        signature.inheritedFrom = createReferenceType(node.symbol);
                     }
                     event.reflection = signature;
                     event.node = node;
@@ -1049,9 +1055,10 @@ var td;
             }
             function createParameter(signature, node) {
                 var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
-                parameter.isOptional = !!(node.flags & ts.NodeFlags['QuestionMark']);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
+                parameter.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
                 extractDefaultValue(node, parameter);
+                parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
                 if (!signature.parameters)
                     signature.parameters = [];
                 signature.parameters.push(parameter);
@@ -1059,6 +1066,16 @@ var td;
                 event.reflection = parameter;
                 event.node = node;
                 dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
+            }
+            function createTypeParameter(reflection, typeParameter, node) {
+                if (!reflection.typeParameters)
+                    reflection.typeParameters = [];
+                var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
+                registerReflection(typeParameterReflection, node);
+                reflection.typeParameters.push(typeParameterReflection);
+                event.reflection = typeParameterReflection;
+                event.node = node;
+                dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
             }
             function extractType(target, node, type) {
                 if (type.flags & ts.TypeFlags['Intrinsic']) {
@@ -1087,7 +1104,7 @@ var td;
                 return new td.IntrinsicType(type.intrinsicName);
             }
             function extractEnumType(node, type) {
-                return new td.ReferenceType(getSymbolID(type.symbol));
+                return createReferenceType(type.symbol);
             }
             function extractTupleType(target, node, type) {
                 var elements = [];
@@ -1130,7 +1147,7 @@ var td;
                         }
                     }
                     else {
-                        return new td.ReferenceType(getSymbolID(type.symbol));
+                        return createReferenceType(type.symbol);
                     }
                 }
                 else {
@@ -1157,16 +1174,20 @@ var td;
                     return;
                 switch (node.initializer.kind) {
                     case ts.SyntaxKind['StringLiteral']:
-                        reflection.defaultValue = '"' + node.text + '"';
+                        reflection.defaultValue = '"' + node.initializer.text + '"';
                         break;
                     case ts.SyntaxKind['NumericLiteral']:
-                        reflection.defaultValue = node.text;
+                        reflection.defaultValue = node.initializer.text;
                         break;
                     case ts.SyntaxKind['TrueKeyword']:
                         reflection.defaultValue = 'true';
                         break;
                     case ts.SyntaxKind['FalseKeyword']:
                         reflection.defaultValue = 'false';
+                        break;
+                    default:
+                        var source = ts.getSourceFileOfNode(node);
+                        reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
                         break;
                 }
             }
@@ -1200,9 +1221,7 @@ var td;
                                 typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
-                            if (!reflection.typeParameters)
-                                reflection.typeParameters = [];
-                            reflection.typeParameters.push(new td.TypeParameterReflection(reflection, typeParameter));
+                            createTypeParameter(reflection, typeParameter, declaration);
                         }
                     });
                 }
@@ -1248,8 +1267,6 @@ var td;
                         return visitClassDeclaration(node, scope, typeArguments);
                     case ts.SyntaxKind['InterfaceDeclaration']:
                         return visitInterfaceDeclaration(node, scope, typeArguments);
-                    case ts.SyntaxKind['SourceFile']:
-                        return visitSourceFile(node, scope);
                     case ts.SyntaxKind['ModuleDeclaration']:
                         return visitModuleDeclaration(node, scope);
                     case ts.SyntaxKind['VariableStatement']:
@@ -1335,7 +1352,10 @@ var td;
                         return scope;
                     }
                 }
-                else if (settings.mode == 'modules') {
+                event.node = node;
+                event.reflection = project;
+                dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
+                if (settings.mode == 'modules') {
                     scope = createDeclaration(scope, node, 1 /* ExternalModule */, node.filename);
                     visitBlock(node, scope);
                     scope.setFlag(16 /* Exported */);
@@ -1461,6 +1481,11 @@ var td;
                 }
                 return scope;
             }
+            function isSimpleObjectLiteral(objectLiteral) {
+                if (!objectLiteral.properties)
+                    return true;
+                return objectLiteral.properties.length == 0;
+            }
             /**
              * Analyze the given variable declaration node and create a suitable reflection.
              *
@@ -1491,6 +1516,12 @@ var td;
                                 visitCallSignatureDeclaration(node.initializer, variable);
                                 break;
                             case ts.SyntaxKind['ObjectLiteral']:
+                                if (!isSimpleObjectLiteral(node.initializer)) {
+                                    variable.kind = 2097152 /* ObjectLiteral */;
+                                    variable.type = new td.IntrinsicType('object');
+                                    visitObjectLiteral(node.initializer, variable);
+                                }
+                                break;
                             default:
                                 extractDefaultValue(node, variable);
                         }
@@ -1545,7 +1576,7 @@ var td;
                     if (!hasBody || !method.signatures) {
                         var name = 'new ' + scope.name;
                         var signature = createSignature(method, node, name, 16384 /* ConstructorSignature */);
-                        signature.type = new td.ReferenceType(-1, scope);
+                        signature.type = new td.ReferenceType(scope.name, -1, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
                     }
@@ -1593,7 +1624,8 @@ var td;
              */
             function visitCallSignatureDeclaration(node, scope) {
                 if (scope instanceof td.DeclarationReflection) {
-                    var signature = createSignature(scope, node, '__call', 4096 /* CallSignature */);
+                    var name = scope.kindOf(td.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+                    var signature = createSignature(scope, node, name, 4096 /* CallSignature */);
                     if (!scope.signatures)
                         scope.signatures = [];
                     scope.signatures.push(signature);
@@ -1728,7 +1760,7 @@ var td;
             }
             return {
                 getSourceFile: getSourceFile,
-                getDefaultLibFilename: function () { return ts.combinePaths(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), "lib.d.ts"); },
+                getDefaultLibFilename: function () { return td.Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'); },
                 writeFile: writeFile,
                 getCurrentDirectory: function () { return currentDirectory || (currentDirectory = sys.getCurrentDirectory()); },
                 useCaseSensitiveFileNames: function () { return sys.useCaseSensitiveFileNames; },
@@ -1742,6 +1774,7 @@ var td;
         Converter.EVENT_CREATE_DECLARATION = 'createDeclaration';
         Converter.EVENT_CREATE_SIGNATURE = 'createSignature';
         Converter.EVENT_CREATE_PARAMETER = 'createParameter';
+        Converter.EVENT_CREATE_TYPE_PARAMETER = 'createTypeParameter';
         Converter.EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
         Converter.EVENT_RESOLVE_BEGIN = 'resolveBegin';
         Converter.EVENT_RESOLVE_END = 'resolveEnd';
@@ -1835,6 +1868,7 @@ var td;
             converter.on(td.Converter.EVENT_BEGIN, this.onBegin, this);
             converter.on(td.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
             converter.on(td.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+            converter.on(td.Converter.EVENT_CREATE_TYPE_PARAMETER, this.onCreateTypeParameter, this);
             converter.on(td.Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
             converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             converter.on(td.Converter.EVENT_RESOLVE, this.onResolve, this);
@@ -1864,6 +1898,17 @@ var td;
          */
         CommentPlugin.prototype.onBegin = function (event) {
             this.comments = {};
+        };
+        CommentPlugin.prototype.onCreateTypeParameter = function (event) {
+            var reflection = event.reflection;
+            var comment = reflection.parent.comment;
+            if (comment) {
+                var tag = comment.getTag('param', reflection.name);
+                if (tag) {
+                    reflection.comment = new td.Comment(tag.text);
+                    comment.tags.splice(comment.tags.indexOf(tag), 1);
+                }
+            }
         };
         /**
          * Triggered when the dispatcher processes a declaration.
@@ -2509,16 +2554,18 @@ var td;
                 groups.push(group);
             });
             groups.forEach(function (group) {
-                var someExported = false, allInherited = true, allPrivate = true, allExternal = true;
+                var someExported = false, allInherited = true, allPrivate = true, allProtected = true, allExternal = true;
                 group.children.forEach(function (child) {
                     someExported = child.flags.isExported || someExported;
                     allPrivate = child.flags.isPrivate && allPrivate;
+                    allProtected = (child.flags.isPrivate || child.flags.isPrivate) && allProtected;
                     allExternal = child.flags.isExternal && allExternal;
                     allInherited = child.inheritedFrom && allInherited;
                 });
                 group.someChildrenAreExported = someExported;
                 group.allChildrenAreInherited = allInherited;
                 group.allChildrenArePrivate = allPrivate;
+                group.allChildrenAreProtectedOrPrivate = allProtected;
                 group.allChildrenAreExternal = allExternal;
             });
             return groups;
@@ -2924,13 +2971,13 @@ var td;
                     _this.postpone(target);
                     if (!target.implementedBy)
                         target.implementedBy = [];
-                    target.implementedBy.push(new td.ReferenceType(-1, reflection));
+                    target.implementedBy.push(new td.ReferenceType(reflection.name, -1, reflection));
                 });
                 walk(reflection.extendedTypes, function (target) {
                     _this.postpone(target);
                     if (!target.extendedBy)
                         target.extendedBy = [];
-                    target.extendedBy.push(new td.ReferenceType(-1, reflection));
+                    target.extendedBy.push(new td.ReferenceType(reflection.name, -1, reflection));
                 });
             }
             function walk(types, callback) {
@@ -2989,7 +3036,7 @@ var td;
                 if (reflection.extendedTypes) {
                     push(reflection.extendedTypes);
                 }
-                push([new td.ReferenceType(-1, reflection)]);
+                push([new td.ReferenceType(reflection.name, -1, reflection)]);
                 hierarchy.isTarget = true;
                 if (reflection.extendedBy) {
                     push(reflection.extendedBy);
@@ -3235,6 +3282,7 @@ var td;
         ReflectionFlag[ReflectionFlag["ExportAssignment"] = 32] = "ExportAssignment";
         ReflectionFlag[ReflectionFlag["External"] = 64] = "External";
         ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
+        ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
     })(td.ReflectionFlag || (td.ReflectionFlag = {}));
     var ReflectionFlag = td.ReflectionFlag;
     var relevantFlags = [
@@ -3243,6 +3291,7 @@ var td;
         8 /* Static */,
         32 /* ExportAssignment */,
         128 /* Optional */,
+        256 /* DefaultValue */
     ];
     (function (TraverseProperty) {
         TraverseProperty[TraverseProperty["Children"] = 0] = "Children";
@@ -3370,10 +3419,23 @@ var td;
          */
         Reflection.prototype.getAlias = function () {
             if (!this._alias) {
-                this._alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                if (this._alias == '') {
-                    this._alias = 'node-' + this.id;
+                var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                if (alias == '') {
+                    alias = 'reflection-' + this.id;
                 }
+                var target = this;
+                while (target.parent && !(target.parent instanceof td.ProjectReflection) && !target.hasOwnDocument) {
+                    target = target.parent;
+                }
+                if (!target._aliases)
+                    target._aliases = [];
+                var suffix = '', index = 0;
+                while (target._aliases.indexOf(alias + suffix) != -1) {
+                    suffix = '-' + (++index).toString();
+                }
+                alias += suffix;
+                target._aliases.push(alias);
+                this._alias = alias;
             }
             return this._alias;
         };
@@ -3439,7 +3501,6 @@ var td;
                 name: this.name,
                 kind: this.kind,
                 kindString: this.kindString,
-                alias: this.getAlias(),
                 flags: {}
             };
             if (this.originalName != this.name) {
@@ -3533,7 +3594,9 @@ var td;
             };
             if (this.children) {
                 var children = [];
-                this.children.forEach(function (child) { return children.push(child.id); });
+                this.children.forEach(function (child) {
+                    children.push(child.id);
+                });
                 result['children'] = children;
             }
             return result;
@@ -4008,8 +4071,9 @@ var td;
 (function (td) {
     var ReferenceType = (function (_super) {
         __extends(ReferenceType, _super);
-        function ReferenceType(symbolID, reflection) {
+        function ReferenceType(name, symbolID, reflection) {
             _super.call(this);
+            this.name = name;
             this.symbolID = symbolID;
             this.reflection = reflection;
         }
@@ -4018,7 +4082,7 @@ var td;
                 return this.reflection.name + (this.isArray ? '[]' : '');
             }
             else {
-                return '=> ' + this.symbolID + (this.isArray ? '[]' : '');
+                return this.name + (this.isArray ? '[]' : '');
             }
         };
         return ReferenceType;
@@ -4034,7 +4098,12 @@ var td;
             this.declaration = declaration;
         }
         ReflectionType.prototype.toString = function () {
-            return 'object';
+            if (!this.declaration.children && this.declaration.signatures) {
+                return 'function';
+            }
+            else {
+                return 'object';
+            }
         };
         return ReflectionType;
     })(td.Type);
@@ -5657,6 +5726,8 @@ var td;
                 classes.push('tsd-is-inherited');
             if (reflection.flags.isPrivate)
                 classes.push('tsd-is-private');
+            if (reflection.flags.isProtected)
+                classes.push('tsd-is-protected');
             if (reflection.flags.isStatic)
                 classes.push('tsd-is-static');
             if (reflection.flags.isExternal)
@@ -5677,6 +5748,8 @@ var td;
                 classes.push('tsd-is-inherited');
             if (group.allChildrenArePrivate)
                 classes.push('tsd-is-private');
+            if (group.allChildrenAreProtectedOrPrivate)
+                classes.push('tsd-is-private-protected');
             if (group.allChildrenAreExternal)
                 classes.push('tsd-is-external');
             if (!group.someChildrenAreExported)
@@ -5712,11 +5785,6 @@ var td;
             kind: [2 /* Module */, 1 /* ExternalModule */],
             isLeaf: false,
             directory: 'modules',
-            template: 'reflection.hbs'
-        }, {
-            kind: [2097152 /* ObjectLiteral */],
-            isLeaf: false,
-            directory: 'objects',
             template: 'reflection.hbs'
         }];
         return DefaultTheme;

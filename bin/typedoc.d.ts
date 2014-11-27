@@ -10,7 +10,7 @@ declare module td {
     var FS: any;
     var ShellJS: any;
     var ProgressBar: any;
-    var tsPath: any;
+    var tsPath: string;
 }
 declare module td {
     interface IListener {
@@ -255,6 +255,7 @@ declare module td {
          */
         settings: Settings;
     }
+    function normalizePath(path: string): string;
     function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
     /**
      * The default TypeDoc main application class.
@@ -410,6 +411,7 @@ declare module td {
         static EVENT_CREATE_DECLARATION: string;
         static EVENT_CREATE_SIGNATURE: string;
         static EVENT_CREATE_PARAMETER: string;
+        static EVENT_CREATE_TYPE_PARAMETER: string;
         static EVENT_FUNCTION_IMPLEMENTATION: string;
         static EVENT_RESOLVE_BEGIN: string;
         static EVENT_RESOLVE_END: string;
@@ -494,6 +496,7 @@ declare module td {
          * @param event  An event object containing the related project and compiler instance.
          */
         private onBegin(event);
+        private onCreateTypeParameter(event);
         /**
          * Triggered when the dispatcher processes a declaration.
          *
@@ -1066,6 +1069,7 @@ declare module td {
         ExportAssignment = 32,
         External = 64,
         Optional = 128,
+        DefaultValue = 256,
     }
     interface IReflectionFlags extends Array<string> {
         flags?: ReflectionFlag;
@@ -1196,6 +1200,7 @@ declare module td {
          * @see [[BaseReflection.getAlias]]
          */
         private _alias;
+        private _aliases;
         /**
          * Create a new BaseReflection instance.
          */
@@ -1313,6 +1318,10 @@ declare module td {
          * Are all children private members?
          */
         allChildrenArePrivate: boolean;
+        /**
+         * Are all children private or protected members?
+         */
+        allChildrenAreProtectedOrPrivate: boolean;
         /**
          * Are all children external members?
          */
@@ -1642,7 +1651,6 @@ declare module td {
         parent: SignatureReflection;
         defaultValue: string;
         type: Type;
-        isOptional: boolean;
         /**
          * Traverse all potential child reflections of this reflection.
          *
@@ -1772,9 +1780,10 @@ declare module td {
 }
 declare module td {
     class ReferenceType extends Type {
+        name: string;
         symbolID: number;
         reflection: Reflection;
-        constructor(symbolID: number, reflection?: Reflection);
+        constructor(name: string, symbolID: number, reflection?: Reflection);
         toString(): string;
     }
 }
