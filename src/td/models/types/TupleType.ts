@@ -13,7 +13,9 @@ module td
 
         toString() {
             var names = [];
-            this.elements.forEach((element) => names.push(element.toString()));
+            this.elements.forEach((element) => {
+                names.push(element.toString())
+            });
             return names.join(' | ');
         }
     }

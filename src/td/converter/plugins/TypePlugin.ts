@@ -103,7 +103,7 @@ module td
                 var root:IDeclarationHierarchy;
                 var hierarchy:IDeclarationHierarchy;
                 function push(types:Type[]) {
-                    var level = {types:types};
+                    var level:IDeclarationHierarchy = {types:types};
                     if (hierarchy) {
                         hierarchy.next = level;
                         hierarchy = level;

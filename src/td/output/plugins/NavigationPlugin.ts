@@ -73,7 +73,9 @@ module td
                     if (item.children){
                         count += item.children.length;
                         if (depth < 2 || count < 30) {
-                            item.children.forEach((child) => child.isVisible = true);
+                            item.children.forEach((child) => {
+                                child.isVisible = true
+                            });
                         }
                     }
 

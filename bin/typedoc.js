@@ -4141,7 +4141,9 @@ var td;
         }
         TupleType.prototype.toString = function () {
             var names = [];
-            this.elements.forEach(function (element) { return names.push(element.toString()); });
+            this.elements.forEach(function (element) {
+                names.push(element.toString());
+            });
             return names.join(' | ');
         };
         return TupleType;
@@ -5132,7 +5134,9 @@ var td;
                     if (item.children) {
                         count += item.children.length;
                         if (depth < 2 || count < 30) {
-                            item.children.forEach(function (child) { return child.isVisible = true; });
+                            item.children.forEach(function (child) {
+                                child.isVisible = true;
+                            });
                         }
                     }
                     item = item.parent;
