@@ -114,7 +114,7 @@ module.exports = function(grunt)
                 tasks: ['js']
             },
             css: {
-                files: ['src/default/assets/css/**/*.sass'],
+                files: ['src/default/assets/css/**/*'],
                 tasks: ['css']
             },
             default: {

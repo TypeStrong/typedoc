@@ -5,4 +5,7 @@
 .baseDir.js
 .baseDir.ts
 node_modules
+npm-debug.log
 etc
+
+bin/default/assets/css/main.css.map

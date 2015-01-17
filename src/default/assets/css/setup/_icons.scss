@@ -1,15 +1,28 @@
-$icons:
-    (acceptable-alias, all, catch-block, catch-variable, global, none, primitive, type-alias, type-parameter, with-block, parameter),
-    (container, dynamic-module, script),
-    (interface),
-    (enum),
-    (enum-member),
+$TYPE_ICONS:
+    (object-literal),
     (class),
-    (object-literal, object-type),
-    (property, variable),
-    (call-signature, function, function-expression, function-type, get-accessor, method, set-accessor),
-    (construct-signature, constructor-method, constructor-type),
-    (index-signature);
+    ('class.tsd-has-type-parameter'),
+    (interface),
+    ('interface.tsd-has-type-parameter'),
+    (module, external-module),
+    (enum),
+    (enum-member);
+
+$MEMBER_ICONS:
+    (variable, property),
+    (get-signature),
+    (set-signature),
+    (accessor),
+    (function, method, call-signature),
+    ('function.tsd-has-type-parameter', 'method.tsd-has-type-parameter'),
+    (constructor, constructor-signature),
+    (index-signature),
+    (property),
+    (function, method, call-signature);
+
+// parameter
+// type-literal
+// type-parameter
 
 .tsd-kind-icon {
     display: block;
@@ -28,36 +41,74 @@ $icons:
 
         @include retina {
             background-image: url(../images/icons@2x.png);
-            background-size: 187px 102px;
+            background-size: 170px 153px;
         }
     }
 }
 
-@for $index from 1 through length($icons) {
-    @each $kind in nth($icons, $index) {
-        .tsd-kind-#{$kind} > .tsd-kind-icon:before {
-            background-position: -#{17 * ($index - 1)}px 0;
+.tsd-signature.tsd-kind-icon:before {
+    background-position: 0 -153px;
+}
+
+@for $INDEX from 1 through length($TYPE_ICONS) {
+    @each $KIND in nth($TYPE_ICONS, $INDEX) {
+        .tsd-kind-#{$KIND} > .tsd-kind-icon:before {
+            background-position: 0 -#{17 * ($INDEX)}px;
+        }
+    }
+}
+
+@for $INDEX from 1 through length($MEMBER_ICONS) {
+    @each $KIND in nth($MEMBER_ICONS, $INDEX) {
+        $OFFSET: -#{17 * ($INDEX - 1)}px;
+        $SELECTOR: '.tsd-kind-' + $KIND;
+        @if $INDEX == 9 {
+            $SELECTOR: '.tsd-is-static';
+        } @else if $INDEX > 9 {
+            $SELECTOR: '.tsd-is-static.tsd-kind-' + $KIND;
         }
 
-        @if ($index > 7) {
-            .tsd-parent-kind-interface.tsd-kind-#{$kind} > .tsd-kind-icon:before {
-                background-position: -#{17 * ($index - 1)}px -17px;
+        #{$SELECTOR} {
+            > .tsd-kind-icon:before {
+                background-position: -102px $OFFSET;
             }
 
-            .tsd-parent-kind-class.tsd-kind-#{$kind} > .tsd-kind-icon:before {
-                background-position: -#{17 * ($index - 1)}px -34px;
+            &.tsd-parent-kind-class {
+                > .tsd-kind-icon:before {
+                    background-position: -17px $OFFSET;
+                }
+
+                &.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: -34px $OFFSET;
+                }
+
+                &.tsd-is-protected > .tsd-kind-icon:before {
+                    background-position: -51px $OFFSET;
+                }
+
+                &.tsd-is-protected.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: -68px $OFFSET;
+                }
+
+                &.tsd-is-private > .tsd-kind-icon:before {
+                    background-position: -85px $OFFSET;
+                }
             }
 
-            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-inherited > .tsd-kind-icon:before {
-                background-position: -#{17 * ($index - 1)}px -51px;
+            &.tsd-parent-kind-enum {
+                > .tsd-kind-icon:before {
+                    background-position: -119px $OFFSET;
+                }
             }
 
-            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-private > .tsd-kind-icon:before {
-                background-position: -#{17 * ($index - 1)}px -68px;
-            }
+            &.tsd-parent-kind-interface {
+                > .tsd-kind-icon:before {
+                    background-position: -136px $OFFSET;
+                }
 
-            .tsd-parent-kind-class.tsd-kind-#{$kind}.tsd-is-static > .tsd-kind-icon:before {
-                background-position: -#{17 * ($index - 1)}px -85px;
+                &.tsd-is-inherited > .tsd-kind-icon:before {
+                    background-position: -153px $OFFSET;
+                }
             }
         }
     }
