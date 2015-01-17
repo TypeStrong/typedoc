@@ -198,6 +198,15 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public set nameProperty(value:string) {
         this.name = value;
     }
+
+
+    public get readOnlyNameProperty():string {
+        return this.name;
+    }
+
+    public set writeOnlyNameProperty(value:string) {
+        this.name = value;
+    }
 }
 
 

@@ -5608,9 +5608,18 @@ var td;
                 var root = new td.NavigationItem('Index', 'index.html');
                 var globals = new td.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
                 globals.isGlobals = true;
-                var modules = project.getReflectionsByKind(td.ReflectionKind.SomeModule);
+                var modules = [];
+                project.getReflectionsByKind(td.ReflectionKind.SomeModule).forEach(function (someModule) {
+                    var target = someModule.parent;
+                    while (target) {
+                        if (target.kindOf(1 /* ExternalModule */))
+                            return;
+                        target = target.parent;
+                    }
+                    modules.push(someModule);
+                });
                 if (modules.length < 10) {
-                    buildGroups(modules, root);
+                    buildGroups(modules, root, buildChildren);
                 }
                 else {
                     buildGroups(project.getChildrenByKind(td.ReflectionKind.SomeModule), root, buildChildren);
@@ -5725,12 +5734,31 @@ var td;
          */
         DefaultTheme.applyReflectionClasses = function (reflection) {
             var classes = [];
-            var kind = td.ReflectionKind[reflection.kind];
-            classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
+            if (reflection.kind == 262144 /* Accessor */) {
+                if (!reflection.getSignature) {
+                    classes.push('tsd-kind-set-signature');
+                }
+                else if (!reflection.setSignature) {
+                    classes.push('tsd-kind-get-signature');
+                }
+                else {
+                    classes.push('tsd-kind-accessor');
+                }
+            }
+            else {
+                var kind = td.ReflectionKind[reflection.kind];
+                classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
+            }
             if (reflection.parent && reflection.parent instanceof td.DeclarationReflection) {
                 kind = td.ReflectionKind[reflection.parent.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + kind));
             }
+            var hasTypeParameters = !!reflection.typeParameters;
+            reflection.getAllSignatures().forEach(function (signature) {
+                hasTypeParameters = hasTypeParameters || !!signature.typeParameters;
+            });
+            if (hasTypeParameters)
+                classes.push('tsd-has-type-parameter');
             if (reflection.overwrites)
                 classes.push('tsd-is-overwrite');
             if (reflection.inheritedFrom)

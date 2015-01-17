@@ -235,9 +235,18 @@ module td
                 var globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
                 globals.isGlobals = true;
 
-                var modules = project.getReflectionsByKind(ReflectionKind.SomeModule);
+                var modules = [];
+                project.getReflectionsByKind(ReflectionKind.SomeModule).forEach((someModule) => {
+                    var target = someModule.parent;
+                    while (target) {
+                        if (target.kindOf(ReflectionKind.ExternalModule)) return;
+                        target = target.parent;
+                    }
+                    modules.push(someModule);
+                });
+
                 if (modules.length < 10) {
-                    buildGroups(modules, root);
+                    buildGroups(modules, root, buildChildren);
                 } else {
                     buildGroups(project.getChildrenByKind(ReflectionKind.SomeModule), root, buildChildren);
                 }
@@ -373,14 +382,31 @@ module td
          */
         static applyReflectionClasses(reflection:DeclarationReflection) {
             var classes = [];
-            var kind    = ReflectionKind[reflection.kind];
-            classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
+
+            if (reflection.kind == ReflectionKind.Accessor) {
+                if (!reflection.getSignature) {
+                    classes.push('tsd-kind-set-signature');
+                } else if (!reflection.setSignature) {
+                    classes.push('tsd-kind-get-signature');
+                } else {
+                    classes.push('tsd-kind-accessor');
+                }
+            } else {
+                var kind = ReflectionKind[reflection.kind];
+                classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
+            }
 
             if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
                 kind = ReflectionKind[reflection.parent.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
             }
 
+            var hasTypeParameters = !!reflection.typeParameters;
+            reflection.getAllSignatures().forEach((signature) => {
+                hasTypeParameters = hasTypeParameters || !!signature.typeParameters;
+            });
+
+            if (hasTypeParameters)            classes.push('tsd-has-type-parameter');
             if (reflection.overwrites)        classes.push('tsd-is-overwrite');
             if (reflection.inheritedFrom)     classes.push('tsd-is-inherited');
             if (reflection.flags.isPrivate)   classes.push('tsd-is-private');
