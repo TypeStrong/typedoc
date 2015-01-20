@@ -1070,6 +1070,7 @@ declare module td {
         External = 64,
         Optional = 128,
         DefaultValue = 256,
+        Rest = 512,
     }
     interface IReflectionFlags extends Array<string> {
         flags?: ReflectionFlag;
@@ -1103,6 +1104,10 @@ declare module td {
          * Applies to function parameters and object members.
          */
         isOptional?: boolean;
+        /**
+         * Whether it's a rest parameter, like `foo(...params);`.
+         */
+        isRest?: boolean;
         /**
          *
          */

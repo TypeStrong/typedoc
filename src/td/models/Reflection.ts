@@ -62,7 +62,8 @@ module td
         ExportAssignment = 32,
         External = 64,
         Optional = 128,
-        DefaultValue = 256
+        DefaultValue = 256,
+        Rest = 512
     }
 
 
@@ -72,7 +73,8 @@ module td
         ReflectionFlag.Static,
         ReflectionFlag.ExportAssignment,
         ReflectionFlag.Optional,
-        ReflectionFlag.DefaultValue
+        ReflectionFlag.DefaultValue,
+        ReflectionFlag.Rest
     ];
 
 
@@ -116,6 +118,12 @@ module td
          * Applies to function parameters and object members.
          */
         isOptional?:boolean;
+
+
+        /**
+         * Whether it's a rest parameter, like `foo(...params);`.
+         */
+        isRest?: boolean;
 
         /**
          *
@@ -336,6 +344,7 @@ module td
                 case ReflectionFlag.Exported:  this.flags.isExported  = value; break;
                 case ReflectionFlag.External:  this.flags.isExternal  = value; break;
                 case ReflectionFlag.Optional:  this.flags.isOptional  = value; break;
+                case ReflectionFlag.Rest: this.flags.isRest  = value; break;
                 case ReflectionFlag.ExportAssignment: this.flags.hasExportAssignment = value; break;
             }
         }
