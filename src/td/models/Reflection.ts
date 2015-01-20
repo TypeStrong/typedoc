@@ -344,7 +344,7 @@ module td
                 case ReflectionFlag.Exported:  this.flags.isExported  = value; break;
                 case ReflectionFlag.External:  this.flags.isExternal  = value; break;
                 case ReflectionFlag.Optional:  this.flags.isOptional  = value; break;
-                case ReflectionFlag.Rest: this.flags.isRest  = value; break;
+                case ReflectionFlag.Rest:      this.flags.isRest      = value; break;
                 case ReflectionFlag.ExportAssignment: this.flags.hasExportAssignment = value; break;
             }
         }

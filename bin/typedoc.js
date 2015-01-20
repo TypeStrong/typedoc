@@ -1054,14 +1054,10 @@ var td;
                 return signature;
             }
             function createParameter(signature, node) {
-                var name = node.symbol.name;
-                var isRest = !!(node.flags & ts.NodeFlags['Rest']);
-                if (isRest)
-                    name = '...' + name;
-                var parameter = new td.ParameterReflection(signature, name, 32768 /* Parameter */);
+                var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
                 parameter.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                parameter.setFlag(512 /* Rest */, isRest);
+                parameter.setFlag(512 /* Rest */, !!(node.flags & ts.NodeFlags['Rest']));
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
                 if (!signature.parameters)

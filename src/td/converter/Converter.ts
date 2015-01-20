@@ -235,14 +235,10 @@ module td
 
 
             function createParameter(signature:SignatureReflection, node:ts.ParameterDeclaration) {
-                var name = node.symbol.name;
-                var isRest = !!(node.flags & ts.NodeFlags['Rest']);
-                if (isRest)
-                    name = '...' + name;
-                var parameter = new ParameterReflection(signature, name, ReflectionKind.Parameter);
+                var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
                 parameter.setFlag(ReflectionFlag.Optional, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                parameter.setFlag(ReflectionFlag.Rest, isRest);
+                parameter.setFlag(ReflectionFlag.Rest, !!(node.flags & ts.NodeFlags['Rest']));
 
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
