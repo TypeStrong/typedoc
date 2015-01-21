@@ -238,6 +238,7 @@ module td
                 var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
                 parameter.setFlag(ReflectionFlag.Optional, !!(node.flags & ts.NodeFlags['QuestionMark']));
+                parameter.setFlag(ReflectionFlag.Rest, !!(node.flags & ts.NodeFlags['Rest']));
 
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);

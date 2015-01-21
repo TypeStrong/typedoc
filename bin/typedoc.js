@@ -1057,6 +1057,7 @@ var td;
                 var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
                 parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
                 parameter.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
+                parameter.setFlag(512 /* Rest */, !!(node.flags & ts.NodeFlags['Rest']));
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
                 if (!signature.parameters)
@@ -3290,6 +3291,7 @@ var td;
         ReflectionFlag[ReflectionFlag["External"] = 64] = "External";
         ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
         ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
+        ReflectionFlag[ReflectionFlag["Rest"] = 512] = "Rest";
     })(td.ReflectionFlag || (td.ReflectionFlag = {}));
     var ReflectionFlag = td.ReflectionFlag;
     var relevantFlags = [
@@ -3298,7 +3300,8 @@ var td;
         8 /* Static */,
         32 /* ExportAssignment */,
         128 /* Optional */,
-        256 /* DefaultValue */
+        256 /* DefaultValue */,
+        512 /* Rest */
     ];
     (function (TraverseProperty) {
         TraverseProperty[TraverseProperty["Children"] = 0] = "Children";
@@ -3415,6 +3418,9 @@ var td;
                     break;
                 case 128 /* Optional */:
                     this.flags.isOptional = value;
+                    break;
+                case 512 /* Rest */:
+                    this.flags.isRest = value;
                     break;
                 case 32 /* ExportAssignment */:
                     this.flags.hasExportAssignment = value;
