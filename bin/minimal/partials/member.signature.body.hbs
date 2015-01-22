@@ -18,6 +18,7 @@
                     {{#each flags}}
                         <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
                     {{/each}}
+                    {{#if flags.isRest}}...{{/if}}
                     {{name}}:&nbsp;
                     {{#with type}}{{>type}}{{/with}}
                     {{#if defaultValue}}
