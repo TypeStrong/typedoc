@@ -11,6 +11,7 @@
     <span class="tsd-signature-symbol">(</span>
     {{#each parameters}}
         {{#if @index}},&nbsp;{{/if}}
+        {{#if flags.isRest}}...{{/if}}
         {{name}}
         <span class="tsd-signature-symbol">
             {{#if flags.isOptional}}?{{/if}}
