@@ -6,6 +6,13 @@
     {{/if}}
 {{/with}}
 
+{{#if model.signatures}}
+    <section class="tsd-panel tsd-type-parameters">
+        <h3>Callable</h3>
+        {{#with model}}{{> member.signatures}}{{/with}}
+    </section>
+{{/if}}
+
 {{#if model.typeParameters}}
     <section class="tsd-panel tsd-type-parameters">
         <h3>Type parameters</h3>
