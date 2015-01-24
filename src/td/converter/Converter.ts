@@ -350,6 +350,12 @@ module td
                             declaration.kind = ReflectionKind.TypeLiteral;
                             declaration.name = '__type';
                             declaration.parent = target;
+
+                            registerReflection(declaration, node);
+                            event.reflection = declaration;
+                            event.node = node;
+                            dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
+
                             type.symbol.declarations.forEach((node) => {
                                 visit(node, declaration);
                             });
