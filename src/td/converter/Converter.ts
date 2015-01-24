@@ -326,7 +326,15 @@ module td
 
 
             function extractObjectType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
-                if (type.symbol) {
+                if (node && node['elementType']) {
+                    var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
+                    if (result) {
+                        result.isArray = true;
+                        return result;
+                    } else {
+                        return new IntrinsicType('object');
+                    }
+                } else if (type.symbol) {
                     if (type.flags & ts.TypeFlags['Anonymous']) {
                         if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
                             var declaration = new DeclarationReflection();
@@ -344,17 +352,7 @@ module td
                         return createReferenceType(type.symbol);
                     }
                 } else {
-                    if (node && node['elementType']) {
-                        var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
-                        if (result) {
-                            result.isArray = true;
-                            return result;
-                        } else {
-                            return new IntrinsicType('object');
-                        }
-                    } else {
-                        return new IntrinsicType('object');
-                    }
+                    return new IntrinsicType('object');
                 }
             }
 
