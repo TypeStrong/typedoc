@@ -123,6 +123,10 @@ export function multipleSignatures():string {
 
 /**
  * This is a generic function.
+ *
+ * @param T  The type parameter.
+ * @param value  The typed value.
+ * @return  Returns the typed value.
  */
 export function genericFunction<T>(value:T):T {
     return value;
