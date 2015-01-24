@@ -169,6 +169,15 @@ module td
                         }
                     }
                 } else {
+                    if (child.kind != kind) {
+                        var weights = [ReflectionKind.Class, ReflectionKind.Module];
+                        var kindWeight = weights.indexOf(kind);
+                        var childKindWeight = weights.indexOf(child.kind);
+                        if (kindWeight > childKindWeight) {
+                            child.kind = kind;
+                        }
+                    }
+
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
                             child.overwrites = createReferenceType(node.symbol);
