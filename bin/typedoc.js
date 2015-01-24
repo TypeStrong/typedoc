@@ -1001,6 +1001,14 @@ var td;
                     }
                 }
                 else {
+                    if (child.kind != kind) {
+                        var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
+                        var kindWeight = weights.indexOf(kind);
+                        var childKindWeight = weights.indexOf(child.kind);
+                        if (kindWeight > childKindWeight) {
+                            child.kind = kind;
+                        }
+                    }
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
                             child.overwrites = createReferenceType(node.symbol);
@@ -1131,13 +1139,27 @@ var td;
                 return new td.StringLiteralType(type.text);
             }
             function extractObjectType(target, node, type) {
-                if (type.symbol) {
+                if (node && node['elementType']) {
+                    var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
+                    if (result) {
+                        result.isArray = true;
+                        return result;
+                    }
+                    else {
+                        return new td.IntrinsicType('object');
+                    }
+                }
+                else if (type.symbol) {
                     if (type.flags & ts.TypeFlags['Anonymous']) {
                         if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
                             var declaration = new td.DeclarationReflection();
                             declaration.kind = 65536 /* TypeLiteral */;
                             declaration.name = '__type';
                             declaration.parent = target;
+                            registerReflection(declaration, node);
+                            event.reflection = declaration;
+                            event.node = node;
+                            dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
                             type.symbol.declarations.forEach(function (node) {
                                 visit(node, declaration);
                             });
@@ -1152,19 +1174,7 @@ var td;
                     }
                 }
                 else {
-                    if (node && node['elementType']) {
-                        var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
-                        if (result) {
-                            result.isArray = true;
-                            return result;
-                        }
-                        else {
-                            return new td.IntrinsicType('object');
-                        }
-                    }
-                    else {
-                        return new td.IntrinsicType('object');
-                    }
+                    return new td.IntrinsicType('object');
                 }
             }
             function extractUnknownType(node, type) {
