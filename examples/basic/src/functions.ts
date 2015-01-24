@@ -79,6 +79,17 @@ export function functionWithDefaults(
 
 
 /**
+ * This is a function with rest parameter.
+ *
+ * @param rest  Multiple strings.
+ * @returns The combined string.
+ */
+function functionWithRest(...rest:string[]):string {
+    return rest.join(', ');
+}
+
+
+/**
  * This is the first signature of a function with multiple signatures.
  *
  * @param value  The name value.
