@@ -25,38 +25,26 @@
               "id": 56,
               "name": "__type",
               "kind": 65536,
+              "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 57,
-                  "name": "valueZ",
+                  "id": 72,
+                  "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {}
+                  "flags": {
+                    "isOptional": true
+                  }
                 },
                 {
-                  "id": 58,
-                  "name": "valueY",
+                  "id": 73,
+                  "name": "valueB",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {},
-                  "typeLiteral": [
-                    {
-                      "id": 59,
-                      "name": "__type",
-                      "kind": 65536,
-                      "flags": {},
-                      "signatures": [
-                        {
-                          "id": 60,
-                          "name": "__call",
-                          "kind": 4096,
-                          "kindString": "Call signature",
-                          "flags": {}
-                        }
-                      ]
-                    }
-                  ]
+                  "flags": {
+                    "isOptional": true
+                  }
                 },
                 {
                   "id": 61,
@@ -69,11 +57,12 @@
                       "id": 62,
                       "name": "__type",
                       "kind": 65536,
+                      "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 63,
-                          "name": "valueZ",
+                          "id": 71,
+                          "name": "valueA",
                           "kind": 32,
                           "kindString": "Variable",
                           "flags": {}
@@ -89,6 +78,7 @@
                               "id": 65,
                               "name": "__type",
                               "kind": 65536,
+                              "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
@@ -102,6 +92,7 @@
                                       "id": 68,
                                       "name": "__type",
                                       "kind": 65536,
+                                      "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
@@ -117,6 +108,16 @@
                                           "kind": 32,
                                           "kindString": "Variable",
                                           "flags": {}
+                                        }
+                                      ],
+                                      "groups": [
+                                        {
+                                          "title": "Variables",
+                                          "kind": 32,
+                                          "children": [
+                                            69,
+                                            70
+                                          ]
                                         }
                                       ]
                                     }
@@ -136,10 +137,46 @@
                           ]
                         },
                         {
-                          "id": 71,
-                          "name": "valueA",
+                          "id": 63,
+                          "name": "valueZ",
                           "kind": 32,
                           "kindString": "Variable",
+                          "flags": {}
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            71,
+                            64,
+                            63
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 58,
+                  "name": "valueY",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "typeLiteral": [
+                    {
+                      "id": 59,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 60,
+                          "name": "__call",
+                          "kind": 4096,
+                          "kindString": "Call signature",
                           "flags": {}
                         }
                       ]
@@ -147,22 +184,24 @@
                   ]
                 },
                 {
-                  "id": 72,
-                  "name": "valueA",
+                  "id": 57,
+                  "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {
-                    "isOptional": true
-                  }
-                },
+                  "flags": {}
+                }
+              ],
+              "groups": [
                 {
-                  "id": 73,
-                  "name": "valueB",
+                  "title": "Variables",
                   "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {
-                    "isOptional": true
-                  }
+                  "children": [
+                    72,
+                    73,
+                    61,
+                    58,
+                    57
+                  ]
                 }
               ]
             }
