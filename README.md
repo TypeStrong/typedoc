@@ -45,10 +45,21 @@ generator. So in order to create a documentation for an entire project you simpl
 $ typedoc --out path/to/documentation/ path/to/typescript/project/
 ```
 
+### Important note
+
+Starting with version 0.2, TypeDoc no longer can predict whether files should be treated as modules
+or whether the project should be compiled into one big namespace. You must specify the `mode` argument
+in order to change the behaviour of TypeDoc.
+
+
 ### Arguments
 
 * `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to.
+* `--mode <file|modules>`<br>
+  Specifies the output mode the project is used to be compiled with.
+* `--json <path/to/output.json>`<br>
+  Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
 
 #### Source file handling
 * `--exclude <pattern>`<br>
