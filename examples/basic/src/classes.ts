@@ -135,7 +135,7 @@ export class BaseClass implements INameInterface
      * @param param2 The second parameter needed by this function.
      * @see https://github.com/sebastian-lenz/typedoc/issues/37
      */
-    public arrowFunction = (param1: string, param2: number): void => {
+    public arrowFunction = (param2: string, param1: number): void => {
     };
 
 
@@ -156,6 +156,22 @@ export class BaseClass implements INameInterface
      */
     static getInstance():BaseClass {
         return BaseClass.instance;
+    }
+
+
+    /**
+     * @see https://github.com/sebastian-lenz/typedoc/issues/42
+     */
+    public static caTest(originalValues:BaseClass, newRecord:any, fieldNames:string[], mandatoryFields:string[]): string {
+        var returnval = "";
+        var updates: string[] = [];
+        var allFields: string[] = fieldNames;
+        for (var j = 0; j < allFields.length; j++) {
+            var field = allFields[j];
+            var oldValue = originalValues[field];
+            var newValue = newRecord[field];
+        }
+        return returnval;
     }
 }
 
