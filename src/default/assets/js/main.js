@@ -85,34 +85,100 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
-    var FilterOption = (function () {
-        function FilterOption(key, value) {
-            var _this = this;
-            this.$checkbox = $('#tsd-filter-' + key);
+    var FilterItem = (function () {
+        function FilterItem(key, value) {
             this.key = key;
             this.value = value;
             this.defaultValue = value;
-            if (window.localStorage[key] && window.localStorage[key] != value) {
-                this.value = (window.localStorage[key] == 'true');
-                this.$checkbox.prop('checked', this.value);
-                typedoc.$html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+            this.initialize();
+            if (window.localStorage[this.key]) {
+                this.setValue(this.fromLocalStorage(window.localStorage[this.key]));
             }
-            this.$checkbox.on('change', function () { return _this.onCheckboxChanged(); });
         }
-        FilterOption.prototype.onCheckboxChanged = function () {
-            this.value = this.$checkbox.prop('checked');
-            window.localStorage[this.key] = (this.value ? 'true' : 'false');
-            typedoc.$html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
-            typedoc.viewport.triggerResize();
+        FilterItem.prototype.initialize = function () {
         };
-        return FilterOption;
+        FilterItem.prototype.handleValueChange = function (oldValue, newValue) {
+        };
+        FilterItem.prototype.fromLocalStorage = function (value) {
+            return value;
+        };
+        FilterItem.prototype.toLocalStorage = function (value) {
+            return value;
+        };
+        FilterItem.prototype.setValue = function (value) {
+            if (this.value == value)
+                return;
+            var oldValue = this.value;
+            this.value = value;
+            window.localStorage[this.key] = this.toLocalStorage(value);
+            this.handleValueChange(oldValue, value);
+        };
+        return FilterItem;
     })();
-    var Filter = (function () {
-        function Filter() {
-            this.optionInherited = new FilterOption('inherited', true);
-            this.optionPrivate = new FilterOption('private', true);
-            this.optionExternals = new FilterOption('externals', true);
-            this.optionOnlyExported = new FilterOption('only-exported', false);
+    var FilterItemCheckbox = (function (_super) {
+        __extends(FilterItemCheckbox, _super);
+        function FilterItemCheckbox() {
+            _super.apply(this, arguments);
+        }
+        FilterItemCheckbox.prototype.initialize = function () {
+            var _this = this;
+            this.$checkbox = $('#tsd-filter-' + this.key);
+            this.$checkbox.on('change', function () {
+                _this.setValue(_this.$checkbox.prop('checked'));
+            });
+        };
+        FilterItemCheckbox.prototype.handleValueChange = function (oldValue, newValue) {
+            this.$checkbox.prop('checked', this.value);
+            typedoc.$html.toggleClass('toggle-' + this.key, this.value != this.defaultValue);
+        };
+        FilterItemCheckbox.prototype.fromLocalStorage = function (value) {
+            return value == 'true';
+        };
+        FilterItemCheckbox.prototype.toLocalStorage = function (value) {
+            return value ? 'true' : 'false';
+        };
+        return FilterItemCheckbox;
+    })(FilterItem);
+    var FilterItemSelect = (function (_super) {
+        __extends(FilterItemSelect, _super);
+        function FilterItemSelect() {
+            _super.apply(this, arguments);
+        }
+        FilterItemSelect.prototype.initialize = function () {
+            var _this = this;
+            typedoc.$html.addClass('toggle-' + this.key + this.value);
+            this.$select = $('#tsd-filter-' + this.key);
+            this.$select.on(typedoc.pointerDown + ' mouseover', function () {
+                _this.$select.addClass('active');
+            }).on('mouseleave', function () {
+                _this.$select.removeClass('active');
+            }).on(typedoc.pointerUp, 'li', function (e) {
+                _this.$select.removeClass('active');
+                _this.setValue($(e.target).attr('data-value'));
+            });
+            typedoc.$document.on(typedoc.pointerDown, function (e) {
+                var $path = $(e.target).parents().addBack();
+                if ($path.is(_this.$select))
+                    return;
+                _this.$select.removeClass('active');
+            });
+        };
+        FilterItemSelect.prototype.handleValueChange = function (oldValue, newValue) {
+            this.$select.find('li.selected').removeClass('selected');
+            this.$select.find('.tsd-select-label').text(this.$select.find('li[data-value="' + newValue + '"]').addClass('selected').text());
+            typedoc.$html.removeClass('toggle-' + oldValue);
+            typedoc.$html.addClass('toggle-' + newValue);
+        };
+        return FilterItemSelect;
+    })(FilterItem);
+    var Filter = (function (_super) {
+        __extends(Filter, _super);
+        function Filter(options) {
+            _super.call(this, options);
+            this.optionVisibility = new FilterItemSelect('visibility', 'private');
+            this.optionInherited = new FilterItemCheckbox('inherited', true);
+            this.optionExternals = new FilterItemCheckbox('externals', true);
+            this.optionOnlyExported = new FilterItemCheckbox('only-exported', false);
         }
         Filter.isSupported = function () {
             try {
@@ -123,9 +189,9 @@ var typedoc;
             }
         };
         return Filter;
-    })();
+    })(Backbone.View);
     if (Filter.isSupported()) {
-        new Filter();
+        typedoc.registerComponent(Filter, '#tsd-filter');
     }
     else {
         typedoc.$html.addClass('no-filter');
@@ -726,7 +792,6 @@ var typedoc;
             if (from != to && typedoc.transition)
                 $el.css('height', from);
         });
-        console.log(from, to, typedoc.transition);
         if (from != to && typedoc.transition) {
             $el.css('height', to);
             $el.on(typedoc.transition.endEvent, function () {

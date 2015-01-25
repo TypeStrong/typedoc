@@ -37,7 +37,7 @@ module typedoc {
             to = $el.height();
             if (from != to && transition) $el.css('height', from);
         });
-        console.log(from, to, transition);
+
         if (from != to && transition) {
             $el.css('height', to);
             $el.on(transition.endEvent, function () {

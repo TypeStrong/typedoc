@@ -1,9 +1,14 @@
 // Classes set on the body to control the visible state of the filtered elements
 //
-.toggle-inherited .tsd-is-inherited
+.toggle-protected .tsd-is-private
     display: none
 
-.toggle-private .tsd-is-private
+.toggle-public .tsd-is-private,
+.toggle-public .tsd-is-protected,
+.toggle-public .tsd-is-private-protected
+    display: none
+
+.toggle-inherited .tsd-is-inherited
     display: none
 
 .toggle-only-exported .tsd-is-not-exported
@@ -54,6 +59,7 @@
             .from-has-options &
                 animation: fade-out 0.2s
 
-        label
+        label,
+        .tsd-select
             display: block
             padding-right: 20px
