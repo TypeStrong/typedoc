@@ -24,7 +24,7 @@ module td
 
 
     export var ignoredTypeScriptOptions = [
-        'out', 'outDir', 'version', 'help', 'watch', 'declarations', 'mapRoot', 'sourceMap', 'removeComments'
+        'out', 'outDir', 'version', 'help', 'watch', 'declaration', 'mapRoot', 'sourceMap', 'removeComments'
     ];
 
 

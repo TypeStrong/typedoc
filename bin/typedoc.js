@@ -205,7 +205,7 @@ var td;
         'version',
         'help',
         'watch',
-        'declarations',
+        'declaration',
         'mapRoot',
         'sourceMap',
         'removeComments'
