@@ -710,7 +710,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.2.0-beta.1';
+        Application.VERSION = '0.2.0';
         return Application;
     })();
     td.Application = Application;
