@@ -201,7 +201,14 @@ var td;
     var OptionScope = td.OptionScope;
     td.ignoredTypeScriptOptions = [
         'out',
-        'outDir'
+        'outDir',
+        'version',
+        'help',
+        'watch',
+        'declarations',
+        'mapRoot',
+        'sourceMap',
+        'removeComments'
     ];
     /**
      * Modify ts.optionDeclarations to match TypeDoc requirements.
@@ -224,7 +231,7 @@ var td;
         },
         scope: 0 /* TypeDoc */,
         description: {
-            key: 'Specifies the output mode the project is used to be compiled with.',
+            key: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
             category: 2 /* Message */,
             code: 0
         }
@@ -243,7 +250,7 @@ var td;
         type: "string",
         scope: 0 /* TypeDoc */,
         description: {
-            key: 'Specify the path to the theme that should be used.',
+            key: "Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.",
             category: 2 /* Message */,
             code: 0
         }
@@ -337,6 +344,26 @@ var td;
             category: 2 /* Message */,
             code: 0
         }
+    }, {
+        name: "version",
+        shortName: "v",
+        type: "boolean",
+        scope: 0 /* TypeDoc */,
+        description: {
+            key: 'Print the TypeDoc\'s version.',
+            category: 2 /* Message */,
+            code: 0
+        }
+    }, {
+        name: "help",
+        shortName: "h",
+        type: "boolean",
+        scope: 0 /* TypeDoc */,
+        description: {
+            key: 'Print this message.',
+            category: 2 /* Message */,
+            code: 0
+        }
     }];
     /**
      * Holds all settings used by TypeDoc.
@@ -374,11 +401,11 @@ var td;
             /**
              * Does the user want to display the help message?
              */
-            this.needsHelp = false;
+            this.help = false;
             /**
              * Does the user want to know the version number?
              */
-            this.shouldPrintVersionOnly = false;
+            this.version = false;
             /**
              * Should we hide the TypeDoc link at the end of the page?
              */
@@ -655,17 +682,21 @@ var td;
          */
         Application.prototype.runFromCommandline = function () {
             if (this.settings.parseCommandLine(this)) {
-                if (this.settings.shouldPrintVersionOnly) {
+                if (this.settings.version) {
+                    sys.write(this.printVersion().join(sys.newLine));
                 }
-                else if (this.settings.inputFiles.length === 0 || this.settings.needsHelp) {
+                else if (this.settings.inputFiles.length === 0 || this.settings.help) {
+                    sys.write(this.printUsage().join(sys.newLine));
                 }
                 else {
-                    this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 0 /* Verbose */);
+                    sys.write(sys.newLine);
+                    this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 1 /* Info */);
                     this.settings.expandInputFiles();
                     this.settings.out = td.Path.resolve(this.settings.out);
                     this.generate(this.settings.inputFiles, this.settings.out);
-                    if (!this.hasErrors) {
-                        this.log(td.Util.format('Documentation generated at %s', this.settings.out));
+                    if (this.hasErrors) {
+                        sys.write(sys.newLine);
+                        this.log('Documentation could not be generated due to the errors above.');
                     }
                 }
             }
@@ -682,7 +713,13 @@ var td;
                 this.hasErrors = true;
             }
             if (level != 0 /* Verbose */ || this.settings.verbose) {
-                console.log(message);
+                var output = '';
+                if (level == 3 /* Error */)
+                    output += 'Error: ';
+                if (level == 2 /* Warn */)
+                    output += 'Warning: ';
+                output += message;
+                sys.write(output + sys.newLine);
             }
         };
         /**
@@ -692,11 +729,35 @@ var td;
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         Application.prototype.generate = function (inputFiles, outputDirectory) {
+            var _this = this;
             var result = this.converter.convert(inputFiles, this.settings);
+            if (result.errors && result.errors.length) {
+                result.errors.forEach(function (error) {
+                    var output = error.file.filename;
+                    output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
+                    output += sys.newLine + ' ' + error.messageText;
+                    switch (error.category) {
+                        case 1 /* Error */:
+                            _this.log(output, 3 /* Error */);
+                            break;
+                        case 0 /* Warning */:
+                            _this.log(output, 2 /* Warn */);
+                            break;
+                        case 2 /* Message */:
+                            _this.log(output, 1 /* Info */);
+                    }
+                });
+                return false;
+            }
             if (this.settings.json) {
                 writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
+                this.log(td.Util.format('JSON written to %s', this.settings.json));
             }
-            this.renderer.render(result.project, outputDirectory);
+            else {
+                this.renderer.render(result.project, outputDirectory);
+                this.log(td.Util.format('Documentation generated at %s', this.settings.out));
+            }
+            return true;
         };
         /**
          * Return the version number of the loaded TypeScript compiler.
@@ -706,6 +767,96 @@ var td;
         Application.prototype.getTypeScriptVersion = function () {
             var json = JSON.parse(td.FS.readFileSync(td.Path.join(td.tsPath, '..', 'package.json'), 'utf8'));
             return json.version;
+        };
+        /**
+         * Print the version number.
+         *
+         * @return string[]
+         */
+        Application.prototype.printVersion = function () {
+            return [
+                '',
+                'TypeDoc ' + Application.VERSION,
+                'Using TypeScript ' + this.getTypeScriptVersion() + ' at ' + td.tsPath,
+                ''
+            ];
+        };
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         *
+         * @return string[]
+         */
+        Application.prototype.printUsage = function () {
+            var marginLength = 0;
+            var typeDoc = prepareOptions(td.optionDeclarations);
+            var typeScript = prepareOptions(ts.optionDeclarations, td.ignoredTypeScriptOptions);
+            var output = this.printVersion();
+            output.push('Usage:');
+            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
+            output.push('', 'TypeDoc options:');
+            pushDeclarations(typeDoc);
+            output.push('', 'TypeScript options:');
+            pushDeclarations(typeScript);
+            output.push('');
+            return output;
+            function prepareOptions(optsList, exclude) {
+                // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
+                optsList = optsList.slice();
+                optsList.sort(function (a, b) { return ts.compareValues(a.name.toLowerCase(), b.name.toLowerCase()); });
+                // We want our descriptions to align at the same column in our output,
+                // so we keep track of the longest option usage string.
+                var usageColumn = []; // Things like "-d, --declaration" go in here.
+                var descriptionColumn = [];
+                for (var i = 0; i < optsList.length; i++) {
+                    var option = optsList[i];
+                    if (exclude && exclude.indexOf(option.name) != -1)
+                        continue;
+                    // If an option lacks a description,
+                    // it is not officially supported.
+                    if (!option.description) {
+                        continue;
+                    }
+                    var usageText = " ";
+                    if (option.shortName) {
+                        usageText += "-" + option.shortName;
+                        usageText += getParamName(option);
+                        usageText += ", ";
+                    }
+                    usageText += "--" + option.name;
+                    usageText += getParamName(option);
+                    usageColumn.push(usageText);
+                    descriptionColumn.push(option.description.key);
+                    // Set the new margin for the description column if necessary.
+                    marginLength = Math.max(usageText.length, marginLength);
+                }
+                return { usage: usageColumn, description: descriptionColumn };
+            }
+            // Special case that can't fit in the loop.
+            function addFileOption(columns) {
+                var usageText = " @<file>";
+                columns.usage.push(usageText);
+                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
+                marginLength = Math.max(usageText.length, marginLength);
+            }
+            // Print out each row, aligning all the descriptions on the same column.
+            function pushDeclarations(columns) {
+                for (var i = 0; i < columns.usage.length; i++) {
+                    var usage = columns.usage[i];
+                    var description = columns.description[i];
+                    output.push(usage + makePadding(marginLength - usage.length + 2) + description);
+                }
+            }
+            function getParamName(option) {
+                if (option.paramName !== undefined) {
+                    return " " + option.paramName;
+                }
+                return "";
+            }
+            function makePadding(paddingLength) {
+                return Array(paddingLength + 1).join(" ");
+            }
         };
         /**
          * The version number of TypeDoc.

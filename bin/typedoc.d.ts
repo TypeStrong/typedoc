@@ -172,11 +172,11 @@ declare module td {
         /**
          * Does the user want to display the help message?
          */
-        needsHelp: boolean;
+        help: boolean;
         /**
          * Does the user want to know the version number?
          */
-        shouldPrintVersionOnly: boolean;
+        version: boolean;
         /**
          * Should we hide the TypeDoc link at the end of the page?
          */
@@ -315,13 +315,27 @@ declare module td {
          * @param inputFiles  A list of source files whose documentation should be generated.
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
-        generate(inputFiles: string[], outputDirectory: string): void;
+        generate(inputFiles: string[], outputDirectory: string): boolean;
         /**
          * Return the version number of the loaded TypeScript compiler.
          *
          * @returns The version number of the loaded TypeScript package.
          */
         getTypeScriptVersion(): string;
+        /**
+         * Print the version number.
+         *
+         * @return string[]
+         */
+        printVersion(): string[];
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         *
+         * @return string[]
+         */
+        printUsage(): string[];
     }
 }
 declare module td {

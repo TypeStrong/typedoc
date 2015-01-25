@@ -147,19 +147,21 @@ module td
          */
         public runFromCommandline() {
             if (this.settings.parseCommandLine(this)) {
-                if (this.settings.shouldPrintVersionOnly) {
-                    // opts.printVersion();
-                } else if (this.settings.inputFiles.length === 0 || this.settings.needsHelp) {
-                    // opts.printUsage();
+                if (this.settings.version) {
+                    sys.write(this.printVersion().join(sys.newLine));
+                } else if (this.settings.inputFiles.length === 0 || this.settings.help) {
+                    sys.write(this.printUsage().join(sys.newLine));
                 } else {
-                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Verbose);
+                    sys.write(sys.newLine);
+                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Info);
 
                     this.settings.expandInputFiles();
                     this.settings.out = Path.resolve(this.settings.out);
                     this.generate(this.settings.inputFiles, this.settings.out);
 
-                    if (!this.hasErrors) {
-                        this.log(Util.format('Documentation generated at %s', this.settings.out));
+                    if (this.hasErrors) {
+                        sys.write(sys.newLine);
+                        this.log('Documentation could not be generated due to the errors above.');
                     }
                 }
             }
@@ -178,7 +180,12 @@ module td
             }
 
             if (level != LogLevel.Verbose || this.settings.verbose) {
-                console.log(message);
+                var output = '';
+                if (level == LogLevel.Error) output += 'Error: ';
+                if (level == LogLevel.Warn) output += 'Warning: ';
+                output += message;
+
+                sys.write(output + sys.newLine);
             }
         }
 
@@ -189,14 +196,39 @@ module td
          * @param inputFiles  A list of source files whose documentation should be generated.
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
-        public generate(inputFiles:string[], outputDirectory:string) {
+        public generate(inputFiles:string[], outputDirectory:string):boolean {
             var result = this.converter.convert(inputFiles, this.settings);
+
+            if (result.errors && result.errors.length) {
+                result.errors.forEach((error) => {
+                    var output = error.file.filename;
+                    output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
+                    output += sys.newLine + ' ' + error.messageText;
+
+                    switch (error.category) {
+                        case ts.DiagnosticCategory.Error:
+                            this.log(output, LogLevel.Error);
+                            break;
+                        case ts.DiagnosticCategory.Warning:
+                            this.log(output, LogLevel.Warn);
+                            break;
+                        case ts.DiagnosticCategory.Message:
+                            this.log(output, LogLevel.Info);
+                    }
+                });
+
+                return false;
+            }
 
             if (this.settings.json) {
                 writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
+                this.log(Util.format('JSON written to %s', this.settings.json));
+            } else {
+                this.renderer.render(result.project, outputDirectory);
+                this.log(Util.format('Documentation generated at %s', this.settings.out));
             }
 
-            this.renderer.render(result.project, outputDirectory);
+            return true;
         }
 
 
@@ -208,6 +240,114 @@ module td
         public getTypeScriptVersion():string {
             var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
             return json.version;
+        }
+
+
+        /**
+         * Print the version number.
+         *
+         * @return string[]
+         */
+        public printVersion() {
+            return [
+                '',
+                'TypeDoc ' + Application.VERSION,
+                'Using TypeScript ' + this.getTypeScriptVersion() + ' at ' + tsPath,
+                ''
+            ];
+        }
+
+
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         *
+         * @return string[]
+         */
+        public printUsage() {
+            var marginLength = 0;
+            var typeDoc = prepareOptions(optionDeclarations);
+            var typeScript = prepareOptions(ts.optionDeclarations, ignoredTypeScriptOptions);
+
+            var output = this.printVersion();
+
+            output.push('Usage:');
+            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
+            output.push('', 'TypeDoc options:');
+            pushDeclarations(typeDoc);
+            output.push('', 'TypeScript options:');
+            pushDeclarations(typeScript);
+            output.push('');
+            return output;
+
+            function prepareOptions(optsList:ts.CommandLineOption[], exclude?:string[]):{usage:string[]; description:string[];} {
+                // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
+                optsList = optsList.slice();
+                optsList.sort((a, b) => ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase()));
+
+                // We want our descriptions to align at the same column in our output,
+                // so we keep track of the longest option usage string.
+                var usageColumn: string[] = []; // Things like "-d, --declaration" go in here.
+                var descriptionColumn: string[] = [];
+
+                for (var i = 0; i < optsList.length; i++) {
+                    var option = optsList[i];
+                    if (exclude && exclude.indexOf(option.name) != -1) continue;
+
+                    // If an option lacks a description,
+                    // it is not officially supported.
+                    if (!option.description) {
+                        continue;
+                    }
+
+                    var usageText = " ";
+                    if (option.shortName) {
+                        usageText += "-" + option.shortName;
+                        usageText += getParamName(option);
+                        usageText += ", ";
+                    }
+
+                    usageText += "--" + option.name;
+                    usageText += getParamName(option);
+
+                    usageColumn.push(usageText);
+                    descriptionColumn.push(option.description.key);
+
+                    // Set the new margin for the description column if necessary.
+                    marginLength = Math.max(usageText.length, marginLength);
+                }
+
+                return {usage:usageColumn, description:descriptionColumn};
+            }
+
+            // Special case that can't fit in the loop.
+            function addFileOption(columns:{usage:string[]; description:string[];}) {
+                var usageText = " @<file>";
+                columns.usage.push(usageText);
+                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
+                marginLength = Math.max(usageText.length, marginLength);
+            }
+
+            // Print out each row, aligning all the descriptions on the same column.
+            function pushDeclarations(columns:{usage:string[]; description:string[];}) {
+                for (var i = 0; i < columns.usage.length; i++) {
+                    var usage = columns.usage[i];
+                    var description = columns.description[i];
+                    output.push(usage + makePadding(marginLength - usage.length + 2) + description);
+                }
+            }
+
+            function getParamName(option:ts.CommandLineOption) {
+                if (option.paramName !== undefined) {
+                    return " " + option.paramName;
+                }
+                return "";
+            }
+
+            function makePadding(paddingLength: number): string {
+                return Array(paddingLength + 1).join(" ");
+            }
         }
     }
 }

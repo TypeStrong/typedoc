@@ -24,7 +24,7 @@ module td
 
 
     export var ignoredTypeScriptOptions = [
-        'out', 'outDir'
+        'out', 'outDir', 'version', 'help', 'watch', 'declarations', 'mapRoot', 'sourceMap', 'removeComments'
     ];
 
 
@@ -49,7 +49,7 @@ module td
         },
         scope: OptionScope.TypeDoc,
         description: {
-            key: 'Specifies the output mode the project is used to be compiled with.',
+            key: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
             category: ts.DiagnosticCategory.Message,
             code: 0
         }
@@ -68,7 +68,7 @@ module td
         type: "string",
         scope: OptionScope.TypeDoc,
         description: {
-            key: 'Specify the path to the theme that should be used.',
+            key: "Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.",
             category: ts.DiagnosticCategory.Message,
             code: 0
         }
@@ -162,6 +162,26 @@ module td
             category: ts.DiagnosticCategory.Message,
             code: 0
         }
+    },{
+        name: "version",
+        shortName: "v",
+        type: "boolean",
+        scope: OptionScope.TypeDoc,
+        description: {
+            key: 'Print the TypeDoc\'s version.',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
+    },{
+        name: "help",
+        shortName: "h",
+        type: "boolean",
+        scope: OptionScope.TypeDoc,
+        description: {
+            key: 'Print this message.',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
     }];
 
 
@@ -248,12 +268,12 @@ module td
         /**
          * Does the user want to display the help message?
          */
-        needsHelp:boolean = false;
+        help:boolean = false;
 
         /**
          * Does the user want to know the version number?
          */
-        shouldPrintVersionOnly:boolean = false;
+        version:boolean = false;
 
         /**
          * Should we hide the TypeDoc link at the end of the page?

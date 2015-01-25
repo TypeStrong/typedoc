@@ -77,7 +77,6 @@ var objectLiteral = {
 
 var typeLiteral:{
     ():string;
-    [name:string]:string;
     valueZ:string;
     valueY:{():string;};
     valueX:{
