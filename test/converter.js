@@ -75,6 +75,7 @@ describe('Converter', function() {
             it('converts fixtures', function() {
                 settings.inputFiles = [path];
                 settings.expandInputFiles();
+                TD.resetReflectionID();
                 result = converter.convert(settings.inputFiles, settings);
             });
 
