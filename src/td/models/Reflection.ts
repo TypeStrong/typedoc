@@ -496,6 +496,7 @@ module td
             }
 
             this.traverse((child, property) => {
+                if (property == TraverseProperty.TypeLiteral) return;
                 var name = TraverseProperty[property];
                 name = name.substr(0, 1).toLowerCase() + name.substr(1);
                 if (!result[name]) result[name] = [];

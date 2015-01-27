@@ -145,12 +145,6 @@ module td
 
 
 
-        /**
-         * Is this reflection representing a container like a module or class?
-        isContainer() {
-            return this.kindOf(TypeScript.PullElementKind.SomeContainer);
-        }
-         */
         getAllSignatures():SignatureReflection[] {
             var result = [];
 
@@ -205,6 +199,39 @@ module td
          */
         toObject():any {
             var result = super.toObject();
+
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+
+            if (this.defaultValue) {
+                result.defaultValue = this.defaultValue;
+            }
+
+            if (this.overwrites) {
+                result.overwrites = this.overwrites.toObject();
+            }
+
+            if (this.inheritedFrom) {
+                result.inheritedFrom = this.inheritedFrom.toObject();
+            }
+
+            if (this.extendedTypes) {
+                result.extendedTypes = this.extendedTypes.map((t) => t.toObject());
+            }
+
+            if (this.extendedBy) {
+                result.extendedBy = this.extendedBy.map((t) => t.toObject());
+            }
+
+            if (this.implementedTypes) {
+                result.implementedTypes = this.implementedTypes.map((t) => t.toObject());
+            }
+
+            if (this.implementedBy) {
+                result.implementedBy = this.implementedBy.map((t) => t.toObject());
+            }
+
             return result;
         }
 

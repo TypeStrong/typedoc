@@ -3699,6 +3699,8 @@ var td;
                     result.flags[key] = true;
             }
             this.traverse(function (child, property) {
+                if (property == 2 /* TypeLiteral */)
+                    return;
                 var name = TraverseProperty[property];
                 name = name.substr(0, 1).toLowerCase() + name.substr(1);
                 if (!result[name])
@@ -3901,9 +3903,28 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Base class of all type definitions.
+     *
+     * Instances of this class are also used to represent the type `void`.
+     */
     var Type = (function () {
         function Type() {
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        Type.prototype.toObject = function () {
+            var result = {};
+            result.type = 'void';
+            if (this.isArray) {
+                result.isArray = this.isArray;
+            }
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         Type.prototype.toString = function () {
             return 'void';
         };
@@ -3993,12 +4014,6 @@ var td;
         function DeclarationReflection() {
             _super.apply(this, arguments);
         }
-        /**
-         * Is this reflection representing a container like a module or class?
-        isContainer() {
-            return this.kindOf(TypeScript.PullElementKind.SomeContainer);
-        }
-         */
         DeclarationReflection.prototype.getAllSignatures = function () {
             var result = [];
             if (this.signatures)
@@ -4045,6 +4060,30 @@ var td;
          */
         DeclarationReflection.prototype.toObject = function () {
             var result = _super.prototype.toObject.call(this);
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+            if (this.defaultValue) {
+                result.defaultValue = this.defaultValue;
+            }
+            if (this.overwrites) {
+                result.overwrites = this.overwrites.toObject();
+            }
+            if (this.inheritedFrom) {
+                result.inheritedFrom = this.inheritedFrom.toObject();
+            }
+            if (this.extendedTypes) {
+                result.extendedTypes = this.extendedTypes.map(function (t) { return t.toObject(); });
+            }
+            if (this.extendedBy) {
+                result.extendedBy = this.extendedBy.map(function (t) { return t.toObject(); });
+            }
+            if (this.implementedTypes) {
+                result.implementedTypes = this.implementedTypes.map(function (t) { return t.toObject(); });
+            }
+            if (this.implementedBy) {
+                result.implementedBy = this.implementedBy.map(function (t) { return t.toObject(); });
+            }
             return result;
         };
         /**
@@ -4088,6 +4127,19 @@ var td;
                 callback(this.type.declaration, 2 /* TypeLiteral */);
             }
             _super.prototype.traverse.call(this, callback);
+        };
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        ParameterReflection.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+            if (this.defaultValue) {
+                result.defaultValue = this.defaultValue;
+            }
+            return result;
         };
         /**
          * Return a string representation of this reflection.
@@ -4202,6 +4254,28 @@ var td;
             _super.prototype.traverse.call(this, callback);
         };
         /**
+         * Return a raw object representation of this reflection.
+         */
+        SignatureReflection.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            if (this.parameters && this.parameters.length) {
+                result.parameters = this.parameters.map(function (n) { return n.toObject(); });
+            }
+            if (this.typeParameters && this.typeParameters.length) {
+                result.typeParameters = this.typeParameters.map(function (n) { return n.toObject(); });
+            }
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+            if (this.overwrites) {
+                result.overwrites = this.overwrites.toObject();
+            }
+            if (this.inheritedFrom) {
+                result.inheritedFrom = this.inheritedFrom.toObject();
+            }
+            return result;
+        };
+        /**
          * Return a string representation of this reflection.
          */
         SignatureReflection.prototype.toString = function () {
@@ -4231,18 +4305,52 @@ var td;
             _super.call(this, parent, type.name, 131072 /* TypeParameter */);
             this.type = type.constraint;
         }
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        TypeParameterReflection.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+            return result;
+        };
         return TypeParameterReflection;
     })(td.Reflection);
     td.TypeParameterReflection = TypeParameterReflection;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents an intrinsic type like `string` or `boolean`.
+     *
+     * ~~~
+     * var value:number;
+     * ~~~
+     */
     var IntrinsicType = (function (_super) {
         __extends(IntrinsicType, _super);
+        /**
+         * Create a new instance of IntrinsicType.
+         *
+         * @param name  The name of the intrinsic type like `string` or `boolean`.
+         */
         function IntrinsicType(name) {
             _super.call(this);
             this.name = name;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        IntrinsicType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'instrinct';
+            result.name = this.name;
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         IntrinsicType.prototype.toString = function () {
             return this.name + (this.isArray ? '[]' : '');
         };
@@ -4252,14 +4360,41 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents a type that refers to another reflection like a class, interface or enum.
+     *
+     * ~~~
+     * var value:MyClass;
+     * ~~~
+     */
     var ReferenceType = (function (_super) {
         __extends(ReferenceType, _super);
+        /**
+         * Create a new instance of ReferenceType.
+         *
+         * @param name        The name of the referenced type.
+         * @param symbolID    The symbol id of the referenced type as returned from the TypeScript compiler.
+         * @param reflection  The resolved reflection if already known.
+         */
         function ReferenceType(name, symbolID, reflection) {
             _super.call(this);
             this.name = name;
             this.symbolID = symbolID;
             this.reflection = reflection;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        ReferenceType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'reference';
+            result.name = this.name;
+            result.symbolID = this.symbolID;
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         ReferenceType.prototype.toString = function () {
             if (this.reflection) {
                 return this.reflection.name + (this.isArray ? '[]' : '');
@@ -4274,12 +4409,38 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents a type which has it's own reflection like literal types.
+     *
+     * ~~~
+     * var value:{subValueA;subValueB;subValueC;};
+     * ~~~
+     */
     var ReflectionType = (function (_super) {
         __extends(ReflectionType, _super);
+        /**
+         * Create a new instance of ReflectionType.
+         *
+         * @param declaration  The reflection of the type.
+         */
         function ReflectionType(declaration) {
             _super.call(this);
             this.declaration = declaration;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        ReflectionType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'reflection';
+            if (this.declaration) {
+                result.declaration = this.declaration.toObject();
+            }
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         ReflectionType.prototype.toString = function () {
             if (!this.declaration.children && this.declaration.signatures) {
                 return 'function';
@@ -4294,12 +4455,36 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents a string literal type.
+     *
+     * ~~~
+     * var value:"DIV";
+     * ~~~
+     */
     var StringLiteralType = (function (_super) {
         __extends(StringLiteralType, _super);
+        /**
+         * Create a new instance of StringLiteralType.
+         *
+         * @param value The string literal value.
+         */
         function StringLiteralType(value) {
             _super.call(this);
             this.value = value;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        StringLiteralType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'stringLiteral';
+            result.value = this.value;
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         StringLiteralType.prototype.toString = function () {
             return '"' + this.value + '"';
         };
@@ -4309,12 +4494,38 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents a tuple type.
+     *
+     * ~~~
+     * var value:[string,boolean];
+     * ~~~
+     */
     var TupleType = (function (_super) {
         __extends(TupleType, _super);
+        /**
+         * Create a new TupleType instance.
+         *
+         * @param elements  The ordered type elements of the tuple type.
+         */
         function TupleType(elements) {
             _super.call(this);
             this.elements = elements;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        TupleType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'tuple';
+            if (this.elements && this.elements.length) {
+                result.elements = this.elements.map(function (e) { return e.toObject(); });
+            }
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         TupleType.prototype.toString = function () {
             var names = [];
             this.elements.forEach(function (element) {
@@ -4328,11 +4539,33 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents a type parameter type.
+     *
+     * ~~~
+     * var value:T;
+     * ~~~
+     */
     var TypeParameterType = (function (_super) {
         __extends(TypeParameterType, _super);
         function TypeParameterType() {
             _super.apply(this, arguments);
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        TypeParameterType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'typeParameter';
+            result.name = this.name;
+            if (this.constraint) {
+                result.constraint = this.constraint.toObject();
+            }
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
         TypeParameterType.prototype.toString = function () {
             return this.name;
         };
@@ -4342,12 +4575,35 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Represents all unknown types.
+     */
     var UnknownType = (function (_super) {
         __extends(UnknownType, _super);
+        /**
+         * Create a new instance of UnknownType.
+         *
+         * @param name  A string representation of the type as returned from TypeScript compiler.
+         */
         function UnknownType(name) {
             _super.call(this);
             this.name = name;
         }
+        /**
+         * Return a raw object representation of this type.
+         */
+        UnknownType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'unknown';
+            result.name = name;
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
+        UnknownType.prototype.toString = function () {
+            return this.name;
+        };
         return UnknownType;
     })(td.Type);
     td.UnknownType = UnknownType;

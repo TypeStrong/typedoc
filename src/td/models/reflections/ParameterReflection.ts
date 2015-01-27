@@ -27,6 +27,24 @@ module td
 
 
         /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject():any {
+            var result = super.toObject();
+
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+
+            if (this.defaultValue) {
+                result.defaultValue = this.defaultValue;
+            }
+
+            return result;
+        }
+
+
+        /**
          * Return a string representation of this reflection.
          */
         toString() {

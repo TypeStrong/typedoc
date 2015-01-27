@@ -14,5 +14,19 @@ module td
             super(parent, type.name, ReflectionKind.TypeParameter);
             this.type = type.constraint;
         }
+
+
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject():any {
+            var result = super.toObject();
+
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+
+            return result;
+        }
     }
 }

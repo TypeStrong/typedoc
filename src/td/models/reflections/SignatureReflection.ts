@@ -52,6 +52,36 @@ module td
 
 
         /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject():any {
+            var result = super.toObject();
+
+            if (this.parameters && this.parameters.length) {
+                result.parameters = this.parameters.map((n) => n.toObject());
+            }
+
+            if (this.typeParameters && this.typeParameters.length) {
+                result.typeParameters = this.typeParameters.map((n) => n.toObject());
+            }
+
+            if (this.type) {
+                result.type = this.type.toObject();
+            }
+
+            if (this.overwrites) {
+                result.overwrites = this.overwrites.toObject();
+            }
+
+            if (this.inheritedFrom) {
+                result.inheritedFrom = this.inheritedFrom.toObject();
+            }
+
+            return result;
+        }
+
+
+        /**
          * Return a string representation of this reflection.
          */
         toString():string {
