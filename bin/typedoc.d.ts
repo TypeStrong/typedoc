@@ -1043,6 +1043,12 @@ declare module td {
  */
 declare module td {
     /**
+     * Reset the reflection id.
+     *
+     * Used by the test cases to ensure the reflection ids won't change between runs.
+     */
+    function resetReflectionID(): void;
+    /**
      * Defines the available reflection kinds.
      */
     enum ReflectionKind {

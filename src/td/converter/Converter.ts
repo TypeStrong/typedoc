@@ -76,7 +76,6 @@ module td
             var inherited:string[] = [];
             var typeParameters:{[name:string]:Type} = {};
 
-
             return compile();
 
 

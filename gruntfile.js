@@ -78,6 +78,8 @@ module.exports = function(grunt)
 
             settings.inputFiles = [path];
             settings.expandInputFiles();
+            TD.resetReflectionID();
+
             var result = converter.convert(settings.inputFiles, settings);
             var data = JSON.stringify(result.project.toObject(), null, '  ');
             data = data.split(TD.normalizePath(base)).join('%BASE%');

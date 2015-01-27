@@ -17,6 +17,15 @@ module td
     var REFLECTION_ID:number = 0;
 
     /**
+     * Reset the reflection id.
+     *
+     * Used by the test cases to ensure the reflection ids won't change between runs.
+     */
+    export function resetReflectionID() {
+        REFLECTION_ID = 0;
+    }
+
+    /**
      * Defines the available reflection kinds.
      */
     export enum ReflectionKind

@@ -3410,6 +3410,15 @@ var td;
      */
     var REFLECTION_ID = 0;
     /**
+     * Reset the reflection id.
+     *
+     * Used by the test cases to ensure the reflection ids won't change between runs.
+     */
+    function resetReflectionID() {
+        REFLECTION_ID = 0;
+    }
+    td.resetReflectionID = resetReflectionID;
+    /**
      * Defines the available reflection kinds.
      */
     (function (ReflectionKind) {
