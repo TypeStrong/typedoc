@@ -1480,8 +1480,23 @@ declare module td {
     }
 }
 declare module td {
+    /**
+     * Base class of all type definitions.
+     *
+     * Instances of this class are also used to represent the type `void`.
+     */
     class Type {
+        /**
+         * Is this an array type?
+         */
         isArray: boolean;
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
@@ -1645,12 +1660,6 @@ declare module td {
          * rendered in templates.
          */
         typeHierarchy: IDeclarationHierarchy;
-        /**
-         * Is this reflection representing a container like a module or class?
-        isContainer() {
-            return this.kindOf(TypeScript.PullElementKind.SomeContainer);
-        }
-         */
         getAllSignatures(): SignatureReflection[];
         /**
          * Traverse all potential child reflections of this reflection.
@@ -1685,6 +1694,10 @@ declare module td {
          * @param callback  The callback function that should be applied for each child reflection.
          */
         traverse(callback: ITraverseCallback): void;
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject(): any;
         /**
          * Return a string representation of this reflection.
          */
@@ -1781,6 +1794,10 @@ declare module td {
          */
         traverse(callback: ITraverseCallback): void;
         /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject(): any;
+        /**
          * Return a string representation of this reflection.
          */
         toString(): string;
@@ -1794,56 +1811,222 @@ declare module td {
          * Create a new TypeParameterReflection instance.
          */
         constructor(parent?: Reflection, type?: TypeParameterType);
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject(): any;
     }
 }
 declare module td {
+    /**
+     * Represents an intrinsic type like `string` or `boolean`.
+     *
+     * ~~~
+     * var value:number;
+     * ~~~
+     */
     class IntrinsicType extends Type {
+        /**
+         * The name of the intrinsic type like `string` or `boolean`.
+         */
         name: string;
+        /**
+         * Create a new instance of IntrinsicType.
+         *
+         * @param name  The name of the intrinsic type like `string` or `boolean`.
+         */
         constructor(name: string);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents a type that refers to another reflection like a class, interface or enum.
+     *
+     * ~~~
+     * var value:MyClass;
+     * ~~~
+     */
     class ReferenceType extends Type {
+        /**
+         * The name of the referenced type.
+         *
+         * If the symbol cannot be found cause it's not part of the documentation this
+         * can be used to represent the type.
+         */
         name: string;
+        /**
+         * The symbol id of the referenced type as returned from the TypeScript compiler.
+         *
+         * After the all reflections have been generated this is can be used to lookup the
+         * relevant reflection with [[ProjectReflection.symbolMapping]].
+         */
         symbolID: number;
+        /**
+         * The resolved reflection.
+         *
+         * The [[TypePlugin]] will try to set this property in the resolving phase.
+         */
         reflection: Reflection;
+        /**
+         * Create a new instance of ReferenceType.
+         *
+         * @param name        The name of the referenced type.
+         * @param symbolID    The symbol id of the referenced type as returned from the TypeScript compiler.
+         * @param reflection  The resolved reflection if already known.
+         */
         constructor(name: string, symbolID: number, reflection?: Reflection);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents a type which has it's own reflection like literal types.
+     *
+     * ~~~
+     * var value:{subValueA;subValueB;subValueC;};
+     * ~~~
+     */
     class ReflectionType extends Type {
+        /**
+         * The reflection of the type.
+         */
         declaration: DeclarationReflection;
+        /**
+         * Create a new instance of ReflectionType.
+         *
+         * @param declaration  The reflection of the type.
+         */
         constructor(declaration: DeclarationReflection);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents a string literal type.
+     *
+     * ~~~
+     * var value:"DIV";
+     * ~~~
+     */
     class StringLiteralType extends Type {
+        /**
+         * The string literal value.
+         */
         value: string;
+        /**
+         * Create a new instance of StringLiteralType.
+         *
+         * @param value The string literal value.
+         */
         constructor(value: string);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents a tuple type.
+     *
+     * ~~~
+     * var value:[string,boolean];
+     * ~~~
+     */
     class TupleType extends Type {
+        /**
+         * The ordered type elements of the tuple type.
+         */
         elements: Type[];
+        /**
+         * Create a new TupleType instance.
+         *
+         * @param elements  The ordered type elements of the tuple type.
+         */
         constructor(elements: Type[]);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents a type parameter type.
+     *
+     * ~~~
+     * var value:T;
+     * ~~~
+     */
     class TypeParameterType extends Type {
+        /**
+         *
+         */
         name: string;
         constraint: Type;
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
         toString(): string;
     }
 }
 declare module td {
+    /**
+     * Represents all unknown types.
+     */
     class UnknownType extends Type {
+        /**
+         * A string representation of the type as returned from TypeScript compiler.
+         */
         name: string;
+        /**
+         * Create a new instance of UnknownType.
+         *
+         * @param name  A string representation of the type as returned from TypeScript compiler.
+         */
         constructor(name: string);
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
+        toString(): string;
     }
 }
 /**
