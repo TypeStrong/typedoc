@@ -57,14 +57,6 @@ module td
         toObject():any {
             var result = super.toObject();
 
-            if (this.parameters && this.parameters.length) {
-                result.parameters = this.parameters.map((n) => n.toObject());
-            }
-
-            if (this.typeParameters && this.typeParameters.length) {
-                result.typeParameters = this.typeParameters.map((n) => n.toObject());
-            }
-
             if (this.type) {
                 result.type = this.type.toObject();
             }

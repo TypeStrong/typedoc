@@ -4258,12 +4258,6 @@ var td;
          */
         SignatureReflection.prototype.toObject = function () {
             var result = _super.prototype.toObject.call(this);
-            if (this.parameters && this.parameters.length) {
-                result.parameters = this.parameters.map(function (n) { return n.toObject(); });
-            }
-            if (this.typeParameters && this.typeParameters.length) {
-                result.typeParameters = this.typeParameters.map(function (n) { return n.toObject(); });
-            }
             if (this.type) {
                 result.type = this.type.toObject();
             }
