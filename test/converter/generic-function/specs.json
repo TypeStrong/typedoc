@@ -1,11 +1,11 @@
 {
-  "id": 33,
+  "id": 0,
   "name": "typedoc",
   "kind": 0,
   "flags": {},
   "children": [
     {
-      "id": 34,
+      "id": 1,
       "name": "\"generic-function\"",
       "kind": 1,
       "kindString": "External module",
@@ -15,14 +15,14 @@
       "originalName": "%BASE%/generic-function/generic-function.ts",
       "children": [
         {
-          "id": 35,
+          "id": 2,
           "name": "genericFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 36,
+              "id": 3,
               "name": "genericFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -33,28 +33,68 @@
               },
               "typeParameter": [
                 {
-                  "id": 37,
+                  "id": 4,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "text": "Generic function type parameter."
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "Object",
+                    "symbolID": 29501
                   }
                 }
               ],
               "parameters": [
                 {
-                  "id": 38,
+                  "id": 5,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "text": "Generic function parameter."
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T",
+                    "constraint": {
+                      "type": "reference",
+                      "name": "Object",
+                      "symbolID": 29501
+                    }
                   }
                 }
-              ]
+              ],
+              "typeParameters": [
+                {
+                  "id": 4,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function type parameter."
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "Object",
+                    "symbolID": 29501
+                  }
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T",
+                "constraint": {
+                  "type": "reference",
+                  "name": "Object",
+                  "symbolID": 29501
+                }
+              }
             }
           ]
         }
@@ -64,7 +104,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            35
+            2
           ]
         }
       ]
@@ -75,7 +115,7 @@
       "title": "External modules",
       "kind": 1,
       "children": [
-        34
+        1
       ]
     }
   ]

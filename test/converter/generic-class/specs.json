@@ -1,11 +1,11 @@
 {
-  "id": 23,
+  "id": 0,
   "name": "typedoc",
   "kind": 0,
   "flags": {},
   "children": [
     {
-      "id": 24,
+      "id": 1,
       "name": "\"generic-class\"",
       "kind": 1,
       "kindString": "External module",
@@ -15,7 +15,7 @@
       "originalName": "%BASE%/generic-class/generic-class.ts",
       "children": [
         {
-          "id": 25,
+          "id": 2,
           "name": "GenericClass",
           "kind": 128,
           "kindString": "Class",
@@ -25,7 +25,7 @@
           },
           "typeParameter": [
             {
-              "id": 26,
+              "id": 3,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -37,7 +37,7 @@
           ],
           "children": [
             {
-              "id": 28,
+              "id": 5,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -47,7 +47,7 @@
               },
               "signatures": [
                 {
-                  "id": 29,
+                  "id": 6,
                   "name": "new GenericClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -57,21 +57,30 @@
                   },
                   "parameters": [
                     {
-                      "id": 30,
+                      "id": 7,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "shortText": "Constructor parameter.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
                       }
                     }
-                  ]
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "GenericClass",
+                    "symbolID": -1
+                  }
                 }
               ]
             },
             {
-              "id": 27,
+              "id": 4,
               "name": "value",
               "kind": 1024,
               "kindString": "Property",
@@ -80,17 +89,21 @@
               },
               "comment": {
                 "shortText": "Generic property."
+              },
+              "type": {
+                "type": "typeParameter",
+                "name": "T"
               }
             },
             {
-              "id": 31,
+              "id": 8,
               "name": "getValue",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 32,
+                  "id": 9,
                   "name": "getValue",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -98,6 +111,10 @@
                   "comment": {
                     "shortText": "getValue short text.",
                     "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
                   }
                 }
               ]
@@ -108,21 +125,21 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                28
+                5
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                27
+                4
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                31
+                8
               ]
             }
           ]
@@ -133,7 +150,7 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            25
+            2
           ]
         }
       ]
@@ -144,7 +161,7 @@
       "title": "External modules",
       "kind": 1,
       "children": [
-        24
+        1
       ]
     }
   ]
