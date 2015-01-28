@@ -3,8 +3,7 @@
 /**
  * TestClass comment short text.
  *
- * TestClass comment
- * text.
+ * TestClass comment text.
  *
  * @see [[TestClass]] @ fixtures
  */
