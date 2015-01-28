@@ -1,3 +1,5 @@
+/// <reference path="../lib.core.d.ts" />
+
 /**
  * TestClass comment short text.
  *

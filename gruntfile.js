@@ -78,6 +78,7 @@ module.exports = function(grunt)
 
             settings.inputFiles = [path];
             settings.expandInputFiles();
+            settings.compilerOptions.noLib = true;
             TD.resetReflectionID();
 
             var result = converter.convert(settings.inputFiles, settings);

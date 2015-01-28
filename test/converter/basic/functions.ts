@@ -1,3 +1,5 @@
+/// <reference path="../lib.core.d.ts" />
+
 /**
  * testFunction comment short text.
  * @param testParam  Test parameter.

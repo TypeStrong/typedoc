@@ -1,3 +1,5 @@
+/// <reference path="../lib.core.d.ts" />
+
 /**
  * GenericClass short text.
  * @param T  Generic parameter.

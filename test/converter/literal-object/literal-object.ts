@@ -1,3 +1,5 @@
+/// <reference path="../lib.core.d.ts" />
+
 /**
  * An object literal.
  */
