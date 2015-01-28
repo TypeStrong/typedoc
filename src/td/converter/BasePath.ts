@@ -43,7 +43,8 @@ module td
                     }
                 }
 
-                // Complete match, nothing to do
+                // Complete match, exit
+                this.basePaths[n] = basePath.splice(0, mMax).join('/');
                 return;
             }
 

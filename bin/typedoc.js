@@ -977,7 +977,8 @@ var td;
                         return;
                     }
                 }
-                // Complete match, nothing to do
+                // Complete match, exit
+                this.basePaths[n] = basePath.splice(0, mMax).join('/');
                 return;
             }
             // Unknown base path, add it
