@@ -46,7 +46,7 @@ module td
          * @returns TRUE when this comment has a visible component.
          */
         hasVisibleComponent():boolean {
-            return <boolean>(this.shortText || this.text || this.tags);
+            return <boolean>(!!this.shortText || !!this.text || !!this.tags);
         }
 
 

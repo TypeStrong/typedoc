@@ -861,7 +861,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.2.0';
+        Application.VERSION = '0.2.1';
         return Application;
     })();
     td.Application = Application;
@@ -1118,11 +1118,11 @@ var td;
                     name = node.symbol.name;
                 }
                 var child;
-                var isStatic = !!(node.flags & ts.NodeFlags['Static']);
-                if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != ts.SyntaxKind['ClassDeclaration'])) {
+                var isStatic = !!(node.flags & 128 /* 'Static' */);
+                if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* 'ClassDeclaration' */)) {
                     isStatic = true;
                 }
-                var isPrivate = !!(node.flags & ts.NodeFlags['Private']);
+                var isPrivate = !!(node.flags & 32 /* 'Private' */);
                 if (isInherit && isPrivate) {
                     return null;
                 }
@@ -1137,10 +1137,10 @@ var td;
                     child.setFlag(8 /* Static */, isStatic);
                     child.setFlag(64 /* External */, isExternal);
                     child.setFlag(1 /* Private */, isPrivate);
-                    child.setFlag(2 /* Protected */, !!(node.flags & ts.NodeFlags['Protected']));
-                    child.setFlag(4 /* Public */, !!(node.flags & ts.NodeFlags['Public']));
+                    child.setFlag(2 /* Protected */, !!(node.flags & 64 /* 'Protected' */));
+                    child.setFlag(4 /* Public */, !!(node.flags & 16 /* 'Public' */));
                     child.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & ts.NodeFlags['Export']));
+                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* 'Export' */));
                     container.children.push(child);
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
@@ -1239,22 +1239,22 @@ var td;
                 dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
             }
             function extractType(target, node, type) {
-                if (type.flags & ts.TypeFlags['Intrinsic']) {
+                if (type.flags & 127 /* 'Intrinsic' */) {
                     return extractIntrinsicType(node, type);
                 }
-                else if (type.flags & ts.TypeFlags['Enum']) {
+                else if (type.flags & 128 /* 'Enum' */) {
                     return extractEnumType(node, type);
                 }
-                else if (type.flags & ts.TypeFlags['Tuple']) {
+                else if (type.flags & 8192 /* 'Tuple' */) {
                     return extractTupleType(target, node, type);
                 }
-                else if (type.flags & ts.TypeFlags['TypeParameter']) {
+                else if (type.flags & 512 /* 'TypeParameter' */) {
                     return extractTypeParameterType(node, type);
                 }
-                else if (type.flags & ts.TypeFlags['StringLiteral']) {
+                else if (type.flags & 256 /* 'StringLiteral' */) {
                     return extractStringLiteralType(node, type);
                 }
-                else if (type.flags & ts.TypeFlags['ObjectType']) {
+                else if (type.flags & 48128 /* 'ObjectType' */) {
                     return extractObjectType(target, node, type);
                 }
                 else {
@@ -1302,8 +1302,8 @@ var td;
                     }
                 }
                 else if (type.symbol) {
-                    if (type.flags & ts.TypeFlags['Anonymous']) {
-                        if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
+                    if (type.flags & 32768 /* 'Anonymous' */) {
+                        if (type.symbol.flags & 2048 /* 'TypeLiteral' */) {
                             var declaration = new td.DeclarationReflection();
                             declaration.kind = 65536 /* TypeLiteral */;
                             declaration.name = '__type';
@@ -1336,16 +1336,16 @@ var td;
                 if (!node.initializer)
                     return;
                 switch (node.initializer.kind) {
-                    case ts.SyntaxKind['StringLiteral']:
+                    case 7 /* 'StringLiteral' */:
                         reflection.defaultValue = '"' + node.initializer.text + '"';
                         break;
-                    case ts.SyntaxKind['NumericLiteral']:
+                    case 6 /* 'NumericLiteral' */:
                         reflection.defaultValue = node.initializer.text;
                         break;
-                    case ts.SyntaxKind['TrueKeyword']:
+                    case 93 /* 'TrueKeyword' */:
                         reflection.defaultValue = 'true';
                         break;
-                    case ts.SyntaxKind['FalseKeyword']:
+                    case 78 /* 'FalseKeyword' */:
                         reflection.defaultValue = 'false';
                         break;
                     default:
@@ -1426,44 +1426,44 @@ var td;
              */
             function visit(node, scope, typeArguments) {
                 switch (node.kind) {
-                    case ts.SyntaxKind['ClassDeclaration']:
+                    case 185 /* 'ClassDeclaration' */:
                         return visitClassDeclaration(node, scope, typeArguments);
-                    case ts.SyntaxKind['InterfaceDeclaration']:
+                    case 186 /* 'InterfaceDeclaration' */:
                         return visitInterfaceDeclaration(node, scope, typeArguments);
-                    case ts.SyntaxKind['ModuleDeclaration']:
+                    case 189 /* 'ModuleDeclaration' */:
                         return visitModuleDeclaration(node, scope);
-                    case ts.SyntaxKind['VariableStatement']:
+                    case 164 /* 'VariableStatement' */:
                         return visitVariableStatement(node, scope);
-                    case ts.SyntaxKind['Property']:
-                    case ts.SyntaxKind['PropertyAssignment']:
-                    case ts.SyntaxKind['VariableDeclaration']:
+                    case 124 /* 'Property' */:
+                    case 198 /* 'PropertyAssignment' */:
+                    case 183 /* 'VariableDeclaration' */:
                         return visitVariableDeclaration(node, scope);
-                    case ts.SyntaxKind['EnumDeclaration']:
+                    case 188 /* 'EnumDeclaration' */:
                         return visitEnumDeclaration(node, scope);
-                    case ts.SyntaxKind['EnumMember']:
+                    case 200 /* 'EnumMember' */:
                         return visitEnumMember(node, scope);
-                    case ts.SyntaxKind['Constructor']:
-                    case ts.SyntaxKind['ConstructSignature']:
+                    case 126 /* 'Constructor' */:
+                    case 130 /* 'ConstructSignature' */:
                         return visitConstructor(node, scope);
-                    case ts.SyntaxKind['Method']:
-                    case ts.SyntaxKind['FunctionDeclaration']:
+                    case 125 /* 'Method' */:
+                    case 184 /* 'FunctionDeclaration' */:
                         return visitFunctionDeclaration(node, scope);
-                    case ts.SyntaxKind['GetAccessor']:
+                    case 127 /* 'GetAccessor' */:
                         return visitGetAccessorDeclaration(node, scope);
-                    case ts.SyntaxKind['SetAccessor']:
+                    case 128 /* 'SetAccessor' */:
                         return visitSetAccessorDeclaration(node, scope);
-                    case ts.SyntaxKind['CallSignature']:
+                    case 129 /* 'CallSignature' */:
                         return visitCallSignatureDeclaration(node, scope);
-                    case ts.SyntaxKind['IndexSignature']:
+                    case 131 /* 'IndexSignature' */:
                         return visitIndexSignatureDeclaration(node, scope);
-                    case ts.SyntaxKind['Block']:
-                    case ts.SyntaxKind['ModuleBlock']:
+                    case 163 /* 'Block' */:
+                    case 190 /* 'ModuleBlock' */:
                         return visitBlock(node, scope);
                     case ts.SyntaxKind['ObjectLiteral']:
                         return visitObjectLiteral(node, scope);
-                    case ts.SyntaxKind['TypeLiteral']:
+                    case 136 /* 'TypeLiteral' */:
                         return visitTypeLiteral(node, scope);
-                    case ts.SyntaxKind['ExportAssignment']:
+                    case 192 /* 'ExportAssignment' */:
                         return visitExportAssignment(node, scope);
                     default:
                         // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
@@ -1479,7 +1479,7 @@ var td;
              */
             function visitBlock(node, scope) {
                 if (node.statements) {
-                    var prefered = [ts.SyntaxKind['ClassDeclaration'], ts.SyntaxKind['InterfaceDeclaration'], ts.SyntaxKind['EnumDeclaration']];
+                    var prefered = [185 /* 'ClassDeclaration' */, 186 /* 'InterfaceDeclaration' */, 188 /* 'EnumDeclaration' */];
                     var statements = [];
                     node.statements.forEach(function (statement) {
                         if (prefered.indexOf(statement.kind) != -1) {
@@ -1673,8 +1673,8 @@ var td;
                 if (variable) {
                     if (node.initializer) {
                         switch (node.initializer.kind) {
-                            case ts.SyntaxKind['ArrowFunction']:
-                            case ts.SyntaxKind['FunctionExpression']:
+                            case 151 /* 'ArrowFunction' */:
+                            case 150 /* 'FunctionExpression' */:
                                 variable.kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
                                 visitCallSignatureDeclaration(node.initializer, variable);
                                 break;
@@ -2178,17 +2178,17 @@ var td;
         CommentPlugin.getComment = function (node) {
             var sourceFile = ts.getSourceFileOfNode(node);
             var target = node;
-            if (node.kind == 177 /* ModuleDeclaration */) {
+            if (node.kind == 189 /* ModuleDeclaration */) {
                 var a, b;
                 // Ignore comments for cascaded modules, e.g. module A.B { }
-                if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                if (node.nextContainer && node.nextContainer.kind == 189 /* 'ModuleDeclaration' */) {
                     a = node;
                     b = node.nextContainer;
                     if (a.name.end + 1 == b.name.pos) {
                         return null;
                     }
                 }
-                while (target.parent && target.parent.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                while (target.parent && target.parent.kind == 189 /* 'ModuleDeclaration' */) {
                     a = target;
                     b = target.parent;
                     if (a.name.pos == b.name.end + 1) {
@@ -2199,13 +2199,13 @@ var td;
                     }
                 }
             }
-            if (node.parent && node.parent.kind == ts.SyntaxKind['VariableStatement']) {
+            if (node.parent && node.parent.kind == 164 /* 'VariableStatement' */) {
                 target = node.parent;
             }
             var comments = ts.getJsDocComments(target, sourceFile);
             if (comments && comments.length) {
                 var comment;
-                if (node.kind == ts.SyntaxKind['SourceFile']) {
+                if (node.kind == 201 /* 'SourceFile' */) {
                     if (comments.length == 1)
                         return null;
                     comment = comments[0];
@@ -3244,7 +3244,7 @@ var td;
          * @returns TRUE when this comment has a visible component.
          */
         Comment.prototype.hasVisibleComponent = function () {
-            return (this.shortText || this.text || this.tags);
+            return (!!this.shortText || !!this.text || !!this.tags);
         };
         /**
          * Test whether this comment contains a tag with the given name.
