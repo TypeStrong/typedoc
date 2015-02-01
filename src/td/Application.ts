@@ -304,12 +304,12 @@ module td
                     var usageText = " ";
                     if (option.shortName) {
                         usageText += "-" + option.shortName;
-                        usageText += getParamName(option);
+                        usageText += getParamType(option);
                         usageText += ", ";
                     }
 
                     usageText += "--" + option.name;
-                    usageText += getParamName(option);
+                    usageText += getParamType(option);
 
                     usageColumn.push(usageText);
                     descriptionColumn.push(option.description.key);
@@ -338,9 +338,9 @@ module td
                 }
             }
 
-            function getParamName(option:ts.CommandLineOption) {
-                if (option.paramName !== undefined) {
-                    return " " + option.paramName;
+            function getParamType(option:ts.CommandLineOption) {
+                if (option.paramType !== undefined) {
+                    return " " + option.paramType;
                 }
                 return "";
             }

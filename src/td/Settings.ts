@@ -1,18 +1,5 @@
 module td
 {
-    /**
-     * Alias to ts.ScriptTarget
-     * @resolve
-     */
-    export var ScriptTarget:typeof ts.ScriptTarget = ts.ScriptTarget;
-
-    /**
-     * Alias to ts.ModuleKind
-     * @resolve
-     */
-    export var ModuleKind:typeof ts.ModuleKind = ts.ModuleKind;
-
-
     export enum OptionScope {
         TypeDoc, TypeScript
     }
@@ -26,6 +13,11 @@ module td
     export var ignoredTypeScriptOptions = [
         'out', 'outDir', 'version', 'help', 'watch', 'declaration', 'mapRoot', 'sourceMap', 'removeComments'
     ];
+
+
+    export enum SourceFileMode {
+        File, Modules
+    }
 
 
     /**
@@ -44,8 +36,8 @@ module td
     },{
         name: "mode",
         type: {
-            'file': 'file',
-            'modules': 'modules'
+            'file': SourceFileMode.File,
+            'modules': SourceFileMode.Modules
         },
         scope: OptionScope.TypeDoc,
         description: {
@@ -211,7 +203,7 @@ module td
         /**
          * Specifies the output mode the project is used to be compiled with.
          */
-        mode:string = 'modules';
+        mode:SourceFileMode = SourceFileMode.Modules;
 
         /**
          * Path and filename of the json file.
@@ -296,8 +288,8 @@ module td
          */
         constructor() {
             this.compilerOptions = {
-                target: ScriptTarget.ES3,
-                module: ModuleKind.None
+                target: ts.ScriptTarget.ES3,
+                module: ts.ModuleKind.None
             };
 
             optionDeclarations.forEach((option) => this.addOptionDeclaration(option));
@@ -421,9 +413,10 @@ module td
                             target[option.name] = args[index++] || "";
                             break;
                         default:
-                            var value = (args[index++] || "").toLowerCase();
-                            if (ts.hasProperty(option.type, value)) {
-                                target[option.name] = option.type[value];
+                            var map = <ts.Map<number>>option.type;
+                            var key = (args[index++] || "").toLowerCase();
+                            if (ts.hasProperty(map, key)) {
+                                target[option.name] = map[key];
                             } else {
                                 if (option.error) {
                                     error = ts.createCompilerDiagnostic(option.error);
