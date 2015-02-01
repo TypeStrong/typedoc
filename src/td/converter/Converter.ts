@@ -213,7 +213,7 @@ module td
                     registerReflection(signature, node);
 
                     if (kind == ReflectionKind.CallSignature) {
-                        var type = checker.getTypeOfNode(node);
+                        var type = checker.getTypeAtLocation(node);
                         checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
                             if (tsSignature.declaration == node) {
                                 signature.type = extractType(signature, node.type, checker.getReturnTypeOfSignature(tsSignature));
@@ -223,9 +223,9 @@ module td
 
                     if (!signature.type) {
                         if (node.type) {
-                            signature.type = extractType(signature, node.type, checker.getTypeOfNode(node.type));
+                            signature.type = extractType(signature, node.type, checker.getTypeAtLocation(node.type));
                         } else {
-                            signature.type = extractType(signature, node, checker.getTypeOfNode(node));
+                            signature.type = extractType(signature, node, checker.getTypeAtLocation(node));
                         }
                     }
 
@@ -244,7 +244,7 @@ module td
 
             function createParameter(signature:SignatureReflection, node:ts.ParameterDeclaration) {
                 var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
-                parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
+                parameter.type = extractType(parameter, node.type, checker.getTypeAtLocation(node));
                 parameter.setFlag(ReflectionFlag.Optional, !!(node.flags & ts.NodeFlags['QuestionMark']));
                 parameter.setFlag(ReflectionFlag.Rest, !!(node.flags & ts.NodeFlags['Rest']));
 
@@ -307,7 +307,7 @@ module td
             function extractTupleType(target:Reflection, node:ts.TupleTypeNode, type:ts.TupleType):Type {
                 var elements = [];
                 node.elementTypes.forEach((elementNode) => {
-                    elements.push(extractType(target, elementNode, checker.getTypeOfNode(elementNode)));
+                    elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
                 });
 
                 return new TupleType(elements);
@@ -335,7 +335,7 @@ module td
 
             function extractObjectType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
                 if (node && node['elementType']) {
-                    var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
+                    var result = extractType(target, node['elementType'], checker.getTypeAtLocation(node['elementType']));
                     if (result) {
                         result.isArray = true;
                         return result;
@@ -404,7 +404,7 @@ module td
 
                 if (typeArguments) {
                     typeArguments.forEach((node:ts.TypeNode) => {
-                        result.push(extractType(target, node, checker.getTypeOfNode(node)));
+                        result.push(extractType(target, node, checker.getTypeAtLocation(node)));
                     });
                 }
 
@@ -431,7 +431,7 @@ module td
                             var typeParameter = new TypeParameterType();
                             typeParameter.name = declaration.symbol.name;
                             if (declaration.constraint) {
-                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeAtLocation(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
                             createTypeParameter(reflection, typeParameter, declaration);
@@ -637,7 +637,7 @@ module td
                         }
 
                         if (node.baseType) {
-                            var type = checker.getTypeOfNode(node.baseType);
+                            var type = checker.getTypeAtLocation(node.baseType);
 
                             if (!isInherit) {
                                 if (!reflection.extendedTypes) reflection.extendedTypes = [];
@@ -654,7 +654,7 @@ module td
                         if (node.implementedTypes) {
                             reflection.implementedTypes = [];
                             node.implementedTypes.forEach((implementedType:ts.TypeReferenceNode) => {
-                                var type = checker.getTypeOfNode(implementedType);
+                                var type = checker.getTypeAtLocation(implementedType);
                                 reflection.implementedTypes.push(extractType(reflection, implementedType, type));
                             });
                         }
@@ -744,7 +744,7 @@ module td
             function visitVariableDeclaration(node:ts.VariableDeclaration, scope:ContainerReflection):Reflection {
                 var comment = CommentPlugin.getComment(node);
                 if (comment && /\@resolve/.test(comment)) {
-                    var resolveType = checker.getTypeOfNode(node);
+                    var resolveType = checker.getTypeAtLocation(node);
                     if (resolveType && resolveType.symbol) {
                         var resolved = visit(resolveType.symbol.declarations[0], scope);
                         if (resolved) {
@@ -777,7 +777,7 @@ module td
                     }
 
                     if (variable.kind == kind) {
-                        variable.type = extractType(variable, node.type, checker.getTypeOfNode(node));
+                        variable.type = extractType(variable, node.type, checker.getTypeAtLocation(node));
                     }
                 }
 
@@ -989,7 +989,7 @@ module td
 
 
             function visitExportAssignment(node:ts.ExportAssignment, scope:ContainerReflection):Reflection {
-                var type = checker.getTypeOfNode(node.exportName);
+                var type = checker.getTypeAtLocation(node.exportName);
                 if (type && type.symbol) {
                     type.symbol.declarations.forEach((declaration) => {
                         if (!declaration.symbol) return;
