@@ -381,7 +381,7 @@ module td
 
 
         parseCommandLine(logger:ILogger):boolean {
-            return this.parseArguments(sys.args, logger);
+            return this.parseArguments(ts.sys.args, logger);
         }
 
 
@@ -445,7 +445,7 @@ module td
 
 
         parseResponseFile(filename:string, logger:ILogger):boolean {
-            var text = sys.readFile(filename);
+            var text = ts.sys.readFile(filename);
 
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);

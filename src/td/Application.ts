@@ -62,7 +62,7 @@ module td
             if (ts.hasProperty(existingDirectories, directoryPath)) {
                 return true;
             }
-            if (sys.directoryExists(directoryPath)) {
+            if (ts.sys.directoryExists(directoryPath)) {
                 existingDirectories[directoryPath] = true;
                 return true;
             }
@@ -73,13 +73,13 @@ module td
             if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
                 var parentDirectory = ts.getDirectoryPath(directoryPath);
                 ensureDirectoriesExist(parentDirectory);
-                sys.createDirectory(directoryPath);
+                ts.sys.createDirectory(directoryPath);
             }
         }
 
         try {
             ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
-            sys.writeFile(fileName, data, writeByteOrderMark);
+            ts.sys.writeFile(fileName, data, writeByteOrderMark);
         }
         catch (e) {
             if (onError) onError(e.message);
@@ -148,11 +148,11 @@ module td
         public runFromCommandline() {
             if (this.settings.parseCommandLine(this)) {
                 if (this.settings.version) {
-                    sys.write(this.printVersion().join(sys.newLine));
+                    ts.sys.write(this.printVersion().join(ts.sys.newLine));
                 } else if (this.settings.inputFiles.length === 0 || this.settings.help) {
-                    sys.write(this.printUsage().join(sys.newLine));
+                    ts.sys.write(this.printUsage().join(ts.sys.newLine));
                 } else {
-                    sys.write(sys.newLine);
+                    ts.sys.write(ts.sys.newLine);
                     this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Info);
 
                     this.settings.expandInputFiles();
@@ -160,7 +160,7 @@ module td
                     this.generate(this.settings.inputFiles, this.settings.out);
 
                     if (this.hasErrors) {
-                        sys.write(sys.newLine);
+                        ts.sys.write(ts.sys.newLine);
                         this.log('Documentation could not be generated due to the errors above.');
                     }
                 }
@@ -185,7 +185,7 @@ module td
                 if (level == LogLevel.Warn) output += 'Warning: ';
                 output += message;
 
-                sys.write(output + sys.newLine);
+                ts.sys.write(output + ts.sys.newLine);
             }
         }
 
@@ -203,7 +203,7 @@ module td
                 result.errors.forEach((error) => {
                     var output = error.file.filename;
                     output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
-                    output += sys.newLine + ' ' + error.messageText;
+                    output += ts.sys.newLine + ' ' + error.messageText;
 
                     switch (error.category) {
                         case ts.DiagnosticCategory.Error:

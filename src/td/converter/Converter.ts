@@ -1028,12 +1028,12 @@ module td
             var unsupportedFileEncodingErrorCode = -2147024809;
 
             function getCanonicalFileName(fileName:string):string {
-                return sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+                return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
             }
 
             function getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
                 try {
-                    var text = sys.readFile(filename, options.charset);
+                    var text = ts.sys.readFile(filename, options.charset);
                 } catch (e) {
                     if (onError) {
                         onError(e.number === unsupportedFileEncodingErrorCode ?
@@ -1052,10 +1052,10 @@ module td
                 getSourceFile: getSourceFile,
                 getDefaultLibFilename: () => Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'),
                 writeFile: writeFile,
-                getCurrentDirectory: () => currentDirectory || (currentDirectory = sys.getCurrentDirectory()),
-                useCaseSensitiveFileNames: () => sys.useCaseSensitiveFileNames,
+                getCurrentDirectory: () => currentDirectory || (currentDirectory = ts.sys.getCurrentDirectory()),
+                useCaseSensitiveFileNames: () => ts.sys.useCaseSensitiveFileNames,
                 getCanonicalFileName: getCanonicalFileName,
-                getNewLine: () => sys.newLine
+                getNewLine: () => ts.sys.newLine
             };
         }
     }
