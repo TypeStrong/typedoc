@@ -19,7 +19,7 @@
             <h5>{{#compact}}
                 <span class="tsd-signature-symbol">[</span>
                 {{#each indexSignature.parameters}}
-                    {{name}}:&nbsp;{{#with type}}{{>type}}{{/with}}
+                    {{#if flags.isRest}}...{{/if}}{{name}}:&nbsp;{{#with type}}{{>type}}{{/with}}
                 {{/each}}
                 <span class="tsd-signature-symbol">]:&nbsp;</span>
                 {{#with indexSignature.type}}{{>type}}{{/with}}
@@ -40,6 +40,7 @@
         <li class="tsd-parameter">
             {{#if signatures}}
                 <h5>{{#compact}}
+                    {{#if flags.isRest}}...{{/if}}
                     {{{wbr name}}}
                     <span class="tsd-signature-symbol">
                         {{#if isOptional}}?{{/if}}
@@ -54,6 +55,7 @@
                     {{#each flags}}
                         <span class="tsd-flag ts-flag{{this}}">{{this}}</span>&nbsp;
                     {{/each}}
+                    {{#if flags.isRest}}...{{/if}}
                     {{{wbr name}}}
                     <span class="tsd-signature-symbol">
                         {{#if flags.isOptional}}?{{/if}}
