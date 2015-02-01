@@ -49,7 +49,7 @@ module td
         name: "json",
         type: "string",
         scope: OptionScope.TypeDoc,
-        paramType: ts.Diagnostics.DIRECTORY,
+        paramType: ts.Diagnostics.FILE,
         description: {
             key: 'Specifies the location and file name a json file describing the project is written to.',
             category: ts.DiagnosticCategory.Message,

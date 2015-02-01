@@ -234,7 +234,7 @@ var td;
         name: "json",
         type: "string",
         scope: 0 /* TypeDoc */,
-        paramType: ts.Diagnostics.DIRECTORY,
+        paramType: ts.Diagnostics.FILE,
         description: {
             key: 'Specifies the location and file name a json file describing the project is written to.',
             category: 2 /* Message */,
@@ -846,9 +846,17 @@ var td;
             }
             function getParamType(option) {
                 if (option.paramType !== undefined) {
-                    return " " + option.paramType;
+                    return " " + getDiagnosticText(option.paramType);
                 }
                 return "";
+            }
+            function getDiagnosticText(message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                var diagnostic = ts.createCompilerDiagnostic.apply(undefined, arguments);
+                return diagnostic.messageText;
             }
             function makePadding(paddingLength) {
                 return Array(paddingLength + 1).join(" ");

@@ -340,9 +340,14 @@ module td
 
             function getParamType(option:ts.CommandLineOption) {
                 if (option.paramType !== undefined) {
-                    return " " + option.paramType;
+                    return " " + getDiagnosticText(option.paramType);
                 }
                 return "";
+            }
+
+            function getDiagnosticText(message:ts.DiagnosticMessage, ...args: any[]): string {
+                var diagnostic:ts.Diagnostic = ts.createCompilerDiagnostic.apply(undefined, arguments);
+                return diagnostic.messageText;
             }
 
             function makePadding(paddingLength: number): string {
