@@ -82,6 +82,17 @@ declare module td {
     }
 }
 declare module td {
+    enum ModuleKind {
+        None = 0,
+        CommonJS = 1,
+        AMD = 2,
+    }
+    enum ScriptTarget {
+        ES3 = 0,
+        ES5 = 1,
+        ES6 = 2,
+        Latest = 2,
+    }
     enum OptionScope {
         TypeDoc = 0,
         TypeScript = 1,
@@ -2863,7 +2874,7 @@ declare module td {
     }
 }
 declare module td {
-    class MinimalTheme extends Theme {
+    class MinimalTheme extends DefaultTheme {
         /**
          * Create a new DefaultTheme instance.
          *

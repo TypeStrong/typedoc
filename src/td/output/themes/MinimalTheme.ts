@@ -1,6 +1,6 @@
 module td
 {
-    export class MinimalTheme extends Theme
+    export class MinimalTheme extends DefaultTheme
     {
         /**
          * Create a new DefaultTheme instance.

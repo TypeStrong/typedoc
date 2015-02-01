@@ -158,11 +158,6 @@ module td
                     this.settings.expandInputFiles();
                     this.settings.out = Path.resolve(this.settings.out);
                     this.generate(this.settings.inputFiles, this.settings.out);
-
-                    if (this.hasErrors) {
-                        ts.sys.write(ts.sys.newLine);
-                        this.log('Documentation could not be generated due to the errors above.');
-                    }
                 }
             }
         }
@@ -225,7 +220,12 @@ module td
                 this.log(Util.format('JSON written to %s', this.settings.json));
             } else {
                 this.renderer.render(result.project, outputDirectory);
-                this.log(Util.format('Documentation generated at %s', this.settings.out));
+                if (this.hasErrors) {
+                    ts.sys.write(ts.sys.newLine);
+                    this.log('Documentation could not be generated due to the errors above.');
+                } else {
+                    this.log(Util.format('Documentation generated at %s', this.settings.out));
+                }
             }
 
             return true;

@@ -88,5 +88,4 @@ module.exports = function(grunt)
             FS.writeFileSync(Path.join(base, directory, 'specs.json'), data);
         });
     });
-
 };

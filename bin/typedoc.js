@@ -184,6 +184,19 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    (function (ModuleKind) {
+        ModuleKind[ModuleKind["None"] = 0] = "None";
+        ModuleKind[ModuleKind["CommonJS"] = 1] = "CommonJS";
+        ModuleKind[ModuleKind["AMD"] = 2] = "AMD";
+    })(td.ModuleKind || (td.ModuleKind = {}));
+    var ModuleKind = td.ModuleKind;
+    (function (ScriptTarget) {
+        ScriptTarget[ScriptTarget["ES3"] = 0] = "ES3";
+        ScriptTarget[ScriptTarget["ES5"] = 1] = "ES5";
+        ScriptTarget[ScriptTarget["ES6"] = 2] = "ES6";
+        ScriptTarget[ScriptTarget["Latest"] = 2] = "Latest";
+    })(td.ScriptTarget || (td.ScriptTarget = {}));
+    var ScriptTarget = td.ScriptTarget;
     (function (OptionScope) {
         OptionScope[OptionScope["TypeDoc"] = 0] = "TypeDoc";
         OptionScope[OptionScope["TypeScript"] = 1] = "TypeScript";
@@ -690,10 +703,6 @@ var td;
                     this.settings.expandInputFiles();
                     this.settings.out = td.Path.resolve(this.settings.out);
                     this.generate(this.settings.inputFiles, this.settings.out);
-                    if (this.hasErrors) {
-                        ts.sys.write(ts.sys.newLine);
-                        this.log('Documentation could not be generated due to the errors above.');
-                    }
                 }
             }
         };
@@ -751,7 +760,13 @@ var td;
             }
             else {
                 this.renderer.render(result.project, outputDirectory);
-                this.log(td.Util.format('Documentation generated at %s', this.settings.out));
+                if (this.hasErrors) {
+                    ts.sys.write(ts.sys.newLine);
+                    this.log('Documentation could not be generated due to the errors above.');
+                }
+                else {
+                    this.log(td.Util.format('Documentation generated at %s', this.settings.out));
+                }
             }
             return true;
         };
@@ -6447,7 +6462,7 @@ var td;
             });
         };
         return MinimalTheme;
-    })(td.Theme);
+    })(td.DefaultTheme);
     td.MinimalTheme = MinimalTheme;
 })(td || (td = {}));
 module.exports = td;

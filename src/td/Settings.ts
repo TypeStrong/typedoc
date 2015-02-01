@@ -1,5 +1,18 @@
 module td
 {
+    export enum ModuleKind {
+        None = 0,
+        CommonJS = 1,
+        AMD = 2,
+    }
+
+    export enum ScriptTarget {
+        ES3 = 0,
+        ES5 = 1,
+        ES6 = 2,
+        Latest = 2,
+    }
+
     export enum OptionScope {
         TypeDoc, TypeScript
     }
