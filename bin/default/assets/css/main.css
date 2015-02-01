@@ -242,7 +242,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 .tsd-kind-icon { display: block; position: relative; padding-left: 20px; text-indent: -20px; }
 .tsd-kind-icon:before { content: ''; display: inline-block; vertical-align: middle; width: 17px; height: 17px; margin: 0 3px 2px 0; background-image: url(../images/icons.png); }
-@media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { .tsd-kind-icon:before { background-image: url(../images/icons@2x.png); background-size: 170px 170px; } }
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { .tsd-kind-icon:before { background-image: url(../images/icons@2x.png); background-size: 170px 187px; } }
 
 .tsd-signature.tsd-kind-icon:before { background-position: 0 -153px; }
 
@@ -263,6 +263,10 @@ table { border-collapse: collapse; border-spacing: 0; }
 .tsd-kind-enum > .tsd-kind-icon:before { background-position: 0 -119px; }
 
 .tsd-kind-enum-member > .tsd-kind-icon:before { background-position: 0 -136px; }
+
+.tsd-kind-signature > .tsd-kind-icon:before { background-position: 0 -153px; }
+
+.tsd-kind-type-alias > .tsd-kind-icon:before { background-position: 0 -170px; }
 
 .tsd-kind-variable > .tsd-kind-icon:before { background-position: -102px -0px; }
 .tsd-kind-variable.tsd-parent-kind-class > .tsd-kind-icon:before { background-position: -17px -0px; }

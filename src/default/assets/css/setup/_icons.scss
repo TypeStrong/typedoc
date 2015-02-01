@@ -6,7 +6,9 @@ $TYPE_ICONS:
     ('interface.tsd-has-type-parameter'),
     (module, external-module),
     (enum),
-    (enum-member);
+    (enum-member),
+    (signature),
+    (type-alias);
 
 $MEMBER_ICONS:
     (variable, property),
@@ -41,7 +43,7 @@ $MEMBER_ICONS:
 
         @include retina {
             background-image: url(../images/icons@2x.png);
-            background-size: 170px 170px;
+            background-size: 170px 187px;
         }
     }
 }
