@@ -82,16 +82,6 @@ declare module td {
     }
 }
 declare module td {
-    /**
-     * Alias to ts.ScriptTarget
-     * @resolve
-     */
-    var ScriptTarget: typeof ts.ScriptTarget;
-    /**
-     * Alias to ts.ModuleKind
-     * @resolve
-     */
-    var ModuleKind: typeof ts.ModuleKind;
     enum OptionScope {
         TypeDoc = 0,
         TypeScript = 1,
@@ -100,6 +90,10 @@ declare module td {
         scope: OptionScope;
     }
     var ignoredTypeScriptOptions: string[];
+    enum SourceFileMode {
+        File = 0,
+        Modules = 1,
+    }
     /**
      * Modify ts.optionDeclarations to match TypeDoc requirements.
      */
@@ -126,7 +120,7 @@ declare module td {
         /**
          * Specifies the output mode the project is used to be compiled with.
          */
-        mode: string;
+        mode: SourceFileMode;
         /**
          * Path and filename of the json file.
          */

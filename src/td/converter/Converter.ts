@@ -131,12 +131,12 @@ module td
                 }
 
                 var child:DeclarationReflection;
-                var isStatic = !!(node.flags & ts.NodeFlags['Static']);
-                if (container.kind == ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind['ClassDeclaration'])) {
+                var isStatic = !!(node.flags & ts.NodeFlags.Static);
+                if (container.kind == ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration)) {
                     isStatic = true;
                 }
 
-                var isPrivate = !!(node.flags & ts.NodeFlags['Private']);
+                var isPrivate = !!(node.flags & ts.NodeFlags.Private);
                 if (isInherit && isPrivate) {
                     return null;
                 }
@@ -151,10 +151,10 @@ module td
                     child.setFlag(ReflectionFlag.Static,    isStatic);
                     child.setFlag(ReflectionFlag.External,  isExternal);
                     child.setFlag(ReflectionFlag.Private,   isPrivate);
-                    child.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags['Protected']));
-                    child.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags['Public']));
-                    child.setFlag(ReflectionFlag.Optional,  !!(node.flags & ts.NodeFlags['QuestionMark']));
-                    child.setFlag(ReflectionFlag.Exported,  container.flags.isExported || !!(node.flags & ts.NodeFlags['Export']));
+                    child.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags.Protected));
+                    child.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags.Public));
+                    child.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
+                    child.setFlag(ReflectionFlag.Exported,  container.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
 
                     container.children.push(child);
                     registerReflection(child, node);
@@ -245,8 +245,8 @@ module td
             function createParameter(signature:SignatureReflection, node:ts.ParameterDeclaration) {
                 var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
                 parameter.type = extractType(parameter, node.type, checker.getTypeAtLocation(node));
-                parameter.setFlag(ReflectionFlag.Optional, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                parameter.setFlag(ReflectionFlag.Rest, !!(node.flags & ts.NodeFlags['Rest']));
+                parameter.setFlag(ReflectionFlag.Optional, !!node.questionToken);
+                parameter.setFlag(ReflectionFlag.Rest, !!node.dotDotDotToken);
 
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
@@ -275,31 +275,31 @@ module td
             }
 
 
-            function extractType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
-                if (type.flags & ts.TypeFlags['Intrinsic']) {
-                    return extractIntrinsicType(node, <ts.IntrinsicType>type);
-                } else if (type.flags & ts.TypeFlags['Enum']) {
-                    return extractEnumType(node, type);
-                } else if (type.flags & ts.TypeFlags['Tuple']) {
+            function extractType(target:Reflection, node:ts.Node, type:ts.Type):Type {
+                if (type.flags & ts.TypeFlags.Intrinsic) {
+                    return extractIntrinsicType(<ts.IntrinsicType>type);
+                } else if (type.flags & ts.TypeFlags.Enum) {
+                    return extractEnumType(type);
+                } else if (type.flags & ts.TypeFlags.Tuple) {
                     return extractTupleType(target, <ts.TupleTypeNode>node, <ts.TupleType>type);
-                } else if (type.flags & ts.TypeFlags['TypeParameter']) {
+                } else if (type.flags & ts.TypeFlags.TypeParameter) {
                     return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
-                } else if (type.flags & ts.TypeFlags['StringLiteral']) {
-                    return extractStringLiteralType(node, <ts.StringLiteralType>type);
-                } else if (type.flags & ts.TypeFlags['ObjectType']) {
+                } else if (type.flags & ts.TypeFlags.StringLiteral) {
+                    return extractStringLiteralType(<ts.StringLiteralType>type);
+                } else if (type.flags & ts.TypeFlags.ObjectType) {
                     return extractObjectType(target, node, type);
                 } else {
-                    return extractUnknownType(node, type);
+                    return extractUnknownType(type);
                 }
             }
 
 
-            function extractIntrinsicType(node:ts.TypeNode, type:ts.IntrinsicType):Type {
+            function extractIntrinsicType(type:ts.IntrinsicType):Type {
                 return new IntrinsicType(type.intrinsicName);
             }
 
 
-            function extractEnumType(node:ts.TypeNode, type:ts.Type):Type {
+            function extractEnumType(type:ts.Type):Type {
                 return createReferenceType(type.symbol);
             }
 
@@ -328,12 +328,12 @@ module td
             }
 
 
-            function extractStringLiteralType(node:ts.TypeNode, type:ts.StringLiteralType):Type {
+            function extractStringLiteralType(type:ts.StringLiteralType):Type {
                 return new StringLiteralType(type.text);
             }
 
 
-            function extractObjectType(target:Reflection, node:ts.TypeNode, type:ts.Type):Type {
+            function extractObjectType(target:Reflection, node:ts.Node, type:ts.Type):Type {
                 if (node && node['elementType']) {
                     var result = extractType(target, node['elementType'], checker.getTypeAtLocation(node['elementType']));
                     if (result) {
@@ -343,7 +343,7 @@ module td
                         return new IntrinsicType('object');
                     }
                 } else if (type.symbol) {
-                    if (type.flags & ts.TypeFlags['Anonymous']) {
+                    if (type.flags & ts.TypeFlags.Anonymous) {
                         if (type.symbol.flags & ts.SymbolFlags['TypeLiteral']) {
                             var declaration = new DeclarationReflection();
                             declaration.kind = ReflectionKind.TypeLiteral;
@@ -371,24 +371,24 @@ module td
             }
 
 
-            function extractUnknownType(node:ts.TypeNode, type:ts.Type):Type {
+            function extractUnknownType(type:ts.Type):Type {
                 return new UnknownType(checker.typeToString(type));
             }
 
 
-            function extractDefaultValue(node:ts.VariableDeclaration, reflection:IDefaultValueContainer) {
+            function extractDefaultValue(node:ts.VariableDeclaration|ts.ParameterDeclaration|ts.EnumMember, reflection:IDefaultValueContainer) {
                 if (!node.initializer) return;
                 switch (node.initializer.kind) {
-                    case ts.SyntaxKind['StringLiteral']:
+                    case ts.SyntaxKind.StringLiteral:
                         reflection.defaultValue = '"' + (<ts.LiteralExpression>node.initializer).text + '"';
                         break;
-                    case ts.SyntaxKind['NumericLiteral']:
+                    case ts.SyntaxKind.NumericLiteral:
                         reflection.defaultValue = (<ts.LiteralExpression>node.initializer).text;
                         break;
-                    case ts.SyntaxKind['TrueKeyword']:
+                    case ts.SyntaxKind.TrueKeyword:
                         reflection.defaultValue = 'true';
                         break;
-                    case ts.SyntaxKind['FalseKeyword']:
+                    case ts.SyntaxKind.FalseKeyword:
                         reflection.defaultValue = 'false';
                         break;
                     default:
@@ -482,44 +482,44 @@ module td
              */
             function visit(node:ts.Node, scope:ContainerReflection, typeArguments?:Type[]):Reflection {
                 switch (node.kind) {
-                    case ts.SyntaxKind['ClassDeclaration']:
+                    case ts.SyntaxKind.ClassDeclaration:
                         return visitClassDeclaration(<ts.ClassDeclaration>node, scope, typeArguments);
-                    case ts.SyntaxKind['InterfaceDeclaration']:
+                    case ts.SyntaxKind.InterfaceDeclaration:
                         return visitInterfaceDeclaration(<ts.InterfaceDeclaration>node, scope, typeArguments);
-                    case ts.SyntaxKind['ModuleDeclaration']:
+                    case ts.SyntaxKind.ModuleDeclaration:
                         return visitModuleDeclaration(<ts.ModuleDeclaration>node, scope);
-                    case ts.SyntaxKind['VariableStatement']:
+                    case ts.SyntaxKind.VariableStatement:
                         return visitVariableStatement(<ts.VariableStatement>node, scope);
-                    case ts.SyntaxKind['Property']:
-                    case ts.SyntaxKind['PropertyAssignment']:
-                    case ts.SyntaxKind['VariableDeclaration']:
+                    case ts.SyntaxKind.Property:
+                    case ts.SyntaxKind.PropertyAssignment:
+                    case ts.SyntaxKind.VariableDeclaration:
                         return visitVariableDeclaration(<ts.VariableDeclaration>node, scope);
-                    case ts.SyntaxKind['EnumDeclaration']:
+                    case ts.SyntaxKind.EnumDeclaration:
                         return visitEnumDeclaration(<ts.EnumDeclaration>node, scope);
-                    case ts.SyntaxKind['EnumMember']:
+                    case ts.SyntaxKind.EnumMember:
                         return visitEnumMember(<ts.EnumMember>node, scope);
-                    case ts.SyntaxKind['Constructor']:
-                    case ts.SyntaxKind['ConstructSignature']:
+                    case ts.SyntaxKind.Constructor:
+                    case ts.SyntaxKind.ConstructSignature:
                         return visitConstructor(<ts.ConstructorDeclaration>node, scope);
-                    case ts.SyntaxKind['Method']:
-                    case ts.SyntaxKind['FunctionDeclaration']:
+                    case ts.SyntaxKind.Method:
+                    case ts.SyntaxKind.FunctionDeclaration:
                         return visitFunctionDeclaration(<ts.MethodDeclaration>node, scope);
-                    case ts.SyntaxKind['GetAccessor']:
+                    case ts.SyntaxKind.GetAccessor:
                         return visitGetAccessorDeclaration(<ts.SignatureDeclaration>node, scope);
-                    case ts.SyntaxKind['SetAccessor']:
+                    case ts.SyntaxKind.SetAccessor:
                         return visitSetAccessorDeclaration(<ts.SignatureDeclaration>node, scope);
-                    case ts.SyntaxKind['CallSignature']:
+                    case ts.SyntaxKind.CallSignature:
                         return visitCallSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
-                    case ts.SyntaxKind['IndexSignature']:
+                    case ts.SyntaxKind.IndexSignature:
                         return visitIndexSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
-                    case ts.SyntaxKind['Block']:
-                    case ts.SyntaxKind['ModuleBlock']:
+                    case ts.SyntaxKind.Block:
+                    case ts.SyntaxKind.ModuleBlock:
                         return visitBlock(<ts.Block>node, scope);
-                    case ts.SyntaxKind['ObjectLiteral']:
-                        return visitObjectLiteral(<ts.ObjectLiteral>node, scope);
-                    case ts.SyntaxKind['TypeLiteral']:
+                    case ts.SyntaxKind.ObjectLiteralExpression:
+                        return visitObjectLiteral(<ts.ObjectLiteralExpression>node, scope);
+                    case ts.SyntaxKind.TypeLiteral:
                         return visitTypeLiteral(<ts.TypeLiteralNode>node, scope);
-                    case ts.SyntaxKind['ExportAssignment']:
+                    case ts.SyntaxKind.ExportAssignment:
                         return visitExportAssignment(<ts.ExportAssignment>node, scope);
                     default:
                         // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
@@ -535,9 +535,9 @@ module td
              * @param scope  The reflection representing the current scope.
              * @return The resulting reflection or NULL.
              */
-            function visitBlock(node:ts.Block, scope:ContainerReflection):Reflection {
+            function visitBlock(node:ts.Block|ts.SourceFile, scope:ContainerReflection):Reflection {
                 if (node.statements) {
-                    var prefered = [ts.SyntaxKind['ClassDeclaration'], ts.SyntaxKind['InterfaceDeclaration'], ts.SyntaxKind['EnumDeclaration']];
+                    var prefered = [ts.SyntaxKind.ClassDeclaration, ts.SyntaxKind.InterfaceDeclaration, ts.SyntaxKind.EnumDeclaration];
                     var statements = [];
                     node.statements.forEach((statement) => {
                         if (prefered.indexOf(statement.kind) != -1) {
@@ -583,7 +583,7 @@ module td
                 event.reflection = project;
                 dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
 
-                if (settings.mode == 'modules') {
+                if (settings.mode == SourceFileMode.Modules) {
                     scope = createDeclaration(scope, node, ReflectionKind.ExternalModule, node.filename);
                     visitBlock(node, scope);
                     scope.setFlag(ReflectionFlag.Exported);
@@ -636,26 +636,33 @@ module td
                             });
                         }
 
-                        if (node.baseType) {
-                            var type = checker.getTypeAtLocation(node.baseType);
+                        if (node.heritageClauses) {
+                            node.heritageClauses.forEach((clause:ts.HeritageClause) => {
+                                if (!clause.types) return;
+                                clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
+                                    var type = checker.getTypeAtLocation(typeNode);
+                                    switch (clause.token) {
+                                        case ts.SyntaxKind.ExtendsKeyword:
+                                            if (!isInherit) {
+                                                if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                                reflection.extendedTypes.push(extractType(reflection, typeNode, type));
+                                            }
 
-                            if (!isInherit) {
-                                if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                reflection.extendedTypes.push(extractType(reflection, node.baseType, type));
-                            }
+                                            if (type && type.symbol) {
+                                                type.symbol.declarations.forEach((declaration) => {
+                                                    inherit(declaration, reflection, extractTypeArguments(reflection, typeNode.typeArguments));
+                                                });
+                                            }
+                                            break;
+                                        case ts.SyntaxKind.ImplementsKeyword:
+                                            if (!reflection.implementedTypes) {
+                                                reflection.implementedTypes = [];
+                                            }
 
-                            if (type && type.symbol) {
-                                type.symbol.declarations.forEach((declaration) => {
-                                    inherit(declaration, reflection, extractTypeArguments(reflection, node.baseType.typeArguments));
+                                            reflection.implementedTypes.push(extractType(reflection, typeNode, type));
+                                            break;
+                                    }
                                 });
-                            }
-                        }
-
-                        if (node.implementedTypes) {
-                            reflection.implementedTypes = [];
-                            node.implementedTypes.forEach((implementedType:ts.TypeReferenceNode) => {
-                                var type = checker.getTypeAtLocation(implementedType);
-                                reflection.implementedTypes.push(extractType(reflection, implementedType, type));
                             });
                         }
                     });
@@ -688,20 +695,22 @@ module td
                             });
                         }
 
-                        if (node.baseTypes) {
-                            node.baseTypes.forEach((baseType:ts.TypeReferenceNode) => {
-                                var type = checker.getTypeOfNode(baseType);
+                        if (node.heritageClauses) {
+                            node.heritageClauses.forEach((clause:ts.HeritageClause) => {
+                                if (!clause.types) return;
+                                clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
+                                    var type = checker.getTypeAtLocation(typeNode);
+                                    if (!isInherit) {
+                                        if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                        reflection.extendedTypes.push(extractType(reflection, typeNode, type));
+                                    }
 
-                                if (!isInherit) {
-                                    if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(reflection, baseType, type));
-                                }
-
-                                if (type && type.symbol) {
-                                    type.symbol.declarations.forEach((declaration) => {
-                                        inherit(declaration, reflection, extractTypeArguments(reflection, baseType.typeArguments));
-                                    });
-                                }
+                                    if (type && type.symbol) {
+                                        type.symbol.declarations.forEach((declaration) => {
+                                            inherit(declaration, reflection, extractTypeArguments(reflection, typeNode.typeArguments));
+                                        });
+                                    }
+                                });
                             });
                         }
                     });
@@ -729,7 +738,7 @@ module td
             }
 
 
-            function isSimpleObjectLiteral(objectLiteral:ts.ObjectLiteral):boolean {
+            function isSimpleObjectLiteral(objectLiteral:ts.ObjectLiteralExpression):boolean {
                 if (!objectLiteral.properties) return true;
                 return objectLiteral.properties.length == 0;
             }
@@ -759,16 +768,16 @@ module td
                 if (variable) {
                     if (node.initializer) {
                         switch (node.initializer.kind) {
-                            case ts.SyntaxKind['ArrowFunction']:
-                            case ts.SyntaxKind['FunctionExpression']:
+                            case ts.SyntaxKind.ArrowFunction:
+                            case ts.SyntaxKind.FunctionExpression:
                                 variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
-                                visitCallSignatureDeclaration(<ts.SignatureDeclaration>node.initializer, variable);
+                                visitCallSignatureDeclaration(<ts.FunctionExpression>node.initializer, variable);
                                 break;
-                            case ts.SyntaxKind['ObjectLiteral']:
-                                if (!isSimpleObjectLiteral(<ts.ObjectLiteral>node.initializer)) {
+                            case ts.SyntaxKind.ObjectLiteralExpression:
+                                if (!isSimpleObjectLiteral(<ts.ObjectLiteralExpression>node.initializer)) {
                                     variable.kind = ReflectionKind.ObjectLiteral;
                                     variable.type = new IntrinsicType('object');
-                                    visitObjectLiteral(<ts.ObjectLiteral>node.initializer, variable);
+                                    visitObjectLiteral(<ts.ObjectLiteralExpression>node.initializer, variable);
                                 }
                                 break;
                             default:
@@ -857,7 +866,7 @@ module td
              * @param scope  The reflection representing the current scope.
              * @return The resulting reflection or NULL.
              */
-            function visitFunctionDeclaration(node:ts.FunctionDeclaration, scope:ContainerReflection):Reflection {
+            function visitFunctionDeclaration(node:ts.FunctionDeclaration|ts.MethodDeclaration, scope:ContainerReflection):Reflection {
                 var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
                 var hasBody = !!node.body;
                 var method = createDeclaration(scope, node, kind);
@@ -886,7 +895,7 @@ module td
              * @param type   The type (call, index or constructor) of the signature.
              * @return The resulting reflection or NULL.
              */
-            function visitCallSignatureDeclaration(node:ts.SignatureDeclaration, scope:DeclarationReflection):Reflection {
+            function visitCallSignatureDeclaration(node:ts.SignatureDeclaration|ts.FunctionExpression, scope:DeclarationReflection):Reflection {
                 if (scope instanceof DeclarationReflection) {
                     var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
                     var signature = createSignature(<DeclarationReflection>scope, node, name, ReflectionKind.CallSignature);
@@ -959,7 +968,7 @@ module td
              * @param scope  The reflection representing the current scope.
              * @return The resulting reflection or NULL.
              */
-            function visitObjectLiteral(node:ts.ObjectLiteral, scope:ContainerReflection):Reflection {
+            function visitObjectLiteral(node:ts.ObjectLiteralExpression, scope:ContainerReflection):Reflection {
                 if (node.properties) {
                     node.properties.forEach((node) => {
                         visit(node, scope);

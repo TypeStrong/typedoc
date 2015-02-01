@@ -44,5 +44,5 @@ module td
 eval((function() {
     var fileName = td.Path.resolve(td.tsPath, 'tsc.js');
     var contents = td.FS.readFileSync(fileName, 'utf-8');
-    return contents.replace('ts.executeCommandLine(sys.args);', '');
+    return contents.replace('ts.executeCommandLine(ts.sys.args);', '');
 })());
