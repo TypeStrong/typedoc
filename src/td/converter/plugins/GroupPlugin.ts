@@ -18,6 +18,7 @@ module td
             ReflectionKind.EnumMember,
             ReflectionKind.Class,
             ReflectionKind.Interface,
+            ReflectionKind.TypeAlias,
 
             ReflectionKind.Constructor,
             ReflectionKind.Property,
@@ -56,6 +57,7 @@ module td
             plurals[ReflectionKind.Property]   = 'Properties';
             plurals[ReflectionKind.Enum]       = 'Enumerations';
             plurals[ReflectionKind.EnumMember] = 'Enumeration members';
+            plurals[ReflectionKind.TypeAlias]  = 'Type aliases';
             return plurals;
         })();
 

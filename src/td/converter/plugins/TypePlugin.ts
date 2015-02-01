@@ -78,6 +78,11 @@ module td
                     for (var index = 0, count = tupleType.elements.length; index < count; index++) {
                         resolveType(tupleType.elements[index]);
                     }
+                } else if (type instanceof UnionType) {
+                    var unionType:UnionType = <UnionType>type;
+                    for (var index = 0, count = unionType.types.length; index < count; index++) {
+                        resolveType(unionType.types[index]);
+                    }
                 }
             }
         }

@@ -276,7 +276,9 @@ module td
 
 
             function extractType(target:Reflection, node:ts.Node, type:ts.Type):Type {
-                if (type.flags & ts.TypeFlags.Intrinsic) {
+                if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
+                    return new ReferenceType(node['typeName'].text, null, target.findReflectionByName(node['typeName'].text));
+                } else if (type.flags & ts.TypeFlags.Intrinsic) {
                     return extractIntrinsicType(<ts.IntrinsicType>type);
                 } else if (type.flags & ts.TypeFlags.Enum) {
                     return extractEnumType(type);
@@ -308,9 +310,15 @@ module td
 
             function extractTupleType(target:Reflection, node:ts.TupleTypeNode, type:ts.TupleType):Type {
                 var elements = [];
-                node.elementTypes.forEach((elementNode) => {
-                    elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
-                });
+                if (node.elementTypes) {
+                    node.elementTypes.forEach((elementNode:ts.TypeNode) => {
+                        elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
+                    });
+                } else {
+                    type.elementTypes.forEach((type:ts.Type) => {
+                        elements.push(extractType(target, null, type));
+                    });
+                }
 
                 return new TupleType(elements);
             }
@@ -318,9 +326,15 @@ module td
 
             function extractUnionType(target:Reflection, node:ts.UnionTypeNode, type:ts.UnionType):Type {
                 var types = [];
-                node.types.forEach((typeNode:ts.TypeNode) => {
-                    types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
-                });
+                if (node.types) {
+                    node.types.forEach((typeNode:ts.TypeNode) => {
+                        types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
+                    });
+                } else {
+                    type.types.forEach((type:ts.Type) => {
+                        types.push(extractType(target, null, type));
+                    });
+                }
 
                 return new UnionType(types);
             }
@@ -521,6 +535,7 @@ module td
                     case ts.SyntaxKind.SetAccessor:
                         return visitSetAccessorDeclaration(<ts.SignatureDeclaration>node, scope);
                     case ts.SyntaxKind.CallSignature:
+                    case ts.SyntaxKind.FunctionType:
                         return visitCallSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
                     case ts.SyntaxKind.IndexSignature:
                         return visitIndexSignatureDeclaration(<ts.SignatureDeclaration>node, <DeclarationReflection>scope);
@@ -533,8 +548,10 @@ module td
                         return visitTypeLiteral(<ts.TypeLiteralNode>node, scope);
                     case ts.SyntaxKind.ExportAssignment:
                         return visitExportAssignment(<ts.ExportAssignment>node, scope);
+                    case ts.SyntaxKind.TypeAliasDeclaration:
+                        return visitTypeAliasDeclaration(<ts.TypeAliasDeclaration>node, scope);
                     default:
-                        // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
+                        // console.log('Unhandeled: ' + node.kind);
                         return null;
                 }
             }
@@ -1006,6 +1023,23 @@ module td
                 }
 
                 return scope;
+            }
+
+
+            /**
+             * Analyze the given type alias declaration node and create a suitable reflection.
+             *
+             * @param node   The type alias declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitTypeAliasDeclaration(node:ts.TypeAliasDeclaration, scope:ContainerReflection):Reflection {
+                var alias = createDeclaration(scope, node, ReflectionKind.TypeAlias);
+                alias.type = extractType(alias, node.type, checker.getTypeAtLocation(node.type));
+                if (alias.name == 'Callback') {
+                    // console.log(alias);
+                }
+                return alias;
             }
 
 
