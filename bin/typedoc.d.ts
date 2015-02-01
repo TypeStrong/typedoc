@@ -1068,6 +1068,7 @@ declare module td {
         GetSignature = 524288,
         SetSignature = 1048576,
         ObjectLiteral = 2097152,
+        TypeAlias = 4194304,
         ClassOrInterface,
         VariableOrProperty,
         FunctionOrMethod,
@@ -1988,6 +1989,35 @@ declare module td {
          */
         name: string;
         constraint: Type;
+        /**
+         * Return a raw object representation of this type.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this type.
+         */
+        toString(): string;
+    }
+}
+declare module td {
+    /**
+     * Represents an union type.
+     *
+     * ~~~
+     * var value:string | string[];
+     * ~~~
+     */
+    class UnionType extends Type {
+        /**
+         * The types this union consists of.
+         */
+        types: Type[];
+        /**
+         * Create a new TupleType instance.
+         *
+         * @param types  The types this union consists of.
+         */
+        constructor(types: Type[]);
         /**
          * Return a raw object representation of this type.
          */

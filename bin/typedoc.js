@@ -37,7 +37,7 @@ var td;
 eval((function () {
     var fileName = td.Path.resolve(td.tsPath, 'tsc.js');
     var contents = td.FS.readFileSync(fileName, 'utf-8');
-    return contents.replace('ts.executeCommandLine(sys.args);', '');
+    return contents.replace('ts.executeCommandLine(ts.sys.args);', '');
 })());
 var td;
 (function (td) {
@@ -184,16 +184,6 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
-    /**
-     * Alias to ts.ScriptTarget
-     * @resolve
-     */
-    td.ScriptTarget = ts.ScriptTarget;
-    /**
-     * Alias to ts.ModuleKind
-     * @resolve
-     */
-    td.ModuleKind = ts.ModuleKind;
     (function (OptionScope) {
         OptionScope[OptionScope["TypeDoc"] = 0] = "TypeDoc";
         OptionScope[OptionScope["TypeScript"] = 1] = "TypeScript";
@@ -210,6 +200,11 @@ var td;
         'sourceMap',
         'removeComments'
     ];
+    (function (SourceFileMode) {
+        SourceFileMode[SourceFileMode["File"] = 0] = "File";
+        SourceFileMode[SourceFileMode["Modules"] = 1] = "Modules";
+    })(td.SourceFileMode || (td.SourceFileMode = {}));
+    var SourceFileMode = td.SourceFileMode;
     /**
      * Modify ts.optionDeclarations to match TypeDoc requirements.
      */
@@ -226,8 +221,8 @@ var td;
     }, {
         name: "mode",
         type: {
-            'file': 'file',
-            'modules': 'modules'
+            'file': 0 /* File */,
+            'modules': 1 /* Modules */
         },
         scope: 0 /* TypeDoc */,
         description: {
@@ -381,7 +376,7 @@ var td;
             /**
              * Specifies the output mode the project is used to be compiled with.
              */
-            this.mode = 'modules';
+            this.mode = 1 /* Modules */;
             /**
              * The path of the theme that should be used.
              */
@@ -492,7 +487,7 @@ var td;
             this.inputFiles = files;
         };
         Settings.prototype.parseCommandLine = function (logger) {
-            return this.parseArguments(sys.args, logger);
+            return this.parseArguments(ts.sys.args, logger);
         };
         Settings.prototype.parseArguments = function (args, logger) {
             var index = 0;
@@ -528,9 +523,10 @@ var td;
                             target[option.name] = args[index++] || "";
                             break;
                         default:
-                            var value = (args[index++] || "").toLowerCase();
-                            if (ts.hasProperty(option.type, value)) {
-                                target[option.name] = option.type[value];
+                            var map = option.type;
+                            var key = (args[index++] || "").toLowerCase();
+                            if (ts.hasProperty(map, key)) {
+                                target[option.name] = map[key];
                             }
                             else {
                                 if (option.error) {
@@ -551,7 +547,7 @@ var td;
             return result;
         };
         Settings.prototype.parseResponseFile = function (filename, logger) {
-            var text = sys.readFile(filename);
+            var text = ts.sys.readFile(filename);
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
                 logger.log(error.messageText, 3 /* Error */);
@@ -624,7 +620,7 @@ var td;
             if (ts.hasProperty(existingDirectories, directoryPath)) {
                 return true;
             }
-            if (sys.directoryExists(directoryPath)) {
+            if (ts.sys.directoryExists(directoryPath)) {
                 existingDirectories[directoryPath] = true;
                 return true;
             }
@@ -634,12 +630,12 @@ var td;
             if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
                 var parentDirectory = ts.getDirectoryPath(directoryPath);
                 ensureDirectoriesExist(parentDirectory);
-                sys.createDirectory(directoryPath);
+                ts.sys.createDirectory(directoryPath);
             }
         }
         try {
             ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
-            sys.writeFile(fileName, data, writeByteOrderMark);
+            ts.sys.writeFile(fileName, data, writeByteOrderMark);
         }
         catch (e) {
             if (onError)
@@ -683,19 +679,19 @@ var td;
         Application.prototype.runFromCommandline = function () {
             if (this.settings.parseCommandLine(this)) {
                 if (this.settings.version) {
-                    sys.write(this.printVersion().join(sys.newLine));
+                    ts.sys.write(this.printVersion().join(ts.sys.newLine));
                 }
                 else if (this.settings.inputFiles.length === 0 || this.settings.help) {
-                    sys.write(this.printUsage().join(sys.newLine));
+                    ts.sys.write(this.printUsage().join(ts.sys.newLine));
                 }
                 else {
-                    sys.write(sys.newLine);
+                    ts.sys.write(ts.sys.newLine);
                     this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 1 /* Info */);
                     this.settings.expandInputFiles();
                     this.settings.out = td.Path.resolve(this.settings.out);
                     this.generate(this.settings.inputFiles, this.settings.out);
                     if (this.hasErrors) {
-                        sys.write(sys.newLine);
+                        ts.sys.write(ts.sys.newLine);
                         this.log('Documentation could not be generated due to the errors above.');
                     }
                 }
@@ -719,7 +715,7 @@ var td;
                 if (level == 2 /* Warn */)
                     output += 'Warning: ';
                 output += message;
-                sys.write(output + sys.newLine);
+                ts.sys.write(output + ts.sys.newLine);
             }
         };
         /**
@@ -735,7 +731,7 @@ var td;
                 result.errors.forEach(function (error) {
                     var output = error.file.filename;
                     output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
-                    output += sys.newLine + ' ' + error.messageText;
+                    output += ts.sys.newLine + ' ' + error.messageText;
                     switch (error.category) {
                         case 1 /* Error */:
                             _this.log(output, 3 /* Error */);
@@ -821,11 +817,11 @@ var td;
                     var usageText = " ";
                     if (option.shortName) {
                         usageText += "-" + option.shortName;
-                        usageText += getParamName(option);
+                        usageText += getParamType(option);
                         usageText += ", ";
                     }
                     usageText += "--" + option.name;
-                    usageText += getParamName(option);
+                    usageText += getParamType(option);
                     usageColumn.push(usageText);
                     descriptionColumn.push(option.description.key);
                     // Set the new margin for the description column if necessary.
@@ -848,9 +844,9 @@ var td;
                     output.push(usage + makePadding(marginLength - usage.length + 2) + description);
                 }
             }
-            function getParamName(option) {
-                if (option.paramName !== undefined) {
-                    return " " + option.paramName;
+            function getParamType(option) {
+                if (option.paramType !== undefined) {
+                    return " " + option.paramType;
                 }
                 return "";
             }
@@ -1118,11 +1114,11 @@ var td;
                     name = node.symbol.name;
                 }
                 var child;
-                var isStatic = !!(node.flags & 128 /* 'Static' */);
-                if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* 'ClassDeclaration' */)) {
+                var isStatic = !!(node.flags & 128 /* Static */);
+                if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
                     isStatic = true;
                 }
-                var isPrivate = !!(node.flags & 32 /* 'Private' */);
+                var isPrivate = !!(node.flags & 32 /* Private */);
                 if (isInherit && isPrivate) {
                     return null;
                 }
@@ -1137,10 +1133,10 @@ var td;
                     child.setFlag(8 /* Static */, isStatic);
                     child.setFlag(64 /* External */, isExternal);
                     child.setFlag(1 /* Private */, isPrivate);
-                    child.setFlag(2 /* Protected */, !!(node.flags & 64 /* 'Protected' */));
-                    child.setFlag(4 /* Public */, !!(node.flags & 16 /* 'Public' */));
-                    child.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* 'Export' */));
+                    child.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
+                    child.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
+                    child.setFlag(128 /* Optional */, !!(node['questionToken']));
+                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* Export */));
                     container.children.push(child);
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
@@ -1189,7 +1185,7 @@ var td;
                     });
                     registerReflection(signature, node);
                     if (kind == 4096 /* CallSignature */) {
-                        var type = checker.getTypeOfNode(node);
+                        var type = checker.getTypeAtLocation(node);
                         checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
                             if (tsSignature.declaration == node) {
                                 signature.type = extractType(signature, node.type, checker.getReturnTypeOfSignature(tsSignature));
@@ -1198,10 +1194,10 @@ var td;
                     }
                     if (!signature.type) {
                         if (node.type) {
-                            signature.type = extractType(signature, node.type, checker.getTypeOfNode(node.type));
+                            signature.type = extractType(signature, node.type, checker.getTypeAtLocation(node.type));
                         }
                         else {
-                            signature.type = extractType(signature, node, checker.getTypeOfNode(node));
+                            signature.type = extractType(signature, node, checker.getTypeAtLocation(node));
                         }
                     }
                     if (container.inheritedFrom) {
@@ -1215,9 +1211,9 @@ var td;
             }
             function createParameter(signature, node) {
                 var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
-                parameter.type = extractType(parameter, node.type, checker.getTypeOfNode(node));
-                parameter.setFlag(128 /* Optional */, !!(node.flags & ts.NodeFlags['QuestionMark']));
-                parameter.setFlag(512 /* Rest */, !!(node.flags & ts.NodeFlags['Rest']));
+                parameter.type = extractType(parameter, node.type, checker.getTypeAtLocation(node));
+                parameter.setFlag(128 /* Optional */, !!node.questionToken);
+                parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
                 extractDefaultValue(node, parameter);
                 parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
                 if (!signature.parameters)
@@ -1239,40 +1235,67 @@ var td;
                 dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
             }
             function extractType(target, node, type) {
-                if (type.flags & 127 /* 'Intrinsic' */) {
-                    return extractIntrinsicType(node, type);
+                if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
+                    return new td.ReferenceType(node['typeName'].text, null, target.findReflectionByName(node['typeName'].text));
                 }
-                else if (type.flags & 128 /* 'Enum' */) {
-                    return extractEnumType(node, type);
+                else if (type.flags & 127 /* Intrinsic */) {
+                    return extractIntrinsicType(type);
                 }
-                else if (type.flags & 8192 /* 'Tuple' */) {
+                else if (type.flags & 128 /* Enum */) {
+                    return extractEnumType(type);
+                }
+                else if (type.flags & 8192 /* Tuple */) {
                     return extractTupleType(target, node, type);
                 }
-                else if (type.flags & 512 /* 'TypeParameter' */) {
+                else if (type.flags & 16384 /* Union */) {
+                    return extractUnionType(target, node, type);
+                }
+                else if (type.flags & 512 /* TypeParameter */) {
                     return extractTypeParameterType(node, type);
                 }
-                else if (type.flags & 256 /* 'StringLiteral' */) {
-                    return extractStringLiteralType(node, type);
+                else if (type.flags & 256 /* StringLiteral */) {
+                    return extractStringLiteralType(type);
                 }
-                else if (type.flags & 48128 /* 'ObjectType' */) {
+                else if (type.flags & 48128 /* ObjectType */) {
                     return extractObjectType(target, node, type);
                 }
                 else {
-                    return extractUnknownType(node, type);
+                    return extractUnknownType(type);
                 }
             }
-            function extractIntrinsicType(node, type) {
+            function extractIntrinsicType(type) {
                 return new td.IntrinsicType(type.intrinsicName);
             }
-            function extractEnumType(node, type) {
+            function extractEnumType(type) {
                 return createReferenceType(type.symbol);
             }
             function extractTupleType(target, node, type) {
                 var elements = [];
-                node.elementTypes.forEach(function (elementNode) {
-                    elements.push(extractType(target, elementNode, checker.getTypeOfNode(elementNode)));
-                });
+                if (node.elementTypes) {
+                    node.elementTypes.forEach(function (elementNode) {
+                        elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
+                    });
+                }
+                else {
+                    type.elementTypes.forEach(function (type) {
+                        elements.push(extractType(target, null, type));
+                    });
+                }
                 return new td.TupleType(elements);
+            }
+            function extractUnionType(target, node, type) {
+                var types = [];
+                if (node.types) {
+                    node.types.forEach(function (typeNode) {
+                        types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
+                    });
+                }
+                else {
+                    type.types.forEach(function (type) {
+                        types.push(extractType(target, null, type));
+                    });
+                }
+                return new td.UnionType(types);
             }
             function extractTypeParameterType(node, type) {
                 if (node) {
@@ -1287,12 +1310,12 @@ var td;
                     }
                 }
             }
-            function extractStringLiteralType(node, type) {
+            function extractStringLiteralType(type) {
                 return new td.StringLiteralType(type.text);
             }
             function extractObjectType(target, node, type) {
                 if (node && node['elementType']) {
-                    var result = extractType(target, node['elementType'], checker.getTypeOfNode(node['elementType']));
+                    var result = extractType(target, node['elementType'], checker.getTypeAtLocation(node['elementType']));
                     if (result) {
                         result.isArray = true;
                         return result;
@@ -1302,7 +1325,7 @@ var td;
                     }
                 }
                 else if (type.symbol) {
-                    if (type.flags & 32768 /* 'Anonymous' */) {
+                    if (type.flags & 32768 /* Anonymous */) {
                         if (type.symbol.flags & 2048 /* 'TypeLiteral' */) {
                             var declaration = new td.DeclarationReflection();
                             declaration.kind = 65536 /* TypeLiteral */;
@@ -1329,23 +1352,23 @@ var td;
                     return new td.IntrinsicType('object');
                 }
             }
-            function extractUnknownType(node, type) {
+            function extractUnknownType(type) {
                 return new td.UnknownType(checker.typeToString(type));
             }
             function extractDefaultValue(node, reflection) {
                 if (!node.initializer)
                     return;
                 switch (node.initializer.kind) {
-                    case 7 /* 'StringLiteral' */:
+                    case 7 /* StringLiteral */:
                         reflection.defaultValue = '"' + node.initializer.text + '"';
                         break;
-                    case 6 /* 'NumericLiteral' */:
+                    case 6 /* NumericLiteral */:
                         reflection.defaultValue = node.initializer.text;
                         break;
-                    case 93 /* 'TrueKeyword' */:
+                    case 93 /* TrueKeyword */:
                         reflection.defaultValue = 'true';
                         break;
-                    case 78 /* 'FalseKeyword' */:
+                    case 78 /* FalseKeyword */:
                         reflection.defaultValue = 'false';
                         break;
                     default:
@@ -1358,7 +1381,7 @@ var td;
                 var result = [];
                 if (typeArguments) {
                     typeArguments.forEach(function (node) {
-                        result.push(extractType(target, node, checker.getTypeOfNode(node)));
+                        result.push(extractType(target, node, checker.getTypeAtLocation(node)));
                     });
                 }
                 return result;
@@ -1381,7 +1404,7 @@ var td;
                             var typeParameter = new td.TypeParameterType();
                             typeParameter.name = declaration.symbol.name;
                             if (declaration.constraint) {
-                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeOfNode(declaration.constraint));
+                                typeParameter.constraint = extractType(reflection, declaration.constraint, checker.getTypeAtLocation(declaration.constraint));
                             }
                             typeParameters[name] = typeParameter;
                             createTypeParameter(reflection, typeParameter, declaration);
@@ -1426,47 +1449,50 @@ var td;
              */
             function visit(node, scope, typeArguments) {
                 switch (node.kind) {
-                    case 185 /* 'ClassDeclaration' */:
+                    case 185 /* ClassDeclaration */:
                         return visitClassDeclaration(node, scope, typeArguments);
-                    case 186 /* 'InterfaceDeclaration' */:
+                    case 186 /* InterfaceDeclaration */:
                         return visitInterfaceDeclaration(node, scope, typeArguments);
-                    case 189 /* 'ModuleDeclaration' */:
+                    case 189 /* ModuleDeclaration */:
                         return visitModuleDeclaration(node, scope);
-                    case 164 /* 'VariableStatement' */:
+                    case 164 /* VariableStatement */:
                         return visitVariableStatement(node, scope);
-                    case 124 /* 'Property' */:
-                    case 198 /* 'PropertyAssignment' */:
-                    case 183 /* 'VariableDeclaration' */:
+                    case 124 /* Property */:
+                    case 198 /* PropertyAssignment */:
+                    case 183 /* VariableDeclaration */:
                         return visitVariableDeclaration(node, scope);
-                    case 188 /* 'EnumDeclaration' */:
+                    case 188 /* EnumDeclaration */:
                         return visitEnumDeclaration(node, scope);
-                    case 200 /* 'EnumMember' */:
+                    case 200 /* EnumMember */:
                         return visitEnumMember(node, scope);
-                    case 126 /* 'Constructor' */:
-                    case 130 /* 'ConstructSignature' */:
+                    case 126 /* Constructor */:
+                    case 130 /* ConstructSignature */:
                         return visitConstructor(node, scope);
-                    case 125 /* 'Method' */:
-                    case 184 /* 'FunctionDeclaration' */:
+                    case 125 /* Method */:
+                    case 184 /* FunctionDeclaration */:
                         return visitFunctionDeclaration(node, scope);
-                    case 127 /* 'GetAccessor' */:
+                    case 127 /* GetAccessor */:
                         return visitGetAccessorDeclaration(node, scope);
-                    case 128 /* 'SetAccessor' */:
+                    case 128 /* SetAccessor */:
                         return visitSetAccessorDeclaration(node, scope);
-                    case 129 /* 'CallSignature' */:
+                    case 129 /* CallSignature */:
+                    case 133 /* FunctionType */:
                         return visitCallSignatureDeclaration(node, scope);
-                    case 131 /* 'IndexSignature' */:
+                    case 131 /* IndexSignature */:
                         return visitIndexSignatureDeclaration(node, scope);
-                    case 163 /* 'Block' */:
-                    case 190 /* 'ModuleBlock' */:
+                    case 163 /* Block */:
+                    case 190 /* ModuleBlock */:
                         return visitBlock(node, scope);
-                    case ts.SyntaxKind['ObjectLiteral']:
+                    case 142 /* ObjectLiteralExpression */:
                         return visitObjectLiteral(node, scope);
-                    case 136 /* 'TypeLiteral' */:
+                    case 136 /* TypeLiteral */:
                         return visitTypeLiteral(node, scope);
-                    case 192 /* 'ExportAssignment' */:
+                    case 192 /* ExportAssignment */:
                         return visitExportAssignment(node, scope);
+                    case 187 /* TypeAliasDeclaration */:
+                        return visitTypeAliasDeclaration(node, scope);
                     default:
-                        // console.log('Unhandeled: ' + ts.SyntaxKind[node.kind]);
+                        // console.log('Unhandeled: ' + node.kind);
                         return null;
                 }
             }
@@ -1479,7 +1505,7 @@ var td;
              */
             function visitBlock(node, scope) {
                 if (node.statements) {
-                    var prefered = [185 /* 'ClassDeclaration' */, 186 /* 'InterfaceDeclaration' */, 188 /* 'EnumDeclaration' */];
+                    var prefered = [185 /* ClassDeclaration */, 186 /* InterfaceDeclaration */, 188 /* EnumDeclaration */];
                     var statements = [];
                     node.statements.forEach(function (statement) {
                         if (prefered.indexOf(statement.kind) != -1) {
@@ -1518,7 +1544,7 @@ var td;
                 event.node = node;
                 event.reflection = project;
                 dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
-                if (settings.mode == 'modules') {
+                if (settings.mode == 1 /* Modules */) {
                     scope = createDeclaration(scope, node, 1 /* ExternalModule */, node.filename);
                     visitBlock(node, scope);
                     scope.setFlag(16 /* Exported */);
@@ -1564,24 +1590,33 @@ var td;
                                 visit(member, reflection);
                             });
                         }
-                        if (node.baseType) {
-                            var type = checker.getTypeOfNode(node.baseType);
-                            if (!isInherit) {
-                                if (!reflection.extendedTypes)
-                                    reflection.extendedTypes = [];
-                                reflection.extendedTypes.push(extractType(reflection, node.baseType, type));
-                            }
-                            if (type && type.symbol) {
-                                type.symbol.declarations.forEach(function (declaration) {
-                                    inherit(declaration, reflection, extractTypeArguments(reflection, node.baseType.typeArguments));
+                        if (node.heritageClauses) {
+                            node.heritageClauses.forEach(function (clause) {
+                                if (!clause.types)
+                                    return;
+                                clause.types.forEach(function (typeNode) {
+                                    var type = checker.getTypeAtLocation(typeNode);
+                                    switch (clause.token) {
+                                        case 77 /* ExtendsKeyword */:
+                                            if (!isInherit) {
+                                                if (!reflection.extendedTypes)
+                                                    reflection.extendedTypes = [];
+                                                reflection.extendedTypes.push(extractType(reflection, typeNode, type));
+                                            }
+                                            if (type && type.symbol) {
+                                                type.symbol.declarations.forEach(function (declaration) {
+                                                    inherit(declaration, reflection, extractTypeArguments(reflection, typeNode.typeArguments));
+                                                });
+                                            }
+                                            break;
+                                        case 100 /* ImplementsKeyword */:
+                                            if (!reflection.implementedTypes) {
+                                                reflection.implementedTypes = [];
+                                            }
+                                            reflection.implementedTypes.push(extractType(reflection, typeNode, type));
+                                            break;
+                                    }
                                 });
-                            }
-                        }
-                        if (node.implementedTypes) {
-                            reflection.implementedTypes = [];
-                            node.implementedTypes.forEach(function (implementedType) {
-                                var type = checker.getTypeOfNode(implementedType);
-                                reflection.implementedTypes.push(extractType(reflection, implementedType, type));
                             });
                         }
                     });
@@ -1610,19 +1645,23 @@ var td;
                                 visit(member, reflection);
                             });
                         }
-                        if (node.baseTypes) {
-                            node.baseTypes.forEach(function (baseType) {
-                                var type = checker.getTypeOfNode(baseType);
-                                if (!isInherit) {
-                                    if (!reflection.extendedTypes)
-                                        reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(reflection, baseType, type));
-                                }
-                                if (type && type.symbol) {
-                                    type.symbol.declarations.forEach(function (declaration) {
-                                        inherit(declaration, reflection, extractTypeArguments(reflection, baseType.typeArguments));
-                                    });
-                                }
+                        if (node.heritageClauses) {
+                            node.heritageClauses.forEach(function (clause) {
+                                if (!clause.types)
+                                    return;
+                                clause.types.forEach(function (typeNode) {
+                                    var type = checker.getTypeAtLocation(typeNode);
+                                    if (!isInherit) {
+                                        if (!reflection.extendedTypes)
+                                            reflection.extendedTypes = [];
+                                        reflection.extendedTypes.push(extractType(reflection, typeNode, type));
+                                    }
+                                    if (type && type.symbol) {
+                                        type.symbol.declarations.forEach(function (declaration) {
+                                            inherit(declaration, reflection, extractTypeArguments(reflection, typeNode.typeArguments));
+                                        });
+                                    }
+                                });
                             });
                         }
                     });
@@ -1659,7 +1698,7 @@ var td;
             function visitVariableDeclaration(node, scope) {
                 var comment = td.CommentPlugin.getComment(node);
                 if (comment && /\@resolve/.test(comment)) {
-                    var resolveType = checker.getTypeOfNode(node);
+                    var resolveType = checker.getTypeAtLocation(node);
                     if (resolveType && resolveType.symbol) {
                         var resolved = visit(resolveType.symbol.declarations[0], scope);
                         if (resolved) {
@@ -1673,12 +1712,12 @@ var td;
                 if (variable) {
                     if (node.initializer) {
                         switch (node.initializer.kind) {
-                            case 151 /* 'ArrowFunction' */:
-                            case 150 /* 'FunctionExpression' */:
+                            case 151 /* ArrowFunction */:
+                            case 150 /* FunctionExpression */:
                                 variable.kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
                                 visitCallSignatureDeclaration(node.initializer, variable);
                                 break;
-                            case ts.SyntaxKind['ObjectLiteral']:
+                            case 142 /* ObjectLiteralExpression */:
                                 if (!isSimpleObjectLiteral(node.initializer)) {
                                     variable.kind = 2097152 /* ObjectLiteral */;
                                     variable.type = new td.IntrinsicType('object');
@@ -1690,7 +1729,7 @@ var td;
                         }
                     }
                     if (variable.kind == kind) {
-                        variable.type = extractType(variable, node.type, checker.getTypeOfNode(node));
+                        variable.type = extractType(variable, node.type, checker.getTypeAtLocation(node));
                     }
                 }
                 return variable;
@@ -1870,8 +1909,22 @@ var td;
                 }
                 return scope;
             }
+            /**
+             * Analyze the given type alias declaration node and create a suitable reflection.
+             *
+             * @param node   The type alias declaration node that should be analyzed.
+             * @param scope  The reflection representing the current scope.
+             * @return The resulting reflection or NULL.
+             */
+            function visitTypeAliasDeclaration(node, scope) {
+                var alias = createDeclaration(scope, node, 4194304 /* TypeAlias */);
+                alias.type = extractType(alias, node.type, checker.getTypeAtLocation(node.type));
+                if (alias.name == 'Callback') {
+                }
+                return alias;
+            }
             function visitExportAssignment(node, scope) {
-                var type = checker.getTypeOfNode(node.exportName);
+                var type = checker.getTypeAtLocation(node.exportName);
                 if (type && type.symbol) {
                     type.symbol.declarations.forEach(function (declaration) {
                         if (!declaration.symbol)
@@ -1905,11 +1958,11 @@ var td;
             var currentDirectory;
             var unsupportedFileEncodingErrorCode = -2147024809;
             function getCanonicalFileName(fileName) {
-                return sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+                return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
             }
             function getSourceFile(filename, languageVersion, onError) {
                 try {
-                    var text = sys.readFile(filename, options.charset);
+                    var text = ts.sys.readFile(filename, options.charset);
                 }
                 catch (e) {
                     if (onError) {
@@ -1925,10 +1978,10 @@ var td;
                 getSourceFile: getSourceFile,
                 getDefaultLibFilename: function () { return td.Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'); },
                 writeFile: writeFile,
-                getCurrentDirectory: function () { return currentDirectory || (currentDirectory = sys.getCurrentDirectory()); },
-                useCaseSensitiveFileNames: function () { return sys.useCaseSensitiveFileNames; },
+                getCurrentDirectory: function () { return currentDirectory || (currentDirectory = ts.sys.getCurrentDirectory()); },
+                useCaseSensitiveFileNames: function () { return ts.sys.useCaseSensitiveFileNames; },
                 getCanonicalFileName: getCanonicalFileName,
-                getNewLine: function () { return sys.newLine; }
+                getNewLine: function () { return ts.sys.newLine; }
             };
         };
         Converter.EVENT_BEGIN = 'begin';
@@ -2805,6 +2858,7 @@ var td;
             16 /* EnumMember */,
             128 /* Class */,
             256 /* Interface */,
+            4194304 /* TypeAlias */,
             512 /* Constructor */,
             1024 /* Property */,
             32 /* Variable */,
@@ -2839,6 +2893,7 @@ var td;
             plurals[1024 /* Property */] = 'Properties';
             plurals[4 /* Enum */] = 'Enumerations';
             plurals[16 /* EnumMember */] = 'Enumeration members';
+            plurals[4194304 /* TypeAlias */] = 'Type aliases';
             return plurals;
         })();
         return GroupPlugin;
@@ -3174,6 +3229,12 @@ var td;
                         resolveType(tupleType.elements[index]);
                     }
                 }
+                else if (type instanceof td.UnionType) {
+                    var unionType = type;
+                    for (var index = 0, count = unionType.types.length; index < count; index++) {
+                        resolveType(unionType.types[index]);
+                    }
+                }
             }
         };
         TypePlugin.prototype.postpone = function (reflection) {
@@ -3445,6 +3506,7 @@ var td;
         ReflectionKind[ReflectionKind["GetSignature"] = 524288] = "GetSignature";
         ReflectionKind[ReflectionKind["SetSignature"] = 1048576] = "SetSignature";
         ReflectionKind[ReflectionKind["ObjectLiteral"] = 2097152] = "ObjectLiteral";
+        ReflectionKind[ReflectionKind["TypeAlias"] = 4194304] = "TypeAlias";
         ReflectionKind[ReflectionKind["ClassOrInterface"] = ReflectionKind.Class | ReflectionKind.Interface] = "ClassOrInterface";
         ReflectionKind[ReflectionKind["VariableOrProperty"] = ReflectionKind.Variable | ReflectionKind.Property] = "VariableOrProperty";
         ReflectionKind[ReflectionKind["FunctionOrMethod"] = ReflectionKind.Function | ReflectionKind.Method] = "FunctionOrMethod";
@@ -4526,7 +4588,7 @@ var td;
             this.elements.forEach(function (element) {
                 names.push(element.toString());
             });
-            return names.join(' | ');
+            return '[' + names.join(', ') + ']';
         };
         return TupleType;
     })(td.Type);
@@ -4567,6 +4629,51 @@ var td;
         return TypeParameterType;
     })(td.Type);
     td.TypeParameterType = TypeParameterType;
+})(td || (td = {}));
+var td;
+(function (td) {
+    /**
+     * Represents an union type.
+     *
+     * ~~~
+     * var value:string | string[];
+     * ~~~
+     */
+    var UnionType = (function (_super) {
+        __extends(UnionType, _super);
+        /**
+         * Create a new TupleType instance.
+         *
+         * @param types  The types this union consists of.
+         */
+        function UnionType(types) {
+            _super.call(this);
+            this.types = types;
+        }
+        /**
+         * Return a raw object representation of this type.
+         */
+        UnionType.prototype.toObject = function () {
+            var result = _super.prototype.toObject.call(this);
+            result.type = 'union';
+            if (this.types && this.types.length) {
+                result.types = this.types.map(function (e) { return e.toObject(); });
+            }
+            return result;
+        };
+        /**
+         * Return a string representation of this type.
+         */
+        UnionType.prototype.toString = function () {
+            var names = [];
+            this.types.forEach(function (element) {
+                names.push(element.toString());
+            });
+            return names.join(' | ');
+        };
+        return UnionType;
+    })(td.Type);
+    td.UnionType = UnionType;
 })(td || (td = {}));
 var td;
 (function (td) {
