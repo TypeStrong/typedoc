@@ -96,7 +96,7 @@
                   "type": {
                     "type": "reference",
                     "name": "Array",
-                    "symbolID": 2077
+                    "symbolID": 2082
                   },
                   "defaultValue": " [100, 200, 300]"
                 },

@@ -36,6 +36,11 @@ export class TestClass {
     public publicMethod() {}
 
     /**
+     * protectedMethod short text.
+     */
+    protected protectedMethod() {}
+
+    /**
      * privateMethod short text.
      */
     private privateMethod() {}
@@ -44,4 +49,23 @@ export class TestClass {
      * staticMethod short text.
      */
     static staticMethod() {}
+}
+
+
+export class TestSubClass extends TestClass
+{
+    /**
+     * publicMethod short text.
+     */
+    public publicMethod() {}
+
+    /**
+     * protectedMethod short text.
+     */
+    protected protectedMethod() {}
+
+    /**
+     * privateMethod short text.
+     */
+    private privateMethod() {}
 }

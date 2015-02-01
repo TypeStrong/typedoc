@@ -7,7 +7,7 @@ describe('TypeDoc', function() {
     var application;
 
     describe('Settings', function() {
-        var inputFiles = Path.join(__dirname, 'converter', 'basic');
+        var inputFiles = Path.join(__dirname, 'converter', 'class');
 
         it('constructs', function() {
             settings = new TypeDoc.Settings();
@@ -16,7 +16,7 @@ describe('TypeDoc', function() {
             settings.inputFiles = [inputFiles];
             settings.expandInputFiles();
 
-            Assert.notEqual(settings.inputFiles.indexOf(Path.join(inputFiles, 'classes.ts')), -1);
+            Assert.notEqual(settings.inputFiles.indexOf(Path.join(inputFiles, 'class.ts')), -1);
             Assert.equal(settings.inputFiles.indexOf(inputFiles), -1);
         });
     });
