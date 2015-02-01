@@ -282,6 +282,8 @@ module td
                     return extractEnumType(type);
                 } else if (type.flags & ts.TypeFlags.Tuple) {
                     return extractTupleType(target, <ts.TupleTypeNode>node, <ts.TupleType>type);
+                } else if (type.flags & ts.TypeFlags.Union) {
+                    return extractUnionType(target, <ts.UnionTypeNode>node, <ts.UnionType>type);
                 } else if (type.flags & ts.TypeFlags.TypeParameter) {
                     return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
                 } else if (type.flags & ts.TypeFlags.StringLiteral) {
@@ -311,6 +313,16 @@ module td
                 });
 
                 return new TupleType(elements);
+            }
+
+
+            function extractUnionType(target:Reflection, node:ts.UnionTypeNode, type:ts.UnionType):Type {
+                var types = [];
+                node.types.forEach((typeNode:ts.TypeNode) => {
+                    types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
+                });
+
+                return new UnionType(types);
             }
 
 
