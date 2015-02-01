@@ -2,15 +2,22 @@
     {{#if reflection}}
         <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">{{reflection.name}}</a>{{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
     {{else}}
-        {{#if elements}}
-            <span class="tsd-signature-symbol">[</span>
-            {{#each elements}}
-                {{#if @index}},&nbsp;{{/if}}
+        {{#if types}}
+            {{#each types}}
+                {{#if @index}}<span class="tsd-signature-symbol"> | </span>{{/if}}
                 {{> type}}
             {{/each}}
-            <span class="tsd-signature-symbol">]</span>
         {{else}}
-            <span class="tsd-signature-type">{{this}}</span>
+            {{#if elements}}
+                <span class="tsd-signature-symbol">[</span>
+                {{#each elements}}
+                    {{#if @index}}<span class="tsd-signature-symbol">, </span>{{/if}}
+                    {{> type}}
+                {{/each}}
+                <span class="tsd-signature-symbol">]</span>
+            {{else}}
+                <span class="tsd-signature-type">{{this}}</span>
+            {{/if}}
         {{/if}}
     {{/if}}
 {{else}}
