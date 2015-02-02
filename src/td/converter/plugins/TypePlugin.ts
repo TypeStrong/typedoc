@@ -34,6 +34,7 @@ module td
             resolveType(<ReferenceType>reflection.overwrites);
             resolveTypes(reflection.extendedTypes);
             resolveTypes(reflection.extendedBy);
+            resolveTypes(reflection.implementedTypes);
 
             if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
                 this.postpone(reflection);
@@ -110,6 +111,13 @@ module td
          */
         private onResolveEnd(event:ConverterEvent) {
             this.reflections.forEach((reflection) => {
+                if (reflection.implementedBy) {
+                    reflection.implementedBy.sort((a:Type, b:Type):number => {
+                        if (a['name'] == b['name']) return 0;
+                        return a['name'] > b['name'] ? 1 : -1;
+                    });
+                }
+
                 var root:IDeclarationHierarchy;
                 var hierarchy:IDeclarationHierarchy;
                 function push(types:Type[]) {

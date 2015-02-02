@@ -3219,6 +3219,7 @@ var td;
             resolveType(reflection.overwrites);
             resolveTypes(reflection.extendedTypes);
             resolveTypes(reflection.extendedBy);
+            resolveTypes(reflection.implementedTypes);
             if (reflection.kindOf(td.ReflectionKind.ClassOrInterface)) {
                 this.postpone(reflection);
                 walk(reflection.implementedTypes, function (target) {
@@ -3293,6 +3294,13 @@ var td;
          */
         TypePlugin.prototype.onResolveEnd = function (event) {
             this.reflections.forEach(function (reflection) {
+                if (reflection.implementedBy) {
+                    reflection.implementedBy.sort(function (a, b) {
+                        if (a['name'] == b['name'])
+                            return 0;
+                        return a['name'] > b['name'] ? 1 : -1;
+                    });
+                }
                 var root;
                 var hierarchy;
                 function push(types) {
