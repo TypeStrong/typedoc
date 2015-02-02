@@ -1,7 +1,7 @@
 {
   "name": "typedoc-default-themes",
   "description": "Default themes for TypeDoc.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "http://typedoc.io",
   "main": "bin/plugin.js",
   "author": {
