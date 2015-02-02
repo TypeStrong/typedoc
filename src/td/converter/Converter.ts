@@ -326,7 +326,7 @@ module td
 
             function extractUnionType(target:Reflection, node:ts.UnionTypeNode, type:ts.UnionType):Type {
                 var types = [];
-                if (node.types) {
+                if (node && node.types) {
                     node.types.forEach((typeNode:ts.TypeNode) => {
                         types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
                     });
@@ -389,7 +389,21 @@ module td
                             return new IntrinsicType('object');
                         }
                     } else {
-                        return createReferenceType(type.symbol);
+                        var referenceType = createReferenceType(type.symbol);
+
+                        if (node && node['typeArguments']) {
+                            referenceType.typeArguments = [];
+                            node['typeArguments'].forEach((node:ts.Node) => {
+                                referenceType.typeArguments.push(extractType(target, node, checker.getTypeAtLocation(node)));
+                            });
+                        } else if (type && type['typeArguments']) {
+                            referenceType.typeArguments = [];
+                            type['typeArguments'].forEach((type:ts.Type) => {
+                                referenceType.typeArguments.push(extractType(target, null, type));
+                            });
+                        }
+
+                        return referenceType;
                     }
                 } else {
                     return new IntrinsicType('object');

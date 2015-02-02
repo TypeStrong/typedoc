@@ -1869,6 +1869,10 @@ declare module td {
          */
         name: string;
         /**
+         * The type arguments of this reference.
+         */
+        typeArguments: Type[];
+        /**
          * The symbol id of the referenced type as returned from the TypeScript compiler.
          *
          * After the all reflections have been generated this is can be used to lookup the

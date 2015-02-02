@@ -73,6 +73,11 @@ module td
                     if (!referenceType.reflection && referenceType.symbolID != -1) {
                         referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
                     }
+                    if (referenceType.typeArguments) {
+                        referenceType.typeArguments.forEach((typeArgument:Type) => {
+                            resolveType(typeArgument);
+                        });
+                    }
                 } else if (type instanceof TupleType) {
                     var tupleType:TupleType = <TupleType>type;
                     for (var index = 0, count = tupleType.elements.length; index < count; index++) {

@@ -1308,7 +1308,7 @@ var td;
             }
             function extractUnionType(target, node, type) {
                 var types = [];
-                if (node.types) {
+                if (node && node.types) {
                     node.types.forEach(function (typeNode) {
                         types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
                     });
@@ -1368,7 +1368,20 @@ var td;
                         }
                     }
                     else {
-                        return createReferenceType(type.symbol);
+                        var referenceType = createReferenceType(type.symbol);
+                        if (node && node['typeArguments']) {
+                            referenceType.typeArguments = [];
+                            node['typeArguments'].forEach(function (node) {
+                                referenceType.typeArguments.push(extractType(target, node, checker.getTypeAtLocation(node)));
+                            });
+                        }
+                        else if (type && type['typeArguments']) {
+                            referenceType.typeArguments = [];
+                            type['typeArguments'].forEach(function (type) {
+                                referenceType.typeArguments.push(extractType(target, null, type));
+                            });
+                        }
+                        return referenceType;
                     }
                 }
                 else {
@@ -3244,6 +3257,11 @@ var td;
                     var referenceType = type;
                     if (!referenceType.reflection && referenceType.symbolID != -1) {
                         referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
+                    }
+                    if (referenceType.typeArguments) {
+                        referenceType.typeArguments.forEach(function (typeArgument) {
+                            resolveType(typeArgument);
+                        });
                     }
                 }
                 else if (type instanceof td.TupleType) {

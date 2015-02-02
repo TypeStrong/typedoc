@@ -16,3 +16,7 @@ interface AB<T> extends A<T>, B<T, boolean> {}
 interface ABString extends AB<string> {}
 
 interface ABNumber extends AB<number> {}
+
+function getGenericArray():Array<string> {
+    return [''];
+}
