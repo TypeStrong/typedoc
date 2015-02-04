@@ -341,7 +341,7 @@ module td
 
 
             function extractTypeParameterType(node:ts.TypeReferenceNode, type:ts.Type):Type {
-                if (node) {
+                if (node && node.typeName) {
                     var name = node.typeName['text'];
                     if (typeParameters[name]) {
                         return typeParameters[name];
