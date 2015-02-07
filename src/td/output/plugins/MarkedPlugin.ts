@@ -205,7 +205,7 @@ module td
                     reflection = this.project.findReflectionByName(name);
                 }
 
-                if (reflection) {
+                if (reflection && reflection.url) {
                     return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.url), name);
                 } else {
                     return match;

@@ -5598,7 +5598,7 @@ var td;
                 else if (_this.project) {
                     reflection = _this.project.findReflectionByName(name);
                 }
-                if (reflection) {
+                if (reflection && reflection.url) {
                     return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), name);
                 }
                 else {
