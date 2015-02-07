@@ -144,6 +144,10 @@ module td
         typeHierarchy:IDeclarationHierarchy;
 
 
+        hasGetterOrSetter():boolean {
+            return this.getSignature || this.setSignature;
+        }
+
 
         getAllSignatures():SignatureReflection[] {
             var result = [];

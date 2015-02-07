@@ -430,6 +430,11 @@ module td
         }
 
 
+        hasGetterOrSetter():boolean {
+            return false;
+        }
+
+
         /**
          * @param name  The name of the child to look for. Might contain a hierarchy.
          */

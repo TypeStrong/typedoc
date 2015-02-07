@@ -3772,6 +3772,9 @@ var td;
         Reflection.prototype.hasComment = function () {
             return (this.comment && this.comment.hasVisibleComponent());
         };
+        Reflection.prototype.hasGetterOrSetter = function () {
+            return false;
+        };
         /**
          * Return a child by its name.
          *
@@ -4156,6 +4159,9 @@ var td;
         function DeclarationReflection() {
             _super.apply(this, arguments);
         }
+        DeclarationReflection.prototype.hasGetterOrSetter = function () {
+            return this.getSignature || this.setSignature;
+        };
         DeclarationReflection.prototype.getAllSignatures = function () {
             var result = [];
             if (this.signatures)
