@@ -277,7 +277,7 @@ module td
 
             function extractType(target:Reflection, node:ts.Node, type:ts.Type):Type {
                 if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
-                    return new ReferenceType(node['typeName'].text, null, target.findReflectionByName(node['typeName'].text));
+                    return new ReferenceType(node['typeName'].text, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
                 } else if (type.flags & ts.TypeFlags.Intrinsic) {
                     return extractIntrinsicType(<ts.IntrinsicType>type);
                 } else if (type.flags & ts.TypeFlags.Enum) {
@@ -888,7 +888,7 @@ module td
                     if (!hasBody || !method.signatures) {
                         var name = 'new ' + scope.name;
                         var signature = createSignature(method, node, name, ReflectionKind.ConstructorSignature);
-                        signature.type = new ReferenceType(scope.name, -1, scope);
+                        signature.type = new ReferenceType(scope.name, ReferenceType.SYMBOL_ID_RESOLVED, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
                     } else {

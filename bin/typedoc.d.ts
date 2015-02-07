@@ -1886,6 +1886,14 @@ declare module td {
          */
         reflection: Reflection;
         /**
+         * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
+         */
+        static SYMBOL_ID_RESOLVED: number;
+        /**
+         * Special symbol ID noting that the reference should be resolved by the type name.
+         */
+        static SYMBOL_ID_RESOLVE_BY_NAME: number;
+        /**
          * Create a new instance of ReferenceType.
          *
          * @param name        The name of the referenced type.

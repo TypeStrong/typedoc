@@ -40,6 +40,18 @@ type Callback = (...parameters:string[]) => string;
 
 
 /**
+ * A type alias of for a generic callback function.
+ *
+ * @param GenericCallback.T      Some type argument.
+ * @param GenericCallback.val    Some generic value.
+ * @param GenericCallback.index  Some index value.
+ * @param GenericCallback.arr    A generic array.
+ * @return       Some return value.
+ */
+export type GenericCallback = <T>(val: T, index: number, arr: Array<T>) => any;
+
+
+/**
  * A variable defined using an union type.
  */
 var interfaceOrString:RunOptions|string;
@@ -56,4 +68,35 @@ var callback:Callback;
  */
 function functionUsingTypes(aliasData:PrimitiveArray, callback:Callback):MyNumber {
     return 10;
+}
+
+
+/**
+ * A generic function using a generic type alias.
+ *
+ * @param T         Some type argument.
+ * @param arr       A generic array.
+ * @param callback  Some generic type alias callback.
+ * @returns         Some return value.
+ */
+function functionWithGenericCallback<T>(arr: Array<T>, callback: GenericCallback): any {
+    return 0;
+}
+
+/**
+ * A simple text class.
+ */
+class SimpleClass
+{
+    /**
+     * A generic function using a generic type alias.
+     *
+     * @param T         Some type argument.
+     * @param arr       A generic array.
+     * @param callback  Some generic type alias callback.
+     * @returns         Some return value.
+     */
+    public someFunction<T>(arr: Array<T>, callback: GenericCallback): any {
+        return 0;
+    }
 }

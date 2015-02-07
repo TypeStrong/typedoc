@@ -29,12 +29,12 @@ module td
             var project = event.getProject();
             var reflection = <DeclarationReflection>event.reflection;
 
-            resolveType(<ReferenceType>reflection.type);
-            resolveType(<ReferenceType>reflection.inheritedFrom);
-            resolveType(<ReferenceType>reflection.overwrites);
-            resolveTypes(reflection.extendedTypes);
-            resolveTypes(reflection.extendedBy);
-            resolveTypes(reflection.implementedTypes);
+            resolveType(reflection, <ReferenceType>reflection.type);
+            resolveType(reflection, <ReferenceType>reflection.inheritedFrom);
+            resolveType(reflection, <ReferenceType>reflection.overwrites);
+            resolveTypes(reflection, reflection.extendedTypes);
+            resolveTypes(reflection, reflection.extendedBy);
+            resolveTypes(reflection, reflection.implementedTypes);
 
             if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
                 this.postpone(reflection);
@@ -42,13 +42,13 @@ module td
                 walk(reflection.implementedTypes, (target) => {
                     this.postpone(target);
                     if (!target.implementedBy) target.implementedBy = [];
-                    target.implementedBy.push(new ReferenceType(reflection.name, -1, reflection));
+                    target.implementedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
                 });
 
                 walk(reflection.extendedTypes, (target) => {
                     this.postpone(target);
                     if (!target.extendedBy) target.extendedBy = [];
-                    target.extendedBy.push(new ReferenceType(reflection.name, -1, reflection));
+                    target.extendedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
                 });
             }
 
@@ -61,33 +61,36 @@ module td
                 });
             }
 
-            function resolveTypes(types:Type[]) {
+            function resolveTypes(reflection:Reflection, types:Type[]) {
                 if (!types) return;
                 for (var i = 0, c = types.length; i < c; i++) {
-                    resolveType(<ReferenceType>types[i]);
+                    resolveType(reflection, <ReferenceType>types[i]);
                 }
             }
 
-            function resolveType(type:Type) {
+            function resolveType(reflection:Reflection, type:Type) {
                 if (type instanceof ReferenceType) {
                     var referenceType:ReferenceType = <ReferenceType>type;
-                    if (!referenceType.reflection && referenceType.symbolID != -1) {
+                    if (referenceType.symbolID == ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                        referenceType.reflection = reflection.findReflectionByName(referenceType.name);
+                    } else if (!referenceType.reflection && referenceType.symbolID != ReferenceType.SYMBOL_ID_RESOLVED) {
                         referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
                     }
+
                     if (referenceType.typeArguments) {
                         referenceType.typeArguments.forEach((typeArgument:Type) => {
-                            resolveType(typeArgument);
+                            resolveType(reflection, typeArgument);
                         });
                     }
                 } else if (type instanceof TupleType) {
                     var tupleType:TupleType = <TupleType>type;
                     for (var index = 0, count = tupleType.elements.length; index < count; index++) {
-                        resolveType(tupleType.elements[index]);
+                        resolveType(reflection, tupleType.elements[index]);
                     }
                 } else if (type instanceof UnionType) {
                     var unionType:UnionType = <UnionType>type;
                     for (var index = 0, count = unionType.types.length; index < count; index++) {
-                        resolveType(unionType.types[index]);
+                        resolveType(reflection, unionType.types[index]);
                     }
                 }
             }
@@ -135,7 +138,7 @@ module td
                     push(reflection.extendedTypes);
                 }
 
-                push([new ReferenceType(reflection.name, -1, reflection)]);
+                push([new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection)]);
                 hierarchy.isTarget = true;
 
                 if (reflection.extendedBy) {

@@ -1259,7 +1259,7 @@ var td;
             }
             function extractType(target, node, type) {
                 if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
-                    return new td.ReferenceType(node['typeName'].text, null, target.findReflectionByName(node['typeName'].text));
+                    return new td.ReferenceType(node['typeName'].text, td.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
                 }
                 else if (type.flags & 127 /* Intrinsic */) {
                     return extractIntrinsicType(type);
@@ -1814,7 +1814,7 @@ var td;
                     if (!hasBody || !method.signatures) {
                         var name = 'new ' + scope.name;
                         var signature = createSignature(method, node, name, 16384 /* ConstructorSignature */);
-                        signature.type = new td.ReferenceType(scope.name, -1, scope);
+                        signature.type = new td.ReferenceType(scope.name, td.ReferenceType.SYMBOL_ID_RESOLVED, scope);
                         method.signatures = method.signatures || [];
                         method.signatures.push(signature);
                     }
@@ -3214,25 +3214,25 @@ var td;
             var _this = this;
             var project = event.getProject();
             var reflection = event.reflection;
-            resolveType(reflection.type);
-            resolveType(reflection.inheritedFrom);
-            resolveType(reflection.overwrites);
-            resolveTypes(reflection.extendedTypes);
-            resolveTypes(reflection.extendedBy);
-            resolveTypes(reflection.implementedTypes);
+            resolveType(reflection, reflection.type);
+            resolveType(reflection, reflection.inheritedFrom);
+            resolveType(reflection, reflection.overwrites);
+            resolveTypes(reflection, reflection.extendedTypes);
+            resolveTypes(reflection, reflection.extendedBy);
+            resolveTypes(reflection, reflection.implementedTypes);
             if (reflection.kindOf(td.ReflectionKind.ClassOrInterface)) {
                 this.postpone(reflection);
                 walk(reflection.implementedTypes, function (target) {
                     _this.postpone(target);
                     if (!target.implementedBy)
                         target.implementedBy = [];
-                    target.implementedBy.push(new td.ReferenceType(reflection.name, -1, reflection));
+                    target.implementedBy.push(new td.ReferenceType(reflection.name, td.ReferenceType.SYMBOL_ID_RESOLVED, reflection));
                 });
                 walk(reflection.extendedTypes, function (target) {
                     _this.postpone(target);
                     if (!target.extendedBy)
                         target.extendedBy = [];
-                    target.extendedBy.push(new td.ReferenceType(reflection.name, -1, reflection));
+                    target.extendedBy.push(new td.ReferenceType(reflection.name, td.ReferenceType.SYMBOL_ID_RESOLVED, reflection));
                 });
             }
             function walk(types, callback) {
@@ -3246,35 +3246,38 @@ var td;
                     callback(type.reflection);
                 });
             }
-            function resolveTypes(types) {
+            function resolveTypes(reflection, types) {
                 if (!types)
                     return;
                 for (var i = 0, c = types.length; i < c; i++) {
-                    resolveType(types[i]);
+                    resolveType(reflection, types[i]);
                 }
             }
-            function resolveType(type) {
+            function resolveType(reflection, type) {
                 if (type instanceof td.ReferenceType) {
                     var referenceType = type;
-                    if (!referenceType.reflection && referenceType.symbolID != -1) {
+                    if (referenceType.symbolID == td.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                        referenceType.reflection = reflection.findReflectionByName(referenceType.name);
+                    }
+                    else if (!referenceType.reflection && referenceType.symbolID != td.ReferenceType.SYMBOL_ID_RESOLVED) {
                         referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
                     }
                     if (referenceType.typeArguments) {
                         referenceType.typeArguments.forEach(function (typeArgument) {
-                            resolveType(typeArgument);
+                            resolveType(reflection, typeArgument);
                         });
                     }
                 }
                 else if (type instanceof td.TupleType) {
                     var tupleType = type;
                     for (var index = 0, count = tupleType.elements.length; index < count; index++) {
-                        resolveType(tupleType.elements[index]);
+                        resolveType(reflection, tupleType.elements[index]);
                     }
                 }
                 else if (type instanceof td.UnionType) {
                     var unionType = type;
                     for (var index = 0, count = unionType.types.length; index < count; index++) {
-                        resolveType(unionType.types[index]);
+                        resolveType(reflection, unionType.types[index]);
                     }
                 }
             }
@@ -3316,7 +3319,7 @@ var td;
                 if (reflection.extendedTypes) {
                     push(reflection.extendedTypes);
                 }
-                push([new td.ReferenceType(reflection.name, -1, reflection)]);
+                push([new td.ReferenceType(reflection.name, td.ReferenceType.SYMBOL_ID_RESOLVED, reflection)]);
                 hierarchy.isTarget = true;
                 if (reflection.extendedBy) {
                     push(reflection.extendedBy);
@@ -4509,6 +4512,14 @@ var td;
                 return this.name + (this.isArray ? '[]' : '');
             }
         };
+        /**
+         * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
+         */
+        ReferenceType.SYMBOL_ID_RESOLVED = -1;
+        /**
+         * Special symbol ID noting that the reference should be resolved by the type name.
+         */
+        ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME = -2;
         return ReferenceType;
     })(td.Type);
     td.ReferenceType = ReferenceType;

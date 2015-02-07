@@ -37,6 +37,15 @@ module td
          */
         reflection:Reflection;
 
+        /**
+         * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
+         */
+        static SYMBOL_ID_RESOLVED:number = -1;
+
+        /**
+         * Special symbol ID noting that the reference should be resolved by the type name.
+         */
+        static SYMBOL_ID_RESOLVE_BY_NAME:number = -2;
 
 
         /**
