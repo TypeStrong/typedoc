@@ -1,19 +1,6 @@
 {{#if this}}
     {{#if reflection}}
-        {{#compact}}
-            <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">
-                {{reflection.name}}
-            </a>
-            {{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
-            {{#if typeArguments}}
-                <span class="tsd-signature-symbol">&lt;</span>
-                {{#each typeArguments}}
-                    {{#if @index}}<span class="tsd-signature-symbol">, </span>{{/if}}
-                    {{> type}}
-                {{/each}}
-                <span class="tsd-signature-symbol">&gt;</span>
-            {{/if}}
-        {{/compact}}
+        <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">{{reflection.name}}</a>{{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
     {{else}}
         {{#if types}}
             {{#each types}}
@@ -29,17 +16,7 @@
                 {{/each}}
                 <span class="tsd-signature-symbol">]</span>
             {{else}}
-                {{#compact}}
-                    <span class="tsd-signature-type">{{this}}</span>
-                    {{#if typeArguments}}
-                        <span class="tsd-signature-symbol">&lt;</span>
-                        {{#each typeArguments}}
-                            {{#if @index}}<span class="tsd-signature-symbol">, </span>{{/if}}
-                            {{> type}}
-                        {{/each}}
-                        <span class="tsd-signature-symbol">&gt;</span>
-                    {{/if}}
-                {{/compact}}
+                <span class="tsd-signature-type">{{this}}</span>
             {{/if}}
         {{/if}}
     {{/if}}
