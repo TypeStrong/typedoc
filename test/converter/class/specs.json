@@ -57,7 +57,7 @@
                   "type": {
                     "type": "reference",
                     "name": "TestClass",
-                    "symbolID": -1
+                    "id": 2
                   }
                 }
               ]
@@ -112,7 +112,7 @@
               "type": {
                 "type": "reference",
                 "name": "TestClass",
-                "symbolID": 409
+                "id": 2
               }
             },
             {
@@ -252,7 +252,7 @@
             {
               "type": "reference",
               "name": "TestSubClass",
-              "symbolID": -1
+              "id": 16
             }
           ]
         },
@@ -289,19 +289,19 @@
                   "type": {
                     "type": "reference",
                     "name": "TestSubClass",
-                    "symbolID": -1
+                    "id": 16
                   },
                   "inheritedFrom": {
                     "type": "reference",
                     "name": "__constructor",
-                    "symbolID": -1024
+                    "id": 6
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "name": "__constructor",
-                "symbolID": -1024
+                "id": 6
               }
             },
             {
@@ -323,7 +323,7 @@
               "inheritedFrom": {
                 "type": "reference",
                 "name": "publicProperty",
-                "symbolID": 410
+                "id": 3
               }
             },
             {
@@ -341,12 +341,12 @@
               "type": {
                 "type": "reference",
                 "name": "TestClass",
-                "symbolID": 409
+                "id": 2
               },
               "inheritedFrom": {
                 "type": "reference",
                 "name": "staticProperty",
-                "symbolID": 412
+                "id": 5
               }
             },
             {
@@ -401,14 +401,14 @@
                   "overwrites": {
                     "type": "reference",
                     "name": "protectedMethod",
-                    "symbolID": 417
+                    "id": 10
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "name": "protectedMethod",
-                "symbolID": 417
+                "id": 10
               }
             },
             {
@@ -437,14 +437,14 @@
                   "overwrites": {
                     "type": "reference",
                     "name": "publicMethod",
-                    "symbolID": 415
+                    "id": 8
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
                 "name": "publicMethod",
-                "symbolID": 415
+                "id": 8
               }
             },
             {
@@ -473,14 +473,14 @@
                   "inheritedFrom": {
                     "type": "reference",
                     "name": "staticMethod",
-                    "symbolID": -1026
+                    "id": 14
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
                 "name": "staticMethod",
-                "symbolID": -1026
+                "id": 14
               }
             }
           ],
@@ -515,7 +515,7 @@
             {
               "type": "reference",
               "name": "TestClass",
-              "symbolID": 409
+              "id": 2
             }
           ]
         }

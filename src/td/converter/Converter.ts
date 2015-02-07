@@ -1050,9 +1050,6 @@ module td
             function visitTypeAliasDeclaration(node:ts.TypeAliasDeclaration, scope:ContainerReflection):Reflection {
                 var alias = createDeclaration(scope, node, ReflectionKind.TypeAlias);
                 alias.type = extractType(alias, node.type, checker.getTypeAtLocation(node.type));
-                if (alias.name == 'Callback') {
-                    // console.log(alias);
-                }
                 return alias;
             }
 

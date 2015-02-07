@@ -91,6 +91,8 @@ class SimpleClass
     /**
      * A generic function using a generic type alias.
      *
+     * Uses [[GenericCallback]] instead of [[Callback]].
+     *
      * @param T         Some type argument.
      * @param arr       A generic array.
      * @param callback  Some generic type alias callback.

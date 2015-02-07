@@ -43,8 +43,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "Object",
-                    "symbolID": 1674
+                    "name": "Object"
                   }
                 }
               ],
@@ -63,8 +62,7 @@
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "Object",
-                      "symbolID": 1674
+                      "name": "Object"
                     }
                   }
                 }
@@ -74,8 +72,7 @@
                 "name": "T",
                 "constraint": {
                   "type": "reference",
-                  "name": "Object",
-                  "symbolID": 1674
+                  "name": "Object"
                 }
               }
             }

@@ -347,15 +347,45 @@ module td
             }
 
             switch (flag) {
-                case ReflectionFlag.Private:   this.flags.isPrivate   = value; break;
-                case ReflectionFlag.Protected: this.flags.isProtected = value; break;
-                case ReflectionFlag.Public:    this.flags.isPublic    = value; break;
-                case ReflectionFlag.Static:    this.flags.isStatic    = value; break;
-                case ReflectionFlag.Exported:  this.flags.isExported  = value; break;
-                case ReflectionFlag.External:  this.flags.isExternal  = value; break;
-                case ReflectionFlag.Optional:  this.flags.isOptional  = value; break;
-                case ReflectionFlag.Rest:      this.flags.isRest      = value; break;
-                case ReflectionFlag.ExportAssignment: this.flags.hasExportAssignment = value; break;
+                case ReflectionFlag.Private:
+                    this.flags.isPrivate = value;
+                    if (value) {
+                        this.setFlag(ReflectionFlag.Protected, false);
+                        this.setFlag(ReflectionFlag.Public, false);
+                    }
+                    break;
+                case ReflectionFlag.Protected:
+                    this.flags.isProtected = value;
+                    if (value) {
+                        this.setFlag(ReflectionFlag.Private, false);
+                        this.setFlag(ReflectionFlag.Public, false);
+                    }
+                    break;
+                case ReflectionFlag.Public:
+                    this.flags.isPublic = value;
+                    if (value) {
+                        this.setFlag(ReflectionFlag.Private, false);
+                        this.setFlag(ReflectionFlag.Protected, false);
+                    }
+                    break;
+                case ReflectionFlag.Static:
+                    this.flags.isStatic = value;
+                    break;
+                case ReflectionFlag.Exported:
+                    this.flags.isExported = value;
+                    break;
+                case ReflectionFlag.External:
+                    this.flags.isExternal = value;
+                    break;
+                case ReflectionFlag.Optional:
+                    this.flags.isOptional = value;
+                    break;
+                case ReflectionFlag.Rest:
+                    this.flags.isRest = value;
+                    break;
+                case ReflectionFlag.ExportAssignment:
+                    this.flags.hasExportAssignment = value;
+                    break;
             }
         }
 

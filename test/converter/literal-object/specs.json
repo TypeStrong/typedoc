@@ -95,8 +95,7 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "name": "Array",
-                    "symbolID": 2082
+                    "name": "Array"
                   },
                   "defaultValue": " [100, 200, 300]"
                 },

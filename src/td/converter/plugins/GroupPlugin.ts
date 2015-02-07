@@ -146,7 +146,7 @@ module td
                 group.children.forEach((child) => {
                     someExported = child.flags.isExported || someExported;
                     allPrivate   = child.flags.isPrivate  && allPrivate;
-                    allProtected = (child.flags.isPrivate || child.flags.isPrivate) && allProtected;
+                    allProtected = (child.flags.isPrivate || child.flags.isProtected) && allProtected;
                     allExternal  = child.flags.isExternal && allExternal;
                     allInherited = child.inheritedFrom    && allInherited;
                 });

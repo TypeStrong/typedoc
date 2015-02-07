@@ -387,8 +387,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "Object",
-                    "symbolID": 834
+                    "name": "Object"
                   }
                 }
               ],

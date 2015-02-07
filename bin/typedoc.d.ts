@@ -524,6 +524,7 @@ declare module td {
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event);
+        private applyAccessModifiers(reflection, comment);
         private onFunctionImplementation(event);
         /**
          * Triggered when the dispatcher enters the resolving phase.

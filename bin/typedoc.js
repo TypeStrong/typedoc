@@ -1321,7 +1321,7 @@ var td;
                 return new td.UnionType(types);
             }
             function extractTypeParameterType(node, type) {
-                if (node) {
+                if (node && node.typeName) {
                     var name = node.typeName['text'];
                     if (typeParameters[name]) {
                         return typeParameters[name];
@@ -1955,8 +1955,6 @@ var td;
             function visitTypeAliasDeclaration(node, scope) {
                 var alias = createDeclaration(scope, node, 4194304 /* TypeAlias */);
                 alias.type = extractType(alias, node.type, checker.getTypeAtLocation(node.type));
-                if (alias.name == 'Callback') {
-                }
                 return alias;
             }
             function visitExportAssignment(node, scope) {
@@ -2170,17 +2168,34 @@ var td;
          * @param state  The state that describes the current declaration and reflection.
          */
         CommentPlugin.prototype.onDeclaration = function (event) {
-            if (event.reflection.kindOf(td.ReflectionKind.FunctionOrMethod)) {
+            var rawComment = CommentPlugin.getComment(event.node);
+            if (!rawComment)
                 return;
+            if (event.reflection.kindOf(td.ReflectionKind.FunctionOrMethod)) {
+                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
+                this.applyAccessModifiers(event.reflection, comment);
             }
-            var comment = CommentPlugin.getComment(event.node);
-            if (comment) {
-                if (event.reflection.kindOf(2 /* Module */)) {
-                    this.storeModuleComment(comment, event.reflection);
-                }
-                else {
-                    event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
-                }
+            else if (event.reflection.kindOf(2 /* Module */)) {
+                this.storeModuleComment(rawComment, event.reflection);
+            }
+            else {
+                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
+                this.applyAccessModifiers(event.reflection, comment);
+                event.reflection.comment = comment;
+            }
+        };
+        CommentPlugin.prototype.applyAccessModifiers = function (reflection, comment) {
+            if (comment.hasTag('private')) {
+                reflection.setFlag(1 /* Private */);
+                CommentPlugin.removeTags(comment, 'private');
+            }
+            if (comment.hasTag('protected')) {
+                reflection.setFlag(2 /* Protected */);
+                CommentPlugin.removeTags(comment, 'protected');
+            }
+            if (comment.hasTag('public')) {
+                reflection.setFlag(4 /* Public */);
+                CommentPlugin.removeTags(comment, 'public');
             }
         };
         CommentPlugin.prototype.onFunctionImplementation = function (event) {
@@ -2810,7 +2825,7 @@ var td;
                 group.children.forEach(function (child) {
                     someExported = child.flags.isExported || someExported;
                     allPrivate = child.flags.isPrivate && allPrivate;
-                    allProtected = (child.flags.isPrivate || child.flags.isPrivate) && allProtected;
+                    allProtected = (child.flags.isPrivate || child.flags.isProtected) && allProtected;
                     allExternal = child.flags.isExternal && allExternal;
                     allInherited = child.inheritedFrom && allInherited;
                 });
@@ -3685,12 +3700,24 @@ var td;
             switch (flag) {
                 case 1 /* Private */:
                     this.flags.isPrivate = value;
+                    if (value) {
+                        this.setFlag(2 /* Protected */, false);
+                        this.setFlag(4 /* Public */, false);
+                    }
                     break;
                 case 2 /* Protected */:
                     this.flags.isProtected = value;
+                    if (value) {
+                        this.setFlag(1 /* Private */, false);
+                        this.setFlag(4 /* Public */, false);
+                    }
                     break;
                 case 4 /* Public */:
                     this.flags.isPublic = value;
+                    if (value) {
+                        this.setFlag(1 /* Private */, false);
+                        this.setFlag(2 /* Protected */, false);
+                    }
                     break;
                 case 8 /* Static */:
                     this.flags.isStatic = value;
@@ -4498,7 +4525,9 @@ var td;
             var result = _super.prototype.toObject.call(this);
             result.type = 'reference';
             result.name = this.name;
-            result.symbolID = this.symbolID;
+            if (this.reflection) {
+                result.id = this.reflection.id;
+            }
             return result;
         };
         /**

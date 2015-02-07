@@ -103,17 +103,36 @@ module td
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event:CompilerEvent) {
+            var rawComment = CommentPlugin.getComment(event.node);
+            if (!rawComment) return;
+
             if (event.reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
-                return;
+                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
+                this.applyAccessModifiers(event.reflection, comment);
+            } else if (event.reflection.kindOf(ReflectionKind.Module)) {
+                this.storeModuleComment(rawComment, event.reflection);
+            } else {
+                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
+                this.applyAccessModifiers(event.reflection, comment);
+                event.reflection.comment = comment;
+            }
+        }
+
+
+        private applyAccessModifiers(reflection:Reflection, comment:Comment) {
+            if (comment.hasTag('private')) {
+                reflection.setFlag(ReflectionFlag.Private);
+                CommentPlugin.removeTags(comment, 'private');
             }
 
-            var comment = CommentPlugin.getComment(event.node);
-            if (comment) {
-                if (event.reflection.kindOf(ReflectionKind.Module)) {
-                    this.storeModuleComment(comment, event.reflection);
-                } else {
-                    event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
-                }
+            if (comment.hasTag('protected')) {
+                reflection.setFlag(ReflectionFlag.Protected);
+                CommentPlugin.removeTags(comment, 'protected');
+            }
+
+            if (comment.hasTag('public')) {
+                reflection.setFlag(ReflectionFlag.Public);
+                CommentPlugin.removeTags(comment, 'public');
             }
         }
 
