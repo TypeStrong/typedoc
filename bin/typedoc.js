@@ -4354,7 +4354,7 @@ var td;
                     continue;
                 var depth = names.length - 1;
                 var target = reflection;
-                while (target && depth > 0) {
+                while (target && depth >= 0) {
                     target = target.parent;
                     if (target.name != names[depth])
                         continue search;
