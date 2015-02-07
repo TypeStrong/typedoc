@@ -70,7 +70,11 @@ module td
             var result:any = super.toObject();
             result.type = 'reference';
             result.name = this.name;
-            result.symbolID = this.symbolID;
+
+            if (this.reflection) {
+                result.id = this.reflection.id;
+            }
+
             return result;
         }
 
