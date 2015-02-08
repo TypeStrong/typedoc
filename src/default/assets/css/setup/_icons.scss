@@ -72,7 +72,7 @@ $member-interface-inherited:      -13 * $icon-size;
 @for $index from 1 through length($type-icons) {
     @each $kind in nth($type-icons, $index) {
         $selector: '.tsd-kind-' + $kind;
-        $offset: -#{17 * ($index - 1)}px;
+        $offset: -#{17 * ($index)}px;
 
         #{$selector} {
             > .tsd-kind-icon:before {
