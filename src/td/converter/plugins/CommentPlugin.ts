@@ -91,7 +91,10 @@ module td
             var reflection = <TypeParameterReflection>event.reflection;
             var comment = reflection.parent.comment;
             if (comment) {
-                var tag = comment.getTag('param', reflection.name);
+                var tag = comment.getTag('typeparam', reflection.name);
+                if (!tag) tag = comment.getTag('param', '<' + reflection.name + '>');
+                if (!tag) tag = comment.getTag('param', reflection.name);
+
                 if (tag) {
                     reflection.comment = new Comment(tag.text);
                     comment.tags.splice(comment.tags.indexOf(tag), 1);
@@ -408,7 +411,7 @@ module td
                     line = line.substr(tagName.length + 1).trim();
 
                     if (tagName == 'return') tagName = 'returns';
-                    if (tagName == 'param') {
+                    if (tagName == 'param' || tagName == 'typeparam') {
                         line = consumeTypeData(line);
                         var param = /[^\s]+/.exec(line);
                         if (param) {

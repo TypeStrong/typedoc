@@ -53,7 +53,14 @@ module td
                 while (target && !(target instanceof ProjectReflection)) {
                     push(target);
                     if (target.comment) {
-                        var tag = target.comment.getTag('param', name);
+                        var tag;
+                        if (reflection instanceof TypeParameterReflection) {
+                            tag = target.comment.getTag('typeparam', reflection.name);
+                            if (!tag) tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                        }
+
+                        if (!tag) tag = target.comment.getTag('param', name);
+
                         if (tag) {
                             target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
                             reflection.comment = new Comment('', tag.text);
