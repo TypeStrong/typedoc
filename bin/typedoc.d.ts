@@ -1268,6 +1268,7 @@ declare module td {
          * @returns TRUE when this reflection has a visible comment.
          */
         hasComment(): boolean;
+        hasGetterOrSetter(): boolean;
         /**
          * @param name  The name of the child to look for. Might contain a hierarchy.
          */
@@ -1667,6 +1668,7 @@ declare module td {
          * rendered in templates.
          */
         typeHierarchy: IDeclarationHierarchy;
+        hasGetterOrSetter(): boolean;
         getAllSignatures(): SignatureReflection[];
         /**
          * Traverse all potential child reflections of this reflection.

@@ -69,6 +69,7 @@ module td
             var event   = new CompilerEvent(checker, project, settings);
 
             var isExternal = false;
+            var isDeclaration = false;
             var externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
             var symbolID = -1024;
             var isInherit = false;
@@ -616,7 +617,8 @@ module td
                     return scope;
                 }
 
-                if (ts.isDeclarationFile(node)) {
+                isDeclaration = ts.isDeclarationFile(node);
+                if (isDeclaration) {
                     if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
                         return scope;
                     }
@@ -648,8 +650,16 @@ module td
             function visitModuleDeclaration(node:ts.ModuleDeclaration, scope:ContainerReflection):Reflection {
                 var reflection = createDeclaration(scope, node, ReflectionKind.Module);
 
-                if (reflection && node.body) {
-                    visit(node.body, reflection);
+                if (reflection) {
+                    var opt = settings.compilerOptions;
+                    if (scope instanceof ProjectReflection && !isDeclaration &&
+                            (!opt.module || opt.module == ts.ModuleKind.None)) {
+                        reflection.setFlag(ReflectionFlag.Exported);
+                    }
+
+                    if (node.body) {
+                        visit(node.body, reflection);
+                    }
                 }
 
                 return reflection;

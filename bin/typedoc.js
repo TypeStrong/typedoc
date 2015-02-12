@@ -1088,6 +1088,7 @@ var td;
             var project = new td.ProjectReflection(settings.name);
             var event = new td.CompilerEvent(checker, project, settings);
             var isExternal = false;
+            var isDeclaration = false;
             var externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
             var symbolID = -1024;
             var isInherit = false;
@@ -1572,7 +1573,8 @@ var td;
                 if (isExternal && settings.excludeExternals) {
                     return scope;
                 }
-                if (ts.isDeclarationFile(node)) {
+                isDeclaration = ts.isDeclarationFile(node);
+                if (isDeclaration) {
                     if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
                         return scope;
                     }
@@ -1599,8 +1601,14 @@ var td;
              */
             function visitModuleDeclaration(node, scope) {
                 var reflection = createDeclaration(scope, node, 2 /* Module */);
-                if (reflection && node.body) {
-                    visit(node.body, reflection);
+                if (reflection) {
+                    var opt = settings.compilerOptions;
+                    if (scope instanceof td.ProjectReflection && !isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
+                        reflection.setFlag(16 /* Exported */);
+                    }
+                    if (node.body) {
+                        visit(node.body, reflection);
+                    }
                 }
                 return reflection;
             }
@@ -4160,7 +4168,7 @@ var td;
             _super.apply(this, arguments);
         }
         DeclarationReflection.prototype.hasGetterOrSetter = function () {
-            return this.getSignature || this.setSignature;
+            return !!this.getSignature || !!this.setSignature;
         };
         DeclarationReflection.prototype.getAllSignatures = function () {
             var result = [];

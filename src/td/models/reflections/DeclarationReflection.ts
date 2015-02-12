@@ -145,7 +145,7 @@ module td
 
 
         hasGetterOrSetter():boolean {
-            return this.getSignature || this.setSignature;
+            return !!this.getSignature || !!this.setSignature;
         }
 
 
