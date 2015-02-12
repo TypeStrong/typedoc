@@ -2205,6 +2205,11 @@ var td;
                 reflection.setFlag(4 /* Public */);
                 CommentPlugin.removeTags(comment, 'public');
             }
+            if (comment.hasTag('hidden')) {
+                if (!this.hidden)
+                    this.hidden = [];
+                this.hidden.push(reflection);
+            }
         };
         CommentPlugin.prototype.onFunctionImplementation = function (event) {
             var comment = CommentPlugin.getComment(event.node);
@@ -2225,7 +2230,13 @@ var td;
                 var info = this.comments[id];
                 var comment = CommentPlugin.parseComment(info.fullText);
                 CommentPlugin.removeTags(comment, 'preferred');
+                this.applyAccessModifiers(info.reflection, comment);
                 info.reflection.comment = comment;
+            }
+            if (this.hidden) {
+                this.hidden.forEach(function (reflection) {
+                    CommentPlugin.removeReflection(event.getProject(), reflection);
+                });
             }
         };
         /**
@@ -2348,6 +2359,66 @@ var td;
                 }
                 else {
                     i++;
+                }
+            }
+        };
+        /**
+         * Remove the given reflection from the project.
+         */
+        CommentPlugin.removeReflection = function (project, reflection) {
+            reflection.traverse(function (child) { return CommentPlugin.removeReflection(project, child); });
+            var parent = reflection.parent;
+            parent.traverse(function (child, property) {
+                if (child == reflection) {
+                    switch (property) {
+                        case 0 /* Children */:
+                            if (parent.children) {
+                                var index = parent.children.indexOf(reflection);
+                                if (index != -1)
+                                    parent.children.splice(index, 1);
+                            }
+                            break;
+                        case 6 /* GetSignature */:
+                            delete parent.getSignature;
+                            break;
+                        case 5 /* IndexSignature */:
+                            delete parent.indexSignature;
+                            break;
+                        case 1 /* Parameters */:
+                            if (reflection.parent.parameters) {
+                                var index = reflection.parent.parameters.indexOf(reflection);
+                                if (index != -1)
+                                    reflection.parent.parameters.splice(index, 1);
+                            }
+                            break;
+                        case 7 /* SetSignature */:
+                            delete parent.setSignature;
+                            break;
+                        case 4 /* Signatures */:
+                            if (parent.signatures) {
+                                var index = parent.signatures.indexOf(reflection);
+                                if (index != -1)
+                                    parent.signatures.splice(index, 1);
+                            }
+                            break;
+                        case 2 /* TypeLiteral */:
+                            parent.type = new td.IntrinsicType('Object');
+                            break;
+                        case 3 /* TypeParameter */:
+                            if (parent.typeParameters) {
+                                var index = parent.typeParameters.indexOf(reflection);
+                                if (index != -1)
+                                    parent.typeParameters.splice(index, 1);
+                            }
+                            break;
+                    }
+                }
+            });
+            var id = reflection.id;
+            delete project.reflections[id];
+            for (var key in project.symbolMapping) {
+                if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] == id) {
+                    delete project.symbolMapping[key];
                 }
             }
         };

@@ -52,3 +52,12 @@ export class PrivateClass
      */
     fakeProtectedFunction() {}
 }
+
+/**
+ * A module that is documented as being private.
+ * @private
+ */
+export module PrivateModule
+{
+    export function functionInsidePrivateModule() {}
+}

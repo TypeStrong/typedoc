@@ -503,6 +503,10 @@ declare module td {
          */
         private comments;
         /**
+         * List of hidden reflections.
+         */
+        private hidden;
+        /**
          * Create a new CommentPlugin instance.
          *
          * @param converter  The converter this plugin should be attached to.
@@ -558,6 +562,10 @@ declare module td {
          * @param tagName  The name of the that that should be removed.
          */
         static removeTags(comment: Comment, tagName: string): void;
+        /**
+         * Remove the given reflection from the project.
+         */
+        static removeReflection(project: ProjectReflection, reflection: Reflection): void;
         /**
          * Parse the given doc comment string.
          *

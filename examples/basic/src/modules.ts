@@ -3,7 +3,7 @@
  */
 
 /**
- * This is a module. Unfortunately TypeScript does not parse comments above modules.
+ * This is a module.
  */
 export module MyModule
 {

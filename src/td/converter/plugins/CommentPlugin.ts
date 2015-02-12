@@ -33,6 +33,11 @@ module td
          */
         private comments:{[id:number]:IModuleComment};
 
+        /**
+         * List of hidden reflections.
+         */
+        private hidden:Reflection[];
+
 
         /**
          * Create a new CommentPlugin instance.
@@ -134,6 +139,11 @@ module td
                 reflection.setFlag(ReflectionFlag.Public);
                 CommentPlugin.removeTags(comment, 'public');
             }
+
+            if (comment.hasTag('hidden')) {
+                if (!this.hidden) this.hidden = [];
+                this.hidden.push(reflection);
+            }
         }
 
 
@@ -160,7 +170,14 @@ module td
                 var comment = CommentPlugin.parseComment(info.fullText);
                 CommentPlugin.removeTags(comment, 'preferred');
 
+                this.applyAccessModifiers(info.reflection, comment);
                 info.reflection.comment = comment;
+            }
+
+            if (this.hidden) {
+                this.hidden.forEach((reflection) => {
+                    CommentPlugin.removeReflection(event.getProject(), reflection);
+                });
             }
         }
 
@@ -295,6 +312,67 @@ module td
                     c--;
                 } else {
                     i++;
+                }
+            }
+        }
+
+
+        /**
+         * Remove the given reflection from the project.
+         */
+        static removeReflection(project:ProjectReflection, reflection:Reflection) {
+            reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
+
+            var parent = <DeclarationReflection>reflection.parent;
+            parent.traverse((child:Reflection, property:TraverseProperty) => {
+                if (child == reflection) {
+                    switch (property) {
+                        case TraverseProperty.Children:
+                            if (parent.children) {
+                                var index = parent.children.indexOf(<DeclarationReflection>reflection);
+                                if (index != -1) parent.children.splice(index, 1);
+                            }
+                            break;
+                        case TraverseProperty.GetSignature:
+                            delete parent.getSignature;
+                            break;
+                        case TraverseProperty.IndexSignature:
+                            delete parent.indexSignature;
+                            break;
+                        case TraverseProperty.Parameters:
+                            if ((<SignatureReflection>reflection.parent).parameters) {
+                                var index = (<SignatureReflection>reflection.parent).parameters.indexOf(<ParameterReflection>reflection);
+                                if (index != -1) (<SignatureReflection>reflection.parent).parameters.splice(index, 1);
+                            }
+                            break;
+                        case TraverseProperty.SetSignature:
+                            delete parent.setSignature;
+                            break;
+                        case TraverseProperty.Signatures:
+                            if (parent.signatures) {
+                                var index = parent.signatures.indexOf(<SignatureReflection>reflection);
+                                if (index != -1) parent.signatures.splice(index, 1);
+                            }
+                            break;
+                        case TraverseProperty.TypeLiteral:
+                            parent.type = new IntrinsicType('Object');
+                            break;
+                        case TraverseProperty.TypeParameter:
+                            if (parent.typeParameters) {
+                                var index = parent.typeParameters.indexOf(<TypeParameterReflection>reflection);
+                                if (index != -1) parent.typeParameters.splice(index, 1);
+                            }
+                            break;
+                    }
+                }
+            });
+
+            var id = reflection.id;
+            delete project.reflections[id];
+
+            for (var key in project.symbolMapping) {
+                if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] == id) {
+                    delete project.symbolMapping[key];
                 }
             }
         }
