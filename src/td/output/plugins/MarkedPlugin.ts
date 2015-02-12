@@ -60,7 +60,7 @@ module td
         /**
          * The pattern used to find media links.
          */
-        private mediaPattern:RegExp = /media:\/\/([^"\)\]\}]+)/g;
+        private mediaPattern:RegExp = /media:\/\/([^ "\)\]\}]+)/g;
 
 
 

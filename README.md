@@ -92,6 +92,15 @@ in order to change the behaviour of TypeDoc.
 * `--gaSite <site>`<br>
   Set the site name for Google Analytics. Defaults to `auto`
 
+#### Content
+* `--includes <path/to/includes>`<br>
+  Specifies the location to look for included documents. One may use <code>[[include:FILENAME]]</code>
+  in comments to include documents from this location.
+
+* `--media <path/to/media>`<br>
+  Specifies the location with media files that should be copied to the output directory. In order to create
+  a link to media files use the pattern <code>media://FILENAME</code> in comments.
+
 #### Miscellaneous
 * `--version`<br>
   Display the version number of TypeDoc.
