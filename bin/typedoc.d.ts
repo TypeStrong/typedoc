@@ -150,6 +150,14 @@ declare module td {
          */
         readme: string;
         /**
+         * Specifies the location to look for included documents.
+         */
+        includes: string;
+        /**
+         * Specifies the location with media files that should be copied to the output directory.
+         */
+        media: string;
+        /**
          * A pattern for files that should be excluded when a path is specified as source.
          */
         excludePattern: string;
@@ -2561,9 +2569,21 @@ declare module td {
          */
         private reflection;
         /**
-         * The url of the documenat that is being currently generated.
+         * The url of the document that is being currently generated.
          */
         private location;
+        /**
+         * The path referenced files are located in.
+         */
+        private includes;
+        /**
+         * The pattern used to find references in markdown.
+         */
+        private includePattern;
+        /**
+         * The pattern used to find media links.
+         */
+        private mediaPattern;
         /**
          * Create a new MarkedPlugin instance.
          *
@@ -2616,9 +2636,10 @@ declare module td {
          * Parse the given markdown string and return the resulting html.
          *
          * @param text  The markdown string that should be parsed.
+         * @param context  The current handlebars context.
          * @returns The resulting html string.
          */
-        parseMarkdown(text: string): string;
+        parseMarkdown(text: string, context: any): string;
         /**
          * Find all references to symbols within the given text and transform them into a link.
          *

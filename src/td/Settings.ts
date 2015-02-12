@@ -132,6 +132,26 @@ module td
             code: 0
         }
     },{
+        name: "includes",
+        type: "string",
+        scope: OptionScope.TypeDoc,
+        paramType: ts.Diagnostics.DIRECTORY,
+        description: {
+            key: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
+    },{
+        name: "media",
+        type: "string",
+        scope: OptionScope.TypeDoc,
+        paramType: ts.Diagnostics.DIRECTORY,
+        description: {
+            key: 'Specifies the location with media files that should be copied to the output directory.',
+            category: ts.DiagnosticCategory.Message,
+            code: 0
+        }
+    },{
         name: "gaID",
         type: "string",
         scope: OptionScope.TypeDoc,
@@ -238,6 +258,16 @@ module td
          * remove the index page and start with the globals page.
          */
         readme:string;
+
+        /**
+         * Specifies the location to look for included documents.
+         */
+        includes:string;
+
+        /**
+         * Specifies the location with media files that should be copied to the output directory.
+         */
+        media:string;
 
         /**
          * A pattern for files that should be excluded when a path is specified as source.

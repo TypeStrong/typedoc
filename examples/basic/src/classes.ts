@@ -47,6 +47,8 @@ export interface IPrintNameInterface extends INameInterface, IPrintInterface
 
 /**
  * This is a simple base class.
+ *
+ * [[include:class-example.md]]
  */
 export class BaseClass implements INameInterface
 {

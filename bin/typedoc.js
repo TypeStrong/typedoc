@@ -317,6 +317,26 @@ var td;
             code: 0
         }
     }, {
+        name: "includes",
+        type: "string",
+        scope: 0 /* TypeDoc */,
+        paramType: ts.Diagnostics.DIRECTORY,
+        description: {
+            key: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+            category: 2 /* Message */,
+            code: 0
+        }
+    }, {
+        name: "media",
+        type: "string",
+        scope: 0 /* TypeDoc */,
+        paramType: ts.Diagnostics.DIRECTORY,
+        description: {
+            key: 'Specifies the location with media files that should be copied to the output directory.',
+            category: 2 /* Message */,
+            code: 0
+        }
+    }, {
         name: "gaID",
         type: "string",
         scope: 0 /* TypeDoc */,
@@ -5546,11 +5566,19 @@ var td;
         function MarkedPlugin(renderer) {
             var _this = this;
             _super.call(this, renderer);
+            /**
+             * The pattern used to find references in markdown.
+             */
+            this.includePattern = /\[\[include:([^\]]+?)\]\]/g;
+            /**
+             * The pattern used to find media links.
+             */
+            this.mediaPattern = /media:\/\/([^"\)\]\}]+)/g;
             renderer.on(td.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
             renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
             var that = this;
             td.Handlebars.registerHelper('markdown', function (arg) {
-                return that.parseMarkdown(arg.fn(this));
+                return that.parseMarkdown(arg.fn(this), this);
             });
             td.Handlebars.registerHelper('compact', function (arg) {
                 return that.getCompact(arg.fn(this));
@@ -5658,11 +5686,33 @@ var td;
          * Parse the given markdown string and return the resulting html.
          *
          * @param text  The markdown string that should be parsed.
+         * @param context  The current handlebars context.
          * @returns The resulting html string.
          */
-        MarkedPlugin.prototype.parseMarkdown = function (text) {
-            var html = td.Marked(text);
-            return this.parseReferences(html);
+        MarkedPlugin.prototype.parseMarkdown = function (text, context) {
+            var _this = this;
+            if (this.includes) {
+                text = text.replace(this.includePattern, function (match, path) {
+                    path = td.Path.join(_this.includes, path.trim());
+                    if (td.FS.existsSync(path) && td.FS.statSync(path).isFile()) {
+                        var contents = td.FS.readFileSync(path, 'utf-8');
+                        if (path.substr(-4).toLocaleLowerCase() == '.hbs') {
+                            var template = td.Handlebars.compile(contents);
+                            return template(context);
+                        }
+                        else {
+                            return contents;
+                        }
+                    }
+                    else {
+                        return '';
+                    }
+                });
+            }
+            text = text.replace(this.mediaPattern, function (match, path) {
+                return _this.getRelativeUrl('media') + '/' + path;
+            });
+            return this.parseReferences(td.Marked(text));
         };
         /**
          * Find all references to symbols within the given text and transform them into a link.
@@ -5703,6 +5753,26 @@ var td;
          */
         MarkedPlugin.prototype.onRendererBegin = function (event) {
             this.project = event.project;
+            delete this.includes;
+            if (event.settings.includes) {
+                var includes = td.Path.resolve(event.settings.includes);
+                if (td.FS.existsSync(includes) && td.FS.statSync(includes).isDirectory()) {
+                    this.includes = includes;
+                }
+                else {
+                    this.renderer.application.log('Could not find provided includes directory: ' + includes, 2 /* Warn */);
+                }
+            }
+            if (event.settings.media) {
+                var media = td.Path.resolve(event.settings.media);
+                if (td.FS.existsSync(media) && td.FS.statSync(media).isDirectory()) {
+                    var to = td.Path.join(event.outputDirectory, 'media');
+                    td.FS.copySync(media, to);
+                }
+                else {
+                    this.renderer.application.log('Could not find provided includes directory: ' + includes, 2 /* Warn */);
+                }
+            }
         };
         /**
          * Triggered before a document will be rendered.

@@ -43,9 +43,25 @@ module td
         private reflection:DeclarationReflection;
 
         /**
-         * The url of the documenat that is being currently generated.
+         * The url of the document that is being currently generated.
          */
         private location:string;
+
+        /**
+         * The path referenced files are located in.
+         */
+        private includes:string;
+
+        /**
+         * The pattern used to find references in markdown.
+         */
+        private includePattern:RegExp = /\[\[include:([^\]]+?)\]\]/g;
+
+        /**
+         * The pattern used to find media links.
+         */
+        private mediaPattern:RegExp = /media:\/\/([^"\)\]\}]+)/g;
+
 
 
         /**
@@ -59,7 +75,7 @@ module td
             renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
 
             var that = this;
-            Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this)); });
+            Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
             Handlebars.registerHelper('compact',  function(arg:any) { return that.getCompact(arg.fn(this)); });
             Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
             Handlebars.registerHelper('wbr', (str:string) => this.getWordBreaks(str));
@@ -174,11 +190,32 @@ module td
          * Parse the given markdown string and return the resulting html.
          *
          * @param text  The markdown string that should be parsed.
+         * @param context  The current handlebars context.
          * @returns The resulting html string.
          */
-        public parseMarkdown(text:string) {
-            var html = Marked(text);
-            return this.parseReferences(html);
+        public parseMarkdown(text:string, context:any) {
+            if (this.includes) {
+                text = text.replace(this.includePattern, (match:string, path:string) => {
+                    path = Path.join(this.includes, path.trim());
+                    if (FS.existsSync(path) && FS.statSync(path).isFile()) {
+                        var contents = FS.readFileSync(path, 'utf-8');
+                        if (path.substr(-4).toLocaleLowerCase() == '.hbs') {
+                            var template = Handlebars.compile(contents);
+                            return template(context);
+                        } else {
+                            return contents;
+                        }
+                    } else {
+                        return '';
+                    }
+                });
+            }
+
+            text = text.replace(this.mediaPattern, (match:string, path:string) => {
+                return this.getRelativeUrl('media') + '/' + path;
+            });
+
+            return this.parseReferences(Marked(text));
         }
 
 
@@ -221,6 +258,26 @@ module td
          */
         private onRendererBegin(event:OutputEvent) {
             this.project = event.project;
+
+            delete this.includes;
+            if (event.settings.includes) {
+                var includes = Path.resolve(event.settings.includes);
+                if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
+                    this.includes = includes;
+                } else {
+                    this.renderer.application.log('Could not find provided includes directory: ' + includes, LogLevel.Warn);
+                }
+            }
+
+            if (event.settings.media) {
+                var media = Path.resolve(event.settings.media);
+                if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
+                    var to = Path.join(event.outputDirectory, 'media');
+                    FS.copySync(media, to);
+                } else {
+                    this.renderer.application.log('Could not find provided includes directory: ' + includes, LogLevel.Warn);
+                }
+            }
         }
 
 
