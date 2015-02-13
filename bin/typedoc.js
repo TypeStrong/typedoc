@@ -5573,7 +5573,7 @@ var td;
             /**
              * The pattern used to find media links.
              */
-            this.mediaPattern = /media:\/\/([^"\)\]\}]+)/g;
+            this.mediaPattern = /media:\/\/([^ "\)\]\}]+)/g;
             renderer.on(td.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
             renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
             var that = this;
