@@ -20,11 +20,6 @@
     </section>
 {{/if}}
 
-{{#with model}}
-    {{> index}}
-    {{> members}}
-{{/with}}
-
 {{#if model.signatures}}
     <section class="tsd-panel">
         <h3 class="tsd-before-signature">Callable</h3>
@@ -55,3 +50,8 @@
         {{/if}}
     </section>
 {{/if}}
+
+{{#with model}}
+    {{> index}}
+    {{> members}}
+{{/with}}
