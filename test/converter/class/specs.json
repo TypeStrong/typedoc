@@ -293,14 +293,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "__constructor",
+                    "name": "TestClass.__constructor",
                     "id": 6
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "name": "__constructor",
+                "name": "TestClass.__constructor",
                 "id": 6
               }
             },
@@ -322,7 +322,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "publicProperty",
+                "name": "TestClass.publicProperty",
                 "id": 3
               }
             },
@@ -345,7 +345,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "staticProperty",
+                "name": "TestClass.staticProperty",
                 "id": 5
               }
             },
@@ -400,14 +400,14 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "name": "protectedMethod",
+                    "name": "TestClass.protectedMethod",
                     "id": 10
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "name": "protectedMethod",
+                "name": "TestClass.protectedMethod",
                 "id": 10
               }
             },
@@ -436,14 +436,14 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "name": "publicMethod",
+                    "name": "TestClass.publicMethod",
                     "id": 8
                   }
                 }
               ],
               "overwrites": {
                 "type": "reference",
-                "name": "publicMethod",
+                "name": "TestClass.publicMethod",
                 "id": 8
               }
             },
@@ -472,14 +472,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "staticMethod",
+                    "name": "TestClass.staticMethod",
                     "id": 14
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "name": "staticMethod",
+                "name": "TestClass.staticMethod",
                 "id": 14
               }
             }
