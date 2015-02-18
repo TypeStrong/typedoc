@@ -1315,12 +1315,12 @@ var td;
             }
             function extractTupleType(target, node, type) {
                 var elements = [];
-                if (node.elementTypes) {
+                if (node && node.elementTypes) {
                     node.elementTypes.forEach(function (elementNode) {
                         elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
                     });
                 }
-                else {
+                else if (type && type.elementTypes) {
                     type.elementTypes.forEach(function (type) {
                         elements.push(extractType(target, null, type));
                     });
@@ -1334,7 +1334,7 @@ var td;
                         types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
                     });
                 }
-                else {
+                else if (type && type.types) {
                     type.types.forEach(function (type) {
                         types.push(extractType(target, null, type));
                     });

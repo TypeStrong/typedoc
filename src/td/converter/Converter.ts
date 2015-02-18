@@ -311,11 +311,11 @@ module td
 
             function extractTupleType(target:Reflection, node:ts.TupleTypeNode, type:ts.TupleType):Type {
                 var elements = [];
-                if (node.elementTypes) {
+                if (node && node.elementTypes) {
                     node.elementTypes.forEach((elementNode:ts.TypeNode) => {
                         elements.push(extractType(target, elementNode, checker.getTypeAtLocation(elementNode)));
                     });
-                } else {
+                } else if (type && type.elementTypes) {
                     type.elementTypes.forEach((type:ts.Type) => {
                         elements.push(extractType(target, null, type));
                     });
@@ -331,7 +331,7 @@ module td
                     node.types.forEach((typeNode:ts.TypeNode) => {
                         types.push(extractType(target, typeNode, checker.getTypeAtLocation(typeNode)));
                     });
-                } else {
+                } else if (type && type.types) {
                     type.types.forEach((type:ts.Type) => {
                         types.push(extractType(target, null, type));
                     });
