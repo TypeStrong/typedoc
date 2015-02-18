@@ -1185,9 +1185,9 @@ var td;
                     registerReflection(child, node);
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = createReferenceType(node.symbol);
+                            child.inheritedFrom = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach(function (signature) {
-                                signature.inheritedFrom = createReferenceType(node.symbol);
+                                signature.inheritedFrom = createReferenceType(node.symbol, true);
                             });
                         }
                     }
@@ -1203,9 +1203,9 @@ var td;
                     }
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            child.overwrites = createReferenceType(node.symbol);
+                            child.overwrites = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach(function (signature) {
-                                signature.overwrites = createReferenceType(node.symbol);
+                                signature.overwrites = createReferenceType(node.symbol, true);
                             });
                         }
                         return null;
@@ -1216,9 +1216,12 @@ var td;
                 dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
                 return child;
             }
-            function createReferenceType(symbol) {
-                var name = checker.symbolToString(symbol);
+            function createReferenceType(symbol, includeParent) {
                 var id = getSymbolID(symbol);
+                var name = checker.symbolToString(symbol);
+                if (includeParent && symbol.parent) {
+                    name = [checker.symbolToString(symbol.parent), name].join('.');
+                }
                 return new td.ReferenceType(name, id);
             }
             function createSignature(container, node, name, kind) {
@@ -1245,7 +1248,7 @@ var td;
                         }
                     }
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = createReferenceType(node.symbol);
+                        signature.inheritedFrom = createReferenceType(node.symbol, true);
                     }
                     event.reflection = signature;
                     event.node = node;

@@ -162,9 +162,9 @@ module td
 
                     if (isInherit && node.parent == inheritParent) {
                         if (!child.inheritedFrom) {
-                            child.inheritedFrom = createReferenceType(node.symbol);
+                            child.inheritedFrom = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach((signature) => {
-                                signature.inheritedFrom = createReferenceType(node.symbol);
+                                signature.inheritedFrom = createReferenceType(node.symbol, true);
                             });
                         }
                     }
@@ -180,9 +180,9 @@ module td
 
                     if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
-                            child.overwrites = createReferenceType(node.symbol);
+                            child.overwrites = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach((signature) => {
-                                signature.overwrites = createReferenceType(node.symbol);
+                                signature.overwrites = createReferenceType(node.symbol, true);
                             });
                         }
                         return null;
@@ -197,9 +197,13 @@ module td
             }
 
 
-            function createReferenceType(symbol:ts.Symbol):ReferenceType {
-                var name = checker.symbolToString(symbol);
+            function createReferenceType(symbol:ts.Symbol, includeParent?:boolean):ReferenceType {
                 var id = getSymbolID(symbol);
+                var name = checker.symbolToString(symbol);
+                if (includeParent && symbol.parent) {
+                    name = [checker.symbolToString(symbol.parent), name].join('.');
+                }
+
                 return new ReferenceType(name, id);
             }
 
@@ -231,7 +235,7 @@ module td
                     }
 
                     if (container.inheritedFrom) {
-                        signature.inheritedFrom = createReferenceType(node.symbol);
+                        signature.inheritedFrom = createReferenceType(node.symbol, true);
                     }
 
                     event.reflection = signature;
