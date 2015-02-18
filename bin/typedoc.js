@@ -4644,6 +4644,9 @@ var td;
             if (this.reflection) {
                 result.id = this.reflection.id;
             }
+            if (this.typeArguments) {
+                result.typeArguments = this.typeArguments.map(function (t) { return t.toObject(); });
+            }
             return result;
         };
         /**

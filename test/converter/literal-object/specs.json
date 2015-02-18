@@ -95,7 +95,13 @@
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "name": "Array"
+                    "name": "Array",
+                    "typeArguments": [
+                      {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    ]
                   },
                   "defaultValue": " [100, 200, 300]"
                 },

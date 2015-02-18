@@ -75,6 +75,10 @@ module td
                 result.id = this.reflection.id;
             }
 
+            if (this.typeArguments) {
+                result.typeArguments = this.typeArguments.map((t) => t.toObject());
+            }
+
             return result;
         }
 
