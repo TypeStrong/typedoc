@@ -54,10 +54,6 @@ module td
             var isDeclaration = false;
             var externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
             var symbolID = -1024;
-            var isInherit = false;
-            var inheritParent:ts.Node = null;
-            var inherited:string[] = [];
-            var typeParameters:{[name:string]:Type} = {};
 
             return compile();
 
@@ -69,7 +65,11 @@ module td
                 var converterEvent = new ConverterEvent(checker, project, settings);
                 dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
 
-                var context = new Context(project);
+                var context = new Context(checker, project);
+                context.visit = visit;
+                context.extractType = extractType;
+                context.createTypeParameter = createTypeParameter;
+
                 program.getSourceFiles().forEach((sourceFile) => {
                     visitSourceFile(context, sourceFile);
                 });
@@ -98,11 +98,11 @@ module td
             }
 
 
-            function registerReflection(reflection:Reflection, node:ts.Node) {
+            function registerReflection(context:Context, reflection:Reflection, node:ts.Node) {
                 project.reflections[reflection.id] = reflection;
 
                 var id = getSymbolID(node.symbol);
-                if (!isInherit && id && !project.symbolMapping[id]) {
+                if (!context.isInherit && id && !project.symbolMapping[id]) {
                     project.symbolMapping[id] = reflection.id;
                 }
             }
@@ -126,7 +126,7 @@ module td
                 }
 
                 var isPrivate = !!(node.flags & ts.NodeFlags.Private);
-                if (isInherit && isPrivate) {
+                if (context.isInherit && isPrivate) {
                     return null;
                 }
 
@@ -146,9 +146,9 @@ module td
                     child.setFlag(ReflectionFlag.Exported,  container.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
 
                     container.children.push(child);
-                    registerReflection(child, node);
+                    registerReflection(context, child, node);
 
-                    if (isInherit && node.parent == inheritParent) {
+                    if (context.isInherit && node.parent == context.inheritParent) {
                         if (!child.inheritedFrom) {
                             child.inheritedFrom = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach((signature) => {
@@ -166,7 +166,7 @@ module td
                         }
                     }
 
-                    if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
+                    if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
                             child.overwrites = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach((signature) => {
@@ -200,39 +200,37 @@ module td
                 var container = <DeclarationReflection>context.getScope();
                 var signature = new SignatureReflection(container, name, kind);
 
-                context.withScope(signature, () => {
-                    withTypeParameters(context, node.typeParameters, null, true, () => {
-                        node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
-                            createParameter(context, parameter);
-                        });
-
-                        registerReflection(signature, node);
-
-                        if (kind == ReflectionKind.CallSignature) {
-                            var type = checker.getTypeAtLocation(node);
-                            checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
-                                if (tsSignature.declaration == node) {
-                                    signature.type = extractType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
-                                }
-                            });
-                        }
-
-                        if (!signature.type) {
-                            if (node.type) {
-                                signature.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
-                            } else {
-                                signature.type = extractType(context, node, checker.getTypeAtLocation(node));
-                            }
-                        }
-
-                        if (container.inheritedFrom) {
-                            signature.inheritedFrom = createReferenceType(node.symbol, true);
-                        }
-
-                        event.reflection = signature;
-                        event.node = node;
-                        dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
+                context.withScope(signature, node.typeParameters, true, () => {
+                    node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
+                        createParameter(context, parameter);
                     });
+
+                    registerReflection(context, signature, node);
+
+                    if (kind == ReflectionKind.CallSignature) {
+                        var type = checker.getTypeAtLocation(node);
+                        checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
+                            if (tsSignature.declaration == node) {
+                                signature.type = extractType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
+                            }
+                        });
+                    }
+
+                    if (!signature.type) {
+                        if (node.type) {
+                            signature.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
+                        } else {
+                            signature.type = extractType(context, node, checker.getTypeAtLocation(node));
+                        }
+                    }
+
+                    if (container.inheritedFrom) {
+                        signature.inheritedFrom = createReferenceType(node.symbol, true);
+                    }
+
+                    event.reflection = signature;
+                    event.node = node;
+                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
                 });
 
                 return signature;
@@ -258,7 +256,7 @@ module td
                     if (!signature.parameters) signature.parameters = [];
                     signature.parameters.push(parameter);
 
-                    registerReflection(parameter, node);
+                    registerReflection(context, parameter, node);
 
                     event.reflection = parameter;
                     event.node = node;
@@ -267,16 +265,25 @@ module td
             }
 
 
-            function createTypeParameter(reflection:ITypeParameterContainer, typeParameter:TypeParameterType, node:ts.Node) {
+            function createTypeParameter(context:Context, declaration:ts.TypeParameterDeclaration):TypeParameterType {
+                var typeParameter = new TypeParameterType();
+                typeParameter.name = declaration.symbol.name;
+                if (declaration.constraint) {
+                    typeParameter.constraint = extractType(context, declaration.constraint, this.checker.getTypeAtLocation(declaration.constraint));
+                }
+
+                var reflection = <ITypeParameterContainer>context.getScope();
                 if (!reflection.typeParameters) reflection.typeParameters = [];
                 var typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
 
-                registerReflection(typeParameterReflection, node);
+                registerReflection(context, typeParameterReflection, declaration);
                 reflection.typeParameters.push(typeParameterReflection);
 
                 event.reflection = typeParameterReflection;
-                event.node = node;
+                event.node = declaration;
                 dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
+
+                return typeParameter;
             }
 
 
@@ -292,7 +299,7 @@ module td
                 } else if (type.flags & ts.TypeFlags.Union) {
                     return extractUnionType(context, <ts.UnionTypeNode>node, <ts.UnionType>type);
                 } else if (type.flags & ts.TypeFlags.TypeParameter) {
-                    return extractTypeParameterType(<ts.TypeReferenceNode>node, type);
+                    return extractTypeParameterType(context, <ts.TypeReferenceNode>node, type);
                 } else if (type.flags & ts.TypeFlags.StringLiteral) {
                     return extractStringLiteralType(<ts.StringLiteralType>type);
                 } else if (type.flags & ts.TypeFlags.ObjectType) {
@@ -345,11 +352,11 @@ module td
             }
 
 
-            function extractTypeParameterType(node:ts.TypeReferenceNode, type:ts.Type):Type {
+            function extractTypeParameterType(context:Context, node:ts.TypeReferenceNode, type:ts.Type):Type {
                 if (node && node.typeName) {
                     var name = node.typeName['text'];
-                    if (typeParameters[name]) {
-                        return typeParameters[name];
+                    if (context.typeParameters && context.typeParameters[name]) {
+                        return context.typeParameters[name];
                     } else {
                         var result = new TypeParameterType();
                         result.name = name;
@@ -381,7 +388,7 @@ module td
                             declaration.name = '__type';
                             declaration.parent = context.getScope();
 
-                            registerReflection(declaration, node);
+                            registerReflection(context, declaration, node);
                             event.reflection = declaration;
                             event.node = node;
                             dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
@@ -448,85 +455,6 @@ module td
             }
 
 
-            function extractTypeArguments(context:Context, typeArguments:ts.NodeArray<ts.TypeNode>):Type[] {
-                var result:Type[] = [];
-
-                if (typeArguments) {
-                    typeArguments.forEach((node:ts.TypeNode) => {
-                        result.push(extractType(context, node, checker.getTypeAtLocation(node)));
-                    });
-                }
-
-                return result;
-            }
-
-
-            function withTypeParameters(context:Context, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, typeArguments:Type[], keepTypeParameters:boolean, callback:Function) {
-                var oldTypeParameters = typeParameters;
-                typeParameters = {};
-
-                if (keepTypeParameters) {
-                    for (var key in oldTypeParameters) {
-                        typeParameters[key] = oldTypeParameters[key];
-                    }
-                }
-
-                var reflection:ITypeParameterContainer = <ITypeParameterContainer>context.getScope();
-                if (parameters) {
-                    parameters.forEach((declaration:ts.TypeParameterDeclaration, index:number) => {
-                        var name = declaration.symbol.name;
-                        if (typeArguments && typeArguments[index]) {
-                            typeParameters[name] = typeArguments[index];
-                        } else {
-                            var typeParameter = new TypeParameterType();
-                            typeParameter.name = declaration.symbol.name;
-                            if (declaration.constraint) {
-                                typeParameter.constraint = extractType(context, declaration.constraint, checker.getTypeAtLocation(declaration.constraint));
-                            }
-                            typeParameters[name] = typeParameter;
-                            createTypeParameter(reflection, typeParameter, declaration);
-                        }
-                    });
-                }
-
-                callback();
-                typeParameters = oldTypeParameters;
-            }
-
-
-            /**
-             * Apply all children of the given node to the given target reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The node whose children should be analyzed.
-             * @return The resulting reflection.
-             */
-            function inherit(context:Context, node:ts.Node, typeArguments?:Type[]):Reflection {
-                var wasInherit = isInherit;
-                var oldInherited = inherited;
-                var oldInheritParent = inheritParent;
-                isInherit = true;
-                inheritParent = node;
-                inherited = [];
-
-                var target = <ContainerReflection>context.getScope();
-                if (!(target instanceof ContainerReflection)) {
-                    throw new Error('Expected container reflection');
-                }
-
-                if (target.children) target.children.forEach((child) => {
-                    inherited.push(child.name);
-                });
-
-                visit(context, node, typeArguments);
-
-                isInherit = wasInherit;
-                inherited = oldInherited;
-                inheritParent = oldInheritParent;
-                return target;
-            }
-
-
             /**
              * Analyze the given node and create a suitable reflection.
              *
@@ -536,12 +464,12 @@ module td
              * @param node     The compiler node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visit(context:Context, node:ts.Node, typeArguments?:Type[]):Reflection {
+            function visit(context:Context, node:ts.Node):Reflection {
                 switch (node.kind) {
                     case ts.SyntaxKind.ClassDeclaration:
-                        return visitClassDeclaration(context, <ts.ClassDeclaration>node, typeArguments);
+                        return visitClassDeclaration(context, <ts.ClassDeclaration>node);
                     case ts.SyntaxKind.InterfaceDeclaration:
-                        return visitInterfaceDeclaration(context, <ts.InterfaceDeclaration>node, typeArguments);
+                        return visitInterfaceDeclaration(context, <ts.InterfaceDeclaration>node);
                     case ts.SyntaxKind.ModuleDeclaration:
                         return visitModuleDeclaration(context, <ts.ModuleDeclaration>node);
                     case ts.SyntaxKind.VariableStatement:
@@ -693,52 +621,50 @@ module td
              * @param node     The class declaration node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visitClassDeclaration(context:Context, node:ts.ClassDeclaration, typeArguments?:Type[]):Reflection {
+            function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):Reflection {
                 var reflection;
-                if (isInherit && inheritParent == node) {
+                if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
                 } else {
                     reflection = createDeclaration(context, node, ReflectionKind.Class);
                 }
 
-                context.withScope(reflection, () => {
-                    withTypeParameters(context, node.typeParameters, typeArguments, false, () => {
-                        if (node.members) {
-                            node.members.forEach((member) => {
-                                visit(context, member);
+                context.withScope(reflection, node.typeParameters, () => {
+                    if (node.members) {
+                        node.members.forEach((member) => {
+                            visit(context, member);
+                        });
+                    }
+
+                    if (node.heritageClauses) {
+                        node.heritageClauses.forEach((clause:ts.HeritageClause) => {
+                            if (!clause.types) return;
+                            clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
+                                var type = checker.getTypeAtLocation(typeNode);
+                                switch (clause.token) {
+                                    case ts.SyntaxKind.ExtendsKeyword:
+                                        if (!context.isInherit) {
+                                            if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                            reflection.extendedTypes.push(extractType(context, typeNode, type));
+                                        }
+
+                                        if (type && type.symbol) {
+                                            type.symbol.declarations.forEach((declaration) => {
+                                                context.inherit(declaration, typeNode.typeArguments);
+                                            });
+                                        }
+                                        break;
+                                    case ts.SyntaxKind.ImplementsKeyword:
+                                        if (!reflection.implementedTypes) {
+                                            reflection.implementedTypes = [];
+                                        }
+
+                                        reflection.implementedTypes.push(extractType(context, typeNode, type));
+                                        break;
+                                }
                             });
-                        }
-
-                        if (node.heritageClauses) {
-                            node.heritageClauses.forEach((clause:ts.HeritageClause) => {
-                                if (!clause.types) return;
-                                clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
-                                    var type = checker.getTypeAtLocation(typeNode);
-                                    switch (clause.token) {
-                                        case ts.SyntaxKind.ExtendsKeyword:
-                                            if (!isInherit) {
-                                                if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                                reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                            }
-
-                                            if (type && type.symbol) {
-                                                type.symbol.declarations.forEach((declaration) => {
-                                                    inherit(context, declaration, extractTypeArguments(context, typeNode.typeArguments));
-                                                });
-                                            }
-                                            break;
-                                        case ts.SyntaxKind.ImplementsKeyword:
-                                            if (!reflection.implementedTypes) {
-                                                reflection.implementedTypes = [];
-                                            }
-
-                                            reflection.implementedTypes.push(extractType(context, typeNode, type));
-                                            break;
-                                    }
-                                });
-                            });
-                        }
-                    });
+                        });
+                    }
                 });
 
                 return reflection;
@@ -754,39 +680,37 @@ module td
              */
             function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration, typeArguments?:Type[]):Reflection {
                 var reflection;
-                if (isInherit && inheritParent == node) {
+                if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
                 } else {
                     reflection = createDeclaration(context, node, ReflectionKind.Interface);
                 }
 
-                context.withScope(reflection, () => {
-                    withTypeParameters(context, node.typeParameters, typeArguments, false, () => {
-                        if (node.members) {
-                            node.members.forEach((member, isInherit) => {
-                                visit(context, member);
-                            });
-                        }
+                context.withScope(reflection, node.typeParameters, () => {
+                    if (node.members) {
+                        node.members.forEach((member, isInherit) => {
+                            visit(context, member);
+                        });
+                    }
 
-                        if (node.heritageClauses) {
-                            node.heritageClauses.forEach((clause:ts.HeritageClause) => {
-                                if (!clause.types) return;
-                                clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
-                                    var type = checker.getTypeAtLocation(typeNode);
-                                    if (!isInherit) {
-                                        if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                        reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                    }
+                    if (node.heritageClauses) {
+                        node.heritageClauses.forEach((clause:ts.HeritageClause) => {
+                            if (!clause.types) return;
+                            clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
+                                var type = checker.getTypeAtLocation(typeNode);
+                                if (!context.isInherit) {
+                                    if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                    reflection.extendedTypes.push(extractType(context, typeNode, type));
+                                }
 
-                                    if (type && type.symbol) {
-                                        type.symbol.declarations.forEach((declaration) => {
-                                            inherit(context, declaration, extractTypeArguments(reflection, typeNode.typeArguments));
-                                        });
-                                    }
-                                });
+                                if (type && type.symbol) {
+                                    type.symbol.declarations.forEach((declaration) => {
+                                        context.inherit(declaration, typeNode.typeArguments);
+                                    });
+                                }
                             });
-                        }
-                    });
+                        });
+                    }
                 });
 
                 return reflection;

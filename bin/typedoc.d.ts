@@ -421,14 +421,65 @@ declare module td {
 }
 declare module td {
     /**
-     *
+     * The context describes the current state the converter is in.
      */
     class Context {
+        private checker;
+        /**
+         * The project that is currently processed.
+         */
         private project;
+        /**
+         * The scope or parent reflection that is currently processed.
+         */
         private scope;
-        constructor(project: ProjectReflection);
+        typeParameters: {
+            [name: string]: Type;
+        };
+        private typeArguments;
+        isInherit: boolean;
+        inheritParent: ts.Node;
+        inherited: string[];
+        /**
+         * Temporary
+         */
+        visit: {
+            (context: Context, node: ts.Node): Reflection;
+        };
+        extractType: {
+            (context: Context, node: ts.Node, type: ts.Type): Type;
+        };
+        createTypeParameter: {
+            (context: Context, declaration: ts.TypeParameterDeclaration): TypeParameterType;
+        };
+        /**
+         * Create a new context.
+         *
+         * @param checker
+         * @param project  The target project.
+         */
+        constructor(checker: ts.TypeChecker, project: ProjectReflection);
+        /**
+         * Return the current parent reflection.
+         */
         getScope(): Reflection;
-        withScope(newScope: Reflection, callback: Function): void;
+        /**
+         * Set the context to the given reflection.
+         *
+         * @param scope
+         * @param callback
+         */
+        withScope(scope: Reflection, callback: Function): any;
+        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
+        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserveTypeParameters: boolean, callback: Function): any;
+        /**
+         * Apply all children of the given node to the given target reflection.
+         *
+         * @param node     The node whose children should be analyzed.
+         * @param typeArguments
+         * @return The resulting reflection.
+         */
+        inherit(node: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection;
     }
 }
 declare module td {

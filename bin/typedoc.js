@@ -1066,23 +1066,108 @@ var td;
 var td;
 (function (td) {
     /**
-     *
+     * The context describes the current state the converter is in.
      */
     var Context = (function () {
-        function Context(project) {
+        /**
+         * Create a new context.
+         *
+         * @param checker
+         * @param project  The target project.
+         */
+        function Context(checker, project) {
+            this.checker = checker;
             this.project = project;
             this.scope = project;
         }
+        /**
+         * Return the current parent reflection.
+         */
         Context.prototype.getScope = function () {
             return this.scope;
         };
-        Context.prototype.withScope = function (newScope, callback) {
-            if (!newScope)
+        Context.prototype.withScope = function (scope) {
+            var _this = this;
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            if (!scope || !args.length)
                 return;
+            var callback = args.pop();
             var oldScope = this.scope;
-            this.scope = newScope;
-            callback();
+            var oldTypeArguments = this.typeArguments;
+            this.scope = scope;
+            this.typeArguments = null;
+            var parameters = args.shift();
+            if (parameters) {
+                var oldTypeParameters = this.typeParameters;
+                var typeParameters = {};
+                if (args.length) {
+                    for (var key in oldTypeParameters) {
+                        if (!oldTypeParameters.hasOwnProperty(key))
+                            continue;
+                        typeParameters[key] = oldTypeParameters[key];
+                    }
+                }
+                parameters.forEach(function (declaration, index) {
+                    var name = declaration.symbol.name;
+                    if (oldTypeArguments && oldTypeArguments[index]) {
+                        typeParameters[name] = oldTypeArguments[index];
+                    }
+                    else {
+                        typeParameters[name] = _this.createTypeParameter(_this, declaration);
+                    }
+                });
+                this.typeParameters = typeParameters;
+                callback();
+                this.typeParameters = oldTypeParameters;
+            }
+            else {
+                callback();
+            }
             this.scope = oldScope;
+            this.typeArguments = oldTypeArguments;
+        };
+        /**
+         * Apply all children of the given node to the given target reflection.
+         *
+         * @param node     The node whose children should be analyzed.
+         * @param typeArguments
+         * @return The resulting reflection.
+         */
+        Context.prototype.inherit = function (node, typeArguments) {
+            var _this = this;
+            var wasInherit = this.isInherit;
+            var oldInherited = this.inherited;
+            var oldInheritParent = this.inheritParent;
+            var oldTypeArguments = this.typeArguments;
+            this.isInherit = true;
+            this.inheritParent = node;
+            this.inherited = [];
+            if (typeArguments) {
+                this.typeArguments = [];
+                typeArguments.forEach(function (node) {
+                    _this.typeArguments.push(_this.extractType(_this, node, _this.checker.getTypeAtLocation(node)));
+                });
+            }
+            else {
+                this.typeArguments = null;
+            }
+            var target = this.scope;
+            if (!(target instanceof td.ContainerReflection)) {
+                throw new Error('Expected container reflection');
+            }
+            if (target.children)
+                target.children.forEach(function (child) {
+                    _this.inherited.push(child.name);
+                });
+            this.visit(this, node);
+            this.isInherit = wasInherit;
+            this.inherited = oldInherited;
+            this.inheritParent = oldInheritParent;
+            this.typeArguments = oldTypeArguments;
+            return target;
         };
         return Context;
     })();
@@ -1117,17 +1202,16 @@ var td;
             var isDeclaration = false;
             var externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
             var symbolID = -1024;
-            var isInherit = false;
-            var inheritParent = null;
-            var inherited = [];
-            var typeParameters = {};
             return compile();
             function compile() {
                 var errors = program.getDiagnostics();
                 errors = errors.concat(checker.getDiagnostics());
                 var converterEvent = new td.ConverterEvent(checker, project, settings);
                 dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
-                var context = new td.Context(project);
+                var context = new td.Context(checker, project);
+                context.visit = visit;
+                context.extractType = extractType;
+                context.createTypeParameter = createTypeParameter;
                 program.getSourceFiles().forEach(function (sourceFile) {
                     visitSourceFile(context, sourceFile);
                 });
@@ -1151,10 +1235,10 @@ var td;
                     symbol.id = symbolID--;
                 return symbol.id;
             }
-            function registerReflection(reflection, node) {
+            function registerReflection(context, reflection, node) {
                 project.reflections[reflection.id] = reflection;
                 var id = getSymbolID(node.symbol);
-                if (!isInherit && id && !project.symbolMapping[id]) {
+                if (!context.isInherit && id && !project.symbolMapping[id]) {
                     project.symbolMapping[id] = reflection.id;
                 }
             }
@@ -1174,7 +1258,7 @@ var td;
                     isStatic = true;
                 }
                 var isPrivate = !!(node.flags & 32 /* Private */);
-                if (isInherit && isPrivate) {
+                if (context.isInherit && isPrivate) {
                     return null;
                 }
                 if (!container.children)
@@ -1193,8 +1277,8 @@ var td;
                     child.setFlag(128 /* Optional */, !!(node['questionToken']));
                     child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* Export */));
                     container.children.push(child);
-                    registerReflection(child, node);
-                    if (isInherit && node.parent == inheritParent) {
+                    registerReflection(context, child, node);
+                    if (context.isInherit && node.parent == context.inheritParent) {
                         if (!child.inheritedFrom) {
                             child.inheritedFrom = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach(function (signature) {
@@ -1212,7 +1296,7 @@ var td;
                             child.kind = kind;
                         }
                     }
-                    if (isInherit && node.parent == inheritParent && inherited.indexOf(name) != -1) {
+                    if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(name) != -1) {
                         if (!child.overwrites) {
                             child.overwrites = createReferenceType(node.symbol, true);
                             child.getAllSignatures().forEach(function (signature) {
@@ -1238,35 +1322,33 @@ var td;
             function createSignature(context, node, name, kind) {
                 var container = context.getScope();
                 var signature = new td.SignatureReflection(container, name, kind);
-                context.withScope(signature, function () {
-                    withTypeParameters(context, node.typeParameters, null, true, function () {
-                        node.parameters.forEach(function (parameter) {
-                            createParameter(context, parameter);
-                        });
-                        registerReflection(signature, node);
-                        if (kind == 4096 /* CallSignature */) {
-                            var type = checker.getTypeAtLocation(node);
-                            checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
-                                if (tsSignature.declaration == node) {
-                                    signature.type = extractType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
-                                }
-                            });
-                        }
-                        if (!signature.type) {
-                            if (node.type) {
-                                signature.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
-                            }
-                            else {
-                                signature.type = extractType(context, node, checker.getTypeAtLocation(node));
-                            }
-                        }
-                        if (container.inheritedFrom) {
-                            signature.inheritedFrom = createReferenceType(node.symbol, true);
-                        }
-                        event.reflection = signature;
-                        event.node = node;
-                        dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
+                context.withScope(signature, node.typeParameters, true, function () {
+                    node.parameters.forEach(function (parameter) {
+                        createParameter(context, parameter);
                     });
+                    registerReflection(context, signature, node);
+                    if (kind == 4096 /* CallSignature */) {
+                        var type = checker.getTypeAtLocation(node);
+                        checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
+                            if (tsSignature.declaration == node) {
+                                signature.type = extractType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
+                            }
+                        });
+                    }
+                    if (!signature.type) {
+                        if (node.type) {
+                            signature.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
+                        }
+                        else {
+                            signature.type = extractType(context, node, checker.getTypeAtLocation(node));
+                        }
+                    }
+                    if (container.inheritedFrom) {
+                        signature.inheritedFrom = createReferenceType(node.symbol, true);
+                    }
+                    event.reflection = signature;
+                    event.node = node;
+                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
                 });
                 return signature;
             }
@@ -1285,21 +1367,28 @@ var td;
                     if (!signature.parameters)
                         signature.parameters = [];
                     signature.parameters.push(parameter);
-                    registerReflection(parameter, node);
+                    registerReflection(context, parameter, node);
                     event.reflection = parameter;
                     event.node = node;
                     dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
                 });
             }
-            function createTypeParameter(reflection, typeParameter, node) {
+            function createTypeParameter(context, declaration) {
+                var typeParameter = new td.TypeParameterType();
+                typeParameter.name = declaration.symbol.name;
+                if (declaration.constraint) {
+                    typeParameter.constraint = extractType(context, declaration.constraint, this.checker.getTypeAtLocation(declaration.constraint));
+                }
+                var reflection = context.getScope();
                 if (!reflection.typeParameters)
                     reflection.typeParameters = [];
                 var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
-                registerReflection(typeParameterReflection, node);
+                registerReflection(context, typeParameterReflection, declaration);
                 reflection.typeParameters.push(typeParameterReflection);
                 event.reflection = typeParameterReflection;
-                event.node = node;
+                event.node = declaration;
                 dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
+                return typeParameter;
             }
             function extractType(context, node, type) {
                 if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
@@ -1318,7 +1407,7 @@ var td;
                     return extractUnionType(context, node, type);
                 }
                 else if (type.flags & 512 /* TypeParameter */) {
-                    return extractTypeParameterType(node, type);
+                    return extractTypeParameterType(context, node, type);
                 }
                 else if (type.flags & 256 /* StringLiteral */) {
                     return extractStringLiteralType(type);
@@ -1364,11 +1453,11 @@ var td;
                 }
                 return new td.UnionType(types);
             }
-            function extractTypeParameterType(node, type) {
+            function extractTypeParameterType(context, node, type) {
                 if (node && node.typeName) {
                     var name = node.typeName['text'];
-                    if (typeParameters[name]) {
-                        return typeParameters[name];
+                    if (context.typeParameters && context.typeParameters[name]) {
+                        return context.typeParameters[name];
                     }
                     else {
                         var result = new td.TypeParameterType();
@@ -1398,7 +1487,7 @@ var td;
                             declaration.kind = 65536 /* TypeLiteral */;
                             declaration.name = '__type';
                             declaration.parent = context.getScope();
-                            registerReflection(declaration, node);
+                            registerReflection(context, declaration, node);
                             event.reflection = declaration;
                             event.node = node;
                             dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
@@ -1459,72 +1548,6 @@ var td;
                         break;
                 }
             }
-            function extractTypeArguments(context, typeArguments) {
-                var result = [];
-                if (typeArguments) {
-                    typeArguments.forEach(function (node) {
-                        result.push(extractType(context, node, checker.getTypeAtLocation(node)));
-                    });
-                }
-                return result;
-            }
-            function withTypeParameters(context, parameters, typeArguments, keepTypeParameters, callback) {
-                var oldTypeParameters = typeParameters;
-                typeParameters = {};
-                if (keepTypeParameters) {
-                    for (var key in oldTypeParameters) {
-                        typeParameters[key] = oldTypeParameters[key];
-                    }
-                }
-                var reflection = context.getScope();
-                if (parameters) {
-                    parameters.forEach(function (declaration, index) {
-                        var name = declaration.symbol.name;
-                        if (typeArguments && typeArguments[index]) {
-                            typeParameters[name] = typeArguments[index];
-                        }
-                        else {
-                            var typeParameter = new td.TypeParameterType();
-                            typeParameter.name = declaration.symbol.name;
-                            if (declaration.constraint) {
-                                typeParameter.constraint = extractType(context, declaration.constraint, checker.getTypeAtLocation(declaration.constraint));
-                            }
-                            typeParameters[name] = typeParameter;
-                            createTypeParameter(reflection, typeParameter, declaration);
-                        }
-                    });
-                }
-                callback();
-                typeParameters = oldTypeParameters;
-            }
-            /**
-             * Apply all children of the given node to the given target reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The node whose children should be analyzed.
-             * @return The resulting reflection.
-             */
-            function inherit(context, node, typeArguments) {
-                var wasInherit = isInherit;
-                var oldInherited = inherited;
-                var oldInheritParent = inheritParent;
-                isInherit = true;
-                inheritParent = node;
-                inherited = [];
-                var target = context.getScope();
-                if (!(target instanceof td.ContainerReflection)) {
-                    throw new Error('Expected container reflection');
-                }
-                if (target.children)
-                    target.children.forEach(function (child) {
-                        inherited.push(child.name);
-                    });
-                visit(context, node, typeArguments);
-                isInherit = wasInherit;
-                inherited = oldInherited;
-                inheritParent = oldInheritParent;
-                return target;
-            }
             /**
              * Analyze the given node and create a suitable reflection.
              *
@@ -1534,12 +1557,12 @@ var td;
              * @param node     The compiler node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visit(context, node, typeArguments) {
+            function visit(context, node) {
                 switch (node.kind) {
                     case 185 /* ClassDeclaration */:
-                        return visitClassDeclaration(context, node, typeArguments);
+                        return visitClassDeclaration(context, node);
                     case 186 /* InterfaceDeclaration */:
-                        return visitInterfaceDeclaration(context, node, typeArguments);
+                        return visitInterfaceDeclaration(context, node);
                     case 189 /* ModuleDeclaration */:
                         return visitModuleDeclaration(context, node);
                     case 164 /* VariableStatement */:
@@ -1666,51 +1689,49 @@ var td;
              * @param node     The class declaration node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visitClassDeclaration(context, node, typeArguments) {
+            function visitClassDeclaration(context, node) {
                 var reflection;
-                if (isInherit && inheritParent == node) {
+                if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
                 }
                 else {
                     reflection = createDeclaration(context, node, 128 /* Class */);
                 }
-                context.withScope(reflection, function () {
-                    withTypeParameters(context, node.typeParameters, typeArguments, false, function () {
-                        if (node.members) {
-                            node.members.forEach(function (member) {
-                                visit(context, member);
+                context.withScope(reflection, node.typeParameters, function () {
+                    if (node.members) {
+                        node.members.forEach(function (member) {
+                            visit(context, member);
+                        });
+                    }
+                    if (node.heritageClauses) {
+                        node.heritageClauses.forEach(function (clause) {
+                            if (!clause.types)
+                                return;
+                            clause.types.forEach(function (typeNode) {
+                                var type = checker.getTypeAtLocation(typeNode);
+                                switch (clause.token) {
+                                    case 77 /* ExtendsKeyword */:
+                                        if (!context.isInherit) {
+                                            if (!reflection.extendedTypes)
+                                                reflection.extendedTypes = [];
+                                            reflection.extendedTypes.push(extractType(context, typeNode, type));
+                                        }
+                                        if (type && type.symbol) {
+                                            type.symbol.declarations.forEach(function (declaration) {
+                                                context.inherit(declaration, typeNode.typeArguments);
+                                            });
+                                        }
+                                        break;
+                                    case 100 /* ImplementsKeyword */:
+                                        if (!reflection.implementedTypes) {
+                                            reflection.implementedTypes = [];
+                                        }
+                                        reflection.implementedTypes.push(extractType(context, typeNode, type));
+                                        break;
+                                }
                             });
-                        }
-                        if (node.heritageClauses) {
-                            node.heritageClauses.forEach(function (clause) {
-                                if (!clause.types)
-                                    return;
-                                clause.types.forEach(function (typeNode) {
-                                    var type = checker.getTypeAtLocation(typeNode);
-                                    switch (clause.token) {
-                                        case 77 /* ExtendsKeyword */:
-                                            if (!isInherit) {
-                                                if (!reflection.extendedTypes)
-                                                    reflection.extendedTypes = [];
-                                                reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                            }
-                                            if (type && type.symbol) {
-                                                type.symbol.declarations.forEach(function (declaration) {
-                                                    inherit(context, declaration, extractTypeArguments(context, typeNode.typeArguments));
-                                                });
-                                            }
-                                            break;
-                                        case 100 /* ImplementsKeyword */:
-                                            if (!reflection.implementedTypes) {
-                                                reflection.implementedTypes = [];
-                                            }
-                                            reflection.implementedTypes.push(extractType(context, typeNode, type));
-                                            break;
-                                    }
-                                });
-                            });
-                        }
-                    });
+                        });
+                    }
                 });
                 return reflection;
             }
@@ -1723,39 +1744,37 @@ var td;
              */
             function visitInterfaceDeclaration(context, node, typeArguments) {
                 var reflection;
-                if (isInherit && inheritParent == node) {
+                if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
                 }
                 else {
                     reflection = createDeclaration(context, node, 256 /* Interface */);
                 }
-                context.withScope(reflection, function () {
-                    withTypeParameters(context, node.typeParameters, typeArguments, false, function () {
-                        if (node.members) {
-                            node.members.forEach(function (member, isInherit) {
-                                visit(context, member);
+                context.withScope(reflection, node.typeParameters, function () {
+                    if (node.members) {
+                        node.members.forEach(function (member, isInherit) {
+                            visit(context, member);
+                        });
+                    }
+                    if (node.heritageClauses) {
+                        node.heritageClauses.forEach(function (clause) {
+                            if (!clause.types)
+                                return;
+                            clause.types.forEach(function (typeNode) {
+                                var type = checker.getTypeAtLocation(typeNode);
+                                if (!context.isInherit) {
+                                    if (!reflection.extendedTypes)
+                                        reflection.extendedTypes = [];
+                                    reflection.extendedTypes.push(extractType(context, typeNode, type));
+                                }
+                                if (type && type.symbol) {
+                                    type.symbol.declarations.forEach(function (declaration) {
+                                        context.inherit(declaration, typeNode.typeArguments);
+                                    });
+                                }
                             });
-                        }
-                        if (node.heritageClauses) {
-                            node.heritageClauses.forEach(function (clause) {
-                                if (!clause.types)
-                                    return;
-                                clause.types.forEach(function (typeNode) {
-                                    var type = checker.getTypeAtLocation(typeNode);
-                                    if (!isInherit) {
-                                        if (!reflection.extendedTypes)
-                                            reflection.extendedTypes = [];
-                                        reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                    }
-                                    if (type && type.symbol) {
-                                        type.symbol.declarations.forEach(function (declaration) {
-                                            inherit(context, declaration, extractTypeArguments(reflection, typeNode.typeArguments));
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                    });
+                        });
+                    }
                 });
                 return reflection;
             }
