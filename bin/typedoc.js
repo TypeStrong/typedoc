@@ -1703,33 +1703,28 @@ var td;
                             visit(context, member);
                         });
                     }
-                    if (node.heritageClauses) {
-                        node.heritageClauses.forEach(function (clause) {
-                            if (!clause.types)
-                                return;
-                            clause.types.forEach(function (typeNode) {
-                                var type = checker.getTypeAtLocation(typeNode);
-                                switch (clause.token) {
-                                    case 77 /* ExtendsKeyword */:
-                                        if (!context.isInherit) {
-                                            if (!reflection.extendedTypes)
-                                                reflection.extendedTypes = [];
-                                            reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                        }
-                                        if (type && type.symbol) {
-                                            type.symbol.declarations.forEach(function (declaration) {
-                                                context.inherit(declaration, typeNode.typeArguments);
-                                            });
-                                        }
-                                        break;
-                                    case 100 /* ImplementsKeyword */:
-                                        if (!reflection.implementedTypes) {
-                                            reflection.implementedTypes = [];
-                                        }
-                                        reflection.implementedTypes.push(extractType(context, typeNode, type));
-                                        break;
-                                }
+                    var baseType = ts.getClassBaseTypeNode(node);
+                    if (baseType) {
+                        var type = checker.getTypeAtLocation(baseType);
+                        if (!context.isInherit) {
+                            if (!reflection.extendedTypes)
+                                reflection.extendedTypes = [];
+                            reflection.extendedTypes.push(extractType(context, baseType, type));
+                        }
+                        if (type && type.symbol) {
+                            type.symbol.declarations.forEach(function (declaration) {
+                                context.inherit(declaration, baseType.typeArguments);
                             });
+                        }
+                    }
+                    var implementedTypes = ts.getClassImplementedTypeNodes(node);
+                    if (implementedTypes) {
+                        implementedTypes.forEach(function (implementedType) {
+                            var type = checker.getTypeAtLocation(baseType);
+                            if (!reflection.implementedTypes) {
+                                reflection.implementedTypes = [];
+                            }
+                            reflection.implementedTypes.push(extractType(context, implementedType, type));
                         });
                     }
                 });
@@ -1742,7 +1737,7 @@ var td;
              * @param node     The interface declaration node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visitInterfaceDeclaration(context, node, typeArguments) {
+            function visitInterfaceDeclaration(context, node) {
                 var reflection;
                 if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
@@ -1756,23 +1751,20 @@ var td;
                             visit(context, member);
                         });
                     }
-                    if (node.heritageClauses) {
-                        node.heritageClauses.forEach(function (clause) {
-                            if (!clause.types)
-                                return;
-                            clause.types.forEach(function (typeNode) {
-                                var type = checker.getTypeAtLocation(typeNode);
-                                if (!context.isInherit) {
-                                    if (!reflection.extendedTypes)
-                                        reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                }
-                                if (type && type.symbol) {
-                                    type.symbol.declarations.forEach(function (declaration) {
-                                        context.inherit(declaration, typeNode.typeArguments);
-                                    });
-                                }
-                            });
+                    var baseTypes = ts.getInterfaceBaseTypeNodes(node);
+                    if (baseTypes) {
+                        baseTypes.forEach(function (baseType) {
+                            var type = checker.getTypeAtLocation(baseType);
+                            if (!context.isInherit) {
+                                if (!reflection.extendedTypes)
+                                    reflection.extendedTypes = [];
+                                reflection.extendedTypes.push(extractType(context, baseType, type));
+                            }
+                            if (type && type.symbol) {
+                                type.symbol.declarations.forEach(function (declaration) {
+                                    context.inherit(declaration, baseType.typeArguments);
+                                });
+                            }
                         });
                     }
                 });

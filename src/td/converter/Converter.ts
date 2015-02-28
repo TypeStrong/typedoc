@@ -636,33 +636,30 @@ module td
                         });
                     }
 
-                    if (node.heritageClauses) {
-                        node.heritageClauses.forEach((clause:ts.HeritageClause) => {
-                            if (!clause.types) return;
-                            clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
-                                var type = checker.getTypeAtLocation(typeNode);
-                                switch (clause.token) {
-                                    case ts.SyntaxKind.ExtendsKeyword:
-                                        if (!context.isInherit) {
-                                            if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                            reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                        }
+                    var baseType = ts.getClassBaseTypeNode(node);
+                    if (baseType) {
+                        var type = checker.getTypeAtLocation(baseType);
+                        if (!context.isInherit) {
+                            if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                            reflection.extendedTypes.push(extractType(context, baseType, type));
+                        }
 
-                                        if (type && type.symbol) {
-                                            type.symbol.declarations.forEach((declaration) => {
-                                                context.inherit(declaration, typeNode.typeArguments);
-                                            });
-                                        }
-                                        break;
-                                    case ts.SyntaxKind.ImplementsKeyword:
-                                        if (!reflection.implementedTypes) {
-                                            reflection.implementedTypes = [];
-                                        }
-
-                                        reflection.implementedTypes.push(extractType(context, typeNode, type));
-                                        break;
-                                }
+                        if (type && type.symbol) {
+                            type.symbol.declarations.forEach((declaration) => {
+                                context.inherit(declaration, baseType.typeArguments);
                             });
+                        }
+                    }
+
+                    var implementedTypes = ts.getClassImplementedTypeNodes(node);
+                    if (implementedTypes) {
+                        implementedTypes.forEach((implementedType) => {
+                            var type = checker.getTypeAtLocation(baseType);
+                            if (!reflection.implementedTypes) {
+                                reflection.implementedTypes = [];
+                            }
+
+                            reflection.implementedTypes.push(extractType(context, implementedType, type));
                         });
                     }
                 });
@@ -678,7 +675,7 @@ module td
              * @param node     The interface declaration node that should be analyzed.
              * @return The resulting reflection or NULL.
              */
-            function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration, typeArguments?:Type[]):Reflection {
+            function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration):Reflection {
                 var reflection;
                 if (context.isInherit && context.inheritParent == node) {
                     reflection = context.getScope();
@@ -693,22 +690,20 @@ module td
                         });
                     }
 
-                    if (node.heritageClauses) {
-                        node.heritageClauses.forEach((clause:ts.HeritageClause) => {
-                            if (!clause.types) return;
-                            clause.types.forEach((typeNode:ts.TypeReferenceNode) => {
-                                var type = checker.getTypeAtLocation(typeNode);
-                                if (!context.isInherit) {
-                                    if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                                    reflection.extendedTypes.push(extractType(context, typeNode, type));
-                                }
+                    var baseTypes = ts.getInterfaceBaseTypeNodes(node);
+                    if (baseTypes) {
+                        baseTypes.forEach((baseType) => {
+                            var type = checker.getTypeAtLocation(baseType);
+                            if (!context.isInherit) {
+                                if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                                reflection.extendedTypes.push(extractType(context, baseType, type));
+                            }
 
-                                if (type && type.symbol) {
-                                    type.symbol.declarations.forEach((declaration) => {
-                                        context.inherit(declaration, typeNode.typeArguments);
-                                    });
-                                }
-                            });
+                            if (type && type.symbol) {
+                                type.symbol.declarations.forEach((declaration) => {
+                                    context.inherit(declaration, baseType.typeArguments);
+                                });
+                            }
                         });
                     }
                 });
