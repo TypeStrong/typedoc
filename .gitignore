@@ -10,5 +10,6 @@
 /examples/*/doc
 /examples/definitely-typed/src/
 /examples/plottable/src/
+/examples/doppio/src/
 /node_modules/
 /typescript/
