@@ -421,12 +421,17 @@ declare module td {
 }
 declare module td {
     /**
-     * Return a string that explains the given flag bit mask.
      *
-     * @param value  A bit mask containing TypeScript.PullElementFlags bits.
-     * @returns A string describing the given bit mask.
      */
-    function flagsToString(value: any, flags: any): string;
+    class Context {
+        private project;
+        private scope;
+        constructor(project: ProjectReflection);
+        getScope(): Reflection;
+        withScope(newScope: Reflection, callback: Function): void;
+    }
+}
+declare module td {
     interface IConverterResult {
         project: any;
         errors: ts.Diagnostic[];
