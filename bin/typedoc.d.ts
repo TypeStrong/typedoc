@@ -493,7 +493,10 @@ declare module td {
         project: any;
         errors: ts.Diagnostic[];
     }
-    class Converter extends PluginHost<ConverterPlugin> {
+    class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost {
+        private application;
+        private currentDirectory;
+        static ERROR_UNSUPPORTED_FILE_ENCODING: number;
         static EVENT_BEGIN: string;
         static EVENT_END: string;
         static EVENT_FILE_BEGIN: string;
@@ -505,21 +508,21 @@ declare module td {
         static EVENT_RESOLVE_BEGIN: string;
         static EVENT_RESOLVE_END: string;
         static EVENT_RESOLVE: string;
-        constructor();
+        constructor(application: IApplication);
         /**
          * Compile the given source files and create a reflection tree for them.
          *
          * @param fileNames  Array of the file names that should be compiled.
          * @param settings   The settings that should be used to compile the files.
          */
-        convert(fileNames: string[], settings: Settings): IConverterResult;
-        /**
-         * Create the compiler host.
-         *
-         * Taken from TypeScript source files.
-         * @see https://github.com/Microsoft/TypeScript/blob/master/src/compiler/tsc.ts#L136
-         */
-        createCompilerHost(options: ts.CompilerOptions): ts.CompilerHost;
+        convert(fileNames: string[]): IConverterResult;
+        getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile;
+        getDefaultLibFilename(): any;
+        getCurrentDirectory(): string;
+        useCaseSensitiveFileNames(): boolean;
+        getCanonicalFileName(fileName: string): string;
+        getNewLine(): string;
+        writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
     }
 }
 declare module td {
@@ -552,9 +555,9 @@ declare module td {
     }
 }
 declare module td {
-    function extractDefaultValue(node: ts.VariableDeclaration, reflection: IDefaultValueContainer): any;
-    function extractDefaultValue(node: ts.ParameterDeclaration, reflection: IDefaultValueContainer): any;
-    function extractDefaultValue(node: ts.EnumMember, reflection: IDefaultValueContainer): any;
+    function getDefaultValue(node: ts.VariableDeclaration): string;
+    function getDefaultValue(node: ts.ParameterDeclaration): string;
+    function getDefaultValue(node: ts.EnumMember): string;
     /**
      * Analyze the given node and create a suitable reflection.
      *

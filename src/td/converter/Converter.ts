@@ -8,8 +8,14 @@ module td
     }
 
 
-    export class Converter extends PluginHost<ConverterPlugin>
+    export class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost
     {
+        private application:IApplication;
+
+        private currentDirectory: string;
+
+        static ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
+
         static EVENT_BEGIN:string = 'begin';
         static EVENT_END:string = 'end';
 
@@ -26,8 +32,10 @@ module td
 
 
 
-        constructor() {
+        constructor(application:IApplication) {
             super();
+            this.application = application;
+
             Converter.loadPlugins(this);
         }
 
@@ -38,14 +46,14 @@ module td
          * @param fileNames  Array of the file names that should be compiled.
          * @param settings   The settings that should be used to compile the files.
          */
-        convert(fileNames:string[], settings:Settings):IConverterResult {
+        convert(fileNames:string[]):IConverterResult {
             for (var i = 0, c = fileNames.length; i < c; i++) {
                 fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
             }
 
             var dispatcher = this;
-            var host    = this.createCompilerHost(settings.compilerOptions);
-            var program = ts.createProgram(fileNames, settings.compilerOptions, host);
+            var settings = this.application.settings;
+            var program = ts.createProgram(fileNames, settings.compilerOptions, this);
             var checker = program.getTypeChecker(true);
             var project = new ProjectReflection(settings.name);
 
@@ -83,47 +91,48 @@ module td
             }
         }
 
-
-        /**
-         * Create the compiler host.
-         *
-         * Taken from TypeScript source files.
-         * @see https://github.com/Microsoft/TypeScript/blob/master/src/compiler/tsc.ts#L136
-         */
-        createCompilerHost(options:ts.CompilerOptions):ts.CompilerHost {
-            var currentDirectory: string;
-            var unsupportedFileEncodingErrorCode = -2147024809;
-
-            function getCanonicalFileName(fileName:string):string {
-                return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
-            }
-
-            function getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
-                try {
-                    var text = ts.sys.readFile(filename, options.charset);
-                } catch (e) {
-                    if (onError) {
-                        onError(e.number === unsupportedFileEncodingErrorCode ?
-                            'Unsupported file encoding' :
-                            e.message);
-                    }
-                    text = "";
+        getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
+            try {
+                var text = ts.sys.readFile(filename, this.application.settings.compilerOptions.charset);
+            } catch (e) {
+                if (onError) {
+                    onError(e.number === Converter.ERROR_UNSUPPORTED_FILE_ENCODING ?
+                        'Unsupported file encoding' :
+                        e.message);
                 }
-                return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, /*version:*/ "0") : undefined;
+                text = "";
             }
 
-            function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) {
-            }
+            return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, /*version:*/ "0") : undefined;
+        }
 
-            return {
-                getSourceFile: getSourceFile,
-                getDefaultLibFilename: () => Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'),
-                writeFile: writeFile,
-                getCurrentDirectory: () => currentDirectory || (currentDirectory = ts.sys.getCurrentDirectory()),
-                useCaseSensitiveFileNames: () => ts.sys.useCaseSensitiveFileNames,
-                getCanonicalFileName: getCanonicalFileName,
-                getNewLine: () => ts.sys.newLine
-            };
+
+        getDefaultLibFilename() {
+            return Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts');
+        }
+
+
+        getCurrentDirectory() {
+            return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());
+        }
+
+
+        useCaseSensitiveFileNames() {
+            return ts.sys.useCaseSensitiveFileNames;
+        }
+
+
+        getCanonicalFileName(fileName:string):string {
+            return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+        }
+
+
+        getNewLine() {
+            return ts.sys.newLine;
+        }
+
+
+        writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) {
         }
     }
 }

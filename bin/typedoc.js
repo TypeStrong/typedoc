@@ -703,7 +703,7 @@ var td;
              */
             this.hasErrors = false;
             this.settings = settings;
-            this.converter = new td.Converter();
+            this.converter = new td.Converter(this);
             this.renderer = new td.Renderer(this);
         }
         /**
@@ -755,7 +755,7 @@ var td;
          */
         Application.prototype.generate = function (inputFiles, outputDirectory) {
             var _this = this;
-            var result = this.converter.convert(inputFiles, this.settings);
+            var result = this.converter.convert(inputFiles);
             if (result.errors && result.errors.length) {
                 result.errors.forEach(function (error) {
                     var output = error.file.filename;
@@ -1230,8 +1230,9 @@ var td;
 (function (td) {
     var Converter = (function (_super) {
         __extends(Converter, _super);
-        function Converter() {
+        function Converter(application) {
             _super.call(this);
+            this.application = application;
             Converter.loadPlugins(this);
         }
         /**
@@ -1240,13 +1241,13 @@ var td;
          * @param fileNames  Array of the file names that should be compiled.
          * @param settings   The settings that should be used to compile the files.
          */
-        Converter.prototype.convert = function (fileNames, settings) {
+        Converter.prototype.convert = function (fileNames) {
             for (var i = 0, c = fileNames.length; i < c; i++) {
                 fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
             }
             var dispatcher = this;
-            var host = this.createCompilerHost(settings.compilerOptions);
-            var program = ts.createProgram(fileNames, settings.compilerOptions, host);
+            var settings = this.application.settings;
+            var program = ts.createProgram(fileNames, settings.compilerOptions, this);
             var checker = program.getTypeChecker(true);
             var project = new td.ProjectReflection(settings.name);
             return compile();
@@ -1273,42 +1274,36 @@ var td;
                 };
             }
         };
-        /**
-         * Create the compiler host.
-         *
-         * Taken from TypeScript source files.
-         * @see https://github.com/Microsoft/TypeScript/blob/master/src/compiler/tsc.ts#L136
-         */
-        Converter.prototype.createCompilerHost = function (options) {
-            var currentDirectory;
-            var unsupportedFileEncodingErrorCode = -2147024809;
-            function getCanonicalFileName(fileName) {
-                return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+        Converter.prototype.getSourceFile = function (filename, languageVersion, onError) {
+            try {
+                var text = ts.sys.readFile(filename, this.application.settings.compilerOptions.charset);
             }
-            function getSourceFile(filename, languageVersion, onError) {
-                try {
-                    var text = ts.sys.readFile(filename, options.charset);
+            catch (e) {
+                if (onError) {
+                    onError(e.number === Converter.ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
                 }
-                catch (e) {
-                    if (onError) {
-                        onError(e.number === unsupportedFileEncodingErrorCode ? 'Unsupported file encoding' : e.message);
-                    }
-                    text = "";
-                }
-                return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, "0") : undefined;
+                text = "";
             }
-            function writeFile(fileName, data, writeByteOrderMark, onError) {
-            }
-            return {
-                getSourceFile: getSourceFile,
-                getDefaultLibFilename: function () { return td.Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts'); },
-                writeFile: writeFile,
-                getCurrentDirectory: function () { return currentDirectory || (currentDirectory = ts.sys.getCurrentDirectory()); },
-                useCaseSensitiveFileNames: function () { return ts.sys.useCaseSensitiveFileNames; },
-                getCanonicalFileName: getCanonicalFileName,
-                getNewLine: function () { return ts.sys.newLine; }
-            };
+            return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, "0") : undefined;
         };
+        Converter.prototype.getDefaultLibFilename = function () {
+            return td.Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts');
+        };
+        Converter.prototype.getCurrentDirectory = function () {
+            return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());
+        };
+        Converter.prototype.useCaseSensitiveFileNames = function () {
+            return ts.sys.useCaseSensitiveFileNames;
+        };
+        Converter.prototype.getCanonicalFileName = function (fileName) {
+            return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
+        };
+        Converter.prototype.getNewLine = function () {
+            return ts.sys.newLine;
+        };
+        Converter.prototype.writeFile = function (fileName, data, writeByteOrderMark, onError) {
+        };
+        Converter.ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
         Converter.EVENT_BEGIN = 'begin';
         Converter.EVENT_END = 'end';
         Converter.EVENT_FILE_BEGIN = 'fileBegin';
@@ -1371,29 +1366,35 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
-    function extractDefaultValue(node, reflection) {
+    /**
+     * Return the default value of the given node.
+     *
+     * @param node  The TypeScript node whose default value should be extracted.
+     * @returns The default value as a string.
+     */
+    function getDefaultValue(node) {
         if (!node.initializer)
             return;
         switch (node.initializer.kind) {
             case 7 /* StringLiteral */:
-                reflection.defaultValue = '"' + node.initializer.text + '"';
+                return '"' + node.initializer.text + '"';
                 break;
             case 6 /* NumericLiteral */:
-                reflection.defaultValue = node.initializer.text;
+                return node.initializer.text;
                 break;
             case 93 /* TrueKeyword */:
-                reflection.defaultValue = 'true';
+                return 'true';
                 break;
             case 78 /* FalseKeyword */:
-                reflection.defaultValue = 'false';
+                return 'false';
                 break;
             default:
                 var source = ts.getSourceFileOfNode(node);
-                reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
+                return source.text.substring(node.initializer.pos, node.initializer.end);
                 break;
         }
     }
-    td.extractDefaultValue = extractDefaultValue;
+    td.getDefaultValue = getDefaultValue;
     /**
      * Analyze the given node and create a suitable reflection.
      *
@@ -1662,7 +1663,7 @@ var td;
                         }
                         break;
                     default:
-                        extractDefaultValue(node, variable);
+                        variable.defaultValue = getDefaultValue(node);
                 }
             }
             if (variable.kind == kind) {
@@ -1699,7 +1700,7 @@ var td;
     function visitEnumMember(context, node) {
         var member = td.createDeclaration(context, node, 16 /* EnumMember */);
         if (member) {
-            extractDefaultValue(node, member);
+            member.defaultValue = getDefaultValue(node);
         }
         return member;
     }
@@ -2410,7 +2411,7 @@ var td;
             parameter.type = td.convertType(context, node.type, context.getTypeAtLocation(node));
             parameter.setFlag(128 /* Optional */, !!node.questionToken);
             parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
-            td.extractDefaultValue(node, parameter);
+            parameter.defaultValue = td.getDefaultValue(node);
             parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
             if (!signature.parameters)
                 signature.parameters = [];

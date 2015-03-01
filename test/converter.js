@@ -61,8 +61,11 @@ describe('Converter', function() {
     var converter, settings;
 
     it('constructs', function() {
-        converter = new TD.Converter();
         settings = new TD.Settings();
+        converter = new TD.Converter({
+            settings: settings,
+            log: function()  {}
+        });
     });
 
     FS.readdirSync(base).forEach(function (directory) {
@@ -77,7 +80,7 @@ describe('Converter', function() {
                 settings.expandInputFiles();
                 settings.compilerOptions.noLib = true;
                 TD.resetReflectionID();
-                result = converter.convert(settings.inputFiles, settings);
+                result = converter.convert(settings.inputFiles);
             });
 
             it('matches specs', function() {

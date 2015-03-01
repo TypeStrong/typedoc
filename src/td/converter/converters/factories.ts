@@ -141,7 +141,7 @@ module td
             parameter.setFlag(ReflectionFlag.Optional, !!node.questionToken);
             parameter.setFlag(ReflectionFlag.Rest, !!node.dotDotDotToken);
 
-            extractDefaultValue(node, parameter);
+            parameter.defaultValue = getDefaultValue(node);
             parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
 
             if (!signature.parameters) signature.parameters = [];

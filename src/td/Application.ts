@@ -137,7 +137,7 @@ module td
          */
         constructor(settings:Settings = new Settings()) {
             this.settings  = settings;
-            this.converter = new Converter();
+            this.converter = new Converter(this);
             this.renderer  = new Renderer(this);
         }
 
@@ -192,7 +192,7 @@ module td
          * @param outputDirectory  The path of the directory the documentation should be written to.
          */
         public generate(inputFiles:string[], outputDirectory:string):boolean {
-            var result = this.converter.convert(inputFiles, this.settings);
+            var result = this.converter.convert(inputFiles);
 
             if (result.errors && result.errors.length) {
                 result.errors.forEach((error) => {

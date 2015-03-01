@@ -1,26 +1,33 @@
 module td
 {
-    export function extractDefaultValue(node:ts.VariableDeclaration, reflection:IDefaultValueContainer);
-    export function extractDefaultValue(node:ts.ParameterDeclaration, reflection:IDefaultValueContainer);
-    export function extractDefaultValue(node:ts.EnumMember, reflection:IDefaultValueContainer);
-    export function extractDefaultValue(node:{initializer?:ts.Expression}, reflection:IDefaultValueContainer) {
+    export function getDefaultValue(node:ts.VariableDeclaration):string;
+    export function getDefaultValue(node:ts.ParameterDeclaration):string;
+    export function getDefaultValue(node:ts.EnumMember):string;
+
+    /**
+     * Return the default value of the given node.
+     *
+     * @param node  The TypeScript node whose default value should be extracted.
+     * @returns The default value as a string.
+     */
+    export function getDefaultValue(node:{initializer?:ts.Expression}):string {
         if (!node.initializer) return;
         switch (node.initializer.kind) {
             case ts.SyntaxKind.StringLiteral:
-                reflection.defaultValue = '"' + (<ts.LiteralExpression>node.initializer).text + '"';
+                return '"' + (<ts.LiteralExpression>node.initializer).text + '"';
                 break;
             case ts.SyntaxKind.NumericLiteral:
-                reflection.defaultValue = (<ts.LiteralExpression>node.initializer).text;
+                return (<ts.LiteralExpression>node.initializer).text;
                 break;
             case ts.SyntaxKind.TrueKeyword:
-                reflection.defaultValue = 'true';
+                return 'true';
                 break;
             case ts.SyntaxKind.FalseKeyword:
-                reflection.defaultValue = 'false';
+                return 'false';
                 break;
             default:
                 var source = ts.getSourceFileOfNode(<ts.Node>node);
-                reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
+                return source.text.substring(node.initializer.pos, node.initializer.end);
                 break;
         }
     }
@@ -330,7 +337,7 @@ module td
                         }
                         break;
                     default:
-                        extractDefaultValue(node, variable);
+                        variable.defaultValue = getDefaultValue(node);
                 }
             }
 
@@ -375,7 +382,7 @@ module td
     function visitEnumMember(context:Context, node:ts.EnumMember):Reflection {
         var member = createDeclaration(context, node, ReflectionKind.EnumMember);
         if (member) {
-            extractDefaultValue(node, member);
+            member.defaultValue = getDefaultValue(node);
         }
 
         return member;
