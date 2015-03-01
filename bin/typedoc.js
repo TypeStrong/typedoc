@@ -1072,19 +1072,54 @@ var td;
         /**
          * Create a new context.
          *
+         * @param settings
          * @param checker
          * @param project  The target project.
          */
-        function Context(checker, project) {
+        function Context(converter, settings, fileNames, checker, project) {
+            this.symbolID = -1024;
+            this.converter = converter;
+            this.settings = settings;
+            this.fileNames = fileNames;
             this.checker = checker;
             this.project = project;
             this.scope = project;
+            this.externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
+            this.event = new td.CompilerEvent(checker, project, settings);
         }
         /**
          * Return the current parent reflection.
          */
         Context.prototype.getScope = function () {
             return this.scope;
+        };
+        Context.prototype.getProject = function () {
+            return this.project;
+        };
+        Context.prototype.getTypeChecker = function () {
+            return this.checker;
+        };
+        Context.prototype.getTypeAtLocation = function (node) {
+            return this.checker.getTypeAtLocation(node);
+        };
+        Context.prototype.getSymbolID = function (symbol) {
+            if (!symbol)
+                return null;
+            if (!symbol.id)
+                symbol.id = this.symbolID--;
+            return symbol.id;
+        };
+        Context.prototype.registerReflection = function (reflection, node, symbol) {
+            this.project.reflections[reflection.id] = reflection;
+            var id = this.getSymbolID(symbol ? symbol : node.symbol);
+            if (!this.isInherit && id && !this.project.symbolMapping[id]) {
+                this.project.symbolMapping[id] = reflection.id;
+            }
+        };
+        Context.prototype.trigger = function (name, reflection, node) {
+            this.event.reflection = reflection;
+            this.event.node = node;
+            this.converter.dispatch(name, this.event);
         };
         Context.prototype.withScope = function (scope) {
             var _this = this;
@@ -1116,7 +1151,7 @@ var td;
                         typeParameters[name] = oldTypeArguments[index];
                     }
                     else {
-                        typeParameters[name] = _this.createTypeParameter(_this, declaration);
+                        typeParameters[name] = td.createTypeParameter(_this, declaration);
                     }
                 });
                 this.typeParameters = typeParameters;
@@ -1128,6 +1163,23 @@ var td;
             }
             this.scope = oldScope;
             this.typeArguments = oldTypeArguments;
+        };
+        Context.prototype.withSourceFile = function (node, callback) {
+            this.isExternal = this.fileNames.indexOf(node.filename) == -1;
+            if (this.externalPattern) {
+                this.isExternal = this.isExternal || this.externalPattern.match(node.filename);
+            }
+            if (this.isExternal && this.settings.excludeExternals) {
+                return;
+            }
+            this.isDeclaration = ts.isDeclarationFile(node);
+            if (this.isDeclaration) {
+                if (!this.settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
+                    return;
+                }
+            }
+            this.trigger(td.Converter.EVENT_FILE_BEGIN, this.project, node);
+            callback();
         };
         /**
          * Apply all children of the given node to the given target reflection.
@@ -1148,7 +1200,7 @@ var td;
             if (typeArguments) {
                 this.typeArguments = [];
                 typeArguments.forEach(function (node) {
-                    _this.typeArguments.push(_this.extractType(_this, node, _this.checker.getTypeAtLocation(node)));
+                    _this.typeArguments.push(td.convertType(_this, node, _this.checker.getTypeAtLocation(node)));
                 });
             }
             else {
@@ -1162,7 +1214,7 @@ var td;
                 target.children.forEach(function (child) {
                     _this.inherited.push(child.name);
                 });
-            this.visit(this, node);
+            td.visit(this, node);
             this.isInherit = wasInherit;
             this.inherited = oldInherited;
             this.inheritParent = oldInheritParent;
@@ -1197,23 +1249,15 @@ var td;
             var program = ts.createProgram(fileNames, settings.compilerOptions, host);
             var checker = program.getTypeChecker(true);
             var project = new td.ProjectReflection(settings.name);
-            var event = new td.CompilerEvent(checker, project, settings);
-            var isExternal = false;
-            var isDeclaration = false;
-            var externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
-            var symbolID = -1024;
             return compile();
             function compile() {
                 var errors = program.getDiagnostics();
                 errors = errors.concat(checker.getDiagnostics());
                 var converterEvent = new td.ConverterEvent(checker, project, settings);
                 dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
-                var context = new td.Context(checker, project);
-                context.visit = visit;
-                context.extractType = extractType;
-                context.createTypeParameter = createTypeParameter;
+                var context = new td.Context(dispatcher, settings, fileNames, checker, project);
                 program.getSourceFiles().forEach(function (sourceFile) {
-                    visitSourceFile(context, sourceFile);
+                    td.visit(context, sourceFile);
                 });
                 dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
                 var resolveEvent = new td.ResolveEvent(checker, project, settings);
@@ -1227,815 +1271,6 @@ var td;
                     errors: errors,
                     project: project
                 };
-            }
-            function getSymbolID(symbol) {
-                if (!symbol)
-                    return null;
-                if (!symbol.id)
-                    symbol.id = symbolID--;
-                return symbol.id;
-            }
-            function registerReflection(context, reflection, node) {
-                project.reflections[reflection.id] = reflection;
-                var id = getSymbolID(node.symbol);
-                if (!context.isInherit && id && !project.symbolMapping[id]) {
-                    project.symbolMapping[id] = reflection.id;
-                }
-            }
-            function createDeclaration(context, node, kind, name) {
-                var container = context.getScope();
-                if (!(container instanceof td.ContainerReflection)) {
-                    throw new Error('Expected container reflection.');
-                }
-                if (!name) {
-                    if (!node.symbol)
-                        return null;
-                    name = node.symbol.name;
-                }
-                var child;
-                var isStatic = !!(node.flags & 128 /* Static */);
-                if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
-                    isStatic = true;
-                }
-                var isPrivate = !!(node.flags & 32 /* Private */);
-                if (context.isInherit && isPrivate) {
-                    return null;
-                }
-                if (!container.children)
-                    container.children = [];
-                container.children.forEach(function (n) {
-                    if (n.name == name && n.flags.isStatic == isStatic)
-                        child = n;
-                });
-                if (!child) {
-                    child = new td.DeclarationReflection(container, name, kind);
-                    child.setFlag(8 /* Static */, isStatic);
-                    child.setFlag(64 /* External */, isExternal);
-                    child.setFlag(1 /* Private */, isPrivate);
-                    child.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
-                    child.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
-                    child.setFlag(128 /* Optional */, !!(node['questionToken']));
-                    child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* Export */));
-                    container.children.push(child);
-                    registerReflection(context, child, node);
-                    if (context.isInherit && node.parent == context.inheritParent) {
-                        if (!child.inheritedFrom) {
-                            child.inheritedFrom = createReferenceType(node.symbol, true);
-                            child.getAllSignatures().forEach(function (signature) {
-                                signature.inheritedFrom = createReferenceType(node.symbol, true);
-                            });
-                        }
-                    }
-                }
-                else {
-                    if (child.kind != kind) {
-                        var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
-                        var kindWeight = weights.indexOf(kind);
-                        var childKindWeight = weights.indexOf(child.kind);
-                        if (kindWeight > childKindWeight) {
-                            child.kind = kind;
-                        }
-                    }
-                    if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(name) != -1) {
-                        if (!child.overwrites) {
-                            child.overwrites = createReferenceType(node.symbol, true);
-                            child.getAllSignatures().forEach(function (signature) {
-                                signature.overwrites = createReferenceType(node.symbol, true);
-                            });
-                        }
-                        return null;
-                    }
-                }
-                event.reflection = child;
-                event.node = node;
-                dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
-                return child;
-            }
-            function createReferenceType(symbol, includeParent) {
-                var id = getSymbolID(symbol);
-                var name = checker.symbolToString(symbol);
-                if (includeParent && symbol.parent) {
-                    name = [checker.symbolToString(symbol.parent), name].join('.');
-                }
-                return new td.ReferenceType(name, id);
-            }
-            function createSignature(context, node, name, kind) {
-                var container = context.getScope();
-                var signature = new td.SignatureReflection(container, name, kind);
-                context.withScope(signature, node.typeParameters, true, function () {
-                    node.parameters.forEach(function (parameter) {
-                        createParameter(context, parameter);
-                    });
-                    registerReflection(context, signature, node);
-                    if (kind == 4096 /* CallSignature */) {
-                        var type = checker.getTypeAtLocation(node);
-                        checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
-                            if (tsSignature.declaration == node) {
-                                signature.type = extractType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
-                            }
-                        });
-                    }
-                    if (!signature.type) {
-                        if (node.type) {
-                            signature.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
-                        }
-                        else {
-                            signature.type = extractType(context, node, checker.getTypeAtLocation(node));
-                        }
-                    }
-                    if (container.inheritedFrom) {
-                        signature.inheritedFrom = createReferenceType(node.symbol, true);
-                    }
-                    event.reflection = signature;
-                    event.node = node;
-                    dispatcher.dispatch(Converter.EVENT_CREATE_SIGNATURE, event);
-                });
-                return signature;
-            }
-            function createParameter(context, node) {
-                var signature = context.getScope();
-                if (!(signature instanceof td.SignatureReflection)) {
-                    throw new Error('Expected signature reflection.');
-                }
-                var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
-                context.withScope(parameter, function () {
-                    parameter.type = extractType(context, node.type, checker.getTypeAtLocation(node));
-                    parameter.setFlag(128 /* Optional */, !!node.questionToken);
-                    parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
-                    extractDefaultValue(node, parameter);
-                    parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
-                    if (!signature.parameters)
-                        signature.parameters = [];
-                    signature.parameters.push(parameter);
-                    registerReflection(context, parameter, node);
-                    event.reflection = parameter;
-                    event.node = node;
-                    dispatcher.dispatch(Converter.EVENT_CREATE_PARAMETER, event);
-                });
-            }
-            function createTypeParameter(context, declaration) {
-                var typeParameter = new td.TypeParameterType();
-                typeParameter.name = declaration.symbol.name;
-                if (declaration.constraint) {
-                    typeParameter.constraint = extractType(context, declaration.constraint, this.checker.getTypeAtLocation(declaration.constraint));
-                }
-                var reflection = context.getScope();
-                if (!reflection.typeParameters)
-                    reflection.typeParameters = [];
-                var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
-                registerReflection(context, typeParameterReflection, declaration);
-                reflection.typeParameters.push(typeParameterReflection);
-                event.reflection = typeParameterReflection;
-                event.node = declaration;
-                dispatcher.dispatch(Converter.EVENT_CREATE_TYPE_PARAMETER, event);
-                return typeParameter;
-            }
-            function extractType(context, node, type) {
-                if (node && node['typeName'] && node['typeName'].text && type && (!type.symbol || (node['typeName'].text != type.symbol.name))) {
-                    return new td.ReferenceType(node['typeName'].text, td.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
-                }
-                else if (type.flags & 127 /* Intrinsic */) {
-                    return extractIntrinsicType(type);
-                }
-                else if (type.flags & 128 /* Enum */) {
-                    return extractEnumType(type);
-                }
-                else if (type.flags & 8192 /* Tuple */) {
-                    return extractTupleType(context, node, type);
-                }
-                else if (type.flags & 16384 /* Union */) {
-                    return extractUnionType(context, node, type);
-                }
-                else if (type.flags & 512 /* TypeParameter */) {
-                    return extractTypeParameterType(context, node, type);
-                }
-                else if (type.flags & 256 /* StringLiteral */) {
-                    return extractStringLiteralType(type);
-                }
-                else if (type.flags & 48128 /* ObjectType */) {
-                    return extractObjectType(context, node, type);
-                }
-                else {
-                    return extractUnknownType(type);
-                }
-            }
-            function extractIntrinsicType(type) {
-                return new td.IntrinsicType(type.intrinsicName);
-            }
-            function extractEnumType(type) {
-                return createReferenceType(type.symbol);
-            }
-            function extractTupleType(context, node, type) {
-                var elements = [];
-                if (node && node.elementTypes) {
-                    node.elementTypes.forEach(function (elementNode) {
-                        elements.push(extractType(context, elementNode, checker.getTypeAtLocation(elementNode)));
-                    });
-                }
-                else if (type && type.elementTypes) {
-                    type.elementTypes.forEach(function (type) {
-                        elements.push(extractType(context, null, type));
-                    });
-                }
-                return new td.TupleType(elements);
-            }
-            function extractUnionType(context, node, type) {
-                var types = [];
-                if (node && node.types) {
-                    node.types.forEach(function (typeNode) {
-                        types.push(extractType(context, typeNode, checker.getTypeAtLocation(typeNode)));
-                    });
-                }
-                else if (type && type.types) {
-                    type.types.forEach(function (type) {
-                        types.push(extractType(context, null, type));
-                    });
-                }
-                return new td.UnionType(types);
-            }
-            function extractTypeParameterType(context, node, type) {
-                if (node && node.typeName) {
-                    var name = node.typeName['text'];
-                    if (context.typeParameters && context.typeParameters[name]) {
-                        return context.typeParameters[name];
-                    }
-                    else {
-                        var result = new td.TypeParameterType();
-                        result.name = name;
-                        return result;
-                    }
-                }
-            }
-            function extractStringLiteralType(type) {
-                return new td.StringLiteralType(type.text);
-            }
-            function extractObjectType(context, node, type) {
-                if (node && node['elementType']) {
-                    var result = extractType(context, node['elementType'], checker.getTypeAtLocation(node['elementType']));
-                    if (result) {
-                        result.isArray = true;
-                        return result;
-                    }
-                    else {
-                        return new td.IntrinsicType('object');
-                    }
-                }
-                else if (type.symbol) {
-                    if (type.flags & 32768 /* Anonymous */) {
-                        if (type.symbol.flags & 2048 /* 'TypeLiteral' */) {
-                            var declaration = new td.DeclarationReflection();
-                            declaration.kind = 65536 /* TypeLiteral */;
-                            declaration.name = '__type';
-                            declaration.parent = context.getScope();
-                            registerReflection(context, declaration, node);
-                            event.reflection = declaration;
-                            event.node = node;
-                            dispatcher.dispatch(Converter.EVENT_CREATE_DECLARATION, event);
-                            context.withScope(declaration, function () {
-                                type.symbol.declarations.forEach(function (node) {
-                                    visit(context, node);
-                                });
-                            });
-                            return new td.ReflectionType(declaration);
-                        }
-                        else {
-                            return new td.IntrinsicType('object');
-                        }
-                    }
-                    else {
-                        var referenceType = createReferenceType(type.symbol);
-                        if (node && node['typeArguments']) {
-                            referenceType.typeArguments = [];
-                            node['typeArguments'].forEach(function (node) {
-                                referenceType.typeArguments.push(extractType(context, node, checker.getTypeAtLocation(node)));
-                            });
-                        }
-                        else if (type && type['typeArguments']) {
-                            referenceType.typeArguments = [];
-                            type['typeArguments'].forEach(function (type) {
-                                referenceType.typeArguments.push(extractType(context, null, type));
-                            });
-                        }
-                        return referenceType;
-                    }
-                }
-                else {
-                    return new td.IntrinsicType('object');
-                }
-            }
-            function extractUnknownType(type) {
-                return new td.UnknownType(checker.typeToString(type));
-            }
-            function extractDefaultValue(node, reflection) {
-                if (!node.initializer)
-                    return;
-                switch (node.initializer.kind) {
-                    case 7 /* StringLiteral */:
-                        reflection.defaultValue = '"' + node.initializer.text + '"';
-                        break;
-                    case 6 /* NumericLiteral */:
-                        reflection.defaultValue = node.initializer.text;
-                        break;
-                    case 93 /* TrueKeyword */:
-                        reflection.defaultValue = 'true';
-                        break;
-                    case 78 /* FalseKeyword */:
-                        reflection.defaultValue = 'false';
-                        break;
-                    default:
-                        var source = ts.getSourceFileOfNode(node);
-                        reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
-                        break;
-                }
-            }
-            /**
-             * Analyze the given node and create a suitable reflection.
-             *
-             * This function checks the kind of the node and delegates to the matching function implementation.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The compiler node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visit(context, node) {
-                switch (node.kind) {
-                    case 185 /* ClassDeclaration */:
-                        return visitClassDeclaration(context, node);
-                    case 186 /* InterfaceDeclaration */:
-                        return visitInterfaceDeclaration(context, node);
-                    case 189 /* ModuleDeclaration */:
-                        return visitModuleDeclaration(context, node);
-                    case 164 /* VariableStatement */:
-                        return visitVariableStatement(context, node);
-                    case 124 /* Property */:
-                    case 198 /* PropertyAssignment */:
-                    case 183 /* VariableDeclaration */:
-                        return visitVariableDeclaration(context, node);
-                    case 188 /* EnumDeclaration */:
-                        return visitEnumDeclaration(context, node);
-                    case 200 /* EnumMember */:
-                        return visitEnumMember(context, node);
-                    case 126 /* Constructor */:
-                    case 130 /* ConstructSignature */:
-                        return visitConstructor(context, node);
-                    case 125 /* Method */:
-                    case 184 /* FunctionDeclaration */:
-                        return visitFunctionDeclaration(context, node);
-                    case 127 /* GetAccessor */:
-                        return visitGetAccessorDeclaration(context, node);
-                    case 128 /* SetAccessor */:
-                        return visitSetAccessorDeclaration(context, node);
-                    case 129 /* CallSignature */:
-                    case 133 /* FunctionType */:
-                        return visitCallSignatureDeclaration(context, node);
-                    case 131 /* IndexSignature */:
-                        return visitIndexSignatureDeclaration(context, node);
-                    case 163 /* Block */:
-                    case 190 /* ModuleBlock */:
-                        return visitBlock(context, node);
-                    case 142 /* ObjectLiteralExpression */:
-                        return visitObjectLiteral(context, node);
-                    case 136 /* TypeLiteral */:
-                        return visitTypeLiteral(context, node);
-                    case 192 /* ExportAssignment */:
-                        return visitExportAssignment(context, node);
-                    case 187 /* TypeAliasDeclaration */:
-                        return visitTypeAliasDeclaration(context, node);
-                    default:
-                        // console.log('Unhandeled: ' + node.kind);
-                        return null;
-                }
-            }
-            function visitBlock(context, node) {
-                if (node.statements) {
-                    var prefered = [185 /* ClassDeclaration */, 186 /* InterfaceDeclaration */, 188 /* EnumDeclaration */];
-                    var statements = [];
-                    node.statements.forEach(function (statement) {
-                        if (prefered.indexOf(statement.kind) != -1) {
-                            visit(context, statement);
-                        }
-                        else {
-                            statements.push(statement);
-                        }
-                    });
-                    statements.forEach(function (statement) {
-                        visit(context, statement);
-                    });
-                }
-                return context.getScope();
-            }
-            /**
-             * Analyze the given source file node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The source file node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitSourceFile(context, node) {
-                isExternal = fileNames.indexOf(node.filename) == -1;
-                if (externalPattern) {
-                    isExternal = isExternal || externalPattern.match(node.filename);
-                }
-                if (isExternal && settings.excludeExternals) {
-                    return context.getScope();
-                }
-                isDeclaration = ts.isDeclarationFile(node);
-                if (isDeclaration) {
-                    if (!settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
-                        return context.getScope();
-                    }
-                }
-                event.node = node;
-                event.reflection = project;
-                dispatcher.dispatch(Converter.EVENT_FILE_BEGIN, event);
-                if (settings.mode == 1 /* Modules */) {
-                    var externalModule = createDeclaration(context, node, 1 /* ExternalModule */, node.filename);
-                    context.withScope(externalModule, function () {
-                        visitBlock(context, node);
-                        externalModule.setFlag(16 /* Exported */);
-                    });
-                    return externalModule;
-                }
-                else {
-                    visitBlock(context, node);
-                    return context.getScope();
-                }
-            }
-            /**
-             * Analyze the given module node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The module node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitModuleDeclaration(context, node) {
-                var parent = context.getScope();
-                var reflection = createDeclaration(context, node, 2 /* Module */);
-                context.withScope(reflection, function () {
-                    var opt = settings.compilerOptions;
-                    if (parent instanceof td.ProjectReflection && !isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
-                        reflection.setFlag(16 /* Exported */);
-                    }
-                    if (node.body) {
-                        visit(context, node.body);
-                    }
-                });
-                return reflection;
-            }
-            /**
-             * Analyze the given class declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The class declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitClassDeclaration(context, node) {
-                var reflection;
-                if (context.isInherit && context.inheritParent == node) {
-                    reflection = context.getScope();
-                }
-                else {
-                    reflection = createDeclaration(context, node, 128 /* Class */);
-                }
-                context.withScope(reflection, node.typeParameters, function () {
-                    if (node.members) {
-                        node.members.forEach(function (member) {
-                            visit(context, member);
-                        });
-                    }
-                    var baseType = ts.getClassBaseTypeNode(node);
-                    if (baseType) {
-                        var type = checker.getTypeAtLocation(baseType);
-                        if (!context.isInherit) {
-                            if (!reflection.extendedTypes)
-                                reflection.extendedTypes = [];
-                            reflection.extendedTypes.push(extractType(context, baseType, type));
-                        }
-                        if (type && type.symbol) {
-                            type.symbol.declarations.forEach(function (declaration) {
-                                context.inherit(declaration, baseType.typeArguments);
-                            });
-                        }
-                    }
-                    var implementedTypes = ts.getClassImplementedTypeNodes(node);
-                    if (implementedTypes) {
-                        implementedTypes.forEach(function (implementedType) {
-                            var type = checker.getTypeAtLocation(baseType);
-                            if (!reflection.implementedTypes) {
-                                reflection.implementedTypes = [];
-                            }
-                            reflection.implementedTypes.push(extractType(context, implementedType, type));
-                        });
-                    }
-                });
-                return reflection;
-            }
-            /**
-             * Analyze the given interface declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The interface declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitInterfaceDeclaration(context, node) {
-                var reflection;
-                if (context.isInherit && context.inheritParent == node) {
-                    reflection = context.getScope();
-                }
-                else {
-                    reflection = createDeclaration(context, node, 256 /* Interface */);
-                }
-                context.withScope(reflection, node.typeParameters, function () {
-                    if (node.members) {
-                        node.members.forEach(function (member, isInherit) {
-                            visit(context, member);
-                        });
-                    }
-                    var baseTypes = ts.getInterfaceBaseTypeNodes(node);
-                    if (baseTypes) {
-                        baseTypes.forEach(function (baseType) {
-                            var type = checker.getTypeAtLocation(baseType);
-                            if (!context.isInherit) {
-                                if (!reflection.extendedTypes)
-                                    reflection.extendedTypes = [];
-                                reflection.extendedTypes.push(extractType(context, baseType, type));
-                            }
-                            if (type && type.symbol) {
-                                type.symbol.declarations.forEach(function (declaration) {
-                                    context.inherit(declaration, baseType.typeArguments);
-                                });
-                            }
-                        });
-                    }
-                });
-                return reflection;
-            }
-            /**
-             * Analyze the given variable statement node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The variable statement node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitVariableStatement(context, node) {
-                if (node.declarations) {
-                    node.declarations.forEach(function (variableDeclaration) {
-                        visitVariableDeclaration(context, variableDeclaration);
-                    });
-                }
-                return context.getScope();
-            }
-            function isSimpleObjectLiteral(objectLiteral) {
-                if (!objectLiteral.properties)
-                    return true;
-                return objectLiteral.properties.length == 0;
-            }
-            /**
-             * Analyze the given variable declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The variable declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitVariableDeclaration(context, node) {
-                var comment = td.CommentPlugin.getComment(node);
-                if (comment && /\@resolve/.test(comment)) {
-                    var resolveType = checker.getTypeAtLocation(node);
-                    if (resolveType && resolveType.symbol) {
-                        var resolved = visit(context, resolveType.symbol.declarations[0]);
-                        if (resolved) {
-                            resolved.name = node.symbol.name;
-                        }
-                        return resolved;
-                    }
-                }
-                var scope = context.getScope();
-                var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 1024 /* Property */ : 32 /* Variable */;
-                var variable = createDeclaration(context, node, kind);
-                context.withScope(variable, function () {
-                    if (node.initializer) {
-                        switch (node.initializer.kind) {
-                            case 151 /* ArrowFunction */:
-                            case 150 /* FunctionExpression */:
-                                variable.kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
-                                visitCallSignatureDeclaration(context, node.initializer);
-                                break;
-                            case 142 /* ObjectLiteralExpression */:
-                                if (!isSimpleObjectLiteral(node.initializer)) {
-                                    variable.kind = 2097152 /* ObjectLiteral */;
-                                    variable.type = new td.IntrinsicType('object');
-                                    visitObjectLiteral(context, node.initializer);
-                                }
-                                break;
-                            default:
-                                extractDefaultValue(node, variable);
-                        }
-                    }
-                    if (variable.kind == kind) {
-                        variable.type = extractType(context, node.type, checker.getTypeAtLocation(node));
-                    }
-                });
-                return variable;
-            }
-            /**
-             * Analyze the given enumeration declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The enumeration declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitEnumDeclaration(context, node) {
-                var enumeration = createDeclaration(context, node, 4 /* Enum */);
-                context.withScope(enumeration, function () {
-                    if (node.members) {
-                        node.members.forEach(function (node) {
-                            visitEnumMember(context, node);
-                        });
-                    }
-                });
-                return enumeration;
-            }
-            /**
-             * Analyze the given enumeration member node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The enumeration member node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitEnumMember(context, node) {
-                var member = createDeclaration(context, node, 16 /* EnumMember */);
-                if (member) {
-                    extractDefaultValue(node, member);
-                }
-                return member;
-            }
-            /**
-             * Analyze the given constructor declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The constructor declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitConstructor(context, node) {
-                var parent = context.getScope();
-                var hasBody = !!node.body;
-                var method = createDeclaration(context, node, 512 /* Constructor */, 'constructor');
-                context.withScope(method, function () {
-                    if (!hasBody || !method.signatures) {
-                        var name = 'new ' + parent.name;
-                        var signature = createSignature(context, node, name, 16384 /* ConstructorSignature */);
-                        signature.type = new td.ReferenceType(parent.name, td.ReferenceType.SYMBOL_ID_RESOLVED, parent);
-                        method.signatures = method.signatures || [];
-                        method.signatures.push(signature);
-                    }
-                    else {
-                        event.node = node;
-                        event.reflection = method;
-                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
-                    }
-                });
-                return method;
-            }
-            function visitFunctionDeclaration(context, node) {
-                var scope = context.getScope();
-                var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
-                var hasBody = !!node.body;
-                var method = createDeclaration(context, node, kind);
-                context.withScope(method, function () {
-                    if (!hasBody || !method.signatures) {
-                        var signature = createSignature(context, node, method.name, 4096 /* CallSignature */);
-                        if (!method.signatures)
-                            method.signatures = [];
-                        method.signatures.push(signature);
-                    }
-                    else {
-                        event.node = node;
-                        event.reflection = method;
-                        dispatcher.dispatch(Converter.EVENT_FUNCTION_IMPLEMENTATION, event);
-                    }
-                });
-                return method;
-            }
-            function visitCallSignatureDeclaration(context, node) {
-                var scope = context.getScope();
-                if (scope instanceof td.DeclarationReflection) {
-                    var name = scope.kindOf(td.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-                    var signature = createSignature(context, node, name, 4096 /* CallSignature */);
-                    if (!scope.signatures)
-                        scope.signatures = [];
-                    scope.signatures.push(signature);
-                }
-                return scope;
-            }
-            /**
-             * Analyze the given index signature declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The signature declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitIndexSignatureDeclaration(context, node) {
-                var scope = context.getScope();
-                if (scope instanceof td.DeclarationReflection) {
-                    scope.indexSignature = createSignature(context, node, '__index', 8192 /* IndexSignature */);
-                }
-                return scope;
-            }
-            /**
-             * Analyze the given getter declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The signature declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitGetAccessorDeclaration(context, node) {
-                var accessor = createDeclaration(context, node, 262144 /* Accessor */);
-                context.withScope(accessor, function () {
-                    accessor.getSignature = createSignature(context, node, '__get', 524288 /* GetSignature */);
-                });
-                return accessor;
-            }
-            /**
-             * Analyze the given setter declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The signature declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitSetAccessorDeclaration(context, node) {
-                var accessor = createDeclaration(context, node, 262144 /* Accessor */);
-                context.withScope(accessor, function () {
-                    accessor.setSignature = createSignature(context, node, '__set', 1048576 /* SetSignature */);
-                });
-                return accessor;
-            }
-            /**
-             * Analyze the given object literal node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The object literal node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitObjectLiteral(context, node) {
-                if (node.properties) {
-                    node.properties.forEach(function (node) {
-                        visit(context, node);
-                    });
-                }
-                return context.getScope();
-            }
-            /**
-             * Analyze the given type literal node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The type literal node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitTypeLiteral(context, node) {
-                if (node.members) {
-                    node.members.forEach(function (node) {
-                        visit(context, node);
-                    });
-                }
-                return context.getScope();
-            }
-            /**
-             * Analyze the given type alias declaration node and create a suitable reflection.
-             *
-             * @param context  The context object describing the current state the converter is in.
-             * @param node     The type alias declaration node that should be analyzed.
-             * @return The resulting reflection or NULL.
-             */
-            function visitTypeAliasDeclaration(context, node) {
-                var alias = createDeclaration(context, node, 4194304 /* TypeAlias */);
-                context.withScope(alias, function () {
-                    alias.type = extractType(context, node.type, checker.getTypeAtLocation(node.type));
-                });
-                return alias;
-            }
-            function visitExportAssignment(context, node) {
-                var type = checker.getTypeAtLocation(node.exportName);
-                if (type && type.symbol) {
-                    type.symbol.declarations.forEach(function (declaration) {
-                        if (!declaration.symbol)
-                            return;
-                        var id = project.symbolMapping[getSymbolID(declaration.symbol)];
-                        if (!id)
-                            return;
-                        var reflection = project.reflections[id];
-                        if (reflection instanceof td.DeclarationReflection) {
-                            reflection.setFlag(32 /* ExportAssignment */, true);
-                        }
-                        markAsExported(reflection);
-                    });
-                }
-                function markAsExported(reflection) {
-                    if (reflection instanceof td.DeclarationReflection) {
-                        reflection.setFlag(16 /* Exported */, true);
-                    }
-                    reflection.traverse(markAsExported);
-                }
-                return context.getScope();
             }
         };
         /**
@@ -2136,6 +1371,1073 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    function extractDefaultValue(node, reflection) {
+        if (!node.initializer)
+            return;
+        switch (node.initializer.kind) {
+            case 7 /* StringLiteral */:
+                reflection.defaultValue = '"' + node.initializer.text + '"';
+                break;
+            case 6 /* NumericLiteral */:
+                reflection.defaultValue = node.initializer.text;
+                break;
+            case 93 /* TrueKeyword */:
+                reflection.defaultValue = 'true';
+                break;
+            case 78 /* FalseKeyword */:
+                reflection.defaultValue = 'false';
+                break;
+            default:
+                var source = ts.getSourceFileOfNode(node);
+                reflection.defaultValue = source.text.substring(node.initializer.pos, node.initializer.end);
+                break;
+        }
+    }
+    td.extractDefaultValue = extractDefaultValue;
+    /**
+     * Analyze the given node and create a suitable reflection.
+     *
+     * This function checks the kind of the node and delegates to the matching function implementation.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The compiler node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visit(context, node) {
+        switch (node.kind) {
+            case 201 /* SourceFile */:
+                return visitSourceFile(context, node);
+            case 185 /* ClassDeclaration */:
+                return visitClassDeclaration(context, node);
+            case 186 /* InterfaceDeclaration */:
+                return visitInterfaceDeclaration(context, node);
+            case 189 /* ModuleDeclaration */:
+                return visitModuleDeclaration(context, node);
+            case 164 /* VariableStatement */:
+                return visitVariableStatement(context, node);
+            case 124 /* Property */:
+            case 198 /* PropertyAssignment */:
+            case 183 /* VariableDeclaration */:
+                return visitVariableDeclaration(context, node);
+            case 188 /* EnumDeclaration */:
+                return visitEnumDeclaration(context, node);
+            case 200 /* EnumMember */:
+                return visitEnumMember(context, node);
+            case 126 /* Constructor */:
+            case 130 /* ConstructSignature */:
+                return visitConstructor(context, node);
+            case 125 /* Method */:
+            case 184 /* FunctionDeclaration */:
+                return visitFunctionDeclaration(context, node);
+            case 127 /* GetAccessor */:
+                return visitGetAccessorDeclaration(context, node);
+            case 128 /* SetAccessor */:
+                return visitSetAccessorDeclaration(context, node);
+            case 129 /* CallSignature */:
+            case 133 /* FunctionType */:
+                return visitCallSignatureDeclaration(context, node);
+            case 131 /* IndexSignature */:
+                return visitIndexSignatureDeclaration(context, node);
+            case 163 /* Block */:
+            case 190 /* ModuleBlock */:
+                return visitBlock(context, node);
+            case 142 /* ObjectLiteralExpression */:
+                return visitObjectLiteral(context, node);
+            case 136 /* TypeLiteral */:
+                return visitTypeLiteral(context, node);
+            case 192 /* ExportAssignment */:
+                return visitExportAssignment(context, node);
+            case 187 /* TypeAliasDeclaration */:
+                return visitTypeAliasDeclaration(context, node);
+            default:
+                // console.log('Unhandeled: ' + node.kind);
+                return null;
+        }
+    }
+    td.visit = visit;
+    function visitBlock(context, node) {
+        if (node.statements) {
+            var prefered = [185 /* ClassDeclaration */, 186 /* InterfaceDeclaration */, 188 /* EnumDeclaration */];
+            var statements = [];
+            node.statements.forEach(function (statement) {
+                if (prefered.indexOf(statement.kind) != -1) {
+                    visit(context, statement);
+                }
+                else {
+                    statements.push(statement);
+                }
+            });
+            statements.forEach(function (statement) {
+                visit(context, statement);
+            });
+        }
+        return context.getScope();
+    }
+    /**
+     * Analyze the given source file node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The source file node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitSourceFile(context, node) {
+        var result = context.getScope();
+        context.withSourceFile(node, function () {
+            if (context.settings.mode == 1 /* Modules */) {
+                result = td.createDeclaration(context, node, 1 /* ExternalModule */, node.filename);
+                context.withScope(result, function () {
+                    visitBlock(context, node);
+                    result.setFlag(16 /* Exported */);
+                });
+            }
+            else {
+                visitBlock(context, node);
+            }
+        });
+        return result;
+    }
+    /**
+     * Analyze the given module node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The module node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitModuleDeclaration(context, node) {
+        var parent = context.getScope();
+        var reflection = td.createDeclaration(context, node, 2 /* Module */);
+        context.withScope(reflection, function () {
+            var opt = context.settings.compilerOptions;
+            if (parent instanceof td.ProjectReflection && !context.isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
+                reflection.setFlag(16 /* Exported */);
+            }
+            if (node.body) {
+                visit(context, node.body);
+            }
+        });
+        return reflection;
+    }
+    /**
+     * Analyze the given class declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The class declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitClassDeclaration(context, node) {
+        var reflection;
+        if (context.isInherit && context.inheritParent == node) {
+            reflection = context.getScope();
+        }
+        else {
+            reflection = td.createDeclaration(context, node, 128 /* Class */);
+        }
+        context.withScope(reflection, node.typeParameters, function () {
+            if (node.members) {
+                node.members.forEach(function (member) {
+                    visit(context, member);
+                });
+            }
+            var baseType = ts.getClassBaseTypeNode(node);
+            if (baseType) {
+                var type = context.getTypeAtLocation(baseType);
+                if (!context.isInherit) {
+                    if (!reflection.extendedTypes)
+                        reflection.extendedTypes = [];
+                    reflection.extendedTypes.push(td.convertType(context, baseType, type));
+                }
+                if (type && type.symbol) {
+                    type.symbol.declarations.forEach(function (declaration) {
+                        context.inherit(declaration, baseType.typeArguments);
+                    });
+                }
+            }
+            var implementedTypes = ts.getClassImplementedTypeNodes(node);
+            if (implementedTypes) {
+                implementedTypes.forEach(function (implementedType) {
+                    if (!reflection.implementedTypes) {
+                        reflection.implementedTypes = [];
+                    }
+                    reflection.implementedTypes.push(td.convertType(context, implementedType));
+                });
+            }
+        });
+        return reflection;
+    }
+    /**
+     * Analyze the given interface declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The interface declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitInterfaceDeclaration(context, node) {
+        var reflection;
+        if (context.isInherit && context.inheritParent == node) {
+            reflection = context.getScope();
+        }
+        else {
+            reflection = td.createDeclaration(context, node, 256 /* Interface */);
+        }
+        context.withScope(reflection, node.typeParameters, function () {
+            if (node.members) {
+                node.members.forEach(function (member, isInherit) {
+                    visit(context, member);
+                });
+            }
+            var baseTypes = ts.getInterfaceBaseTypeNodes(node);
+            if (baseTypes) {
+                baseTypes.forEach(function (baseType) {
+                    var type = context.getTypeAtLocation(baseType);
+                    if (!context.isInherit) {
+                        if (!reflection.extendedTypes)
+                            reflection.extendedTypes = [];
+                        reflection.extendedTypes.push(td.convertType(context, baseType, type));
+                    }
+                    if (type && type.symbol) {
+                        type.symbol.declarations.forEach(function (declaration) {
+                            context.inherit(declaration, baseType.typeArguments);
+                        });
+                    }
+                });
+            }
+        });
+        return reflection;
+    }
+    /**
+     * Analyze the given variable statement node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The variable statement node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitVariableStatement(context, node) {
+        if (node.declarations) {
+            node.declarations.forEach(function (variableDeclaration) {
+                visitVariableDeclaration(context, variableDeclaration);
+            });
+        }
+        return context.getScope();
+    }
+    function isSimpleObjectLiteral(objectLiteral) {
+        if (!objectLiteral.properties)
+            return true;
+        return objectLiteral.properties.length == 0;
+    }
+    /**
+     * Analyze the given variable declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The variable declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitVariableDeclaration(context, node) {
+        var comment = td.CommentPlugin.getComment(node);
+        if (comment && /\@resolve/.test(comment)) {
+            var resolveType = context.getTypeAtLocation(node);
+            if (resolveType && resolveType.symbol) {
+                var resolved = visit(context, resolveType.symbol.declarations[0]);
+                if (resolved) {
+                    resolved.name = node.symbol.name;
+                }
+                return resolved;
+            }
+        }
+        var scope = context.getScope();
+        var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 1024 /* Property */ : 32 /* Variable */;
+        var variable = td.createDeclaration(context, node, kind);
+        context.withScope(variable, function () {
+            if (node.initializer) {
+                switch (node.initializer.kind) {
+                    case 151 /* ArrowFunction */:
+                    case 150 /* FunctionExpression */:
+                        variable.kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
+                        visitCallSignatureDeclaration(context, node.initializer);
+                        break;
+                    case 142 /* ObjectLiteralExpression */:
+                        if (!isSimpleObjectLiteral(node.initializer)) {
+                            variable.kind = 2097152 /* ObjectLiteral */;
+                            variable.type = new td.IntrinsicType('object');
+                            visitObjectLiteral(context, node.initializer);
+                        }
+                        break;
+                    default:
+                        extractDefaultValue(node, variable);
+                }
+            }
+            if (variable.kind == kind) {
+                variable.type = td.convertType(context, node.type, context.getTypeAtLocation(node));
+            }
+        });
+        return variable;
+    }
+    /**
+     * Analyze the given enumeration declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The enumeration declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitEnumDeclaration(context, node) {
+        var enumeration = td.createDeclaration(context, node, 4 /* Enum */);
+        context.withScope(enumeration, function () {
+            if (node.members) {
+                node.members.forEach(function (node) {
+                    visitEnumMember(context, node);
+                });
+            }
+        });
+        return enumeration;
+    }
+    /**
+     * Analyze the given enumeration member node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The enumeration member node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitEnumMember(context, node) {
+        var member = td.createDeclaration(context, node, 16 /* EnumMember */);
+        if (member) {
+            extractDefaultValue(node, member);
+        }
+        return member;
+    }
+    /**
+     * Analyze the given constructor declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The constructor declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitConstructor(context, node) {
+        var parent = context.getScope();
+        var hasBody = !!node.body;
+        var method = td.createDeclaration(context, node, 512 /* Constructor */, 'constructor');
+        context.withScope(method, function () {
+            if (!hasBody || !method.signatures) {
+                var name = 'new ' + parent.name;
+                var signature = td.createSignature(context, node, name, 16384 /* ConstructorSignature */);
+                signature.type = new td.ReferenceType(parent.name, td.ReferenceType.SYMBOL_ID_RESOLVED, parent);
+                method.signatures = method.signatures || [];
+                method.signatures.push(signature);
+            }
+            else {
+                context.trigger(td.Converter.EVENT_FUNCTION_IMPLEMENTATION, method, node);
+            }
+        });
+        return method;
+    }
+    function visitFunctionDeclaration(context, node) {
+        var scope = context.getScope();
+        var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
+        var hasBody = !!node.body;
+        var method = td.createDeclaration(context, node, kind);
+        context.withScope(method, function () {
+            if (!hasBody || !method.signatures) {
+                var signature = td.createSignature(context, node, method.name, 4096 /* CallSignature */);
+                if (!method.signatures)
+                    method.signatures = [];
+                method.signatures.push(signature);
+            }
+            else {
+                context.trigger(td.Converter.EVENT_FUNCTION_IMPLEMENTATION, method, node);
+            }
+        });
+        return method;
+    }
+    function visitCallSignatureDeclaration(context, node) {
+        var scope = context.getScope();
+        if (scope instanceof td.DeclarationReflection) {
+            var name = scope.kindOf(td.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+            var signature = td.createSignature(context, node, name, 4096 /* CallSignature */);
+            if (!scope.signatures)
+                scope.signatures = [];
+            scope.signatures.push(signature);
+        }
+        return scope;
+    }
+    /**
+     * Analyze the given index signature declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The signature declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitIndexSignatureDeclaration(context, node) {
+        var scope = context.getScope();
+        if (scope instanceof td.DeclarationReflection) {
+            scope.indexSignature = td.createSignature(context, node, '__index', 8192 /* IndexSignature */);
+        }
+        return scope;
+    }
+    /**
+     * Analyze the given getter declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The signature declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitGetAccessorDeclaration(context, node) {
+        var accessor = td.createDeclaration(context, node, 262144 /* Accessor */);
+        context.withScope(accessor, function () {
+            accessor.getSignature = td.createSignature(context, node, '__get', 524288 /* GetSignature */);
+        });
+        return accessor;
+    }
+    /**
+     * Analyze the given setter declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The signature declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitSetAccessorDeclaration(context, node) {
+        var accessor = td.createDeclaration(context, node, 262144 /* Accessor */);
+        context.withScope(accessor, function () {
+            accessor.setSignature = td.createSignature(context, node, '__set', 1048576 /* SetSignature */);
+        });
+        return accessor;
+    }
+    /**
+     * Analyze the given object literal node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The object literal node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitObjectLiteral(context, node) {
+        if (node.properties) {
+            node.properties.forEach(function (node) {
+                visit(context, node);
+            });
+        }
+        return context.getScope();
+    }
+    /**
+     * Analyze the given type literal node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The type literal node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitTypeLiteral(context, node) {
+        if (node.members) {
+            node.members.forEach(function (node) {
+                visit(context, node);
+            });
+        }
+        return context.getScope();
+    }
+    /**
+     * Analyze the given type alias declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The type alias declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitTypeAliasDeclaration(context, node) {
+        var alias = td.createDeclaration(context, node, 4194304 /* TypeAlias */);
+        context.withScope(alias, function () {
+            alias.type = td.convertType(context, node.type, context.getTypeAtLocation(node.type));
+        });
+        return alias;
+    }
+    function visitExportAssignment(context, node) {
+        var type = context.getTypeAtLocation(node.exportName);
+        if (type && type.symbol) {
+            var project = context.getProject();
+            type.symbol.declarations.forEach(function (declaration) {
+                if (!declaration.symbol)
+                    return;
+                var id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
+                if (!id)
+                    return;
+                var reflection = project.reflections[id];
+                if (reflection instanceof td.DeclarationReflection) {
+                    reflection.setFlag(32 /* ExportAssignment */, true);
+                }
+                markAsExported(reflection);
+            });
+        }
+        function markAsExported(reflection) {
+            if (reflection instanceof td.DeclarationReflection) {
+                reflection.setFlag(16 /* Exported */, true);
+            }
+            reflection.traverse(markAsExported);
+        }
+        return context.getScope();
+    }
+})(td || (td = {}));
+var td;
+(function (td) {
+    /**
+     * Convert the given TypeScript type into its TypeDoc type reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The node whose type should be reflected.
+     * @param type  The type of the node if already known.
+     * @returns The TypeDoc type reflection representing the given node and type.
+     */
+    function convertType(context, node, type) {
+        if (node) {
+            type = type || context.getTypeAtLocation(node);
+            // Test for type aliases as early as possible
+            if (isTypeAlias(node, type)) {
+                return convertTypeAliasNode(node);
+            }
+            switch (node.kind) {
+                case 7 /* StringLiteral */:
+                    return convertStringLiteralExpression(node);
+                case 137 /* ArrayType */:
+                    return convertArrayTypeNode(context, node);
+                case 138 /* TupleType */:
+                    return convertTupleTypeNode(context, node);
+                case 139 /* UnionType */:
+                    return convertUnionTypeNode(context, node);
+            }
+            // Node based type conversions by type flags
+            if (type.flags & 512 /* TypeParameter */) {
+                return convertTypeParameterNode(context, node);
+            }
+            else if (type.flags & 48128 /* ObjectType */) {
+                return convertTypeReferenceNode(context, node, type);
+            }
+        }
+        // Type conversions by type flags
+        if (type) {
+            if (type.flags & 127 /* Intrinsic */) {
+                return convertIntrinsicType(type);
+            }
+            else if (type.flags & 256 /* StringLiteral */) {
+                return convertStringLiteralType(type);
+            }
+            else if (type.flags & 128 /* Enum */) {
+                return convertEnumType(context, type);
+            }
+            else if (type.flags & 8192 /* Tuple */) {
+                return convertTupleType(context, type);
+            }
+            else if (type.flags & 16384 /* Union */) {
+                return convertUnionType(context, type);
+            }
+            else if (type.flags & 48128 /* ObjectType */) {
+                return convertTypeReferenceType(context, type);
+            }
+            else {
+                return convertUnknownType(context, type);
+            }
+        }
+    }
+    td.convertType = convertType;
+    /**
+     * Test whether the given node and type definitions represent a type alias.
+     *
+     * The compiler resolves type aliases pretty early and there is no field telling us
+     * whether the given node was a type alias or not. So we have to compare the type name of the
+     * node with the type name of the type symbol and if the given node and type should be
+     * interpreted as an type alias.
+     *
+     * @param node  The node that should be tested.
+     * @param type  The type of the node that should be tested.
+     * @returns TRUE when the given node and type look like a type alias, otherwise FALSE.
+     */
+    function isTypeAlias(node, type) {
+        if (!type || !node || !node.typeName)
+            return false;
+        return !type.symbol || (ts.getTextOfNode(node.typeName) != type.symbol.name);
+    }
+    /**
+     * Create a type literal reflection.
+     *
+     * This is a utility function used by [[convertTypeReferenceNode]] and
+     * [[convertTypeReferenceType]] when encountering an object or type literal.
+     *
+     * A type literal is explicitly set:
+     * ```
+     * var someValue:{a:string; b:number;};
+     * ```
+     *
+     * An object literal types are usually reflected by the TypeScript compiler:
+     * ```
+     * function someFunction() { return {a:'Test', b:1024}; }
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param symbol  The symbol describing the type literal.
+     * @param node  If known the node which produced the type literal. Type literals that are
+     *   implicitly generated by TypeScript won't have a corresponding node.
+     * @returns A type reflection representing the given type literal.
+     */
+    function convertTypeLiteral(context, symbol, node) {
+        var declaration = new td.DeclarationReflection();
+        declaration.kind = 65536 /* TypeLiteral */;
+        declaration.name = '__type';
+        declaration.parent = context.getScope();
+        context.registerReflection(declaration, null, symbol);
+        context.trigger(td.Converter.EVENT_CREATE_DECLARATION, declaration, node);
+        context.withScope(declaration, function () {
+            symbol.declarations.forEach(function (node) {
+                td.visit(context, node);
+            });
+        });
+        return new td.ReflectionType(declaration);
+    }
+    /**
+     * Node based type conversions
+     */
+    /**
+     * Create a reflection for the given type alias node.
+     *
+     * This is a node based converter with no type equivalent.
+     *
+     * Use [[isTypeAlias]] beforehand to test whether a given type/node combination is
+     * pointing to a type alias.
+     *
+     * ```
+     * type MyNumber = number;
+     * var someValue:MyNumber;
+     * ```
+     *
+     * @param node  The node whose type should be reflected.
+     * @returns  A type reference pointing to the type alias definition.
+     */
+    function convertTypeAliasNode(node) {
+        var name = ts.getTextOfNode(node.typeName);
+        return new td.ReferenceType(name, td.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
+    }
+    /**
+     * Convert the given string literal expression node to its type reflection.
+     *
+     * This is a node based converter, see [[convertStringLiteralType]] for the type equivalent.
+     *
+     * ```
+     * createElement(tagName:"a"):HTMLAnchorElement;
+     * ```
+     *
+     * @param node  The string literal node that should be converted.
+     * @returns The type reflection representing the given string literal node.
+     */
+    function convertStringLiteralExpression(node) {
+        return new td.StringLiteralType(node.text);
+    }
+    /**
+     * Convert the given array type node to its type reflection.
+     *
+     * This is a node based converter with no type equivalent.
+     *
+     * ```
+     * var someValue:number[];
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The array type node that should be converted.
+     * @returns The type reflection representing the given array type node.
+     */
+    function convertArrayTypeNode(context, node) {
+        var result = convertType(context, node.elementType);
+        if (result) {
+            result.isArray = true;
+        }
+        else {
+            result = new td.IntrinsicType('Array');
+        }
+        return result;
+    }
+    /**
+     * Convert the given tuple type node to its type reflection.
+     *
+     * This is a node based converter, see [[convertTupleType]] for the type equivalent.
+     *
+     * ```
+     * var someValue:[string,number];
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The tuple type node that should be converted.
+     * @returns The type reflection representing the given tuple type node.
+     */
+    function convertTupleTypeNode(context, node) {
+        var elements;
+        if (node.elementTypes) {
+            elements = node.elementTypes.map(function (n) { return convertType(context, n); });
+        }
+        else {
+            elements = [];
+        }
+        return new td.TupleType(elements);
+    }
+    /**
+     * Convert the given union type node to its type reflection.
+     *
+     * This is a node based converter, see [[convertUnionType]] for the type equivalent.
+     *
+     * ```
+     * var someValue:string|number;
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The union type node that should be converted.
+     * @returns The type reflection representing the given union type node.
+     */
+    function convertUnionTypeNode(context, node) {
+        var types = [];
+        if (node.types) {
+            types = node.types.map(function (n) { return convertType(context, n); });
+        }
+        else {
+            types = [];
+        }
+        return new td.UnionType(types);
+    }
+    /**
+     * Interpret the given type reference node as a type parameter and convert it to its type reflection.
+     *
+     * This is a node based converter with no type equivalent.
+     *
+     * ```
+     * class SomeClass<T> {
+     *   public someValue:T;
+     * }
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The type reference node representing a type parameter.
+     * @returns The type reflection representing the given type parameter.
+     */
+    function convertTypeParameterNode(context, node) {
+        if (node.typeName) {
+            var result, name = ts.getTextOfNode(node.typeName);
+            if (context.typeParameters && context.typeParameters[name]) {
+                result = context.typeParameters[name];
+            }
+            else {
+                result = new td.TypeParameterType();
+                result.name = name;
+            }
+            return result;
+        }
+    }
+    /**
+     * Convert the type reference node to its type reflection.
+     *
+     * This is a node based converter, see [[convertTypeReferenceType]] for the type equivalent.
+     *
+     * ```
+     * class SomeClass { }
+     * var someValue:SomeClass;
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The type reference node that should be converted.
+     * @param type  The type of the type reference node.
+     * @returns The type reflection representing the given reference node.
+     */
+    function convertTypeReferenceNode(context, node, type) {
+        if (!type.symbol) {
+            return new td.IntrinsicType('Object');
+        }
+        else if (type.symbol.flags & 2048 /* TypeLiteral */ || type.symbol.flags & 4096 /* ObjectLiteral */) {
+            return convertTypeLiteral(context, type.symbol, node);
+        }
+        var result = td.createReferenceType(context, type.symbol);
+        if (node.typeArguments) {
+            result.typeArguments = node.typeArguments.map(function (n) { return convertType(context, n); });
+        }
+        return result;
+    }
+    /**
+     * Type based type conversions
+     */
+    /**
+     * Convert the given intrinsic type to its type reflection.
+     *
+     * This is a type based converter with no node based equivalent.
+     *
+     * ```
+     * var someValue:string;
+     * ```
+     *
+     * @param type  The intrinsic type that should be converted.
+     * @returns The type reflection representing the given intrinsic type.
+     */
+    function convertIntrinsicType(type) {
+        return new td.IntrinsicType(type.intrinsicName);
+    }
+    /**
+     * Convert the given string literal type to its type reflection.
+     *
+     * This is a type based converter, see [[convertStringLiteralExpression]] for the node equivalent.
+     *
+     * ```
+     * createElement(tagName:"a"):HTMLAnchorElement;
+     * ```
+     *
+     * @param type  The intrinsic type that should be converted.
+     * @returns The type reflection representing the given string literal type.
+     */
+    function convertStringLiteralType(type) {
+        return new td.StringLiteralType(type.text);
+    }
+    /**
+     * Convert the given type to its type reflection.
+     *
+     * This is a type based converter with no node based equivalent.
+     *
+     * If no other converter is able to reflect a type, this converter will produce a
+     * reflection by utilising ts.typeToString() to generate a string representation of the
+     * given type.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param type  The type that should be converted.
+     * @returns The type reflection representing the given type.
+     */
+    function convertUnknownType(context, type) {
+        var name = context.getTypeChecker().typeToString(type);
+        return new td.UnknownType(name);
+    }
+    /**
+     * Convert the given enumeration type to its type reflection.
+     *
+     * This is a type based converter with no node based equivalent.
+     *
+     * ```
+     * enum MyEnum { One, Two, Three }
+     * var someValue:MyEnum;
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param type  The enumeration type that should be converted.
+     * @returns The type reflection representing the given enumeration type.
+     */
+    function convertEnumType(context, type) {
+        return td.createReferenceType(context, type.symbol);
+    }
+    /**
+     * Convert the given tuple type to its type reflection.
+     *
+     * This is a type based converter, see [[convertTupleTypeNode]] for the node equivalent.
+     *
+     * ```
+     * var someValue:[string,number];
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param type  The tuple type that should be converted.
+     * @returns The type reflection representing the given tuple type.
+     */
+    function convertTupleType(context, type) {
+        var elements;
+        if (type.elementTypes) {
+            elements = type.elementTypes.map(function (t) { return convertType(context, null, t); });
+        }
+        else {
+            elements = [];
+        }
+        return new td.TupleType(elements);
+    }
+    /**
+     * Convert the given union type to its type reflection.
+     *
+     * This is a type based converter, see [[convertUnionTypeNode]] for the node equivalent.
+     *
+     * ```
+     * var someValue:string|number;
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param type  The union type that should be converted.
+     * @returns The type reflection representing the given union type.
+     */
+    function convertUnionType(context, type) {
+        var types;
+        if (type && type.types) {
+            types = type.types.map(function (t) { return convertType(context, null, t); });
+        }
+        else {
+            types = [];
+        }
+        return new td.UnionType(types);
+    }
+    /**
+     * Convert the given type reference to its type reflection.
+     *
+     * This is a type based converter, see [[convertTypeReference]] for the node equivalent.
+     *
+     * ```
+     * class SomeClass { }
+     * var someValue:SomeClass;
+     * ```
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param type  The type reference that should be converted.
+     * @returns The type reflection representing the given type reference.
+     */
+    function convertTypeReferenceType(context, type) {
+        if (!type.symbol) {
+            return new td.IntrinsicType('Object');
+        }
+        else if (type.symbol.flags & 2048 /* TypeLiteral */ || type.symbol.flags & 4096 /* ObjectLiteral */) {
+            return convertTypeLiteral(context, type.symbol);
+        }
+        var result = td.createReferenceType(context, type.symbol);
+        if (type.typeArguments) {
+            result.typeArguments = type.typeArguments.map(function (t) { return convertType(context, null, t); });
+        }
+        return result;
+    }
+})(td || (td = {}));
+var td;
+(function (td) {
+    function createDeclaration(context, node, kind, name) {
+        var container = context.getScope();
+        if (!(container instanceof td.ContainerReflection)) {
+            throw new Error('Expected container reflection.');
+        }
+        if (!name) {
+            if (!node.symbol)
+                return null;
+            name = node.symbol.name;
+        }
+        var child;
+        var isStatic = !!(node.flags & 128 /* Static */);
+        if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
+            isStatic = true;
+        }
+        var isPrivate = !!(node.flags & 32 /* Private */);
+        if (context.isInherit && isPrivate) {
+            return null;
+        }
+        if (!container.children)
+            container.children = [];
+        container.children.forEach(function (n) {
+            if (n.name == name && n.flags.isStatic == isStatic)
+                child = n;
+        });
+        if (!child) {
+            child = new td.DeclarationReflection(container, name, kind);
+            child.setFlag(8 /* Static */, isStatic);
+            child.setFlag(64 /* External */, context.isExternal);
+            child.setFlag(1 /* Private */, isPrivate);
+            child.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
+            child.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
+            child.setFlag(128 /* Optional */, !!(node['questionToken']));
+            child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* Export */));
+            container.children.push(child);
+            context.registerReflection(child, node);
+            if (context.isInherit && node.parent == context.inheritParent) {
+                if (!child.inheritedFrom) {
+                    child.inheritedFrom = createReferenceType(context, node.symbol, true);
+                    child.getAllSignatures().forEach(function (signature) {
+                        signature.inheritedFrom = createReferenceType(context, node.symbol, true);
+                    });
+                }
+            }
+        }
+        else {
+            if (child.kind != kind) {
+                var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
+                var kindWeight = weights.indexOf(kind);
+                var childKindWeight = weights.indexOf(child.kind);
+                if (kindWeight > childKindWeight) {
+                    child.kind = kind;
+                }
+            }
+            if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(name) != -1) {
+                if (!child.overwrites) {
+                    child.overwrites = createReferenceType(context, node.symbol, true);
+                    child.getAllSignatures().forEach(function (signature) {
+                        signature.overwrites = createReferenceType(context, node.symbol, true);
+                    });
+                }
+                return null;
+            }
+        }
+        context.trigger(td.Converter.EVENT_CREATE_DECLARATION, child, node);
+        return child;
+    }
+    td.createDeclaration = createDeclaration;
+    function createReferenceType(context, symbol, includeParent) {
+        var id = context.getSymbolID(symbol);
+        var checker = context.getTypeChecker();
+        var name = checker.symbolToString(symbol);
+        if (includeParent && symbol.parent) {
+            name = [checker.symbolToString(symbol.parent), name].join('.');
+        }
+        return new td.ReferenceType(name, id);
+    }
+    td.createReferenceType = createReferenceType;
+    function createSignature(context, node, name, kind) {
+        var container = context.getScope();
+        var signature = new td.SignatureReflection(container, name, kind);
+        context.withScope(signature, node.typeParameters, true, function () {
+            node.parameters.forEach(function (parameter) {
+                createParameter(context, parameter);
+            });
+            context.registerReflection(signature, node);
+            var checker = context.getTypeChecker();
+            if (kind == 4096 /* CallSignature */) {
+                var type = checker.getTypeAtLocation(node);
+                checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
+                    if (tsSignature.declaration == node) {
+                        signature.type = td.convertType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
+                    }
+                });
+            }
+            if (!signature.type) {
+                if (node.type) {
+                    signature.type = td.convertType(context, node.type, checker.getTypeAtLocation(node.type));
+                }
+                else {
+                    signature.type = td.convertType(context, node, checker.getTypeAtLocation(node));
+                }
+            }
+            if (container.inheritedFrom) {
+                signature.inheritedFrom = createReferenceType(context, node.symbol, true);
+            }
+            context.trigger(td.Converter.EVENT_CREATE_SIGNATURE, signature, node);
+        });
+        return signature;
+    }
+    td.createSignature = createSignature;
+    function createParameter(context, node) {
+        var signature = context.getScope();
+        if (!(signature instanceof td.SignatureReflection)) {
+            throw new Error('Expected signature reflection.');
+        }
+        var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
+        context.withScope(parameter, function () {
+            parameter.type = td.convertType(context, node.type, context.getTypeAtLocation(node));
+            parameter.setFlag(128 /* Optional */, !!node.questionToken);
+            parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
+            td.extractDefaultValue(node, parameter);
+            parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
+            if (!signature.parameters)
+                signature.parameters = [];
+            signature.parameters.push(parameter);
+            context.registerReflection(parameter, node);
+            context.trigger(td.Converter.EVENT_CREATE_PARAMETER, parameter, node);
+        });
+    }
+    function createTypeParameter(context, declaration) {
+        var typeParameter = new td.TypeParameterType();
+        typeParameter.name = declaration.symbol.name;
+        if (declaration.constraint) {
+            typeParameter.constraint = td.convertType(context, declaration.constraint, context.getTypeAtLocation(declaration.constraint));
+        }
+        var reflection = context.getScope();
+        if (!reflection.typeParameters)
+            reflection.typeParameters = [];
+        var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
+        context.registerReflection(typeParameterReflection, declaration);
+        reflection.typeParameters.push(typeParameterReflection);
+        context.trigger(td.Converter.EVENT_CREATE_TYPE_PARAMETER, typeParameterReflection, declaration);
+        return typeParameter;
+    }
+    td.createTypeParameter = createTypeParameter;
+})(td || (td = {}));
+var td;
+(function (td) {
     var CompilerEvent = (function (_super) {
         __extends(CompilerEvent, _super);
         function CompilerEvent() {
@@ -2228,6 +2530,8 @@ var td;
          * @param state  The state that describes the current declaration and reflection.
          */
         CommentPlugin.prototype.onDeclaration = function (event) {
+            if (!event.node)
+                return;
             var rawComment = CommentPlugin.getComment(event.node);
             if (!rawComment)
                 return;
@@ -3256,6 +3560,8 @@ var td;
          * @param state  The state that describes the current declaration and reflection.
          */
         SourcePlugin.prototype.onDeclaration = function (event) {
+            if (!event.node)
+                return;
             var sourceFile = ts.getSourceFileOfNode(event.node);
             var fileName = sourceFile.filename;
             var file = this.getSourceFile(fileName, event.getProject());
@@ -4933,7 +5239,7 @@ var td;
         UnknownType.prototype.toObject = function () {
             var result = _super.prototype.toObject.call(this);
             result.type = 'unknown';
-            result.name = name;
+            result.name = this.name;
             return result;
         };
         /**

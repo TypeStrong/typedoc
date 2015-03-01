@@ -28,7 +28,7 @@ module td
         toObject():any {
             var result:any = super.toObject();
             result.type = 'unknown';
-            result.name = name;
+            result.name = this.name;
             return result;
         }
 

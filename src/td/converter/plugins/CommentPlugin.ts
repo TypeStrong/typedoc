@@ -111,6 +111,7 @@ module td
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event:CompilerEvent) {
+            if (!event.node) return;
             var rawComment = CommentPlugin.getComment(event.node);
             if (!rawComment) return;
 

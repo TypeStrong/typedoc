@@ -5,6 +5,8 @@ module td
      */
     export class Context
     {
+        public settings:Settings;
+
         private checker:ts.TypeChecker;
 
         /**
@@ -27,24 +29,39 @@ module td
 
         public inherited:string[];
 
-        /**
-         * Temporary
-         */
-        visit:{(context:Context, node:ts.Node):Reflection};
-        extractType:{(context:Context, node:ts.Node, type:ts.Type):Type};
-        createTypeParameter:{(context:Context, declaration:ts.TypeParameterDeclaration):TypeParameterType};
+        private symbolID:number = -1024;
+
+        isExternal:boolean;
+
+        isDeclaration:boolean;
+
+        fileNames:string[];
+
+        externalPattern:{match(str:string):boolean;};
+
+        private event:CompilerEvent;
+
+        private converter:Converter;
+
 
 
         /**
          * Create a new context.
          *
+         * @param settings
          * @param checker
          * @param project  The target project.
          */
-        constructor(checker:ts.TypeChecker, project:ProjectReflection) {
+        constructor(converter:Converter, settings:Settings, fileNames:string[], checker:ts.TypeChecker, project:ProjectReflection) {
+            this.converter = converter;
+            this.settings = settings;
+            this.fileNames = fileNames;
             this.checker = checker;
             this.project = project;
             this.scope = project;
+
+            this.externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
+            this.event = new CompilerEvent(checker, project, settings);
         }
 
 
@@ -53,6 +70,43 @@ module td
          */
         public getScope():Reflection {
             return this.scope;
+        }
+
+        getProject():ProjectReflection {
+            return this.project;
+        }
+
+        getTypeChecker():ts.TypeChecker {
+            return this.checker;
+        }
+
+
+        getTypeAtLocation(node:ts.Node):ts.Type {
+            return this.checker.getTypeAtLocation(node);
+        }
+
+
+        getSymbolID(symbol:ts.Symbol):number {
+            if (!symbol) return null;
+            if (!symbol.id) symbol.id = this.symbolID--;
+            return symbol.id;
+        }
+
+
+        registerReflection(reflection:Reflection, node:ts.Node, symbol?:ts.Symbol) {
+            this.project.reflections[reflection.id] = reflection;
+
+            var id = this.getSymbolID(symbol ? symbol : node.symbol);
+            if (!this.isInherit && id && !this.project.symbolMapping[id]) {
+                this.project.symbolMapping[id] = reflection.id;
+            }
+        }
+
+
+        trigger(name:string, reflection:Reflection, node:ts.Node) {
+            this.event.reflection = reflection;
+            this.event.node = node;
+            this.converter.dispatch(name, this.event);
         }
 
 
@@ -90,7 +144,7 @@ module td
                     if (oldTypeArguments && oldTypeArguments[index]) {
                         typeParameters[name] = oldTypeArguments[index];
                     } else {
-                        typeParameters[name] = this.createTypeParameter(this, declaration);
+                        typeParameters[name] = createTypeParameter(this, declaration);
                     }
                 });
 
@@ -103,6 +157,29 @@ module td
 
             this.scope = oldScope;
             this.typeArguments = oldTypeArguments;
+        }
+
+
+        withSourceFile(node:ts.SourceFile, callback:Function) {
+            this.isExternal = this.fileNames.indexOf(node.filename) == -1;
+            if (this.externalPattern) {
+                this.isExternal = this.isExternal || this.externalPattern.match(node.filename);
+            }
+
+            if (this.isExternal && this.settings.excludeExternals) {
+                return;
+            }
+
+            this.isDeclaration = ts.isDeclarationFile(node);
+            if (this.isDeclaration) {
+                if (!this.settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
+                    return;
+                }
+            }
+
+            this.trigger(Converter.EVENT_FILE_BEGIN, this.project, node);
+
+            callback();
         }
 
 
@@ -125,7 +202,7 @@ module td
             if (typeArguments) {
                 this.typeArguments = [];
                 typeArguments.forEach((node:ts.TypeNode) => {
-                    this.typeArguments.push(this.extractType(this, node, this.checker.getTypeAtLocation(node)));
+                    this.typeArguments.push(convertType(this, node, this.checker.getTypeAtLocation(node)));
                 });
             } else {
                 this.typeArguments = null;
@@ -140,7 +217,7 @@ module td
                 this.inherited.push(child.name);
             });
 
-            this.visit(this, node);
+            visit(this, node);
 
             this.isInherit = wasInherit;
             this.inherited = oldInherited;

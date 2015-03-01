@@ -77,6 +77,7 @@ module td
          * @param state  The state that describes the current declaration and reflection.
          */
         private onDeclaration(event:CompilerEvent) {
+            if (!event.node) return; 
             var sourceFile      = ts.getSourceFileOfNode(event.node);
             var fileName        = sourceFile.filename;
             var file:SourceFile = this.getSourceFile(fileName, event.getProject());

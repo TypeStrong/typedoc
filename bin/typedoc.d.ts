@@ -424,6 +424,7 @@ declare module td {
      * The context describes the current state the converter is in.
      */
     class Context {
+        settings: Settings;
         private checker;
         /**
          * The project that is currently processed.
@@ -440,29 +441,33 @@ declare module td {
         isInherit: boolean;
         inheritParent: ts.Node;
         inherited: string[];
-        /**
-         * Temporary
-         */
-        visit: {
-            (context: Context, node: ts.Node): Reflection;
+        private symbolID;
+        isExternal: boolean;
+        isDeclaration: boolean;
+        fileNames: string[];
+        externalPattern: {
+            match(str: string): boolean;
         };
-        extractType: {
-            (context: Context, node: ts.Node, type: ts.Type): Type;
-        };
-        createTypeParameter: {
-            (context: Context, declaration: ts.TypeParameterDeclaration): TypeParameterType;
-        };
+        private event;
+        private converter;
         /**
          * Create a new context.
          *
+         * @param settings
          * @param checker
          * @param project  The target project.
          */
-        constructor(checker: ts.TypeChecker, project: ProjectReflection);
+        constructor(converter: Converter, settings: Settings, fileNames: string[], checker: ts.TypeChecker, project: ProjectReflection);
         /**
          * Return the current parent reflection.
          */
         getScope(): Reflection;
+        getProject(): ProjectReflection;
+        getTypeChecker(): ts.TypeChecker;
+        getTypeAtLocation(node: ts.Node): ts.Type;
+        getSymbolID(symbol: ts.Symbol): number;
+        registerReflection(reflection: Reflection, node: ts.Node, symbol?: ts.Symbol): void;
+        trigger(name: string, reflection: Reflection, node: ts.Node): void;
         /**
          * Set the context to the given reflection.
          *
@@ -472,6 +477,7 @@ declare module td {
         withScope(scope: Reflection, callback: Function): any;
         withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
         withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserveTypeParameters: boolean, callback: Function): any;
+        withSourceFile(node: ts.SourceFile, callback: Function): void;
         /**
          * Apply all children of the given node to the given target reflection.
          *
@@ -544,6 +550,38 @@ declare module td {
          */
         remove(): void;
     }
+}
+declare module td {
+    function extractDefaultValue(node: ts.VariableDeclaration, reflection: IDefaultValueContainer): any;
+    function extractDefaultValue(node: ts.ParameterDeclaration, reflection: IDefaultValueContainer): any;
+    function extractDefaultValue(node: ts.EnumMember, reflection: IDefaultValueContainer): any;
+    /**
+     * Analyze the given node and create a suitable reflection.
+     *
+     * This function checks the kind of the node and delegates to the matching function implementation.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The compiler node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visit(context: Context, node: ts.Node): Reflection;
+}
+declare module td {
+    /**
+     * Convert the given TypeScript type into its TypeDoc type reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The node whose type should be reflected.
+     * @param type  The type of the node if already known.
+     * @returns The TypeDoc type reflection representing the given node and type.
+     */
+    function convertType(context: Context, node?: ts.Node, type?: ts.Type): Type;
+}
+declare module td {
+    function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection;
+    function createReferenceType(context: Context, symbol: ts.Symbol, includeParent?: boolean): ReferenceType;
+    function createSignature(context: Context, node: ts.SignatureDeclaration, name: string, kind: ReflectionKind): SignatureReflection;
+    function createTypeParameter(context: Context, declaration: ts.TypeParameterDeclaration): TypeParameterType;
 }
 declare module td {
     class CompilerEvent extends ConverterEvent {
