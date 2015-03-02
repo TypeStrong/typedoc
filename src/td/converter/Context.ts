@@ -172,7 +172,9 @@ module td
 
             this.isDeclaration = ts.isDeclarationFile(node);
             if (this.isDeclaration) {
-                if (!this.settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
+                var lib = this.converter.getDefaultLib();
+                var isLib = node.filename.substr(lib.length) == lib;
+                if (!this.settings.includeDeclarations || isLib) {
                     return;
                 }
             }

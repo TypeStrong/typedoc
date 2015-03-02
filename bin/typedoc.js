@@ -1174,7 +1174,9 @@ var td;
             }
             this.isDeclaration = ts.isDeclarationFile(node);
             if (this.isDeclaration) {
-                if (!this.settings.includeDeclarations || node.filename.substr(-8) == 'lib.d.ts') {
+                var lib = this.converter.getDefaultLib();
+                var isLib = node.filename.substr(lib.length) == lib;
+                if (!this.settings.includeDeclarations || isLib) {
                     return;
                 }
             }
@@ -1286,8 +1288,14 @@ var td;
             }
             return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, "0") : undefined;
         };
+        Converter.prototype.getDefaultLib = function () {
+            var target = this.application.settings.compilerOptions.target;
+            return target == 2 /* ES6 */ ? 'lib.es6.d.ts' : 'lib.d.ts';
+        };
         Converter.prototype.getDefaultLibFilename = function () {
-            return td.Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts');
+            var lib = this.getDefaultLib();
+            var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
+            return td.Path.join(path, 'bin', lib);
         };
         Converter.prototype.getCurrentDirectory = function () {
             return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());

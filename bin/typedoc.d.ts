@@ -517,6 +517,7 @@ declare module td {
          */
         convert(fileNames: string[]): IConverterResult;
         getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile;
+        getDefaultLib(): string;
         getDefaultLibFilename(): any;
         getCurrentDirectory(): string;
         useCaseSensitiveFileNames(): boolean;

@@ -107,8 +107,16 @@ module td
         }
 
 
+        getDefaultLib() {
+            var target = this.application.settings.compilerOptions.target;
+            return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
+        }
+
+
         getDefaultLibFilename() {
-            return Path.join(ts.getDirectoryPath(ts.normalizePath(td.tsPath)), 'bin', 'lib.d.ts');
+            var lib = this.getDefaultLib();
+            var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
+            return Path.join(path, 'bin', lib);
         }
 
 
