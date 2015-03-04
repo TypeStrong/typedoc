@@ -173,7 +173,7 @@ module td
             this.isDeclaration = ts.isDeclarationFile(node);
             if (this.isDeclaration) {
                 var lib = this.converter.getDefaultLib();
-                var isLib = node.filename.substr(lib.length) == lib;
+                var isLib = node.filename.substr(-lib.length) == lib;
                 if (!this.settings.includeDeclarations || isLib) {
                     return;
                 }
