@@ -63,8 +63,7 @@ module td
      *
      * The compiler resolves type aliases pretty early and there is no field telling us
      * whether the given node was a type alias or not. So we have to compare the type name of the
-     * node with the type name of the type symbol and if the given node and type should be
-     * interpreted as an type alias.
+     * node with the type name of the type symbol.
      *
      * @param node  The node that should be tested.
      * @param type  The type of the node that should be tested.
@@ -72,7 +71,11 @@ module td
      */
     function isTypeAlias(node:ts.TypeReferenceNode, type:ts.Type):boolean {
         if (!type || !node || !node.typeName) return false;
-        return !type.symbol || (ts.getTextOfNode(node.typeName) != type.symbol.name);
+        if (!type.symbol) return true;
+
+        var nodeName = ts.getTextOfNode(node.typeName);
+        var symbolName = type.symbol.name;
+        return nodeName.substr(-symbolName.length) != symbolName;
     }
 
 
