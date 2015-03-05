@@ -1,0 +1,294 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"implicit-types\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/implicit-types/implicit-types.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "IBreakpointRange",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 4,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            },
+            {
+              "id": 3,
+              "name": "start",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "_breakpoints",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 6,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 9,
+                  "name": "large",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "IBreakpointRange",
+                    "id": 2
+                  }
+                },
+                {
+                  "id": 8,
+                  "name": "medium",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "IBreakpointRange",
+                    "id": 2
+                  }
+                },
+                {
+                  "id": 7,
+                  "name": "small",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "IBreakpointRange",
+                    "id": 2
+                  }
+                },
+                {
+                  "id": 10,
+                  "name": "xlarge",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "IBreakpointRange",
+                    "id": 2
+                  }
+                },
+                {
+                  "id": 11,
+                  "name": "xxlarge",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "IBreakpointRange",
+                    "id": 2
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Variables",
+                  "kind": 32,
+                  "children": [
+                    9,
+                    8,
+                    7,
+                    10,
+                    11
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 12,
+          "name": "getBreakpoints",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 13,
+              "name": "getBreakpoints",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "type": {
+                "type": "reflection",
+                "declaration": {
+                  "id": 14,
+                  "name": "__type",
+                  "kind": 65536,
+                  "kindString": "Type literal",
+                  "flags": {},
+                  "children": [
+                    {
+                      "id": 17,
+                      "name": "large",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "IBreakpointRange",
+                        "id": 2
+                      }
+                    },
+                    {
+                      "id": 16,
+                      "name": "medium",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "IBreakpointRange",
+                        "id": 2
+                      }
+                    },
+                    {
+                      "id": 15,
+                      "name": "small",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "IBreakpointRange",
+                        "id": 2
+                      }
+                    },
+                    {
+                      "id": 18,
+                      "name": "xlarge",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "IBreakpointRange",
+                        "id": 2
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "name": "xxlarge",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "IBreakpointRange",
+                        "id": 2
+                      }
+                    }
+                  ],
+                  "groups": [
+                    {
+                      "title": "Variables",
+                      "kind": 32,
+                      "children": [
+                        17,
+                        16,
+                        15,
+                        18,
+                        19
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            5
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            12
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
