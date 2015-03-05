@@ -17,7 +17,7 @@ module td
         /**
          * The settings that have been passed to TypeDoc.
          */
-        settings:Settings;
+        settings:IOptions;
 
         /**
          * The path of the directory the documentation should be written to.

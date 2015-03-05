@@ -1,5 +1,25 @@
 module td
 {
+    export interface IOptions
+    {
+        /**
+         * The Google Analytics tracking ID that should be used. When not set, the tracking code
+         * should be omitted.
+         */
+        gaID?:string;
+
+        /**
+         * Optional site name for Google Analytics. Defaults to `auto`.
+         */
+        gaSite?:string;
+
+        /**
+         * Should we hide the TypeDoc link at the end of the page?
+         */
+        hideGenerator?:boolean;
+    }
+
+
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
      *
@@ -34,7 +54,7 @@ module td
      * Default theme implementation of TypeDoc. If a theme does not provide a custom
      * [[BaseTheme]] implementation, this theme class will be used.
      */
-    export class DefaultTheme extends Theme
+    export class DefaultTheme extends Theme implements IParameterProvider
     {
         /**
          * Mappings of reflections kinds to templates used by this theme.
@@ -92,6 +112,22 @@ module td
         }
 
 
+        getParameters():IParameter[] {
+            return <IParameter[]>[{
+                name: 'gaID',
+                help: 'Set the Google Analytics tracking ID and activate tracking code.'
+            },{
+                name: 'gaSite',
+                help: 'Set the site name for Google Analytics. Defaults to `auto`.',
+                defaultValue: 'auto'
+            },{
+                name: 'hideGenerator',
+                help: 'Do not print the TypeDoc link at the end of the page.',
+                type: ParameterType.Boolean
+            }];
+        }
+
+
         /**
          * Map the models of the given project to the desired output files.
          *
@@ -102,7 +138,7 @@ module td
         getUrls(project:ProjectReflection):UrlMapping[] {
             var urls = [];
 
-            if (this.renderer.application.settings.readme == 'none') {
+            if (this.renderer.application.options.readme == 'none') {
                 project.url = 'index.html';
                 urls.push(new UrlMapping('index.html', project, 'reflection.hbs'));
             } else {
@@ -255,7 +291,7 @@ module td
             }
 
 
-            return build(this.renderer.application.settings.readme != 'none');
+            return build(this.renderer.application.options.readme != 'none');
         }
 
 

@@ -6,10 +6,10 @@ module td
 
         private _project:ProjectReflection;
 
-        private _settings:Settings;
+        private _settings:IOptions;
 
 
-        constructor(checker:ts.TypeChecker, project:ProjectReflection, settings:Settings) {
+        constructor(checker:ts.TypeChecker, project:ProjectReflection, settings:IOptions) {
             super();
             this._checker = checker;
             this._project = project;
@@ -27,7 +27,7 @@ module td
         }
 
 
-        getSettings():Settings {
+        getSettings():IOptions {
             return this._settings;
         }
     }

@@ -1,5 +1,15 @@
 module td
 {
+    export interface IOptions
+    {
+        /**
+         * The location of the readme file that should be displayed on the index page. Set this to 'none' to
+         * remove the index page and start with the globals page.
+         */
+        readme?:string;
+    }
+
+
     /**
      * A handler that tries to find the package.json and readme.md files of the
      * current project.
@@ -8,7 +18,7 @@ module td
      * and records the nearest package info files it can find. Within the resolve files, the
      * contents of the found files will be read and appended to the ProjectReflection.
      */
-    export class PackagePlugin extends ConverterPlugin
+    export class PackagePlugin extends ConverterPlugin implements IParameterProvider
     {
         /**
          * The file name of the found readme.md file.
@@ -41,6 +51,14 @@ module td
             converter.on(Converter.EVENT_BEGIN,         this.onBegin,         this);
             converter.on(Converter.EVENT_FILE_BEGIN,    this.onBeginDocument, this);
             converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve,  this);
+        }
+
+
+        getParameters():IParameter[] {
+            return <IParameter[]>[{
+                name: 'readme',
+                help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+            }];
         }
 
 

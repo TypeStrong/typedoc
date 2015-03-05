@@ -1,5 +1,19 @@
 module td
 {
+    export interface IOptions
+    {
+        /**
+         * Specifies the location to look for included documents.
+         */
+        includes?:string;
+
+        /**
+         * Specifies the location with media files that should be copied to the output directory.
+         */
+        media?:string;
+    }
+
+
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *
@@ -30,7 +44,7 @@ module td
      * {{#relativeURL url}}
      * ```
      */
-    export class MarkedPlugin extends RendererPlugin
+    export class MarkedPlugin extends RendererPlugin implements IParameterProvider
     {
         /**
          * The project that is currently processed.
@@ -86,6 +100,19 @@ module td
             Marked.setOptions({
                 highlight: (text, lang) => this.getHighlighted(text, lang)
             });
+        }
+
+
+        getParameters():IParameter[] {
+            return <IParameter[]>[{
+                name: 'includes',
+                help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+                hint: ParameterHint.Directory
+            },{
+                name: 'media',
+                help: 'Specifies the location with media files that should be copied to the output directory.',
+                hint: ParameterHint.Directory
+            }];
         }
 
 

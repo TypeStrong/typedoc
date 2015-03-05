@@ -58,14 +58,14 @@ function compareChildren(fixture, spec, path) {
 
 describe('Converter', function() {
     var base = Path.join(__dirname, 'converter');
-    var converter, settings;
+    var app;
 
     it('constructs', function() {
-        settings = new TD.Settings();
-        converter = new TD.Converter({
-            settings: settings,
-            log: function()  {}
-        });
+        app = new TD.Application();
+        app.options.mode = TD.SourceFileMode.Modules;
+        app.compilerOptions.noLib = true;
+        app.compilerOptions.target = TD.ScriptTarget.ES5;
+        app.compilerOptions.module = TD.ModuleKind.CommonJS;
     });
 
     FS.readdirSync(base).forEach(function (directory) {
@@ -76,11 +76,8 @@ describe('Converter', function() {
             var result;
 
             it('converts fixtures', function() {
-                settings.inputFiles = [path];
-                settings.expandInputFiles();
-                settings.compilerOptions.noLib = true;
                 TD.resetReflectionID();
-                result = converter.convert(settings.inputFiles);
+                result = app.converter.convert(app.expandInputFiles([path]));
             });
 
             it('matches specs', function() {

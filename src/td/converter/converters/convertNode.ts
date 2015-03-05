@@ -162,7 +162,7 @@ module td
         var reflection = createDeclaration(context, node, ReflectionKind.Module);
 
         context.withScope(reflection, () => {
-            var opt = context.settings.compilerOptions;
+            var opt = context.compilerOptions;
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
                 (!opt.module || opt.module == ts.ModuleKind.None)) {
                 reflection.setFlag(ReflectionFlag.Exported);

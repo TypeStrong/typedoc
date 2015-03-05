@@ -13,361 +13,312 @@ module td
         Latest = 2,
     }
 
-    export enum OptionScope {
-        TypeDoc, TypeScript
-    }
-
-
-    export interface IOptionDeclaration extends ts.CommandLineOption {
-        scope:OptionScope;
-    }
-
-
-    export var ignoredTypeScriptOptions = [
-        'out', 'outDir', 'version', 'help', 'watch', 'declaration', 'mapRoot', 'sourceMap', 'removeComments'
-    ];
-
-
     export enum SourceFileMode {
         File, Modules
     }
 
 
-    /**
-     * Modify ts.optionDeclarations to match TypeDoc requirements.
-     */
-    export var optionDeclarations:IOptionDeclaration[] = [{
-        name: "out",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location the documentation should be written to.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "mode",
-        type: {
-            'file': SourceFileMode.File,
-            'modules': SourceFileMode.Modules
-        },
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "json",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        paramType: ts.Diagnostics.FILE,
-        description: {
-            key: 'Specifies the location and file name a json file describing the project is written to.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "theme",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: "Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.",
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "exclude",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Define a pattern for excluded files when specifying paths.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "includeDeclarations",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Turn on parsing of .d.ts declaration files.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "externalPattern",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Define a pattern for files that should be considered being external.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "readme",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "excludeExternals",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Prevent externally resolved TypeScript files from being documented.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "name",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Set the name of the project that will be used in the header of the template.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "includes",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "media",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location with media files that should be copied to the output directory.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "gaID",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Set the Google Analytics tracking ID and activate tracking code.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "gaSite",
-        type: "string",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Set the site name for Google Analytics. Defaults to `auto`.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "hideGenerator",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Do not print the TypeDoc link at the end of the page.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "verbose",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Print more information while TypeDoc is running.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "version",
-        shortName: "v",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Print the TypeDoc\'s version.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    },{
-        name: "help",
-        shortName: "h",
-        type: "boolean",
-        scope: OptionScope.TypeDoc,
-        description: {
-            key: 'Print this message.',
-            category: ts.DiagnosticCategory.Message,
-            code: 0
-        }
-    }];
-
-
-    /**
-     * Holds all settings used by TypeDoc.
-     */
-    export class Settings
+    export interface IParameter
     {
-        /**
-         * The settings used by the TypeScript compiler.
-         *
-         * @see [[CodeGenTarget]]
-         * @see [[ModuleGenTarget]]
-         */
-        compilerOptions:ts.CompilerOptions;
+        name:string;
+        short?:string;
+        help:string;
+        type?:ParameterType;
+        hint?:ParameterHint;
+        scope?:ParameterScope;
+        map?:{};
+        mapError?:string;
+        isArray?:boolean;
+        defaultValue?:any;
+    }
 
-        /**
-         * The list of source files that should be processed.
-         */
-        inputFiles:string[] = [];
+    export interface IParameterHelp {
+        marginLength:number;
+        usage:string[];
+        description:string[];
+    }
 
-        /**
-         * The path of the output directory.
-         */
-        out:string;
+    export interface IParameterProvider {
+        getParameters():IParameter[];
+    }
 
-        /**
-         * Specifies the output mode the project is used to be compiled with.
-         */
-        mode:SourceFileMode = SourceFileMode.Modules;
+    export enum ParameterHint {
+        File,
+        Directory
+    }
 
-        /**
-         * Path and filename of the json file.
-         */
-        json:string;
+    export enum ParameterType {
+        String,
+        Number,
+        Boolean,
+        Map
+    }
 
+
+    export enum ParameterScope {
+        TypeDoc, TypeScript
+    }
+
+
+    /**
+     * Options object interface declaration.
+     *
+     * Other components might add additional option declarations.
+     */
+    export interface IOptions
+    {
         /**
          * The path of the theme that should be used.
          */
-        theme:string = 'default';
+        theme:string;
 
         /**
-         * The human readable name of the project. Used within the templates to set the title of the document.
+         * The list of npm plugins that should be loaded.
          */
-        name:string;
-
-        /**
-         * The location of the readme file that should be displayed on the index page. Set this to 'none' to
-         * remove the index page and start with the globals page.
-         */
-        readme:string;
-
-        /**
-         * Specifies the location to look for included documents.
-         */
-        includes:string;
-
-        /**
-         * Specifies the location with media files that should be copied to the output directory.
-         */
-        media:string;
+        plugins?:string[];
 
         /**
          * A pattern for files that should be excluded when a path is specified as source.
          */
-        excludePattern:string;
+        exclude?:string;
 
         /**
-         * Should declaration files be documented?
+         * The path of the output directory.
          */
-        includeDeclarations:boolean = false;
+        out?:string;
 
         /**
-         * Should externally resolved TypeScript files be ignored?
+         * Path and filename of the json file.
          */
-        excludeExternals:boolean = false;
-
-        /**
-         * Define a pattern for files that should be considered being external.
-         */
-        externalPattern:string;
-
-        /**
-         * The Google Analytics tracking ID that should be used. When not set, the tracking code
-         * should be omitted.
-         */
-        gaID:string;
-
-        /**
-         * Optional site name for Google Analytics. Defaults to `auto`.
-         */
-        gaSite:string = 'auto';
-
-        /**
-         * Does the user want to display the help message?
-         */
-        help:boolean = false;
-
-        /**
-         * Does the user want to know the version number?
-         */
-        version:boolean = false;
-
-        /**
-         * Should we hide the TypeDoc link at the end of the page?
-         */
-        hideGenerator:boolean = false;
+        json?:string;
 
         /**
          * Should verbose messages be printed?
          */
-        verbose:boolean = false;
+        verbose?:boolean;
 
-        private declarations:ts.Map<IOptionDeclaration> = {};
+        /**
+         * Does the user want to display the help message?
+         */
+        help?:boolean;
 
-        private shortOptionNames:ts.Map<string> = {};
+        /**
+         * Does the user want to know the version number?
+         */
+        version?:boolean;
+    }
+
+
+    /**
+     * A parser that can read command line arguments, option files and javascript objects.
+     */
+    export class OptionsParser
+    {
+        /**
+         * The parsed TypeDoc options.
+         */
+        options:IOptions;
+
+        /**
+         * The parsed TypeScript compiler options.
+         */
+        compilerOptions:ts.CompilerOptions;
+
+        /**
+         * The list of discovered input files.
+         */
+        inputFiles:string[];
+
+        /**
+         * The application that stores the parsed settings.
+         */
+        private application:IApplication;
+
+        /**
+         * Map of parameter names and their definitions.
+         */
+        private arguments:ts.Map<IParameter> = {};
+
+        /**
+         * Map of parameter short names and their full equivalent.
+         */
+        private shortNames:ts.Map<string> = {};
+
+        /**
+         * A list of all TypeScript parameters that should be ignored.
+         */
+        private static IGNORED_TS_PARAMS:string[] = [
+            'out', 'outDir', 'version', 'help',
+            'watch', 'declaration', 'mapRoot',
+            'sourceMap', 'removeComments'
+        ];
 
 
 
         /**
-         * Create a new Settings instance.
+         * Create a new OptionsParser instance.
+         *
+         * @param application  The application that stores the parsed settings
          */
-        constructor() {
-            this.compilerOptions = {
-                target: ts.ScriptTarget.ES3,
-                module: ts.ModuleKind.None
-            };
+        constructor(application:IApplication) {
+            this.application = application;
 
-            optionDeclarations.forEach((option) => this.addOptionDeclaration(option));
-            ts.optionDeclarations.forEach((option:IOptionDeclaration) => {
-                if (ignoredTypeScriptOptions.indexOf(option.name) != -1) return;
-                option.scope = OptionScope.TypeScript;
-                this.addOptionDeclaration(option);
+            this.reset();
+            this.addDefaultParameters();
+            this.addCompilerParameters();
+        }
+
+
+        /**
+         * Register a parameter definition.
+         *
+         * @param parameters One or multiple parameter definitions that should be registered.
+         */
+        addParameter(...parameters:IParameter[]) {
+            parameters.forEach((parameter) => {
+                parameter.type = parameter.type || ParameterType.String;
+                parameter.scope = parameter.scope || ParameterScope.TypeDoc;
+                this.arguments[parameter.name.toLowerCase()] = parameter;
+
+                if (parameter.short) {
+                    this.shortNames[parameter.short.toLowerCase()] = parameter.name;
+                }
+
+                if (parameter.defaultValue && !parameter.isArray) {
+                    var name = parameter.name;
+                    var target = (parameter.scope == ParameterScope.TypeDoc) ? this.options : this.compilerOptions;
+                    if (!target[name]) {
+                        target[name] = parameter.defaultValue;
+                    }
+                }
             });
         }
 
 
         /**
-         *
-         * @param option
+         * Register the command line parameters.
          */
-        addOptionDeclaration(option:IOptionDeclaration) {
-            this.declarations[option.name.toLowerCase()] = option;
-            if (option.shortName) {
-                this.shortOptionNames[option.shortName] = option.name;
-            }
+        addCommandLineParameters() {
+            this.addParameter({
+                name:  'out',
+                help:  'Specifies the location the documentation should be written to.',
+                hint:  ParameterHint.Directory
+            }, {
+                name:  'json',
+                help:  'Specifies the location and file name a json file describing the project is written to.',
+                hint:  ParameterHint.File
+            },{
+                name:  'version',
+                short: 'v',
+                help:  'Print the TypeDoc\'s version.',
+                type:  ParameterType.Boolean
+            },{
+                name:  'help',
+                short: 'h',
+                help:  'Print this message.',
+                type:  ParameterType.Boolean
+            });
         }
 
 
         /**
-         *
-         * @param name
-         * @returns {*}
+         * Register the default parameters.
          */
-        getOptionDeclaration(name:string):IOptionDeclaration {
-            if (ts.hasProperty(this.shortOptionNames, name)) {
-                name = this.shortOptionNames[name];
+        private addDefaultParameters() {
+            this.addParameter({
+                name: 'theme',
+                help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
+                type: ParameterType.String
+            }, {
+                name: 'exclude',
+                help: 'Define a pattern for excluded files when specifying paths.',
+                type: ParameterType.String
+            }, {
+                name: 'plugin',
+                help: '',
+                type: ParameterType.String
+            },{
+                name: 'verbose',
+                help: 'Print more information while TypeDoc is running.',
+                type: ParameterType.Boolean
+            });
+        }
+
+
+        /**
+         * Register all TypeScript related properties.
+         */
+        private addCompilerParameters() {
+            var ignored = OptionsParser.IGNORED_TS_PARAMS;
+
+            ts.optionDeclarations.forEach((option:ts.CommandLineOption) => {
+                if (ignored.indexOf(option.name) != -1) return;
+                var param = <IParameter>{
+                    name:  option.name,
+                    short: option.shortName,
+                    help:  option.description ? option.description.key : null,
+                    scope: ParameterScope.TypeDoc
+                };
+
+                switch (option.type) {
+                    case "number":
+                        param.type = ParameterType.Number;
+                        break;
+                    case "boolean":
+                        param.type = ParameterType.Boolean;
+                        break;
+                    case "string":
+                        param.type = ParameterType.String;
+                        break;
+                    default:
+                        param.type = ParameterType.Map;
+                        param.map = option.type;
+                        if (option.error) {
+                            var error = ts.createCompilerDiagnostic(option.error);
+                            param.mapError = error.messageText;
+                        }
+                }
+
+                switch (option.paramType) {
+                    case ts.Diagnostics.FILE:
+                        param.hint = ParameterHint.File;
+                        break;
+                    case ts.Diagnostics.DIRECTORY:
+                        param.hint = ParameterHint.Directory;
+                        break;
+                }
+
+                this.addParameter(param);
+            });
+        }
+
+
+        /**
+         * Add an input/source file.
+         *
+         * The input files will be used as source files for the compiler. All command line
+         * arguments without parameter will be interpreted as being input files.
+         *
+         * @param fileName The path and filename of the input file.
+         */
+        addInputFile(fileName:string) {
+            this.inputFiles.push(fileName);
+        }
+
+
+        /**
+         * Retrieve a parameter by its name.
+         *
+         * @param name  The name of the parameter to look for.
+         * @returns The parameter definition or NULL when not found.
+         */
+        getParameter(name:string):IParameter {
+            if (ts.hasProperty(this.shortNames, name)) {
+                name = this.shortNames[name];
             }
 
-            if (ts.hasProperty(this.declarations, name)) {
-                return this.declarations[name];
+            if (ts.hasProperty(this.arguments, name)) {
+                return this.arguments[name];
             } else {
                 return null;
             }
@@ -375,104 +326,72 @@ module td
 
 
         /**
-         * Expand the list of input files.
+         * Set the option described by the given parameter description to the given value.
          *
-         * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
-         * to filter out files with a pattern.
+         * @param param  The parameter description of the option to set.
+         * @param value  The target value of the option.
+         * @returns TRUE on success, otherwise FALSE.
          */
-        public expandInputFiles() {
-            var exclude, files = [];
-            if (this.excludePattern) {
-                exclude = new Minimatch.Minimatch(this.excludePattern);
+        setOption(param:IParameter, value?:any):boolean {
+            if (param.isArray && Util.isArray(value)) {
+                var result = true;
+                value.forEach((value) => result = this.setOption(param, value) && result);
+                return result;
             }
 
-            function add(dirname) {
-                FS.readdirSync(dirname).forEach((file) => {
-                    var realpath = Path.join(dirname, file);
-                    if (FS.statSync(realpath).isDirectory()) {
-                        add(realpath);
-                    } else if (/\.ts$/.test(realpath)) {
-                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
-                            return;
-                        }
-
-                        files.push(realpath);
-                    }
-                });
+            try {
+                value = OptionsParser.convert(param, value);
+            } catch (error) {
+                this.application.log(error.message, LogLevel.Error);
+                return false;
             }
 
-            this.inputFiles.forEach((file) => {
-                file = Path.resolve(file);
-                if (FS.statSync(file).isDirectory()) {
-                    add(file);
-                } else {
-                    files.push(file);
-                }
-            });
+            var name = param.name;
+            var target = (param.scope == ParameterScope.TypeDoc) ? this.options : this.compilerOptions;
+            if (param.isArray) {
+                (target[name] = target[name] || []).push(value);
+            } else {
+                target[name] = value;
+            }
 
-            this.inputFiles = files;
+            return true;
         }
 
 
-        parseCommandLine(logger:ILogger):boolean {
-            return this.parseArguments(ts.sys.args, logger);
+        /**
+         * Reset the output data of this parser instance.
+         *
+         * This will not reset the registered parameters!
+         */
+        reset() {
+            this.options = OptionsParser.createOptions();
+            this.compilerOptions = OptionsParser.createCompilerOptions();
+            this.inputFiles = [];
         }
 
 
-        parseArguments(args:string[], logger:ILogger):boolean {
-            var index = 0;
+        /**
+         * Apply the values of the given options object.
+         *
+         * @param obj  The object whose properties should be applied.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseObject(obj:any, ignoreUnknownArgs?:boolean):boolean {
             var result = true;
-            while (index < args.length) {
-                var arg = args[index++];
+            for (var key in obj) {
+                if (!obj.hasOwnProperty(key)) continue;
 
-                if (arg.charCodeAt(0) === ts.CharacterCodes.at) {
-                    result = this.parseResponseFile(arg.slice(1), logger) && result;
-                } else if (arg.charCodeAt(0) === ts.CharacterCodes.minus) {
-                    arg = arg.slice(arg.charCodeAt(1) === ts.CharacterCodes.minus ? 2 : 1).toLowerCase();
-
-                    var error, option = this.getOptionDeclaration(arg);
-                    if (!option) {
-                        error = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, arg);
-                    } else if (!args[index] && option.type !== "boolean") {
-                        error = ts.createCompilerDiagnostic(ts.Diagnostics.Compiler_option_0_expects_an_argument, option.name);
-                    }
-
-                    if (error) {
-                        logger.log(error.messageText, LogLevel.Error);
+                var parameter = this.getParameter(key);
+                if (!parameter) {
+                    if (!ignoreUnknownArgs) {
+                        var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
+                        this.application.log(msg.messageText, LogLevel.Error);
                         result = false;
-                        continue;
-                    }
-
-                    var target:any = option.scope == OptionScope.TypeDoc ? this : this.compilerOptions;
-                    switch (option.type) {
-                        case "number":
-                            target[option.name] = parseInt(args[index++]);
-                            break;
-                        case "boolean":
-                            target[option.name] = true;
-                            break;
-                        case "string":
-                            target[option.name] = args[index++] || "";
-                            break;
-                        default:
-                            var map = <ts.Map<number>>option.type;
-                            var key = (args[index++] || "").toLowerCase();
-                            if (ts.hasProperty(map, key)) {
-                                target[option.name] = map[key];
-                            } else {
-                                if (option.error) {
-                                    error = ts.createCompilerDiagnostic(option.error);
-                                    logger.log(error.messageText, LogLevel.Error);
-                                } else {
-                                    logger.log(Util.format('Invalid option given for option "%s".', option.name), LogLevel.Error);
-                                }
-
-                                result = false;
-                            }
                     }
                 } else {
-                    this.inputFiles.push(arg);
+                    result = this.setOption(parameter, obj[key]) && result;
                 }
             }
 
@@ -480,12 +399,69 @@ module td
         }
 
 
-        parseResponseFile(filename:string, logger:ILogger):boolean {
+        /**
+         * Read and store the given list of arguments.
+         *
+         * @param args  The list of arguments that should be parsed. When omitted the
+         *   current command line arguments will be used.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseArguments(args?:string[], ignoreUnknownArgs?:boolean):boolean {
+            var index = 0;
+            var result = true;
+            args = args || process.argv.splice(2);
+
+            var error = (message:ts.DiagnosticMessage, ...args: any[]) => {
+                if (ignoreUnknownArgs) return;
+                var msg = ts.createCompilerDiagnostic.call(this, arguments);
+                this.application.log(msg.messageText, LogLevel.Error);
+                result = false;
+            };
+
+            while (index < args.length) {
+                var arg = args[index++];
+
+                if (arg.charCodeAt(0) === ts.CharacterCodes.at) {
+                    result = this.parseResponseFile(arg.slice(1), ignoreUnknownArgs) && result;
+                } else if (arg.charCodeAt(0) === ts.CharacterCodes.minus) {
+                    arg = arg.slice(arg.charCodeAt(1) === ts.CharacterCodes.minus ? 2 : 1).toLowerCase();
+
+                    var parameter = this.getParameter(arg);
+                    if (!parameter) {
+                        error(ts.Diagnostics.Unknown_compiler_option_0, arg);
+                    } else if (parameter.type !== ParameterType.Boolean) {
+                        if (!args[index]) {
+                            error(ts.Diagnostics.Compiler_option_0_expects_an_argument, parameter.name);
+                        } else {
+                            result = this.setOption(parameter, args[index++]) && result;
+                        }
+                    } else {
+                        result = this.setOption(parameter) && result;
+                    }
+                } else if (!ignoreUnknownArgs) {
+                    this.addInputFile(arg);
+                }
+            }
+
+            return result;
+        }
+
+
+        /**
+         * Read the arguments stored in the given file.
+         *
+         * @param filename  The path and filename that should be parsed.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored?
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseResponseFile(filename:string, ignoreUnknownArgs?:boolean):boolean {
             var text = ts.sys.readFile(filename);
 
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                logger.log(error.messageText, LogLevel.Error);
+                this.application.log(error.messageText, LogLevel.Error);
                 return false;
             }
 
@@ -504,7 +480,7 @@ module td
                         pos++;
                     } else {
                         var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        logger.log(error.messageText, LogLevel.Error);
+                        this.application.log(error.messageText, LogLevel.Error);
                         return false;
                     }
                 } else {
@@ -513,7 +489,160 @@ module td
                 }
             }
 
-            return this.parseArguments(args, logger);
+            return this.parseArguments(args, ignoreUnknownArgs);
+        }
+
+
+        getParameterHelp(scope:ParameterScope):IParameterHelp {
+            // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
+            var optsList = [];
+            var marginLength = 0;
+            for (var key in this.arguments) {
+                if (!this.arguments.hasOwnProperty(key)) continue;
+                var argument = this.arguments[key];
+                if (argument.scope === scope) {
+                    optsList.push(argument);
+                }
+            }
+
+            optsList.sort((a, b) => {
+                return <number>ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
+            });
+
+            // We want our descriptions to align at the same column in our output,
+            // so we keep track of the longest option usage string.
+            var usageColumn: string[] = []; // Things like "-d, --declaration" go in here.
+            var descriptionColumn: string[] = [];
+
+            for (var i = 0; i < optsList.length; i++) {
+                var option = optsList[i];
+
+                // If an option lacks a description,
+                // it is not officially supported.
+                if (!option.description) {
+                    continue;
+                }
+
+                var usageText = " ";
+                if (option.shortName) {
+                    usageText += "-" + option.shortName;
+                    if (option.hint) usageText += ParameterHint[option.hint].toUpperCase();
+                    usageText += ", ";
+                }
+
+                usageText += "--" + option.name;
+                if (option.hint) usageText += ParameterHint[option.hint].toUpperCase();
+
+                usageColumn.push(usageText);
+                descriptionColumn.push(option.description.key);
+
+                // Set the new margin for the description column if necessary.
+                marginLength = Math.max(usageText.length, marginLength);
+            }
+
+            return {marginLength:marginLength, usage:usageColumn, description:descriptionColumn};
+        }
+
+
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         */
+        public toString():string {
+            var typeDoc = this.getParameterHelp(ParameterScope.TypeDoc);
+            var typeScript = this.getParameterHelp(ParameterScope.TypeScript);
+
+            var output = [];
+            output.push('Usage:');
+            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
+            output.push('', 'TypeDoc options:');
+            pushDeclarations(typeDoc);
+            output.push('', 'TypeScript options:');
+            pushDeclarations(typeScript);
+            output.push('');
+            return output.join(ts.sys.newLine);
+
+            // Special case that can't fit in the loop.
+            function addFileOption(columns:IParameterHelp) {
+                var usageText = " @<file>";
+                columns.usage.push(usageText);
+                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
+                columns.marginLength = Math.max(usageText.length, columns.marginLength);
+            }
+
+            // Print out each row, aligning all the descriptions on the same column.
+            function pushDeclarations(columns:IParameterHelp) {
+                for (var i = 0; i < columns.usage.length; i++) {
+                    var usage = columns.usage[i];
+                    var description = columns.description[i];
+                    output.push(usage + makePadding(columns.marginLength - usage.length + 2) + description);
+                }
+            }
+
+            function makePadding(paddingLength: number): string {
+                return Array(paddingLength + 1).join(" ");
+            }
+        }
+
+
+        /**
+         * Convert the given value according to the type setting of the given parameter.
+         *
+         * @param param  The parameter definition.
+         * @param value  The value that should be converted.
+         * @returns The converted value.
+         */
+        static convert(param:IParameter, value?:any):any {
+            switch (param.type) {
+                case ParameterType.Number:
+                    value = parseInt(value);
+                    break;
+                case ParameterType.Boolean:
+                    value = (typeof value == 'undefined' ? true : !!value);
+                    break;
+                case ParameterType.String:
+                    value = value || "";
+                    break;
+                case ParameterType.Map:
+                    var map = <ts.Map<number>>param.map;
+                    var key = (value || "").toLowerCase();
+                    if (ts.hasProperty(map, key)) {
+                        value = map[key];
+                    } else if (param.mapError) {
+                        throw new Error(param.mapError);
+                    } else {
+                        throw new Error(Util.format('Invalid option given for option "%s".', param.name));
+                    }
+                    break;
+            }
+
+            return value;
+        }
+
+
+        /**
+         * Create an options object populated with the default values.
+         *
+         * @returns An options object populated with default values.
+         */
+        static createOptions():IOptions {
+            return {
+                theme: 'default'
+            };
+        }
+
+
+        /**
+         * Create the compiler options populated with the default values.
+         *
+         * @returns A compiler options object populated with default values.
+         */
+        static createCompilerOptions():ts.CompilerOptions {
+            return <ts.CompilerOptions>{
+                target: ts.ScriptTarget.ES3,
+                module: ts.ModuleKind.None
+            };
         }
     }
 }

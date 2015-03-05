@@ -43,10 +43,14 @@ module td
     export interface IApplication extends ILogger
     {
         /**
-         * The settings used by the dispatcher and the renderer.
+         * The options used by the dispatcher and the renderer.
          */
-        settings:Settings;
+        options:IOptions;
 
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions:ts.CompilerOptions;
     }
 
 
@@ -104,9 +108,14 @@ module td
     export class Application implements ILogger, IApplication
     {
         /**
-         * The settings used by the dispatcher and the renderer.
+         * The options used by the dispatcher and the renderer.
          */
-        settings:Settings;
+        options:IOptions;
+
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions:ts.CompilerOptions;
 
         /**
          * The converter used to create the declaration reflections.
@@ -124,6 +133,11 @@ module td
         hasErrors:boolean = false;
 
         /**
+         * The version number of the loaded TypeScript compiler. Cached return value of [[Application.getTypeScriptVersion]]
+         */
+        private typeScriptVersion:string;
+
+        /**
          * The version number of TypeDoc.
          */
         static VERSION:string = '{{ VERSION }}';
@@ -132,34 +146,12 @@ module td
 
         /**
          * Create a new Application instance.
-         *
-         * @param settings  The settings used by the dispatcher and the renderer.
          */
-        constructor(settings:Settings = new Settings()) {
-            this.settings  = settings;
+        constructor() {
             this.converter = new Converter(this);
             this.renderer  = new Renderer(this);
-        }
-
-
-        /**
-         * Run TypeDoc from the command line.
-         */
-        public runFromCommandline() {
-            if (this.settings.parseCommandLine(this)) {
-                if (this.settings.version) {
-                    ts.sys.write(this.printVersion().join(ts.sys.newLine));
-                } else if (this.settings.inputFiles.length === 0 || this.settings.help) {
-                    ts.sys.write(this.printUsage().join(ts.sys.newLine));
-                } else {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Info);
-
-                    this.settings.expandInputFiles();
-                    this.settings.out = Path.resolve(this.settings.out);
-                    this.generate(this.settings.inputFiles, this.settings.out);
-                }
-            }
+            this.options   = OptionsParser.createOptions();
+            this.compilerOptions = OptionsParser.createCompilerOptions();
         }
 
 
@@ -174,7 +166,7 @@ module td
                 this.hasErrors = true;
             }
 
-            if (level != LogLevel.Verbose || this.settings.verbose) {
+            if (level != LogLevel.Verbose || this.options.verbose) {
                 var output = '';
                 if (level == LogLevel.Error) output += 'Error: ';
                 if (level == LogLevel.Warn) output += 'Warning: ';
@@ -185,50 +177,149 @@ module td
         }
 
 
+        logDiagnostics(diagnostics:ts.Diagnostic[]) {
+            diagnostics.forEach((msg) => {
+                var output;
+                if (msg.file) {
+                    output = msg.file.filename;
+                    output += '(' + msg.file.getLineAndCharacterFromPosition(msg.start).line + ')';
+                    output += ts.sys.newLine + ' ' + msg.messageText;
+                } else {
+                    output = msg.messageText;
+                }
+
+                switch (msg.category) {
+                    case ts.DiagnosticCategory.Error:
+                        this.log(output, LogLevel.Error);
+                        break;
+                    case ts.DiagnosticCategory.Warning:
+                        this.log(output, LogLevel.Warn);
+                        break;
+                    case ts.DiagnosticCategory.Message:
+                        this.log(output, LogLevel.Info);
+                }
+            });
+        }
+
+
         /**
          * Run the documentation generator for the given set of files.
          *
-         * @param inputFiles  A list of source files whose documentation should be generated.
-         * @param outputDirectory  The path of the directory the documentation should be written to.
+         * @param src  A list of source files whose documentation should be generated.
+         * @param out  The path of the directory the documentation should be written to.
          */
-        public generate(inputFiles:string[], outputDirectory:string):boolean {
-            var result = this.converter.convert(inputFiles);
-
+        public generateDocs(src:string[], out:string):boolean {
+            var result = this.converter.convert(src);
             if (result.errors && result.errors.length) {
-                result.errors.forEach((error) => {
-                    var output = error.file.filename;
-                    output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
-                    output += ts.sys.newLine + ' ' + error.messageText;
-
-                    switch (error.category) {
-                        case ts.DiagnosticCategory.Error:
-                            this.log(output, LogLevel.Error);
-                            break;
-                        case ts.DiagnosticCategory.Warning:
-                            this.log(output, LogLevel.Warn);
-                            break;
-                        case ts.DiagnosticCategory.Message:
-                            this.log(output, LogLevel.Info);
-                    }
-                });
-
+                this.logDiagnostics(result.errors);
                 return false;
             }
 
-            if (this.settings.json) {
-                writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
-                this.log(Util.format('JSON written to %s', this.settings.json));
+            this.renderer.render(result.project, out);
+            if (this.hasErrors) {
+                ts.sys.write(ts.sys.newLine);
+                this.log('Documentation could not be generated due to the errors above.');
             } else {
-                this.renderer.render(result.project, outputDirectory);
-                if (this.hasErrors) {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log('Documentation could not be generated due to the errors above.');
-                } else {
-                    this.log(Util.format('Documentation generated at %s', this.settings.out));
-                }
+                this.log(Util.format('Documentation generated at %s', out));
             }
 
             return true;
+        }
+
+
+        public generateJson(src:string[], out:string):boolean {
+            var result = this.converter.convert(src);
+            if (result.errors && result.errors.length) {
+                this.logDiagnostics(result.errors);
+                return false;
+            }
+
+            writeFile(out, JSON.stringify(result.project.toObject(), null, '\t'), false);
+            this.log(Util.format('JSON written to %s', out));
+
+            return true;
+        }
+
+
+        /**
+         * Run TypeDoc from the command line.
+         */
+        public runFromCommandline() {
+            var parser = new OptionsParser(this);
+            parser.addCommandLineParameters();
+            parser.parseArguments(null, true);
+
+            // TODO: Load plugins and set theme
+
+            var parameters:IParameter[] = [];
+            parameters.push.call(parameters, this.converter.getParameters());
+            parameters.push.call(parameters, this.renderer.getParameters());
+            parser.addParameter.call(parser, parameters);
+
+            if (parser.parseArguments()) {
+                if (this.options.version) {
+                    ts.sys.write(this.toString());
+                } else if (parser.inputFiles.length === 0 || this.options.help) {
+                    ts.sys.write(parser.toString());
+                } else if (this.options.out) {
+                    ts.sys.write(ts.sys.newLine);
+                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Info);
+
+                    var src = this.expandInputFiles(parser.inputFiles);
+                    var out = Path.resolve(this.options.out);
+                    this.generateDocs(src, out);
+                } else if (this.options.json) {
+                    var src = this.expandInputFiles(parser.inputFiles);
+                    var out = Path.resolve(this.options.json);
+                    this.generateJson(src, out);
+                } else {
+                    this.log('You must either specify the \'out\' or \'json\' parameter.', LogLevel.Error);
+                }
+            }
+        }
+
+
+        /**
+         * Expand a list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the ```--exclude``` option
+         * to filter out files with a pattern.
+         *
+         * @param inputFiles  The list of files that should be expanded.
+         * @returns  The list of input files with expanded directories.
+         */
+        public expandInputFiles(inputFiles?:string[]):string[] {
+            var exclude, files = [];
+            if (this.options.exclude) {
+                exclude = new Minimatch.Minimatch(this.options.exclude);
+            }
+
+            function add(dirname) {
+                FS.readdirSync(dirname).forEach((file) => {
+                    var realpath = Path.join(dirname, file);
+                    if (FS.statSync(realpath).isDirectory()) {
+                        add(realpath);
+                    } else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+
+                        files.push(realpath);
+                    }
+                });
+            }
+
+            inputFiles.forEach((file) => {
+                file = Path.resolve(file);
+                if (FS.statSync(file).isDirectory()) {
+                    add(file);
+                } else {
+                    files.push(file);
+                }
+            });
+
+            return files;
         }
 
 
@@ -238,121 +329,25 @@ module td
          * @returns The version number of the loaded TypeScript package.
          */
         public getTypeScriptVersion():string {
-            var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
-            return json.version;
+            if (!this.typeScriptVersion) {
+                var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
+                this.typeScriptVersion = json.version;
+            }
+
+            return this.typeScriptVersion;
         }
 
 
         /**
          * Print the version number.
-         *
-         * @return string[]
          */
-        public printVersion() {
+        public toString() {
             return [
                 '',
                 'TypeDoc ' + Application.VERSION,
-                'Using TypeScript ' + this.getTypeScriptVersion() + ' at ' + tsPath,
+                'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + tsPath,
                 ''
-            ];
-        }
-
-
-        /**
-         * Print some usage information.
-         *
-         * Taken from TypeScript (src/compiler/tsc.ts)
-         *
-         * @return string[]
-         */
-        public printUsage() {
-            var marginLength = 0;
-            var typeDoc = prepareOptions(optionDeclarations);
-            var typeScript = prepareOptions(ts.optionDeclarations, ignoredTypeScriptOptions);
-
-            var output = this.printVersion();
-
-            output.push('Usage:');
-            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
-            output.push('', 'TypeDoc options:');
-            pushDeclarations(typeDoc);
-            output.push('', 'TypeScript options:');
-            pushDeclarations(typeScript);
-            output.push('');
-            return output;
-
-            function prepareOptions(optsList:ts.CommandLineOption[], exclude?:string[]):{usage:string[]; description:string[];} {
-                // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
-                optsList = optsList.slice();
-                optsList.sort((a, b) => ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase()));
-
-                // We want our descriptions to align at the same column in our output,
-                // so we keep track of the longest option usage string.
-                var usageColumn: string[] = []; // Things like "-d, --declaration" go in here.
-                var descriptionColumn: string[] = [];
-
-                for (var i = 0; i < optsList.length; i++) {
-                    var option = optsList[i];
-                    if (exclude && exclude.indexOf(option.name) != -1) continue;
-
-                    // If an option lacks a description,
-                    // it is not officially supported.
-                    if (!option.description) {
-                        continue;
-                    }
-
-                    var usageText = " ";
-                    if (option.shortName) {
-                        usageText += "-" + option.shortName;
-                        usageText += getParamType(option);
-                        usageText += ", ";
-                    }
-
-                    usageText += "--" + option.name;
-                    usageText += getParamType(option);
-
-                    usageColumn.push(usageText);
-                    descriptionColumn.push(option.description.key);
-
-                    // Set the new margin for the description column if necessary.
-                    marginLength = Math.max(usageText.length, marginLength);
-                }
-
-                return {usage:usageColumn, description:descriptionColumn};
-            }
-
-            // Special case that can't fit in the loop.
-            function addFileOption(columns:{usage:string[]; description:string[];}) {
-                var usageText = " @<file>";
-                columns.usage.push(usageText);
-                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
-                marginLength = Math.max(usageText.length, marginLength);
-            }
-
-            // Print out each row, aligning all the descriptions on the same column.
-            function pushDeclarations(columns:{usage:string[]; description:string[];}) {
-                for (var i = 0; i < columns.usage.length; i++) {
-                    var usage = columns.usage[i];
-                    var description = columns.description[i];
-                    output.push(usage + makePadding(marginLength - usage.length + 2) + description);
-                }
-            }
-
-            function getParamType(option:ts.CommandLineOption) {
-                if (option.paramType !== undefined) {
-                    return " " + getDiagnosticText(option.paramType);
-                }
-                return "";
-            }
-
-            function getDiagnosticText(message:ts.DiagnosticMessage, ...args: any[]): string {
-                var diagnostic:ts.Diagnostic = ts.createCompilerDiagnostic.apply(undefined, arguments);
-                return diagnostic.messageText;
-            }
-
-            function makePadding(paddingLength: number): string {
-                return Array(paddingLength + 1).join(" ");
-            }
+            ].join(ts.sys.newLine);
         }
     }
 }

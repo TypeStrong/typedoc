@@ -9,7 +9,7 @@ module td
     }
 
 
-    export class PluginHost<T extends IPluginInterface> extends EventDispatcher
+    export class PluginHost<T extends IPluginInterface> extends EventDispatcher implements IParameterProvider
     {
         /**
          * List of all plugins that are attached to this host.
@@ -17,6 +17,20 @@ module td
         plugins:{[name:string]:T};
 
         static PLUGINS:{[name:string]:IPluginClass<IPluginInterface>};
+
+
+        getParameters():IParameter[] {
+            var result:IParameter[] = [];
+            for (var key in this.plugins) {
+                if (!this.plugins.hasOwnProperty(key)) continue;
+                var plugin:IParameterProvider = <any>this.plugins[key];
+                if (plugin.getParameters) {
+                    result.push.call(result, plugin.getParameters());
+                }
+            }
+
+            return result;
+        }
 
 
         /**

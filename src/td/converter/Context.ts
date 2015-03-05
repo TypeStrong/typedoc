@@ -5,7 +5,9 @@ module td
      */
     export class Context
     {
-        public settings:Settings;
+        public settings:IOptions;
+
+        public compilerOptions:ts.CompilerOptions;
 
         private checker:ts.TypeChecker;
 
@@ -52,9 +54,10 @@ module td
          * @param checker
          * @param project  The target project.
          */
-        constructor(converter:Converter, settings:Settings, fileNames:string[], checker:ts.TypeChecker, project:ProjectReflection) {
+        constructor(converter:Converter, settings:IOptions, compilerOptions:ts.CompilerOptions, fileNames:string[], checker:ts.TypeChecker, project:ProjectReflection) {
             this.converter = converter;
             this.settings = settings;
+            this.compilerOptions = compilerOptions;
             this.fileNames = fileNames;
             this.checker = checker;
             this.project = project;

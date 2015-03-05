@@ -19,7 +19,7 @@ module td
         /**
          * The settings that have been passed to TypeDoc.
          */
-        settings:Settings;
+        settings:IOptions;
 
         /**
          * The filename the page will be written to.

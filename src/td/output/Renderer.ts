@@ -103,6 +103,19 @@ module td
         }
 
 
+        getParameters():IParameter[] {
+            var result = super.getParameters();
+
+            this.prepareTheme();
+            var theme:IParameterProvider = <any>this.theme;
+            if (theme.getParameters) {
+                result.push.call(result, theme.getParameters());
+            }
+
+            return result;
+        }
+
+
         /**
          * Return the template with the given filename.
          *
@@ -154,7 +167,7 @@ module td
             var output = new OutputEvent();
             output.outputDirectory = outputDirectory;
             output.project = project;
-            output.settings = this.application.settings;
+            output.settings = this.application.options;
             output.urls = this.theme.getUrls(project);
 
             var bar = new ProgressBar('Rendering [:bar] :percent', {
@@ -215,7 +228,7 @@ module td
          */
         private prepareTheme():boolean {
             if (!this.theme) {
-                var themeName = this.application.settings.theme;
+                var themeName = this.application.options.theme;
                 var path = Path.resolve(themeName);
                 if (!FS.existsSync(path)) {
                     path = Path.join(Renderer.getThemeDirectory(), themeName);
