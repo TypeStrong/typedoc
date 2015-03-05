@@ -197,393 +197,330 @@ var td;
         ScriptTarget[ScriptTarget["Latest"] = 2] = "Latest";
     })(td.ScriptTarget || (td.ScriptTarget = {}));
     var ScriptTarget = td.ScriptTarget;
-    (function (OptionScope) {
-        OptionScope[OptionScope["TypeDoc"] = 0] = "TypeDoc";
-        OptionScope[OptionScope["TypeScript"] = 1] = "TypeScript";
-    })(td.OptionScope || (td.OptionScope = {}));
-    var OptionScope = td.OptionScope;
-    td.ignoredTypeScriptOptions = [
-        'out',
-        'outDir',
-        'version',
-        'help',
-        'watch',
-        'declaration',
-        'mapRoot',
-        'sourceMap',
-        'removeComments'
-    ];
     (function (SourceFileMode) {
         SourceFileMode[SourceFileMode["File"] = 0] = "File";
         SourceFileMode[SourceFileMode["Modules"] = 1] = "Modules";
     })(td.SourceFileMode || (td.SourceFileMode = {}));
     var SourceFileMode = td.SourceFileMode;
+    (function (ParameterHint) {
+        ParameterHint[ParameterHint["File"] = 0] = "File";
+        ParameterHint[ParameterHint["Directory"] = 1] = "Directory";
+    })(td.ParameterHint || (td.ParameterHint = {}));
+    var ParameterHint = td.ParameterHint;
+    (function (ParameterType) {
+        ParameterType[ParameterType["String"] = 0] = "String";
+        ParameterType[ParameterType["Number"] = 1] = "Number";
+        ParameterType[ParameterType["Boolean"] = 2] = "Boolean";
+        ParameterType[ParameterType["Map"] = 3] = "Map";
+    })(td.ParameterType || (td.ParameterType = {}));
+    var ParameterType = td.ParameterType;
+    (function (ParameterScope) {
+        ParameterScope[ParameterScope["TypeDoc"] = 0] = "TypeDoc";
+        ParameterScope[ParameterScope["TypeScript"] = 1] = "TypeScript";
+    })(td.ParameterScope || (td.ParameterScope = {}));
+    var ParameterScope = td.ParameterScope;
     /**
-     * Modify ts.optionDeclarations to match TypeDoc requirements.
+     * A parser that can read command line arguments, option files and javascript objects.
      */
-    td.optionDeclarations = [{
-        name: "out",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location the documentation should be written to.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "mode",
-        type: {
-            'file': 0 /* File */,
-            'modules': 1 /* Modules */
-        },
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "json",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        paramType: ts.Diagnostics.FILE,
-        description: {
-            key: 'Specifies the location and file name a json file describing the project is written to.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "theme",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: "Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.",
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "exclude",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Define a pattern for excluded files when specifying paths.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "includeDeclarations",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Turn on parsing of .d.ts declaration files.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "externalPattern",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Define a pattern for files that should be considered being external.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "readme",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "excludeExternals",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Prevent externally resolved TypeScript files from being documented.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "name",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Set the name of the project that will be used in the header of the template.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "includes",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "media",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        paramType: ts.Diagnostics.DIRECTORY,
-        description: {
-            key: 'Specifies the location with media files that should be copied to the output directory.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "gaID",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Set the Google Analytics tracking ID and activate tracking code.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "gaSite",
-        type: "string",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Set the site name for Google Analytics. Defaults to `auto`.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "hideGenerator",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Do not print the TypeDoc link at the end of the page.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "verbose",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Print more information while TypeDoc is running.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "version",
-        shortName: "v",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Print the TypeDoc\'s version.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }, {
-        name: "help",
-        shortName: "h",
-        type: "boolean",
-        scope: 0 /* TypeDoc */,
-        description: {
-            key: 'Print this message.',
-            category: 2 /* Message */,
-            code: 0
-        }
-    }];
-    /**
-     * Holds all settings used by TypeDoc.
-     */
-    var Settings = (function () {
+    var OptionsParser = (function () {
         /**
-         * Create a new Settings instance.
-         */
-        function Settings() {
-            var _this = this;
-            /**
-             * The list of source files that should be processed.
-             */
-            this.inputFiles = [];
-            /**
-             * Specifies the output mode the project is used to be compiled with.
-             */
-            this.mode = 1 /* Modules */;
-            /**
-             * The path of the theme that should be used.
-             */
-            this.theme = 'default';
-            /**
-             * Should declaration files be documented?
-             */
-            this.includeDeclarations = false;
-            /**
-             * Should externally resolved TypeScript files be ignored?
-             */
-            this.excludeExternals = false;
-            /**
-             * Optional site name for Google Analytics. Defaults to `auto`.
-             */
-            this.gaSite = 'auto';
-            /**
-             * Does the user want to display the help message?
-             */
-            this.help = false;
-            /**
-             * Does the user want to know the version number?
-             */
-            this.version = false;
-            /**
-             * Should we hide the TypeDoc link at the end of the page?
-             */
-            this.hideGenerator = false;
-            /**
-             * Should verbose messages be printed?
-             */
-            this.verbose = false;
-            this.declarations = {};
-            this.shortOptionNames = {};
-            this.compilerOptions = {
-                target: 0 /* ES3 */,
-                module: 0 /* None */
-            };
-            td.optionDeclarations.forEach(function (option) { return _this.addOptionDeclaration(option); });
-            ts.optionDeclarations.forEach(function (option) {
-                if (td.ignoredTypeScriptOptions.indexOf(option.name) != -1)
-                    return;
-                option.scope = 1 /* TypeScript */;
-                _this.addOptionDeclaration(option);
-            });
-        }
-        /**
+         * Create a new OptionsParser instance.
          *
-         * @param option
+         * @param application  The application that stores the parsed settings
          */
-        Settings.prototype.addOptionDeclaration = function (option) {
-            this.declarations[option.name.toLowerCase()] = option;
-            if (option.shortName) {
-                this.shortOptionNames[option.shortName] = option.name;
+        function OptionsParser(application) {
+            /**
+             * Map of parameter names and their definitions.
+             */
+            this.arguments = {};
+            /**
+             * Map of parameter short names and their full equivalent.
+             */
+            this.shortNames = {};
+            this.application = application;
+            this.reset();
+            this.addDefaultParameters();
+            this.addCompilerParameters();
+        }
+        /**
+         * Register a parameter definition.
+         *
+         * @param parameters One or multiple parameter definitions that should be registered.
+         */
+        OptionsParser.prototype.addParameter = function () {
+            var _this = this;
+            var parameters = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                parameters[_i - 0] = arguments[_i];
             }
+            parameters.forEach(function (parameter) {
+                parameter.type = parameter.type || 0 /* String */;
+                parameter.scope = parameter.scope || 0 /* TypeDoc */;
+                _this.arguments[parameter.name.toLowerCase()] = parameter;
+                if (parameter.short) {
+                    _this.shortNames[parameter.short.toLowerCase()] = parameter.name;
+                }
+                if (parameter.defaultValue && !parameter.isArray) {
+                    var name = parameter.name;
+                    var target = (parameter.scope == 0 /* TypeDoc */) ? _this.options : _this.compilerOptions;
+                    if (!target[name]) {
+                        target[name] = parameter.defaultValue;
+                    }
+                }
+            });
         };
         /**
-         *
-         * @param name
-         * @returns {*}
+         * Register the command line parameters.
          */
-        Settings.prototype.getOptionDeclaration = function (name) {
-            if (ts.hasProperty(this.shortOptionNames, name)) {
-                name = this.shortOptionNames[name];
+        OptionsParser.prototype.addCommandLineParameters = function () {
+            this.addParameter({
+                name: 'out',
+                help: 'Specifies the location the documentation should be written to.',
+                hint: 1 /* Directory */
+            }, {
+                name: 'json',
+                help: 'Specifies the location and file name a json file describing the project is written to.',
+                hint: 0 /* File */
+            }, {
+                name: 'version',
+                short: 'v',
+                help: 'Print the TypeDoc\'s version.',
+                type: 2 /* Boolean */
+            }, {
+                name: 'help',
+                short: 'h',
+                help: 'Print this message.',
+                type: 2 /* Boolean */
+            });
+        };
+        /**
+         * Register the default parameters.
+         */
+        OptionsParser.prototype.addDefaultParameters = function () {
+            this.addParameter({
+                name: 'theme',
+                help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
+                type: 0 /* String */
+            }, {
+                name: 'exclude',
+                help: 'Define a pattern for excluded files when specifying paths.',
+                type: 0 /* String */
+            }, {
+                name: 'plugin',
+                help: '',
+                type: 0 /* String */
+            }, {
+                name: 'verbose',
+                help: 'Print more information while TypeDoc is running.',
+                type: 2 /* Boolean */
+            });
+        };
+        /**
+         * Register all TypeScript related properties.
+         */
+        OptionsParser.prototype.addCompilerParameters = function () {
+            var _this = this;
+            var ignored = OptionsParser.IGNORED_TS_PARAMS;
+            ts.optionDeclarations.forEach(function (option) {
+                if (ignored.indexOf(option.name) != -1)
+                    return;
+                var param = {
+                    name: option.name,
+                    short: option.shortName,
+                    help: option.description ? option.description.key : null,
+                    scope: 0 /* TypeDoc */
+                };
+                switch (option.type) {
+                    case "number":
+                        param.type = 1 /* Number */;
+                        break;
+                    case "boolean":
+                        param.type = 2 /* Boolean */;
+                        break;
+                    case "string":
+                        param.type = 0 /* String */;
+                        break;
+                    default:
+                        param.type = 3 /* Map */;
+                        param.map = option.type;
+                        if (option.error) {
+                            var error = ts.createCompilerDiagnostic(option.error);
+                            param.mapError = error.messageText;
+                        }
+                }
+                switch (option.paramType) {
+                    case ts.Diagnostics.FILE:
+                        param.hint = 0 /* File */;
+                        break;
+                    case ts.Diagnostics.DIRECTORY:
+                        param.hint = 1 /* Directory */;
+                        break;
+                }
+                _this.addParameter(param);
+            });
+        };
+        /**
+         * Add an input/source file.
+         *
+         * The input files will be used as source files for the compiler. All command line
+         * arguments without parameter will be interpreted as being input files.
+         *
+         * @param fileName The path and filename of the input file.
+         */
+        OptionsParser.prototype.addInputFile = function (fileName) {
+            this.inputFiles.push(fileName);
+        };
+        /**
+         * Retrieve a parameter by its name.
+         *
+         * @param name  The name of the parameter to look for.
+         * @returns The parameter definition or NULL when not found.
+         */
+        OptionsParser.prototype.getParameter = function (name) {
+            if (ts.hasProperty(this.shortNames, name)) {
+                name = this.shortNames[name];
             }
-            if (ts.hasProperty(this.declarations, name)) {
-                return this.declarations[name];
+            if (ts.hasProperty(this.arguments, name)) {
+                return this.arguments[name];
             }
             else {
                 return null;
             }
         };
         /**
-         * Expand the list of input files.
+         * Set the option described by the given parameter description to the given value.
          *
-         * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
-         * to filter out files with a pattern.
+         * @param param  The parameter description of the option to set.
+         * @param value  The target value of the option.
+         * @returns TRUE on success, otherwise FALSE.
          */
-        Settings.prototype.expandInputFiles = function () {
-            var exclude, files = [];
-            if (this.excludePattern) {
-                exclude = new td.Minimatch.Minimatch(this.excludePattern);
+        OptionsParser.prototype.setOption = function (param, value) {
+            var _this = this;
+            if (param.isArray && td.Util.isArray(value)) {
+                var result = true;
+                value.forEach(function (value) { return result = _this.setOption(param, value) && result; });
+                return result;
             }
-            function add(dirname) {
-                td.FS.readdirSync(dirname).forEach(function (file) {
-                    var realpath = td.Path.join(dirname, file);
-                    if (td.FS.statSync(realpath).isDirectory()) {
-                        add(realpath);
-                    }
-                    else if (/\.ts$/.test(realpath)) {
-                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
-                            return;
-                        }
-                        files.push(realpath);
-                    }
-                });
+            try {
+                value = OptionsParser.convert(param, value);
             }
-            this.inputFiles.forEach(function (file) {
-                file = td.Path.resolve(file);
-                if (td.FS.statSync(file).isDirectory()) {
-                    add(file);
-                }
-                else {
-                    files.push(file);
-                }
-            });
-            this.inputFiles = files;
+            catch (error) {
+                this.application.log(error.message, 3 /* Error */);
+                return false;
+            }
+            var name = param.name;
+            var target = (param.scope == 0 /* TypeDoc */) ? this.options : this.compilerOptions;
+            if (param.isArray) {
+                (target[name] = target[name] || []).push(value);
+            }
+            else {
+                target[name] = value;
+            }
+            return true;
         };
-        Settings.prototype.parseCommandLine = function (logger) {
-            return this.parseArguments(ts.sys.args, logger);
+        /**
+         * Reset the output data of this parser instance.
+         *
+         * This will not reset the registered parameters!
+         */
+        OptionsParser.prototype.reset = function () {
+            this.options = OptionsParser.createOptions();
+            this.compilerOptions = OptionsParser.createCompilerOptions();
+            this.inputFiles = [];
         };
-        Settings.prototype.parseArguments = function (args, logger) {
-            var index = 0;
+        /**
+         * Apply the values of the given options object.
+         *
+         * @param obj  The object whose properties should be applied.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        OptionsParser.prototype.parseObject = function (obj, ignoreUnknownArgs) {
             var result = true;
-            while (index < args.length) {
-                var arg = args[index++];
-                if (arg.charCodeAt(0) === 64 /* at */) {
-                    result = this.parseResponseFile(arg.slice(1), logger) && result;
-                }
-                else if (arg.charCodeAt(0) === 45 /* minus */) {
-                    arg = arg.slice(arg.charCodeAt(1) === 45 /* minus */ ? 2 : 1).toLowerCase();
-                    var error, option = this.getOptionDeclaration(arg);
-                    if (!option) {
-                        error = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, arg);
-                    }
-                    else if (!args[index] && option.type !== "boolean") {
-                        error = ts.createCompilerDiagnostic(ts.Diagnostics.Compiler_option_0_expects_an_argument, option.name);
-                    }
-                    if (error) {
-                        logger.log(error.messageText, 3 /* Error */);
+            for (var key in obj) {
+                if (!obj.hasOwnProperty(key))
+                    continue;
+                var parameter = this.getParameter(key);
+                if (!parameter) {
+                    if (!ignoreUnknownArgs) {
+                        var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
+                        this.application.log(msg.messageText, 3 /* Error */);
                         result = false;
-                        continue;
-                    }
-                    var target = option.scope == 0 /* TypeDoc */ ? this : this.compilerOptions;
-                    switch (option.type) {
-                        case "number":
-                            target[option.name] = parseInt(args[index++]);
-                            break;
-                        case "boolean":
-                            target[option.name] = true;
-                            break;
-                        case "string":
-                            target[option.name] = args[index++] || "";
-                            break;
-                        default:
-                            var map = option.type;
-                            var key = (args[index++] || "").toLowerCase();
-                            if (ts.hasProperty(map, key)) {
-                                target[option.name] = map[key];
-                            }
-                            else {
-                                if (option.error) {
-                                    error = ts.createCompilerDiagnostic(option.error);
-                                    logger.log(error.messageText, 3 /* Error */);
-                                }
-                                else {
-                                    logger.log(td.Util.format('Invalid option given for option "%s".', option.name), 3 /* Error */);
-                                }
-                                result = false;
-                            }
                     }
                 }
                 else {
-                    this.inputFiles.push(arg);
+                    result = this.setOption(parameter, obj[key]) && result;
                 }
             }
             return result;
         };
-        Settings.prototype.parseResponseFile = function (filename, logger) {
+        /**
+         * Read and store the given list of arguments.
+         *
+         * @param args  The list of arguments that should be parsed. When omitted the
+         *   current command line arguments will be used.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        OptionsParser.prototype.parseArguments = function (args, ignoreUnknownArgs) {
+            var _this = this;
+            var index = 0;
+            var result = true;
+            args = args || process.argv.splice(2);
+            var error = function (message) {
+                var args = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    args[_i - 1] = arguments[_i];
+                }
+                if (ignoreUnknownArgs)
+                    return;
+                var msg = ts.createCompilerDiagnostic.call(_this, arguments);
+                _this.application.log(msg.messageText, 3 /* Error */);
+                result = false;
+            };
+            while (index < args.length) {
+                var arg = args[index++];
+                if (arg.charCodeAt(0) === 64 /* at */) {
+                    result = this.parseResponseFile(arg.slice(1), ignoreUnknownArgs) && result;
+                }
+                else if (arg.charCodeAt(0) === 45 /* minus */) {
+                    arg = arg.slice(arg.charCodeAt(1) === 45 /* minus */ ? 2 : 1).toLowerCase();
+                    var parameter = this.getParameter(arg);
+                    if (!parameter) {
+                        error(ts.Diagnostics.Unknown_compiler_option_0, arg);
+                    }
+                    else if (parameter.type !== 2 /* Boolean */) {
+                        if (!args[index]) {
+                            error(ts.Diagnostics.Compiler_option_0_expects_an_argument, parameter.name);
+                        }
+                        else {
+                            result = this.setOption(parameter, args[index++]) && result;
+                        }
+                    }
+                    else {
+                        result = this.setOption(parameter) && result;
+                    }
+                }
+                else if (!ignoreUnknownArgs) {
+                    this.addInputFile(arg);
+                }
+            }
+            return result;
+        };
+        /**
+         * Read the arguments stored in the given file.
+         *
+         * @param filename  The path and filename that should be parsed.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored?
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        OptionsParser.prototype.parseResponseFile = function (filename, ignoreUnknownArgs) {
             var text = ts.sys.readFile(filename);
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                logger.log(error.messageText, 3 /* Error */);
+                this.application.log(error.messageText, 3 /* Error */);
                 return false;
             }
             var args = [];
@@ -604,7 +541,7 @@ var td;
                     }
                     else {
                         var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        logger.log(error.messageText, 3 /* Error */);
+                        this.application.log(error.messageText, 3 /* Error */);
                         return false;
                     }
                 }
@@ -614,11 +551,159 @@ var td;
                     args.push(text.substring(start, pos));
                 }
             }
-            return this.parseArguments(args, logger);
+            return this.parseArguments(args, ignoreUnknownArgs);
         };
-        return Settings;
+        OptionsParser.prototype.getParameterHelp = function (scope) {
+            // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
+            var optsList = [];
+            var marginLength = 0;
+            for (var key in this.arguments) {
+                if (!this.arguments.hasOwnProperty(key))
+                    continue;
+                var argument = this.arguments[key];
+                if (argument.scope === scope) {
+                    optsList.push(argument);
+                }
+            }
+            optsList.sort(function (a, b) {
+                return ts.compareValues(a.name.toLowerCase(), b.name.toLowerCase());
+            });
+            // We want our descriptions to align at the same column in our output,
+            // so we keep track of the longest option usage string.
+            var usageColumn = []; // Things like "-d, --declaration" go in here.
+            var descriptionColumn = [];
+            for (var i = 0; i < optsList.length; i++) {
+                var option = optsList[i];
+                // If an option lacks a description,
+                // it is not officially supported.
+                if (!option.description) {
+                    continue;
+                }
+                var usageText = " ";
+                if (option.shortName) {
+                    usageText += "-" + option.shortName;
+                    if (option.hint)
+                        usageText += ParameterHint[option.hint].toUpperCase();
+                    usageText += ", ";
+                }
+                usageText += "--" + option.name;
+                if (option.hint)
+                    usageText += ParameterHint[option.hint].toUpperCase();
+                usageColumn.push(usageText);
+                descriptionColumn.push(option.description.key);
+                // Set the new margin for the description column if necessary.
+                marginLength = Math.max(usageText.length, marginLength);
+            }
+            return { marginLength: marginLength, usage: usageColumn, description: descriptionColumn };
+        };
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         */
+        OptionsParser.prototype.toString = function () {
+            var typeDoc = this.getParameterHelp(0 /* TypeDoc */);
+            var typeScript = this.getParameterHelp(1 /* TypeScript */);
+            var output = [];
+            output.push('Usage:');
+            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
+            output.push('', 'TypeDoc options:');
+            pushDeclarations(typeDoc);
+            output.push('', 'TypeScript options:');
+            pushDeclarations(typeScript);
+            output.push('');
+            return output.join(ts.sys.newLine);
+            // Special case that can't fit in the loop.
+            function addFileOption(columns) {
+                var usageText = " @<file>";
+                columns.usage.push(usageText);
+                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
+                columns.marginLength = Math.max(usageText.length, columns.marginLength);
+            }
+            // Print out each row, aligning all the descriptions on the same column.
+            function pushDeclarations(columns) {
+                for (var i = 0; i < columns.usage.length; i++) {
+                    var usage = columns.usage[i];
+                    var description = columns.description[i];
+                    output.push(usage + makePadding(columns.marginLength - usage.length + 2) + description);
+                }
+            }
+            function makePadding(paddingLength) {
+                return Array(paddingLength + 1).join(" ");
+            }
+        };
+        /**
+         * Convert the given value according to the type setting of the given parameter.
+         *
+         * @param param  The parameter definition.
+         * @param value  The value that should be converted.
+         * @returns The converted value.
+         */
+        OptionsParser.convert = function (param, value) {
+            switch (param.type) {
+                case 1 /* Number */:
+                    value = parseInt(value);
+                    break;
+                case 2 /* Boolean */:
+                    value = (typeof value == 'undefined' ? true : !!value);
+                    break;
+                case 0 /* String */:
+                    value = value || "";
+                    break;
+                case 3 /* Map */:
+                    var map = param.map;
+                    var key = (value || "").toLowerCase();
+                    if (ts.hasProperty(map, key)) {
+                        value = map[key];
+                    }
+                    else if (param.mapError) {
+                        throw new Error(param.mapError);
+                    }
+                    else {
+                        throw new Error(td.Util.format('Invalid option given for option "%s".', param.name));
+                    }
+                    break;
+            }
+            return value;
+        };
+        /**
+         * Create an options object populated with the default values.
+         *
+         * @returns An options object populated with default values.
+         */
+        OptionsParser.createOptions = function () {
+            return {
+                theme: 'default'
+            };
+        };
+        /**
+         * Create the compiler options populated with the default values.
+         *
+         * @returns A compiler options object populated with default values.
+         */
+        OptionsParser.createCompilerOptions = function () {
+            return {
+                target: 0 /* ES3 */,
+                module: 0 /* None */
+            };
+        };
+        /**
+         * A list of all TypeScript parameters that should be ignored.
+         */
+        OptionsParser.IGNORED_TS_PARAMS = [
+            'out',
+            'outDir',
+            'version',
+            'help',
+            'watch',
+            'declaration',
+            'mapRoot',
+            'sourceMap',
+            'removeComments'
+        ];
+        return OptionsParser;
     })();
-    td.Settings = Settings;
+    td.OptionsParser = OptionsParser;
 })(td || (td = {}));
 /// <reference path="EventDispatcher.ts" />
 /// <reference path="Settings.ts" />
@@ -693,39 +778,17 @@ var td;
     var Application = (function () {
         /**
          * Create a new Application instance.
-         *
-         * @param settings  The settings used by the dispatcher and the renderer.
          */
-        function Application(settings) {
-            if (settings === void 0) { settings = new td.Settings(); }
+        function Application() {
             /**
              * Has an error been raised through the log method?
              */
             this.hasErrors = false;
-            this.settings = settings;
             this.converter = new td.Converter(this);
             this.renderer = new td.Renderer(this);
+            this.options = td.OptionsParser.createOptions();
+            this.compilerOptions = td.OptionsParser.createCompilerOptions();
         }
-        /**
-         * Run TypeDoc from the command line.
-         */
-        Application.prototype.runFromCommandline = function () {
-            if (this.settings.parseCommandLine(this)) {
-                if (this.settings.version) {
-                    ts.sys.write(this.printVersion().join(ts.sys.newLine));
-                }
-                else if (this.settings.inputFiles.length === 0 || this.settings.help) {
-                    ts.sys.write(this.printUsage().join(ts.sys.newLine));
-                }
-                else {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 1 /* Info */);
-                    this.settings.expandInputFiles();
-                    this.settings.out = td.Path.resolve(this.settings.out);
-                    this.generate(this.settings.inputFiles, this.settings.out);
-                }
-            }
-        };
         /**
          * Print a log message.
          *
@@ -737,7 +800,7 @@ var td;
             if (level == 3 /* Error */) {
                 this.hasErrors = true;
             }
-            if (level != 0 /* Verbose */ || this.settings.verbose) {
+            if (level != 0 /* Verbose */ || this.options.verbose) {
                 var output = '';
                 if (level == 3 /* Error */)
                     output += 'Error: ';
@@ -747,48 +810,137 @@ var td;
                 ts.sys.write(output + ts.sys.newLine);
             }
         };
+        Application.prototype.logDiagnostics = function (diagnostics) {
+            var _this = this;
+            diagnostics.forEach(function (msg) {
+                var output;
+                if (msg.file) {
+                    output = msg.file.filename;
+                    output += '(' + msg.file.getLineAndCharacterFromPosition(msg.start).line + ')';
+                    output += ts.sys.newLine + ' ' + msg.messageText;
+                }
+                else {
+                    output = msg.messageText;
+                }
+                switch (msg.category) {
+                    case 1 /* Error */:
+                        _this.log(output, 3 /* Error */);
+                        break;
+                    case 0 /* Warning */:
+                        _this.log(output, 2 /* Warn */);
+                        break;
+                    case 2 /* Message */:
+                        _this.log(output, 1 /* Info */);
+                }
+            });
+        };
         /**
          * Run the documentation generator for the given set of files.
          *
-         * @param inputFiles  A list of source files whose documentation should be generated.
-         * @param outputDirectory  The path of the directory the documentation should be written to.
+         * @param src  A list of source files whose documentation should be generated.
+         * @param out  The path of the directory the documentation should be written to.
          */
-        Application.prototype.generate = function (inputFiles, outputDirectory) {
-            var _this = this;
-            var result = this.converter.convert(inputFiles);
+        Application.prototype.generateDocs = function (src, out) {
+            var result = this.converter.convert(src);
             if (result.errors && result.errors.length) {
-                result.errors.forEach(function (error) {
-                    var output = error.file.filename;
-                    output += '(' + error.file.getLineAndCharacterFromPosition(error.start).line + ')';
-                    output += ts.sys.newLine + ' ' + error.messageText;
-                    switch (error.category) {
-                        case 1 /* Error */:
-                            _this.log(output, 3 /* Error */);
-                            break;
-                        case 0 /* Warning */:
-                            _this.log(output, 2 /* Warn */);
-                            break;
-                        case 2 /* Message */:
-                            _this.log(output, 1 /* Info */);
-                    }
-                });
+                this.logDiagnostics(result.errors);
                 return false;
             }
-            if (this.settings.json) {
-                writeFile(this.settings.json, JSON.stringify(result.project.toObject(), null, '\t'), false);
-                this.log(td.Util.format('JSON written to %s', this.settings.json));
+            this.renderer.render(result.project, out);
+            if (this.hasErrors) {
+                ts.sys.write(ts.sys.newLine);
+                this.log('Documentation could not be generated due to the errors above.');
             }
             else {
-                this.renderer.render(result.project, outputDirectory);
-                if (this.hasErrors) {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log('Documentation could not be generated due to the errors above.');
-                }
-                else {
-                    this.log(td.Util.format('Documentation generated at %s', this.settings.out));
-                }
+                this.log(td.Util.format('Documentation generated at %s', out));
             }
             return true;
+        };
+        Application.prototype.generateJson = function (src, out) {
+            var result = this.converter.convert(src);
+            if (result.errors && result.errors.length) {
+                this.logDiagnostics(result.errors);
+                return false;
+            }
+            writeFile(out, JSON.stringify(result.project.toObject(), null, '\t'), false);
+            this.log(td.Util.format('JSON written to %s', out));
+            return true;
+        };
+        /**
+         * Run TypeDoc from the command line.
+         */
+        Application.prototype.runFromCommandline = function () {
+            var parser = new td.OptionsParser(this);
+            parser.addCommandLineParameters();
+            parser.parseArguments(null, true);
+            // TODO: Load plugins and set theme
+            var parameters = [];
+            parameters.push.call(parameters, this.converter.getParameters());
+            parameters.push.call(parameters, this.renderer.getParameters());
+            parser.addParameter.call(parser, parameters);
+            if (parser.parseArguments()) {
+                if (this.options.version) {
+                    ts.sys.write(this.toString());
+                }
+                else if (parser.inputFiles.length === 0 || this.options.help) {
+                    ts.sys.write(parser.toString());
+                }
+                else if (this.options.out) {
+                    ts.sys.write(ts.sys.newLine);
+                    this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 1 /* Info */);
+                    var src = this.expandInputFiles(parser.inputFiles);
+                    var out = td.Path.resolve(this.options.out);
+                    this.generateDocs(src, out);
+                }
+                else if (this.options.json) {
+                    var src = this.expandInputFiles(parser.inputFiles);
+                    var out = td.Path.resolve(this.options.json);
+                    this.generateJson(src, out);
+                }
+                else {
+                    this.log('You must either specify the \'out\' or \'json\' parameter.', 3 /* Error */);
+                }
+            }
+        };
+        /**
+         * Expand a list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the ```--exclude``` option
+         * to filter out files with a pattern.
+         *
+         * @param inputFiles  The list of files that should be expanded.
+         * @returns  The list of input files with expanded directories.
+         */
+        Application.prototype.expandInputFiles = function (inputFiles) {
+            var exclude, files = [];
+            if (this.options.exclude) {
+                exclude = new td.Minimatch.Minimatch(this.options.exclude);
+            }
+            function add(dirname) {
+                td.FS.readdirSync(dirname).forEach(function (file) {
+                    var realpath = td.Path.join(dirname, file);
+                    if (td.FS.statSync(realpath).isDirectory()) {
+                        add(realpath);
+                    }
+                    else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+                        files.push(realpath);
+                    }
+                });
+            }
+            inputFiles.forEach(function (file) {
+                file = td.Path.resolve(file);
+                if (td.FS.statSync(file).isDirectory()) {
+                    add(file);
+                }
+                else {
+                    files.push(file);
+                }
+            });
+            return files;
         };
         /**
          * Return the version number of the loaded TypeScript compiler.
@@ -796,106 +948,22 @@ var td;
          * @returns The version number of the loaded TypeScript package.
          */
         Application.prototype.getTypeScriptVersion = function () {
-            var json = JSON.parse(td.FS.readFileSync(td.Path.join(td.tsPath, '..', 'package.json'), 'utf8'));
-            return json.version;
+            if (!this.typeScriptVersion) {
+                var json = JSON.parse(td.FS.readFileSync(td.Path.join(td.tsPath, '..', 'package.json'), 'utf8'));
+                this.typeScriptVersion = json.version;
+            }
+            return this.typeScriptVersion;
         };
         /**
          * Print the version number.
-         *
-         * @return string[]
          */
-        Application.prototype.printVersion = function () {
+        Application.prototype.toString = function () {
             return [
                 '',
                 'TypeDoc ' + Application.VERSION,
-                'Using TypeScript ' + this.getTypeScriptVersion() + ' at ' + td.tsPath,
+                'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + td.tsPath,
                 ''
-            ];
-        };
-        /**
-         * Print some usage information.
-         *
-         * Taken from TypeScript (src/compiler/tsc.ts)
-         *
-         * @return string[]
-         */
-        Application.prototype.printUsage = function () {
-            var marginLength = 0;
-            var typeDoc = prepareOptions(td.optionDeclarations);
-            var typeScript = prepareOptions(ts.optionDeclarations, td.ignoredTypeScriptOptions);
-            var output = this.printVersion();
-            output.push('Usage:');
-            output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
-            output.push('', 'TypeDoc options:');
-            pushDeclarations(typeDoc);
-            output.push('', 'TypeScript options:');
-            pushDeclarations(typeScript);
-            output.push('');
-            return output;
-            function prepareOptions(optsList, exclude) {
-                // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
-                optsList = optsList.slice();
-                optsList.sort(function (a, b) { return ts.compareValues(a.name.toLowerCase(), b.name.toLowerCase()); });
-                // We want our descriptions to align at the same column in our output,
-                // so we keep track of the longest option usage string.
-                var usageColumn = []; // Things like "-d, --declaration" go in here.
-                var descriptionColumn = [];
-                for (var i = 0; i < optsList.length; i++) {
-                    var option = optsList[i];
-                    if (exclude && exclude.indexOf(option.name) != -1)
-                        continue;
-                    // If an option lacks a description,
-                    // it is not officially supported.
-                    if (!option.description) {
-                        continue;
-                    }
-                    var usageText = " ";
-                    if (option.shortName) {
-                        usageText += "-" + option.shortName;
-                        usageText += getParamType(option);
-                        usageText += ", ";
-                    }
-                    usageText += "--" + option.name;
-                    usageText += getParamType(option);
-                    usageColumn.push(usageText);
-                    descriptionColumn.push(option.description.key);
-                    // Set the new margin for the description column if necessary.
-                    marginLength = Math.max(usageText.length, marginLength);
-                }
-                return { usage: usageColumn, description: descriptionColumn };
-            }
-            // Special case that can't fit in the loop.
-            function addFileOption(columns) {
-                var usageText = " @<file>";
-                columns.usage.push(usageText);
-                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
-                marginLength = Math.max(usageText.length, marginLength);
-            }
-            // Print out each row, aligning all the descriptions on the same column.
-            function pushDeclarations(columns) {
-                for (var i = 0; i < columns.usage.length; i++) {
-                    var usage = columns.usage[i];
-                    var description = columns.description[i];
-                    output.push(usage + makePadding(marginLength - usage.length + 2) + description);
-                }
-            }
-            function getParamType(option) {
-                if (option.paramType !== undefined) {
-                    return " " + getDiagnosticText(option.paramType);
-                }
-                return "";
-            }
-            function getDiagnosticText(message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                var diagnostic = ts.createCompilerDiagnostic.apply(undefined, arguments);
-                return diagnostic.messageText;
-            }
-            function makePadding(paddingLength) {
-                return Array(paddingLength + 1).join(" ");
-            }
+            ].join(ts.sys.newLine);
         };
         /**
          * The version number of TypeDoc.
@@ -918,6 +986,18 @@ var td;
         function PluginHost() {
             _super.apply(this, arguments);
         }
+        PluginHost.prototype.getParameters = function () {
+            var result = [];
+            for (var key in this.plugins) {
+                if (!this.plugins.hasOwnProperty(key))
+                    continue;
+                var plugin = this.plugins[key];
+                if (plugin.getParameters) {
+                    result.push.call(result, plugin.getParameters());
+                }
+            }
+            return result;
+        };
         /**
          * Retrieve a plugin instance.
          *
@@ -1076,10 +1156,11 @@ var td;
          * @param checker
          * @param project  The target project.
          */
-        function Context(converter, settings, fileNames, checker, project) {
+        function Context(converter, settings, compilerOptions, fileNames, checker, project) {
             this.symbolID = -1024;
             this.converter = converter;
             this.settings = settings;
+            this.compilerOptions = compilerOptions;
             this.fileNames = fileNames;
             this.checker = checker;
             this.project = project;
@@ -1175,7 +1256,7 @@ var td;
             this.isDeclaration = ts.isDeclarationFile(node);
             if (this.isDeclaration) {
                 var lib = this.converter.getDefaultLib();
-                var isLib = node.filename.substr(lib.length) == lib;
+                var isLib = node.filename.substr(-lib.length) == lib;
                 if (!this.settings.includeDeclarations || isLib) {
                     return;
                 }
@@ -1232,11 +1313,43 @@ var td;
 (function (td) {
     var Converter = (function (_super) {
         __extends(Converter, _super);
+        /**
+         * Create a new Converter instance.
+         *
+         * @param application  The application instance this converter relies on. The application
+         *   must expose the settings that should be used and serves as a global logging endpoint.
+         */
         function Converter(application) {
             _super.call(this);
             this.application = application;
             Converter.loadPlugins(this);
         }
+        Converter.prototype.getParameters = function () {
+            return _super.prototype.getParameters.call(this).concat([{
+                name: "name",
+                help: 'Set the name of the project that will be used in the header of the template.'
+            }, {
+                name: "mode",
+                help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+                type: 3 /* Map */,
+                map: {
+                    'file': 0 /* File */,
+                    'modules': 1 /* Modules */
+                },
+                defaultValue: 1 /* Modules */
+            }, {
+                name: "externalPattern",
+                key: 'Define a pattern for files that should be considered being external.'
+            }, {
+                name: "includeDeclarations",
+                help: 'Turn on parsing of .d.ts declaration files.',
+                type: 2 /* Boolean */
+            }, {
+                name: "excludeExternals",
+                help: 'Prevent externally resolved TypeScript files from being documented.',
+                type: 2 /* Boolean */
+            }]);
+        };
         /**
          * Compile the given source files and create a reflection tree for them.
          *
@@ -1247,38 +1360,56 @@ var td;
             for (var i = 0, c = fileNames.length; i < c; i++) {
                 fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
             }
-            var dispatcher = this;
-            var settings = this.application.settings;
-            var program = ts.createProgram(fileNames, settings.compilerOptions, this);
+            var settings = this.application.options;
+            var program = ts.createProgram(fileNames, this.application.compilerOptions, this);
             var checker = program.getTypeChecker(true);
             var project = new td.ProjectReflection(settings.name);
-            return compile();
-            function compile() {
-                var errors = program.getDiagnostics();
-                errors = errors.concat(checker.getDiagnostics());
-                var converterEvent = new td.ConverterEvent(checker, project, settings);
-                dispatcher.dispatch(Converter.EVENT_BEGIN, converterEvent);
-                var context = new td.Context(dispatcher, settings, fileNames, checker, project);
-                program.getSourceFiles().forEach(function (sourceFile) {
-                    td.visit(context, sourceFile);
-                });
-                dispatcher.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
-                var resolveEvent = new td.ResolveEvent(checker, project, settings);
-                for (var id in project.reflections) {
-                    resolveEvent.reflection = project.reflections[id];
-                    dispatcher.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
-                }
-                dispatcher.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
-                dispatcher.dispatch(Converter.EVENT_END, converterEvent);
-                return {
-                    errors: errors,
-                    project: project
-                };
+            var errors = program.getDiagnostics();
+            errors = errors.concat(checker.getDiagnostics());
+            var converterEvent = new td.ConverterEvent(checker, project, settings);
+            this.dispatch(Converter.EVENT_BEGIN, converterEvent);
+            var context = new td.Context(this, settings, this.application.compilerOptions, fileNames, checker, project);
+            program.getSourceFiles().forEach(function (sourceFile) {
+                td.visit(context, sourceFile);
+            });
+            this.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
+            var resolveEvent = new td.ResolveEvent(checker, project, settings);
+            for (var id in project.reflections) {
+                resolveEvent.reflection = project.reflections[id];
+                this.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
             }
+            this.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
+            this.dispatch(Converter.EVENT_END, converterEvent);
+            return {
+                errors: errors,
+                project: project
+            };
         };
+        /**
+         * Return the basename of the default library that should be used.
+         *
+         * @returns The basename of the default library.
+         */
+        Converter.prototype.getDefaultLib = function () {
+            var target = this.application.compilerOptions.target;
+            return target == 2 /* ES6 */ ? 'lib.es6.d.ts' : 'lib.d.ts';
+        };
+        /**
+         * CompilerHost implementation
+         */
+        /**
+         * Return an instance of ts.SourceFile representing the given file.
+         *
+         * Implementation of ts.CompilerHost.getSourceFile()
+         *
+         * @param filename  The path and name of the file that should be loaded.
+         * @param languageVersion  The script target the file should be interpreted with.
+         * @param onError  A callback that will be invoked if an error occurs.
+         * @returns An instance of ts.SourceFile representing the given file.
+         */
         Converter.prototype.getSourceFile = function (filename, languageVersion, onError) {
             try {
-                var text = ts.sys.readFile(filename, this.application.settings.compilerOptions.charset);
+                var text = ts.sys.readFile(filename, this.application.compilerOptions.charset);
             }
             catch (e) {
                 if (onError) {
@@ -1288,27 +1419,71 @@ var td;
             }
             return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, "0") : undefined;
         };
-        Converter.prototype.getDefaultLib = function () {
-            var target = this.application.settings.compilerOptions.target;
-            return target == 2 /* ES6 */ ? 'lib.es6.d.ts' : 'lib.d.ts';
-        };
+        /**
+         * Return the full path of the default library that should be used.
+         *
+         * Implementation of ts.CompilerHost.getDefaultLibFilename()
+         *
+         * @returns The full path of the default library.
+         */
         Converter.prototype.getDefaultLibFilename = function () {
             var lib = this.getDefaultLib();
             var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
             return td.Path.join(path, 'bin', lib);
         };
+        /**
+         * Return the full path of the current directory.
+         *
+         * Implementation of ts.CompilerHost.getCurrentDirectory()
+         *
+         * @returns The full path of the current directory.
+         */
         Converter.prototype.getCurrentDirectory = function () {
             return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());
         };
+        /**
+         * Return whether file names are case sensitive on the current platform or not.
+         *
+         * Implementation of ts.CompilerHost.useCaseSensitiveFileNames()
+         *
+         * @returns TRUE if file names are case sensitive on the current platform, FALSE otherwise.
+         */
         Converter.prototype.useCaseSensitiveFileNames = function () {
             return ts.sys.useCaseSensitiveFileNames;
         };
+        /**
+         * Return the canonical file name of the given file.
+         *
+         * Implementation of ts.CompilerHost.getCanonicalFileName()
+         *
+         * @param fileName  The file name whose canonical variant should be resolved.
+         * @returns The canonical file name of the given file.
+         */
         Converter.prototype.getCanonicalFileName = function (fileName) {
             return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
         };
+        /**
+         * Return the new line char sequence of the current platform.
+         *
+         * Implementation of ts.CompilerHost.getNewLine()
+         *
+         * @returns The new line char sequence of the current platform.
+         */
         Converter.prototype.getNewLine = function () {
             return ts.sys.newLine;
         };
+        /**
+         * Write a compiled javascript file to disc.
+         *
+         * As TypeDoc will not emit compiled javascript files this is a null operation.
+         *
+         * Implementation of ts.CompilerHost.writeFile()
+         *
+         * @param fileName  The name of the file that should be written.
+         * @param data  The contents of the file.
+         * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
+         * @param onError  A callback that will be invoked if an error occurs.
+         */
         Converter.prototype.writeFile = function (fileName, data, writeByteOrderMark, onError) {
         };
         Converter.ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
@@ -1516,7 +1691,7 @@ var td;
         var parent = context.getScope();
         var reflection = td.createDeclaration(context, node, 2 /* Module */);
         context.withScope(reflection, function () {
-            var opt = context.settings.compilerOptions;
+            var opt = context.compilerOptions;
             if (parent instanceof td.ProjectReflection && !context.isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
                 reflection.setFlag(16 /* Exported */);
             }
@@ -1944,8 +2119,7 @@ var td;
      *
      * The compiler resolves type aliases pretty early and there is no field telling us
      * whether the given node was a type alias or not. So we have to compare the type name of the
-     * node with the type name of the type symbol and if the given node and type should be
-     * interpreted as an type alias.
+     * node with the type name of the type symbol.
      *
      * @param node  The node that should be tested.
      * @param type  The type of the node that should be tested.
@@ -1954,7 +2128,11 @@ var td;
     function isTypeAlias(node, type) {
         if (!type || !node || !node.typeName)
             return false;
-        return !type.symbol || (ts.getTextOfNode(node.typeName) != type.symbol.name);
+        if (!type.symbol)
+            return true;
+        var nodeName = ts.getTextOfNode(node.typeName);
+        var symbolName = type.symbol.name;
+        return nodeName.substr(-symbolName.length) != symbolName;
     }
     /**
      * Create a type literal reflection.
@@ -3429,6 +3607,12 @@ var td;
             converter.on(td.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
             converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
         }
+        PackagePlugin.prototype.getParameters = function () {
+            return [{
+                name: 'readme',
+                help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+            }];
+        };
         /**
          * Triggered once per project before the dispatcher invokes the compiler.
          *
@@ -5318,6 +5502,15 @@ var td;
             this.application = application;
             Renderer.loadPlugins(this);
         }
+        Renderer.prototype.getParameters = function () {
+            var result = _super.prototype.getParameters.call(this);
+            this.prepareTheme();
+            var theme = this.theme;
+            if (theme.getParameters) {
+                result.push.call(result, theme.getParameters());
+            }
+            return result;
+        };
         /**
          * Return the template with the given filename.
          *
@@ -5360,7 +5553,7 @@ var td;
             var output = new td.OutputEvent();
             output.outputDirectory = outputDirectory;
             output.project = project;
-            output.settings = this.application.settings;
+            output.settings = this.application.options;
             output.urls = this.theme.getUrls(project);
             var bar = new td.ProgressBar('Rendering [:bar] :percent', {
                 total: output.urls.length,
@@ -5411,7 +5604,7 @@ var td;
          */
         Renderer.prototype.prepareTheme = function () {
             if (!this.theme) {
-                var themeName = this.application.settings.theme;
+                var themeName = this.application.options.theme;
                 var path = td.Path.resolve(themeName);
                 if (!td.FS.existsSync(path)) {
                     path = td.Path.join(Renderer.getThemeDirectory(), themeName);
@@ -5939,6 +6132,17 @@ var td;
                 highlight: function (text, lang) { return _this.getHighlighted(text, lang); }
             });
         }
+        MarkedPlugin.prototype.getParameters = function () {
+            return [{
+                name: 'includes',
+                help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+                hint: 1 /* Directory */
+            }, {
+                name: 'media',
+                help: 'Specifies the location with media files that should be copied to the output directory.',
+                hint: 1 /* Directory */
+            }];
+        };
         /**
          * Transform the given absolute path into a relative path.
          *
@@ -6612,6 +6816,20 @@ var td;
                 return false;
             return true;
         };
+        DefaultTheme.prototype.getParameters = function () {
+            return [{
+                name: 'gaID',
+                help: 'Set the Google Analytics tracking ID and activate tracking code.'
+            }, {
+                name: 'gaSite',
+                help: 'Set the site name for Google Analytics. Defaults to `auto`.',
+                defaultValue: 'auto'
+            }, {
+                name: 'hideGenerator',
+                help: 'Do not print the TypeDoc link at the end of the page.',
+                type: 2 /* Boolean */
+            }];
+        };
         /**
          * Map the models of the given project to the desired output files.
          *
@@ -6621,7 +6839,7 @@ var td;
          */
         DefaultTheme.prototype.getUrls = function (project) {
             var urls = [];
-            if (this.renderer.application.settings.readme == 'none') {
+            if (this.renderer.application.options.readme == 'none') {
                 project.url = 'index.html';
                 urls.push(new td.UrlMapping('index.html', project, 'reflection.hbs'));
             }
@@ -6761,7 +6979,7 @@ var td;
                 }
                 return root;
             }
-            return build(this.renderer.application.settings.readme != 'none');
+            return build(this.renderer.application.options.readme != 'none');
         };
         /**
          * Triggered before the renderer starts rendering a project.

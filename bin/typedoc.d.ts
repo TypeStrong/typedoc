@@ -93,139 +93,223 @@ declare module td {
         ES6 = 2,
         Latest = 2,
     }
-    enum OptionScope {
-        TypeDoc = 0,
-        TypeScript = 1,
-    }
-    interface IOptionDeclaration extends ts.CommandLineOption {
-        scope: OptionScope;
-    }
-    var ignoredTypeScriptOptions: string[];
     enum SourceFileMode {
         File = 0,
         Modules = 1,
     }
+    interface IParameter {
+        name: string;
+        short?: string;
+        help: string;
+        type?: ParameterType;
+        hint?: ParameterHint;
+        scope?: ParameterScope;
+        map?: {};
+        mapError?: string;
+        isArray?: boolean;
+        defaultValue?: any;
+    }
+    interface IParameterHelp {
+        marginLength: number;
+        usage: string[];
+        description: string[];
+    }
+    interface IParameterProvider {
+        getParameters(): IParameter[];
+    }
+    enum ParameterHint {
+        File = 0,
+        Directory = 1,
+    }
+    enum ParameterType {
+        String = 0,
+        Number = 1,
+        Boolean = 2,
+        Map = 3,
+    }
+    enum ParameterScope {
+        TypeDoc = 0,
+        TypeScript = 1,
+    }
     /**
-     * Modify ts.optionDeclarations to match TypeDoc requirements.
+     * Options object interface declaration.
+     *
+     * Other components might add additional option declarations.
      */
-    var optionDeclarations: IOptionDeclaration[];
-    /**
-     * Holds all settings used by TypeDoc.
-     */
-    class Settings {
-        /**
-         * The settings used by the TypeScript compiler.
-         *
-         * @see [[CodeGenTarget]]
-         * @see [[ModuleGenTarget]]
-         */
-        compilerOptions: ts.CompilerOptions;
-        /**
-         * The list of source files that should be processed.
-         */
-        inputFiles: string[];
-        /**
-         * The path of the output directory.
-         */
-        out: string;
-        /**
-         * Specifies the output mode the project is used to be compiled with.
-         */
-        mode: SourceFileMode;
-        /**
-         * Path and filename of the json file.
-         */
-        json: string;
+    interface IOptions {
         /**
          * The path of the theme that should be used.
          */
         theme: string;
         /**
-         * The human readable name of the project. Used within the templates to set the title of the document.
+         * The list of npm plugins that should be loaded.
          */
-        name: string;
-        /**
-         * The location of the readme file that should be displayed on the index page. Set this to 'none' to
-         * remove the index page and start with the globals page.
-         */
-        readme: string;
-        /**
-         * Specifies the location to look for included documents.
-         */
-        includes: string;
-        /**
-         * Specifies the location with media files that should be copied to the output directory.
-         */
-        media: string;
+        plugins?: string[];
         /**
          * A pattern for files that should be excluded when a path is specified as source.
          */
-        excludePattern: string;
+        exclude?: string;
         /**
-         * Should declaration files be documented?
+         * The path of the output directory.
          */
-        includeDeclarations: boolean;
+        out?: string;
         /**
-         * Should externally resolved TypeScript files be ignored?
+         * Path and filename of the json file.
          */
-        excludeExternals: boolean;
-        /**
-         * Define a pattern for files that should be considered being external.
-         */
-        externalPattern: string;
-        /**
-         * The Google Analytics tracking ID that should be used. When not set, the tracking code
-         * should be omitted.
-         */
-        gaID: string;
-        /**
-         * Optional site name for Google Analytics. Defaults to `auto`.
-         */
-        gaSite: string;
-        /**
-         * Does the user want to display the help message?
-         */
-        help: boolean;
-        /**
-         * Does the user want to know the version number?
-         */
-        version: boolean;
-        /**
-         * Should we hide the TypeDoc link at the end of the page?
-         */
-        hideGenerator: boolean;
+        json?: string;
         /**
          * Should verbose messages be printed?
          */
-        verbose: boolean;
-        private declarations;
-        private shortOptionNames;
+        verbose?: boolean;
         /**
-         * Create a new Settings instance.
+         * Does the user want to display the help message?
          */
-        constructor();
+        help?: boolean;
         /**
+         * Does the user want to know the version number?
+         */
+        version?: boolean;
+    }
+    /**
+     * A parser that can read command line arguments, option files and javascript objects.
+     */
+    class OptionsParser {
+        /**
+         * The parsed TypeDoc options.
+         */
+        options: IOptions;
+        /**
+         * The parsed TypeScript compiler options.
+         */
+        compilerOptions: ts.CompilerOptions;
+        /**
+         * The list of discovered input files.
+         */
+        inputFiles: string[];
+        /**
+         * The application that stores the parsed settings.
+         */
+        private application;
+        /**
+         * Map of parameter names and their definitions.
+         */
+        private arguments;
+        /**
+         * Map of parameter short names and their full equivalent.
+         */
+        private shortNames;
+        /**
+         * A list of all TypeScript parameters that should be ignored.
+         */
+        private static IGNORED_TS_PARAMS;
+        /**
+         * Create a new OptionsParser instance.
          *
-         * @param option
+         * @param application  The application that stores the parsed settings
          */
-        addOptionDeclaration(option: IOptionDeclaration): void;
+        constructor(application: IApplication);
         /**
+         * Register a parameter definition.
          *
-         * @param name
-         * @returns {*}
+         * @param parameters One or multiple parameter definitions that should be registered.
          */
-        getOptionDeclaration(name: string): IOptionDeclaration;
+        addParameter(...parameters: IParameter[]): void;
         /**
-         * Expand the list of input files.
-         *
-         * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the ```--excludePattern``` option
-         * to filter out files with a pattern.
+         * Register the command line parameters.
          */
-        expandInputFiles(): void;
-        parseCommandLine(logger: ILogger): boolean;
-        parseArguments(args: string[], logger: ILogger): boolean;
-        parseResponseFile(filename: string, logger: ILogger): boolean;
+        addCommandLineParameters(): void;
+        /**
+         * Register the default parameters.
+         */
+        private addDefaultParameters();
+        /**
+         * Register all TypeScript related properties.
+         */
+        private addCompilerParameters();
+        /**
+         * Add an input/source file.
+         *
+         * The input files will be used as source files for the compiler. All command line
+         * arguments without parameter will be interpreted as being input files.
+         *
+         * @param fileName The path and filename of the input file.
+         */
+        addInputFile(fileName: string): void;
+        /**
+         * Retrieve a parameter by its name.
+         *
+         * @param name  The name of the parameter to look for.
+         * @returns The parameter definition or NULL when not found.
+         */
+        getParameter(name: string): IParameter;
+        /**
+         * Set the option described by the given parameter description to the given value.
+         *
+         * @param param  The parameter description of the option to set.
+         * @param value  The target value of the option.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        setOption(param: IParameter, value?: any): boolean;
+        /**
+         * Reset the output data of this parser instance.
+         *
+         * This will not reset the registered parameters!
+         */
+        reset(): void;
+        /**
+         * Apply the values of the given options object.
+         *
+         * @param obj  The object whose properties should be applied.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseObject(obj: any, ignoreUnknownArgs?: boolean): boolean;
+        /**
+         * Read and store the given list of arguments.
+         *
+         * @param args  The list of arguments that should be parsed. When omitted the
+         *   current command line arguments will be used.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseArguments(args?: string[], ignoreUnknownArgs?: boolean): boolean;
+        /**
+         * Read the arguments stored in the given file.
+         *
+         * @param filename  The path and filename that should be parsed.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored?
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        parseResponseFile(filename: string, ignoreUnknownArgs?: boolean): boolean;
+        getParameterHelp(scope: ParameterScope): IParameterHelp;
+        /**
+         * Print some usage information.
+         *
+         * Taken from TypeScript (src/compiler/tsc.ts)
+         */
+        toString(): string;
+        /**
+         * Convert the given value according to the type setting of the given parameter.
+         *
+         * @param param  The parameter definition.
+         * @param value  The value that should be converted.
+         * @returns The converted value.
+         */
+        static convert(param: IParameter, value?: any): any;
+        /**
+         * Create an options object populated with the default values.
+         *
+         * @returns An options object populated with default values.
+         */
+        static createOptions(): IOptions;
+        /**
+         * Create the compiler options populated with the default values.
+         *
+         * @returns A compiler options object populated with default values.
+         */
+        static createCompilerOptions(): ts.CompilerOptions;
     }
 }
 /**
@@ -264,9 +348,13 @@ declare module td {
      */
     interface IApplication extends ILogger {
         /**
-         * The settings used by the dispatcher and the renderer.
+         * The options used by the dispatcher and the renderer.
          */
-        settings: Settings;
+        options: IOptions;
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions: ts.CompilerOptions;
     }
     function normalizePath(path: string): string;
     function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
@@ -286,9 +374,13 @@ declare module td {
      */
     class Application implements ILogger, IApplication {
         /**
-         * The settings used by the dispatcher and the renderer.
+         * The options used by the dispatcher and the renderer.
          */
-        settings: Settings;
+        options: IOptions;
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions: ts.CompilerOptions;
         /**
          * The converter used to create the declaration reflections.
          */
@@ -302,19 +394,17 @@ declare module td {
          */
         hasErrors: boolean;
         /**
+         * The version number of the loaded TypeScript compiler. Cached return value of [[Application.getTypeScriptVersion]]
+         */
+        private typeScriptVersion;
+        /**
          * The version number of TypeDoc.
          */
         static VERSION: string;
         /**
          * Create a new Application instance.
-         *
-         * @param settings  The settings used by the dispatcher and the renderer.
          */
-        constructor(settings?: Settings);
-        /**
-         * Run TypeDoc from the command line.
-         */
-        runFromCommandline(): void;
+        constructor();
         /**
          * Print a log message.
          *
@@ -322,13 +412,30 @@ declare module td {
          * @param level    The urgency of the log message.
          */
         log(message: string, level?: LogLevel): void;
+        logDiagnostics(diagnostics: ts.Diagnostic[]): void;
         /**
          * Run the documentation generator for the given set of files.
          *
-         * @param inputFiles  A list of source files whose documentation should be generated.
-         * @param outputDirectory  The path of the directory the documentation should be written to.
+         * @param src  A list of source files whose documentation should be generated.
+         * @param out  The path of the directory the documentation should be written to.
          */
-        generate(inputFiles: string[], outputDirectory: string): boolean;
+        generateDocs(src: string[], out: string): boolean;
+        generateJson(src: string[], out: string): boolean;
+        /**
+         * Run TypeDoc from the command line.
+         */
+        runFromCommandline(): void;
+        /**
+         * Expand a list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the ```--exclude``` option
+         * to filter out files with a pattern.
+         *
+         * @param inputFiles  The list of files that should be expanded.
+         * @returns  The list of input files with expanded directories.
+         */
+        expandInputFiles(inputFiles?: string[]): string[];
         /**
          * Return the version number of the loaded TypeScript compiler.
          *
@@ -337,18 +444,8 @@ declare module td {
         getTypeScriptVersion(): string;
         /**
          * Print the version number.
-         *
-         * @return string[]
          */
-        printVersion(): string[];
-        /**
-         * Print some usage information.
-         *
-         * Taken from TypeScript (src/compiler/tsc.ts)
-         *
-         * @return string[]
-         */
-        printUsage(): string[];
+        toString(): string;
     }
 }
 declare module td {
@@ -358,7 +455,7 @@ declare module td {
     interface IPluginClass<T extends IPluginInterface> {
         new (instance: PluginHost<T>): T;
     }
-    class PluginHost<T extends IPluginInterface> extends EventDispatcher {
+    class PluginHost<T extends IPluginInterface> extends EventDispatcher implements IParameterProvider {
         /**
          * List of all plugins that are attached to this host.
          */
@@ -368,6 +465,7 @@ declare module td {
         static PLUGINS: {
             [name: string]: IPluginClass<IPluginInterface>;
         };
+        getParameters(): IParameter[];
         /**
          * Retrieve a plugin instance.
          *
@@ -424,7 +522,8 @@ declare module td {
      * The context describes the current state the converter is in.
      */
     class Context {
-        settings: Settings;
+        settings: IOptions;
+        compilerOptions: ts.CompilerOptions;
         private checker;
         /**
          * The project that is currently processed.
@@ -457,7 +556,7 @@ declare module td {
          * @param checker
          * @param project  The target project.
          */
-        constructor(converter: Converter, settings: Settings, fileNames: string[], checker: ts.TypeChecker, project: ProjectReflection);
+        constructor(converter: Converter, settings: IOptions, compilerOptions: ts.CompilerOptions, fileNames: string[], checker: ts.TypeChecker, project: ProjectReflection);
         /**
          * Return the current parent reflection.
          */
@@ -489,12 +588,37 @@ declare module td {
     }
 }
 declare module td {
+    interface IOptions {
+        /**
+         * The human readable name of the project. Used within the templates to set the title of the document.
+         */
+        name?: string;
+        /**
+         * Specifies the output mode the project is used to be compiled with.
+         */
+        mode?: SourceFileMode;
+        /**
+         * Define a pattern for files that should be considered being external.
+         */
+        externalPattern?: string;
+        /**
+         * Should declaration files be documented?
+         */
+        includeDeclarations?: boolean;
+        /**
+         * Should externally resolved TypeScript files be ignored?
+         */
+        excludeExternals?: boolean;
+    }
     interface IConverterResult {
         project: any;
         errors: ts.Diagnostic[];
     }
     class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost {
         private application;
+        /**
+         * The full path of the current directory. Result cache of [[getCurrentDirectory]].
+         */
         private currentDirectory;
         static ERROR_UNSUPPORTED_FILE_ENCODING: number;
         static EVENT_BEGIN: string;
@@ -508,7 +632,14 @@ declare module td {
         static EVENT_RESOLVE_BEGIN: string;
         static EVENT_RESOLVE_END: string;
         static EVENT_RESOLVE: string;
+        /**
+         * Create a new Converter instance.
+         *
+         * @param application  The application instance this converter relies on. The application
+         *   must expose the settings that should be used and serves as a global logging endpoint.
+         */
         constructor(application: IApplication);
+        getParameters(): IParameter[];
         /**
          * Compile the given source files and create a reflection tree for them.
          *
@@ -516,13 +647,79 @@ declare module td {
          * @param settings   The settings that should be used to compile the files.
          */
         convert(fileNames: string[]): IConverterResult;
-        getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile;
+        /**
+         * Return the basename of the default library that should be used.
+         *
+         * @returns The basename of the default library.
+         */
         getDefaultLib(): string;
-        getDefaultLibFilename(): any;
+        /**
+         * CompilerHost implementation
+         */
+        /**
+         * Return an instance of ts.SourceFile representing the given file.
+         *
+         * Implementation of ts.CompilerHost.getSourceFile()
+         *
+         * @param filename  The path and name of the file that should be loaded.
+         * @param languageVersion  The script target the file should be interpreted with.
+         * @param onError  A callback that will be invoked if an error occurs.
+         * @returns An instance of ts.SourceFile representing the given file.
+         */
+        getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile;
+        /**
+         * Return the full path of the default library that should be used.
+         *
+         * Implementation of ts.CompilerHost.getDefaultLibFilename()
+         *
+         * @returns The full path of the default library.
+         */
+        getDefaultLibFilename(): string;
+        /**
+         * Return the full path of the current directory.
+         *
+         * Implementation of ts.CompilerHost.getCurrentDirectory()
+         *
+         * @returns The full path of the current directory.
+         */
         getCurrentDirectory(): string;
+        /**
+         * Return whether file names are case sensitive on the current platform or not.
+         *
+         * Implementation of ts.CompilerHost.useCaseSensitiveFileNames()
+         *
+         * @returns TRUE if file names are case sensitive on the current platform, FALSE otherwise.
+         */
         useCaseSensitiveFileNames(): boolean;
+        /**
+         * Return the canonical file name of the given file.
+         *
+         * Implementation of ts.CompilerHost.getCanonicalFileName()
+         *
+         * @param fileName  The file name whose canonical variant should be resolved.
+         * @returns The canonical file name of the given file.
+         */
         getCanonicalFileName(fileName: string): string;
+        /**
+         * Return the new line char sequence of the current platform.
+         *
+         * Implementation of ts.CompilerHost.getNewLine()
+         *
+         * @returns The new line char sequence of the current platform.
+         */
         getNewLine(): string;
+        /**
+         * Write a compiled javascript file to disc.
+         *
+         * As TypeDoc will not emit compiled javascript files this is a null operation.
+         *
+         * Implementation of ts.CompilerHost.writeFile()
+         *
+         * @param fileName  The name of the file that should be written.
+         * @param data  The contents of the file.
+         * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
+         * @param onError  A callback that will be invoked if an error occurs.
+         */
         writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
     }
 }
@@ -531,10 +728,10 @@ declare module td {
         private _checker;
         private _project;
         private _settings;
-        constructor(checker: ts.TypeChecker, project: ProjectReflection, settings: Settings);
+        constructor(checker: ts.TypeChecker, project: ProjectReflection, settings: IOptions);
         getTypeChecker(): ts.TypeChecker;
         getProject(): ProjectReflection;
-        getSettings(): Settings;
+        getSettings(): IOptions;
     }
 }
 declare module td {
@@ -848,6 +1045,13 @@ declare module td {
     }
 }
 declare module td {
+    interface IOptions {
+        /**
+         * The location of the readme file that should be displayed on the index page. Set this to 'none' to
+         * remove the index page and start with the globals page.
+         */
+        readme?: string;
+    }
     /**
      * A handler that tries to find the package.json and readme.md files of the
      * current project.
@@ -856,7 +1060,7 @@ declare module td {
      * and records the nearest package info files it can find. Within the resolve files, the
      * contents of the found files will be read and appended to the ProjectReflection.
      */
-    class PackagePlugin extends ConverterPlugin {
+    class PackagePlugin extends ConverterPlugin implements IParameterProvider {
         /**
          * The file name of the found readme.md file.
          */
@@ -879,6 +1083,7 @@ declare module td {
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter: Converter);
+        getParameters(): IParameter[];
         /**
          * Triggered once per project before the dispatcher invokes the compiler.
          *
@@ -2278,6 +2483,7 @@ declare module td {
          * @param application  The application this dispatcher is attached to.
          */
         constructor(application: IApplication);
+        getParameters(): IParameter[];
         /**
          * Return the template with the given filename.
          *
@@ -2483,7 +2689,7 @@ declare module td {
         /**
          * The settings that have been passed to TypeDoc.
          */
-        settings: Settings;
+        settings: IOptions;
         /**
          * The path of the directory the documentation should be written to.
          */
@@ -2522,7 +2728,7 @@ declare module td {
         /**
          * The settings that have been passed to TypeDoc.
          */
-        settings: Settings;
+        settings: IOptions;
         /**
          * The filename the page will be written to.
          */
@@ -2627,6 +2833,16 @@ declare module td {
     }
 }
 declare module td {
+    interface IOptions {
+        /**
+         * Specifies the location to look for included documents.
+         */
+        includes?: string;
+        /**
+         * Specifies the location with media files that should be copied to the output directory.
+         */
+        media?: string;
+    }
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *
@@ -2657,7 +2873,7 @@ declare module td {
      * {{#relativeURL url}}
      * ```
      */
-    class MarkedPlugin extends RendererPlugin {
+    class MarkedPlugin extends RendererPlugin implements IParameterProvider {
         /**
          * The project that is currently processed.
          */
@@ -2688,6 +2904,7 @@ declare module td {
          * @param renderer  The renderer this plugin should be attached to.
          */
         constructor(renderer: Renderer);
+        getParameters(): IParameter[];
         /**
          * Transform the given absolute path into a relative path.
          *
@@ -2894,6 +3111,21 @@ declare module td {
     }
 }
 declare module td {
+    interface IOptions {
+        /**
+         * The Google Analytics tracking ID that should be used. When not set, the tracking code
+         * should be omitted.
+         */
+        gaID?: string;
+        /**
+         * Optional site name for Google Analytics. Defaults to `auto`.
+         */
+        gaSite?: string;
+        /**
+         * Should we hide the TypeDoc link at the end of the page?
+         */
+        hideGenerator?: boolean;
+    }
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
      *
@@ -2922,7 +3154,7 @@ declare module td {
      * Default theme implementation of TypeDoc. If a theme does not provide a custom
      * [[BaseTheme]] implementation, this theme class will be used.
      */
-    class DefaultTheme extends Theme {
+    class DefaultTheme extends Theme implements IParameterProvider {
         /**
          * Mappings of reflections kinds to templates used by this theme.
          */
@@ -2942,6 +3174,7 @@ declare module td {
          *              otherwise FALSE.
          */
         isOutputDirectory(path: string): boolean;
+        getParameters(): IParameter[];
         /**
          * Map the models of the given project to the desired output files.
          *
