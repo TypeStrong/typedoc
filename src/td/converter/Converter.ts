@@ -1,6 +1,6 @@
 /// <reference path="../PluginHost.ts" />
 
-module td
+declare module td
 {
     export interface IOptions
     {
@@ -29,8 +29,10 @@ module td
          */
         excludeExternals?:boolean;
     }
+}
 
-
+module td
+{
     export interface IConverterResult {
         project:any;
         errors:ts.Diagnostic[];

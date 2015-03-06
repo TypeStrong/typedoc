@@ -1,4 +1,4 @@
-module td
+declare module td
 {
     export interface IOptions
     {
@@ -12,8 +12,10 @@ module td
          */
         media?:string;
     }
+}
 
-
+module td
+{
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *

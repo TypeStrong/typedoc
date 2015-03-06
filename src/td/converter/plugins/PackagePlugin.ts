@@ -1,4 +1,4 @@
-module td
+declare module td
 {
     export interface IOptions
     {
@@ -8,8 +8,10 @@ module td
          */
         readme?:string;
     }
+}
 
-
+module td
+{
     /**
      * A handler that tries to find the package.json and readme.md files of the
      * current project.

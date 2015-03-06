@@ -1,4 +1,4 @@
-module td
+declare module td
 {
     export interface IOptions
     {
@@ -18,8 +18,10 @@ module td
          */
         hideGenerator?:boolean;
     }
+}
 
-
+module td
+{
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
      *
