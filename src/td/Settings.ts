@@ -1,3 +1,55 @@
+declare module td
+{
+    /**
+     * Options object interface declaration.
+     *
+     * Other components might add additional option declarations.
+     */
+    export interface IOptions
+    {
+        /**
+         * The path of the theme that should be used.
+         */
+        theme:string;
+
+        /**
+         * The list of npm plugins that should be loaded.
+         */
+        plugins?:string[];
+
+        /**
+         * A pattern for files that should be excluded when a path is specified as source.
+         */
+        exclude?:string;
+
+        /**
+         * The path of the output directory.
+         */
+        out?:string;
+
+        /**
+         * Path and filename of the json file.
+         */
+        json?:string;
+
+        /**
+         * Should verbose messages be printed?
+         */
+        verbose?:boolean;
+
+        /**
+         * Does the user want to display the help message?
+         */
+        help?:boolean;
+
+        /**
+         * Does the user want to know the version number?
+         */
+        version?:boolean;
+    }
+}
+
+
 module td
 {
     export enum ModuleKind {
@@ -61,73 +113,14 @@ module td
 
 
     /**
-     * Options object interface declaration.
-     *
-     * Other components might add additional option declarations.
-     */
-    export interface IOptions
-    {
-        /**
-         * The path of the theme that should be used.
-         */
-        theme:string;
-
-        /**
-         * The list of npm plugins that should be loaded.
-         */
-        plugins?:string[];
-
-        /**
-         * A pattern for files that should be excluded when a path is specified as source.
-         */
-        exclude?:string;
-
-        /**
-         * The path of the output directory.
-         */
-        out?:string;
-
-        /**
-         * Path and filename of the json file.
-         */
-        json?:string;
-
-        /**
-         * Should verbose messages be printed?
-         */
-        verbose?:boolean;
-
-        /**
-         * Does the user want to display the help message?
-         */
-        help?:boolean;
-
-        /**
-         * Does the user want to know the version number?
-         */
-        version?:boolean;
-    }
-
-
-    /**
      * A parser that can read command line arguments, option files and javascript objects.
      */
     export class OptionsParser
     {
         /**
-         * The parsed TypeDoc options.
-         */
-        options:IOptions;
-
-        /**
-         * The parsed TypeScript compiler options.
-         */
-        compilerOptions:ts.CompilerOptions;
-
-        /**
          * The list of discovered input files.
          */
-        inputFiles:string[];
+        inputFiles:string[] = [];
 
         /**
          * The application that stores the parsed settings.
@@ -163,32 +156,44 @@ module td
         constructor(application:IApplication) {
             this.application = application;
 
-            this.reset();
             this.addDefaultParameters();
             this.addCompilerParameters();
         }
 
 
         /**
-         * Register a parameter definition.
-         *
          * @param parameters One or multiple parameter definitions that should be registered.
          */
-        addParameter(...parameters:IParameter[]) {
-            parameters.forEach((parameter) => {
-                parameter.type = parameter.type || ParameterType.String;
-                parameter.scope = parameter.scope || ParameterScope.TypeDoc;
-                this.arguments[parameter.name.toLowerCase()] = parameter;
+        addParameter(parameters:IParameter[]);
 
-                if (parameter.short) {
-                    this.shortNames[parameter.short.toLowerCase()] = parameter.name;
+        /**
+         * @param rest One or multiple parameter definitions that should be registered.
+         */
+        addParameter(...rest:IParameter[]);
+
+        /**
+         * Register one or multiple parameter definitions.
+         */
+        addParameter(...args) {
+            args.forEach((param) => {
+                if (Util.isArray(param)) {
+                    this.addParameter.apply(this, param);
+                    return;
                 }
 
-                if (parameter.defaultValue && !parameter.isArray) {
-                    var name = parameter.name;
-                    var target = (parameter.scope == ParameterScope.TypeDoc) ? this.options : this.compilerOptions;
+                param.type = param.type || ParameterType.String;
+                param.scope = param.scope || ParameterScope.TypeDoc;
+                this.arguments[param.name.toLowerCase()] = param;
+
+                if (param.short) {
+                    this.shortNames[param.short.toLowerCase()] = param.name;
+                }
+
+                if (param.defaultValue && !param.isArray) {
+                    var name = param.name;
+                    var target = (param.scope == ParameterScope.TypeDoc) ? this.application.options : this.application.compilerOptions;
                     if (!target[name]) {
-                        target[name] = parameter.defaultValue;
+                        target[name] = param.defaultValue;
                     }
                 }
             });
@@ -257,7 +262,7 @@ module td
                     name:  option.name,
                     short: option.shortName,
                     help:  option.description ? option.description.key : null,
-                    scope: ParameterScope.TypeDoc
+                    scope: ParameterScope.TypeScript
                 };
 
                 switch (option.type) {
@@ -347,7 +352,7 @@ module td
             }
 
             var name = param.name;
-            var target = (param.scope == ParameterScope.TypeDoc) ? this.options : this.compilerOptions;
+            var target = (param.scope == ParameterScope.TypeDoc) ? this.application.options : this.application.compilerOptions;
             if (param.isArray) {
                 (target[name] = target[name] || []).push(value);
             } else {
@@ -355,18 +360,6 @@ module td
             }
 
             return true;
-        }
-
-
-        /**
-         * Reset the output data of this parser instance.
-         *
-         * This will not reset the registered parameters!
-         */
-        reset() {
-            this.options = OptionsParser.createOptions();
-            this.compilerOptions = OptionsParser.createCompilerOptions();
-            this.inputFiles = [];
         }
 
 
@@ -379,7 +372,9 @@ module td
          * @returns TRUE on success, otherwise FALSE.
          */
         parseObject(obj:any, ignoreUnknownArgs?:boolean):boolean {
+            if (typeof obj != 'object') return true;
             var result = true;
+
             for (var key in obj) {
                 if (!obj.hasOwnProperty(key)) continue;
 
@@ -411,7 +406,7 @@ module td
         parseArguments(args?:string[], ignoreUnknownArgs?:boolean):boolean {
             var index = 0;
             var result = true;
-            args = args || process.argv.splice(2);
+            args = args || process.argv.slice(2);
 
             var error = (message:ts.DiagnosticMessage, ...args: any[]) => {
                 if (ignoreUnknownArgs) return;
@@ -438,7 +433,7 @@ module td
                             result = this.setOption(parameter, args[index++]) && result;
                         }
                     } else {
-                        result = this.setOption(parameter) && result;
+                        result = this.setOption(parameter, true) && result;
                     }
                 } else if (!ignoreUnknownArgs) {
                     this.addInputFile(arg);
