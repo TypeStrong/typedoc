@@ -175,7 +175,7 @@ module td
                     return HighlightJS.highlightAuto(text).value;
                 }
             } catch (error) {
-                this.renderer.application.log(error.message, LogLevel.Warn);
+                this.renderer.application.logger.warn(error.message);
                 return text;
             }
         }
@@ -294,7 +294,7 @@ module td
                 if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
                     this.includes = includes;
                 } else {
-                    this.renderer.application.log('Could not find provided includes directory: ' + includes, LogLevel.Warn);
+                    this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
 
@@ -304,7 +304,7 @@ module td
                     var to = Path.join(event.outputDirectory, 'media');
                     FS.copySync(media, to);
                 } else {
-                    this.renderer.application.log('Could not find provided includes directory: ' + includes, LogLevel.Warn);
+                    this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
         }

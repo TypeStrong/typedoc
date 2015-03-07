@@ -1,6 +1,3 @@
-/// <reference path="EventDispatcher.ts" />
-/// <reference path="Settings.ts" />
-
 /**
  * The TypeDoc main module and namespace.
  *
@@ -11,36 +8,12 @@
 module td
 {
     /**
-     * List of known log levels. Used to specify the urgency of a log message.
-     *
-     * @see [[Application.log]]
-     */
-    export enum LogLevel {
-        Verbose,
-        Info,
-        Warn,
-        Error
-    }
-
-
-    export interface ILogger {
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level  The urgency of the log message.
-         */
-        log(message:string, level?:LogLevel):void;
-    }
-
-
-    /**
      * An interface of the application class.
      *
      * All classes should expect this interface allowing other third parties
      * to use their own implementation.
      */
-    export interface IApplication extends ILogger
+    export interface IApplication
     {
         /**
          * The options used by the dispatcher and the renderer.
@@ -51,44 +24,13 @@ module td
          * The options used by the TypeScript compiler.
          */
         compilerOptions:ts.CompilerOptions;
+
+        /**
+         * The logger that should be used to output messages.
+         */
+        logger:Logger;
     }
 
-
-    var existingDirectories:ts.Map<boolean> = {};
-
-    export function normalizePath(path:string) {
-        return ts.normalizePath(path);
-    }
-
-
-    export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
-        function directoryExists(directoryPath: string): boolean {
-            if (ts.hasProperty(existingDirectories, directoryPath)) {
-                return true;
-            }
-            if (ts.sys.directoryExists(directoryPath)) {
-                existingDirectories[directoryPath] = true;
-                return true;
-            }
-            return false;
-        }
-
-        function ensureDirectoriesExist(directoryPath: string) {
-            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
-                var parentDirectory = ts.getDirectoryPath(directoryPath);
-                ensureDirectoriesExist(parentDirectory);
-                ts.sys.createDirectory(directoryPath);
-            }
-        }
-
-        try {
-            ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
-            ts.sys.writeFile(fileName, data, writeByteOrderMark);
-        }
-        catch (e) {
-            if (onError) onError(e.message);
-        }
-    }
 
 
     /**
@@ -105,7 +47,7 @@ module td
      * and emit a series of events while processing the project. Subscribe to these Events
      * to control the application flow or alter the output.
      */
-    export class Application implements ILogger, IApplication
+    export class Application implements IApplication
     {
         /**
          * The options used by the dispatcher and the renderer.
@@ -128,12 +70,13 @@ module td
         renderer:Renderer;
 
         /**
-         * Has an error been raised through the log method?
+         * The logger that should be used to output messages.
          */
-        hasErrors:boolean = false;
+        logger:Logger;
 
         /**
-         * The version number of the loaded TypeScript compiler. Cached return value of [[Application.getTypeScriptVersion]]
+         * The version number of the loaded TypeScript compiler.
+         * Cached return value of [[Application.getTypeScriptVersion]]
          */
         private typeScriptVersion:string;
 
@@ -145,137 +88,169 @@ module td
 
 
         /**
-         * Create a new Application instance.
+         * @param options An object containing the options that should be used.
          */
-        constructor() {
+        constructor(options?:IOptions);
+
+        /**
+         * @param fromCommandLine  TRUE if the application should execute in command line mode.
+         */
+        constructor(fromCommandLine:boolean);
+
+        /**
+         * Create a new TypeDoc Application instance.
+         */
+        constructor(arg?:any) {
             this.converter = new Converter(this);
             this.renderer  = new Renderer(this);
+            this.logger    = new ConsoleLogger();
             this.options   = OptionsParser.createOptions();
             this.compilerOptions = OptionsParser.createCompilerOptions();
-        }
 
-
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level    The urgency of the log message.
-         */
-        log(message:string, level:LogLevel = LogLevel.Info) {
-            if (level == LogLevel.Error) {
-                this.hasErrors = true;
-            }
-
-            if (level != LogLevel.Verbose || this.options.verbose) {
-                var output = '';
-                if (level == LogLevel.Error) output += 'Error: ';
-                if (level == LogLevel.Warn) output += 'Warning: ';
-                output += message;
-
-                ts.sys.write(output + ts.sys.newLine);
+            if (!arg || typeof arg == 'object') {
+                this.bootstrapWithOptions(arg);
+            } else if (arg === true) {
+                this.bootstrapFromCommandline();
             }
         }
 
 
-        logDiagnostics(diagnostics:ts.Diagnostic[]) {
-            diagnostics.forEach((msg) => {
-                var output;
-                if (msg.file) {
-                    output = msg.file.filename;
-                    output += '(' + msg.file.getLineAndCharacterFromPosition(msg.start).line + ')';
-                    output += ts.sys.newLine + ' ' + msg.messageText;
-                } else {
-                    output = msg.messageText;
-                }
-
-                switch (msg.category) {
-                    case ts.DiagnosticCategory.Error:
-                        this.log(output, LogLevel.Error);
-                        break;
-                    case ts.DiagnosticCategory.Warning:
-                        this.log(output, LogLevel.Warn);
-                        break;
-                    case ts.DiagnosticCategory.Message:
-                        this.log(output, LogLevel.Info);
-                }
-            });
-        }
-
-
-        /**
-         * Run the documentation generator for the given set of files.
-         *
-         * @param src  A list of source files whose documentation should be generated.
-         * @param out  The path of the directory the documentation should be written to.
-         */
-        public generateDocs(src:string[], out:string):boolean {
-            var result = this.converter.convert(src);
-            if (result.errors && result.errors.length) {
-                this.logDiagnostics(result.errors);
-                return false;
+        private bootstrap() {
+            if (typeof this.options.logger == 'function') {
+                this.logger = new CallbackLogger(<any>this.options.logger);
+            } else if (this.options.logger == LoggerType.None) {
+                this.logger = new Logger();
             }
-
-            this.renderer.render(result.project, out);
-            if (this.hasErrors) {
-                ts.sys.write(ts.sys.newLine);
-                this.log('Documentation could not be generated due to the errors above.');
-            } else {
-                this.log(Util.format('Documentation generated at %s', out));
-            }
-
-            return true;
-        }
-
-
-        public generateJson(src:string[], out:string):boolean {
-            var result = this.converter.convert(src);
-            if (result.errors && result.errors.length) {
-                this.logDiagnostics(result.errors);
-                return false;
-            }
-
-            writeFile(out, JSON.stringify(result.project.toObject(), null, '\t'), false);
-            this.log(Util.format('JSON written to %s', out));
-
-            return true;
         }
 
 
         /**
          * Run TypeDoc from the command line.
          */
-        public runFromCommandline() {
+        private bootstrapFromCommandline() {
             var parser = new OptionsParser(this);
             parser.addCommandLineParameters();
             parser.parseArguments(null, true);
 
-            // TODO: Load plugins and set theme
+            this.bootstrap();
 
-            var parameters:IParameter[] = [];
-            parameters.push.call(parameters, this.converter.getParameters());
-            parameters.push.call(parameters, this.renderer.getParameters());
-            parser.addParameter.call(parser, parameters);
+            this.collectParameters(parser);
+            if (!parser.parseArguments()) {
+                return;
+            }
 
-            if (parser.parseArguments()) {
-                if (this.options.version) {
-                    ts.sys.write(this.toString());
-                } else if (parser.inputFiles.length === 0 || this.options.help) {
-                    ts.sys.write(parser.toString());
-                } else if (this.options.out) {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log(Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath), LogLevel.Info);
-
-                    var src = this.expandInputFiles(parser.inputFiles);
-                    var out = Path.resolve(this.options.out);
-                    this.generateDocs(src, out);
-                } else if (this.options.json) {
-                    var src = this.expandInputFiles(parser.inputFiles);
-                    var out = Path.resolve(this.options.json);
-                    this.generateJson(src, out);
-                } else {
-                    this.log('You must either specify the \'out\' or \'json\' parameter.', LogLevel.Error);
+            if (this.options.version) {
+                ts.sys.write(this.toString());
+            } else if (parser.inputFiles.length === 0 || this.options.help) {
+                ts.sys.write(parser.toString());
+            } else if (!this.options.out && !this.options.json) {
+                this.logger.error("You must either specify the 'out' or 'json' option.");
+            } else {
+                var src = this.expandInputFiles(parser.inputFiles);
+                var project = this.convert(src);
+                if (project) {
+                    if (this.options.out) this.generateDocs(project, this.options.out);
+                    if (this.options.json) this.generateJson(project, this.options.json);
                 }
             }
+        }
+
+
+        private bootstrapWithOptions(options?:IOptions) {
+            var parser = new OptionsParser(this);
+            parser.parseObject(options, true);
+
+            this.bootstrap();
+            this.collectParameters(parser);
+
+            parser.parseObject(options);
+        }
+
+
+        public collectParameters(parser:OptionsParser) {
+            parser.addParameter(this.converter.getParameters());
+            parser.addParameter(this.renderer.getParameters());
+        }
+
+
+
+
+        /**
+         * Run the converter for the given set of files and return the generated reflections.
+         *
+         * @param src  A list of source that should be compiled and converted.
+         * @returns An instance of ProjectReflection on success, NULL otherwise.
+         */
+        public convert(src:string[]):ProjectReflection {
+            this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath);
+
+            var result = this.converter.convert(src);
+            if (result.errors && result.errors.length) {
+                this.logger.diagnostics(result.errors);
+                return null;
+            } else {
+                return result.project;
+            }
+        }
+
+
+        /**
+         * @param src  A list of source files whose documentation should be generated.
+         */
+        public generateDocs(src:string[], out:string):boolean;
+
+        /**
+         * @param project  The project the documentation should be generated for.
+         */
+        public generateDocs(project:ProjectReflection, out:string):boolean;
+
+        /**
+         * Run the documentation generator for the given set of files.
+         *
+         * @param out  The path the documentation should be written to.
+         * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
+         */
+        public generateDocs(input:any, out:string):boolean {
+            var project = input instanceof ProjectReflection ? input : this.convert(input);
+            if (!project) return false;
+
+            out = Path.resolve(out);
+            this.renderer.render(project, out);
+            if (this.logger.hasErrors()) {
+                this.logger.error('Documentation could not be generated due to the errors above.');
+            } else {
+                this.logger.success('Documentation generated at %s', out);
+            }
+
+            return true;
+        }
+
+
+        /**
+         * @param src  A list of source that should be compiled and converted.
+         */
+        public generateJson(src:string[], out:string):boolean;
+
+        /**
+         * @param project  The project that should be converted.
+         */
+        public generateJson(project:ProjectReflection, out:string):boolean;
+
+        /**
+         * Run the converter for the given set of files and write the reflections to a json file.
+         *
+         * @param out  The path and file name of the target file.
+         * @returns TRUE if the json file could be written successfully, otherwise FALSE.
+         */
+        public generateJson(input:any, out:string):boolean {
+            var project = input instanceof ProjectReflection ? input : this.convert(input);
+            if (!project) return false;
+
+            out = Path.resolve(out);
+            writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
+            this.logger.success('JSON written to %s', out);
+
+            return true;
         }
 
 

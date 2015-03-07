@@ -1,5 +1,4 @@
 #!/usr/bin/env node
 
 var TypeDoc = require('./typedoc.js');
-var app = new TypeDoc.Application();
-app.runFromCommandline();
+new TypeDoc.Application(true);

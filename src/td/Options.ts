@@ -33,11 +33,6 @@ declare module td
         json?:string;
 
         /**
-         * Should verbose messages be printed?
-         */
-        verbose?:boolean;
-
-        /**
          * Does the user want to display the help message?
          */
         help?:boolean;
@@ -46,6 +41,11 @@ declare module td
          * Does the user want to know the version number?
          */
         version?:boolean;
+
+        /**
+         * Which logger should be used to record messages?
+         */
+        logger?:LoggerType;
     }
 }
 
@@ -82,6 +82,7 @@ module td
         mapError?:string;
         isArray?:boolean;
         defaultValue?:any;
+        convert?:(param:IParameter, value?:any) => any;
     }
 
     export interface IParameterHelp {
@@ -234,18 +235,30 @@ module td
                 name: 'theme',
                 help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
                 type: ParameterType.String
-            }, {
+            },{
                 name: 'exclude',
                 help: 'Define a pattern for excluded files when specifying paths.',
                 type: ParameterType.String
-            }, {
+            },{
                 name: 'plugin',
                 help: '',
                 type: ParameterType.String
             },{
-                name: 'verbose',
-                help: 'Print more information while TypeDoc is running.',
-                type: ParameterType.Boolean
+                name: 'logger',
+                help: 'Specify the logger that should be used, \'none\' or \'console\'',
+                defaultValue: LoggerType.Console,
+                type: ParameterType.Map,
+                map: {
+                    'none': LoggerType.None,
+                    'console': LoggerType.Console
+                },
+                convert: (param:IParameter, value?:any) => {
+                    if (typeof value == 'function') {
+                        return value;
+                    } else {
+                        return OptionsParser.convert(param, value);
+                    }
+                }
             });
         }
 
@@ -318,6 +331,8 @@ module td
          * @returns The parameter definition or NULL when not found.
          */
         getParameter(name:string):IParameter {
+            name = name.toLowerCase();
+
             if (ts.hasProperty(this.shortNames, name)) {
                 name = this.shortNames[name];
             }
@@ -345,9 +360,13 @@ module td
             }
 
             try {
-                value = OptionsParser.convert(param, value);
+                if (param.convert) {
+                    value = param.convert(param, value);
+                } else {
+                    value = OptionsParser.convert(param, value);
+                }
             } catch (error) {
-                this.application.log(error.message, LogLevel.Error);
+                this.application.logger.error(error.message);
                 return false;
             }
 
@@ -382,7 +401,7 @@ module td
                 if (!parameter) {
                     if (!ignoreUnknownArgs) {
                         var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
-                        this.application.log(msg.messageText, LogLevel.Error);
+                        this.application.logger.warn(msg.messageText);
                         result = false;
                     }
                 } else {
@@ -411,7 +430,7 @@ module td
             var error = (message:ts.DiagnosticMessage, ...args: any[]) => {
                 if (ignoreUnknownArgs) return;
                 var msg = ts.createCompilerDiagnostic.call(this, arguments);
-                this.application.log(msg.messageText, LogLevel.Error);
+                this.application.logger.error(msg.messageText);
                 result = false;
             };
 
@@ -456,7 +475,7 @@ module td
 
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                this.application.log(error.messageText, LogLevel.Error);
+                this.application.logger.error(error.messageText);
                 return false;
             }
 
@@ -475,7 +494,7 @@ module td
                         pos++;
                     } else {
                         var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        this.application.log(error.messageText, LogLevel.Error);
+                        this.application.logger.error(error.messageText);
                         return false;
                     }
                 } else {
@@ -601,7 +620,7 @@ module td
                     break;
                 case ParameterType.Map:
                     var map = <ts.Map<number>>param.map;
-                    var key = (value || "").toLowerCase();
+                    var key = value ? (value + "").toLowerCase() : '';
                     if (ts.hasProperty(map, key)) {
                         value = map[key];
                     } else if (param.mapError) {

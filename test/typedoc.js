@@ -3,23 +3,7 @@ var Path    = require("path");
 var Assert  = require("assert");
 
 describe('TypeDoc', function() {
-    var settings;
-    var application;
-
-    describe('Settings', function() {
-        var inputFiles = Path.join(__dirname, 'converter', 'class');
-
-        it('constructs', function() {
-            settings = new TypeDoc.Settings();
-        });
-        it('expands input files', function() {
-            settings.inputFiles = [inputFiles];
-            settings.expandInputFiles();
-
-            Assert.notEqual(settings.inputFiles.indexOf(Path.join(inputFiles, 'class.ts')), -1);
-            Assert.equal(settings.inputFiles.indexOf(inputFiles), -1);
-        });
-    });
+    var application, parser;
 
     describe('EventDispatcher', function() {
         var dispatcher;
@@ -97,7 +81,68 @@ describe('TypeDoc', function() {
 
     describe('Application', function() {
         it('constructs', function() {
-            application = new TypeDoc.Application(settings);
+            application = new TypeDoc.Application();
+        });
+        it('expands input files', function() {
+            var inputFiles = Path.join(__dirname, 'converter', 'class');
+            var expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.notEqual(expanded.indexOf(Path.join(inputFiles, 'class.ts')), -1);
+            Assert.equal(expanded.indexOf(inputFiles), -1);
+        });
+    });
+
+
+    describe('OptionsParser', function() {
+        beforeEach(function() {
+            application.options = {};
+            application.compilerOptions = {};
+        });
+
+        it('constructs', function() {
+            parser = new TypeDoc.OptionsParser(application);
+            application.collectParameters(parser);
+        });
+        it('reads option objects', function() {
+            parser.parseObject({
+                module:   'commonjs',
+                includes: 'inc/',
+                media:    'media/',
+                target:   'ES5',
+                noLib:    true
+            });
+            Assert.deepEqual(application.options, {
+                includes: 'inc/',
+                media: 'media/'
+            });
+            Assert.deepEqual(application.compilerOptions, {
+                module: TypeDoc.ModuleKind.CommonJS,
+                target: TypeDoc.ScriptTarget.ES5,
+                noLib: true
+            });
+        });
+        it('reads command line arguments', function() {
+            parser.addCommandLineParameters();
+            parser.parseArguments([
+                '--module', 'commonjs',
+                '--includes', 'inc/',
+                '--media', 'media/',
+                '--target', 'ES5',
+                '--noLib',
+                '--out', 'doc/',
+                'src/'
+            ]);
+            Assert.deepEqual(parser.inputFiles, ['src/']);
+            Assert.deepEqual(application.options, {
+                includes: 'inc/',
+                media: 'media/',
+                out: 'doc/'
+            });
+            Assert.deepEqual(application.compilerOptions, {
+                module: TypeDoc.ModuleKind.CommonJS,
+                target: TypeDoc.ScriptTarget.ES5,
+                noLib: true
+            });
         });
     });
 });

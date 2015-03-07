@@ -1,7 +1,7 @@
-var TD     = require("../bin/typedoc.js");
-var FS     = require('fs');
-var Path   = require('path');
-var Assert = require("assert");
+var TypeDoc = require("../bin/typedoc.js");
+var FS      = require('fs');
+var Path    = require('path');
+var Assert  = require("assert");
 
 
 function compareReflections(fixture, spec, path) {
@@ -61,11 +61,13 @@ describe('Converter', function() {
     var app;
 
     it('constructs', function() {
-        app = new TD.Application();
-        app.options.mode = TD.SourceFileMode.Modules;
-        app.compilerOptions.noLib = true;
-        app.compilerOptions.target = TD.ScriptTarget.ES5;
-        app.compilerOptions.module = TD.ModuleKind.CommonJS;
+        app = new TypeDoc.Application({
+            mode:   'Modules',
+            logger: 'none',
+            target: 'ES5',
+            module: 'CommonJS',
+            noLib:  true
+        });
     });
 
     FS.readdirSync(base).forEach(function (directory) {
@@ -76,14 +78,15 @@ describe('Converter', function() {
             var result;
 
             it('converts fixtures', function() {
-                TD.resetReflectionID();
-                result = app.converter.convert(app.expandInputFiles([path]));
+                TypeDoc.resetReflectionID();
+                result = app.convert(app.expandInputFiles([path]));
+                Assert(result instanceof TypeDoc.ProjectReflection, 'No reflection returned');
             });
 
             it('matches specs', function() {
                 var specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs.json')));
-                var data = JSON.stringify(result.project.toObject(), null, '  ');
-                data = data.split(TD.normalizePath(base)).join('%BASE%');
+                var data = JSON.stringify(result.toObject(), null, '  ');
+                data = data.split(TypeDoc.normalizePath(base)).join('%BASE%');
 
                 compareReflections(JSON.parse(data), specs);
             });

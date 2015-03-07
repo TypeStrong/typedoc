@@ -149,9 +149,11 @@ module td
                 urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
             }
 
-            project.children.forEach((child) => {
-                DefaultTheme.buildUrls(child, urls);
-            });
+            if (project.children) {
+                project.children.forEach((child) => {
+                    DefaultTheme.buildUrls(child, urls);
+                });
+            }
 
             return urls;
         }
