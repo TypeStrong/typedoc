@@ -12,6 +12,139 @@ declare module td {
     var ProgressBar: any;
     var tsPath: string;
 }
+/**
+ * The TypeDoc main module and namespace.
+ *
+ * The [[Application]] class holds the core logic of the cli application. All code related
+ * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
+ * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
+ */
+declare module td {
+    /**
+     * An interface of the application class.
+     *
+     * All classes should expect this interface allowing other third parties
+     * to use their own implementation.
+     */
+    interface IApplication {
+        /**
+         * The options used by the dispatcher and the renderer.
+         */
+        options: IOptions;
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions: ts.CompilerOptions;
+        /**
+         * The logger that should be used to output messages.
+         */
+        logger: Logger;
+    }
+    /**
+     * The default TypeDoc main application class.
+     *
+     * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
+     * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
+     * generates a [[ProjectReflection]] from the passed in source files. The
+     * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
+     * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
+     * of [[BaseTheme]] to generate the final documentation.
+     *
+     * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
+     * and emit a series of events while processing the project. Subscribe to these Events
+     * to control the application flow or alter the output.
+     */
+    class Application implements IApplication {
+        /**
+         * The options used by the dispatcher and the renderer.
+         */
+        options: IOptions;
+        /**
+         * The options used by the TypeScript compiler.
+         */
+        compilerOptions: ts.CompilerOptions;
+        /**
+         * The converter used to create the declaration reflections.
+         */
+        converter: Converter;
+        /**
+         * The renderer used to generate the documentation output.
+         */
+        renderer: Renderer;
+        /**
+         * The logger that should be used to output messages.
+         */
+        logger: Logger;
+        /**
+         * The version number of the loaded TypeScript compiler.
+         * Cached return value of [[Application.getTypeScriptVersion]]
+         */
+        private typeScriptVersion;
+        /**
+         * The version number of TypeDoc.
+         */
+        static VERSION: string;
+        /**
+         * @param options An object containing the options that should be used.
+         */
+        constructor(options?: IOptions);
+        /**
+         * @param fromCommandLine  TRUE if the application should execute in command line mode.
+         */
+        constructor(fromCommandLine: boolean);
+        private bootstrap();
+        /**
+         * Run TypeDoc from the command line.
+         */
+        private bootstrapFromCommandline();
+        private bootstrapWithOptions(options?);
+        collectParameters(parser: OptionsParser): void;
+        /**
+         * Run the converter for the given set of files and return the generated reflections.
+         *
+         * @param src  A list of source that should be compiled and converted.
+         * @returns An instance of ProjectReflection on success, NULL otherwise.
+         */
+        convert(src: string[]): ProjectReflection;
+        /**
+         * @param src  A list of source files whose documentation should be generated.
+         */
+        generateDocs(src: string[], out: string): boolean;
+        /**
+         * @param project  The project the documentation should be generated for.
+         */
+        generateDocs(project: ProjectReflection, out: string): boolean;
+        /**
+         * @param src  A list of source that should be compiled and converted.
+         */
+        generateJson(src: string[], out: string): boolean;
+        /**
+         * @param project  The project that should be converted.
+         */
+        generateJson(project: ProjectReflection, out: string): boolean;
+        /**
+         * Expand a list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the ```--exclude``` option
+         * to filter out files with a pattern.
+         *
+         * @param inputFiles  The list of files that should be expanded.
+         * @returns  The list of input files with expanded directories.
+         */
+        expandInputFiles(inputFiles?: string[]): string[];
+        /**
+         * Return the version number of the loaded TypeScript compiler.
+         *
+         * @returns The version number of the loaded TypeScript package.
+         */
+        getTypeScriptVersion(): string;
+        /**
+         * Print the version number.
+         */
+        toString(): string;
+    }
+}
 declare module td {
     interface IListener {
         handler: Function;
@@ -82,55 +215,128 @@ declare module td {
     }
 }
 declare module td {
-    enum ModuleKind {
+    /**
+     * List of known log levels. Used to specify the urgency of a log message.
+     */
+    enum LogLevel {
+        Info = 0,
+        Warn = 1,
+        Error = 2,
+        Success = 3,
+    }
+    enum LoggerType {
         None = 0,
-        CommonJS = 1,
-        AMD = 2,
+        Console = 1,
     }
-    enum ScriptTarget {
-        ES3 = 0,
-        ES5 = 1,
-        ES6 = 2,
-        Latest = 2,
+    /**
+     * A logger that will not produce any output.
+     *
+     * This logger also serves as the ase calls of other loggers as it implements
+     * all the required utility functions.
+     */
+    class Logger {
+        /**
+         * How many error messages have been logged?
+         */
+        errorCount: number;
+        /**
+         * Has an error been raised through the log method?
+         */
+        hasErrors(): boolean;
+        /**
+         * Log the given message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        write(text: string, ...args: string[]): void;
+        /**
+         * Log the given message with a trailing whitespace.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        writeln(text: string, ...args: string[]): void;
+        /**
+         * Log the given success message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        success(text: string, ...args: string[]): void;
+        /**
+         * Log the given warning.
+         *
+         * @param text  The warning that should be logged.
+         * @param args  The arguments that should be printed into the given warning.
+         */
+        warn(text: string, ...args: string[]): void;
+        /**
+         * Log the given error.
+         *
+         * @param text  The error that should be logged.
+         * @param args  The arguments that should be printed into the given error.
+         */
+        error(text: string, ...args: string[]): void;
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        log(message: string, level?: LogLevel, newLine?: boolean): void;
+        /**
+         * Print the given TypeScript log messages.
+         *
+         * @param diagnostics  The TypeScript messages that should be logged.
+         */
+        diagnostics(diagnostics: ts.Diagnostic[]): void;
+        /**
+         * Print the given TypeScript log message.
+         *
+         * @param diagnostic  The TypeScript message that should be logged.
+         */
+        diagnostic(diagnostic: ts.Diagnostic): void;
     }
-    enum SourceFileMode {
-        File = 0,
-        Modules = 1,
+    /**
+     * A logger that outputs all messages to the console.
+     */
+    class ConsoleLogger extends Logger {
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        log(message: string, level?: LogLevel, newLine?: boolean): void;
     }
-    interface IParameter {
-        name: string;
-        short?: string;
-        help: string;
-        type?: ParameterType;
-        hint?: ParameterHint;
-        scope?: ParameterScope;
-        map?: {};
-        mapError?: string;
-        isArray?: boolean;
-        defaultValue?: any;
+    /**
+     * A logger that calls a callback function.
+     */
+    class CallbackLogger extends Logger {
+        /**
+         * This loggers callback function
+         */
+        callback: Function;
+        /**
+         * Create a new CallbackLogger instance.
+         *
+         * @param callback  The callback that should be used to log messages.
+         */
+        constructor(callback: Function);
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        log(message: string, level?: LogLevel, newLine?: boolean): void;
     }
-    interface IParameterHelp {
-        marginLength: number;
-        usage: string[];
-        description: string[];
-    }
-    interface IParameterProvider {
-        getParameters(): IParameter[];
-    }
-    enum ParameterHint {
-        File = 0,
-        Directory = 1,
-    }
-    enum ParameterType {
-        String = 0,
-        Number = 1,
-        Boolean = 2,
-        Map = 3,
-    }
-    enum ParameterScope {
-        TypeDoc = 0,
-        TypeScript = 1,
-    }
+}
+declare module td {
     /**
      * Options object interface declaration.
      *
@@ -158,10 +364,6 @@ declare module td {
          */
         json?: string;
         /**
-         * Should verbose messages be printed?
-         */
-        verbose?: boolean;
-        /**
          * Does the user want to display the help message?
          */
         help?: boolean;
@@ -169,19 +371,67 @@ declare module td {
          * Does the user want to know the version number?
          */
         version?: boolean;
+        /**
+         * Which logger should be used to record messages?
+         */
+        logger?: LoggerType;
+    }
+}
+declare module td {
+    enum ModuleKind {
+        None = 0,
+        CommonJS = 1,
+        AMD = 2,
+    }
+    enum ScriptTarget {
+        ES3 = 0,
+        ES5 = 1,
+        ES6 = 2,
+        Latest = 2,
+    }
+    enum SourceFileMode {
+        File = 0,
+        Modules = 1,
+    }
+    interface IParameter {
+        name: string;
+        short?: string;
+        help: string;
+        type?: ParameterType;
+        hint?: ParameterHint;
+        scope?: ParameterScope;
+        map?: {};
+        mapError?: string;
+        isArray?: boolean;
+        defaultValue?: any;
+        convert?: (param: IParameter, value?: any) => any;
+    }
+    interface IParameterHelp {
+        marginLength: number;
+        usage: string[];
+        description: string[];
+    }
+    interface IParameterProvider {
+        getParameters(): IParameter[];
+    }
+    enum ParameterHint {
+        File = 0,
+        Directory = 1,
+    }
+    enum ParameterType {
+        String = 0,
+        Number = 1,
+        Boolean = 2,
+        Map = 3,
+    }
+    enum ParameterScope {
+        TypeDoc = 0,
+        TypeScript = 1,
     }
     /**
      * A parser that can read command line arguments, option files and javascript objects.
      */
     class OptionsParser {
-        /**
-         * The parsed TypeDoc options.
-         */
-        options: IOptions;
-        /**
-         * The parsed TypeScript compiler options.
-         */
-        compilerOptions: ts.CompilerOptions;
         /**
          * The list of discovered input files.
          */
@@ -209,11 +459,13 @@ declare module td {
          */
         constructor(application: IApplication);
         /**
-         * Register a parameter definition.
-         *
          * @param parameters One or multiple parameter definitions that should be registered.
          */
-        addParameter(...parameters: IParameter[]): void;
+        addParameter(parameters: IParameter[]): any;
+        /**
+         * @param rest One or multiple parameter definitions that should be registered.
+         */
+        addParameter(...rest: IParameter[]): any;
         /**
          * Register the command line parameters.
          */
@@ -250,12 +502,6 @@ declare module td {
          * @returns TRUE on success, otherwise FALSE.
          */
         setOption(param: IParameter, value?: any): boolean;
-        /**
-         * Reset the output data of this parser instance.
-         *
-         * This will not reset the registered parameters!
-         */
-        reset(): void;
         /**
          * Apply the values of the given options object.
          *
@@ -312,142 +558,6 @@ declare module td {
         static createCompilerOptions(): ts.CompilerOptions;
     }
 }
-/**
- * The TypeDoc main module and namespace.
- *
- * The [[Application]] class holds the core logic of the cli application. All code related
- * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
- * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
- */
-declare module td {
-    /**
-     * List of known log levels. Used to specify the urgency of a log message.
-     *
-     * @see [[Application.log]]
-     */
-    enum LogLevel {
-        Verbose = 0,
-        Info = 1,
-        Warn = 2,
-        Error = 3,
-    }
-    interface ILogger {
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level  The urgency of the log message.
-         */
-        log(message: string, level?: LogLevel): void;
-    }
-    /**
-     * An interface of the application class.
-     *
-     * All classes should expect this interface allowing other third parties
-     * to use their own implementation.
-     */
-    interface IApplication extends ILogger {
-        /**
-         * The options used by the dispatcher and the renderer.
-         */
-        options: IOptions;
-        /**
-         * The options used by the TypeScript compiler.
-         */
-        compilerOptions: ts.CompilerOptions;
-    }
-    function normalizePath(path: string): string;
-    function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
-    /**
-     * The default TypeDoc main application class.
-     *
-     * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
-     * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
-     * generates a [[ProjectReflection]] from the passed in source files. The
-     * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
-     * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
-     * of [[BaseTheme]] to generate the final documentation.
-     *
-     * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
-     * and emit a series of events while processing the project. Subscribe to these Events
-     * to control the application flow or alter the output.
-     */
-    class Application implements ILogger, IApplication {
-        /**
-         * The options used by the dispatcher and the renderer.
-         */
-        options: IOptions;
-        /**
-         * The options used by the TypeScript compiler.
-         */
-        compilerOptions: ts.CompilerOptions;
-        /**
-         * The converter used to create the declaration reflections.
-         */
-        converter: Converter;
-        /**
-         * The renderer used to generate the documentation output.
-         */
-        renderer: Renderer;
-        /**
-         * Has an error been raised through the log method?
-         */
-        hasErrors: boolean;
-        /**
-         * The version number of the loaded TypeScript compiler. Cached return value of [[Application.getTypeScriptVersion]]
-         */
-        private typeScriptVersion;
-        /**
-         * The version number of TypeDoc.
-         */
-        static VERSION: string;
-        /**
-         * Create a new Application instance.
-         */
-        constructor();
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level    The urgency of the log message.
-         */
-        log(message: string, level?: LogLevel): void;
-        logDiagnostics(diagnostics: ts.Diagnostic[]): void;
-        /**
-         * Run the documentation generator for the given set of files.
-         *
-         * @param src  A list of source files whose documentation should be generated.
-         * @param out  The path of the directory the documentation should be written to.
-         */
-        generateDocs(src: string[], out: string): boolean;
-        generateJson(src: string[], out: string): boolean;
-        /**
-         * Run TypeDoc from the command line.
-         */
-        runFromCommandline(): void;
-        /**
-         * Expand a list of input files.
-         *
-         * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the ```--exclude``` option
-         * to filter out files with a pattern.
-         *
-         * @param inputFiles  The list of files that should be expanded.
-         * @returns  The list of input files with expanded directories.
-         */
-        expandInputFiles(inputFiles?: string[]): string[];
-        /**
-         * Return the version number of the loaded TypeScript compiler.
-         *
-         * @returns The version number of the loaded TypeScript package.
-         */
-        getTypeScriptVersion(): string;
-        /**
-         * Print the version number.
-         */
-        toString(): string;
-    }
-}
 declare module td {
     interface IPluginInterface {
         remove(): any;
@@ -478,6 +588,10 @@ declare module td {
         static registerPlugin<T extends IPluginInterface>(name: string, pluginClass: IPluginClass<T>): void;
         static loadPlugins<T extends IPluginInterface>(instance: PluginHost<T>): void;
     }
+}
+declare module td {
+    function normalizePath(path: string): string;
+    function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
 }
 declare module td {
     /**
@@ -610,6 +724,8 @@ declare module td {
          */
         excludeExternals?: boolean;
     }
+}
+declare module td {
     interface IConverterResult {
         project: any;
         errors: ts.Diagnostic[];
@@ -1052,6 +1168,8 @@ declare module td {
          */
         readme?: string;
     }
+}
+declare module td {
     /**
      * A handler that tries to find the package.json and readme.md files of the
      * current project.
@@ -2843,6 +2961,8 @@ declare module td {
          */
         media?: string;
     }
+}
+declare module td {
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *
@@ -3126,6 +3246,8 @@ declare module td {
          */
         hideGenerator?: boolean;
     }
+}
+declare module td {
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
      *

@@ -39,6 +39,220 @@ eval((function () {
     var contents = td.FS.readFileSync(fileName, 'utf-8');
     return contents.replace('ts.executeCommandLine(ts.sys.args);', '');
 })());
+/**
+ * The TypeDoc main module and namespace.
+ *
+ * The [[Application]] class holds the core logic of the cli application. All code related
+ * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
+ * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
+ */
+var td;
+(function (td) {
+    /**
+     * The default TypeDoc main application class.
+     *
+     * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
+     * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
+     * generates a [[ProjectReflection]] from the passed in source files. The
+     * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
+     * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
+     * of [[BaseTheme]] to generate the final documentation.
+     *
+     * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
+     * and emit a series of events while processing the project. Subscribe to these Events
+     * to control the application flow or alter the output.
+     */
+    var Application = (function () {
+        /**
+         * Create a new TypeDoc Application instance.
+         */
+        function Application(arg) {
+            this.converter = new td.Converter(this);
+            this.renderer = new td.Renderer(this);
+            this.logger = new td.ConsoleLogger();
+            this.options = td.OptionsParser.createOptions();
+            this.compilerOptions = td.OptionsParser.createCompilerOptions();
+            if (!arg || typeof arg == 'object') {
+                this.bootstrapWithOptions(arg);
+            }
+            else if (arg === true) {
+                this.bootstrapFromCommandline();
+            }
+        }
+        Application.prototype.bootstrap = function () {
+            if (typeof this.options.logger == 'function') {
+                this.logger = new td.CallbackLogger(this.options.logger);
+            }
+            else if (this.options.logger == 0 /* None */) {
+                this.logger = new td.Logger();
+            }
+        };
+        /**
+         * Run TypeDoc from the command line.
+         */
+        Application.prototype.bootstrapFromCommandline = function () {
+            var parser = new td.OptionsParser(this);
+            parser.addCommandLineParameters();
+            parser.parseArguments(null, true);
+            this.bootstrap();
+            this.collectParameters(parser);
+            if (!parser.parseArguments()) {
+                return;
+            }
+            if (this.options.version) {
+                ts.sys.write(this.toString());
+            }
+            else if (parser.inputFiles.length === 0 || this.options.help) {
+                ts.sys.write(parser.toString());
+            }
+            else if (!this.options.out && !this.options.json) {
+                this.logger.error("You must either specify the 'out' or 'json' option.");
+            }
+            else {
+                var src = this.expandInputFiles(parser.inputFiles);
+                var project = this.convert(src);
+                if (project) {
+                    if (this.options.out)
+                        this.generateDocs(project, this.options.out);
+                    if (this.options.json)
+                        this.generateJson(project, this.options.json);
+                }
+            }
+        };
+        Application.prototype.bootstrapWithOptions = function (options) {
+            var parser = new td.OptionsParser(this);
+            parser.parseObject(options, true);
+            this.bootstrap();
+            this.collectParameters(parser);
+            parser.parseObject(options);
+        };
+        Application.prototype.collectParameters = function (parser) {
+            parser.addParameter(this.converter.getParameters());
+            parser.addParameter(this.renderer.getParameters());
+        };
+        /**
+         * Run the converter for the given set of files and return the generated reflections.
+         *
+         * @param src  A list of source that should be compiled and converted.
+         * @returns An instance of ProjectReflection on success, NULL otherwise.
+         */
+        Application.prototype.convert = function (src) {
+            this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath);
+            var result = this.converter.convert(src);
+            if (result.errors && result.errors.length) {
+                this.logger.diagnostics(result.errors);
+                return null;
+            }
+            else {
+                return result.project;
+            }
+        };
+        /**
+         * Run the documentation generator for the given set of files.
+         *
+         * @param out  The path the documentation should be written to.
+         * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
+         */
+        Application.prototype.generateDocs = function (input, out) {
+            var project = input instanceof td.ProjectReflection ? input : this.convert(input);
+            if (!project)
+                return false;
+            out = td.Path.resolve(out);
+            this.renderer.render(project, out);
+            if (this.logger.hasErrors()) {
+                this.logger.error('Documentation could not be generated due to the errors above.');
+            }
+            else {
+                this.logger.success('Documentation generated at %s', out);
+            }
+            return true;
+        };
+        /**
+         * Run the converter for the given set of files and write the reflections to a json file.
+         *
+         * @param out  The path and file name of the target file.
+         * @returns TRUE if the json file could be written successfully, otherwise FALSE.
+         */
+        Application.prototype.generateJson = function (input, out) {
+            var project = input instanceof td.ProjectReflection ? input : this.convert(input);
+            if (!project)
+                return false;
+            out = td.Path.resolve(out);
+            td.writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
+            this.logger.success('JSON written to %s', out);
+            return true;
+        };
+        /**
+         * Expand a list of input files.
+         *
+         * Searches for directories in the input files list and replaces them with a
+         * listing of all TypeScript files within them. One may use the ```--exclude``` option
+         * to filter out files with a pattern.
+         *
+         * @param inputFiles  The list of files that should be expanded.
+         * @returns  The list of input files with expanded directories.
+         */
+        Application.prototype.expandInputFiles = function (inputFiles) {
+            var exclude, files = [];
+            if (this.options.exclude) {
+                exclude = new td.Minimatch.Minimatch(this.options.exclude);
+            }
+            function add(dirname) {
+                td.FS.readdirSync(dirname).forEach(function (file) {
+                    var realpath = td.Path.join(dirname, file);
+                    if (td.FS.statSync(realpath).isDirectory()) {
+                        add(realpath);
+                    }
+                    else if (/\.ts$/.test(realpath)) {
+                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+                        files.push(realpath);
+                    }
+                });
+            }
+            inputFiles.forEach(function (file) {
+                file = td.Path.resolve(file);
+                if (td.FS.statSync(file).isDirectory()) {
+                    add(file);
+                }
+                else {
+                    files.push(file);
+                }
+            });
+            return files;
+        };
+        /**
+         * Return the version number of the loaded TypeScript compiler.
+         *
+         * @returns The version number of the loaded TypeScript package.
+         */
+        Application.prototype.getTypeScriptVersion = function () {
+            if (!this.typeScriptVersion) {
+                var json = JSON.parse(td.FS.readFileSync(td.Path.join(td.tsPath, '..', 'package.json'), 'utf8'));
+                this.typeScriptVersion = json.version;
+            }
+            return this.typeScriptVersion;
+        };
+        /**
+         * Print the version number.
+         */
+        Application.prototype.toString = function () {
+            return [
+                '',
+                'TypeDoc ' + Application.VERSION,
+                'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + td.tsPath,
+                ''
+            ].join(ts.sys.newLine);
+        };
+        /**
+         * The version number of TypeDoc.
+         */
+        Application.VERSION = '0.2.3';
+        return Application;
+    })();
+    td.Application = Application;
+})(td || (td = {}));
 var td;
 (function (td) {
     /**
@@ -182,6 +396,233 @@ var td;
     })();
     td.EventDispatcher = EventDispatcher;
 })(td || (td = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var td;
+(function (td) {
+    /**
+     * List of known log levels. Used to specify the urgency of a log message.
+     */
+    (function (LogLevel) {
+        LogLevel[LogLevel["Info"] = 0] = "Info";
+        LogLevel[LogLevel["Warn"] = 1] = "Warn";
+        LogLevel[LogLevel["Error"] = 2] = "Error";
+        LogLevel[LogLevel["Success"] = 3] = "Success";
+    })(td.LogLevel || (td.LogLevel = {}));
+    var LogLevel = td.LogLevel;
+    (function (LoggerType) {
+        LoggerType[LoggerType["None"] = 0] = "None";
+        LoggerType[LoggerType["Console"] = 1] = "Console";
+    })(td.LoggerType || (td.LoggerType = {}));
+    var LoggerType = td.LoggerType;
+    /**
+     * A logger that will not produce any output.
+     *
+     * This logger also serves as the ase calls of other loggers as it implements
+     * all the required utility functions.
+     */
+    var Logger = (function () {
+        function Logger() {
+            /**
+             * How many error messages have been logged?
+             */
+            this.errorCount = 0;
+        }
+        /**
+         * Has an error been raised through the log method?
+         */
+        Logger.prototype.hasErrors = function () {
+            return this.errorCount > 0;
+        };
+        /**
+         * Log the given message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        Logger.prototype.write = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), 0 /* Info */);
+        };
+        /**
+         * Log the given message with a trailing whitespace.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        Logger.prototype.writeln = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), 0 /* Info */, true);
+        };
+        /**
+         * Log the given success message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        Logger.prototype.success = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), 3 /* Success */);
+        };
+        /**
+         * Log the given warning.
+         *
+         * @param text  The warning that should be logged.
+         * @param args  The arguments that should be printed into the given warning.
+         */
+        Logger.prototype.warn = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), 1 /* Warn */);
+        };
+        /**
+         * Log the given error.
+         *
+         * @param text  The error that should be logged.
+         * @param args  The arguments that should be printed into the given error.
+         */
+        Logger.prototype.error = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), 2 /* Error */);
+        };
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        Logger.prototype.log = function (message, level, newLine) {
+            if (level === void 0) { level = 0 /* Info */; }
+            if (level == 2 /* Error */) {
+                this.errorCount += 1;
+            }
+        };
+        /**
+         * Print the given TypeScript log messages.
+         *
+         * @param diagnostics  The TypeScript messages that should be logged.
+         */
+        Logger.prototype.diagnostics = function (diagnostics) {
+            var _this = this;
+            diagnostics.forEach(function (diagnostic) {
+                _this.diagnostic(diagnostic);
+            });
+        };
+        /**
+         * Print the given TypeScript log message.
+         *
+         * @param diagnostic  The TypeScript message that should be logged.
+         */
+        Logger.prototype.diagnostic = function (diagnostic) {
+            var output;
+            if (diagnostic.file) {
+                output = diagnostic.file.filename;
+                output += '(' + diagnostic.file.getLineAndCharacterFromPosition(diagnostic.start).line + ')';
+                output += ts.sys.newLine + ' ' + diagnostic.messageText;
+            }
+            else {
+                output = diagnostic.messageText;
+            }
+            switch (diagnostic.category) {
+                case 1 /* Error */:
+                    this.log(output, 2 /* Error */);
+                    break;
+                case 0 /* Warning */:
+                    this.log(output, 1 /* Warn */);
+                    break;
+                case 2 /* Message */:
+                    this.log(output, 0 /* Info */);
+            }
+        };
+        return Logger;
+    })();
+    td.Logger = Logger;
+    /**
+     * A logger that outputs all messages to the console.
+     */
+    var ConsoleLogger = (function (_super) {
+        __extends(ConsoleLogger, _super);
+        function ConsoleLogger() {
+            _super.apply(this, arguments);
+        }
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        ConsoleLogger.prototype.log = function (message, level, newLine) {
+            if (level === void 0) { level = 0 /* Info */; }
+            if (level == 2 /* Error */) {
+                this.errorCount += 1;
+            }
+            var output = '';
+            if (level == 2 /* Error */)
+                output += 'Error: ';
+            if (level == 1 /* Warn */)
+                output += 'Warning: ';
+            output += message;
+            if (newLine || level == 3 /* Success */)
+                ts.sys.write(ts.sys.newLine);
+            ts.sys.write(output + ts.sys.newLine);
+            if (level == 3 /* Success */)
+                ts.sys.write(ts.sys.newLine);
+        };
+        return ConsoleLogger;
+    })(Logger);
+    td.ConsoleLogger = ConsoleLogger;
+    /**
+     * A logger that calls a callback function.
+     */
+    var CallbackLogger = (function (_super) {
+        __extends(CallbackLogger, _super);
+        /**
+         * Create a new CallbackLogger instance.
+         *
+         * @param callback  The callback that should be used to log messages.
+         */
+        function CallbackLogger(callback) {
+            _super.call(this);
+            this.callback = callback;
+        }
+        /**
+         * Print a log message.
+         *
+         * @param message  The message itself.
+         * @param level  The urgency of the log message.
+         * @param newLine  Should the logger print a trailing whitespace?
+         */
+        CallbackLogger.prototype.log = function (message, level, newLine) {
+            if (level === void 0) { level = 0 /* Info */; }
+            if (level == 2 /* Error */) {
+                this.errorCount += 1;
+            }
+            this.callback(message, level, newLine);
+        };
+        return CallbackLogger;
+    })(Logger);
+    td.CallbackLogger = CallbackLogger;
+})(td || (td = {}));
 var td;
 (function (td) {
     (function (ModuleKind) {
@@ -230,6 +671,10 @@ var td;
          */
         function OptionsParser(application) {
             /**
+             * The list of discovered input files.
+             */
+            this.inputFiles = [];
+            /**
              * Map of parameter names and their definitions.
              */
             this.arguments = {};
@@ -238,33 +683,34 @@ var td;
              */
             this.shortNames = {};
             this.application = application;
-            this.reset();
             this.addDefaultParameters();
             this.addCompilerParameters();
         }
         /**
-         * Register a parameter definition.
-         *
-         * @param parameters One or multiple parameter definitions that should be registered.
+         * Register one or multiple parameter definitions.
          */
         OptionsParser.prototype.addParameter = function () {
             var _this = this;
-            var parameters = [];
+            var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
-                parameters[_i - 0] = arguments[_i];
+                args[_i - 0] = arguments[_i];
             }
-            parameters.forEach(function (parameter) {
-                parameter.type = parameter.type || 0 /* String */;
-                parameter.scope = parameter.scope || 0 /* TypeDoc */;
-                _this.arguments[parameter.name.toLowerCase()] = parameter;
-                if (parameter.short) {
-                    _this.shortNames[parameter.short.toLowerCase()] = parameter.name;
+            args.forEach(function (param) {
+                if (td.Util.isArray(param)) {
+                    _this.addParameter.apply(_this, param);
+                    return;
                 }
-                if (parameter.defaultValue && !parameter.isArray) {
-                    var name = parameter.name;
-                    var target = (parameter.scope == 0 /* TypeDoc */) ? _this.options : _this.compilerOptions;
+                param.type = param.type || 0 /* String */;
+                param.scope = param.scope || 0 /* TypeDoc */;
+                _this.arguments[param.name.toLowerCase()] = param;
+                if (param.short) {
+                    _this.shortNames[param.short.toLowerCase()] = param.name;
+                }
+                if (param.defaultValue && !param.isArray) {
+                    var name = param.name;
+                    var target = (param.scope == 0 /* TypeDoc */) ? _this.application.options : _this.application.compilerOptions;
                     if (!target[name]) {
-                        target[name] = parameter.defaultValue;
+                        target[name] = param.defaultValue;
                     }
                 }
             });
@@ -310,9 +756,22 @@ var td;
                 help: '',
                 type: 0 /* String */
             }, {
-                name: 'verbose',
-                help: 'Print more information while TypeDoc is running.',
-                type: 2 /* Boolean */
+                name: 'logger',
+                help: 'Specify the logger that should be used, \'none\' or \'console\'',
+                defaultValue: 1 /* Console */,
+                type: 3 /* Map */,
+                map: {
+                    'none': 0 /* None */,
+                    'console': 1 /* Console */
+                },
+                convert: function (param, value) {
+                    if (typeof value == 'function') {
+                        return value;
+                    }
+                    else {
+                        return OptionsParser.convert(param, value);
+                    }
+                }
             });
         };
         /**
@@ -328,7 +787,7 @@ var td;
                     name: option.name,
                     short: option.shortName,
                     help: option.description ? option.description.key : null,
-                    scope: 0 /* TypeDoc */
+                    scope: 1 /* TypeScript */
                 };
                 switch (option.type) {
                     case "number":
@@ -377,6 +836,7 @@ var td;
          * @returns The parameter definition or NULL when not found.
          */
         OptionsParser.prototype.getParameter = function (name) {
+            name = name.toLowerCase();
             if (ts.hasProperty(this.shortNames, name)) {
                 name = this.shortNames[name];
             }
@@ -402,14 +862,19 @@ var td;
                 return result;
             }
             try {
-                value = OptionsParser.convert(param, value);
+                if (param.convert) {
+                    value = param.convert(param, value);
+                }
+                else {
+                    value = OptionsParser.convert(param, value);
+                }
             }
             catch (error) {
-                this.application.log(error.message, 3 /* Error */);
+                this.application.logger.error(error.message);
                 return false;
             }
             var name = param.name;
-            var target = (param.scope == 0 /* TypeDoc */) ? this.options : this.compilerOptions;
+            var target = (param.scope == 0 /* TypeDoc */) ? this.application.options : this.application.compilerOptions;
             if (param.isArray) {
                 (target[name] = target[name] || []).push(value);
             }
@@ -417,16 +882,6 @@ var td;
                 target[name] = value;
             }
             return true;
-        };
-        /**
-         * Reset the output data of this parser instance.
-         *
-         * This will not reset the registered parameters!
-         */
-        OptionsParser.prototype.reset = function () {
-            this.options = OptionsParser.createOptions();
-            this.compilerOptions = OptionsParser.createCompilerOptions();
-            this.inputFiles = [];
         };
         /**
          * Apply the values of the given options object.
@@ -437,6 +892,8 @@ var td;
          * @returns TRUE on success, otherwise FALSE.
          */
         OptionsParser.prototype.parseObject = function (obj, ignoreUnknownArgs) {
+            if (typeof obj != 'object')
+                return true;
             var result = true;
             for (var key in obj) {
                 if (!obj.hasOwnProperty(key))
@@ -445,7 +902,7 @@ var td;
                 if (!parameter) {
                     if (!ignoreUnknownArgs) {
                         var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
-                        this.application.log(msg.messageText, 3 /* Error */);
+                        this.application.logger.warn(msg.messageText);
                         result = false;
                     }
                 }
@@ -468,7 +925,7 @@ var td;
             var _this = this;
             var index = 0;
             var result = true;
-            args = args || process.argv.splice(2);
+            args = args || process.argv.slice(2);
             var error = function (message) {
                 var args = [];
                 for (var _i = 1; _i < arguments.length; _i++) {
@@ -477,7 +934,7 @@ var td;
                 if (ignoreUnknownArgs)
                     return;
                 var msg = ts.createCompilerDiagnostic.call(_this, arguments);
-                _this.application.log(msg.messageText, 3 /* Error */);
+                _this.application.logger.error(msg.messageText);
                 result = false;
             };
             while (index < args.length) {
@@ -500,7 +957,7 @@ var td;
                         }
                     }
                     else {
-                        result = this.setOption(parameter) && result;
+                        result = this.setOption(parameter, true) && result;
                     }
                 }
                 else if (!ignoreUnknownArgs) {
@@ -520,7 +977,7 @@ var td;
             var text = ts.sys.readFile(filename);
             if (!text) {
                 var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                this.application.log(error.messageText, 3 /* Error */);
+                this.application.logger.error(error.messageText);
                 return false;
             }
             var args = [];
@@ -541,7 +998,7 @@ var td;
                     }
                     else {
                         var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        this.application.log(error.messageText, 3 /* Error */);
+                        this.application.logger.error(error.messageText);
                         return false;
                     }
                 }
@@ -652,7 +1109,7 @@ var td;
                     break;
                 case 3 /* Map */:
                     var map = param.map;
-                    var key = (value || "").toLowerCase();
+                    var key = value ? (value + "").toLowerCase() : '';
                     if (ts.hasProperty(map, key)) {
                         value = map[key];
                     }
@@ -705,280 +1162,6 @@ var td;
     })();
     td.OptionsParser = OptionsParser;
 })(td || (td = {}));
-/// <reference path="EventDispatcher.ts" />
-/// <reference path="Settings.ts" />
-/**
- * The TypeDoc main module and namespace.
- *
- * The [[Application]] class holds the core logic of the cli application. All code related
- * to resolving reflections is stored in [[TypeDoc.Factories]], the actual data models can be found
- * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
- */
-var td;
-(function (td) {
-    /**
-     * List of known log levels. Used to specify the urgency of a log message.
-     *
-     * @see [[Application.log]]
-     */
-    (function (LogLevel) {
-        LogLevel[LogLevel["Verbose"] = 0] = "Verbose";
-        LogLevel[LogLevel["Info"] = 1] = "Info";
-        LogLevel[LogLevel["Warn"] = 2] = "Warn";
-        LogLevel[LogLevel["Error"] = 3] = "Error";
-    })(td.LogLevel || (td.LogLevel = {}));
-    var LogLevel = td.LogLevel;
-    var existingDirectories = {};
-    function normalizePath(path) {
-        return ts.normalizePath(path);
-    }
-    td.normalizePath = normalizePath;
-    function writeFile(fileName, data, writeByteOrderMark, onError) {
-        function directoryExists(directoryPath) {
-            if (ts.hasProperty(existingDirectories, directoryPath)) {
-                return true;
-            }
-            if (ts.sys.directoryExists(directoryPath)) {
-                existingDirectories[directoryPath] = true;
-                return true;
-            }
-            return false;
-        }
-        function ensureDirectoriesExist(directoryPath) {
-            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
-                var parentDirectory = ts.getDirectoryPath(directoryPath);
-                ensureDirectoriesExist(parentDirectory);
-                ts.sys.createDirectory(directoryPath);
-            }
-        }
-        try {
-            ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
-            ts.sys.writeFile(fileName, data, writeByteOrderMark);
-        }
-        catch (e) {
-            if (onError)
-                onError(e.message);
-        }
-    }
-    td.writeFile = writeFile;
-    /**
-     * The default TypeDoc main application class.
-     *
-     * This class holds the two main components of TypeDoc, the [[Dispatcher]] and
-     * the [[Renderer]]. When running TypeDoc, first the [[Dispatcher]] is invoked which
-     * generates a [[ProjectReflection]] from the passed in source files. The
-     * [[ProjectReflection]] is a hierarchical model representation of the TypeScript
-     * project. Afterwards the model is passed to the [[Renderer]] which uses an instance
-     * of [[BaseTheme]] to generate the final documentation.
-     *
-     * Both the [[Dispatcher]] and the [[Renderer]] are subclasses of the [[EventDispatcher]]
-     * and emit a series of events while processing the project. Subscribe to these Events
-     * to control the application flow or alter the output.
-     */
-    var Application = (function () {
-        /**
-         * Create a new Application instance.
-         */
-        function Application() {
-            /**
-             * Has an error been raised through the log method?
-             */
-            this.hasErrors = false;
-            this.converter = new td.Converter(this);
-            this.renderer = new td.Renderer(this);
-            this.options = td.OptionsParser.createOptions();
-            this.compilerOptions = td.OptionsParser.createCompilerOptions();
-        }
-        /**
-         * Print a log message.
-         *
-         * @param message  The message itself.
-         * @param level    The urgency of the log message.
-         */
-        Application.prototype.log = function (message, level) {
-            if (level === void 0) { level = 1 /* Info */; }
-            if (level == 3 /* Error */) {
-                this.hasErrors = true;
-            }
-            if (level != 0 /* Verbose */ || this.options.verbose) {
-                var output = '';
-                if (level == 3 /* Error */)
-                    output += 'Error: ';
-                if (level == 2 /* Warn */)
-                    output += 'Warning: ';
-                output += message;
-                ts.sys.write(output + ts.sys.newLine);
-            }
-        };
-        Application.prototype.logDiagnostics = function (diagnostics) {
-            var _this = this;
-            diagnostics.forEach(function (msg) {
-                var output;
-                if (msg.file) {
-                    output = msg.file.filename;
-                    output += '(' + msg.file.getLineAndCharacterFromPosition(msg.start).line + ')';
-                    output += ts.sys.newLine + ' ' + msg.messageText;
-                }
-                else {
-                    output = msg.messageText;
-                }
-                switch (msg.category) {
-                    case 1 /* Error */:
-                        _this.log(output, 3 /* Error */);
-                        break;
-                    case 0 /* Warning */:
-                        _this.log(output, 2 /* Warn */);
-                        break;
-                    case 2 /* Message */:
-                        _this.log(output, 1 /* Info */);
-                }
-            });
-        };
-        /**
-         * Run the documentation generator for the given set of files.
-         *
-         * @param src  A list of source files whose documentation should be generated.
-         * @param out  The path of the directory the documentation should be written to.
-         */
-        Application.prototype.generateDocs = function (src, out) {
-            var result = this.converter.convert(src);
-            if (result.errors && result.errors.length) {
-                this.logDiagnostics(result.errors);
-                return false;
-            }
-            this.renderer.render(result.project, out);
-            if (this.hasErrors) {
-                ts.sys.write(ts.sys.newLine);
-                this.log('Documentation could not be generated due to the errors above.');
-            }
-            else {
-                this.log(td.Util.format('Documentation generated at %s', out));
-            }
-            return true;
-        };
-        Application.prototype.generateJson = function (src, out) {
-            var result = this.converter.convert(src);
-            if (result.errors && result.errors.length) {
-                this.logDiagnostics(result.errors);
-                return false;
-            }
-            writeFile(out, JSON.stringify(result.project.toObject(), null, '\t'), false);
-            this.log(td.Util.format('JSON written to %s', out));
-            return true;
-        };
-        /**
-         * Run TypeDoc from the command line.
-         */
-        Application.prototype.runFromCommandline = function () {
-            var parser = new td.OptionsParser(this);
-            parser.addCommandLineParameters();
-            parser.parseArguments(null, true);
-            // TODO: Load plugins and set theme
-            var parameters = [];
-            parameters.push.call(parameters, this.converter.getParameters());
-            parameters.push.call(parameters, this.renderer.getParameters());
-            parser.addParameter.call(parser, parameters);
-            if (parser.parseArguments()) {
-                if (this.options.version) {
-                    ts.sys.write(this.toString());
-                }
-                else if (parser.inputFiles.length === 0 || this.options.help) {
-                    ts.sys.write(parser.toString());
-                }
-                else if (this.options.out) {
-                    ts.sys.write(ts.sys.newLine);
-                    this.log(td.Util.format('Using TypeScript %s from %s', this.getTypeScriptVersion(), td.tsPath), 1 /* Info */);
-                    var src = this.expandInputFiles(parser.inputFiles);
-                    var out = td.Path.resolve(this.options.out);
-                    this.generateDocs(src, out);
-                }
-                else if (this.options.json) {
-                    var src = this.expandInputFiles(parser.inputFiles);
-                    var out = td.Path.resolve(this.options.json);
-                    this.generateJson(src, out);
-                }
-                else {
-                    this.log('You must either specify the \'out\' or \'json\' parameter.', 3 /* Error */);
-                }
-            }
-        };
-        /**
-         * Expand a list of input files.
-         *
-         * Searches for directories in the input files list and replaces them with a
-         * listing of all TypeScript files within them. One may use the ```--exclude``` option
-         * to filter out files with a pattern.
-         *
-         * @param inputFiles  The list of files that should be expanded.
-         * @returns  The list of input files with expanded directories.
-         */
-        Application.prototype.expandInputFiles = function (inputFiles) {
-            var exclude, files = [];
-            if (this.options.exclude) {
-                exclude = new td.Minimatch.Minimatch(this.options.exclude);
-            }
-            function add(dirname) {
-                td.FS.readdirSync(dirname).forEach(function (file) {
-                    var realpath = td.Path.join(dirname, file);
-                    if (td.FS.statSync(realpath).isDirectory()) {
-                        add(realpath);
-                    }
-                    else if (/\.ts$/.test(realpath)) {
-                        if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
-                            return;
-                        }
-                        files.push(realpath);
-                    }
-                });
-            }
-            inputFiles.forEach(function (file) {
-                file = td.Path.resolve(file);
-                if (td.FS.statSync(file).isDirectory()) {
-                    add(file);
-                }
-                else {
-                    files.push(file);
-                }
-            });
-            return files;
-        };
-        /**
-         * Return the version number of the loaded TypeScript compiler.
-         *
-         * @returns The version number of the loaded TypeScript package.
-         */
-        Application.prototype.getTypeScriptVersion = function () {
-            if (!this.typeScriptVersion) {
-                var json = JSON.parse(td.FS.readFileSync(td.Path.join(td.tsPath, '..', 'package.json'), 'utf8'));
-                this.typeScriptVersion = json.version;
-            }
-            return this.typeScriptVersion;
-        };
-        /**
-         * Print the version number.
-         */
-        Application.prototype.toString = function () {
-            return [
-                '',
-                'TypeDoc ' + Application.VERSION,
-                'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + td.tsPath,
-                ''
-            ].join(ts.sys.newLine);
-        };
-        /**
-         * The version number of TypeDoc.
-         */
-        Application.VERSION = '0.2.3';
-        return Application;
-    })();
-    td.Application = Application;
-})(td || (td = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var td;
 (function (td) {
     var PluginHost = (function (_super) {
@@ -1054,6 +1237,41 @@ var td;
         return PluginHost;
     })(td.EventDispatcher);
     td.PluginHost = PluginHost;
+})(td || (td = {}));
+var td;
+(function (td) {
+    var existingDirectories = {};
+    function normalizePath(path) {
+        return ts.normalizePath(path);
+    }
+    td.normalizePath = normalizePath;
+    function writeFile(fileName, data, writeByteOrderMark, onError) {
+        function directoryExists(directoryPath) {
+            if (ts.hasProperty(existingDirectories, directoryPath)) {
+                return true;
+            }
+            if (ts.sys.directoryExists(directoryPath)) {
+                existingDirectories[directoryPath] = true;
+                return true;
+            }
+            return false;
+        }
+        function ensureDirectoriesExist(directoryPath) {
+            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
+                var parentDirectory = ts.getDirectoryPath(directoryPath);
+                ensureDirectoriesExist(parentDirectory);
+                ts.sys.createDirectory(directoryPath);
+            }
+        }
+        try {
+            ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
+        }
+        catch (e) {
+            if (onError)
+                onError(e.message);
+        }
+    }
+    td.writeFile = writeFile;
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -5507,7 +5725,7 @@ var td;
             this.prepareTheme();
             var theme = this.theme;
             if (theme.getParameters) {
-                result.push.call(result, theme.getParameters());
+                result = result.concat(theme.getParameters());
             }
             return result;
         };
@@ -5523,7 +5741,7 @@ var td;
          */
         Renderer.prototype.getTemplate = function (fileName) {
             if (!this.theme) {
-                this.application.log(td.Util.format('Cannot resolve templates before theme is set.'), 3 /* Error */);
+                this.application.logger.error('Cannot resolve templates before theme is set.');
                 return null;
             }
             if (!this.templates[fileName]) {
@@ -5531,7 +5749,7 @@ var td;
                 if (!td.FS.existsSync(path)) {
                     path = td.Path.resolve(td.Path.join(Renderer.getDefaultTheme(), fileName));
                     if (!td.FS.existsSync(path)) {
-                        this.application.log(td.Util.format('Cannot find template %s', fileName), 3 /* Error */);
+                        this.application.logger.error('Cannot find template %s', fileName);
                         return null;
                     }
                 }
@@ -5589,7 +5807,7 @@ var td;
                 td.writeFile(page.filename, page.contents, true);
             }
             catch (error) {
-                this.application.log(td.Util.format('Error: Could not write %s', page.filename), 3 /* Error */);
+                this.application.logger.error('Could not write %s', page.filename);
                 return false;
             }
             return true;
@@ -5609,7 +5827,7 @@ var td;
                 if (!td.FS.existsSync(path)) {
                     path = td.Path.join(Renderer.getThemeDirectory(), themeName);
                     if (!td.FS.existsSync(path)) {
-                        this.application.log(td.Util.format('The theme %s could not be found.', themeName), 3 /* Error */);
+                        this.application.logger.error('The theme %s could not be found.', themeName);
                         return false;
                     }
                 }
@@ -5634,14 +5852,14 @@ var td;
         Renderer.prototype.prepareOutputDirectory = function (directory) {
             if (td.FS.existsSync(directory)) {
                 if (!this.theme.isOutputDirectory(directory)) {
-                    this.application.log(td.Util.format('Error: The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', directory), 3 /* Error */);
+                    this.application.logger.error('The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', directory);
                     return false;
                 }
                 try {
                     td.FS.rmrfSync(directory);
                 }
                 catch (error) {
-                    this.application.log('Warning: Could not empty the output directory.', 2 /* Warn */);
+                    this.application.logger.warn('Could not empty the output directory.');
                 }
             }
             if (!td.FS.existsSync(directory)) {
@@ -5649,7 +5867,7 @@ var td;
                     td.FS.mkdirpSync(directory);
                 }
                 catch (error) {
-                    this.application.log(td.Util.format('Error: Could not create output directory %s', directory), 3 /* Error */);
+                    this.application.logger.error('Could not create output directory %s', directory);
                     return false;
                 }
             }
@@ -6196,7 +6414,7 @@ var td;
                 }
             }
             catch (error) {
-                this.renderer.application.log(error.message, 2 /* Warn */);
+                this.renderer.application.logger.warn(error.message);
                 return text;
             }
         };
@@ -6310,7 +6528,7 @@ var td;
                     this.includes = includes;
                 }
                 else {
-                    this.renderer.application.log('Could not find provided includes directory: ' + includes, 2 /* Warn */);
+                    this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
             if (event.settings.media) {
@@ -6320,7 +6538,7 @@ var td;
                     td.FS.copySync(media, to);
                 }
                 else {
-                    this.renderer.application.log('Could not find provided includes directory: ' + includes, 2 /* Warn */);
+                    this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
         };
@@ -6848,9 +7066,11 @@ var td;
                 urls.push(new td.UrlMapping('globals.html', project, 'reflection.hbs'));
                 urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
             }
-            project.children.forEach(function (child) {
-                DefaultTheme.buildUrls(child, urls);
-            });
+            if (project.children) {
+                project.children.forEach(function (child) {
+                    DefaultTheme.buildUrls(child, urls);
+                });
+            }
             return urls;
         };
         /**
