@@ -266,7 +266,7 @@
           },
           "children": [
             {
-              "id": 25,
+              "id": 23,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -278,7 +278,7 @@
               },
               "signatures": [
                 {
-                  "id": 26,
+                  "id": 24,
                   "name": "new TestSubClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -305,7 +305,7 @@
               }
             },
             {
-              "id": 23,
+              "id": 21,
               "name": "publicProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -327,7 +327,7 @@
               }
             },
             {
-              "id": 24,
+              "id": 22,
               "name": "staticProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -348,32 +348,6 @@
                 "name": "TestClass.staticProperty",
                 "id": 5
               }
-            },
-            {
-              "id": 21,
-              "name": "privateMethod",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isPrivate": true,
-                "isExported": true
-              },
-              "signatures": [
-                {
-                  "id": 22,
-                  "name": "privateMethod",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "privateMethod short text."
-                  },
-                  "type": {
-                    "type": "instrinct",
-                    "name": "void"
-                  }
-                }
-              ]
             },
             {
               "id": 19,
@@ -448,7 +422,7 @@
               }
             },
             {
-              "id": 27,
+              "id": 25,
               "name": "staticMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -458,7 +432,7 @@
               },
               "signatures": [
                 {
-                  "id": 28,
+                  "id": 26,
                   "name": "staticMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -489,25 +463,24 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                25
+                23
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                23,
-                24
+                21,
+                22
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                21,
                 19,
                 17,
-                27
+                25
               ]
             }
           ],

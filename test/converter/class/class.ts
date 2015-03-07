@@ -63,9 +63,4 @@ export class TestSubClass extends TestClass
      * protectedMethod short text.
      */
     protected protectedMethod() {}
-
-    /**
-     * privateMethod short text.
-     */
-    private privateMethod() {}
 }
