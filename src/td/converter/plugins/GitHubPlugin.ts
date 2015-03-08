@@ -217,7 +217,7 @@ module td
 
             for (var key in project.reflections) {
                 var reflection = project.reflections[key];
-                if (reflection.sources) reflection.sources.forEach((source) => {
+                if (reflection.sources) reflection.sources.forEach((source:ISourceReference) => {
                     if (source.file && source.file.url) {
                         source.url = source.file.url + '#L' + source.line;
                     }

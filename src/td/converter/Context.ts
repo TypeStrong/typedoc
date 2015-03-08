@@ -1,9 +1,5 @@
 module td
 {
-    export interface ITypeMapping {
-        [name:string]:Type;
-    }
-
     /**
      * The context describes the current state the converter is in.
      */
@@ -47,7 +43,7 @@ module td
         /**
          * The currently set type parameters.
          */
-        typeParameters:ITypeMapping;
+        typeParameters:ts.Map<Type>;
 
         /**
          * The currently set type arguments.
@@ -313,8 +309,8 @@ module td
          * @param preserve  Should the currently set type parameters of the context be preserved?
          * @returns The resulting type mapping.
          */
-        private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ITypeMapping {
-            var typeParameters:ITypeMapping = {};
+        private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.Map<Type> {
+            var typeParameters:ts.Map<Type> = {};
 
             if (preserve) {
                 for (var key in this.typeParameters) {
