@@ -13,7 +13,7 @@ module td
             type = type || context.getTypeAtLocation(node);
 
             // Test for type aliases as early as possible
-            if (isTypeAlias(<ts.TypeReferenceNode>node, type)) {
+            if (isTypeAlias(context, <ts.TypeReferenceNode>node, type)) {
                 return convertTypeAliasNode(<ts.TypeReferenceNode>node);
             }
 
@@ -65,17 +65,28 @@ module td
      * whether the given node was a type alias or not. So we have to compare the type name of the
      * node with the type name of the type symbol.
      *
+     * @param context  The context object describing the current state the converter is in.
      * @param node  The node that should be tested.
      * @param type  The type of the node that should be tested.
      * @returns TRUE when the given node and type look like a type alias, otherwise FALSE.
      */
-    function isTypeAlias(node:ts.TypeReferenceNode, type:ts.Type):boolean {
+    function isTypeAlias(context:Context, node:ts.TypeReferenceNode, type:ts.Type):boolean {
         if (!type || !node || !node.typeName) return false;
         if (!type.symbol) return true;
 
-        var nodeName = ts.getTextOfNode(node.typeName);
-        var symbolName = type.symbol.name;
-        return nodeName.substr(-symbolName.length) != symbolName;
+        var checker = context.getTypeChecker();
+        var symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
+        if (!symbolName.length) return false;
+        if (symbolName[0].substr(0, 1) == '"') symbolName.shift();
+
+        var nodeName = ts.getTextOfNode(node.typeName).split('.');
+        if (!nodeName.length) return false;
+
+        var common = Math.min(symbolName.length, nodeName.length);
+        symbolName = symbolName.slice(-common);
+        nodeName = nodeName.slice(-common);
+
+        return nodeName.join('.') != symbolName.join('.');
     }
 
 
