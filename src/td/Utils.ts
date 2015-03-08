@@ -7,6 +7,17 @@ module td
 
 
     /**
+     * Normalize the given path.
+     *
+     * @param path  The path that should be normalized.
+     * @returns The normalized path.
+     */
+    export function normalizePath(path:string) {
+        return ts.normalizePath(path);
+    }
+
+
+    /**
      * Test whether the given directory exists.
      *
      * @param directoryPath  The directory that should be tested.
