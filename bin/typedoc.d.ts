@@ -92,12 +92,25 @@ declare module td {
          * @param fromCommandLine  TRUE if the application should execute in command line mode.
          */
         constructor(fromCommandLine: boolean);
+        /**
+         * Generic initialization logic.
+         */
         private bootstrap();
         /**
          * Run TypeDoc from the command line.
          */
         private bootstrapFromCommandline();
+        /**
+         * Initialize TypeDoc with the given options object.
+         *
+         * @param options  The desired options to set.
+         */
         private bootstrapWithOptions(options?);
+        /**
+         * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
+         *
+         * @param parser  The parser instance the found parameters should be added to.
+         */
         collectParameters(parser: OptionsParser): void;
         /**
          * Run the converter for the given set of files and return the generated reflections.
@@ -407,11 +420,16 @@ declare module td {
         convert?: (param: IParameter, value?: any) => any;
     }
     interface IParameterHelp {
-        marginLength: number;
-        usage: string[];
-        description: string[];
+        names: string[];
+        helps: string[];
+        margin: number;
     }
     interface IParameterProvider {
+        /**
+         * Return a list of parameters introduced by this component.
+         *
+         * @returns A list of parameter definitions introduced by this component.
+         */
         getParameters(): IParameter[];
     }
     enum ParameterHint {
@@ -495,6 +513,13 @@ declare module td {
          */
         getParameter(name: string): IParameter;
         /**
+         * Return all parameters within the given scope.
+         *
+         * @param scope  The scope the parameter list should be filtered for.
+         * @returns All parameters within the given scope
+         */
+        getParametersByScope(scope: ParameterScope): IParameter[];
+        /**
          * Set the option described by the given parameter description to the given value.
          *
          * @param param  The parameter description of the option to set.
@@ -529,7 +554,13 @@ declare module td {
          * @returns TRUE on success, otherwise FALSE.
          */
         parseResponseFile(filename: string, ignoreUnknownArgs?: boolean): boolean;
-        getParameterHelp(scope: ParameterScope): IParameterHelp;
+        /**
+         * Prepare parameter information for the [[toString]] method.
+         *
+         * @param scope  The scope of the parameters whose help should be returned.
+         * @returns The columns and lines for the help of the requested parameters.
+         */
+        private getParameterHelp(scope);
         /**
          * Print some usage information.
          *
@@ -590,7 +621,36 @@ declare module td {
     }
 }
 declare module td {
+    /**
+     * Normalize the given path.
+     *
+     * @param path  The path that should be normalized.
+     * @returns The normalized path.
+     */
     function normalizePath(path: string): string;
+    /**
+     * Test whether the given directory exists.
+     *
+     * @param directoryPath  The directory that should be tested.
+     * @returns TRUE if the given directory exists, FALSE otherwise.
+     */
+    function directoryExists(directoryPath: string): boolean;
+    /**
+     * Make sure that the given directory exists.
+     *
+     * @param directoryPath  The directory that should be validated.
+     */
+    function ensureDirectoriesExist(directoryPath: string): void;
+    /**
+     * Write a file to disc.
+     *
+     * If the containing directory does not exist it will be created.
+     *
+     * @param fileName  The name of the file that should be written.
+     * @param data  The contents of the file.
+     * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
+     * @param onError  A callback that will be invoked if an error occurs.
+     */
     function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
 }
 declare module td {
@@ -636,69 +696,154 @@ declare module td {
      * The context describes the current state the converter is in.
      */
     class Context {
-        settings: IOptions;
-        compilerOptions: ts.CompilerOptions;
-        private checker;
+        /**
+         * The converter instance that has created the context.
+         */
+        converter: Converter;
+        /**
+         * A list of all files that have been passed to the TypeScript compiler.
+         */
+        fileNames: string[];
+        /**
+         * The TypeChecker instance returned by the TypeScript compiler.
+         */
+        checker: ts.TypeChecker;
         /**
          * The project that is currently processed.
          */
-        private project;
+        project: ProjectReflection;
         /**
          * The scope or parent reflection that is currently processed.
          */
-        private scope;
-        typeParameters: {
-            [name: string]: Type;
-        };
-        private typeArguments;
-        isInherit: boolean;
-        inheritParent: ts.Node;
-        inherited: string[];
-        private symbolID;
+        scope: Reflection;
+        /**
+         * Is the current source file marked as being external?
+         */
         isExternal: boolean;
+        /**
+         * Is the current source file a declaration file?
+         */
         isDeclaration: boolean;
-        fileNames: string[];
-        externalPattern: {
-            match(str: string): boolean;
-        };
-        private event;
-        private converter;
         /**
-         * Create a new context.
+         * The currently set type parameters.
+         */
+        typeParameters: ts.Map<Type>;
+        /**
+         * The currently set type arguments.
+         */
+        typeArguments: Type[];
+        /**
+         * Is the converter in inheritance mode?
+         */
+        isInherit: boolean;
+        /**
+         * The node that has started the inheritance mode.
+         */
+        inheritParent: ts.Node;
+        /**
+         * The names of the children of the scope before inheritance has been started.
+         */
+        inherited: string[];
+        /**
+         * Next free symbol id used by [[getSymbolID]].
+         */
+        private symbolID;
+        /**
+         * The pattern that should be used to flag external source files.
+         */
+        private externalPattern;
+        /**
+         * Create a new Context instance.
          *
-         * @param settings
-         * @param checker
-         * @param project  The target project.
+         * @param converter  The converter instance that has created the context.
+         * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
+         * @param checker  The TypeChecker instance returned by the TypeScript compiler.
          */
-        constructor(converter: Converter, settings: IOptions, compilerOptions: ts.CompilerOptions, fileNames: string[], checker: ts.TypeChecker, project: ProjectReflection);
+        constructor(converter: Converter, fileNames: string[], checker: ts.TypeChecker);
         /**
-         * Return the current parent reflection.
+         * Return the current TypeDoc options object.
          */
-        getScope(): Reflection;
-        getProject(): ProjectReflection;
-        getTypeChecker(): ts.TypeChecker;
+        getOptions(): IOptions;
+        /**
+         * Return the compiler options.
+         */
+        getCompilerOptions(): ts.CompilerOptions;
+        /**
+         * Return the type declaration of the given node.
+         *
+         * @param node  The TypeScript node whose type should be resolved.
+         * @returns The type declaration of the given node.
+         */
         getTypeAtLocation(node: ts.Node): ts.Type;
-        getSymbolID(symbol: ts.Symbol): number;
-        registerReflection(reflection: Reflection, node: ts.Node, symbol?: ts.Symbol): void;
-        trigger(name: string, reflection: Reflection, node: ts.Node): void;
         /**
-         * Set the context to the given reflection.
+         * Return the symbol id of the given symbol.
          *
-         * @param scope
-         * @param callback
+         * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.
+         * It will assign negative ids if they are not set.
+         *
+         * @param symbol  The symbol whose id should be returned.
+         * @returns The id of the given symbol.
          */
-        withScope(scope: Reflection, callback: Function): any;
-        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
-        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserveTypeParameters: boolean, callback: Function): any;
+        getSymbolID(symbol: ts.Symbol): number;
+        /**
+         * Register a newly generated reflection.
+         *
+         * Ensures that the reflection is both listed in [[Project.reflections]] and
+         * [[Project.symbolMapping]] if applicable.
+         *
+         * @param reflection  The reflection that should be registered.
+         * @param node  The node the given reflection was resolved from.
+         * @param symbol  The symbol the given reflection was resolved from.
+         */
+        registerReflection(reflection: Reflection, node: ts.Node, symbol?: ts.Symbol): void;
+        /**
+         * Trigger a node reflection event.
+         *
+         * All events are dispatched on the current converter instance.
+         *
+         * @param name  The name of the event that should be triggered.
+         * @param reflection  The triggering reflection.
+         * @param node  The triggering TypeScript node if available.
+         */
+        trigger(name: string, reflection: Reflection, node?: ts.Node): void;
+        /**
+         * Run the given callback with the context configured for the given source file.
+         *
+         * @param node  The TypeScript node containing the source file declaration.
+         * @param callback  The callback that should be executed.
+         */
         withSourceFile(node: ts.SourceFile, callback: Function): void;
         /**
-         * Apply all children of the given node to the given target reflection.
-         *
-         * @param node     The node whose children should be analyzed.
-         * @param typeArguments
-         * @return The resulting reflection.
+         * @param callback  The callback function that should be executed with the changed context.
          */
-        inherit(node: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection;
+        withScope(scope: Reflection, callback: Function): any;
+        /**
+         * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
+         * @param callback  The callback function that should be executed with the changed context.
+         */
+        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
+        /**
+         * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
+         * @param preserve  Should the currently set type parameters of the context be preserved?
+         * @param callback  The callback function that should be executed with the changed context.
+         */
+        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserve: boolean, callback: Function): any;
+        /**
+         * Inherit the children of the given TypeScript node to the current scope.
+         *
+         * @param baseNode  The node whose children should be inherited.
+         * @param typeArguments  The type arguments that apply while inheriting the given node.
+         * @return The resulting reflection / the current scope.
+         */
+        inherit(baseNode: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection;
+        /**
+         * Convert the given list of type parameter declarations into a type mapping.
+         *
+         * @param parameters  The list of type parameter declarations that should be converted.
+         * @param preserve  Should the currently set type parameters of the context be preserved?
+         * @returns The resulting type mapping.
+         */
+        private extractTypeParameters(parameters, preserve?);
     }
 }
 declare module td {
@@ -726,28 +871,110 @@ declare module td {
     }
 }
 declare module td {
+    /**
+     * Result structure of the [[Converter.convert]] method.
+     */
     interface IConverterResult {
-        project: any;
+        /**
+         * An array containing all errors generated by the TypeScript compiler.
+         */
         errors: ts.Diagnostic[];
+        /**
+         * The resulting project reflection.
+         */
+        project: ProjectReflection;
     }
+    /**
+     * Compiles source files using TypeScript and converts compiler symbols to reflections.
+     */
     class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost {
-        private application;
+        /**
+         * The host application of this converter instance.
+         */
+        application: IApplication;
         /**
          * The full path of the current directory. Result cache of [[getCurrentDirectory]].
          */
         private currentDirectory;
+        /**
+         * Return code of ts.sys.readFile when the file encoding is unsupported.
+         */
         static ERROR_UNSUPPORTED_FILE_ENCODING: number;
+        /**
+         * General events
+         */
+        /**
+         * Triggered when the converter begins converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_BEGIN: string;
+        /**
+         * Triggered when the converter has finished converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_END: string;
+        /**
+         * Factory events
+         */
+        /**
+         * Triggered when the converter begins converting a source file.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_FILE_BEGIN: string;
+        /**
+         * Triggered when the converter has created a declaration reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_DECLARATION: string;
+        /**
+         * Triggered when the converter has created a signature reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_SIGNATURE: string;
+        /**
+         * Triggered when the converter has created a parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_PARAMETER: string;
+        /**
+         * Triggered when the converter has created a type parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_TYPE_PARAMETER: string;
+        /**
+         * Triggered when the converter has found a function implementation.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_FUNCTION_IMPLEMENTATION: string;
+        /**
+         * Resolve events
+         */
+        /**
+         * Triggered when the converter begins resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_RESOLVE_BEGIN: string;
-        static EVENT_RESOLVE_END: string;
+        /**
+         * Triggered when the converter resolves a reflection.
+         * The listener should implement [[IConverterResolveCallback]].
+         * @event
+         */
         static EVENT_RESOLVE: string;
+        /**
+         * Triggered when the converter has finished resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
+        static EVENT_RESOLVE_END: string;
         /**
          * Create a new Converter instance.
          *
@@ -755,14 +982,32 @@ declare module td {
          *   must expose the settings that should be used and serves as a global logging endpoint.
          */
         constructor(application: IApplication);
+        /**
+         * Return a list of parameters introduced by this component.
+         *
+         * @returns A list of parameter definitions introduced by this component.
+         */
         getParameters(): IParameter[];
         /**
-         * Compile the given source files and create a reflection tree for them.
+         * Compile the given source files and create a project reflection for them.
          *
          * @param fileNames  Array of the file names that should be compiled.
-         * @param settings   The settings that should be used to compile the files.
          */
         convert(fileNames: string[]): IConverterResult;
+        /**
+         * Compile the files within the given context and convert the compiler symbols to reflections.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @returns An array containing all errors generated by the TypeScript compiler.
+         */
+        private compile(context);
+        /**
+         * Resolve the project within the given context.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @returns The final project reflection.
+         */
+        private resolve(context);
         /**
          * Return the basename of the default library that should be used.
          *
@@ -840,17 +1085,6 @@ declare module td {
     }
 }
 declare module td {
-    class ConverterEvent extends Event {
-        private _checker;
-        private _project;
-        private _settings;
-        constructor(checker: ts.TypeChecker, project: ProjectReflection, settings: IOptions);
-        getTypeChecker(): ts.TypeChecker;
-        getProject(): ProjectReflection;
-        getSettings(): IOptions;
-    }
-}
-declare module td {
     class ConverterPlugin implements IPluginInterface {
         /**
          * The converter this plugin is attached to.
@@ -895,21 +1129,44 @@ declare module td {
     function convertType(context: Context, node?: ts.Node, type?: ts.Type): Type;
 }
 declare module td {
+    /**
+     * Create a declaration reflection from the given TypeScript node.
+     *
+     * @param context  The context object describing the current state the converter is in. The
+     *   scope of the context will be the parent of the generated reflection.
+     * @param node  The TypeScript node that should be converted to a reflection.
+     * @param kind  The desired kind of the reflection.
+     * @param name  The desired name of the reflection.
+     * @returns The resulting reflection.
+     */
     function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection;
+    /**
+     * Create a new reference type pointing to the given symbol.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param symbol  The symbol the reference type should point to.
+     * @param includeParent  Should the name of the parent be provided within the fallback name?
+     * @returns A new reference type instance pointing to the given symbol.
+     */
     function createReferenceType(context: Context, symbol: ts.Symbol, includeParent?: boolean): ReferenceType;
+    /**
+     * Create a new signature reflection from the given node.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The TypeScript node containing the signature declaration that should be reflected.
+     * @param name  The name of the function or method this signature belongs to.
+     * @param kind  The desired kind of the reflection.
+     * @returns The newly created signature reflection describing the given node.
+     */
     function createSignature(context: Context, node: ts.SignatureDeclaration, name: string, kind: ReflectionKind): SignatureReflection;
-    function createTypeParameter(context: Context, declaration: ts.TypeParameterDeclaration): TypeParameterType;
-}
-declare module td {
-    class CompilerEvent extends ConverterEvent {
-        reflection: Reflection;
-        node: ts.Node;
-    }
-}
-declare module td {
-    class ResolveEvent extends ConverterEvent {
-        reflection: Reflection;
-    }
+    /**
+     * Create a type parameter reflection for the given node.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The type parameter node that should be reflected.
+     * @returns The newly created type parameter reflection.
+     */
+    function createTypeParameter(context: Context, node: ts.TypeParameterDeclaration): TypeParameterType;
 }
 declare module td {
     /**
@@ -933,30 +1190,46 @@ declare module td {
         constructor(converter: Converter);
         private storeModuleComment(comment, reflection);
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event);
-        private onCreateTypeParameter(event);
+        private onBegin(context);
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a type parameter reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        private onCreateTypeParameter(context, reflection, node?);
+        /**
+         * Triggered when the converter has created a declaration or signature reflection.
          *
          * Invokes the comment parser.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event);
+        private onDeclaration(context, reflection, node?);
         private applyAccessModifiers(reflection, comment);
-        private onFunctionImplementation(event);
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter has found a function implementation.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onBeginResolve(event);
+        private onFunctionImplementation(context, reflection, node?);
         /**
-         * Triggered when the dispatcher resolves a reflection.
+         * Triggered when the converter begins resolving a project.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         */
+        private onBeginResolve(context);
+        /**
+         * Triggered when the converter resolves a reflection.
          *
          * Cleans up comment tags related to signatures like @param or @return
          * and moves their data to the corresponding parameter reflections.
@@ -964,9 +1237,10 @@ declare module td {
          * This hook also copies over the comment of function implementations to their
          * signatures.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event);
+        private onResolve(context, reflection);
         /**
          * Return the raw comment string for the given node.
          *
@@ -1007,11 +1281,11 @@ declare module td {
          */
         constructor(converter: Converter);
         /**
-         * Triggered when the dispatcher starts processing a declaration.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event);
+        private onBeginResolve(context);
     }
 }
 declare module td {
@@ -1035,23 +1309,25 @@ declare module td {
          */
         constructor(converter: Converter);
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event);
+        private onBegin(context);
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event);
+        private onDeclaration(context, reflection, node?);
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event);
+        private onBeginResolve(context);
     }
 }
 declare module td {
@@ -1082,11 +1358,11 @@ declare module td {
          */
         private getRepository(fileName);
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onEndResolve(event);
+        private onEndResolve(context);
     }
 }
 declare module td {
@@ -1114,12 +1390,19 @@ declare module td {
          * @param converter  The converter this plugin should be attached to.
          */
         constructor(converter: Converter);
-        private onResolve(event);
         /**
-         * Triggered once after all documents have been read and the dispatcher
-         * leaves the resolving phase.
+         * Triggered when the converter resolves a reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onEndResolve(event);
+        private onResolve(context, reflection);
+        /**
+         * Triggered when the converter has finished resolving a project.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         */
+        private onEndResolve(context);
         /**
          * Create a grouped representation of the given list of reflections.
          *
@@ -1203,23 +1486,25 @@ declare module td {
         constructor(converter: Converter);
         getParameters(): IParameter[];
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event);
+        private onBegin(context);
         /**
-         * Triggered when the dispatcher begins processing a typescript document.
+         * Triggered when the converter begins converting a source file.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(event);
+        private onBeginDocument(context, reflection, node?);
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the project and compiler.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event);
+        private onBeginResolve(context);
     }
 }
 declare module td {
@@ -1249,39 +1534,44 @@ declare module td {
          */
         private onBegin();
         /**
-         * Triggered when the dispatcher starts processing a TypeScript document.
+         * Triggered when the converter begins converting a source file.
          *
          * Create a new [[SourceFile]] instance for all TypeScript files.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(event);
+        private onBeginDocument(context, reflection, node?);
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
          * Attach the current source file to the [[DeclarationReflection.sources]] array.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event);
+        private onDeclaration(context, reflection, node?);
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event);
+        private onBeginResolve(context);
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event);
+        private onResolve(context, reflection);
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onEndResolve(event);
+        private onEndResolve(context);
     }
 }
 declare module td {
@@ -1297,21 +1587,19 @@ declare module td {
          */
         constructor(converter: Converter);
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event);
+        private onResolve(context, reflection);
         private postpone(reflection);
         /**
-         * Return the simplified type hierarchy for the given reflection.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @TODO Type hierarchies for interfaces with multiple parent interfaces.
-         *
-         * @param reflection The reflection whose type hierarchy should be generated.
-         * @returns The root of the generated type hierarchy.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onResolveEnd(event);
+        private onResolveEnd(context);
     }
 }
 declare module td {
@@ -3010,6 +3298,10 @@ declare module td {
          * The path referenced files are located in.
          */
         private includes;
+        /**
+         * Path to the output media directory.
+         */
+        private mediaDirectory;
         /**
          * The pattern used to find references in markdown.
          */

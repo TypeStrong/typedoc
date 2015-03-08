@@ -64,7 +64,7 @@ var td;
      */
     var Application = (function () {
         /**
-         * Create a new TypeDoc Application instance.
+         * Create a new TypeDoc application instance.
          */
         function Application(arg) {
             this.converter = new td.Converter(this);
@@ -79,6 +79,9 @@ var td;
                 this.bootstrapFromCommandline();
             }
         }
+        /**
+         * Generic initialization logic.
+         */
         Application.prototype.bootstrap = function () {
             if (typeof this.options.logger == 'function') {
                 this.logger = new td.CallbackLogger(this.options.logger);
@@ -119,6 +122,11 @@ var td;
                 }
             }
         };
+        /**
+         * Initialize TypeDoc with the given options object.
+         *
+         * @param options  The desired options to set.
+         */
         Application.prototype.bootstrapWithOptions = function (options) {
             var parser = new td.OptionsParser(this);
             parser.parseObject(options, true);
@@ -126,6 +134,11 @@ var td;
             this.collectParameters(parser);
             parser.parseObject(options);
         };
+        /**
+         * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
+         *
+         * @param parser  The parser instance the found parameters should be added to.
+         */
         Application.prototype.collectParameters = function (parser) {
             parser.addParameter(this.converter.getParameters());
             parser.addParameter(this.renderer.getParameters());
@@ -848,6 +861,24 @@ var td;
             }
         };
         /**
+         * Return all parameters within the given scope.
+         *
+         * @param scope  The scope the parameter list should be filtered for.
+         * @returns All parameters within the given scope
+         */
+        OptionsParser.prototype.getParametersByScope = function (scope) {
+            var parameters = [];
+            for (var key in this.arguments) {
+                if (!this.arguments.hasOwnProperty(key))
+                    continue;
+                var argument = this.arguments[key];
+                if (argument.scope === scope) {
+                    parameters.push(argument);
+                }
+            }
+            return parameters;
+        };
+        /**
          * Set the option described by the given parameter description to the given value.
          *
          * @param param  The parameter description of the option to set.
@@ -894,6 +925,7 @@ var td;
         OptionsParser.prototype.parseObject = function (obj, ignoreUnknownArgs) {
             if (typeof obj != 'object')
                 return true;
+            var logger = this.application.logger;
             var result = true;
             for (var key in obj) {
                 if (!obj.hasOwnProperty(key))
@@ -901,8 +933,7 @@ var td;
                 var parameter = this.getParameter(key);
                 if (!parameter) {
                     if (!ignoreUnknownArgs) {
-                        var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
-                        this.application.logger.warn(msg.messageText);
+                        logger.error('Unknown option: %s', key);
                         result = false;
                     }
                 }
@@ -922,21 +953,10 @@ var td;
          * @returns TRUE on success, otherwise FALSE.
          */
         OptionsParser.prototype.parseArguments = function (args, ignoreUnknownArgs) {
-            var _this = this;
             var index = 0;
             var result = true;
+            var logger = this.application.logger;
             args = args || process.argv.slice(2);
-            var error = function (message) {
-                var args = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    args[_i - 1] = arguments[_i];
-                }
-                if (ignoreUnknownArgs)
-                    return;
-                var msg = ts.createCompilerDiagnostic.call(_this, arguments);
-                _this.application.logger.error(msg.messageText);
-                result = false;
-            };
             while (index < args.length) {
                 var arg = args[index++];
                 if (arg.charCodeAt(0) === 64 /* at */) {
@@ -946,11 +966,17 @@ var td;
                     arg = arg.slice(arg.charCodeAt(1) === 45 /* minus */ ? 2 : 1).toLowerCase();
                     var parameter = this.getParameter(arg);
                     if (!parameter) {
-                        error(ts.Diagnostics.Unknown_compiler_option_0, arg);
+                        if (ignoreUnknownArgs)
+                            continue;
+                        logger.error('Unknown option: %s', arg);
+                        return false;
                     }
                     else if (parameter.type !== 2 /* Boolean */) {
                         if (!args[index]) {
-                            error(ts.Diagnostics.Compiler_option_0_expects_an_argument, parameter.name);
+                            if (ignoreUnknownArgs)
+                                continue;
+                            logger.error('Option "%s" expects an argument', parameter.name);
+                            return false;
                         }
                         else {
                             result = this.setOption(parameter, args[index++]) && result;
@@ -975,9 +1001,9 @@ var td;
          */
         OptionsParser.prototype.parseResponseFile = function (filename, ignoreUnknownArgs) {
             var text = ts.sys.readFile(filename);
+            var logger = this.application.logger;
             if (!text) {
-                var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                this.application.logger.error(error.messageText);
+                logger.error('File not found: "%s"', filename);
                 return false;
             }
             var args = [];
@@ -997,8 +1023,7 @@ var td;
                         pos++;
                     }
                     else {
-                        var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        this.application.logger.error(error.messageText);
+                        logger.error('Unterminated quoted string in response file "%s"', filename);
                         return false;
                     }
                 }
@@ -1010,48 +1035,40 @@ var td;
             }
             return this.parseArguments(args, ignoreUnknownArgs);
         };
+        /**
+         * Prepare parameter information for the [[toString]] method.
+         *
+         * @param scope  The scope of the parameters whose help should be returned.
+         * @returns The columns and lines for the help of the requested parameters.
+         */
         OptionsParser.prototype.getParameterHelp = function (scope) {
-            // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
-            var optsList = [];
-            var marginLength = 0;
-            for (var key in this.arguments) {
-                if (!this.arguments.hasOwnProperty(key))
-                    continue;
-                var argument = this.arguments[key];
-                if (argument.scope === scope) {
-                    optsList.push(argument);
-                }
-            }
-            optsList.sort(function (a, b) {
+            var parameters = this.getParametersByScope(scope);
+            parameters.sort(function (a, b) {
                 return ts.compareValues(a.name.toLowerCase(), b.name.toLowerCase());
             });
-            // We want our descriptions to align at the same column in our output,
-            // so we keep track of the longest option usage string.
-            var usageColumn = []; // Things like "-d, --declaration" go in here.
-            var descriptionColumn = [];
-            for (var i = 0; i < optsList.length; i++) {
-                var option = optsList[i];
-                // If an option lacks a description,
-                // it is not officially supported.
-                if (!option.description) {
+            var names = [];
+            var helps = [];
+            var margin = 0;
+            for (var i = 0; i < parameters.length; i++) {
+                var parameter = parameters[i];
+                if (!parameter.help)
                     continue;
+                var name = " ";
+                if (parameter.short) {
+                    name += "-" + parameter.short;
+                    if (typeof parameter.hint != 'undefined') {
+                        name += ' ' + ParameterHint[parameter.hint].toUpperCase();
+                    }
+                    name += ", ";
                 }
-                var usageText = " ";
-                if (option.shortName) {
-                    usageText += "-" + option.shortName;
-                    if (option.hint)
-                        usageText += ParameterHint[option.hint].toUpperCase();
-                    usageText += ", ";
-                }
-                usageText += "--" + option.name;
-                if (option.hint)
-                    usageText += ParameterHint[option.hint].toUpperCase();
-                usageColumn.push(usageText);
-                descriptionColumn.push(option.description.key);
-                // Set the new margin for the description column if necessary.
-                marginLength = Math.max(usageText.length, marginLength);
+                name += "--" + parameter.name;
+                if (parameter.hint)
+                    name += ' ' + ParameterHint[parameter.hint].toUpperCase();
+                names.push(name);
+                helps.push(parameter.help);
+                margin = Math.max(name.length, margin);
             }
-            return { marginLength: marginLength, usage: usageColumn, description: descriptionColumn };
+            return { names: names, helps: helps, margin: margin };
         };
         /**
          * Print some usage information.
@@ -1061,32 +1078,25 @@ var td;
         OptionsParser.prototype.toString = function () {
             var typeDoc = this.getParameterHelp(0 /* TypeDoc */);
             var typeScript = this.getParameterHelp(1 /* TypeScript */);
+            var margin = Math.max(typeDoc.margin, typeScript.margin);
             var output = [];
             output.push('Usage:');
             output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
             output.push('', 'TypeDoc options:');
-            pushDeclarations(typeDoc);
+            pushHelp(typeDoc);
             output.push('', 'TypeScript options:');
-            pushDeclarations(typeScript);
+            pushHelp(typeScript);
             output.push('');
             return output.join(ts.sys.newLine);
-            // Special case that can't fit in the loop.
-            function addFileOption(columns) {
-                var usageText = " @<file>";
-                columns.usage.push(usageText);
-                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
-                columns.marginLength = Math.max(usageText.length, columns.marginLength);
-            }
-            // Print out each row, aligning all the descriptions on the same column.
-            function pushDeclarations(columns) {
-                for (var i = 0; i < columns.usage.length; i++) {
-                    var usage = columns.usage[i];
-                    var description = columns.description[i];
-                    output.push(usage + makePadding(columns.marginLength - usage.length + 2) + description);
+            function pushHelp(columns) {
+                for (var i = 0; i < columns.names.length; i++) {
+                    var usage = columns.names[i];
+                    var description = columns.helps[i];
+                    output.push(usage + padding(margin - usage.length + 2) + description);
                 }
             }
-            function makePadding(paddingLength) {
-                return Array(paddingLength + 1).join(" ");
+            function padding(length) {
+                return Array(length + 1).join(" ");
             }
         };
         /**
@@ -1240,31 +1250,64 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * List of known existent directories. Used to speed up [[directoryExists]].
+     */
     var existingDirectories = {};
+    /**
+     * Normalize the given path.
+     *
+     * @param path  The path that should be normalized.
+     * @returns The normalized path.
+     */
     function normalizePath(path) {
         return ts.normalizePath(path);
     }
     td.normalizePath = normalizePath;
+    /**
+     * Test whether the given directory exists.
+     *
+     * @param directoryPath  The directory that should be tested.
+     * @returns TRUE if the given directory exists, FALSE otherwise.
+     */
+    function directoryExists(directoryPath) {
+        if (ts.hasProperty(existingDirectories, directoryPath)) {
+            return true;
+        }
+        if (ts.sys.directoryExists(directoryPath)) {
+            existingDirectories[directoryPath] = true;
+            return true;
+        }
+        return false;
+    }
+    td.directoryExists = directoryExists;
+    /**
+     * Make sure that the given directory exists.
+     *
+     * @param directoryPath  The directory that should be validated.
+     */
+    function ensureDirectoriesExist(directoryPath) {
+        if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
+            var parentDirectory = ts.getDirectoryPath(directoryPath);
+            ensureDirectoriesExist(parentDirectory);
+            ts.sys.createDirectory(directoryPath);
+        }
+    }
+    td.ensureDirectoriesExist = ensureDirectoriesExist;
+    /**
+     * Write a file to disc.
+     *
+     * If the containing directory does not exist it will be created.
+     *
+     * @param fileName  The name of the file that should be written.
+     * @param data  The contents of the file.
+     * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
+     * @param onError  A callback that will be invoked if an error occurs.
+     */
     function writeFile(fileName, data, writeByteOrderMark, onError) {
-        function directoryExists(directoryPath) {
-            if (ts.hasProperty(existingDirectories, directoryPath)) {
-                return true;
-            }
-            if (ts.sys.directoryExists(directoryPath)) {
-                existingDirectories[directoryPath] = true;
-                return true;
-            }
-            return false;
-        }
-        function ensureDirectoriesExist(directoryPath) {
-            if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
-                var parentDirectory = ts.getDirectoryPath(directoryPath);
-                ensureDirectoriesExist(parentDirectory);
-                ts.sys.createDirectory(directoryPath);
-            }
-        }
         try {
             ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
+            ts.sys.writeFile(fileName, data, writeByteOrderMark);
         }
         catch (e) {
             if (onError)
@@ -1368,39 +1411,58 @@ var td;
      */
     var Context = (function () {
         /**
-         * Create a new context.
+         * Create a new Context instance.
          *
-         * @param settings
-         * @param checker
-         * @param project  The target project.
+         * @param converter  The converter instance that has created the context.
+         * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
+         * @param checker  The TypeChecker instance returned by the TypeScript compiler.
          */
-        function Context(converter, settings, compilerOptions, fileNames, checker, project) {
+        function Context(converter, fileNames, checker) {
+            /**
+             * Next free symbol id used by [[getSymbolID]].
+             */
             this.symbolID = -1024;
             this.converter = converter;
-            this.settings = settings;
-            this.compilerOptions = compilerOptions;
             this.fileNames = fileNames;
             this.checker = checker;
+            var project = new td.ProjectReflection(this.getOptions().name);
             this.project = project;
             this.scope = project;
-            this.externalPattern = settings.externalPattern ? new td.Minimatch.Minimatch(settings.externalPattern) : null;
-            this.event = new td.CompilerEvent(checker, project, settings);
+            var options = converter.application.options;
+            if (options.externalPattern) {
+                this.externalPattern = new td.Minimatch.Minimatch(options.externalPattern);
+            }
         }
         /**
-         * Return the current parent reflection.
+         * Return the current TypeDoc options object.
          */
-        Context.prototype.getScope = function () {
-            return this.scope;
+        Context.prototype.getOptions = function () {
+            return this.converter.application.options;
         };
-        Context.prototype.getProject = function () {
-            return this.project;
+        /**
+         * Return the compiler options.
+         */
+        Context.prototype.getCompilerOptions = function () {
+            return this.converter.application.compilerOptions;
         };
-        Context.prototype.getTypeChecker = function () {
-            return this.checker;
-        };
+        /**
+         * Return the type declaration of the given node.
+         *
+         * @param node  The TypeScript node whose type should be resolved.
+         * @returns The type declaration of the given node.
+         */
         Context.prototype.getTypeAtLocation = function (node) {
             return this.checker.getTypeAtLocation(node);
         };
+        /**
+         * Return the symbol id of the given symbol.
+         *
+         * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.
+         * It will assign negative ids if they are not set.
+         *
+         * @param symbol  The symbol whose id should be returned.
+         * @returns The id of the given symbol.
+         */
         Context.prototype.getSymbolID = function (symbol) {
             if (!symbol)
                 return null;
@@ -1408,6 +1470,16 @@ var td;
                 symbol.id = this.symbolID--;
             return symbol.id;
         };
+        /**
+         * Register a newly generated reflection.
+         *
+         * Ensures that the reflection is both listed in [[Project.reflections]] and
+         * [[Project.symbolMapping]] if applicable.
+         *
+         * @param reflection  The reflection that should be registered.
+         * @param node  The node the given reflection was resolved from.
+         * @param symbol  The symbol the given reflection was resolved from.
+         */
         Context.prototype.registerReflection = function (reflection, node, symbol) {
             this.project.reflections[reflection.id] = reflection;
             var id = this.getSymbolID(symbol ? symbol : node.symbol);
@@ -1415,13 +1487,55 @@ var td;
                 this.project.symbolMapping[id] = reflection.id;
             }
         };
+        /**
+         * Trigger a node reflection event.
+         *
+         * All events are dispatched on the current converter instance.
+         *
+         * @param name  The name of the event that should be triggered.
+         * @param reflection  The triggering reflection.
+         * @param node  The triggering TypeScript node if available.
+         */
         Context.prototype.trigger = function (name, reflection, node) {
-            this.event.reflection = reflection;
-            this.event.node = node;
-            this.converter.dispatch(name, this.event);
+            this.converter.dispatch(name, this, reflection, node);
         };
+        /**
+         * Run the given callback with the context configured for the given source file.
+         *
+         * @param node  The TypeScript node containing the source file declaration.
+         * @param callback  The callback that should be executed.
+         */
+        Context.prototype.withSourceFile = function (node, callback) {
+            var options = this.converter.application.options;
+            var externalPattern = this.externalPattern;
+            var isExternal = this.fileNames.indexOf(node.filename) == -1;
+            if (externalPattern) {
+                isExternal = isExternal || externalPattern.match(node.filename);
+            }
+            if (isExternal && options.excludeExternals) {
+                return;
+            }
+            var isDeclaration = ts.isDeclarationFile(node);
+            if (isDeclaration) {
+                var lib = this.converter.getDefaultLib();
+                var isLib = node.filename.substr(-lib.length) == lib;
+                if (!options.includeDeclarations || isLib) {
+                    return;
+                }
+            }
+            this.isExternal = isExternal;
+            this.isDeclaration = isDeclaration;
+            this.trigger(td.Converter.EVENT_FILE_BEGIN, this.project, node);
+            callback();
+            this.isExternal = false;
+            this.isDeclaration = false;
+        };
+        /**
+         * Run the given callback with the scope of the context set to the given reflection.
+         *
+         * @param scope  The reflection that should be set as the scope of the context while the callback is invoked.
+         */
         Context.prototype.withScope = function (scope) {
-            var _this = this;
             var args = [];
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
@@ -1429,98 +1543,84 @@ var td;
             if (!scope || !args.length)
                 return;
             var callback = args.pop();
+            var parameters = args.shift();
             var oldScope = this.scope;
             var oldTypeArguments = this.typeArguments;
+            var oldTypeParameters = this.typeParameters;
             this.scope = scope;
+            this.typeParameters = parameters ? this.extractTypeParameters(parameters, args.length > 0) : this.typeParameters;
             this.typeArguments = null;
-            var parameters = args.shift();
-            if (parameters) {
-                var oldTypeParameters = this.typeParameters;
-                var typeParameters = {};
-                if (args.length) {
-                    for (var key in oldTypeParameters) {
-                        if (!oldTypeParameters.hasOwnProperty(key))
-                            continue;
-                        typeParameters[key] = oldTypeParameters[key];
-                    }
-                }
-                parameters.forEach(function (declaration, index) {
-                    var name = declaration.symbol.name;
-                    if (oldTypeArguments && oldTypeArguments[index]) {
-                        typeParameters[name] = oldTypeArguments[index];
-                    }
-                    else {
-                        typeParameters[name] = td.createTypeParameter(_this, declaration);
-                    }
-                });
-                this.typeParameters = typeParameters;
-                callback();
-                this.typeParameters = oldTypeParameters;
-            }
-            else {
-                callback();
-            }
+            callback();
             this.scope = oldScope;
+            this.typeParameters = oldTypeParameters;
             this.typeArguments = oldTypeArguments;
         };
-        Context.prototype.withSourceFile = function (node, callback) {
-            this.isExternal = this.fileNames.indexOf(node.filename) == -1;
-            if (this.externalPattern) {
-                this.isExternal = this.isExternal || this.externalPattern.match(node.filename);
-            }
-            if (this.isExternal && this.settings.excludeExternals) {
-                return;
-            }
-            this.isDeclaration = ts.isDeclarationFile(node);
-            if (this.isDeclaration) {
-                var lib = this.converter.getDefaultLib();
-                var isLib = node.filename.substr(-lib.length) == lib;
-                if (!this.settings.includeDeclarations || isLib) {
-                    return;
-                }
-            }
-            this.trigger(td.Converter.EVENT_FILE_BEGIN, this.project, node);
-            callback();
-        };
         /**
-         * Apply all children of the given node to the given target reflection.
+         * Inherit the children of the given TypeScript node to the current scope.
          *
-         * @param node     The node whose children should be analyzed.
-         * @param typeArguments
-         * @return The resulting reflection.
+         * @param baseNode  The node whose children should be inherited.
+         * @param typeArguments  The type arguments that apply while inheriting the given node.
+         * @return The resulting reflection / the current scope.
          */
-        Context.prototype.inherit = function (node, typeArguments) {
+        Context.prototype.inherit = function (baseNode, typeArguments) {
             var _this = this;
             var wasInherit = this.isInherit;
             var oldInherited = this.inherited;
             var oldInheritParent = this.inheritParent;
             var oldTypeArguments = this.typeArguments;
             this.isInherit = true;
-            this.inheritParent = node;
+            this.inheritParent = baseNode;
             this.inherited = [];
-            if (typeArguments) {
-                this.typeArguments = [];
-                typeArguments.forEach(function (node) {
-                    _this.typeArguments.push(td.convertType(_this, node, _this.checker.getTypeAtLocation(node)));
-                });
-            }
-            else {
-                this.typeArguments = null;
-            }
             var target = this.scope;
             if (!(target instanceof td.ContainerReflection)) {
                 throw new Error('Expected container reflection');
             }
-            if (target.children)
-                target.children.forEach(function (child) {
-                    _this.inherited.push(child.name);
-                });
-            td.visit(this, node);
+            if (target.children) {
+                this.inherited = target.children.map(function (c) { return c.name; });
+            }
+            else {
+                this.inherited = [];
+            }
+            if (typeArguments) {
+                this.typeArguments = typeArguments.map(function (t) { return td.convertType(_this, t); });
+            }
+            else {
+                this.typeArguments = null;
+            }
+            td.visit(this, baseNode);
             this.isInherit = wasInherit;
             this.inherited = oldInherited;
             this.inheritParent = oldInheritParent;
             this.typeArguments = oldTypeArguments;
             return target;
+        };
+        /**
+         * Convert the given list of type parameter declarations into a type mapping.
+         *
+         * @param parameters  The list of type parameter declarations that should be converted.
+         * @param preserve  Should the currently set type parameters of the context be preserved?
+         * @returns The resulting type mapping.
+         */
+        Context.prototype.extractTypeParameters = function (parameters, preserve) {
+            var _this = this;
+            var typeParameters = {};
+            if (preserve) {
+                for (var key in this.typeParameters) {
+                    if (!this.typeParameters.hasOwnProperty(key))
+                        continue;
+                    typeParameters[key] = this.typeParameters[key];
+                }
+            }
+            parameters.forEach(function (declaration, index) {
+                var name = declaration.symbol.name;
+                if (_this.typeArguments && _this.typeArguments[index]) {
+                    typeParameters[name] = _this.typeArguments[index];
+                }
+                else {
+                    typeParameters[name] = td.createTypeParameter(_this, declaration);
+                }
+            });
+            return typeParameters;
         };
         return Context;
     })();
@@ -1529,6 +1629,9 @@ var td;
 /// <reference path="../PluginHost.ts" />
 var td;
 (function (td) {
+    /**
+     * Compiles source files using TypeScript and converts compiler symbols to reflections.
+     */
     var Converter = (function (_super) {
         __extends(Converter, _super);
         /**
@@ -1542,6 +1645,11 @@ var td;
             this.application = application;
             Converter.loadPlugins(this);
         }
+        /**
+         * Return a list of parameters introduced by this component.
+         *
+         * @returns A list of parameter definitions introduced by this component.
+         */
         Converter.prototype.getParameters = function () {
             return _super.prototype.getParameters.call(this).concat([{
                 name: "name",
@@ -1569,39 +1677,56 @@ var td;
             }]);
         };
         /**
-         * Compile the given source files and create a reflection tree for them.
+         * Compile the given source files and create a project reflection for them.
          *
          * @param fileNames  Array of the file names that should be compiled.
-         * @param settings   The settings that should be used to compile the files.
          */
         Converter.prototype.convert = function (fileNames) {
             for (var i = 0, c = fileNames.length; i < c; i++) {
                 fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
             }
-            var settings = this.application.options;
             var program = ts.createProgram(fileNames, this.application.compilerOptions, this);
             var checker = program.getTypeChecker(true);
-            var project = new td.ProjectReflection(settings.name);
-            var errors = program.getDiagnostics();
-            errors = errors.concat(checker.getDiagnostics());
-            var converterEvent = new td.ConverterEvent(checker, project, settings);
-            this.dispatch(Converter.EVENT_BEGIN, converterEvent);
-            var context = new td.Context(this, settings, this.application.compilerOptions, fileNames, checker, project);
-            program.getSourceFiles().forEach(function (sourceFile) {
-                td.visit(context, sourceFile);
-            });
-            this.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
-            var resolveEvent = new td.ResolveEvent(checker, project, settings);
-            for (var id in project.reflections) {
-                resolveEvent.reflection = project.reflections[id];
-                this.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
-            }
-            this.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
-            this.dispatch(Converter.EVENT_END, converterEvent);
+            var context = new td.Context(this, fileNames, checker);
+            this.dispatch(Converter.EVENT_BEGIN, context);
+            var errors = this.compile(context);
+            var project = this.resolve(context);
+            this.dispatch(Converter.EVENT_END, context);
             return {
                 errors: errors,
                 project: project
             };
+        };
+        /**
+         * Compile the files within the given context and convert the compiler symbols to reflections.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @returns An array containing all errors generated by the TypeScript compiler.
+         */
+        Converter.prototype.compile = function (context) {
+            var checker = context.checker;
+            var program = checker.getProgram();
+            program.getSourceFiles().forEach(function (sourceFile) {
+                td.visit(context, sourceFile);
+            });
+            return program.getDiagnostics().concat(checker.getDiagnostics());
+        };
+        /**
+         * Resolve the project within the given context.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @returns The final project reflection.
+         */
+        Converter.prototype.resolve = function (context) {
+            this.dispatch(Converter.EVENT_RESOLVE_BEGIN, context);
+            var project = context.project;
+            for (var id in project.reflections) {
+                if (!project.reflections.hasOwnProperty(id))
+                    continue;
+                this.dispatch(Converter.EVENT_RESOLVE, context, project.reflections[id]);
+            }
+            this.dispatch(Converter.EVENT_RESOLVE_END, context);
+            return project;
         };
         /**
          * Return the basename of the default library that should be used.
@@ -1704,44 +1829,88 @@ var td;
          */
         Converter.prototype.writeFile = function (fileName, data, writeByteOrderMark, onError) {
         };
+        /**
+         * Return code of ts.sys.readFile when the file encoding is unsupported.
+         */
         Converter.ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
+        /**
+         * General events
+         */
+        /**
+         * Triggered when the converter begins converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         Converter.EVENT_BEGIN = 'begin';
+        /**
+         * Triggered when the converter has finished converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         Converter.EVENT_END = 'end';
+        /**
+         * Factory events
+         */
+        /**
+         * Triggered when the converter begins converting a source file.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_FILE_BEGIN = 'fileBegin';
+        /**
+         * Triggered when the converter has created a declaration reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_CREATE_DECLARATION = 'createDeclaration';
+        /**
+         * Triggered when the converter has created a signature reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_CREATE_SIGNATURE = 'createSignature';
+        /**
+         * Triggered when the converter has created a parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_CREATE_PARAMETER = 'createParameter';
+        /**
+         * Triggered when the converter has created a type parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_CREATE_TYPE_PARAMETER = 'createTypeParameter';
+        /**
+         * Triggered when the converter has found a function implementation.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         Converter.EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
+        /**
+         * Resolve events
+         */
+        /**
+         * Triggered when the converter begins resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         Converter.EVENT_RESOLVE_BEGIN = 'resolveBegin';
-        Converter.EVENT_RESOLVE_END = 'resolveEnd';
+        /**
+         * Triggered when the converter resolves a reflection.
+         * The listener should implement [[IConverterResolveCallback]].
+         * @event
+         */
         Converter.EVENT_RESOLVE = 'resolveReflection';
+        /**
+         * Triggered when the converter has finished resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
+        Converter.EVENT_RESOLVE_END = 'resolveEnd';
         return Converter;
     })(td.PluginHost);
     td.Converter = Converter;
-})(td || (td = {}));
-var td;
-(function (td) {
-    var ConverterEvent = (function (_super) {
-        __extends(ConverterEvent, _super);
-        function ConverterEvent(checker, project, settings) {
-            _super.call(this);
-            this._checker = checker;
-            this._project = project;
-            this._settings = settings;
-        }
-        ConverterEvent.prototype.getTypeChecker = function () {
-            return this._checker;
-        };
-        ConverterEvent.prototype.getProject = function () {
-            return this._project;
-        };
-        ConverterEvent.prototype.getSettings = function () {
-            return this._settings;
-        };
-        return ConverterEvent;
-    })(td.Event);
-    td.ConverterEvent = ConverterEvent;
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -1873,7 +2042,7 @@ var td;
                 visit(context, statement);
             });
         }
-        return context.getScope();
+        return context.scope;
     }
     /**
      * Analyze the given source file node and create a suitable reflection.
@@ -1883,9 +2052,10 @@ var td;
      * @return The resulting reflection or NULL.
      */
     function visitSourceFile(context, node) {
-        var result = context.getScope();
+        var result = context.scope;
+        var options = context.getOptions();
         context.withSourceFile(node, function () {
-            if (context.settings.mode == 1 /* Modules */) {
+            if (options.mode == 1 /* Modules */) {
                 result = td.createDeclaration(context, node, 1 /* ExternalModule */, node.filename);
                 context.withScope(result, function () {
                     visitBlock(context, node);
@@ -1906,10 +2076,10 @@ var td;
      * @return The resulting reflection or NULL.
      */
     function visitModuleDeclaration(context, node) {
-        var parent = context.getScope();
+        var parent = context.scope;
         var reflection = td.createDeclaration(context, node, 2 /* Module */);
         context.withScope(reflection, function () {
-            var opt = context.compilerOptions;
+            var opt = context.getCompilerOptions();
             if (parent instanceof td.ProjectReflection && !context.isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
                 reflection.setFlag(16 /* Exported */);
             }
@@ -1929,7 +2099,7 @@ var td;
     function visitClassDeclaration(context, node) {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
-            reflection = context.getScope();
+            reflection = context.scope;
         }
         else {
             reflection = td.createDeclaration(context, node, 128 /* Class */);
@@ -1976,7 +2146,7 @@ var td;
     function visitInterfaceDeclaration(context, node) {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
-            reflection = context.getScope();
+            reflection = context.scope;
         }
         else {
             reflection = td.createDeclaration(context, node, 256 /* Interface */);
@@ -2019,7 +2189,7 @@ var td;
                 visitVariableDeclaration(context, variableDeclaration);
             });
         }
-        return context.getScope();
+        return context.scope;
     }
     function isSimpleObjectLiteral(objectLiteral) {
         if (!objectLiteral.properties)
@@ -2045,7 +2215,7 @@ var td;
                 return resolved;
             }
         }
-        var scope = context.getScope();
+        var scope = context.scope;
         var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 1024 /* Property */ : 32 /* Variable */;
         var variable = td.createDeclaration(context, node, kind);
         context.withScope(variable, function () {
@@ -2113,7 +2283,7 @@ var td;
      * @return The resulting reflection or NULL.
      */
     function visitConstructor(context, node) {
-        var parent = context.getScope();
+        var parent = context.scope;
         var hasBody = !!node.body;
         var method = td.createDeclaration(context, node, 512 /* Constructor */, 'constructor');
         context.withScope(method, function () {
@@ -2131,7 +2301,7 @@ var td;
         return method;
     }
     function visitFunctionDeclaration(context, node) {
-        var scope = context.getScope();
+        var scope = context.scope;
         var kind = scope.kind & td.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
         var hasBody = !!node.body;
         var method = td.createDeclaration(context, node, kind);
@@ -2149,7 +2319,7 @@ var td;
         return method;
     }
     function visitCallSignatureDeclaration(context, node) {
-        var scope = context.getScope();
+        var scope = context.scope;
         if (scope instanceof td.DeclarationReflection) {
             var name = scope.kindOf(td.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
             var signature = td.createSignature(context, node, name, 4096 /* CallSignature */);
@@ -2167,7 +2337,7 @@ var td;
      * @return The resulting reflection or NULL.
      */
     function visitIndexSignatureDeclaration(context, node) {
-        var scope = context.getScope();
+        var scope = context.scope;
         if (scope instanceof td.DeclarationReflection) {
             scope.indexSignature = td.createSignature(context, node, '__index', 8192 /* IndexSignature */);
         }
@@ -2214,7 +2384,7 @@ var td;
                 visit(context, node);
             });
         }
-        return context.getScope();
+        return context.scope;
     }
     /**
      * Analyze the given type literal node and create a suitable reflection.
@@ -2229,7 +2399,7 @@ var td;
                 visit(context, node);
             });
         }
-        return context.getScope();
+        return context.scope;
     }
     /**
      * Analyze the given type alias declaration node and create a suitable reflection.
@@ -2248,7 +2418,7 @@ var td;
     function visitExportAssignment(context, node) {
         var type = context.getTypeAtLocation(node.exportName);
         if (type && type.symbol) {
-            var project = context.getProject();
+            var project = context.project;
             type.symbol.declarations.forEach(function (declaration) {
                 if (!declaration.symbol)
                     return;
@@ -2268,7 +2438,7 @@ var td;
             }
             reflection.traverse(markAsExported);
         }
-        return context.getScope();
+        return context.scope;
     }
 })(td || (td = {}));
 var td;
@@ -2285,7 +2455,7 @@ var td;
         if (node) {
             type = type || context.getTypeAtLocation(node);
             // Test for type aliases as early as possible
-            if (isTypeAlias(node, type)) {
+            if (isTypeAlias(context, node, type)) {
                 return convertTypeAliasNode(node);
             }
             switch (node.kind) {
@@ -2339,18 +2509,29 @@ var td;
      * whether the given node was a type alias or not. So we have to compare the type name of the
      * node with the type name of the type symbol.
      *
+     * @param context  The context object describing the current state the converter is in.
      * @param node  The node that should be tested.
      * @param type  The type of the node that should be tested.
      * @returns TRUE when the given node and type look like a type alias, otherwise FALSE.
      */
-    function isTypeAlias(node, type) {
+    function isTypeAlias(context, node, type) {
         if (!type || !node || !node.typeName)
             return false;
         if (!type.symbol)
             return true;
-        var nodeName = ts.getTextOfNode(node.typeName);
-        var symbolName = type.symbol.name;
-        return nodeName.substr(-symbolName.length) != symbolName;
+        var checker = context.checker;
+        var symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
+        if (!symbolName.length)
+            return false;
+        if (symbolName[0].substr(0, 1) == '"')
+            symbolName.shift();
+        var nodeName = ts.getTextOfNode(node.typeName).split('.');
+        if (!nodeName.length)
+            return false;
+        var common = Math.min(symbolName.length, nodeName.length);
+        symbolName = symbolName.slice(-common);
+        nodeName = nodeName.slice(-common);
+        return nodeName.join('.') != symbolName.join('.');
     }
     /**
      * Create a type literal reflection.
@@ -2378,7 +2559,7 @@ var td;
         var declaration = new td.DeclarationReflection();
         declaration.kind = 65536 /* TypeLiteral */;
         declaration.name = '__type';
-        declaration.parent = context.getScope();
+        declaration.parent = context.scope;
         context.registerReflection(declaration, null, symbol);
         context.trigger(td.Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, function () {
@@ -2598,7 +2779,7 @@ var td;
      * @returns The type reflection representing the given type.
      */
     function convertUnknownType(context, type) {
-        var name = context.getTypeChecker().typeToString(type);
+        var name = context.checker.typeToString(type);
         return new td.UnknownType(name);
     }
     /**
@@ -2694,174 +2875,242 @@ var td;
 })(td || (td = {}));
 var td;
 (function (td) {
+    /**
+     * Create a declaration reflection from the given TypeScript node.
+     *
+     * @param context  The context object describing the current state the converter is in. The
+     *   scope of the context will be the parent of the generated reflection.
+     * @param node  The TypeScript node that should be converted to a reflection.
+     * @param kind  The desired kind of the reflection.
+     * @param name  The desired name of the reflection.
+     * @returns The resulting reflection.
+     */
     function createDeclaration(context, node, kind, name) {
-        var container = context.getScope();
+        var container = context.scope;
         if (!(container instanceof td.ContainerReflection)) {
             throw new Error('Expected container reflection.');
         }
+        // Ensure we have a name for the reflection
         if (!name) {
             if (!node.symbol)
                 return null;
             name = node.symbol.name;
         }
-        var child;
-        var isStatic = !!(node.flags & 128 /* Static */);
-        if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
-            isStatic = true;
-        }
+        // Test whether the node is private, when inheriting ignore private members
         var isPrivate = !!(node.flags & 32 /* Private */);
         if (context.isInherit && isPrivate) {
             return null;
         }
-        if (!container.children)
-            container.children = [];
-        container.children.forEach(function (n) {
+        // Test whether the node is static, when merging a module to a class make the node static
+        var isStatic = !!(node.flags & 128 /* Static */);
+        if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
+            isStatic = true;
+        }
+        // Check if we already have a child with the same name and static flag
+        var child;
+        var children = container.children = container.children || [];
+        children.forEach(function (n) {
             if (n.name == name && n.flags.isStatic == isStatic)
                 child = n;
         });
         if (!child) {
+            // Child does not exist, create a new reflection
             child = new td.DeclarationReflection(container, name, kind);
             child.setFlag(8 /* Static */, isStatic);
-            child.setFlag(64 /* External */, context.isExternal);
             child.setFlag(1 /* Private */, isPrivate);
-            child.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
-            child.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
-            child.setFlag(128 /* Optional */, !!(node['questionToken']));
-            child.setFlag(16 /* Exported */, container.flags.isExported || !!(node.flags & 1 /* Export */));
-            container.children.push(child);
-            context.registerReflection(child, node);
-            if (context.isInherit && node.parent == context.inheritParent) {
-                if (!child.inheritedFrom) {
-                    child.inheritedFrom = createReferenceType(context, node.symbol, true);
-                    child.getAllSignatures().forEach(function (signature) {
-                        signature.inheritedFrom = createReferenceType(context, node.symbol, true);
-                    });
-                }
+            child = setupDeclaration(context, child, node);
+            if (child) {
+                children.push(child);
+                context.registerReflection(child, node);
             }
         }
         else {
-            if (child.kind != kind) {
-                var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
-                var kindWeight = weights.indexOf(kind);
-                var childKindWeight = weights.indexOf(child.kind);
-                if (kindWeight > childKindWeight) {
-                    child.kind = kind;
-                }
-            }
-            if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(name) != -1) {
-                if (!child.overwrites) {
-                    child.overwrites = createReferenceType(context, node.symbol, true);
-                    child.getAllSignatures().forEach(function (signature) {
-                        signature.overwrites = createReferenceType(context, node.symbol, true);
-                    });
-                }
-                return null;
-            }
+            // Merge the existent reflection with the given node
+            child = mergeDeclarations(context, child, node, kind);
         }
-        context.trigger(td.Converter.EVENT_CREATE_DECLARATION, child, node);
+        // If we have a reflection, trigger the corresponding event
+        if (child) {
+            context.trigger(td.Converter.EVENT_CREATE_DECLARATION, child, node);
+        }
         return child;
     }
     td.createDeclaration = createDeclaration;
+    /**
+     * Setup a newly created declaration reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param reflection  The newly created blank reflection.
+     * @param node  The TypeScript node whose properties should be applies to the given reflection.
+     * @returns The reflection populated with the values of the given node.
+     */
+    function setupDeclaration(context, reflection, node) {
+        reflection.setFlag(64 /* External */, context.isExternal);
+        reflection.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
+        reflection.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
+        reflection.setFlag(128 /* Optional */, !!(node['questionToken']));
+        reflection.setFlag(16 /* Exported */, reflection.parent.flags.isExported || !!(node.flags & 1 /* Export */));
+        if (context.isInherit && node.parent == context.inheritParent) {
+            if (!reflection.inheritedFrom) {
+                reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
+                reflection.getAllSignatures().forEach(function (signature) {
+                    signature.inheritedFrom = createReferenceType(context, node.symbol, true);
+                });
+            }
+        }
+        return reflection;
+    }
+    /**
+     * Merge the properties of the given TypeScript node with the pre existent reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param reflection  The pre existent reflection.
+     * @param node  The TypeScript node whose properties should be merged with the given reflection.
+     * @param kind  The desired kind of the reflection.
+     * @returns The reflection merged with the values of the given node or NULL if the merge is invalid.
+     */
+    function mergeDeclarations(context, reflection, node, kind) {
+        if (reflection.kind != kind) {
+            var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
+            var kindWeight = weights.indexOf(kind);
+            var childKindWeight = weights.indexOf(reflection.kind);
+            if (kindWeight > childKindWeight) {
+                reflection.kind = kind;
+            }
+        }
+        if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(reflection.name) != -1) {
+            if (!reflection.overwrites) {
+                reflection.overwrites = createReferenceType(context, node.symbol, true);
+                reflection.getAllSignatures().forEach(function (signature) {
+                    signature.overwrites = createReferenceType(context, node.symbol, true);
+                });
+            }
+            return null;
+        }
+        return reflection;
+    }
+    /**
+     * Create a new reference type pointing to the given symbol.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param symbol  The symbol the reference type should point to.
+     * @param includeParent  Should the name of the parent be provided within the fallback name?
+     * @returns A new reference type instance pointing to the given symbol.
+     */
     function createReferenceType(context, symbol, includeParent) {
+        var checker = context.checker;
         var id = context.getSymbolID(symbol);
-        var checker = context.getTypeChecker();
         var name = checker.symbolToString(symbol);
         if (includeParent && symbol.parent) {
-            name = [checker.symbolToString(symbol.parent), name].join('.');
+            name = checker.symbolToString(symbol.parent) + '.' + name;
         }
         return new td.ReferenceType(name, id);
     }
     td.createReferenceType = createReferenceType;
+    /**
+     * Create a new signature reflection from the given node.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The TypeScript node containing the signature declaration that should be reflected.
+     * @param name  The name of the function or method this signature belongs to.
+     * @param kind  The desired kind of the reflection.
+     * @returns The newly created signature reflection describing the given node.
+     */
     function createSignature(context, node, name, kind) {
-        var container = context.getScope();
+        var container = context.scope;
+        if (!(container instanceof td.ContainerReflection)) {
+            throw new Error('Expected container reflection.');
+        }
         var signature = new td.SignatureReflection(container, name, kind);
+        context.registerReflection(signature, node);
         context.withScope(signature, node.typeParameters, true, function () {
             node.parameters.forEach(function (parameter) {
                 createParameter(context, parameter);
             });
-            context.registerReflection(signature, node);
-            var checker = context.getTypeChecker();
-            if (kind == 4096 /* CallSignature */) {
-                var type = checker.getTypeAtLocation(node);
-                checker.getSignaturesOfType(type, 0 /* Call */).forEach(function (tsSignature) {
-                    if (tsSignature.declaration == node) {
-                        signature.type = td.convertType(context, node.type, checker.getReturnTypeOfSignature(tsSignature));
-                    }
-                });
-            }
-            if (!signature.type) {
-                if (node.type) {
-                    signature.type = td.convertType(context, node.type, checker.getTypeAtLocation(node.type));
-                }
-                else {
-                    signature.type = td.convertType(context, node, checker.getTypeAtLocation(node));
-                }
-            }
+            signature.type = extractSignatureType(context, node);
             if (container.inheritedFrom) {
                 signature.inheritedFrom = createReferenceType(context, node.symbol, true);
             }
-            context.trigger(td.Converter.EVENT_CREATE_SIGNATURE, signature, node);
         });
+        context.trigger(td.Converter.EVENT_CREATE_SIGNATURE, signature, node);
         return signature;
     }
     td.createSignature = createSignature;
+    /**
+     * Extract the return type of the given signature declaration.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The signature declaration whose return type should be determined.
+     * @returns The return type reflection of the given signature.
+     */
+    function extractSignatureType(context, node) {
+        var checker = context.checker;
+        if (node.kind & 129 /* CallSignature */ || node.kind & 145 /* CallExpression */) {
+            var type = checker.getTypeAtLocation(node);
+            var signatures = checker.getSignaturesOfType(type, 0 /* Call */);
+            for (var i = 0, c = signatures.length; i < c; i++) {
+                var signature = signatures[i];
+                if (signature.declaration == node) {
+                    return td.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
+                }
+            }
+        }
+        if (node.type) {
+            return td.convertType(context, node.type);
+        }
+        else {
+            return td.convertType(context, node);
+        }
+    }
+    /**
+     * Create a parameter reflection for the given node.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The parameter node that should be reflected.
+     * @returns The newly created parameter reflection.
+     */
     function createParameter(context, node) {
-        var signature = context.getScope();
+        var signature = context.scope;
         if (!(signature instanceof td.SignatureReflection)) {
             throw new Error('Expected signature reflection.');
         }
         var parameter = new td.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
+        context.registerReflection(parameter, node);
         context.withScope(parameter, function () {
             parameter.type = td.convertType(context, node.type, context.getTypeAtLocation(node));
+            parameter.defaultValue = td.getDefaultValue(node);
             parameter.setFlag(128 /* Optional */, !!node.questionToken);
             parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
-            parameter.defaultValue = td.getDefaultValue(node);
             parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
             if (!signature.parameters)
                 signature.parameters = [];
             signature.parameters.push(parameter);
-            context.registerReflection(parameter, node);
-            context.trigger(td.Converter.EVENT_CREATE_PARAMETER, parameter, node);
         });
+        context.trigger(td.Converter.EVENT_CREATE_PARAMETER, parameter, node);
+        return parameter;
     }
-    function createTypeParameter(context, declaration) {
+    /**
+     * Create a type parameter reflection for the given node.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The type parameter node that should be reflected.
+     * @returns The newly created type parameter reflection.
+     */
+    function createTypeParameter(context, node) {
         var typeParameter = new td.TypeParameterType();
-        typeParameter.name = declaration.symbol.name;
-        if (declaration.constraint) {
-            typeParameter.constraint = td.convertType(context, declaration.constraint, context.getTypeAtLocation(declaration.constraint));
+        typeParameter.name = node.symbol.name;
+        if (node.constraint) {
+            typeParameter.constraint = td.convertType(context, node.constraint);
         }
-        var reflection = context.getScope();
+        var reflection = context.scope;
+        var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
         if (!reflection.typeParameters)
             reflection.typeParameters = [];
-        var typeParameterReflection = new td.TypeParameterReflection(reflection, typeParameter);
-        context.registerReflection(typeParameterReflection, declaration);
         reflection.typeParameters.push(typeParameterReflection);
-        context.trigger(td.Converter.EVENT_CREATE_TYPE_PARAMETER, typeParameterReflection, declaration);
+        context.registerReflection(typeParameterReflection, node);
+        context.trigger(td.Converter.EVENT_CREATE_TYPE_PARAMETER, typeParameterReflection, node);
         return typeParameter;
     }
     td.createTypeParameter = createTypeParameter;
-})(td || (td = {}));
-var td;
-(function (td) {
-    var CompilerEvent = (function (_super) {
-        __extends(CompilerEvent, _super);
-        function CompilerEvent() {
-            _super.apply(this, arguments);
-        }
-        return CompilerEvent;
-    })(td.ConverterEvent);
-    td.CompilerEvent = CompilerEvent;
-})(td || (td = {}));
-var td;
-(function (td) {
-    var ResolveEvent = (function (_super) {
-        __extends(ResolveEvent, _super);
-        function ResolveEvent() {
-            _super.apply(this, arguments);
-        }
-        return ResolveEvent;
-    })(td.ConverterEvent);
-    td.ResolveEvent = ResolveEvent;
 })(td || (td = {}));
 var td;
 (function (td) {
@@ -2905,15 +3154,21 @@ var td;
             }
         };
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        CommentPlugin.prototype.onBegin = function (event) {
+        CommentPlugin.prototype.onBegin = function (context) {
             this.comments = {};
         };
-        CommentPlugin.prototype.onCreateTypeParameter = function (event) {
-            var reflection = event.reflection;
+        /**
+         * Triggered when the converter has created a type parameter reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        CommentPlugin.prototype.onCreateTypeParameter = function (context, reflection, node) {
             var comment = reflection.parent.comment;
             if (comment) {
                 var tag = comment.getTag('typeparam', reflection.name);
@@ -2928,29 +3183,31 @@ var td;
             }
         };
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration or signature reflection.
          *
          * Invokes the comment parser.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        CommentPlugin.prototype.onDeclaration = function (event) {
-            if (!event.node)
+        CommentPlugin.prototype.onDeclaration = function (context, reflection, node) {
+            if (!node)
                 return;
-            var rawComment = CommentPlugin.getComment(event.node);
+            var rawComment = CommentPlugin.getComment(node);
             if (!rawComment)
                 return;
-            if (event.reflection.kindOf(td.ReflectionKind.FunctionOrMethod)) {
-                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
-                this.applyAccessModifiers(event.reflection, comment);
+            if (reflection.kindOf(td.ReflectionKind.FunctionOrMethod)) {
+                var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+                this.applyAccessModifiers(reflection, comment);
             }
-            else if (event.reflection.kindOf(2 /* Module */)) {
-                this.storeModuleComment(rawComment, event.reflection);
+            else if (reflection.kindOf(2 /* Module */)) {
+                this.storeModuleComment(rawComment, reflection);
             }
             else {
-                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
-                this.applyAccessModifiers(event.reflection, comment);
-                event.reflection.comment = comment;
+                var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+                this.applyAccessModifiers(reflection, comment);
+                reflection.comment = comment;
             }
         };
         CommentPlugin.prototype.applyAccessModifiers = function (reflection, comment) {
@@ -2972,22 +3229,30 @@ var td;
                 this.hidden.push(reflection);
             }
         };
-        CommentPlugin.prototype.onFunctionImplementation = function (event) {
-            var comment = CommentPlugin.getComment(event.node);
+        /**
+         * Triggered when the converter has found a function implementation.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        CommentPlugin.prototype.onFunctionImplementation = function (context, reflection, node) {
+            if (!node)
+                return;
+            var comment = CommentPlugin.getComment(node);
             if (comment) {
-                event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
+                reflection.comment = CommentPlugin.parseComment(comment, reflection.comment);
             }
         };
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        CommentPlugin.prototype.onBeginResolve = function (event) {
+        CommentPlugin.prototype.onBeginResolve = function (context) {
             for (var id in this.comments) {
-                if (!this.comments.hasOwnProperty(id)) {
+                if (!this.comments.hasOwnProperty(id))
                     continue;
-                }
                 var info = this.comments[id];
                 var comment = CommentPlugin.parseComment(info.fullText);
                 CommentPlugin.removeTags(comment, 'preferred');
@@ -2995,13 +3260,14 @@ var td;
                 info.reflection.comment = comment;
             }
             if (this.hidden) {
+                var project = context.project;
                 this.hidden.forEach(function (reflection) {
-                    CommentPlugin.removeReflection(event.getProject(), reflection);
+                    CommentPlugin.removeReflection(project, reflection);
                 });
             }
         };
         /**
-         * Triggered when the dispatcher resolves a reflection.
+         * Triggered when the converter resolves a reflection.
          *
          * Cleans up comment tags related to signatures like @param or @return
          * and moves their data to the corresponding parameter reflections.
@@ -3009,10 +3275,10 @@ var td;
          * This hook also copies over the comment of function implementations to their
          * signatures.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        CommentPlugin.prototype.onResolve = function (event) {
-            var reflection = event.reflection;
+        CommentPlugin.prototype.onResolve = function (context, reflection) {
             if (!(reflection instanceof td.DeclarationReflection))
                 return;
             var signatures = reflection.getAllSignatures();
@@ -3275,12 +3541,12 @@ var td;
             converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
         }
         /**
-         * Triggered when the dispatcher starts processing a declaration.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
          */
-        DeepCommentPlugin.prototype.onBeginResolve = function (event) {
-            var project = event.getProject();
+        DeepCommentPlugin.prototype.onBeginResolve = function (context) {
+            var project = context.project;
             var name;
             for (var key in project.reflections) {
                 var reflection = project.reflections[key];
@@ -3354,36 +3620,38 @@ var td;
             converter.on(td.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
         }
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        DynamicModulePlugin.prototype.onBegin = function (event) {
+        DynamicModulePlugin.prototype.onBegin = function (context) {
             this.basePath.reset();
             this.reflections = [];
         };
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        DynamicModulePlugin.prototype.onDeclaration = function (event) {
-            if (event.reflection.kindOf(1 /* ExternalModule */)) {
-                var name = event.reflection.name;
+        DynamicModulePlugin.prototype.onDeclaration = function (context, reflection, node) {
+            if (reflection.kindOf(1 /* ExternalModule */)) {
+                var name = reflection.name;
                 if (name.indexOf('/') == -1) {
                     return;
                 }
                 name = name.replace(/"/g, '');
-                this.reflections.push(event.reflection);
+                this.reflections.push(reflection);
                 this.basePath.add(name);
             }
         };
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
          */
-        DynamicModulePlugin.prototype.onBeginResolve = function (event) {
+        DynamicModulePlugin.prototype.onBeginResolve = function (context) {
             var _this = this;
             this.reflections.forEach(function (reflection) {
                 var name = reflection.name.replace(/"/g, '');
@@ -3560,13 +3828,13 @@ var td;
             return null;
         };
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        GitHubPlugin.prototype.onEndResolve = function (event) {
+        GitHubPlugin.prototype.onEndResolve = function (context) {
             var _this = this;
-            var project = event.getProject();
+            var project = context.project;
             project.files.forEach(function (sourceFile) {
                 var repository = _this.getRepository(sourceFile.fullFileName);
                 if (repository) {
@@ -3610,8 +3878,14 @@ var td;
             converter.on(td.Converter.EVENT_RESOLVE, this.onResolve, this);
             converter.on(td.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
         }
-        GroupPlugin.prototype.onResolve = function (event) {
-            var reflection = event.reflection;
+        /**
+         * Triggered when the converter resolves a reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
+         */
+        GroupPlugin.prototype.onResolve = function (context, reflection) {
+            var reflection = reflection;
             reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
             if (reflection instanceof td.ContainerReflection) {
                 var container = reflection;
@@ -3622,10 +3896,11 @@ var td;
             }
         };
         /**
-         * Triggered once after all documents have been read and the dispatcher
-         * leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
+         *
+         * @param context  The context object describing the current state the converter is in.
          */
-        GroupPlugin.prototype.onEndResolve = function (event) {
+        GroupPlugin.prototype.onEndResolve = function (context) {
             function walkDirectory(directory) {
                 directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
                 for (var key in directory.directories) {
@@ -3634,7 +3909,7 @@ var td;
                     walkDirectory(directory.directories[key]);
                 }
             }
-            var project = event.getProject();
+            var project = context.project;
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);
@@ -3832,15 +4107,15 @@ var td;
             }];
         };
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        PackagePlugin.prototype.onBegin = function (event) {
+        PackagePlugin.prototype.onBegin = function (context) {
             this.readmeFile = null;
             this.packageFile = null;
             this.visited = [];
-            var readme = event.getSettings().readme;
+            var readme = context.getOptions().readme;
             this.noReadmeFile = (readme == 'none');
             if (!this.noReadmeFile && readme) {
                 readme = td.Path.resolve(readme);
@@ -3850,16 +4125,20 @@ var td;
             }
         };
         /**
-         * Triggered when the dispatcher begins processing a typescript document.
+         * Triggered when the converter begins converting a source file.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        PackagePlugin.prototype.onBeginDocument = function (event) {
+        PackagePlugin.prototype.onBeginDocument = function (context, reflection, node) {
             var _this = this;
+            if (!node)
+                return;
             if (this.readmeFile && this.packageFile) {
                 return;
             }
-            var fileName = event.node.filename;
+            var fileName = node.filename;
             var dirName, parentDir = td.Path.resolve(td.Path.dirname(fileName));
             do {
                 dirName = parentDir;
@@ -3880,12 +4159,12 @@ var td;
             } while (dirName != parentDir);
         };
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the project and compiler.
+         * @param context  The context object describing the current state the converter is in.
          */
-        PackagePlugin.prototype.onBeginResolve = function (event) {
-            var project = event.getProject();
+        PackagePlugin.prototype.onBeginResolve = function (context) {
+            var project = context.project;
             if (this.readmeFile) {
                 project.readme = td.FS.readFileSync(this.readmeFile, 'utf-8');
             }
@@ -3952,43 +4231,49 @@ var td;
             this.fileMappings = {};
         };
         /**
-         * Triggered when the dispatcher starts processing a TypeScript document.
+         * Triggered when the converter begins converting a source file.
          *
          * Create a new [[SourceFile]] instance for all TypeScript files.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        SourcePlugin.prototype.onBeginDocument = function (event) {
-            var fileName = event.node.filename;
+        SourcePlugin.prototype.onBeginDocument = function (context, reflection, node) {
+            if (!node)
+                return;
+            var fileName = node.filename;
             this.basePath.add(fileName);
-            this.getSourceFile(fileName, event.getProject());
+            this.getSourceFile(fileName, context.project);
         };
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
          * Attach the current source file to the [[DeclarationReflection.sources]] array.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        SourcePlugin.prototype.onDeclaration = function (event) {
-            if (!event.node)
+        SourcePlugin.prototype.onDeclaration = function (context, reflection, node) {
+            if (!node)
                 return;
-            var sourceFile = ts.getSourceFileOfNode(event.node);
+            var sourceFile = ts.getSourceFileOfNode(node);
             var fileName = sourceFile.filename;
-            var file = this.getSourceFile(fileName, event.getProject());
+            var file = this.getSourceFile(fileName, context.project);
             var position;
-            if (event.node['name'] && event.node['name'].end) {
-                position = sourceFile.getLineAndCharacterFromPosition(event.node['name'].end);
+            if (node['name'] && node['name'].end) {
+                position = sourceFile.getLineAndCharacterFromPosition(node['name'].end);
             }
             else {
-                position = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+                position = sourceFile.getLineAndCharacterFromPosition(node.pos);
             }
-            if (!event.reflection.sources)
-                event.reflection.sources = [];
-            if (event.reflection instanceof td.DeclarationReflection) {
-                file.reflections.push(event.reflection);
+            if (!reflection.sources)
+                reflection.sources = [];
+            if (reflection instanceof td.DeclarationReflection) {
+                file.reflections.push(reflection);
             }
-            event.reflection.sources.push({
+            reflection.sources.push({
                 file: file,
                 fileName: fileName,
                 line: position.line,
@@ -3996,37 +4281,38 @@ var td;
             });
         };
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        SourcePlugin.prototype.onBeginResolve = function (event) {
+        SourcePlugin.prototype.onBeginResolve = function (context) {
             var _this = this;
-            event.getProject().files.forEach(function (file) {
+            context.project.files.forEach(function (file) {
                 var fileName = file.fileName = _this.basePath.trim(file.fileName);
                 _this.fileMappings[fileName] = file;
             });
         };
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        SourcePlugin.prototype.onResolve = function (event) {
+        SourcePlugin.prototype.onResolve = function (context, reflection) {
             var _this = this;
-            if (!event.reflection.sources)
+            if (!reflection.sources)
                 return;
-            event.reflection.sources.forEach(function (source) {
+            reflection.sources.forEach(function (source) {
                 source.fileName = _this.basePath.trim(source.fileName);
             });
         };
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        SourcePlugin.prototype.onEndResolve = function (event) {
-            var project = event.getProject();
+        SourcePlugin.prototype.onEndResolve = function (context) {
+            var project = context.project;
             var home = project.directory;
             project.files.forEach(function (file) {
                 var reflections = [];
@@ -4076,14 +4362,14 @@ var td;
             converter.on(td.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
         }
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        TypePlugin.prototype.onResolve = function (event) {
+        TypePlugin.prototype.onResolve = function (context, reflection) {
             var _this = this;
-            var project = event.getProject();
-            var reflection = event.reflection;
+            var project = context.project;
             resolveType(reflection, reflection.type);
             resolveType(reflection, reflection.inheritedFrom);
             resolveType(reflection, reflection.overwrites);
@@ -4158,14 +4444,11 @@ var td;
             }
         };
         /**
-         * Return the simplified type hierarchy for the given reflection.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @TODO Type hierarchies for interfaces with multiple parent interfaces.
-         *
-         * @param reflection The reflection whose type hierarchy should be generated.
-         * @returns The root of the generated type hierarchy.
+         * @param context  The context object describing the current state the converter is in.
          */
-        TypePlugin.prototype.onResolveEnd = function (event) {
+        TypePlugin.prototype.onResolveEnd = function (context) {
             this.reflections.forEach(function (reflection) {
                 if (reflection.implementedBy) {
                     reflection.implementedBy.sort(function (a, b) {
@@ -5856,7 +6139,7 @@ var td;
                     return false;
                 }
                 try {
-                    td.FS.rmrfSync(directory);
+                    td.FS.removeSync(directory);
                 }
                 catch (error) {
                     this.application.logger.warn('Could not empty the output directory.');
@@ -6477,9 +6760,16 @@ var td;
                     }
                 });
             }
-            text = text.replace(this.mediaPattern, function (match, path) {
-                return _this.getRelativeUrl('media') + '/' + path;
-            });
+            if (this.mediaDirectory) {
+                text = text.replace(this.mediaPattern, function (match, path) {
+                    if (td.FS.fileExistsSync(td.Path.join(_this.mediaDirectory, path))) {
+                        return _this.getRelativeUrl('media') + '/' + path;
+                    }
+                    else {
+                        return match;
+                    }
+                });
+            }
             return this.parseReferences(td.Marked(text));
         };
         /**
@@ -6534,10 +6824,11 @@ var td;
             if (event.settings.media) {
                 var media = td.Path.resolve(event.settings.media);
                 if (td.FS.existsSync(media) && td.FS.statSync(media).isDirectory()) {
-                    var to = td.Path.join(event.outputDirectory, 'media');
-                    td.FS.copySync(media, to);
+                    this.mediaDirectory = td.Path.join(event.outputDirectory, 'media');
+                    td.FS.copySync(media, this.mediaDirectory);
                 }
                 else {
+                    this.mediaDirectory = null;
                     this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
