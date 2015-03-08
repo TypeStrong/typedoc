@@ -78,17 +78,23 @@ module td
 
 
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event:ConverterEvent) {
+        private onBegin(context:Context) {
             this.comments = {};
         }
 
 
-        private onCreateTypeParameter(event:CompilerEvent) {
-            var reflection = <TypeParameterReflection>event.reflection;
+        /**
+         * Triggered when the converter has created a type parameter reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        private onCreateTypeParameter(context:Context, reflection:TypeParameterReflection, node?:ts.Node) {
             var comment = reflection.parent.comment;
             if (comment) {
                 var tag = comment.getTag('typeparam', reflection.name);
@@ -104,26 +110,28 @@ module td
 
 
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration or signature reflection.
          *
          * Invokes the comment parser.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event:CompilerEvent) {
-            if (!event.node) return;
-            var rawComment = CommentPlugin.getComment(event.node);
+        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+            if (!node) return;
+            var rawComment = CommentPlugin.getComment(node);
             if (!rawComment) return;
 
-            if (event.reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
-                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
-                this.applyAccessModifiers(event.reflection, comment);
-            } else if (event.reflection.kindOf(ReflectionKind.Module)) {
-                this.storeModuleComment(rawComment, event.reflection);
+            if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+                var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+                this.applyAccessModifiers(reflection, comment);
+            } else if (reflection.kindOf(ReflectionKind.Module)) {
+                this.storeModuleComment(rawComment, reflection);
             } else {
-                var comment = CommentPlugin.parseComment(rawComment, event.reflection.comment);
-                this.applyAccessModifiers(event.reflection, comment);
-                event.reflection.comment = comment;
+                var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+                this.applyAccessModifiers(reflection, comment);
+                reflection.comment = comment;
             }
         }
 
@@ -151,24 +159,31 @@ module td
         }
 
 
-        private onFunctionImplementation(event:CompilerEvent) {
-            var comment = CommentPlugin.getComment(event.node);
+        /**
+         * Triggered when the converter has found a function implementation.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        private onFunctionImplementation(context:Context, reflection:Reflection, node?:ts.Node) {
+            if (!node) return;
+
+            var comment = CommentPlugin.getComment(node);
             if (comment) {
-                event.reflection.comment = CommentPlugin.parseComment(comment, event.reflection.comment);
+                reflection.comment = CommentPlugin.parseComment(comment, reflection.comment);
             }
         }
 
 
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event:ConverterEvent) {
+        private onBeginResolve(context:Context) {
             for (var id in this.comments) {
-                if (!this.comments.hasOwnProperty(id)) {
-                    continue;
-                }
+                if (!this.comments.hasOwnProperty(id)) continue;
 
                 var info    = this.comments[id];
                 var comment = CommentPlugin.parseComment(info.fullText);
@@ -179,15 +194,16 @@ module td
             }
 
             if (this.hidden) {
+                var project = context.getProject();
                 this.hidden.forEach((reflection) => {
-                    CommentPlugin.removeReflection(event.getProject(), reflection);
+                    CommentPlugin.removeReflection(project, reflection);
                 });
             }
         }
 
 
         /**
-         * Triggered when the dispatcher resolves a reflection.
+         * Triggered when the converter resolves a reflection.
          *
          * Cleans up comment tags related to signatures like @param or @return
          * and moves their data to the corresponding parameter reflections.
@@ -195,10 +211,10 @@ module td
          * This hook also copies over the comment of function implementations to their
          * signatures.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event:ResolveEvent) {
-            var reflection = <DeclarationReflection>event.reflection;
+        private onResolve(context:Context, reflection:DeclarationReflection) {
             if (!(reflection instanceof DeclarationReflection)) return;
 
             var signatures = reflection.getAllSignatures();

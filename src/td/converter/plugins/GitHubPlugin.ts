@@ -202,12 +202,12 @@ module td
 
 
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onEndResolve(event:ConverterEvent) {
-            var project = event.getProject();
+        private onEndResolve(context:Context) {
+            var project = context.getProject();
             project.files.forEach((sourceFile) => {
                 var repository = this.getRepository(sourceFile.fullFileName);
                 if (repository) {

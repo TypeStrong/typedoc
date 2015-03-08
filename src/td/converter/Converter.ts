@@ -33,14 +33,74 @@ declare module td
 
 module td
 {
-    export interface IConverterResult {
+    export interface IConverterResult
+    {
         project:any;
         errors:ts.Diagnostic[];
     }
 
 
+    /**
+     * Event callback definition for generic converter events.
+     *
+     * @see [[Converter.EVENT_BEGIN]]
+     * @see [[Converter.EVENT_END]]
+     * @see [[Converter.EVENT_RESOLVE_BEGIN]]
+     * @see [[Converter.EVENT_RESOLVE_END]]
+     */
+    interface IConverterCallback
+    {
+        /**
+         * @param context  The context object describing the current state the converter is in.
+         */
+        (context:Context):void;
+    }
+
+
+    /**
+     * Event callback definition for events triggered by factories.
+     *
+     * @see [[Converter.EVENT_FILE_BEGIN]]
+     * @see [[Converter.EVENT_CREATE_DECLARATION]]
+     * @see [[Converter.EVENT_CREATE_SIGNATURE]]
+     * @see [[Converter.EVENT_CREATE_PARAMETER]]
+     * @see [[Converter.EVENT_CREATE_TYPE_PARAMETER]]
+     * @see [[Converter.EVENT_FUNCTION_IMPLEMENTATION]]
+     */
+    interface IConverterNodeCallback
+    {
+        /**
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        (context:Context, reflection:Reflection, node?:ts.Node):void;
+    }
+
+
+    /**
+     * Event callback definition for events during the resolving phase.
+     *
+     * @see [[Converter.EVENT_RESOLVE]]
+     */
+    interface IConverterResolveCallback
+    {
+        /**
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
+         */
+        (context:Context, reflection:Reflection):void;
+    }
+
+
+    /**
+     * Compiles source files using TypeScript and converts compiler symbols to reflections.
+     */
     export class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost
     {
+        /**
+         * The host application of this converter instance.
+         */
         private application:IApplication;
 
         /**
@@ -48,21 +108,103 @@ module td
          */
         private currentDirectory:string;
 
+        /**
+         * Return code of ts.sys.readFile when the file encoding is unsupported.
+         */
         static ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
 
+
+        /**
+         * General events
+         */
+
+        /**
+         * Triggered when the converter begins converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_BEGIN:string = 'begin';
+
+        /**
+         * Triggered when the converter has finished converting a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_END:string = 'end';
 
+
+        /**
+         * Factory events
+         */
+
+        /**
+         * Triggered when the converter begins converting a source file.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_FILE_BEGIN:string = 'fileBegin';
+
+        /**
+         * Triggered when the converter has created a declaration reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
+
+        /**
+         * Triggered when the converter has created a signature reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_SIGNATURE:string = 'createSignature';
+
+        /**
+         * Triggered when the converter has created a parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_PARAMETER:string = 'createParameter';
+
+        /**
+         * Triggered when the converter has created a type parameter reflection.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_CREATE_TYPE_PARAMETER:string = 'createTypeParameter';
+
+        /**
+         * Triggered when the converter has found a function implementation.
+         * The listener should implement [[IConverterNodeCallback]].
+         * @event
+         */
         static EVENT_FUNCTION_IMPLEMENTATION:string = 'functionImplementation';
 
+
+        /**
+         * Resolve events
+         */
+
+        /**
+         * Triggered when the converter begins resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
         static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
-        static EVENT_RESOLVE_END:string = 'resolveEnd';
+
+        /**
+         * Triggered when the converter resolves a reflection.
+         * The listener should implement [[IConverterResolveCallback]].
+         * @event
+         */
         static EVENT_RESOLVE:string = 'resolveReflection';
+
+        /**
+         * Triggered when the converter has finished resolving a project.
+         * The listener should implement [[IConverterCallback]].
+         * @event
+         */
+        static EVENT_RESOLVE_END:string = 'resolveEnd';
+
 
 
         /**
@@ -79,6 +221,11 @@ module td
         }
 
 
+        /**
+         * Return a list of parameters introduced by this component.
+         *
+         * @returns A list of parameter definitions introduced by this component.
+         */
         getParameters():IParameter[] {
             return super.getParameters().concat(<IParameter[]>[{
                 name: "name",
@@ -108,10 +255,9 @@ module td
 
 
         /**
-         * Compile the given source files and create a reflection tree for them.
+         * Compile the given source files and create a project reflection for them.
          *
          * @param fileNames  Array of the file names that should be compiled.
-         * @param settings   The settings that should be used to compile the files.
          */
         convert(fileNames:string[]):IConverterResult {
             for (var i = 0, c = fileNames.length; i < c; i++) {
@@ -126,24 +272,21 @@ module td
             var errors = program.getDiagnostics();
             errors = errors.concat(checker.getDiagnostics());
 
-            var converterEvent = new ConverterEvent(checker, project, settings);
-            this.dispatch(Converter.EVENT_BEGIN, converterEvent);
-
             var context = new Context(this, settings, this.application.compilerOptions, fileNames, checker, project);
+            this.dispatch(Converter.EVENT_BEGIN, context);
 
             program.getSourceFiles().forEach((sourceFile) => {
                 visit(context, sourceFile);
             });
 
-            this.dispatch(Converter.EVENT_RESOLVE_BEGIN, converterEvent);
-            var resolveEvent = new ResolveEvent(checker, project, settings);
+            this.dispatch(Converter.EVENT_RESOLVE_BEGIN, context);
             for (var id in project.reflections) {
-                resolveEvent.reflection = project.reflections[id];
-                this.dispatch(Converter.EVENT_RESOLVE, resolveEvent);
+                if (!project.reflections.hasOwnProperty(id)) continue;
+                this.dispatch(Converter.EVENT_RESOLVE, context, project.reflections[id]);
             }
 
-            this.dispatch(Converter.EVENT_RESOLVE_END, converterEvent);
-            this.dispatch(Converter.EVENT_END, converterEvent);
+            this.dispatch(Converter.EVENT_RESOLVE_END, context);
+            this.dispatch(Converter.EVENT_END, context);
 
             return {
                 errors: errors,
@@ -184,9 +327,7 @@ module td
                 var text = ts.sys.readFile(filename, this.application.compilerOptions.charset);
             } catch (e) {
                 if (onError) {
-                    onError(e.number === Converter.ERROR_UNSUPPORTED_FILE_ENCODING ?
-                        'Unsupported file encoding' :
-                        e.message);
+                    onError(e.number === Converter.ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
                 }
                 text = "";
             }

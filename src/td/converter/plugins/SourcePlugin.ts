@@ -56,45 +56,50 @@ module td
 
 
         /**
-         * Triggered when the dispatcher starts processing a TypeScript document.
+         * Triggered when the converter begins converting a source file.
          *
          * Create a new [[SourceFile]] instance for all TypeScript files.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(event:CompilerEvent) {
-            var fileName = (<ts.SourceFile>event.node).filename;
+        private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
+            if (!node) return;
+            var fileName = node.filename;
             this.basePath.add(fileName);
-            this.getSourceFile(fileName, event.getProject());
+            this.getSourceFile(fileName, context.getProject());
         }
 
 
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
          * Attach the current source file to the [[DeclarationReflection.sources]] array.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event:CompilerEvent) {
-            if (!event.node) return; 
-            var sourceFile      = ts.getSourceFileOfNode(event.node);
+        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+            if (!node) return;
+            var sourceFile      = ts.getSourceFileOfNode(node);
             var fileName        = sourceFile.filename;
-            var file:SourceFile = this.getSourceFile(fileName, event.getProject());
+            var file:SourceFile = this.getSourceFile(fileName, context.getProject());
 
             var position;
-            if (event.node['name'] && event.node['name'].end) {
-                position = sourceFile.getLineAndCharacterFromPosition(event.node['name'].end);
+            if (node['name'] && node['name'].end) {
+                position = sourceFile.getLineAndCharacterFromPosition(node['name'].end);
             } else {
-                position = sourceFile.getLineAndCharacterFromPosition(event.node.pos);
+                position = sourceFile.getLineAndCharacterFromPosition(node.pos);
             }
 
-            if (!event.reflection.sources) event.reflection.sources = [];
-            if (event.reflection instanceof DeclarationReflection) {
-                file.reflections.push(<DeclarationReflection>event.reflection);
+            if (!reflection.sources) reflection.sources = [];
+            if (reflection instanceof DeclarationReflection) {
+                file.reflections.push(<DeclarationReflection>reflection);
             }
 
-            event.reflection.sources.push({
+            reflection.sources.push({
                 file: file,
                 fileName: fileName,
                 line: position.line,
@@ -104,12 +109,12 @@ module td
 
 
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event:ConverterEvent) {
-            event.getProject().files.forEach((file) => {
+        private onBeginResolve(context:Context) {
+            context.getProject().files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
@@ -117,25 +122,26 @@ module td
 
 
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event:ResolveEvent) {
-            if (!event.reflection.sources) return;
-            event.reflection.sources.forEach((source) => {
+        private onResolve(context:Context, reflection:Reflection) {
+            if (!reflection.sources) return;
+            reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
             });
         }
 
 
         /**
-         * Triggered when the dispatcher leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onEndResolve(event:ConverterEvent) {
-            var project = event.getProject();
+        private onEndResolve(context:Context) {
+            var project = context.getProject();
             var home = project.directory;
             project.files.forEach((file) => {
                 var reflections = [];

@@ -18,12 +18,12 @@ module td
 
 
         /**
-         * Triggered when the dispatcher starts processing a declaration.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event:ConverterEvent) {
-            var project = event.getProject();
+        private onBeginResolve(context:Context) {
+            var project = context.getProject();
             var name;
             for (var key in project.reflections) {
                 var reflection = project.reflections[key];

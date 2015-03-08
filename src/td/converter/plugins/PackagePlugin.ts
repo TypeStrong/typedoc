@@ -65,16 +65,16 @@ module td
 
 
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event:ConverterEvent) {
+        private onBegin(context:Context) {
             this.readmeFile  = null;
             this.packageFile = null;
             this.visited     = [];
 
-            var readme = event.getSettings().readme;
+            var readme = context.settings.readme;
             this.noReadmeFile = (readme == 'none');
             if (!this.noReadmeFile && readme) {
                 readme = Path.resolve(readme);
@@ -86,16 +86,19 @@ module td
 
 
         /**
-         * Triggered when the dispatcher begins processing a typescript document.
+         * Triggered when the converter begins converting a source file.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(event:CompilerEvent) {
+        private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
+            if (!node) return;
             if (this.readmeFile && this.packageFile) {
                 return;
             }
 
-            var fileName = (<ts.SourceFile>event.node).filename;
+            var fileName = node.filename;
             var dirName, parentDir = Path.resolve(Path.dirname(fileName));
             do {
                 dirName = parentDir;
@@ -121,12 +124,12 @@ module td
 
 
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the project and compiler.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event:ConverterEvent) {
-            var project = event.getProject();
+        private onBeginResolve(context:Context) {
+            var project = context.getProject();
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }

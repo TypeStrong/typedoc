@@ -91,7 +91,13 @@ module td
         margin:number;
     }
 
-    export interface IParameterProvider {
+    export interface IParameterProvider
+    {
+        /**
+         * Return a list of parameters introduced by this component.
+         *
+         * @returns A list of parameter definitions introduced by this component.
+         */
         getParameters():IParameter[];
     }
 

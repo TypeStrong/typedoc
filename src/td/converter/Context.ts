@@ -41,8 +41,6 @@ module td
 
         externalPattern:{match(str:string):boolean;};
 
-        private event:CompilerEvent;
-
         private converter:Converter;
 
 
@@ -64,7 +62,6 @@ module td
             this.scope = project;
 
             this.externalPattern = settings.externalPattern ? new Minimatch.Minimatch(settings.externalPattern) : null;
-            this.event = new CompilerEvent(checker, project, settings);
         }
 
 
@@ -107,9 +104,7 @@ module td
 
 
         trigger(name:string, reflection:Reflection, node:ts.Node) {
-            this.event.reflection = reflection;
-            this.event.node = node;
-            this.converter.dispatch(name, this.event);
+            this.converter.dispatch(name, this, reflection, node);
         }
 
 

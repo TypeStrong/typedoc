@@ -21,13 +21,13 @@ module td
 
 
         /**
-         * Triggered by the dispatcher for each reflection in the resolving phase.
+         * Triggered when the converter resolves a reflection.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(event:ResolveEvent) {
-            var project = event.getProject();
-            var reflection = <DeclarationReflection>event.reflection;
+        private onResolve(context:Context, reflection:DeclarationReflection) {
+            var project = context.getProject();
 
             resolveType(reflection, <ReferenceType>reflection.type);
             resolveType(reflection, <ReferenceType>reflection.inheritedFrom);
@@ -105,14 +105,11 @@ module td
 
 
         /**
-         * Return the simplified type hierarchy for the given reflection.
+         * Triggered when the converter has finished resolving a project.
          *
-         * @TODO Type hierarchies for interfaces with multiple parent interfaces.
-         *
-         * @param reflection The reflection whose type hierarchy should be generated.
-         * @returns The root of the generated type hierarchy.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onResolveEnd(event:ConverterEvent) {
+        private onResolveEnd(context:Context) {
             this.reflections.forEach((reflection) => {
                 if (reflection.implementedBy) {
                     reflection.implementedBy.sort((a:Type, b:Type):number => {

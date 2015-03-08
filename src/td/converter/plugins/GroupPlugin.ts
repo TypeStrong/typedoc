@@ -75,9 +75,16 @@ module td
         }
 
 
-        private onResolve(event:ResolveEvent) {
-            var reflection = event.reflection;
+        /**
+         * Triggered when the converter resolves a reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
+         */
+        private onResolve(context:Context, reflection:Reflection) {
+            var reflection = reflection;
             reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
+
             if (reflection instanceof ContainerReflection) {
                 var container = <ContainerReflection>reflection;
                 if (container.children && container.children.length > 0) {
@@ -89,10 +96,11 @@ module td
 
 
         /**
-         * Triggered once after all documents have been read and the dispatcher
-         * leaves the resolving phase.
+         * Triggered when the converter has finished resolving a project.
+         *
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onEndResolve(event:ResolveEvent) {
+        private onEndResolve(context:Context) {
             function walkDirectory(directory) {
                 directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
@@ -102,7 +110,7 @@ module td
                 }
             }
 
-            var project = event.getProject();
+            var project = context.getProject();
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);

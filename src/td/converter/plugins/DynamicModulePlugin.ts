@@ -31,41 +31,43 @@ module td
 
 
         /**
-         * Triggered once per project before the dispatcher invokes the compiler.
+         * Triggered when the converter begins converting a project.
          *
-         * @param event  An event object containing the related project and compiler instance.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBegin(event:ConverterEvent) {
+        private onBegin(context:Context) {
             this.basePath.reset();
             this.reflections = [];
         }
 
 
         /**
-         * Triggered when the dispatcher processes a declaration.
+         * Triggered when the converter has created a declaration reflection.
          *
-         * @param state  The state that describes the current declaration and reflection.
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(event:CompilerEvent) {
-            if (event.reflection.kindOf(ReflectionKind.ExternalModule)) {
-                var name = event.reflection.name;
+        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+            if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+                var name = reflection.name;
                 if (name.indexOf('/') == -1) {
                     return;
                 }
 
                 name = name.replace(/"/g, '');
-                this.reflections.push(event.reflection);
+                this.reflections.push(reflection);
                 this.basePath.add(name);
             }
         }
 
 
         /**
-         * Triggered when the dispatcher enters the resolving phase.
+         * Triggered when the converter begins resolving a project.
          *
-         * @param event  The event containing the reflection to resolve.
+         * @param context  The context object describing the current state the converter is in.
          */
-        private onBeginResolve(event:ConverterEvent) {
+        private onBeginResolve(context:Context) {
             this.reflections.forEach((reflection) => {
                 var name = reflection.name.replace(/"/g, '');
                 name = name.substr(0, name.length - Path.extname(name).length);
