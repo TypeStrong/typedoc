@@ -265,7 +265,7 @@ module td
                 }
 
                 try {
-                    FS.rmrfSync(directory);
+                    FS.removeSync(directory);
                 } catch (error) {
                     this.application.logger.warn('Could not empty the output directory.');
                 }
