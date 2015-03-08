@@ -98,7 +98,7 @@ module td
         constructor(fromCommandLine:boolean);
 
         /**
-         * Create a new TypeDoc Application instance.
+         * Create a new TypeDoc application instance.
          */
         constructor(arg?:any) {
             this.converter = new Converter(this);
@@ -115,6 +115,9 @@ module td
         }
 
 
+        /**
+         * Generic initialization logic.
+         */
         private bootstrap() {
             if (typeof this.options.logger == 'function') {
                 this.logger = new CallbackLogger(<any>this.options.logger);
@@ -156,23 +159,31 @@ module td
         }
 
 
+        /**
+         * Initialize TypeDoc with the given options object.
+         *
+         * @param options  The desired options to set.
+         */
         private bootstrapWithOptions(options?:IOptions) {
             var parser = new OptionsParser(this);
             parser.parseObject(options, true);
 
             this.bootstrap();
-            this.collectParameters(parser);
 
+            this.collectParameters(parser);
             parser.parseObject(options);
         }
 
 
+        /**
+         * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
+         *
+         * @param parser  The parser instance the found parameters should be added to.
+         */
         public collectParameters(parser:OptionsParser) {
             parser.addParameter(this.converter.getParameters());
             parser.addParameter(this.renderer.getParameters());
         }
-
-
 
 
         /**

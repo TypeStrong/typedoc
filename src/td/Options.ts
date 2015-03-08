@@ -86,9 +86,9 @@ module td
     }
 
     export interface IParameterHelp {
-        marginLength:number;
-        usage:string[];
-        description:string[];
+        names:string[];
+        helps:string[];
+        margin:number;
     }
 
     export interface IParameterProvider {
@@ -346,6 +346,26 @@ module td
 
 
         /**
+         * Return all parameters within the given scope.
+         *
+         * @param scope  The scope the parameter list should be filtered for.
+         * @returns All parameters within the given scope
+         */
+        getParametersByScope(scope:ParameterScope):IParameter[] {
+            var parameters = [];
+            for (var key in this.arguments) {
+                if (!this.arguments.hasOwnProperty(key)) continue;
+                var argument = this.arguments[key];
+                if (argument.scope === scope) {
+                    parameters.push(argument);
+                }
+            }
+
+            return parameters;
+        }
+
+
+        /**
          * Set the option described by the given parameter description to the given value.
          *
          * @param param  The parameter description of the option to set.
@@ -504,54 +524,44 @@ module td
         }
 
 
-        getParameterHelp(scope:ParameterScope):IParameterHelp {
-            // Sort our options by their names, (e.g. "--noImplicitAny" comes before "--watch")
-            var optsList = [];
-            var marginLength = 0;
-            for (var key in this.arguments) {
-                if (!this.arguments.hasOwnProperty(key)) continue;
-                var argument = this.arguments[key];
-                if (argument.scope === scope) {
-                    optsList.push(argument);
-                }
-            }
-
-            optsList.sort((a, b) => {
+        /**
+         * Prepare parameter information for the [[toString]] method.
+         *
+         * @param scope  The scope of the parameters whose help should be returned.
+         * @returns The columns and lines for the help of the requested parameters.
+         */
+        private getParameterHelp(scope:ParameterScope):IParameterHelp {
+            var parameters = this.getParametersByScope(scope);
+            parameters.sort((a, b) => {
                 return <number>ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
             });
 
-            // We want our descriptions to align at the same column in our output,
-            // so we keep track of the longest option usage string.
-            var usageColumn: string[] = []; // Things like "-d, --declaration" go in here.
-            var descriptionColumn: string[] = [];
+            var names:string[] = [];
+            var helps:string[] = [];
+            var margin = 0;
 
-            for (var i = 0; i < optsList.length; i++) {
-                var option = optsList[i];
+            for (var i = 0; i < parameters.length; i++) {
+                var parameter = parameters[i];
+                if (!parameter.help) continue;
 
-                // If an option lacks a description,
-                // it is not officially supported.
-                if (!option.description) {
-                    continue;
+                var name = " ";
+                if (parameter.short) {
+                    name += "-" + parameter.short;
+                    if (typeof parameter.hint != 'undefined') {
+                        name += ' ' + ParameterHint[parameter.hint].toUpperCase();
+                    }
+                    name += ", ";
                 }
 
-                var usageText = " ";
-                if (option.shortName) {
-                    usageText += "-" + option.shortName;
-                    if (option.hint) usageText += ParameterHint[option.hint].toUpperCase();
-                    usageText += ", ";
-                }
+                name += "--" + parameter.name;
+                if (parameter.hint) name += ' ' + ParameterHint[parameter.hint].toUpperCase();
 
-                usageText += "--" + option.name;
-                if (option.hint) usageText += ParameterHint[option.hint].toUpperCase();
-
-                usageColumn.push(usageText);
-                descriptionColumn.push(option.description.key);
-
-                // Set the new margin for the description column if necessary.
-                marginLength = Math.max(usageText.length, marginLength);
+                names.push(name);
+                helps.push(parameter.help);
+                margin = Math.max(name.length, margin);
             }
 
-            return {marginLength:marginLength, usage:usageColumn, description:descriptionColumn};
+            return {names:names, helps:helps, margin:margin};
         }
 
 
@@ -563,36 +573,31 @@ module td
         public toString():string {
             var typeDoc = this.getParameterHelp(ParameterScope.TypeDoc);
             var typeScript = this.getParameterHelp(ParameterScope.TypeScript);
+            var margin = Math.max(typeDoc.margin, typeScript.margin);
 
             var output = [];
             output.push('Usage:');
             output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
+
             output.push('', 'TypeDoc options:');
-            pushDeclarations(typeDoc);
+            pushHelp(typeDoc);
+
             output.push('', 'TypeScript options:');
-            pushDeclarations(typeScript);
+            pushHelp(typeScript);
+
             output.push('');
             return output.join(ts.sys.newLine);
 
-            // Special case that can't fit in the loop.
-            function addFileOption(columns:IParameterHelp) {
-                var usageText = " @<file>";
-                columns.usage.push(usageText);
-                columns.description.push(ts.Diagnostics.Insert_command_line_options_and_files_from_a_file.key);
-                columns.marginLength = Math.max(usageText.length, columns.marginLength);
-            }
-
-            // Print out each row, aligning all the descriptions on the same column.
-            function pushDeclarations(columns:IParameterHelp) {
-                for (var i = 0; i < columns.usage.length; i++) {
-                    var usage = columns.usage[i];
-                    var description = columns.description[i];
-                    output.push(usage + makePadding(columns.marginLength - usage.length + 2) + description);
+            function pushHelp(columns:IParameterHelp) {
+                for (var i = 0; i < columns.names.length; i++) {
+                    var usage = columns.names[i];
+                    var description = columns.helps[i];
+                    output.push(usage + padding(margin - usage.length + 2) + description);
                 }
             }
 
-            function makePadding(paddingLength: number): string {
-                return Array(paddingLength + 1).join(" ");
+            function padding(length: number): string {
+                return Array(length + 1).join(" ");
             }
         }
 
