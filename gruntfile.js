@@ -47,6 +47,10 @@ module.exports = function(grunt)
                 }
             }
         },
+        clean: {
+            specsBefore: ['test/renderer/specs'],
+            specsAfter: ['test/renderer/specs/assets']
+        },
         watch: {
             source: {
                 files: ['src/**/*.ts'],
@@ -58,11 +62,13 @@ module.exports = function(grunt)
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-ts');
 
     grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
+    grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
-    grunt.registerTask('build-test-specs', function() {
+    grunt.registerTask('build-specs', function() {
         var FS = require('fs');
         var Path = require('path');
         var TypeDoc = require(Path.join(__dirname, 'bin', 'typedoc.js'));
@@ -87,5 +93,9 @@ module.exports = function(grunt)
             data = data.split(TypeDoc.normalizePath(base)).join('%BASE%');
             FS.writeFileSync(out, data);
         });
+
+        var src = Path.join(__dirname, 'examples', 'basic', 'src');
+        var out = Path.join(__dirname, 'test', 'renderer', 'specs');
+        app.generateDocs(app.expandInputFiles([src]), out);
     });
 };

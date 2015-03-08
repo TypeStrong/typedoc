@@ -6,6 +6,7 @@
 
 /src/lib/typescript/tsc.js
 
+/tmp/
 /etc/
 /examples/*/doc
 /examples/definitely-typed/src/
