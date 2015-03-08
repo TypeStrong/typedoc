@@ -392,6 +392,7 @@ module td
          */
         parseObject(obj:any, ignoreUnknownArgs?:boolean):boolean {
             if (typeof obj != 'object') return true;
+            var logger = this.application.logger;
             var result = true;
 
             for (var key in obj) {
@@ -400,8 +401,7 @@ module td
                 var parameter = this.getParameter(key);
                 if (!parameter) {
                     if (!ignoreUnknownArgs) {
-                        var msg = ts.createCompilerDiagnostic(ts.Diagnostics.Unknown_compiler_option_0, key);
-                        this.application.logger.warn(msg.messageText);
+                        logger.error('Unknown option: %s', key);
                         result = false;
                     }
                 } else {
@@ -425,14 +425,8 @@ module td
         parseArguments(args?:string[], ignoreUnknownArgs?:boolean):boolean {
             var index = 0;
             var result = true;
+            var logger = this.application.logger;
             args = args || process.argv.slice(2);
-
-            var error = (message:ts.DiagnosticMessage, ...args: any[]) => {
-                if (ignoreUnknownArgs) return;
-                var msg = ts.createCompilerDiagnostic.call(this, arguments);
-                this.application.logger.error(msg.messageText);
-                result = false;
-            };
 
             while (index < args.length) {
                 var arg = args[index++];
@@ -444,10 +438,14 @@ module td
 
                     var parameter = this.getParameter(arg);
                     if (!parameter) {
-                        error(ts.Diagnostics.Unknown_compiler_option_0, arg);
+                        if (ignoreUnknownArgs) continue;
+                        logger.error('Unknown option: %s', arg);
+                        return false;
                     } else if (parameter.type !== ParameterType.Boolean) {
                         if (!args[index]) {
-                            error(ts.Diagnostics.Compiler_option_0_expects_an_argument, parameter.name);
+                            if (ignoreUnknownArgs) continue;
+                            logger.error('Option "%s" expects an argument', parameter.name);
+                            return false;
                         } else {
                             result = this.setOption(parameter, args[index++]) && result;
                         }
@@ -472,10 +470,10 @@ module td
          */
         parseResponseFile(filename:string, ignoreUnknownArgs?:boolean):boolean {
             var text = ts.sys.readFile(filename);
+            var logger = this.application.logger;
 
             if (!text) {
-                var error = ts.createCompilerDiagnostic(ts.Diagnostics.File_0_not_found, filename);
-                this.application.logger.error(error.messageText);
+                logger.error('File not found: "%s"', filename);
                 return false;
             }
 
@@ -493,8 +491,7 @@ module td
                         args.push(text.substring(start + 1, pos));
                         pos++;
                     } else {
-                        var error = ts.createCompilerDiagnostic(ts.Diagnostics.Unterminated_quoted_string_in_response_file_0, filename);
-                        this.application.logger.error(error.messageText);
+                        logger.error('Unterminated quoted string in response file "%s"', filename);
                         return false;
                     }
                 } else {
