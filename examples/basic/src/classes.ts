@@ -200,9 +200,7 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     /**
      * This is a simple interface function.
      */
-    public print(value:string):void {
-        console.log(value);
-    }
+    public print(value:string):void { }
 
     public printName():void {
         this.print(this.getName());

@@ -19,9 +19,7 @@ export module MyModule
         /**
          * An object literal function.
          */
-        print: function(value:string) {
-            console.log(value);
-        }
+        print: function(value:string) { }
     };
 
 
