@@ -106,8 +106,6 @@ in order to change the behaviour of TypeDoc.
   Display the version number of TypeDoc.
 * `--help`<br>
   Display a simple cheat sheet.
-* `--verbose`<br>
-  Print more information while TypeDoc is running.
 
 
 ### Gulp
