@@ -69,6 +69,11 @@ module td
         private includes:string;
 
         /**
+         * Path to the output media directory.
+         */
+        private mediaDirectory:string;
+
+        /**
          * The pattern used to find references in markdown.
          */
         private includePattern:RegExp = /\[\[include:([^\]]+?)\]\]/g;
@@ -240,9 +245,15 @@ module td
                 });
             }
 
-            text = text.replace(this.mediaPattern, (match:string, path:string) => {
-                return this.getRelativeUrl('media') + '/' + path;
-            });
+            if (this.mediaDirectory) {
+                text = text.replace(this.mediaPattern, (match:string, path:string) => {
+                    if (FS.fileExistsSync(Path.join(this.mediaDirectory, path))) {
+                        return this.getRelativeUrl('media') + '/' + path;
+                    } else {
+                        return match;
+                    }
+                });
+            }
 
             return this.parseReferences(Marked(text));
         }
@@ -301,9 +312,10 @@ module td
             if (event.settings.media) {
                 var media = Path.resolve(event.settings.media);
                 if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
-                    var to = Path.join(event.outputDirectory, 'media');
-                    FS.copySync(media, to);
+                    this.mediaDirectory = Path.join(event.outputDirectory, 'media');
+                    FS.copySync(media, this.mediaDirectory);
                 } else {
+                    this.mediaDirectory = null;
                     this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
                 }
             }
