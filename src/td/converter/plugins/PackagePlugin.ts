@@ -74,7 +74,7 @@ module td
             this.packageFile = null;
             this.visited     = [];
 
-            var readme = context.settings.readme;
+            var readme = context.getOptions().readme;
             this.noReadmeFile = (readme == 'none');
             if (!this.noReadmeFile && readme) {
                 readme = Path.resolve(readme);
@@ -129,7 +129,7 @@ module td
          * @param context  The context object describing the current state the converter is in.
          */
         private onBeginResolve(context:Context) {
-            var project = context.getProject();
+            var project = context.project;
             if (this.readmeFile) {
                 project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
             }

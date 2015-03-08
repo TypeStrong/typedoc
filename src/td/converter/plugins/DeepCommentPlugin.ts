@@ -23,7 +23,7 @@ module td
          * @param context  The context object describing the current state the converter is in.
          */
         private onBeginResolve(context:Context) {
-            var project = context.getProject();
+            var project = context.project;
             var name;
             for (var key in project.reflections) {
                 var reflection = project.reflections[key];

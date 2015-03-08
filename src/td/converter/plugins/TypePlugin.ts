@@ -27,7 +27,7 @@ module td
          * @param reflection  The reflection that is currently resolved.
          */
         private onResolve(context:Context, reflection:DeclarationReflection) {
-            var project = context.getProject();
+            var project = context.project;
 
             resolveType(reflection, <ReferenceType>reflection.type);
             resolveType(reflection, <ReferenceType>reflection.inheritedFrom);

@@ -2,7 +2,7 @@ module td
 {
 
     export function createDeclaration(context:Context, node:ts.Node, kind:ReflectionKind, name?:string):DeclarationReflection {
-        var container = <ContainerReflection>context.getScope();
+        var container = <ContainerReflection>context.scope;
         if (!(container instanceof ContainerReflection)) {
             throw new Error('Expected container reflection.');
         }
@@ -78,7 +78,7 @@ module td
 
     export function createReferenceType(context:Context, symbol:ts.Symbol, includeParent?:boolean):ReferenceType {
         var id = context.getSymbolID(symbol);
-        var checker = context.getTypeChecker();
+        var checker = context.checker;
         var name = checker.symbolToString(symbol);
         if (includeParent && symbol.parent) {
             name = [checker.symbolToString(symbol.parent), name].join('.');
@@ -89,7 +89,7 @@ module td
 
 
     export function createSignature(context:Context, node:ts.SignatureDeclaration, name:string, kind:ReflectionKind):SignatureReflection {
-        var container = <DeclarationReflection>context.getScope();
+        var container = <DeclarationReflection>context.scope;
         var signature = new SignatureReflection(container, name, kind);
 
         context.withScope(signature, node.typeParameters, true, () => {
@@ -99,7 +99,7 @@ module td
 
             context.registerReflection(signature, node);
 
-            var checker = context.getTypeChecker();
+            var checker = context.checker;
             if (kind == ReflectionKind.CallSignature) {
                 var type = checker.getTypeAtLocation(node);
                 checker.getSignaturesOfType(type, ts.SignatureKind.Call).forEach((tsSignature) => {
@@ -129,7 +129,7 @@ module td
 
 
     function createParameter(context:Context, node:ts.ParameterDeclaration) {
-        var signature = <SignatureReflection>context.getScope();
+        var signature = <SignatureReflection>context.scope;
         if (!(signature instanceof SignatureReflection)) {
             throw new Error('Expected signature reflection.');
         }
@@ -160,7 +160,7 @@ module td
             typeParameter.constraint = convertType(context, declaration.constraint, context.getTypeAtLocation(declaration.constraint));
         }
 
-        var reflection = <ITypeParameterContainer>context.getScope();
+        var reflection = <ITypeParameterContainer>context.scope;
         if (!reflection.typeParameters) reflection.typeParameters = [];
         var typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
 

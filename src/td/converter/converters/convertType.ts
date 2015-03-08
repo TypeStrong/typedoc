@@ -74,7 +74,7 @@ module td
         if (!type || !node || !node.typeName) return false;
         if (!type.symbol) return true;
 
-        var checker = context.getTypeChecker();
+        var checker = context.checker;
         var symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
         if (!symbolName.length) return false;
         if (symbolName[0].substr(0, 1) == '"') symbolName.shift();
@@ -116,7 +116,7 @@ module td
         var declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
-        declaration.parent = context.getScope();
+        declaration.parent = context.scope;
 
         context.registerReflection(declaration, null, symbol);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
@@ -367,7 +367,7 @@ module td
      * @returns The type reflection representing the given type.
      */
     function convertUnknownType(context:Context, type:ts.Type):Type {
-        var name = context.getTypeChecker().typeToString(type);
+        var name = context.checker.typeToString(type);
         return new UnknownType(name);
     }
 

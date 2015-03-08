@@ -194,7 +194,7 @@ module td
             }
 
             if (this.hidden) {
-                var project = context.getProject();
+                var project = context.project;
                 this.hidden.forEach((reflection) => {
                     CommentPlugin.removeReflection(project, reflection);
                 });

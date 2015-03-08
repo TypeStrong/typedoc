@@ -207,7 +207,7 @@ module td
          * @param context  The context object describing the current state the converter is in.
          */
         private onEndResolve(context:Context) {
-            var project = context.getProject();
+            var project = context.project;
             project.files.forEach((sourceFile) => {
                 var repository = this.getRepository(sourceFile.fullFileName);
                 if (repository) {

@@ -110,7 +110,7 @@ module td
                 }
             }
 
-            var project = context.getProject();
+            var project = context.project;
             if (project.children && project.children.length > 0) {
                 project.children.sort(GroupPlugin.sortCallback);
                 project.groups = GroupPlugin.getReflectionGroups(project.children);

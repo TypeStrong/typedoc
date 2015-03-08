@@ -121,7 +121,7 @@ module td
             });
         }
 
-        return context.getScope();
+        return context.scope;
     }
 
 
@@ -133,9 +133,10 @@ module td
      * @return The resulting reflection or NULL.
      */
     function visitSourceFile(context:Context, node:ts.SourceFile):Reflection {
-        var result = context.getScope();
+        var result = context.scope;
+        var options = context.getOptions();
         context.withSourceFile(node, () => {
-            if (context.settings.mode == SourceFileMode.Modules) {
+            if (options.mode == SourceFileMode.Modules) {
                 result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.filename);
                 context.withScope(result, () => {
                     visitBlock(context, node);
@@ -158,11 +159,11 @@ module td
      * @return The resulting reflection or NULL.
      */
     function visitModuleDeclaration(context:Context, node:ts.ModuleDeclaration):Reflection {
-        var parent = context.getScope();
+        var parent = context.scope;
         var reflection = createDeclaration(context, node, ReflectionKind.Module);
 
         context.withScope(reflection, () => {
-            var opt = context.compilerOptions;
+            var opt = context.getCompilerOptions();
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
                 (!opt.module || opt.module == ts.ModuleKind.None)) {
                 reflection.setFlag(ReflectionFlag.Exported);
@@ -187,7 +188,7 @@ module td
     function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):Reflection {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
-            reflection = context.getScope();
+            reflection = context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Class);
         }
@@ -240,7 +241,7 @@ module td
     function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration):Reflection {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
-            reflection = context.getScope();
+            reflection = context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Interface);
         }
@@ -288,7 +289,7 @@ module td
             });
         }
 
-        return context.getScope();
+        return context.scope;
     }
 
 
@@ -318,7 +319,7 @@ module td
             }
         }
 
-        var scope = context.getScope();
+        var scope = context.scope;
         var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
         var variable = createDeclaration(context, node, kind);
         context.withScope(variable, () => {
@@ -397,7 +398,7 @@ module td
      * @return The resulting reflection or NULL.
      */
     function visitConstructor(context:Context, node:ts.ConstructorDeclaration):Reflection {
-        var parent = context.getScope();
+        var parent = context.scope;
         var hasBody = !!node.body;
         var method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
 
@@ -427,7 +428,7 @@ module td
     function visitFunctionDeclaration(context:Context, node:ts.FunctionDeclaration):Reflection;
     function visitFunctionDeclaration(context:Context, node:ts.MethodDeclaration):Reflection;
     function visitFunctionDeclaration(context:Context, node:{body?:ts.Block}):Reflection {
-        var scope = context.getScope();
+        var scope = context.scope;
         var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
         var hasBody = !!node.body;
         var method = createDeclaration(context, <ts.Node>node, kind);
@@ -456,7 +457,7 @@ module td
     function visitCallSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection;
     function visitCallSignatureDeclaration(context:Context, node:ts.FunctionExpression):Reflection;
     function visitCallSignatureDeclaration(context:Context, node:{}):Reflection {
-        var scope = <DeclarationReflection>context.getScope();
+        var scope = <DeclarationReflection>context.scope;
         if (scope instanceof DeclarationReflection) {
             var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
             var signature = createSignature(context, <ts.SignatureDeclaration>node, name, ReflectionKind.CallSignature);
@@ -476,7 +477,7 @@ module td
      * @return The resulting reflection or NULL.
      */
     function visitIndexSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var scope = <DeclarationReflection>context.getScope();
+        var scope = <DeclarationReflection>context.scope;
         if (scope instanceof DeclarationReflection) {
             scope.indexSignature = createSignature(context, node, '__index', ReflectionKind.IndexSignature);
         }
@@ -533,7 +534,7 @@ module td
             });
         }
 
-        return context.getScope();
+        return context.scope;
     }
 
 
@@ -551,7 +552,7 @@ module td
             });
         }
 
-        return context.getScope();
+        return context.scope;
     }
 
 
@@ -575,7 +576,7 @@ module td
     function visitExportAssignment(context:Context, node:ts.ExportAssignment):Reflection {
         var type = context.getTypeAtLocation(node.exportName);
         if (type && type.symbol) {
-            var project = context.getProject();
+            var project = context.project;
             type.symbol.declarations.forEach((declaration) => {
                 if (!declaration.symbol) return;
                 var id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
@@ -597,6 +598,6 @@ module td
             reflection.traverse(markAsExported);
         }
 
-        return context.getScope();
+        return context.scope;
     }
 }

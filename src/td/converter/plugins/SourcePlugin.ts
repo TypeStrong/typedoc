@@ -68,7 +68,7 @@ module td
             if (!node) return;
             var fileName = node.filename;
             this.basePath.add(fileName);
-            this.getSourceFile(fileName, context.getProject());
+            this.getSourceFile(fileName, context.project);
         }
 
 
@@ -85,7 +85,7 @@ module td
             if (!node) return;
             var sourceFile      = ts.getSourceFileOfNode(node);
             var fileName        = sourceFile.filename;
-            var file:SourceFile = this.getSourceFile(fileName, context.getProject());
+            var file:SourceFile = this.getSourceFile(fileName, context.project);
 
             var position;
             if (node['name'] && node['name'].end) {
@@ -114,7 +114,7 @@ module td
          * @param context  The context object describing the current state the converter is in.
          */
         private onBeginResolve(context:Context) {
-            context.getProject().files.forEach((file) => {
+            context.project.files.forEach((file) => {
                 var fileName = file.fileName = this.basePath.trim(file.fileName);
                 this.fileMappings[fileName] = file;
             });
@@ -141,7 +141,7 @@ module td
          * @param context  The context object describing the current state the converter is in.
          */
         private onEndResolve(context:Context) {
-            var project = context.getProject();
+            var project = context.project;
             var home = project.directory;
             project.files.forEach((file) => {
                 var reflections = [];
