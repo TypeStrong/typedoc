@@ -26,9 +26,15 @@ function compareDirectories(a, b) {
     var bFiles = getFileIndex(b);
     Assert.deepEqual(aFiles, bFiles, "Generated files differ.");
 
+    var gitHubRegExp = /https:\/\/github.com\/sebastian-lenz\/typedoc\/blob\/[^\/]*\/examples/g;
     aFiles.forEach(function (file) {
-        var aSrc = FS.readFileSync(Path.join(a, file), {encoding:'utf-8'}).replace("\r", '');
-        var bSrc = FS.readFileSync(Path.join(b, file), {encoding:'utf-8'}).replace("\r", '');
+        var aSrc = FS.readFileSync(Path.join(a, file), {encoding:'utf-8'})
+            .replace("\r", '')
+            .replace(gitHubRegExp, '%GITHUB%');
+        var bSrc = FS.readFileSync(Path.join(b, file), {encoding:'utf-8'})
+            .replace("\r", '')
+            .replace(gitHubRegExp, '%GITHUB%');
+
         if (aSrc != bSrc) {
             var err = new Error('File contents of "' + file + '" differ.');
             err.expected = aSrc;
