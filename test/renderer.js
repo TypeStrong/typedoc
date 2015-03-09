@@ -56,7 +56,7 @@ describe('Renderer', function() {
     });
 
     after(function(){
-        // FS.removeSync(out);
+        FS.removeSync(out);
     });
 
     it('constructs', function() {
