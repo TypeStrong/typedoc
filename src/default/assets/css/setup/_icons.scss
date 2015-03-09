@@ -19,8 +19,10 @@ $member-icons:
     ('function.tsd-has-type-parameter', 'method.tsd-has-type-parameter'),
     (constructor, constructor-signature),
     (index-signature),
+    (event),
     (property),
-    (function, method, call-signature);
+    (function, method, call-signature),
+    (event);
 
 // parameter
 // type-literal
@@ -96,7 +98,7 @@ $member-interface-inherited:      -13 * $icon-size;
         $selector: '.tsd-kind-' + $kind;
         @if $index == 9 {
             $selector: '.tsd-is-static';
-        } @else if $index > 9 {
+        } @else if $index > 10 {
             $selector: '.tsd-is-static.tsd-kind-' + $kind;
         }
 
