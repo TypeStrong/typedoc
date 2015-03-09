@@ -2237,7 +2237,7 @@ var td;
                         variable.defaultValue = getDefaultValue(node);
                 }
             }
-            if (variable.kind == kind) {
+            if (variable.kind == kind || variable.kind == 8388608 /* Event */) {
                 variable.type = td.convertType(context, node.type, context.getTypeAtLocation(node));
             }
         });
@@ -3154,6 +3154,36 @@ var td;
             }
         };
         /**
+         * Apply all comment tag modifiers to the given reflection.
+         *
+         * @param reflection  The reflection the modifiers should be applied to.
+         * @param comment  The comment that should be searched for modifiers.
+         */
+        CommentPlugin.prototype.applyModifiers = function (reflection, comment) {
+            if (comment.hasTag('private')) {
+                reflection.setFlag(1 /* Private */);
+                CommentPlugin.removeTags(comment, 'private');
+            }
+            if (comment.hasTag('protected')) {
+                reflection.setFlag(2 /* Protected */);
+                CommentPlugin.removeTags(comment, 'protected');
+            }
+            if (comment.hasTag('public')) {
+                reflection.setFlag(4 /* Public */);
+                CommentPlugin.removeTags(comment, 'public');
+            }
+            if (comment.hasTag('event')) {
+                reflection.kind = 8388608 /* Event */;
+                // reflection.setFlag(ReflectionFlag.Event);
+                CommentPlugin.removeTags(comment, 'event');
+            }
+            if (comment.hasTag('hidden')) {
+                if (!this.hidden)
+                    this.hidden = [];
+                this.hidden.push(reflection);
+            }
+        };
+        /**
          * Triggered when the converter begins converting a project.
          *
          * @param context  The context object describing the current state the converter is in.
@@ -3199,34 +3229,15 @@ var td;
                 return;
             if (reflection.kindOf(td.ReflectionKind.FunctionOrMethod)) {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
-                this.applyAccessModifiers(reflection, comment);
+                this.applyModifiers(reflection, comment);
             }
             else if (reflection.kindOf(2 /* Module */)) {
                 this.storeModuleComment(rawComment, reflection);
             }
             else {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
-                this.applyAccessModifiers(reflection, comment);
+                this.applyModifiers(reflection, comment);
                 reflection.comment = comment;
-            }
-        };
-        CommentPlugin.prototype.applyAccessModifiers = function (reflection, comment) {
-            if (comment.hasTag('private')) {
-                reflection.setFlag(1 /* Private */);
-                CommentPlugin.removeTags(comment, 'private');
-            }
-            if (comment.hasTag('protected')) {
-                reflection.setFlag(2 /* Protected */);
-                CommentPlugin.removeTags(comment, 'protected');
-            }
-            if (comment.hasTag('public')) {
-                reflection.setFlag(4 /* Public */);
-                CommentPlugin.removeTags(comment, 'public');
-            }
-            if (comment.hasTag('hidden')) {
-                if (!this.hidden)
-                    this.hidden = [];
-                this.hidden.push(reflection);
             }
         };
         /**
@@ -3256,7 +3267,7 @@ var td;
                 var info = this.comments[id];
                 var comment = CommentPlugin.parseComment(info.fullText);
                 CommentPlugin.removeTags(comment, 'preferred');
-                this.applyAccessModifiers(info.reflection, comment);
+                this.applyModifiers(info.reflection, comment);
                 info.reflection.comment = comment;
             }
             if (this.hidden) {
@@ -3331,14 +3342,14 @@ var td;
             if (node.kind == 189 /* ModuleDeclaration */) {
                 var a, b;
                 // Ignore comments for cascaded modules, e.g. module A.B { }
-                if (node.nextContainer && node.nextContainer.kind == 189 /* 'ModuleDeclaration' */) {
+                if (node.nextContainer && node.nextContainer.kind == 189 /* ModuleDeclaration */) {
                     a = node;
                     b = node.nextContainer;
                     if (a.name.end + 1 == b.name.pos) {
                         return null;
                     }
                 }
-                while (target.parent && target.parent.kind == 189 /* 'ModuleDeclaration' */) {
+                while (target.parent && target.parent.kind == 189 /* ModuleDeclaration */) {
                     a = target;
                     b = target.parent;
                     if (a.name.pos == b.name.end + 1) {
@@ -3349,7 +3360,7 @@ var td;
                     }
                 }
             }
-            if (node.parent && node.parent.kind == 164 /* 'VariableStatement' */) {
+            if (node.parent && node.parent.kind == 164 /* VariableStatement */) {
                 target = node.parent;
             }
             var comments = ts.getJsDocComments(target, sourceFile);
@@ -4033,6 +4044,7 @@ var td;
             256 /* Interface */,
             4194304 /* TypeAlias */,
             512 /* Constructor */,
+            8388608 /* Event */,
             1024 /* Property */,
             32 /* Variable */,
             64 /* Function */,
@@ -4712,6 +4724,7 @@ var td;
         ReflectionKind[ReflectionKind["SetSignature"] = 1048576] = "SetSignature";
         ReflectionKind[ReflectionKind["ObjectLiteral"] = 2097152] = "ObjectLiteral";
         ReflectionKind[ReflectionKind["TypeAlias"] = 4194304] = "TypeAlias";
+        ReflectionKind[ReflectionKind["Event"] = 8388608] = "Event";
         ReflectionKind[ReflectionKind["ClassOrInterface"] = ReflectionKind.Class | ReflectionKind.Interface] = "ClassOrInterface";
         ReflectionKind[ReflectionKind["VariableOrProperty"] = ReflectionKind.Variable | ReflectionKind.Property] = "VariableOrProperty";
         ReflectionKind[ReflectionKind["FunctionOrMethod"] = ReflectionKind.Function | ReflectionKind.Method] = "FunctionOrMethod";

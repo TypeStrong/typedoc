@@ -342,7 +342,7 @@ module td
                 }
             }
 
-            if (variable.kind == kind) {
+            if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
                 variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
             }
         });

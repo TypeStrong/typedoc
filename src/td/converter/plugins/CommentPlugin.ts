@@ -78,6 +78,41 @@ module td
 
 
         /**
+         * Apply all comment tag modifiers to the given reflection.
+         *
+         * @param reflection  The reflection the modifiers should be applied to.
+         * @param comment  The comment that should be searched for modifiers.
+         */
+        private applyModifiers(reflection:Reflection, comment:Comment) {
+            if (comment.hasTag('private')) {
+                reflection.setFlag(ReflectionFlag.Private);
+                CommentPlugin.removeTags(comment, 'private');
+            }
+
+            if (comment.hasTag('protected')) {
+                reflection.setFlag(ReflectionFlag.Protected);
+                CommentPlugin.removeTags(comment, 'protected');
+            }
+
+            if (comment.hasTag('public')) {
+                reflection.setFlag(ReflectionFlag.Public);
+                CommentPlugin.removeTags(comment, 'public');
+            }
+
+            if (comment.hasTag('event')) {
+                reflection.kind = ReflectionKind.Event;
+                // reflection.setFlag(ReflectionFlag.Event);
+                CommentPlugin.removeTags(comment, 'event');
+            }
+
+            if (comment.hasTag('hidden')) {
+                if (!this.hidden) this.hidden = [];
+                this.hidden.push(reflection);
+            }
+        }
+
+
+        /**
          * Triggered when the converter begins converting a project.
          *
          * @param context  The context object describing the current state the converter is in.
@@ -125,36 +160,13 @@ module td
 
             if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
-                this.applyAccessModifiers(reflection, comment);
+                this.applyModifiers(reflection, comment);
             } else if (reflection.kindOf(ReflectionKind.Module)) {
                 this.storeModuleComment(rawComment, reflection);
             } else {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
-                this.applyAccessModifiers(reflection, comment);
+                this.applyModifiers(reflection, comment);
                 reflection.comment = comment;
-            }
-        }
-
-
-        private applyAccessModifiers(reflection:Reflection, comment:Comment) {
-            if (comment.hasTag('private')) {
-                reflection.setFlag(ReflectionFlag.Private);
-                CommentPlugin.removeTags(comment, 'private');
-            }
-
-            if (comment.hasTag('protected')) {
-                reflection.setFlag(ReflectionFlag.Protected);
-                CommentPlugin.removeTags(comment, 'protected');
-            }
-
-            if (comment.hasTag('public')) {
-                reflection.setFlag(ReflectionFlag.Public);
-                CommentPlugin.removeTags(comment, 'public');
-            }
-
-            if (comment.hasTag('hidden')) {
-                if (!this.hidden) this.hidden = [];
-                this.hidden.push(reflection);
             }
         }
 
@@ -189,7 +201,7 @@ module td
                 var comment = CommentPlugin.parseComment(info.fullText);
                 CommentPlugin.removeTags(comment, 'preferred');
 
-                this.applyAccessModifiers(info.reflection, comment);
+                this.applyModifiers(info.reflection, comment);
                 info.reflection.comment = comment;
             }
 
@@ -275,7 +287,7 @@ module td
                 var a, b;
 
                 // Ignore comments for cascaded modules, e.g. module A.B { }
-                if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind.ModuleDeclaration) {
                     a = <ts.ModuleDeclaration>node;
                     b = <ts.ModuleDeclaration>node.nextContainer;
                     if (a.name.end + 1 == b.name.pos) {
@@ -284,7 +296,7 @@ module td
                 }
 
                 // Pull back comments of cascaded modules
-                while (target.parent && target.parent.kind == ts.SyntaxKind['ModuleDeclaration']) {
+                while (target.parent && target.parent.kind == ts.SyntaxKind.ModuleDeclaration) {
                     a = <ts.ModuleDeclaration>target;
                     b = <ts.ModuleDeclaration>target.parent;
                     if (a.name.pos == b.name.end + 1) {
@@ -295,7 +307,7 @@ module td
                 }
             }
 
-            if (node.parent && node.parent.kind == ts.SyntaxKind['VariableStatement']) {
+            if (node.parent && node.parent.kind == ts.SyntaxKind.VariableStatement) {
                 target = node.parent;
             }
 

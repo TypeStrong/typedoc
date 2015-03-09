@@ -53,6 +53,7 @@ module td
         SetSignature = 1048576,
         ObjectLiteral = 2097152,
         TypeAlias = 4194304,
+        Event = 8388608,
 
         ClassOrInterface = Class | Interface,
         VariableOrProperty = Variable | Property,

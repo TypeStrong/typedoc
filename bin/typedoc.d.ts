@@ -1190,6 +1190,13 @@ declare module td {
         constructor(converter: Converter);
         private storeModuleComment(comment, reflection);
         /**
+         * Apply all comment tag modifiers to the given reflection.
+         *
+         * @param reflection  The reflection the modifiers should be applied to.
+         * @param comment  The comment that should be searched for modifiers.
+         */
+        private applyModifiers(reflection, comment);
+        /**
          * Triggered when the converter begins converting a project.
          *
          * @param context  The context object describing the current state the converter is in.
@@ -1213,7 +1220,6 @@ declare module td {
          * @param node  The node that is currently processed if available.
          */
         private onDeclaration(context, reflection, node?);
-        private applyAccessModifiers(reflection, comment);
         /**
          * Triggered when the converter has found a function implementation.
          *
@@ -1806,6 +1812,7 @@ declare module td {
         SetSignature = 1048576,
         ObjectLiteral = 2097152,
         TypeAlias = 4194304,
+        Event = 8388608,
         ClassOrInterface,
         VariableOrProperty,
         FunctionOrMethod,
