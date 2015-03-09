@@ -55,6 +55,7 @@
   "keywords": [
     "typescript",
     "documentation",
-    "generator"
+    "generator",
+    "gruntplugin"
   ]
 }
