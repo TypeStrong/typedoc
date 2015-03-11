@@ -24,9 +24,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "peerDependencies": {
-    "typedoc": "0.2.x"
-  },
   "devDependencies": {
     "typescript": "1.4.x",
     "grunt": "^0.4.5",
