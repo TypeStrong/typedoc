@@ -72,7 +72,7 @@ var td;
             this.logger = new td.ConsoleLogger();
             this.options = td.OptionsParser.createOptions();
             this.compilerOptions = td.OptionsParser.createCompilerOptions();
-            if (!arg || typeof arg == 'object') {
+            if (arg == undefined || typeof arg == 'object') {
                 this.bootstrapWithOptions(arg);
             }
             else if (arg === true) {
@@ -89,6 +89,7 @@ var td;
             else if (this.options.logger == 0 /* None */) {
                 this.logger = new td.Logger();
             }
+            return this.loadNpmPlugins(this.options.plugins);
         };
         /**
          * Run TypeDoc from the command line.
@@ -136,6 +137,113 @@ var td;
             this.collectParameters(parser);
             parser.loadOptionFileFromObject(options);
             parser.parseObject(options);
+        };
+        /**
+         * Load the given list of npm plugins.
+         *
+         * @param plugins  A list of npm modules that should be loaded as plugins. When not specified
+         *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        Application.prototype.loadNpmPlugins = function (plugins) {
+            plugins = plugins || this.discoverNpmPlugins();
+            var i, c = plugins.length;
+            for (i = 0; i < c; i++) {
+                var plugin = plugins[i];
+                if (typeof plugin != 'string') {
+                    this.logger.error('Unknown plugin %s', plugin);
+                    return false;
+                }
+                else if (plugin.toLowerCase() == 'none') {
+                    return true;
+                }
+            }
+            for (i = 0; i < c; i++) {
+                var plugin = plugins[i];
+                try {
+                    var instance = require(plugin);
+                    if (typeof instance == 'function') {
+                        instance(this, td);
+                        this.logger.write('Loaded plugin %s', plugin);
+                    }
+                    else {
+                        this.logger.error('The plugin %s did not return a function.', plugin);
+                    }
+                }
+                catch (error) {
+                    this.logger.error('The plugin %s could not be loaded.', plugin);
+                    this.logger.writeln(error.stack);
+                }
+            }
+        };
+        /**
+         * Discover all installed TypeDoc plugins.
+         *
+         * @returns A list of all npm module names that are qualified TypeDoc plugins.
+         */
+        Application.prototype.discoverNpmPlugins = function () {
+            var result = [];
+            var logger = this.logger;
+            discover();
+            return result;
+            /**
+             * Find all parent folders containing a `node_modules` subdirectory.
+             */
+            function discover() {
+                var path = process.cwd(), previous;
+                do {
+                    var modules = td.Path.join(path, 'node_modules');
+                    if (td.FS.existsSync(modules) && td.FS.lstatSync(modules).isDirectory()) {
+                        discoverModules(modules);
+                    }
+                    previous = path;
+                    path = td.Path.resolve(td.Path.join(previous, '..'));
+                } while (previous != path);
+            }
+            /**
+             * Scan the given `node_modules` directory for TypeDoc plugins.
+             */
+            function discoverModules(basePath) {
+                td.FS.readdirSync(basePath).forEach(function (name) {
+                    var dir = td.Path.join(basePath, name);
+                    var infoFile = td.Path.join(dir, 'package.json');
+                    if (!td.FS.existsSync(infoFile)) {
+                        return;
+                    }
+                    var info = loadPackageInfo(infoFile);
+                    if (isPlugin(info)) {
+                        result.push(name);
+                    }
+                });
+            }
+            /**
+             * Load and parse the given `package.json`.
+             */
+            function loadPackageInfo(fileName) {
+                try {
+                    return JSON.parse(td.FS.readFileSync(fileName, { encoding: 'utf-8' }));
+                }
+                catch (error) {
+                    logger.error('Could not parse %s', fileName);
+                    return {};
+                }
+            }
+            /**
+             * Test whether the given package info describes a TypeDoc plugin.
+             */
+            function isPlugin(info) {
+                var keywords = info.keywords;
+                if (!keywords || !td.Util.isArray(keywords)) {
+                    return false;
+                }
+                for (var i = 0, c = keywords.length; i < c; i++) {
+                    var keyword = keywords[i];
+                    if (typeof keyword == 'string' && keyword.toLowerCase() == 'typedocplugin') {
+                        return true;
+                    }
+                }
+                return false;
+            }
         };
         /**
          * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
@@ -774,8 +882,9 @@ var td;
                 type: 0 /* String */
             }, {
                 name: 'plugin',
-                help: '',
-                type: 0 /* String */
+                help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
+                type: 0 /* String */,
+                isArray: true
             }, {
                 name: 'logger',
                 help: 'Specify the logger that should be used, \'none\' or \'console\'',

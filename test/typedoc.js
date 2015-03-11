@@ -81,7 +81,7 @@ describe('TypeDoc', function() {
 
     describe('Application', function() {
         it('constructs', function() {
-            application = new TypeDoc.Application();
+            application = new TypeDoc.Application(false);
         });
         it('expands input files', function() {
             var inputFiles = Path.join(__dirname, 'converter', 'class');
@@ -95,8 +95,8 @@ describe('TypeDoc', function() {
 
     describe('OptionsParser', function() {
         beforeEach(function() {
-            application.options = {};
-            application.compilerOptions = {};
+            application.options = TypeDoc.OptionsParser.createOptions();
+            application.compilerOptions = TypeDoc.OptionsParser.createCompilerOptions();
         });
 
         it('constructs', function() {
@@ -109,11 +109,15 @@ describe('TypeDoc', function() {
                 includes: 'inc/',
                 media:    'media/',
                 target:   'ES5',
+                theme:    'default',
+                plugin:   ['myPlugin', 'another-plugin'],
                 noLib:    true
             });
             Assert.deepEqual(application.options, {
+                theme: 'default',
                 includes: 'inc/',
-                media: 'media/'
+                media: 'media/',
+                plugin: ['myPlugin', 'another-plugin']
             });
             Assert.deepEqual(application.compilerOptions, {
                 module: TypeDoc.ModuleKind.CommonJS,
@@ -127,16 +131,21 @@ describe('TypeDoc', function() {
                 '--module', 'commonjs',
                 '--includes', 'inc/',
                 '--media', 'media/',
+                '--theme', 'minimal',
                 '--target', 'ES5',
                 '--noLib',
                 '--out', 'doc/',
+                '--plugin', 'myPlugin',
+                '--plugin', 'another-plugin',
                 'src/'
             ]);
             Assert.deepEqual(parser.inputFiles, ['src/']);
             Assert.deepEqual(application.options, {
+                theme: 'minimal',
                 includes: 'inc/',
                 media: 'media/',
-                out: 'doc/'
+                out: 'doc/',
+                plugin: ['myPlugin', 'another-plugin']
             });
             Assert.deepEqual(application.compilerOptions, {
                 module: TypeDoc.ModuleKind.CommonJS,

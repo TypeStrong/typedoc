@@ -107,6 +107,20 @@ declare module td {
          */
         private bootstrapWithOptions(options?);
         /**
+         * Load the given list of npm plugins.
+         *
+         * @param plugins  A list of npm modules that should be loaded as plugins. When not specified
+         *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        private loadNpmPlugins(plugins?);
+        /**
+         * Discover all installed TypeDoc plugins.
+         *
+         * @returns A list of all npm module names that are qualified TypeDoc plugins.
+         */
+        private discoverNpmPlugins();
+        /**
          * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
          *
          * @param parser  The parser instance the found parameters should be added to.
