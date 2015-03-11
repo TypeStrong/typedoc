@@ -133,12 +133,13 @@ module td
         private bootstrapFromCommandline() {
             var parser = new OptionsParser(this);
             parser.addCommandLineParameters();
+            parser.loadOptionFileFromArguments(null, true);
             parser.parseArguments(null, true);
 
             this.bootstrap();
 
             this.collectParameters(parser);
-            if (!parser.parseArguments()) {
+            if (!parser.loadOptionFileFromArguments() || !parser.parseArguments()) {
                 return;
             }
 
@@ -166,11 +167,13 @@ module td
          */
         private bootstrapWithOptions(options?:IOptions) {
             var parser = new OptionsParser(this);
+            parser.loadOptionFileFromObject(options, true);
             parser.parseObject(options, true);
 
             this.bootstrap();
 
             this.collectParameters(parser);
+            parser.loadOptionFileFromObject(options);
             parser.parseObject(options);
         }
 

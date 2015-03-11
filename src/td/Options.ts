@@ -153,6 +153,11 @@ module td
             'sourceMap', 'removeComments'
         ];
 
+        /**
+         * The name of the parameter that specifies the options file.
+         */
+        private static OPTIONS_KEY:string = 'options';
+
 
 
         /**
@@ -241,6 +246,11 @@ module td
                 name: 'theme',
                 help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
                 type: ParameterType.String
+            },{
+                name: OptionsParser.OPTIONS_KEY,
+                help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
+                type: ParameterType.String,
+                hint: ParameterHint.File
             },{
                 name: 'exclude',
                 help: 'Define a pattern for excluded files when specifying paths.',
@@ -405,6 +415,104 @@ module td
             }
 
             return true;
+        }
+
+
+        /**
+         * Try to find and load an option file from command line arguments.
+         *
+         * An option file can either be specified using the command line argument ``--option`` or must
+         * be a file named ``typedoc.js`` within the current directory.
+         *
+         * @param args  The list of arguments that should be parsed. When omitted the
+         *   current command line arguments will be used.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        loadOptionFileFromArguments(args?:string[], ignoreUnknownArgs?:boolean):boolean {
+            args = args || process.argv.slice(2);
+            var index = 0;
+            var optionFile;
+            while (index < args.length) {
+                var arg = args[index++];
+                if (arg.charCodeAt(0) !== ts.CharacterCodes.minus) {
+                    continue;
+                }
+
+                arg = arg.slice(arg.charCodeAt(1) === ts.CharacterCodes.minus ? 2 : 1).toLowerCase();
+                if (arg == OptionsParser.OPTIONS_KEY && args[index]) {
+                    optionFile = Path.resolve(args[index]);
+                    break;
+                }
+            }
+
+            if (!optionFile) {
+                optionFile = Path.resolve('typedoc.js');
+                if (!FS.existsSync(optionFile)) {
+                    return true;
+                }
+            }
+
+            return this.loadOptionFile(optionFile, ignoreUnknownArgs);
+        }
+
+
+        /**
+         * Try to load an option file from a settings object.
+         *
+         * @param obj  The object whose properties should be applied.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        loadOptionFileFromObject(obj:any, ignoreUnknownArgs?:boolean):boolean {
+            if (typeof obj != 'object') return true;
+            if (!obj[OptionsParser.OPTIONS_KEY]) {
+                return true;
+            }
+
+            return this.loadOptionFile(obj[OptionsParser.OPTIONS_KEY], ignoreUnknownArgs);
+        }
+
+
+        /**
+         * Load the specified option file.
+         *
+         * @param optionFile  The absolute path and file name of the option file.
+         * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
+         *   will simply skip all unknown arguments.
+         * @returns TRUE on success, otherwise FALSE.
+         */
+        loadOptionFile(optionFile:string, ignoreUnknownArgs?:boolean):boolean {
+            if (!FS.existsSync(optionFile)) {
+                this.application.logger.error('The specified option file %s does not exist.', optionFile);
+                return false;
+            }
+
+            var data = require(optionFile);
+            if (typeof data == 'function') {
+                data = data(this.application, td);
+            }
+
+            if (!(typeof data == 'object')) {
+                this.application.logger.error('The option file %s could not be read, it must either export a function or an object.', optionFile);
+                return false;
+            } else {
+                if (data.src) {
+                    if (typeof data.src == 'string') {
+                        this.inputFiles = [data.src];
+                    } else if (Util.isArray(data.src)) {
+                        this.inputFiles = data.src;
+                    } else {
+                        this.application.logger.error('The property \'src\' of the option file %s must be a string or an array.', optionFile);
+                    }
+
+                    delete data.src;
+                }
+
+                return this.parseObject(data, ignoreUnknownArgs);
+            }
         }
 
 
