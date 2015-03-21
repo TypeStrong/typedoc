@@ -247,7 +247,7 @@ module td.output
 
             if (this.mediaDirectory) {
                 text = text.replace(this.mediaPattern, (match:string, path:string) => {
-                    if (FS.fileExistsSync(Path.join(this.mediaDirectory, path))) {
+                    if (FS.existsSync(Path.join(this.mediaDirectory, path))) {
                         return this.getRelativeUrl('media') + '/' + path;
                     } else {
                         return match;

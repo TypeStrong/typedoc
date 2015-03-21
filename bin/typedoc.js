@@ -7126,7 +7126,7 @@ var td;
                 }
                 if (this.mediaDirectory) {
                     text = text.replace(this.mediaPattern, function (match, path) {
-                        if (td.FS.fileExistsSync(td.Path.join(_this.mediaDirectory, path))) {
+                        if (td.FS.existsSync(td.Path.join(_this.mediaDirectory, path))) {
                             return _this.getRelativeUrl('media') + '/' + path;
                         }
                         else {
