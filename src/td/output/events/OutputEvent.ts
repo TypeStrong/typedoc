@@ -12,7 +12,7 @@ module td.output
         /**
          * The project the renderer is currently processing.
          */
-        project:ProjectReflection;
+        project:models.ProjectReflection;
 
         /**
          * The settings that have been passed to TypeDoc.

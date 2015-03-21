@@ -23,12 +23,12 @@ module td.converter
         /**
          * The project that is currently processed.
          */
-        project:ProjectReflection;
+        project:models.ProjectReflection;
 
         /**
          * The scope or parent reflection that is currently processed.
          */
-        scope:Reflection;
+        scope:models.Reflection;
 
         /**
          * Is the current source file marked as being external?
@@ -43,12 +43,12 @@ module td.converter
         /**
          * The currently set type parameters.
          */
-        typeParameters:ts.Map<Type>;
+        typeParameters:ts.Map<models.Type>;
 
         /**
          * The currently set type arguments.
          */
-        typeArguments:Type[];
+        typeArguments:models.Type[];
 
         /**
          * Is the converter in inheritance mode?
@@ -89,7 +89,7 @@ module td.converter
             this.fileNames = fileNames;
             this.checker = checker;
 
-            var project = new ProjectReflection(this.getOptions().name);
+            var project = new models.ProjectReflection(this.getOptions().name);
             this.project = project;
             this.scope = project;
 
@@ -153,7 +153,7 @@ module td.converter
          * @param node  The node the given reflection was resolved from.
          * @param symbol  The symbol the given reflection was resolved from.
          */
-        registerReflection(reflection:Reflection, node:ts.Node, symbol?:ts.Symbol) {
+        registerReflection(reflection:models.Reflection, node:ts.Node, symbol?:ts.Symbol) {
             this.project.reflections[reflection.id] = reflection;
 
             var id = this.getSymbolID(symbol ? symbol : node.symbol);
@@ -172,7 +172,7 @@ module td.converter
          * @param reflection  The triggering reflection.
          * @param node  The triggering TypeScript node if available.
          */
-        trigger(name:string, reflection:Reflection, node?:ts.Node) {
+        trigger(name:string, reflection:models.Reflection, node?:ts.Node) {
             this.converter.dispatch(name, this, reflection, node);
         }
 
@@ -218,27 +218,27 @@ module td.converter
         /**
          * @param callback  The callback function that should be executed with the changed context.
          */
-        public withScope(scope:Reflection, callback:Function);
+        public withScope(scope:models.Reflection, callback:Function);
 
         /**
          * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
          * @param callback  The callback function that should be executed with the changed context.
          */
-        public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, callback:Function);
+        public withScope(scope:models.Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, callback:Function);
 
         /**
          * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
          * @param preserve  Should the currently set type parameters of the context be preserved?
          * @param callback  The callback function that should be executed with the changed context.
          */
-        public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve:boolean, callback:Function);
+        public withScope(scope:models.Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve:boolean, callback:Function);
 
         /**
          * Run the given callback with the scope of the context set to the given reflection.
          *
          * @param scope  The reflection that should be set as the scope of the context while the callback is invoked.
          */
-        public withScope(scope:Reflection, ...args) {
+        public withScope(scope:models.Reflection, ...args) {
             if (!scope || !args.length) return;
             var callback = args.pop();
             var parameters = args.shift();
@@ -266,7 +266,7 @@ module td.converter
          * @param typeArguments  The type arguments that apply while inheriting the given node.
          * @return The resulting reflection / the current scope.
          */
-        inherit(baseNode:ts.Node, typeArguments?:ts.NodeArray<ts.TypeNode>):Reflection {
+        inherit(baseNode:ts.Node, typeArguments?:ts.NodeArray<ts.TypeNode>):models.Reflection {
             var wasInherit = this.isInherit;
             var oldInherited = this.inherited;
             var oldInheritParent = this.inheritParent;
@@ -275,8 +275,8 @@ module td.converter
             this.inheritParent = baseNode;
             this.inherited = [];
 
-            var target = <ContainerReflection>this.scope;
-            if (!(target instanceof ContainerReflection)) {
+            var target = <models.ContainerReflection>this.scope;
+            if (!(target instanceof models.ContainerReflection)) {
                 throw new Error('Expected container reflection');
             }
 
@@ -309,8 +309,8 @@ module td.converter
          * @param preserve  Should the currently set type parameters of the context be preserved?
          * @returns The resulting type mapping.
          */
-        private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.Map<Type> {
-            var typeParameters:ts.Map<Type> = {};
+        private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.Map<models.Type> {
+            var typeParameters:ts.Map<models.Type> = {};
 
             if (preserve) {
                 for (var key in this.typeParameters) {

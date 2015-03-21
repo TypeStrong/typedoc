@@ -32,7 +32,7 @@ module td.output
         /**
          * [[DeclarationReflection.kind]] this rule applies to.
          */
-        kind:ReflectionKind[];
+        kind:models.ReflectionKind[];
 
         /**
          * Can this mapping have children or should all further reflections be rendered
@@ -62,22 +62,22 @@ module td.output
          * Mappings of reflections kinds to templates used by this theme.
          */
         static MAPPINGS:ITemplateMapping[] = [{
-            kind:      [ReflectionKind.Class],
+            kind:      [models.ReflectionKind.Class],
             isLeaf:    true,
             directory: 'classes',
             template:  'reflection.hbs'
         },{
-            kind:      [ReflectionKind.Interface],
+            kind:      [models.ReflectionKind.Interface],
             isLeaf:    true,
             directory: 'interfaces',
             template:  'reflection.hbs'
         },{
-            kind:      [ReflectionKind.Enum],
+            kind:      [models.ReflectionKind.Enum],
             isLeaf:    true,
             directory: 'enums',
             template:  'reflection.hbs'
         },{
-            kind:      [ReflectionKind.Module, ReflectionKind.ExternalModule],
+            kind:      [models.ReflectionKind.Module, models.ReflectionKind.ExternalModule],
             isLeaf:    false,
             directory: 'modules',
             template:  'reflection.hbs'
@@ -137,7 +137,7 @@ module td.output
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project:ProjectReflection):UrlMapping[] {
+        getUrls(project:models.ProjectReflection):UrlMapping[] {
             var urls = [];
 
             if (this.renderer.application.options.readme == 'none') {
@@ -165,14 +165,14 @@ module td.output
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project:ProjectReflection):NavigationItem {
+        getNavigation(project:models.ProjectReflection):NavigationItem {
             /**
              * Test whether the given list of modules contains an external module.
              *
              * @param modules  The list of modules to test.
              * @returns        TRUE if any of the modules is marked as being external.
              */
-            function containsExternals(modules:DeclarationReflection[]):boolean {
+            function containsExternals(modules:models.DeclarationReflection[]):boolean {
                 for (var index = 0, length = modules.length; index < length; index++) {
                     if (modules[index].flags.isExternal) return true;
                 }
@@ -185,8 +185,8 @@ module td.output
              *
              * @param modules  The list of modules that should be sorted.
              */
-            function sortReflections(modules:DeclarationReflection[]) {
-                modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
+            function sortReflections(modules:models.DeclarationReflection[]) {
+                modules.sort((a:models.DeclarationReflection, b:models.DeclarationReflection) => {
                     if (a.flags.isExternal && !b.flags.isExternal) return  1;
                     if (!a.flags.isExternal && b.flags.isExternal) return -1;
                     return a.getFullName() < b.getFullName() ? -1 : 1;
@@ -201,11 +201,11 @@ module td.output
              * @param reflection  The reflection whose children urls should be included.
              * @param item        The navigation node whose dedicated urls should be set.
              */
-            function includeDedicatedUrls(reflection:DeclarationReflection, item:NavigationItem) {
+            function includeDedicatedUrls(reflection:models.DeclarationReflection, item:NavigationItem) {
                 (function walk(reflection) {
                     for (var key in reflection.children) {
                         var child = reflection.children[key];
-                        if (child.hasOwnDocument && !child.kindOf(ReflectionKind.SomeModule)) {
+                        if (child.hasOwnDocument && !child.kindOf(models.ReflectionKind.SomeModule)) {
                             if (!item.dedicatedUrls) item.dedicatedUrls = [];
                             item.dedicatedUrls.push(child.url);
                             walk(child);
@@ -220,9 +220,9 @@ module td.output
              * @param reflection  The reflection whose children modules should be transformed into navigation nodes.
              * @param parent      The parent NavigationItem of the newly created nodes.
              */
-            function buildChildren(reflection:DeclarationReflection, parent:NavigationItem) {
-                var modules = reflection.getChildrenByKind(ReflectionKind.SomeModule);
-                modules.sort((a:DeclarationReflection, b:DeclarationReflection) => {
+            function buildChildren(reflection:models.DeclarationReflection, parent:NavigationItem) {
+                var modules = reflection.getChildrenByKind(models.ReflectionKind.SomeModule);
+                modules.sort((a:models.DeclarationReflection, b:models.DeclarationReflection) => {
                     return a.getFullName() < b.getFullName() ? -1 : 1;
                 });
 
@@ -242,8 +242,8 @@ module td.output
              * @param parent       The parent NavigationItem of the newly created nodes.
              * @param callback     Optional callback invoked for each generated node.
              */
-            function buildGroups(reflections:DeclarationReflection[], parent:NavigationItem,
-                                 callback?:(reflection:DeclarationReflection, item:NavigationItem) => void) {
+            function buildGroups(reflections:models.DeclarationReflection[], parent:NavigationItem,
+                                 callback?:(reflection:models.DeclarationReflection, item:NavigationItem) => void) {
                 var state = -1;
                 var hasExternals = containsExternals(reflections);
                 sortReflections(reflections);
@@ -276,10 +276,10 @@ module td.output
                 globals.isGlobals = true;
 
                 var modules = [];
-                project.getReflectionsByKind(ReflectionKind.SomeModule).forEach((someModule) => {
+                project.getReflectionsByKind(models.ReflectionKind.SomeModule).forEach((someModule) => {
                     var target = someModule.parent;
                     while (target) {
-                        if (target.kindOf(ReflectionKind.ExternalModule)) return;
+                        if (target.kindOf(models.ReflectionKind.ExternalModule)) return;
                         target = target.parent;
                     }
                     modules.push(someModule);
@@ -288,7 +288,7 @@ module td.output
                 if (modules.length < 10) {
                     buildGroups(modules, root, buildChildren);
                 } else {
-                    buildGroups(project.getChildrenByKind(ReflectionKind.SomeModule), root, buildChildren);
+                    buildGroups(project.getChildrenByKind(models.ReflectionKind.SomeModule), root, buildChildren);
                 }
 
                 return root;
@@ -311,11 +311,11 @@ module td.output
 
             for (var id in event.project.reflections) {
                 var reflection = event.project.reflections[id];
-                if (reflection instanceof DeclarationReflection) {
-                    DefaultTheme.applyReflectionClasses(<DeclarationReflection>reflection);
+                if (reflection instanceof models.DeclarationReflection) {
+                    DefaultTheme.applyReflectionClasses(<models.DeclarationReflection>reflection);
                 }
 
-                if (reflection instanceof ContainerReflection && reflection['groups']) {
+                if (reflection instanceof models.ContainerReflection && reflection['groups']) {
                     reflection['groups'].forEach(DefaultTheme.applyGroupClasses);
                 }
             }
@@ -330,11 +330,11 @@ module td.output
          * @param separator   The separator used to generate the url.
          * @returns           The generated url.
          */
-        static getUrl(reflection:Reflection, relative?:Reflection, separator:string = '.'):string {
+        static getUrl(reflection:models.Reflection, relative?:models.Reflection, separator:string = '.'):string {
             var url = reflection.getAlias();
 
             if (reflection.parent && reflection.parent != relative &&
-                !(reflection.parent instanceof ProjectReflection))
+                !(reflection.parent instanceof models.ProjectReflection))
                 url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
 
             return url;
@@ -347,7 +347,7 @@ module td.output
          * @param reflection  The reflection whose mapping should be resolved.
          * @returns           The found mapping or NULL if no mapping could be found.
          */
-        static getMapping(reflection:DeclarationReflection):ITemplateMapping {
+        static getMapping(reflection:models.DeclarationReflection):ITemplateMapping {
             for (var i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
                 var mapping = DefaultTheme.MAPPINGS[i];
                 if (reflection.kindOf(mapping.kind)) {
@@ -366,7 +366,7 @@ module td.output
          * @param urls        The array the url should be appended to.
          * @returns           The altered urls array.
          */
-        static buildUrls(reflection:DeclarationReflection, urls:UrlMapping[]):UrlMapping[] {
+        static buildUrls(reflection:models.DeclarationReflection, urls:UrlMapping[]):UrlMapping[] {
             var mapping = DefaultTheme.getMapping(reflection);
             if (mapping) {
                 var url = Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
@@ -396,7 +396,7 @@ module td.output
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection:Reflection, container:Reflection) {
+        static applyAnchorUrl(reflection:models.Reflection, container:models.Reflection) {
             var anchor = DefaultTheme.getUrl(reflection, container, '.');
             if (reflection['isStatic']) {
                 anchor = 'static-' + anchor;
@@ -407,7 +407,7 @@ module td.output
             reflection.hasOwnDocument = false;
 
             reflection.traverse((child) => {
-                if (child instanceof DeclarationReflection) {
+                if (child instanceof models.DeclarationReflection) {
                     DefaultTheme.applyAnchorUrl(child, container);
                 }
             });
@@ -420,10 +420,10 @@ module td.output
          *
          * @param reflection  The reflection whose cssClasses property should be generated.
          */
-        static applyReflectionClasses(reflection:DeclarationReflection) {
+        static applyReflectionClasses(reflection:models.DeclarationReflection) {
             var classes = [];
 
-            if (reflection.kind == ReflectionKind.Accessor) {
+            if (reflection.kind == models.ReflectionKind.Accessor) {
                 if (!reflection.getSignature) {
                     classes.push('tsd-kind-set-signature');
                 } else if (!reflection.setSignature) {
@@ -432,12 +432,12 @@ module td.output
                     classes.push('tsd-kind-accessor');
                 }
             } else {
-                var kind = ReflectionKind[reflection.kind];
+                var kind = models.ReflectionKind[reflection.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-kind-' + kind));
             }
 
-            if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
-                kind = ReflectionKind[reflection.parent.kind];
+            if (reflection.parent && reflection.parent instanceof models.DeclarationReflection) {
+                kind = models.ReflectionKind[reflection.parent.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
             }
 
@@ -465,7 +465,7 @@ module td.output
          *
          * @param group  The reflection group whose cssClasses property should be generated.
          */
-        static applyGroupClasses(group:ReflectionGroup) {
+        static applyGroupClasses(group:models.ReflectionGroup) {
             var classes = [];
             if (group.allChildrenAreInherited)  classes.push('tsd-is-inherited');
             if (group.allChildrenArePrivate)    classes.push('tsd-is-private');

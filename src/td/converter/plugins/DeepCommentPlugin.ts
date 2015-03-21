@@ -33,9 +33,9 @@ module td.converter
             }
 
 
-            function push(parent:Reflection) {
+            function push(parent:models.Reflection) {
                 var part = parent.originalName;
-                if (!part || part.substr(0, 2) == '__' || parent instanceof SignatureReflection) {
+                if (!part || part.substr(0, 2) == '__' || parent instanceof models.SignatureReflection) {
                     part = '';
                 }
 
@@ -45,16 +45,16 @@ module td.converter
             }
 
 
-            function findDeepComment(reflection:Reflection) {
+            function findDeepComment(reflection:models.Reflection) {
                 name = '';
                 push(reflection);
                 var target = reflection.parent;
 
-                while (target && !(target instanceof ProjectReflection)) {
+                while (target && !(target instanceof models.ProjectReflection)) {
                     push(target);
                     if (target.comment) {
                         var tag;
-                        if (reflection instanceof TypeParameterReflection) {
+                        if (reflection instanceof models.TypeParameterReflection) {
                             tag = target.comment.getTag('typeparam', reflection.name);
                             if (!tag) tag = target.comment.getTag('param', '<' + reflection.name + '>');
                         }
@@ -63,7 +63,7 @@ module td.converter
 
                         if (tag) {
                             target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);
-                            reflection.comment = new Comment('', tag.text);
+                            reflection.comment = new models.Comment('', tag.text);
                             break;
                         }
                     }

@@ -14,7 +14,7 @@ module td.converter
         /**
          * List of reflections whose name must be trimmed.
          */
-        private reflections:Reflection[];
+        private reflections:models.Reflection[];
 
 
         /**
@@ -48,8 +48,8 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
-            if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+        private onDeclaration(context:Context, reflection:models.Reflection, node?:ts.Node) {
+            if (reflection.kindOf(models.ReflectionKind.ExternalModule)) {
                 var name = reflection.name;
                 if (name.indexOf('/') == -1) {
                     return;

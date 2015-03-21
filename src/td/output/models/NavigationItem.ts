@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * A hierarchical model holding the data of single node within the navigation.
@@ -98,7 +98,7 @@ module td
          * @param parent         The parent navigation node.
          * @param useShortNames  Force this function to always use short names.
          */
-        static create(reflection:Reflection, parent?:NavigationItem, useShortNames?:boolean) {
+        static create(reflection:models.Reflection, parent?:NavigationItem, useShortNames?:boolean) {
             var name;
             if (useShortNames || (parent && parent.parent)) {
                 name = reflection.name;

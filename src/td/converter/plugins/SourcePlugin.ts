@@ -13,7 +13,7 @@ module td.converter
         /**
          * A map of all generated [[SourceFile]] instances.
          */
-        private fileMappings:{[name:string]:SourceFile} = {};
+        private fileMappings:{[name:string]:models.SourceFile} = {};
 
 
         /**
@@ -33,9 +33,9 @@ module td.converter
         }
 
 
-        private getSourceFile(fileName:string, project:ProjectReflection):SourceFile {
+        private getSourceFile(fileName:string, project:models.ProjectReflection):models.SourceFile {
             if (!this.fileMappings[fileName]) {
-                var file = new SourceFile(fileName);
+                var file = new models.SourceFile(fileName);
                 this.fileMappings[fileName] = file;
                 project.files.push(file);
             }
@@ -64,7 +64,7 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
+        private onBeginDocument(context:Context, reflection:models.Reflection, node?:ts.SourceFile) {
             if (!node) return;
             var fileName = node.filename;
             this.basePath.add(fileName);
@@ -81,11 +81,11 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+        private onDeclaration(context:Context, reflection:models.Reflection, node?:ts.Node) {
             if (!node) return;
             var sourceFile      = ts.getSourceFileOfNode(node);
             var fileName        = sourceFile.filename;
-            var file:SourceFile = this.getSourceFile(fileName, context.project);
+            var file:models.SourceFile = this.getSourceFile(fileName, context.project);
 
             var position;
             if (node['name'] && node['name'].end) {
@@ -95,8 +95,8 @@ module td.converter
             }
 
             if (!reflection.sources) reflection.sources = [];
-            if (reflection instanceof DeclarationReflection) {
-                file.reflections.push(<DeclarationReflection>reflection);
+            if (reflection instanceof models.DeclarationReflection) {
+                file.reflections.push(<models.DeclarationReflection>reflection);
             }
 
             reflection.sources.push({
@@ -127,7 +127,7 @@ module td.converter
          * @param context  The context object describing the current state the converter is in.
          * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(context:Context, reflection:Reflection) {
+        private onResolve(context:Context, reflection:models.Reflection) {
             if (!reflection.sources) return;
             reflection.sources.forEach((source) => {
                 source.fileName = this.basePath.trim(source.fileName);
@@ -154,7 +154,7 @@ module td.converter
                 if (path != '.') {
                     path.split('/').forEach((path) => {
                         if (!directory.directories[path]) {
-                            directory.directories[path] = new SourceDirectory(path, directory);
+                            directory.directories[path] = new models.SourceDirectory(path, directory);
                         }
                         directory = directory.directories[path];
                     });

@@ -9,7 +9,7 @@
  * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
  * while creating the final output.
  */
-module td
+module td.models
 {
     /**
      * Current reflection id.

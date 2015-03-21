@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Represents all unknown types.

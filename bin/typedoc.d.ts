@@ -66,11 +66,11 @@ declare module td {
         /**
          * The converter used to create the declaration reflections.
          */
-        converter: Converter;
+        converter: converter.Converter;
         /**
          * The renderer used to generate the documentation output.
          */
-        renderer: Renderer;
+        renderer: output.Renderer;
         /**
          * The logger that should be used to output messages.
          */
@@ -132,7 +132,7 @@ declare module td {
          * @param src  A list of source that should be compiled and converted.
          * @returns An instance of ProjectReflection on success, NULL otherwise.
          */
-        convert(src: string[]): ProjectReflection;
+        convert(src: string[]): models.ProjectReflection;
         /**
          * @param src  A list of source files whose documentation should be generated.
          */
@@ -140,7 +140,7 @@ declare module td {
         /**
          * @param project  The project the documentation should be generated for.
          */
-        generateDocs(project: ProjectReflection, out: string): boolean;
+        generateDocs(project: models.ProjectReflection, out: string): boolean;
         /**
          * @param src  A list of source that should be compiled and converted.
          */
@@ -148,7 +148,7 @@ declare module td {
         /**
          * @param project  The project that should be converted.
          */
-        generateJson(project: ProjectReflection, out: string): boolean;
+        generateJson(project: models.ProjectReflection, out: string): boolean;
         /**
          * Expand a list of input files.
          *
@@ -702,7 +702,7 @@ declare module td {
      */
     function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
 }
-declare module td {
+declare module td.converter {
     /**
      * Helper class that determines the common base path of a set of files.
      *
@@ -740,7 +740,7 @@ declare module td {
         static normalize(path: string): string;
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * The context describes the current state the converter is in.
      */
@@ -760,11 +760,11 @@ declare module td {
         /**
          * The project that is currently processed.
          */
-        project: ProjectReflection;
+        project: models.ProjectReflection;
         /**
          * The scope or parent reflection that is currently processed.
          */
-        scope: Reflection;
+        scope: models.Reflection;
         /**
          * Is the current source file marked as being external?
          */
@@ -776,11 +776,11 @@ declare module td {
         /**
          * The currently set type parameters.
          */
-        typeParameters: ts.Map<Type>;
+        typeParameters: ts.Map<models.Type>;
         /**
          * The currently set type arguments.
          */
-        typeArguments: Type[];
+        typeArguments: models.Type[];
         /**
          * Is the converter in inheritance mode?
          */
@@ -844,7 +844,7 @@ declare module td {
          * @param node  The node the given reflection was resolved from.
          * @param symbol  The symbol the given reflection was resolved from.
          */
-        registerReflection(reflection: Reflection, node: ts.Node, symbol?: ts.Symbol): void;
+        registerReflection(reflection: models.Reflection, node: ts.Node, symbol?: ts.Symbol): void;
         /**
          * Trigger a node reflection event.
          *
@@ -854,7 +854,7 @@ declare module td {
          * @param reflection  The triggering reflection.
          * @param node  The triggering TypeScript node if available.
          */
-        trigger(name: string, reflection: Reflection, node?: ts.Node): void;
+        trigger(name: string, reflection: models.Reflection, node?: ts.Node): void;
         /**
          * Run the given callback with the context configured for the given source file.
          *
@@ -865,18 +865,18 @@ declare module td {
         /**
          * @param callback  The callback function that should be executed with the changed context.
          */
-        withScope(scope: Reflection, callback: Function): any;
+        withScope(scope: models.Reflection, callback: Function): any;
         /**
          * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
          * @param callback  The callback function that should be executed with the changed context.
          */
-        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
+        withScope(scope: models.Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, callback: Function): any;
         /**
          * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
          * @param preserve  Should the currently set type parameters of the context be preserved?
          * @param callback  The callback function that should be executed with the changed context.
          */
-        withScope(scope: Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserve: boolean, callback: Function): any;
+        withScope(scope: models.Reflection, parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserve: boolean, callback: Function): any;
         /**
          * Inherit the children of the given TypeScript node to the current scope.
          *
@@ -884,7 +884,7 @@ declare module td {
          * @param typeArguments  The type arguments that apply while inheriting the given node.
          * @return The resulting reflection / the current scope.
          */
-        inherit(baseNode: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection;
+        inherit(baseNode: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): models.Reflection;
         /**
          * Convert the given list of type parameter declarations into a type mapping.
          *
@@ -919,7 +919,7 @@ declare module td {
         excludeExternals?: boolean;
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * Result structure of the [[Converter.convert]] method.
      */
@@ -931,7 +931,7 @@ declare module td {
         /**
          * The resulting project reflection.
          */
-        project: ProjectReflection;
+        project: models.ProjectReflection;
     }
     /**
      * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -1133,7 +1133,7 @@ declare module td {
         writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void): void;
     }
 }
-declare module td {
+declare module td.converter {
     class ConverterPlugin implements IPluginInterface {
         /**
          * The converter this plugin is attached to.
@@ -1151,7 +1151,7 @@ declare module td {
         remove(): void;
     }
 }
-declare module td {
+declare module td.converter {
     function getDefaultValue(node: ts.VariableDeclaration): string;
     function getDefaultValue(node: ts.ParameterDeclaration): string;
     function getDefaultValue(node: ts.EnumMember): string;
@@ -1164,9 +1164,9 @@ declare module td {
      * @param node     The compiler node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visit(context: Context, node: ts.Node): Reflection;
+    function visit(context: Context, node: ts.Node): models.Reflection;
 }
-declare module td {
+declare module td.converter {
     /**
      * Convert the given TypeScript type into its TypeDoc type reflection.
      *
@@ -1175,9 +1175,9 @@ declare module td {
      * @param type  The type of the node if already known.
      * @returns The TypeDoc type reflection representing the given node and type.
      */
-    function convertType(context: Context, node?: ts.Node, type?: ts.Type): Type;
+    function convertType(context: Context, node?: ts.Node, type?: ts.Type): models.Type;
 }
-declare module td {
+declare module td.converter {
     /**
      * Create a declaration reflection from the given TypeScript node.
      *
@@ -1188,7 +1188,7 @@ declare module td {
      * @param name  The desired name of the reflection.
      * @returns The resulting reflection.
      */
-    function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection;
+    function createDeclaration(context: Context, node: ts.Node, kind: models.ReflectionKind, name?: string): models.DeclarationReflection;
     /**
      * Create a new reference type pointing to the given symbol.
      *
@@ -1197,7 +1197,7 @@ declare module td {
      * @param includeParent  Should the name of the parent be provided within the fallback name?
      * @returns A new reference type instance pointing to the given symbol.
      */
-    function createReferenceType(context: Context, symbol: ts.Symbol, includeParent?: boolean): ReferenceType;
+    function createReferenceType(context: Context, symbol: ts.Symbol, includeParent?: boolean): models.ReferenceType;
     /**
      * Create a new signature reflection from the given node.
      *
@@ -1207,7 +1207,7 @@ declare module td {
      * @param kind  The desired kind of the reflection.
      * @returns The newly created signature reflection describing the given node.
      */
-    function createSignature(context: Context, node: ts.SignatureDeclaration, name: string, kind: ReflectionKind): SignatureReflection;
+    function createSignature(context: Context, node: ts.SignatureDeclaration, name: string, kind: models.ReflectionKind): models.SignatureReflection;
     /**
      * Create a type parameter reflection for the given node.
      *
@@ -1215,9 +1215,9 @@ declare module td {
      * @param node  The type parameter node that should be reflected.
      * @returns The newly created type parameter reflection.
      */
-    function createTypeParameter(context: Context, node: ts.TypeParameterDeclaration): TypeParameterType;
+    function createTypeParameter(context: Context, node: ts.TypeParameterDeclaration): models.TypeParameterType;
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
      * the generated reflections.
@@ -1309,11 +1309,11 @@ declare module td {
          * @param comment  The comment that should be modified.
          * @param tagName  The name of the that that should be removed.
          */
-        static removeTags(comment: Comment, tagName: string): void;
+        static removeTags(comment: models.Comment, tagName: string): void;
         /**
          * Remove the given reflection from the project.
          */
-        static removeReflection(project: ProjectReflection, reflection: Reflection): void;
+        static removeReflection(project: models.ProjectReflection, reflection: models.Reflection): void;
         /**
          * Parse the given doc comment string.
          *
@@ -1321,10 +1321,10 @@ declare module td {
          * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
          * @returns        A populated [[Models.Comment]] instance.
          */
-        static parseComment(text: string, comment?: Comment): Comment;
+        static parseComment(text: string, comment?: models.Comment): models.Comment;
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that moves comments with dot syntax to their target.
      */
@@ -1343,7 +1343,7 @@ declare module td {
         private onBeginResolve(context);
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that truncates the names of dynamic modules to not include the
      * project's base path.
@@ -1385,7 +1385,7 @@ declare module td {
         private onBeginResolve(context);
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that watches for repositories with GitHub origin and links
      * their source files to the related GitHub pages.
@@ -1420,7 +1420,7 @@ declare module td {
         private onEndResolve(context);
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that sorts and groups the found reflections in the resolving phase.
      *
@@ -1430,7 +1430,7 @@ declare module td {
         /**
          * Define the sort order of reflections.
          */
-        static WEIGHTS: ReflectionKind[];
+        static WEIGHTS: models.ReflectionKind[];
         /**
          * Define the singular name of individual reflection kinds.
          */
@@ -1466,7 +1466,7 @@ declare module td {
          * @param reflections  The reflections that should be grouped.
          * @returns An array containing all children of the given reflection grouped by their kind.
          */
-        static getReflectionGroups(reflections: DeclarationReflection[]): ReflectionGroup[];
+        static getReflectionGroups(reflections: models.DeclarationReflection[]): models.ReflectionGroup[];
         /**
          * Transform the internal typescript kind identifier into a human readable version.
          *
@@ -1480,14 +1480,14 @@ declare module td {
          * @param kind The original internal typescript kind identifier.
          * @returns The singular name of the given internal typescript kind identifier
          */
-        static getKindSingular(kind: ReflectionKind): string;
+        static getKindSingular(kind: models.ReflectionKind): string;
         /**
          * Return the plural name of a internal typescript kind identifier.
          *
          * @param kind The original internal typescript kind identifier.
          * @returns The plural name of the given internal typescript kind identifier
          */
-        static getKindPlural(kind: ReflectionKind): string;
+        static getKindPlural(kind: models.ReflectionKind): string;
         /**
          * Callback used to sort reflections by weight defined by ´GroupPlugin.WEIGHTS´ and name.
          *
@@ -1495,7 +1495,7 @@ declare module td {
          * @param b The right reflection to sort.
          * @returns The sorting weight.
          */
-        static sortCallback(a: Reflection, b: Reflection): number;
+        static sortCallback(a: models.Reflection, b: models.Reflection): number;
     }
 }
 declare module td {
@@ -1507,7 +1507,7 @@ declare module td {
         readme?: string;
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that tries to find the package.json and readme.md files of the
      * current project.
@@ -1562,7 +1562,7 @@ declare module td {
         private onBeginResolve(context);
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that attaches source file information to reflections.
      */
@@ -1629,12 +1629,12 @@ declare module td {
         private onEndResolve(context);
     }
 }
-declare module td {
+declare module td.converter {
     /**
      * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
      */
     class TypePlugin extends ConverterPlugin {
-        reflections: DeclarationReflection[];
+        reflections: models.DeclarationReflection[];
         /**
          * Create a new TypeHandler instance.
          *
@@ -1657,7 +1657,7 @@ declare module td {
         private onResolveEnd(context);
     }
 }
-declare module td {
+declare module td.models {
     /**
      * A model that represents a javadoc comment.
      *
@@ -1715,7 +1715,7 @@ declare module td {
         toObject(): any;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * A model that represents a single javadoc comment tag.
      *
@@ -1744,78 +1744,6 @@ declare module td {
         toObject(): any;
     }
 }
-declare module td {
-    /**
-     * A hierarchical model holding the data of single node within the navigation.
-     *
-     * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
-     * navigation state to the template engine. Themes should generate the primary navigation structure
-     * through the [[BaseTheme.getNavigation]] method.
-     */
-    class NavigationItem {
-        /**
-         * The visible title of the navigation node.
-         */
-        title: string;
-        /**
-         * The url this navigation node points to.
-         */
-        url: string;
-        /**
-         * A list of urls that should be seen as sub-pages of this node.
-         */
-        dedicatedUrls: string[];
-        /**
-         * The parent navigation node.
-         */
-        parent: NavigationItem;
-        /**
-         * An array containing all child navigation nodes.
-         */
-        children: NavigationItem[];
-        /**
-         * A string containing the css classes of this node.
-         */
-        cssClasses: string;
-        /**
-         * Is this item a simple label without a link?
-         */
-        isLabel: boolean;
-        /**
-         * Is this item visible?
-         */
-        isVisible: boolean;
-        /**
-         * Does this navigation node represent the current page?
-         */
-        isCurrent: boolean;
-        /**
-         * Is this the navigation node for the globals page?
-         */
-        isGlobals: boolean;
-        /**
-         * Is this navigation node one of the parents of the current page?
-         */
-        isInPath: boolean;
-        /**
-         * Create a new NavigationItem instance.
-         *
-         * @param title       The visible title of the navigation node.
-         * @param url         The url this navigation node points to.
-         * @param parent      The parent navigation node.
-         * @param cssClasses  A string containing the css classes of this node.
-         */
-        constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string);
-        /**
-         * Create a navigation node for the given reflection.
-         *
-         * @param reflection     The reflection whose navigation node should be created.
-         * @param parent         The parent navigation node.
-         * @param useShortNames  Force this function to always use short names.
-         */
-        static create(reflection: Reflection, parent?: NavigationItem, useShortNames?: boolean): NavigationItem;
-    }
-}
 /**
  * Holds all data models used by TypeDoc.
  *
@@ -1827,7 +1755,7 @@ declare module td {
  * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
  * while creating the final output.
  */
-declare module td {
+declare module td.models {
     /**
      * Reset the reflection id.
      *
@@ -2091,7 +2019,7 @@ declare module td {
         toStringHierarchy(indent?: string): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * A group of reflections. All reflections in a group are of the same kind.
      *
@@ -2161,7 +2089,7 @@ declare module td {
         toObject(): any;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Exposes information about a directory containing source files.
      *
@@ -2219,7 +2147,7 @@ declare module td {
         getAllReflections(): DeclarationReflection[];
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Exposes information about a source file.
      *
@@ -2268,7 +2196,7 @@ declare module td {
         constructor(fullFileName: string);
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Base class of all type definitions.
      *
@@ -2289,18 +2217,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
-    /**
-     *
-     */
-    class UrlMapping {
-        url: string;
-        model: any;
-        template: string;
-        constructor(url: string, model: any, template: string);
-    }
-}
-declare module td {
+declare module td.models {
     class ContainerReflection extends Reflection {
         /**
          * The children of this reflection.
@@ -2332,7 +2249,7 @@ declare module td {
         toObject(): any;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Stores hierarchical type data.
      *
@@ -2470,7 +2387,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer {
         parent: SignatureReflection;
         defaultValue: string;
@@ -2494,7 +2411,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * A reflection that represents the root of the project.
      *
@@ -2556,7 +2473,7 @@ declare module td {
         findReflectionByName(names: string[]): Reflection;
     }
 }
-declare module td {
+declare module td.models {
     class SignatureReflection extends Reflection implements ITypeContainer, ITypeParameterContainer {
         parent: ContainerReflection;
         parameters: ParameterReflection[];
@@ -2593,7 +2510,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     class TypeParameterReflection extends Reflection implements ITypeContainer {
         parent: DeclarationReflection;
         type: Type;
@@ -2607,7 +2524,7 @@ declare module td {
         toObject(): any;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents an intrinsic type like `string` or `boolean`.
      *
@@ -2636,7 +2553,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents a type that refers to another reflection like a class, interface or enum.
      *
@@ -2695,7 +2612,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents a type which has it's own reflection like literal types.
      *
@@ -2724,7 +2641,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents a string literal type.
      *
@@ -2753,7 +2670,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents a tuple type.
      *
@@ -2782,7 +2699,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents a type parameter type.
      *
@@ -2806,7 +2723,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents an union type.
      *
@@ -2835,7 +2752,7 @@ declare module td {
         toString(): string;
     }
 }
-declare module td {
+declare module td.models {
     /**
      * Represents all unknown types.
      */
@@ -2868,7 +2785,7 @@ declare module td {
  * series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
  * alter the generated output.
  */
-declare module td {
+declare module td.output {
     /**
      * Interface representation of a handlebars template.
      */
@@ -2963,7 +2880,7 @@ declare module td {
          * @param project  The project that should be rendered.
          * @param outputDirectory  The path of the directory the documentation should be rendered to.
          */
-        render(project: ProjectReflection, outputDirectory: string): void;
+        render(project: models.ProjectReflection, outputDirectory: string): void;
         /**
          * Render a single page.
          *
@@ -3009,7 +2926,7 @@ declare module td {
         static readFile(file: any): string;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * Base class of all plugins that can be attached to the [[Renderer]].
      */
@@ -3030,7 +2947,7 @@ declare module td {
         remove(): void;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * Base class of all themes.
      *
@@ -3118,7 +3035,7 @@ declare module td {
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project: ProjectReflection): UrlMapping[];
+        getUrls(project: models.ProjectReflection): UrlMapping[];
         /**
          * Create a navigation structure for the given project.
          *
@@ -3132,10 +3049,10 @@ declare module td {
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project: ProjectReflection): NavigationItem;
+        getNavigation(project: models.ProjectReflection): NavigationItem;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * An event emitted by the [[Renderer]] class at the very beginning and
      * ending of the entire rendering process.
@@ -3147,7 +3064,7 @@ declare module td {
         /**
          * The project the renderer is currently processing.
          */
-        project: ProjectReflection;
+        project: models.ProjectReflection;
         /**
          * The settings that have been passed to TypeDoc.
          */
@@ -3172,7 +3089,7 @@ declare module td {
         createPageEvent(mapping: UrlMapping): OutputPageEvent;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * An event emitted by the [[Renderer]] class before and after the
      * markup of a page is rendered.
@@ -3186,7 +3103,7 @@ declare module td {
         /**
          * The project the renderer is currently processing.
          */
-        project: ProjectReflection;
+        project: models.ProjectReflection;
         /**
          * The settings that have been passed to TypeDoc.
          */
@@ -3227,7 +3144,90 @@ declare module td {
         contents: string;
     }
 }
-declare module td {
+declare module td.output {
+    /**
+     * A hierarchical model holding the data of single node within the navigation.
+     *
+     * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
+     * navigation state to the template engine. Themes should generate the primary navigation structure
+     * through the [[BaseTheme.getNavigation]] method.
+     */
+    class NavigationItem {
+        /**
+         * The visible title of the navigation node.
+         */
+        title: string;
+        /**
+         * The url this navigation node points to.
+         */
+        url: string;
+        /**
+         * A list of urls that should be seen as sub-pages of this node.
+         */
+        dedicatedUrls: string[];
+        /**
+         * The parent navigation node.
+         */
+        parent: NavigationItem;
+        /**
+         * An array containing all child navigation nodes.
+         */
+        children: NavigationItem[];
+        /**
+         * A string containing the css classes of this node.
+         */
+        cssClasses: string;
+        /**
+         * Is this item a simple label without a link?
+         */
+        isLabel: boolean;
+        /**
+         * Is this item visible?
+         */
+        isVisible: boolean;
+        /**
+         * Does this navigation node represent the current page?
+         */
+        isCurrent: boolean;
+        /**
+         * Is this the navigation node for the globals page?
+         */
+        isGlobals: boolean;
+        /**
+         * Is this navigation node one of the parents of the current page?
+         */
+        isInPath: boolean;
+        /**
+         * Create a new NavigationItem instance.
+         *
+         * @param title       The visible title of the navigation node.
+         * @param url         The url this navigation node points to.
+         * @param parent      The parent navigation node.
+         * @param cssClasses  A string containing the css classes of this node.
+         */
+        constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string);
+        /**
+         * Create a navigation node for the given reflection.
+         *
+         * @param reflection     The reflection whose navigation node should be created.
+         * @param parent         The parent navigation node.
+         * @param useShortNames  Force this function to always use short names.
+         */
+        static create(reflection: models.Reflection, parent?: NavigationItem, useShortNames?: boolean): NavigationItem;
+    }
+}
+declare module td.output {
+    /**
+     *
+     */
+    class UrlMapping {
+        url: string;
+        model: any;
+        template: string;
+        constructor(url: string, model: any, template: string);
+    }
+}
+declare module td.output {
     /**
      * A plugin that copies the subdirectory ´assets´ from the current themes
      * source folder to the output directory.
@@ -3251,7 +3251,7 @@ declare module td {
         private onRendererBegin(event);
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that exports an index of the project to a javascript file.
      *
@@ -3272,7 +3272,7 @@ declare module td {
         private onRendererBegin(event);
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that wraps the generated output with a layout template.
      *
@@ -3306,7 +3306,7 @@ declare module td {
         media?: string;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
      *
@@ -3452,7 +3452,7 @@ declare module td {
         private onRendererBeginPage(page);
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that exposes the navigation structure of the documentation
      * to the rendered templates.
@@ -3486,7 +3486,7 @@ declare module td {
         private onRendererBeginPage(page);
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that loads all partials of the current theme.
      *
@@ -3514,7 +3514,7 @@ declare module td {
         private onRendererBegin(event);
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that pretty prints the generated html.
      *
@@ -3548,7 +3548,7 @@ declare module td {
         onRendererEndPage(event: OutputPageEvent): void;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * A plugin that generates a table of contents for the current page.
      *
@@ -3575,7 +3575,7 @@ declare module td {
          * @param trail   Defines the active trail of expanded toc entries.
          * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem): void;
+        static buildToc(model: models.Reflection, trail: models.Reflection[], parent: NavigationItem): void;
     }
 }
 declare module td {
@@ -3595,7 +3595,7 @@ declare module td {
         hideGenerator?: boolean;
     }
 }
-declare module td {
+declare module td.output {
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
      *
@@ -3605,7 +3605,7 @@ declare module td {
         /**
          * [[DeclarationReflection.kind]] this rule applies to.
          */
-        kind: ReflectionKind[];
+        kind: models.ReflectionKind[];
         /**
          * Can this mapping have children or should all further reflections be rendered
          * to the defined output page?
@@ -3652,14 +3652,14 @@ declare module td {
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project: ProjectReflection): UrlMapping[];
+        getUrls(project: models.ProjectReflection): UrlMapping[];
         /**
          * Create a navigation structure for the given project.
          *
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project: ProjectReflection): NavigationItem;
+        getNavigation(project: models.ProjectReflection): NavigationItem;
         /**
          * Triggered before the renderer starts rendering a project.
          *
@@ -3674,14 +3674,14 @@ declare module td {
          * @param separator   The separator used to generate the url.
          * @returns           The generated url.
          */
-        static getUrl(reflection: Reflection, relative?: Reflection, separator?: string): string;
+        static getUrl(reflection: models.Reflection, relative?: models.Reflection, separator?: string): string;
         /**
          * Return the template mapping fore the given reflection.
          *
          * @param reflection  The reflection whose mapping should be resolved.
          * @returns           The found mapping or NULL if no mapping could be found.
          */
-        static getMapping(reflection: DeclarationReflection): ITemplateMapping;
+        static getMapping(reflection: models.DeclarationReflection): ITemplateMapping;
         /**
          * Build the url for the the given reflection and all of its children.
          *
@@ -3689,28 +3689,28 @@ declare module td {
          * @param urls        The array the url should be appended to.
          * @returns           The altered urls array.
          */
-        static buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[];
+        static buildUrls(reflection: models.DeclarationReflection, urls: UrlMapping[]): UrlMapping[];
         /**
          * Generate an anchor url for the given reflection and all of its children.
          *
          * @param reflection  The reflection an anchor url should be created for.
          * @param container   The nearest reflection having an own document.
          */
-        static applyAnchorUrl(reflection: Reflection, container: Reflection): void;
+        static applyAnchorUrl(reflection: models.Reflection, container: models.Reflection): void;
         /**
          * Generate the css classes for the given reflection and apply them to the
          * [[DeclarationReflection.cssClasses]] property.
          *
          * @param reflection  The reflection whose cssClasses property should be generated.
          */
-        static applyReflectionClasses(reflection: DeclarationReflection): void;
+        static applyReflectionClasses(reflection: models.DeclarationReflection): void;
         /**
          * Generate the css classes for the given reflection group and apply them to the
          * [[ReflectionGroup.cssClasses]] property.
          *
          * @param group  The reflection group whose cssClasses property should be generated.
          */
-        static applyGroupClasses(group: ReflectionGroup): void;
+        static applyGroupClasses(group: models.ReflectionGroup): void;
         /**
          * Transform a space separated string into a string suitable to be used as a
          * css class, e.g. "constructor method" > "Constructor-method".
@@ -3718,7 +3718,7 @@ declare module td {
         static toStyleClass(str: string): string;
     }
 }
-declare module td {
+declare module td.output {
     class MinimalTheme extends DefaultTheme {
         /**
          * Create a new DefaultTheme instance.
@@ -3726,7 +3726,7 @@ declare module td {
          * @param renderer  The renderer this theme is attached to.
          * @param basePath  The base path of this theme.
          */
-        constructor(renderer: td.Renderer, basePath: string);
+        constructor(renderer: Renderer, basePath: string);
         /**
          * Test whether the given path contains a documentation generated by this theme.
          *
@@ -3742,7 +3742,7 @@ declare module td {
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project: td.ProjectReflection): td.UrlMapping[];
+        getUrls(project: models.ProjectReflection): UrlMapping[];
         /**
          * Triggered before a document will be rendered.
          *
@@ -3755,6 +3755,6 @@ declare module td {
          * @param model   The models whose children should be written to the toc.
          * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model: td.DeclarationReflection, parent: td.NavigationItem): void;
+        static buildToc(model: models.DeclarationReflection, parent: NavigationItem): void;
     }
 }

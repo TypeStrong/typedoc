@@ -46,7 +46,7 @@ module td.converter
         /**
          * The resulting project reflection.
          */
-        project:ProjectReflection;
+        project:models.ProjectReflection;
     }
 
 
@@ -84,7 +84,7 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        (context:Context, reflection:Reflection, node?:ts.Node):void;
+        (context:Context, reflection:models.Reflection, node?:ts.Node):void;
     }
 
 
@@ -99,7 +99,7 @@ module td.converter
          * @param context  The context object describing the current state the converter is in.
          * @param reflection  The reflection that is currently resolved.
          */
-        (context:Context, reflection:Reflection):void;
+        (context:Context, reflection:models.Reflection):void;
     }
 
 
@@ -316,7 +316,7 @@ module td.converter
          * @param context  The context object describing the current state the converter is in.
          * @returns The final project reflection.
          */
-        private resolve(context:Context):ProjectReflection {
+        private resolve(context:Context):models.ProjectReflection {
             this.dispatch(Converter.EVENT_RESOLVE_BEGIN, context);
             var project = context.project;
 

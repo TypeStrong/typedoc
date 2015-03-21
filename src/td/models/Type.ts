@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Base class of all type definitions.

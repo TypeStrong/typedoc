@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Represents a type which has it's own reflection like literal types.

@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * A reflection that represents the root of the project.

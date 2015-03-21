@@ -84,7 +84,7 @@ module.exports = function(grunt)
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
             var path = Path.join(base, directory);
             if (!FS.lstatSync(path).isDirectory()) return;
-            TypeDoc.resetReflectionID();
+            TypeDoc.models.resetReflectionID();
 
             var src = app.expandInputFiles([path]);
             var out = Path.join(base, directory, 'specs.json');

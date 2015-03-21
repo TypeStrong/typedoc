@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * A group of reflections. All reflections in a group are of the same kind.

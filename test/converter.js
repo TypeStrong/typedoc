@@ -78,9 +78,9 @@ describe('Converter', function() {
             var result;
 
             it('converts fixtures', function() {
-                TypeDoc.resetReflectionID();
+                TypeDoc.models.resetReflectionID();
                 result = app.convert(app.expandInputFiles([path]));
-                Assert(result instanceof TypeDoc.ProjectReflection, 'No reflection returned');
+                Assert(result instanceof TypeDoc.models.ProjectReflection, 'No reflection returned');
             });
 
             it('matches specs', function() {

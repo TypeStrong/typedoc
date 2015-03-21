@@ -8,7 +8,7 @@ module td.converter
         /**
          * The module reflection this comment is targeting.
          */
-        reflection:Reflection;
+        reflection:models.Reflection;
 
         /**
          * The full text of the best matched comment.
@@ -36,7 +36,7 @@ module td.converter
         /**
          * List of hidden reflections.
          */
-        private hidden:Reflection[];
+        private hidden:models.Reflection[];
 
 
         /**
@@ -56,7 +56,7 @@ module td.converter
         }
 
 
-        private storeModuleComment(comment:string, reflection:Reflection) {
+        private storeModuleComment(comment:string, reflection:models.Reflection) {
             var isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
 
             if (this.comments[reflection.id]) {
@@ -83,24 +83,24 @@ module td.converter
          * @param reflection  The reflection the modifiers should be applied to.
          * @param comment  The comment that should be searched for modifiers.
          */
-        private applyModifiers(reflection:Reflection, comment:Comment) {
+        private applyModifiers(reflection:models.Reflection, comment:models.Comment) {
             if (comment.hasTag('private')) {
-                reflection.setFlag(ReflectionFlag.Private);
+                reflection.setFlag(models.ReflectionFlag.Private);
                 CommentPlugin.removeTags(comment, 'private');
             }
 
             if (comment.hasTag('protected')) {
-                reflection.setFlag(ReflectionFlag.Protected);
+                reflection.setFlag(models.ReflectionFlag.Protected);
                 CommentPlugin.removeTags(comment, 'protected');
             }
 
             if (comment.hasTag('public')) {
-                reflection.setFlag(ReflectionFlag.Public);
+                reflection.setFlag(models.ReflectionFlag.Public);
                 CommentPlugin.removeTags(comment, 'public');
             }
 
             if (comment.hasTag('event')) {
-                reflection.kind = ReflectionKind.Event;
+                reflection.kind = models.ReflectionKind.Event;
                 // reflection.setFlag(ReflectionFlag.Event);
                 CommentPlugin.removeTags(comment, 'event');
             }
@@ -129,7 +129,7 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onCreateTypeParameter(context:Context, reflection:TypeParameterReflection, node?:ts.Node) {
+        private onCreateTypeParameter(context:Context, reflection:models.TypeParameterReflection, node?:ts.Node) {
             var comment = reflection.parent.comment;
             if (comment) {
                 var tag = comment.getTag('typeparam', reflection.name);
@@ -137,7 +137,7 @@ module td.converter
                 if (!tag) tag = comment.getTag('param', reflection.name);
 
                 if (tag) {
-                    reflection.comment = new Comment(tag.text);
+                    reflection.comment = new models.Comment(tag.text);
                     comment.tags.splice(comment.tags.indexOf(tag), 1);
                 }
             }
@@ -153,15 +153,15 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+        private onDeclaration(context:Context, reflection:models.Reflection, node?:ts.Node) {
             if (!node) return;
             var rawComment = CommentPlugin.getComment(node);
             if (!rawComment) return;
 
-            if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+            if (reflection.kindOf(models.ReflectionKind.FunctionOrMethod)) {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
                 this.applyModifiers(reflection, comment);
-            } else if (reflection.kindOf(ReflectionKind.Module)) {
+            } else if (reflection.kindOf(models.ReflectionKind.Module)) {
                 this.storeModuleComment(rawComment, reflection);
             } else {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
@@ -178,7 +178,7 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onFunctionImplementation(context:Context, reflection:Reflection, node?:ts.Node) {
+        private onFunctionImplementation(context:Context, reflection:models.Reflection, node?:ts.Node) {
             if (!node) return;
 
             var comment = CommentPlugin.getComment(node);
@@ -226,8 +226,8 @@ module td.converter
          * @param context  The context object describing the current state the converter is in.
          * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(context:Context, reflection:DeclarationReflection) {
-            if (!(reflection instanceof DeclarationReflection)) return;
+        private onResolve(context:Context, reflection:models.DeclarationReflection) {
+            if (!(reflection instanceof models.DeclarationReflection)) return;
 
             var signatures = reflection.getAllSignatures();
             if (signatures.length) {
@@ -246,7 +246,7 @@ module td.converter
 
                     if (comment) {
                         if (!childComment) {
-                            childComment = signature.comment = new Comment();
+                            childComment = signature.comment = new models.Comment();
                         }
 
                         childComment.shortText = childComment.shortText || comment.shortText;
@@ -260,7 +260,7 @@ module td.converter
                             if (childComment)    tag = childComment.getTag('param', parameter.name);
                             if (comment && !tag) tag = comment.getTag('param', parameter.name);
                             if (tag) {
-                                parameter.comment = new Comment(tag.text);
+                                parameter.comment = new models.Comment(tag.text);
                             }
                         });
                     }
@@ -334,7 +334,7 @@ module td.converter
          * @param comment  The comment that should be modified.
          * @param tagName  The name of the that that should be removed.
          */
-        static removeTags(comment:Comment, tagName:string) {
+        static removeTags(comment:models.Comment, tagName:string) {
             if (!comment || !comment.tags) return;
 
             var i = 0, c = comment.tags.length;
@@ -352,46 +352,46 @@ module td.converter
         /**
          * Remove the given reflection from the project.
          */
-        static removeReflection(project:ProjectReflection, reflection:Reflection) {
+        static removeReflection(project:models.ProjectReflection, reflection:models.Reflection) {
             reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
 
-            var parent = <DeclarationReflection>reflection.parent;
-            parent.traverse((child:Reflection, property:TraverseProperty) => {
+            var parent = <models.DeclarationReflection>reflection.parent;
+            parent.traverse((child:models.Reflection, property:models.TraverseProperty) => {
                 if (child == reflection) {
                     switch (property) {
-                        case TraverseProperty.Children:
+                        case models.TraverseProperty.Children:
                             if (parent.children) {
-                                var index = parent.children.indexOf(<DeclarationReflection>reflection);
+                                var index = parent.children.indexOf(<models.DeclarationReflection>reflection);
                                 if (index != -1) parent.children.splice(index, 1);
                             }
                             break;
-                        case TraverseProperty.GetSignature:
+                        case models.TraverseProperty.GetSignature:
                             delete parent.getSignature;
                             break;
-                        case TraverseProperty.IndexSignature:
+                        case models.TraverseProperty.IndexSignature:
                             delete parent.indexSignature;
                             break;
-                        case TraverseProperty.Parameters:
-                            if ((<SignatureReflection>reflection.parent).parameters) {
-                                var index = (<SignatureReflection>reflection.parent).parameters.indexOf(<ParameterReflection>reflection);
-                                if (index != -1) (<SignatureReflection>reflection.parent).parameters.splice(index, 1);
+                        case models.TraverseProperty.Parameters:
+                            if ((<models.SignatureReflection>reflection.parent).parameters) {
+                                var index = (<models.SignatureReflection>reflection.parent).parameters.indexOf(<models.ParameterReflection>reflection);
+                                if (index != -1) (<models.SignatureReflection>reflection.parent).parameters.splice(index, 1);
                             }
                             break;
-                        case TraverseProperty.SetSignature:
+                        case models.TraverseProperty.SetSignature:
                             delete parent.setSignature;
                             break;
-                        case TraverseProperty.Signatures:
+                        case models.TraverseProperty.Signatures:
                             if (parent.signatures) {
-                                var index = parent.signatures.indexOf(<SignatureReflection>reflection);
+                                var index = parent.signatures.indexOf(<models.SignatureReflection>reflection);
                                 if (index != -1) parent.signatures.splice(index, 1);
                             }
                             break;
-                        case TraverseProperty.TypeLiteral:
-                            parent.type = new IntrinsicType('Object');
+                        case models.TraverseProperty.TypeLiteral:
+                            parent.type = new models.IntrinsicType('Object');
                             break;
-                        case TraverseProperty.TypeParameter:
+                        case models.TraverseProperty.TypeParameter:
                             if (parent.typeParameters) {
-                                var index = parent.typeParameters.indexOf(<TypeParameterReflection>reflection);
+                                var index = parent.typeParameters.indexOf(<models.TypeParameterReflection>reflection);
                                 if (index != -1) parent.typeParameters.splice(index, 1);
                             }
                             break;
@@ -417,7 +417,7 @@ module td.converter
          * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
          * @returns        A populated [[Models.Comment]] instance.
          */
-        static parseComment(text:string, comment:Comment = new Comment()):Comment {
+        static parseComment(text:string, comment:models.Comment = new models.Comment()):models.Comment {
             function consumeTypeData(line:string):string {
                 line = line.replace(/^\{[^\}]*\}/, '');
                 line = line.replace(/^\[[^\]]*\]/, '');
@@ -427,7 +427,7 @@ module td.converter
             text = text.replace(/^\s*\/\*+/, '');
             text = text.replace(/\*+\/\s*$/, '');
 
-            var currentTag:CommentTag;
+            var currentTag:models.CommentTag;
             var shortText:number = 0;
             var lines = text.split(/\r\n?|\n/);
             lines.forEach((line) => {
@@ -452,7 +452,7 @@ module td.converter
                         line = consumeTypeData(line);
                     }
 
-                    currentTag = new CommentTag(tagName, paramName, line);
+                    currentTag = new models.CommentTag(tagName, paramName, line);
                     if (!comment.tags) comment.tags = [];
                     comment.tags.push(currentTag);
                 } else {

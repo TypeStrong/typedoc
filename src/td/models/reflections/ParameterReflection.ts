@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer
     {

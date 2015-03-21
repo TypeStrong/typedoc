@@ -26,12 +26,12 @@ module td.output
          */
         private onRendererBeginPage(page:OutputPageEvent) {
             var model = page.model;
-            if (!(model instanceof Reflection)) {
+            if (!(model instanceof models.Reflection)) {
                 return;
             }
 
             var trail = [];
-            while (!(model instanceof ProjectReflection) && !model.kindOf(ReflectionKind.SomeModule)) {
+            while (!(model instanceof models.ProjectReflection) && !model.kindOf(models.ReflectionKind.SomeModule)) {
                 trail.unshift(model);
                 model = model.parent;
             }
@@ -48,7 +48,7 @@ module td.output
          * @param trail   Defines the active trail of expanded toc entries.
          * @param parent  The parent [[NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model:Reflection, trail:Reflection[], parent:NavigationItem) {
+        static buildToc(model:models.Reflection, trail:models.Reflection[], parent:NavigationItem) {
             var index = trail.indexOf(model);
             var children = model['children'] || [];
 
@@ -59,8 +59,8 @@ module td.output
                 item.isCurrent = false;
                 TocPlugin.buildToc(child, trail, item);
             } else {
-                children.forEach((child:DeclarationReflection) => {
-                    if (child.kindOf(ReflectionKind.SomeModule)) {
+                children.forEach((child:models.DeclarationReflection) => {
+                    if (child.kindOf(models.ReflectionKind.SomeModule)) {
                         return;
                     }
 

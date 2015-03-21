@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Stores hierarchical type data.

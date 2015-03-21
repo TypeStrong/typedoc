@@ -92,7 +92,7 @@ module td.converter
          * @param reflection  The reflection that is currently processed.
          * @param node  The node that is currently processed if available.
          */
-        private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
+        private onBeginDocument(context:Context, reflection:models.Reflection, node?:ts.SourceFile) {
             if (!node) return;
             if (this.readmeFile && this.packageFile) {
                 return;

@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Represents a type that refers to another reflection like a class, interface or enum.

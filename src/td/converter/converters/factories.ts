@@ -10,9 +10,9 @@ module td.converter
      * @param name  The desired name of the reflection.
      * @returns The resulting reflection.
      */
-    export function createDeclaration(context:Context, node:ts.Node, kind:ReflectionKind, name?:string):DeclarationReflection {
-        var container = <ContainerReflection>context.scope;
-        if (!(container instanceof ContainerReflection)) {
+    export function createDeclaration(context:Context, node:ts.Node, kind:models.ReflectionKind, name?:string):models.DeclarationReflection {
+        var container = <models.ContainerReflection>context.scope;
+        if (!(container instanceof models.ContainerReflection)) {
             throw new Error('Expected container reflection.');
         }
 
@@ -30,12 +30,12 @@ module td.converter
 
         // Test whether the node is static, when merging a module to a class make the node static
         var isStatic = !!(node.flags & ts.NodeFlags.Static);
-        if (container.kind == ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration)) {
+        if (container.kind == models.ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration)) {
             isStatic = true;
         }
 
         // Check if we already have a child with the same name and static flag
-        var child:DeclarationReflection;
+        var child:models.DeclarationReflection;
         var children = container.children = container.children || [];
         children.forEach((n) => {
             if (n.name == name && n.flags.isStatic == isStatic) child = n;
@@ -43,9 +43,9 @@ module td.converter
 
         if (!child) {
             // Child does not exist, create a new reflection
-            child = new DeclarationReflection(container, name, kind);
-            child.setFlag(ReflectionFlag.Static, isStatic);
-            child.setFlag(ReflectionFlag.Private, isPrivate);
+            child = new models.DeclarationReflection(container, name, kind);
+            child.setFlag(models.ReflectionFlag.Static, isStatic);
+            child.setFlag(models.ReflectionFlag.Private, isPrivate);
             child = setupDeclaration(context, child, node);
 
             if (child) {
@@ -74,12 +74,12 @@ module td.converter
      * @param node  The TypeScript node whose properties should be applies to the given reflection.
      * @returns The reflection populated with the values of the given node.
      */
-    function setupDeclaration(context:Context, reflection:DeclarationReflection, node:ts.Node) {
-        reflection.setFlag(ReflectionFlag.External,  context.isExternal);
-        reflection.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags.Protected));
-        reflection.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags.Public));
-        reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
-        reflection.setFlag(ReflectionFlag.Exported,  reflection.parent.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
+    function setupDeclaration(context:Context, reflection:models.DeclarationReflection, node:ts.Node) {
+        reflection.setFlag(models.ReflectionFlag.External,  context.isExternal);
+        reflection.setFlag(models.ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags.Protected));
+        reflection.setFlag(models.ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags.Public));
+        reflection.setFlag(models.ReflectionFlag.Optional,  !!(node['questionToken']));
+        reflection.setFlag(models.ReflectionFlag.Exported,  reflection.parent.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
 
         if (context.isInherit && node.parent == context.inheritParent) {
             if (!reflection.inheritedFrom) {
@@ -103,9 +103,9 @@ module td.converter
      * @param kind  The desired kind of the reflection.
      * @returns The reflection merged with the values of the given node or NULL if the merge is invalid.
      */
-    function mergeDeclarations(context:Context, reflection:DeclarationReflection, node:ts.Node, kind:ReflectionKind) {
+    function mergeDeclarations(context:Context, reflection:models.DeclarationReflection, node:ts.Node, kind:models.ReflectionKind) {
         if (reflection.kind != kind) {
-            var weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
+            var weights = [models.ReflectionKind.Module, models.ReflectionKind.Enum, models.ReflectionKind.Class];
             var kindWeight = weights.indexOf(kind);
             var childKindWeight = weights.indexOf(reflection.kind);
             if (kindWeight > childKindWeight) {
@@ -135,7 +135,7 @@ module td.converter
      * @param includeParent  Should the name of the parent be provided within the fallback name?
      * @returns A new reference type instance pointing to the given symbol.
      */
-    export function createReferenceType(context:Context, symbol:ts.Symbol, includeParent?:boolean):ReferenceType {
+    export function createReferenceType(context:Context, symbol:ts.Symbol, includeParent?:boolean):models.ReferenceType {
         var checker = context.checker;
         var id      = context.getSymbolID(symbol);
         var name    = checker.symbolToString(symbol);
@@ -144,7 +144,7 @@ module td.converter
             name = checker.symbolToString(symbol.parent) + '.' + name;
         }
 
-        return new ReferenceType(name, id);
+        return new models.ReferenceType(name, id);
     }
 
 
@@ -157,13 +157,13 @@ module td.converter
      * @param kind  The desired kind of the reflection.
      * @returns The newly created signature reflection describing the given node.
      */
-    export function createSignature(context:Context, node:ts.SignatureDeclaration, name:string, kind:ReflectionKind):SignatureReflection {
-        var container = <DeclarationReflection>context.scope;
-        if (!(container instanceof ContainerReflection)) {
+    export function createSignature(context:Context, node:ts.SignatureDeclaration, name:string, kind:models.ReflectionKind):models.SignatureReflection {
+        var container = <models.DeclarationReflection>context.scope;
+        if (!(container instanceof models.ContainerReflection)) {
             throw new Error('Expected container reflection.');
         }
 
-        var signature = new SignatureReflection(container, name, kind);
+        var signature = new models.SignatureReflection(container, name, kind);
         context.registerReflection(signature, node);
         context.withScope(signature, node.typeParameters, true, () => {
             node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
@@ -189,7 +189,7 @@ module td.converter
      * @param node  The signature declaration whose return type should be determined.
      * @returns The return type reflection of the given signature.
      */
-    function extractSignatureType(context:Context, node:ts.SignatureDeclaration):Type {
+    function extractSignatureType(context:Context, node:ts.SignatureDeclaration):models.Type {
         var checker = context.checker;
         if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
             var type = checker.getTypeAtLocation(node);
@@ -217,20 +217,20 @@ module td.converter
      * @param node  The parameter node that should be reflected.
      * @returns The newly created parameter reflection.
      */
-    function createParameter(context:Context, node:ts.ParameterDeclaration):ParameterReflection {
-        var signature = <SignatureReflection>context.scope;
-        if (!(signature instanceof SignatureReflection)) {
+    function createParameter(context:Context, node:ts.ParameterDeclaration):models.ParameterReflection {
+        var signature = <models.SignatureReflection>context.scope;
+        if (!(signature instanceof models.SignatureReflection)) {
             throw new Error('Expected signature reflection.');
         }
 
-        var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
+        var parameter = new models.ParameterReflection(signature, node.symbol.name, models.ReflectionKind.Parameter);
         context.registerReflection(parameter, node);
         context.withScope(parameter, () => {
             parameter.type = convertType(context, node.type, context.getTypeAtLocation(node));
             parameter.defaultValue = getDefaultValue(node);
-            parameter.setFlag(ReflectionFlag.Optional, !!node.questionToken);
-            parameter.setFlag(ReflectionFlag.Rest, !!node.dotDotDotToken);
-            parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
+            parameter.setFlag(models.ReflectionFlag.Optional, !!node.questionToken);
+            parameter.setFlag(models.ReflectionFlag.Rest, !!node.dotDotDotToken);
+            parameter.setFlag(models.ReflectionFlag.DefaultValue, !!parameter.defaultValue);
 
             if (!signature.parameters) signature.parameters = [];
             signature.parameters.push(parameter);
@@ -248,15 +248,15 @@ module td.converter
      * @param node  The type parameter node that should be reflected.
      * @returns The newly created type parameter reflection.
      */
-    export function createTypeParameter(context:Context, node:ts.TypeParameterDeclaration):TypeParameterType {
-        var typeParameter = new TypeParameterType();
+    export function createTypeParameter(context:Context, node:ts.TypeParameterDeclaration):models.TypeParameterType {
+        var typeParameter = new models.TypeParameterType();
         typeParameter.name = node.symbol.name;
         if (node.constraint) {
             typeParameter.constraint = convertType(context, node.constraint);
         }
 
-        var reflection = <ITypeParameterContainer>context.scope;
-        var typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
+        var reflection = <models.ITypeParameterContainer>context.scope;
+        var typeParameterReflection = new models.TypeParameterReflection(reflection, typeParameter);
 
         if (!reflection.typeParameters) reflection.typeParameters = [];
         reflection.typeParameters.push(typeParameterReflection);

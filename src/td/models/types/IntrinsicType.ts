@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     /**
      * Represents an intrinsic type like `string` or `boolean`.

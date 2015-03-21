@@ -40,9 +40,9 @@ module td.output
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project:td.ProjectReflection):td.UrlMapping[] {
+        getUrls(project:models.ProjectReflection):UrlMapping[] {
             var urls = [];
-            urls.push(new td.UrlMapping('index.html', project, 'index.hbs'));
+            urls.push(new UrlMapping('index.html', project, 'index.hbs'));
 
             project.url = 'index.html';
             project.anchor = null;
@@ -63,11 +63,11 @@ module td.output
          */
         private onRendererBeginPage(page:OutputPageEvent) {
             var model = page.model;
-            if (!(model instanceof td.Reflection)) {
+            if (!(model instanceof models.Reflection)) {
                 return;
             }
 
-            page.toc = new td.NavigationItem();
+            page.toc = new NavigationItem();
             MinimalTheme.buildToc(page.model, page.toc);
         }
 
@@ -78,10 +78,10 @@ module td.output
          * @param model   The models whose children should be written to the toc.
          * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
          */
-        static buildToc(model:td.DeclarationReflection, parent:td.NavigationItem) {
+        static buildToc(model:models.DeclarationReflection, parent:NavigationItem) {
             var children = model.children || [];
-            children.forEach((child:td.DeclarationReflection) => {
-                var item = td.NavigationItem.create(child, parent, true);
+            children.forEach((child:models.DeclarationReflection) => {
+                var item = NavigationItem.create(child, parent, true);
                 MinimalTheme.buildToc(child, item);
             });
         }

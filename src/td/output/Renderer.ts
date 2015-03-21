@@ -155,7 +155,7 @@ module td.output
          * @param project  The project that should be rendered.
          * @param outputDirectory  The path of the directory the documentation should be rendered to.
          */
-        render(project:ProjectReflection, outputDirectory:string) {
+        render(project:models.ProjectReflection, outputDirectory:string) {
             if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                 return;
             }

@@ -314,7 +314,7 @@ module td
          * @param src  A list of source that should be compiled and converted.
          * @returns An instance of ProjectReflection on success, NULL otherwise.
          */
-        public convert(src:string[]):ProjectReflection {
+        public convert(src:string[]):models.ProjectReflection {
             this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath);
 
             var result = this.converter.convert(src);
@@ -335,7 +335,7 @@ module td
         /**
          * @param project  The project the documentation should be generated for.
          */
-        public generateDocs(project:ProjectReflection, out:string):boolean;
+        public generateDocs(project:models.ProjectReflection, out:string):boolean;
 
         /**
          * Run the documentation generator for the given set of files.
@@ -344,7 +344,7 @@ module td
          * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
          */
         public generateDocs(input:any, out:string):boolean {
-            var project = input instanceof ProjectReflection ? input : this.convert(input);
+            var project = input instanceof models.ProjectReflection ? input : this.convert(input);
             if (!project) return false;
 
             out = Path.resolve(out);
@@ -367,7 +367,7 @@ module td
         /**
          * @param project  The project that should be converted.
          */
-        public generateJson(project:ProjectReflection, out:string):boolean;
+        public generateJson(project:models.ProjectReflection, out:string):boolean;
 
         /**
          * Run the converter for the given set of files and write the reflections to a json file.
@@ -376,7 +376,7 @@ module td
          * @returns TRUE if the json file could be written successfully, otherwise FALSE.
          */
         public generateJson(input:any, out:string):boolean {
-            var project = input instanceof ProjectReflection ? input : this.convert(input);
+            var project = input instanceof models.ProjectReflection ? input : this.convert(input);
             if (!project) return false;
 
             out = Path.resolve(out);

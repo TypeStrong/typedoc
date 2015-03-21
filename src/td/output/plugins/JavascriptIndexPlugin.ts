@@ -28,8 +28,8 @@ module td.output
             var kinds = {};
 
             for (var key in event.project.reflections) {
-                var reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
-                if (!(reflection instanceof DeclarationReflection)) continue;
+                var reflection:models.DeclarationReflection = <models.DeclarationReflection>event.project.reflections[key];
+                if (!(reflection instanceof models.DeclarationReflection)) continue;
 
                 if (!reflection.url ||
                     !reflection.name ||
@@ -38,7 +38,7 @@ module td.output
                     continue;
 
                 var parent = reflection.parent;
-                if (parent instanceof ProjectReflection) {
+                if (parent instanceof models.ProjectReflection) {
                     parent = null;
                 }
 

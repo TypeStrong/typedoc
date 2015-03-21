@@ -1,4 +1,4 @@
-module td
+module td.models
 {
     export class ContainerReflection extends Reflection
     {

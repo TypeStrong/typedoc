@@ -42,7 +42,7 @@ module td.converter
      * @param node     The compiler node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    export function visit(context:Context, node:ts.Node):Reflection {
+    export function visit(context:Context, node:ts.Node):models.Reflection {
         switch (node.kind) {
             case ts.SyntaxKind.SourceFile:
                 return visitSourceFile(context, <ts.SourceFile>node);
@@ -102,9 +102,9 @@ module td.converter
      * @param node     The source file node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitBlock(context:Context, node:ts.SourceFile):Reflection;
-    function visitBlock(context:Context, node:ts.Block):Reflection;
-    function visitBlock(context:Context, node:{statements:ts.NodeArray<ts.ModuleElement>}):Reflection {
+    function visitBlock(context:Context, node:ts.SourceFile):models.Reflection;
+    function visitBlock(context:Context, node:ts.Block):models.Reflection;
+    function visitBlock(context:Context, node:{statements:ts.NodeArray<ts.ModuleElement>}):models.Reflection {
         if (node.statements) {
             var prefered = [ts.SyntaxKind.ClassDeclaration, ts.SyntaxKind.InterfaceDeclaration, ts.SyntaxKind.EnumDeclaration];
             var statements = [];
@@ -132,15 +132,15 @@ module td.converter
      * @param node     The source file node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitSourceFile(context:Context, node:ts.SourceFile):Reflection {
+    function visitSourceFile(context:Context, node:ts.SourceFile):models.Reflection {
         var result = context.scope;
         var options = context.getOptions();
         context.withSourceFile(node, () => {
             if (options.mode == SourceFileMode.Modules) {
-                result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.filename);
+                result = createDeclaration(context, node, models.ReflectionKind.ExternalModule, node.filename);
                 context.withScope(result, () => {
                     visitBlock(context, node);
-                    result.setFlag(ReflectionFlag.Exported);
+                    result.setFlag(models.ReflectionFlag.Exported);
                 });
             } else {
                 visitBlock(context, node);
@@ -158,15 +158,15 @@ module td.converter
      * @param node     The module node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitModuleDeclaration(context:Context, node:ts.ModuleDeclaration):Reflection {
+    function visitModuleDeclaration(context:Context, node:ts.ModuleDeclaration):models.Reflection {
         var parent = context.scope;
-        var reflection = createDeclaration(context, node, ReflectionKind.Module);
+        var reflection = createDeclaration(context, node, models.ReflectionKind.Module);
 
         context.withScope(reflection, () => {
             var opt = context.getCompilerOptions();
-            if (parent instanceof ProjectReflection && !context.isDeclaration &&
+            if (parent instanceof models.ProjectReflection && !context.isDeclaration &&
                 (!opt.module || opt.module == ts.ModuleKind.None)) {
-                reflection.setFlag(ReflectionFlag.Exported);
+                reflection.setFlag(models.ReflectionFlag.Exported);
             }
 
             if (node.body) {
@@ -185,12 +185,12 @@ module td.converter
      * @param node     The class declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):Reflection {
+    function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):models.Reflection {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
             reflection = context.scope;
         } else {
-            reflection = createDeclaration(context, node, ReflectionKind.Class);
+            reflection = createDeclaration(context, node, models.ReflectionKind.Class);
         }
 
         context.withScope(reflection, node.typeParameters, () => {
@@ -238,12 +238,12 @@ module td.converter
      * @param node     The interface declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration):Reflection {
+    function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration):models.Reflection {
         var reflection;
         if (context.isInherit && context.inheritParent == node) {
             reflection = context.scope;
         } else {
-            reflection = createDeclaration(context, node, ReflectionKind.Interface);
+            reflection = createDeclaration(context, node, models.ReflectionKind.Interface);
         }
 
         context.withScope(reflection, node.typeParameters, () => {
@@ -282,7 +282,7 @@ module td.converter
      * @param node     The variable statement node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitVariableStatement(context:Context, node:ts.VariableStatement):Reflection {
+    function visitVariableStatement(context:Context, node:ts.VariableStatement):models.Reflection {
         if (node.declarations) {
             node.declarations.forEach((variableDeclaration) => {
                 visitVariableDeclaration(context, variableDeclaration);
@@ -306,7 +306,7 @@ module td.converter
      * @param node     The variable declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitVariableDeclaration(context:Context, node:ts.VariableDeclaration):Reflection {
+    function visitVariableDeclaration(context:Context, node:ts.VariableDeclaration):models.Reflection {
         var comment = CommentPlugin.getComment(node);
         if (comment && /\@resolve/.test(comment)) {
             var resolveType = context.getTypeAtLocation(node);
@@ -320,20 +320,20 @@ module td.converter
         }
 
         var scope = context.scope;
-        var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
+        var kind = scope.kind & models.ReflectionKind.ClassOrInterface ? models.ReflectionKind.Property : models.ReflectionKind.Variable;
         var variable = createDeclaration(context, node, kind);
         context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {
                     case ts.SyntaxKind.ArrowFunction:
                     case ts.SyntaxKind.FunctionExpression:
-                        variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+                        variable.kind = scope.kind & models.ReflectionKind.ClassOrInterface ? models.ReflectionKind.Method : models.ReflectionKind.Function;
                         visitCallSignatureDeclaration(context, <ts.FunctionExpression>node.initializer);
                         break;
                     case ts.SyntaxKind.ObjectLiteralExpression:
                         if (!isSimpleObjectLiteral(<ts.ObjectLiteralExpression>node.initializer)) {
-                            variable.kind = ReflectionKind.ObjectLiteral;
-                            variable.type = new IntrinsicType('object');
+                            variable.kind = models.ReflectionKind.ObjectLiteral;
+                            variable.type = new models.IntrinsicType('object');
                             visitObjectLiteral(context, <ts.ObjectLiteralExpression>node.initializer);
                         }
                         break;
@@ -342,7 +342,7 @@ module td.converter
                 }
             }
 
-            if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
+            if (variable.kind == kind || variable.kind == models.ReflectionKind.Event) {
                 variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
             }
         });
@@ -358,8 +358,8 @@ module td.converter
      * @param node     The enumeration declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitEnumDeclaration(context:Context, node:ts.EnumDeclaration):Reflection {
-        var enumeration = createDeclaration(context, node, ReflectionKind.Enum);
+    function visitEnumDeclaration(context:Context, node:ts.EnumDeclaration):models.Reflection {
+        var enumeration = createDeclaration(context, node, models.ReflectionKind.Enum);
 
         context.withScope(enumeration, () => {
             if (node.members) {
@@ -380,8 +380,8 @@ module td.converter
      * @param node     The enumeration member node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitEnumMember(context:Context, node:ts.EnumMember):Reflection {
-        var member = createDeclaration(context, node, ReflectionKind.EnumMember);
+    function visitEnumMember(context:Context, node:ts.EnumMember):models.Reflection {
+        var member = createDeclaration(context, node, models.ReflectionKind.EnumMember);
         if (member) {
             member.defaultValue = getDefaultValue(node);
         }
@@ -397,16 +397,16 @@ module td.converter
      * @param node     The constructor declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitConstructor(context:Context, node:ts.ConstructorDeclaration):Reflection {
+    function visitConstructor(context:Context, node:ts.ConstructorDeclaration):models.Reflection {
         var parent = context.scope;
         var hasBody = !!node.body;
-        var method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
+        var method = createDeclaration(context, node, models.ReflectionKind.Constructor, 'constructor');
 
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {
                 var name = 'new ' + parent.name;
-                var signature = createSignature(context, node, name, ReflectionKind.ConstructorSignature);
-                signature.type = new ReferenceType(parent.name, ReferenceType.SYMBOL_ID_RESOLVED, parent);
+                var signature = createSignature(context, node, name, models.ReflectionKind.ConstructorSignature);
+                signature.type = new models.ReferenceType(parent.name, models.ReferenceType.SYMBOL_ID_RESOLVED, parent);
                 method.signatures = method.signatures || [];
                 method.signatures.push(signature);
             } else {
@@ -425,17 +425,17 @@ module td.converter
      * @param node     The function declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitFunctionDeclaration(context:Context, node:ts.FunctionDeclaration):Reflection;
-    function visitFunctionDeclaration(context:Context, node:ts.MethodDeclaration):Reflection;
-    function visitFunctionDeclaration(context:Context, node:{body?:ts.Block}):Reflection {
+    function visitFunctionDeclaration(context:Context, node:ts.FunctionDeclaration):models.Reflection;
+    function visitFunctionDeclaration(context:Context, node:ts.MethodDeclaration):models.Reflection;
+    function visitFunctionDeclaration(context:Context, node:{body?:ts.Block}):models.Reflection {
         var scope = context.scope;
-        var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+        var kind = scope.kind & models.ReflectionKind.ClassOrInterface ? models.ReflectionKind.Method : models.ReflectionKind.Function;
         var hasBody = !!node.body;
         var method = createDeclaration(context, <ts.Node>node, kind);
 
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {
-                var signature = createSignature(context, <ts.SignatureDeclaration>node, method.name, ReflectionKind.CallSignature);
+                var signature = createSignature(context, <ts.SignatureDeclaration>node, method.name, models.ReflectionKind.CallSignature);
                 if (!method.signatures) method.signatures = [];
                 method.signatures.push(signature);
             } else {
@@ -454,13 +454,13 @@ module td.converter
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitCallSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection;
-    function visitCallSignatureDeclaration(context:Context, node:ts.FunctionExpression):Reflection;
-    function visitCallSignatureDeclaration(context:Context, node:{}):Reflection {
-        var scope = <DeclarationReflection>context.scope;
-        if (scope instanceof DeclarationReflection) {
-            var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-            var signature = createSignature(context, <ts.SignatureDeclaration>node, name, ReflectionKind.CallSignature);
+    function visitCallSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):models.Reflection;
+    function visitCallSignatureDeclaration(context:Context, node:ts.FunctionExpression):models.Reflection;
+    function visitCallSignatureDeclaration(context:Context, node:{}):models.Reflection {
+        var scope = <models.DeclarationReflection>context.scope;
+        if (scope instanceof models.DeclarationReflection) {
+            var name = scope.kindOf(models.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+            var signature = createSignature(context, <ts.SignatureDeclaration>node, name, models.ReflectionKind.CallSignature);
             if (!scope.signatures) scope.signatures = [];
             scope.signatures.push(signature);
         }
@@ -476,10 +476,10 @@ module td.converter
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitIndexSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var scope = <DeclarationReflection>context.scope;
-        if (scope instanceof DeclarationReflection) {
-            scope.indexSignature = createSignature(context, node, '__index', ReflectionKind.IndexSignature);
+    function visitIndexSignatureDeclaration(context:Context, node:ts.SignatureDeclaration):models.Reflection {
+        var scope = <models.DeclarationReflection>context.scope;
+        if (scope instanceof models.DeclarationReflection) {
+            scope.indexSignature = createSignature(context, node, '__index', models.ReflectionKind.IndexSignature);
         }
 
         return scope;
@@ -493,10 +493,10 @@ module td.converter
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitGetAccessorDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var accessor = createDeclaration(context, node, ReflectionKind.Accessor);
+    function visitGetAccessorDeclaration(context:Context, node:ts.SignatureDeclaration):models.Reflection {
+        var accessor = createDeclaration(context, node, models.ReflectionKind.Accessor);
         context.withScope(accessor, () => {
-            accessor.getSignature = createSignature(context, node, '__get', ReflectionKind.GetSignature);
+            accessor.getSignature = createSignature(context, node, '__get', models.ReflectionKind.GetSignature);
         });
 
         return accessor;
@@ -510,10 +510,10 @@ module td.converter
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitSetAccessorDeclaration(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var accessor = createDeclaration(context, node, ReflectionKind.Accessor);
+    function visitSetAccessorDeclaration(context:Context, node:ts.SignatureDeclaration):models.Reflection {
+        var accessor = createDeclaration(context, node, models.ReflectionKind.Accessor);
         context.withScope(accessor, () => {
-            accessor.setSignature = createSignature(context, node, '__set', ReflectionKind.SetSignature);
+            accessor.setSignature = createSignature(context, node, '__set', models.ReflectionKind.SetSignature);
         });
 
         return accessor;
@@ -527,7 +527,7 @@ module td.converter
      * @param node     The object literal node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitObjectLiteral(context:Context, node:ts.ObjectLiteralExpression):Reflection {
+    function visitObjectLiteral(context:Context, node:ts.ObjectLiteralExpression):models.Reflection {
         if (node.properties) {
             node.properties.forEach((node) => {
                 visit(context, node);
@@ -545,7 +545,7 @@ module td.converter
      * @param node     The type literal node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitTypeLiteral(context:Context, node:ts.TypeLiteralNode):Reflection {
+    function visitTypeLiteral(context:Context, node:ts.TypeLiteralNode):models.Reflection {
         if (node.members) {
             node.members.forEach((node) => {
                 visit(context, node);
@@ -563,8 +563,8 @@ module td.converter
      * @param node     The type alias declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    function visitTypeAliasDeclaration(context:Context, node:ts.TypeAliasDeclaration):Reflection {
-        var alias = createDeclaration(context, node, ReflectionKind.TypeAlias);
+    function visitTypeAliasDeclaration(context:Context, node:ts.TypeAliasDeclaration):models.Reflection {
+        var alias = createDeclaration(context, node, models.ReflectionKind.TypeAlias);
         context.withScope(alias, () => {
             alias.type = convertType(context, node.type, context.getTypeAtLocation(node.type));
         });
@@ -573,7 +573,7 @@ module td.converter
     }
 
 
-    function visitExportAssignment(context:Context, node:ts.ExportAssignment):Reflection {
+    function visitExportAssignment(context:Context, node:ts.ExportAssignment):models.Reflection {
         var type = context.getTypeAtLocation(node.exportName);
         if (type && type.symbol) {
             var project = context.project;
@@ -583,16 +583,16 @@ module td.converter
                 if (!id) return;
 
                 var reflection = project.reflections[id];
-                if (reflection instanceof DeclarationReflection) {
-                    (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
+                if (reflection instanceof models.DeclarationReflection) {
+                    (<models.DeclarationReflection>reflection).setFlag(models.ReflectionFlag.ExportAssignment, true);
                 }
                 markAsExported(reflection);
             });
         }
 
-        function markAsExported(reflection:Reflection) {
-            if (reflection instanceof DeclarationReflection) {
-                (<DeclarationReflection>reflection).setFlag(ReflectionFlag.Exported, true);
+        function markAsExported(reflection:models.Reflection) {
+            if (reflection instanceof models.DeclarationReflection) {
+                (<models.DeclarationReflection>reflection).setFlag(models.ReflectionFlag.Exported, true);
             }
 
             reflection.traverse(markAsExported);

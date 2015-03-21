@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      *

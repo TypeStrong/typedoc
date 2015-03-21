@@ -100,7 +100,7 @@ module td.output
          * @returns        A list of [[UrlMapping]] instances defining which models
          *                 should be rendered to which files.
          */
-        getUrls(project:ProjectReflection):UrlMapping[] {
+        getUrls(project:models.ProjectReflection):UrlMapping[] {
             return [];
         }
 
@@ -118,7 +118,7 @@ module td.output
          * @param project  The project whose navigation should be generated.
          * @returns        The root navigation item.
          */
-        getNavigation(project:ProjectReflection):NavigationItem {
+        getNavigation(project:models.ProjectReflection):NavigationItem {
             return null;
         }
     }

@@ -11,32 +11,32 @@ module td.converter
          * Define the sort order of reflections.
          */
         static WEIGHTS = [
-            ReflectionKind.Global,
-            ReflectionKind.ExternalModule,
-            ReflectionKind.Module,
-            ReflectionKind.Enum,
-            ReflectionKind.EnumMember,
-            ReflectionKind.Class,
-            ReflectionKind.Interface,
-            ReflectionKind.TypeAlias,
+            models.ReflectionKind.Global,
+            models.ReflectionKind.ExternalModule,
+            models.ReflectionKind.Module,
+            models.ReflectionKind.Enum,
+            models.ReflectionKind.EnumMember,
+            models.ReflectionKind.Class,
+            models.ReflectionKind.Interface,
+            models.ReflectionKind.TypeAlias,
 
-            ReflectionKind.Constructor,
-            ReflectionKind.Event,
-            ReflectionKind.Property,
-            ReflectionKind.Variable,
-            ReflectionKind.Function,
-            ReflectionKind.Accessor,
-            ReflectionKind.Method,
-            ReflectionKind.ObjectLiteral,
+            models.ReflectionKind.Constructor,
+            models.ReflectionKind.Event,
+            models.ReflectionKind.Property,
+            models.ReflectionKind.Variable,
+            models.ReflectionKind.Function,
+            models.ReflectionKind.Accessor,
+            models.ReflectionKind.Method,
+            models.ReflectionKind.ObjectLiteral,
 
-            ReflectionKind.Parameter,
-            ReflectionKind.TypeParameter,
-            ReflectionKind.TypeLiteral,
-            ReflectionKind.CallSignature,
-            ReflectionKind.ConstructorSignature,
-            ReflectionKind.IndexSignature,
-            ReflectionKind.GetSignature,
-            ReflectionKind.SetSignature,
+            models.ReflectionKind.Parameter,
+            models.ReflectionKind.TypeParameter,
+            models.ReflectionKind.TypeLiteral,
+            models.ReflectionKind.CallSignature,
+            models.ReflectionKind.ConstructorSignature,
+            models.ReflectionKind.IndexSignature,
+            models.ReflectionKind.GetSignature,
+            models.ReflectionKind.SetSignature,
         ];
 
         /**
@@ -44,8 +44,8 @@ module td.converter
          */
         static SINGULARS = (function() {
             var singulars = {};
-            singulars[ReflectionKind.Enum]       = 'Enumeration';
-            singulars[ReflectionKind.EnumMember] = 'Enumeration member';
+            singulars[models.ReflectionKind.Enum]       = 'Enumeration';
+            singulars[models.ReflectionKind.EnumMember] = 'Enumeration member';
             return singulars;
         })();
 
@@ -54,11 +54,11 @@ module td.converter
          */
         static PLURALS = (function() {
             var plurals = {};
-            plurals[ReflectionKind.Class]      = 'Classes';
-            plurals[ReflectionKind.Property]   = 'Properties';
-            plurals[ReflectionKind.Enum]       = 'Enumerations';
-            plurals[ReflectionKind.EnumMember] = 'Enumeration members';
-            plurals[ReflectionKind.TypeAlias]  = 'Type aliases';
+            plurals[models.ReflectionKind.Class]      = 'Classes';
+            plurals[models.ReflectionKind.Property]   = 'Properties';
+            plurals[models.ReflectionKind.Enum]       = 'Enumerations';
+            plurals[models.ReflectionKind.EnumMember] = 'Enumeration members';
+            plurals[models.ReflectionKind.TypeAlias]  = 'Type aliases';
             return plurals;
         })();
 
@@ -82,12 +82,12 @@ module td.converter
          * @param context  The context object describing the current state the converter is in.
          * @param reflection  The reflection that is currently resolved.
          */
-        private onResolve(context:Context, reflection:Reflection) {
+        private onResolve(context:Context, reflection:models.Reflection) {
             var reflection = reflection;
             reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
-            if (reflection instanceof ContainerReflection) {
-                var container = <ContainerReflection>reflection;
+            if (reflection instanceof models.ContainerReflection) {
+                var container = <models.ContainerReflection>reflection;
                 if (container.children && container.children.length > 0) {
                     container.children.sort(GroupPlugin.sortCallback);
                     container.groups = GroupPlugin.getReflectionGroups(container.children);
@@ -132,8 +132,8 @@ module td.converter
          * @param reflections  The reflections that should be grouped.
          * @returns An array containing all children of the given reflection grouped by their kind.
          */
-        static getReflectionGroups(reflections:DeclarationReflection[]):ReflectionGroup[] {
-            var groups:ReflectionGroup[] = [];
+        static getReflectionGroups(reflections:models.DeclarationReflection[]):models.ReflectionGroup[] {
+            var groups:models.ReflectionGroup[] = [];
             reflections.forEach((child) => {
                 for (var i = 0; i < groups.length; i++) {
                     var group = groups[i];
@@ -145,7 +145,7 @@ module td.converter
                     return;
                 }
 
-                var group = new ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+                var group = new models.ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
                 group.children.push(child);
                 groups.push(group);
             });
@@ -177,8 +177,8 @@ module td.converter
          * @param kind  The original typescript kind identifier.
          * @returns A human readable version of the given typescript kind identifier.
          */
-        private static getKindString(kind:ReflectionKind):string {
-            var str = ReflectionKind[kind];
+        private static getKindString(kind:models.ReflectionKind):string {
+            var str = models.ReflectionKind[kind];
             str = str.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
             return str;
         }
@@ -190,7 +190,7 @@ module td.converter
          * @param kind The original internal typescript kind identifier.
          * @returns The singular name of the given internal typescript kind identifier
          */
-        static getKindSingular(kind:ReflectionKind):string {
+        static getKindSingular(kind:models.ReflectionKind):string {
             if (GroupPlugin.SINGULARS[kind]) {
                 return GroupPlugin.SINGULARS[kind];
             } else {
@@ -205,7 +205,7 @@ module td.converter
          * @param kind The original internal typescript kind identifier.
          * @returns The plural name of the given internal typescript kind identifier
          */
-        static getKindPlural(kind:ReflectionKind):string {
+        static getKindPlural(kind:models.ReflectionKind):string {
             if (GroupPlugin.PLURALS[kind]) {
                 return GroupPlugin.PLURALS[kind];
             } else {
@@ -221,7 +221,7 @@ module td.converter
          * @param b The right reflection to sort.
          * @returns The sorting weight.
          */
-        static sortCallback(a:Reflection, b:Reflection):number {
+        static sortCallback(a:models.Reflection, b:models.Reflection):number {
             var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
             var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
             if (aWeight == bWeight) {

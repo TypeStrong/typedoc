@@ -51,12 +51,12 @@ module td.output
         /**
          * The project that is currently processed.
          */
-        private project:ProjectReflection;
+        private project:models.ProjectReflection;
 
         /**
          * The reflection that is currently processed.
          */
-        private reflection:DeclarationReflection;
+        private reflection:models.DeclarationReflection;
 
         /**
          * The url of the document that is being currently generated.
@@ -275,7 +275,7 @@ module td.output
          */
         public parseReferences(text:string) {
             return text.replace(/\[\[([^\]]+)\]\]/g, (match:string, name:string) => {
-                var reflection:Reflection;
+                var reflection:models.Reflection;
                 if (this.reflection) {
                     reflection = this.reflection.findReflectionByName(name);
                 } else if (this.project) {
@@ -329,7 +329,7 @@ module td.output
          */
         private onRendererBeginPage(page:OutputPageEvent) {
             this.location   = page.url;
-            this.reflection = page.model instanceof DeclarationReflection ? page.model : null;
+            this.reflection = page.model instanceof models.DeclarationReflection ? page.model : null;
         }
     }
 
