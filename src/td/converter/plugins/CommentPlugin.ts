@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * Structure used by [[ContainerCommentHandler]] to store discovered module comments.

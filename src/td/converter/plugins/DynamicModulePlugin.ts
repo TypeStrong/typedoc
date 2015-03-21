@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * A handler that truncates the names of dynamic modules to not include the

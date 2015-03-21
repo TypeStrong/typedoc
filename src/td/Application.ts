@@ -62,7 +62,7 @@ module td
         /**
          * The converter used to create the declaration reflections.
          */
-        converter:Converter;
+        converter:converter.Converter;
 
         /**
          * The renderer used to generate the documentation output.
@@ -101,8 +101,8 @@ module td
          * Create a new TypeDoc application instance.
          */
         constructor(arg?:any) {
-            this.converter = new Converter(this);
-            this.renderer  = new Renderer(this);
+            this.converter = new converter.Converter(this);
+            this.renderer  = new output.Renderer(this);
             this.logger    = new ConsoleLogger();
             this.options   = OptionsParser.createOptions();
             this.compilerOptions = OptionsParser.createCompilerOptions();

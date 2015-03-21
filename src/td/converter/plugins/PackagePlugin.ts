@@ -10,7 +10,7 @@ declare module td
     }
 }
 
-module td
+module td.converter
 {
     /**
      * A handler that tries to find the package.json and readme.md files of the

@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * A handler that sorts and groups the found reflections in the resolving phase.

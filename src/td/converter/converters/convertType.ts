@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * Convert the given TypeScript type into its TypeDoc type reflection.

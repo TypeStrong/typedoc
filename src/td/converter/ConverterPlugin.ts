@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     export class ConverterPlugin implements IPluginInterface
     {

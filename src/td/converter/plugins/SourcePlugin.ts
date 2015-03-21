@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * A handler that attaches source file information to reflections.

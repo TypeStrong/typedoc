@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * Helper class that determines the common base path of a set of files.

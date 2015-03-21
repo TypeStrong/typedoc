@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.

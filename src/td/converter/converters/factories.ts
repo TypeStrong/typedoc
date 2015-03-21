@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * Create a declaration reflection from the given TypeScript node.

@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     export function getDefaultValue(node:ts.VariableDeclaration):string;
     export function getDefaultValue(node:ts.ParameterDeclaration):string;

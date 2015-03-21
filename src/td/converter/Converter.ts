@@ -31,7 +31,7 @@ declare module td
     }
 }
 
-module td
+module td.converter
 {
     /**
      * Result structure of the [[Converter.convert]] method.

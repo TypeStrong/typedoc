@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * The context describes the current state the converter is in.

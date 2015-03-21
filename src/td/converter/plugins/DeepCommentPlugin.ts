@@ -1,4 +1,4 @@
-module td
+module td.converter
 {
     /**
      * A handler that moves comments with dot syntax to their target.
