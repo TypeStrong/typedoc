@@ -1,1 +1,1 @@
-exports = td.MinimalTheme;
+exports = td.output.MinimalTheme;
