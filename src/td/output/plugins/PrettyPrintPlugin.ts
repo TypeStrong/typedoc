@@ -142,7 +142,7 @@ module td.output
 
                     if (lineState == PrettyPrintState.Default) {
                         lineDepth = Math.min(lineDepth, stack.length);
-                        line = line.replace(/^\s+/, '');
+                        line = line.replace(/^\s+/, '').replace(/\s+$/, '');
                         if (lineDepth > minLineDepth) {
                             line = Array(lineDepth - minLineDepth + 1).join('\t') + line;
                         }

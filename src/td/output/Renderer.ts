@@ -142,7 +142,9 @@ module td.output
                     }
                 }
 
-                this.templates[fileName] = Handlebars.compile(Renderer.readFile(path));
+                this.templates[fileName] = Handlebars.compile(Renderer.readFile(path), {
+                    preventIndent: true
+                });
             }
 
             return this.templates[fileName];

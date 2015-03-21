@@ -6296,7 +6296,9 @@ var td;
                             return null;
                         }
                     }
-                    this.templates[fileName] = td.Handlebars.compile(Renderer.readFile(path));
+                    this.templates[fileName] = td.Handlebars.compile(Renderer.readFile(path), {
+                        preventIndent: true
+                    });
                 }
                 return this.templates[fileName];
             };
@@ -7536,7 +7538,7 @@ var td;
                         }
                         if (lineState == 0 /* Default */) {
                             lineDepth = Math.min(lineDepth, stack.length);
-                            line = line.replace(/^\s+/, '');
+                            line = line.replace(/^\s+/, '').replace(/\s+$/, '');
                             if (lineDepth > minLineDepth) {
                                 line = Array(lineDepth - minLineDepth + 1).join('\t') + line;
                             }

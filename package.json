@@ -30,12 +30,12 @@
   "dependencies": {
     "typescript": "1.4.x",
     "typedoc-default-themes": "^0.2.5",
-    "fs-extra": "^0.16.4",
-    "minimatch": "^2.0.1",
-    "handlebars": "2.0.0-alpha.4",
+    "fs-extra": "^0.16.5",
+    "minimatch": "^2.0.4",
+    "handlebars": "3.0.0",
     "marked": "^0.3.3",
     "highlight.js": "^8.4.0",
-    "shelljs": "^0.3.0",
+    "shelljs": "^0.4.0",
     "progress": "^1.1.8"
   },
   "devDependencies": {
