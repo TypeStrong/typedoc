@@ -372,7 +372,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.2.3';
+        Application.VERSION = '0.3.0';
         return Application;
     })();
     td.Application = Application;
