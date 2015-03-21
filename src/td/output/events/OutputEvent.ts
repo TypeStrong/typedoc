@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * An event emitted by the [[Renderer]] class at the very beginning and

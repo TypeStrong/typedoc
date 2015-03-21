@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * A plugin that exports an index of the project to a javascript file.
@@ -55,7 +55,7 @@ module td
                 }
 
                 if (!kinds[reflection.kind]) {
-                    kinds[reflection.kind] = GroupPlugin.getKindSingular(reflection.kind);
+                    kinds[reflection.kind] = converter.GroupPlugin.getKindSingular(reflection.kind);
                 }
 
                 rows.push(row);

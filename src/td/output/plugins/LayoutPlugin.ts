@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * A plugin that wraps the generated output with a layout template.

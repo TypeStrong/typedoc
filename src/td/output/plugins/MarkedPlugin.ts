@@ -14,7 +14,7 @@ declare module td
     }
 }
 
-module td
+module td.output
 {
     /**
      * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.

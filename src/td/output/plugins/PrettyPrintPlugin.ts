@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * List of states the parser of [[PrettyPrintPlugin]] can be in.

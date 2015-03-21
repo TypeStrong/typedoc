@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * A plugin that generates a table of contents for the current page.

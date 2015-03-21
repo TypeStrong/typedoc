@@ -6,7 +6,7 @@
  * series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
  * alter the generated output.
  */
-module td
+module td.output
 {
     /**
      * Interface representation of a handlebars template.

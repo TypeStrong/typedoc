@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     export class MinimalTheme extends DefaultTheme
     {
@@ -8,7 +8,7 @@ module td
          * @param renderer  The renderer this theme is attached to.
          * @param basePath  The base path of this theme.
          */
-        constructor(renderer:td.Renderer, basePath:string) {
+        constructor(renderer:Renderer, basePath:string) {
             super(renderer, basePath);
 
             renderer.removePlugin('assets');
@@ -16,7 +16,7 @@ module td
             renderer.removePlugin('navigation');
             renderer.removePlugin('toc');
 
-            renderer.on(td.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+            renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
         }
 
 
@@ -49,7 +49,7 @@ module td
             project.hasOwnDocument = true;
 
             project.children.forEach((child) => {
-                td.DefaultTheme.applyAnchorUrl(child, project);
+                DefaultTheme.applyAnchorUrl(child, project);
             });
 
             return urls;
@@ -61,7 +61,7 @@ module td
          *
          * @param page  An event object describing the current render operation.
          */
-        private onRendererBeginPage(page:td.OutputPageEvent) {
+        private onRendererBeginPage(page:OutputPageEvent) {
             var model = page.model;
             if (!(model instanceof td.Reflection)) {
                 return;

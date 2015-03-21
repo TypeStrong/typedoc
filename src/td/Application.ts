@@ -67,7 +67,7 @@ module td
         /**
          * The renderer used to generate the documentation output.
          */
-        renderer:Renderer;
+        renderer:output.Renderer;
 
         /**
          * The logger that should be used to output messages.

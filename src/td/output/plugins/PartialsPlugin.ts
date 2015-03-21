@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * A plugin that loads all partials of the current theme.

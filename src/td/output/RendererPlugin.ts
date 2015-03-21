@@ -1,4 +1,4 @@
-module td
+module td.output
 {
     /**
      * Base class of all plugins that can be attached to the [[Renderer]].

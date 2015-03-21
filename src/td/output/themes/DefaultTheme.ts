@@ -20,7 +20,7 @@ declare module td
     }
 }
 
-module td
+module td.output
 {
     /**
      * Defines a mapping of a [[Models.Kind]] to a template file.
