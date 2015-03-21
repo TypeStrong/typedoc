@@ -45,7 +45,7 @@ $member-icons:
 
         @include retina {
             background-image: url(../images/icons@2x.png);
-            background-size: 238px 187px;
+            background-size: 238px 204px;
         }
     }
 }
@@ -96,7 +96,7 @@ $member-interface-inherited:      -13 * $icon-size;
     @each $kind in nth($member-icons, $index) {
         $offset: -#{17 * ($index - 1)}px;
         $selector: '.tsd-kind-' + $kind;
-        @if $index == 9 {
+        @if $index == 10 {
             $selector: '.tsd-is-static';
         } @else if $index > 10 {
             $selector: '.tsd-is-static.tsd-kind-' + $kind;
