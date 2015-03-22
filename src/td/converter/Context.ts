@@ -128,6 +128,16 @@ module td.converter
 
 
         /**
+         * Return the current logger instance.
+         *
+         * @returns The current logger instance.
+         */
+        getLogger():Logger {
+            return this.converter.application.logger;
+        }
+
+
+        /**
          * Return the symbol id of the given symbol.
          *
          * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.

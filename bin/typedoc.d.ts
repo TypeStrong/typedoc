@@ -825,6 +825,12 @@ declare module td.converter {
          */
         getTypeAtLocation(node: ts.Node): ts.Type;
         /**
+         * Return the current logger instance.
+         *
+         * @returns The current logger instance.
+         */
+        getLogger(): Logger;
+        /**
          * Return the symbol id of the given symbol.
          *
          * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.
