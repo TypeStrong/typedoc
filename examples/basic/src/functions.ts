@@ -166,3 +166,16 @@ export module moduleFunction
 
     }
 }
+
+
+/**
+ * A function that returns an object.
+ * Also no type information is given, the object should be correctly reflected.
+ */
+export function createSomething() {
+    return {
+        foo: 'bar',
+        doSomething: (a:number) => a +1,
+        doAnotherThing: () => {}
+    };
+}
