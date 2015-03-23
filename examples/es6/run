@@ -1,0 +1,3 @@
+#!/bin/sh
+cd ${0%/*}
+node ../../bin/typedoc --module commonjs --target ES6 --out doc/ src/

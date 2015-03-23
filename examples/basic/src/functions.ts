@@ -175,7 +175,7 @@ export module moduleFunction
 export function createSomething() {
     return {
         foo: 'bar',
-        doSomething: (a:number) => a +1,
+        doSomething: (a:number) => a + 1,
         doAnotherThing: () => {}
     };
 }
