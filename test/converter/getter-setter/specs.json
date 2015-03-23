@@ -75,7 +75,7 @@
                   ],
                   "type": {
                     "type": "instrinct",
-                    "name": "string"
+                    "name": "void"
                   }
                 }
               ]
@@ -128,7 +128,7 @@
                   ],
                   "type": {
                     "type": "instrinct",
-                    "name": "string"
+                    "name": "void"
                   }
                 }
               ]
