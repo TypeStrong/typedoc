@@ -192,14 +192,10 @@ module td.converter
     function extractSignatureType(context:Context, node:ts.SignatureDeclaration):models.Type {
         var checker = context.checker;
         if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
-            var type = checker.getTypeAtLocation(node);
-            var signatures = checker.getSignaturesOfType(type, ts.SignatureKind.Call)
-            for (var i = 0, c = signatures.length; i < c; i++) {
-                var signature = signatures[i];
-                if (signature.declaration == node) {
-                    return convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
-                }
-            }
+            try {
+                var signature = checker.getSignatureFromDeclaration(node);
+                return convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
+            } catch (error) {}
         }
 
         if (node.type) {

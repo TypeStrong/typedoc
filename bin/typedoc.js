@@ -372,7 +372,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.3.0';
+        Application.VERSION = '0.3.1';
         return Application;
     })();
     td.Application = Application;
@@ -1666,7 +1666,19 @@ var td;
              * @returns The type declaration of the given node.
              */
             Context.prototype.getTypeAtLocation = function (node) {
-                return this.checker.getTypeAtLocation(node);
+                try {
+                    return this.checker.getTypeAtLocation(node);
+                }
+                catch (error) {
+                    try {
+                        if (node.symbol) {
+                            return this.checker.getDeclaredTypeOfSymbol(node.symbol);
+                        }
+                    }
+                    catch (error) {
+                    }
+                }
+                return null;
             };
             /**
              * Return the current logger instance.
@@ -2735,11 +2747,13 @@ var td;
                         return convertUnionTypeNode(context, node);
                 }
                 // Node based type conversions by type flags
-                if (type.flags & 512 /* TypeParameter */) {
-                    return convertTypeParameterNode(context, node);
-                }
-                else if (type.flags & 48128 /* ObjectType */) {
-                    return convertTypeReferenceNode(context, node, type);
+                if (type) {
+                    if (type.flags & 512 /* TypeParameter */) {
+                        return convertTypeParameterNode(context, node);
+                    }
+                    else if (type.flags & 48128 /* ObjectType */) {
+                        return convertTypeReferenceNode(context, node, type);
+                    }
                 }
             }
             // Type conversions by type flags
@@ -3314,13 +3328,11 @@ var td;
         function extractSignatureType(context, node) {
             var checker = context.checker;
             if (node.kind & 129 /* CallSignature */ || node.kind & 145 /* CallExpression */) {
-                var type = checker.getTypeAtLocation(node);
-                var signatures = checker.getSignaturesOfType(type, 0 /* Call */);
-                for (var i = 0, c = signatures.length; i < c; i++) {
-                    var signature = signatures[i];
-                    if (signature.declaration == node) {
-                        return converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
-                    }
+                try {
+                    var signature = checker.getSignatureFromDeclaration(node);
+                    return converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
+                }
+                catch (error) {
                 }
             }
             if (node.type) {

@@ -30,10 +30,12 @@ module td.converter
             }
 
             // Node based type conversions by type flags
-            if (type.flags & ts.TypeFlags.TypeParameter) {
-                return convertTypeParameterNode(context, <ts.TypeReferenceNode>node);
-            } else if (type.flags & ts.TypeFlags.ObjectType) {
-                return convertTypeReferenceNode(context, <ts.TypeReferenceNode>node, <ts.TypeReference>type);
+            if (type) {
+                if (type.flags & ts.TypeFlags.TypeParameter) {
+                    return convertTypeParameterNode(context, <ts.TypeReferenceNode>node);
+                } else if (type.flags & ts.TypeFlags.ObjectType) {
+                    return convertTypeReferenceNode(context, <ts.TypeReferenceNode>node, <ts.TypeReference>type);
+                }
             }
         }
 

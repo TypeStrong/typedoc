@@ -123,7 +123,17 @@ module td.converter
          * @returns The type declaration of the given node.
          */
         getTypeAtLocation(node:ts.Node):ts.Type {
-            return this.checker.getTypeAtLocation(node);
+            try {
+                return this.checker.getTypeAtLocation(node);
+            } catch (error) {
+                try {
+                    if (node.symbol) {
+                        return this.checker.getDeclaredTypeOfSymbol(node.symbol);
+                    }
+                } catch (error) {}
+            }
+
+            return null;
         }
 
 
