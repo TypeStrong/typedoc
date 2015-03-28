@@ -63,4 +63,16 @@ export class TestSubClass extends TestClass
      * protectedMethod short text.
      */
     protected protectedMethod() {}
+
+    /**
+     * Constructor short text.
+     *
+     * @param p1 Constructor param
+     * @param p2 Private string property
+     * @param p3 Public number property
+     * @param p4 Public implicit any property
+     */
+    constructor(p1, private p2: string, public p3: number, public p4) {
+        super();
+    }
 }
