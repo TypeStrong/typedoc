@@ -95,9 +95,11 @@ module td.converter
         } catch (error) {
             var msg = [];
             msg.push('An error occurred while creating reflections for the current project.');
-            msg.push(' | Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
-            msg.push(' | including the following details:');
-            msg.push(' |');
+            msg.push('Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
+            msg.push('including the following details:');
+            msg.push('');
+            msg.push('>>> BEGIN OF ERROR DESCRIPTION');
+            msg.push('');
 
             try {
                 var sourceFile = ts.getSourceFileOfNode(node);
@@ -105,33 +107,35 @@ module td.converter
 
                 if (node.symbol) {
                     msg.push(Util.format(
-                        ' | The error occurred while converting `%s` in `%s` around line %s:',
+                        'The error occurred while converting `%s` in `%s` around line %s:',
                         context.checker.getFullyQualifiedName(node.symbol),
                         ts.getBaseFilename(sourceFile.filename), line.line));
                 } else {
                     msg.push(Util.format(
-                        ' | The error occurred while converting `%s` around line %s:',
+                        'The error occurred while converting `%s` around line %s:',
                         ts.getBaseFilename(sourceFile.filename), line.line));
                 }
 
-                var lines = sourceFile.getLineStarts();
+                var lineData, lines = sourceFile.getLineStarts();
+                var lineCount = lines.length - 1;
                 var min = Math.max(line.line - 2, 0);
-                var max = Math.min(line.line + 25, lines.length - 2);
+                var max = Math.min(line.line + 25, lineCount);
 
+                msg.push('', '```');
                 for (var index = min; index <= max; index++) {
-                    msg.push(
-                        (index == line.line - 1 ? ' |  @ ' : ' |  > ') +
-                        sourceFile.text.substring(lines[index], lines[index + 1] - 1)
-                    );
+                    if (index == lineCount) {
+                        lineData = sourceFile.text.substring(lines[index]);
+                    } else {
+                        lineData = sourceFile.text.substring(lines[index], lines[index + 1] - 1);
+                    }
+
+                    msg.push((index == line.line - 1 ? '@ ' : '  ') + lineData);
                 }
-                msg.push(' |');
-            } catch (error) { }
+                msg.push('```');
+            } catch (sourceError) { }
 
-            error.stack.split('\n').forEach((str, index) => {
-                msg.push((index == 0 ? ' | ' : ' |   ') + str.trim());
-            });
-
-            msg.push('');
+            msg.push('', '```', error.stack, '```');
+            msg.push('', '<<< END OF ERROR DESCRIPTION', '', '');
             context.getLogger().error(msg.join('\n'));
         }
     }
