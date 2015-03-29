@@ -372,7 +372,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.3.1';
+        Application.VERSION = '0.3.2';
         return Application;
     })();
     td.Application = Application;
@@ -2271,32 +2271,40 @@ var td;
             catch (error) {
                 var msg = [];
                 msg.push('An error occurred while creating reflections for the current project.');
-                msg.push(' | Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
-                msg.push(' | including the following details:');
-                msg.push(' |');
+                msg.push('Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
+                msg.push('including the following details:');
+                msg.push('');
+                msg.push('>>> BEGIN OF ERROR DESCRIPTION');
+                msg.push('');
                 try {
                     var sourceFile = ts.getSourceFileOfNode(node);
                     var line = sourceFile.getLineAndCharacterFromPosition(node.pos);
                     if (node.symbol) {
-                        msg.push(td.Util.format(' | The error occurred while converting `%s` in `%s` around line %s:', context.checker.getFullyQualifiedName(node.symbol), ts.getBaseFilename(sourceFile.filename), line.line));
+                        msg.push(td.Util.format('The error occurred while converting `%s` in `%s` around line %s:', context.checker.getFullyQualifiedName(node.symbol), ts.getBaseFilename(sourceFile.filename), line.line));
                     }
                     else {
-                        msg.push(td.Util.format(' | The error occurred while converting `%s` around line %s:', ts.getBaseFilename(sourceFile.filename), line.line));
+                        msg.push(td.Util.format('The error occurred while converting `%s` around line %s:', ts.getBaseFilename(sourceFile.filename), line.line));
                     }
-                    var lines = sourceFile.getLineStarts();
+                    var lineData, lines = sourceFile.getLineStarts();
+                    var lineCount = lines.length - 1;
                     var min = Math.max(line.line - 2, 0);
-                    var max = Math.min(line.line + 25, lines.length - 2);
+                    var max = Math.min(line.line + 25, lineCount);
+                    msg.push('', '```');
                     for (var index = min; index <= max; index++) {
-                        msg.push((index == line.line - 1 ? ' |  @ ' : ' |  > ') + sourceFile.text.substring(lines[index], lines[index + 1] - 1));
+                        if (index == lineCount) {
+                            lineData = sourceFile.text.substring(lines[index]);
+                        }
+                        else {
+                            lineData = sourceFile.text.substring(lines[index], lines[index + 1] - 1);
+                        }
+                        msg.push((index == line.line - 1 ? '@ ' : '  ') + lineData);
                     }
-                    msg.push(' |');
+                    msg.push('```');
                 }
-                catch (error) {
+                catch (sourceError) {
                 }
-                error.stack.split('\n').forEach(function (str, index) {
-                    msg.push((index == 0 ? ' | ' : ' |   ') + str.trim());
-                });
-                msg.push('');
+                msg.push('', '```', error.stack, '```');
+                msg.push('', '<<< END OF ERROR DESCRIPTION', '', '');
                 context.getLogger().error(msg.join('\n'));
             }
         }
@@ -2551,6 +2559,35 @@ var td;
             return member;
         }
         /**
+         * Analyze parameters in given constructor declaration node and create a suitable reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param node     The constructor declaration node that should be analyzed.
+         * @return The resulting reflection or NULL.
+         */
+        function visitConstructorModifiers(context, node) {
+            node.parameters.forEach(function (param) {
+                var visibility = param.flags & (16 /* Public */ | 64 /* Protected */ | 32 /* Private */);
+                if (!visibility)
+                    return;
+                var property = converter.createDeclaration(context, param, 1024 /* Property */);
+                if (!property)
+                    return;
+                property.setFlag(8 /* Static */, false);
+                property.type = converter.convertType(context, param.type, context.getTypeAtLocation(param));
+                var sourceComment = converter.CommentPlugin.getComment(node);
+                if (sourceComment) {
+                    var constructorComment = converter.CommentPlugin.parseComment(sourceComment);
+                    if (constructorComment) {
+                        var tag = constructorComment.getTag('param', property.name);
+                        if (tag && tag.text) {
+                            property.comment = converter.CommentPlugin.parseComment(tag.text);
+                        }
+                    }
+                }
+            });
+        }
+        /**
          * Analyze the given constructor declaration node and create a suitable reflection.
          *
          * @param context  The context object describing the current state the converter is in.
@@ -2561,6 +2598,7 @@ var td;
             var parent = context.scope;
             var hasBody = !!node.body;
             var method = converter.createDeclaration(context, node, 512 /* Constructor */, 'constructor');
+            visitConstructorModifiers(context, node);
             context.withScope(method, function () {
                 if (!hasBody || !method.signatures) {
                     var name = 'new ' + parent.name;
