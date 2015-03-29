@@ -431,6 +431,36 @@ module td.converter
         return member;
     }
 
+    /**
+     * Analyze parameters in given constructor declaration node and create a suitable reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The constructor declaration node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    function visitConstructorModifiers(context:Context, node:ts.ConstructorDeclaration) {
+        node.parameters.forEach(param => {
+            var visibility = param.flags & (ts.NodeFlags.Public | ts.NodeFlags.Protected | ts.NodeFlags.Private);
+            if (!visibility) return;
+
+            var property = createDeclaration(context, param, models.ReflectionKind.Property);
+            if (!property) return;
+
+            property.setFlag(models.ReflectionFlag.Static, false);
+            property.type = convertType(context, param.type, context.getTypeAtLocation(param));
+
+            var sourceComment = CommentPlugin.getComment(node);
+            if (sourceComment) {
+                var constructorComment = CommentPlugin.parseComment(sourceComment);
+                if (constructorComment) {
+                    var tag = constructorComment.getTag('param', property.name);
+                    if (tag && tag.text) {
+                        property.comment = CommentPlugin.parseComment(tag.text);
+                    }
+                }
+            }
+        });
+    }
 
     /**
      * Analyze the given constructor declaration node and create a suitable reflection.
@@ -444,6 +474,7 @@ module td.converter
         var hasBody = !!node.body;
         var method = createDeclaration(context, node, models.ReflectionKind.Constructor, 'constructor');
 
+        visitConstructorModifiers(context, node);
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {
                 var name = 'new ' + parent.name;

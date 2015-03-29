@@ -266,7 +266,7 @@
           },
           "children": [
             {
-              "id": 23,
+              "id": 21,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -278,7 +278,7 @@
               },
               "signatures": [
                 {
-                  "id": 24,
+                  "id": 25,
                   "name": "new TestSubClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -286,26 +286,135 @@
                   "comment": {
                     "shortText": "Constructor short text."
                   },
+                  "parameters": [
+                    {
+                      "id": 26,
+                      "name": "p1",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Constructor param"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "any"
+                      }
+                    },
+                    {
+                      "id": 27,
+                      "name": "p2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Private string property"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "id": 28,
+                      "name": "p3",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Public number property"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 29,
+                      "name": "p4",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Public implicit any property\n"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "any"
+                      }
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "TestSubClass",
                     "id": 16
                   },
-                  "inheritedFrom": {
+                  "overwrites": {
                     "type": "reference",
                     "name": "TestClass.__constructor",
                     "id": 6
                   }
                 }
               ],
-              "inheritedFrom": {
+              "overwrites": {
                 "type": "reference",
                 "name": "TestClass.__constructor",
                 "id": 6
               }
             },
             {
-              "id": 21,
+              "id": 22,
+              "name": "p2",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Private string property"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "string"
+              }
+            },
+            {
+              "id": 23,
+              "name": "p3",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPublic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Public number property"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            },
+            {
+              "id": 24,
+              "name": "p4",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPublic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Public implicit any property"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "any"
+              }
+            },
+            {
+              "id": 30,
               "name": "publicProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -327,7 +436,7 @@
               }
             },
             {
-              "id": 22,
+              "id": 31,
               "name": "staticProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -422,7 +531,7 @@
               }
             },
             {
-              "id": 25,
+              "id": 32,
               "name": "staticMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -432,7 +541,7 @@
               },
               "signatures": [
                 {
-                  "id": 26,
+                  "id": 33,
                   "name": "staticMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -463,15 +572,18 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                23
+                21
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                21,
-                22
+                22,
+                23,
+                24,
+                30,
+                31
               ]
             },
             {
@@ -480,7 +592,7 @@
               "children": [
                 19,
                 17,
-                25
+                32
               ]
             }
           ],

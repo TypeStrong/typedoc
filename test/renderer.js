@@ -26,7 +26,7 @@ function compareDirectories(a, b) {
     var bFiles = getFileIndex(b);
     Assert.deepEqual(aFiles, bFiles, "Generated files differ.");
 
-    var gitHubRegExp = /https:\/\/github.com\/sebastian-lenz\/typedoc\/blob\/[^\/]*\/examples/g;
+    var gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9\-]+\/typedoc\/blob\/[^\/]*\/examples/g;
     aFiles.forEach(function (file) {
         var aSrc = FS.readFileSync(Path.join(a, file), {encoding:'utf-8'})
             .replace("\r", '')
