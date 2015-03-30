@@ -1818,6 +1818,7 @@ declare module td.models {
         Optional = 128,
         DefaultValue = 256,
         Rest = 512,
+        ConstructorProperty = 1024,
     }
     interface IReflectionFlags extends Array<string> {
         flags?: ReflectionFlag;
@@ -1859,6 +1860,7 @@ declare module td.models {
          *
          */
         hasExportAssignment?: boolean;
+        isConstructorProperty?: boolean;
     }
     interface IDefaultValueContainer extends Reflection {
         defaultValue: string;

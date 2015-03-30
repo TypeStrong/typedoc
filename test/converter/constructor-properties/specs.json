@@ -1,0 +1,337 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"constructor-properties\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/constructor-properties/constructor-properties.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Vector2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A class with constructor properties."
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {},
+              "signatures": [
+                {
+                  "id": 6,
+                  "name": "new Vector2",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 7,
+                      "name": "x",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "X component of the Vector"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 8,
+                      "name": "y",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Y component of the Vector\n"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Vector2",
+                    "id": 2
+                  }
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "X component of the Vector"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            },
+            {
+              "id": 5,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Y component of the Vector"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                3
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                5
+              ]
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "Vector3",
+              "id": 9
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Vector3",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A class with inherited and overwritten constructor properties."
+          },
+          "children": [
+            {
+              "id": 10,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {},
+              "signatures": [
+                {
+                  "id": 13,
+                  "name": "new Vector3",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 14,
+                      "name": "x",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "X component of the Vector"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 15,
+                      "name": "y",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Y component of the Vector"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 16,
+                      "name": "z",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Z component of the Vector\n"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Vector3",
+                    "id": 9
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "Vector2.__constructor",
+                    "id": 3
+                  }
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.__constructor",
+                "id": 3
+              }
+            },
+            {
+              "id": 17,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "X component of the Vector"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Vector2.x",
+                "id": 4
+              }
+            },
+            {
+              "id": 11,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Y component of the Vector"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.y",
+                "id": 5
+              }
+            },
+            {
+              "id": 12,
+              "name": "z",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Z component of the Vector"
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                10
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                17,
+                11,
+                12
+              ]
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "Vector2",
+              "id": 2
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2,
+            9
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

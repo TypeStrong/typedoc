@@ -3232,9 +3232,15 @@ var td;
                 return null;
             }
             // Test whether the node is static, when merging a module to a class make the node static
+            var isConstructorProperty = false;
             var isStatic = !!(node.flags & 128 /* Static */);
-            if (container.kind == 128 /* Class */ && (!node.parent || node.parent.kind != 185 /* ClassDeclaration */)) {
-                isStatic = true;
+            if (container.kind == 128 /* Class */) {
+                if (node.parent && node.parent.kind == 126 /* Constructor */) {
+                    isConstructorProperty = true;
+                }
+                else if (!node.parent || node.parent.kind != 185 /* ClassDeclaration */) {
+                    isStatic = true;
+                }
             }
             // Check if we already have a child with the same name and static flag
             var child;
@@ -3248,6 +3254,7 @@ var td;
                 child = new td.models.DeclarationReflection(container, name, kind);
                 child.setFlag(8 /* Static */, isStatic);
                 child.setFlag(1 /* Private */, isPrivate);
+                child.setFlag(1024 /* ConstructorProperty */, isConstructorProperty);
                 child = setupDeclaration(context, child, node);
                 if (child) {
                     children.push(child);
@@ -3279,7 +3286,7 @@ var td;
             reflection.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
             reflection.setFlag(128 /* Optional */, !!(node['questionToken']));
             reflection.setFlag(16 /* Exported */, reflection.parent.flags.isExported || !!(node.flags & 1 /* Export */));
-            if (context.isInherit && node.parent == context.inheritParent) {
+            if (context.isInherit && (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
                 if (!reflection.inheritedFrom) {
                     reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
                     reflection.getAllSignatures().forEach(function (signature) {
@@ -3307,7 +3314,7 @@ var td;
                     reflection.kind = kind;
                 }
             }
-            if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(reflection.name) != -1) {
+            if (context.isInherit && context.inherited.indexOf(reflection.name) != -1 && (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
                 if (!reflection.overwrites) {
                     reflection.overwrites = createReferenceType(context, node.symbol, true);
                     reflection.getAllSignatures().forEach(function (signature) {
@@ -5047,6 +5054,7 @@ var td;
             ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
             ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
             ReflectionFlag[ReflectionFlag["Rest"] = 512] = "Rest";
+            ReflectionFlag[ReflectionFlag["ConstructorProperty"] = 1024] = "ConstructorProperty";
         })(models.ReflectionFlag || (models.ReflectionFlag = {}));
         var ReflectionFlag = models.ReflectionFlag;
         var relevantFlags = [
@@ -5141,7 +5149,7 @@ var td;
                     index = this.flags.indexOf(name);
                 }
                 if (value) {
-                    this.flags.flags &= flag;
+                    this.flags.flags |= flag;
                     if (name && index == -1) {
                         this.flags.push(name);
                     }
@@ -5191,6 +5199,9 @@ var td;
                         break;
                     case 32 /* ExportAssignment */:
                         this.flags.hasExportAssignment = value;
+                        break;
+                    case 1024 /* ConstructorProperty */:
+                        this.flags.isConstructorProperty = value;
                         break;
                 }
             };
@@ -5293,7 +5304,7 @@ var td;
                     result.comment = this.comment.toObject();
                 }
                 for (var key in this.flags) {
-                    if (parseInt(key) == key)
+                    if (parseInt(key) == key || key == 'flags')
                         continue;
                     if (this.flags[key])
                         result.flags[key] = true;

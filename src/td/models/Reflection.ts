@@ -74,7 +74,8 @@ module td.models
         External = 64,
         Optional = 128,
         DefaultValue = 256,
-        Rest = 512
+        Rest = 512,
+        ConstructorProperty = 1024
     }
 
 
@@ -140,6 +141,8 @@ module td.models
          *
          */
         hasExportAssignment?:boolean;
+
+        isConstructorProperty?:boolean;
     }
 
 
@@ -336,7 +339,7 @@ module td.models
             }
 
             if (value) {
-                this.flags.flags &= flag;
+                this.flags.flags |= flag;
                 if (name && index == -1) {
                     this.flags.push(name);
                 }
@@ -386,6 +389,9 @@ module td.models
                     break;
                 case ReflectionFlag.ExportAssignment:
                     this.flags.hasExportAssignment = value;
+                    break;
+                case ReflectionFlag.ConstructorProperty:
+                    this.flags.isConstructorProperty = value;
                     break;
             }
         }
@@ -528,7 +534,7 @@ module td.models
             }
 
             for (var key in this.flags) {
-                if (parseInt(key) == key) continue;
+                if (parseInt(key) == key || key == 'flags') continue;
                 if (this.flags[key]) result.flags[key] = true;
             }
 

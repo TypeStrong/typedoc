@@ -29,9 +29,14 @@ module td.converter
         }
 
         // Test whether the node is static, when merging a module to a class make the node static
+        var isConstructorProperty:boolean = false;
         var isStatic = !!(node.flags & ts.NodeFlags.Static);
-        if (container.kind == models.ReflectionKind.Class && (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration)) {
-            isStatic = true;
+        if (container.kind == models.ReflectionKind.Class) {
+            if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
+                isConstructorProperty = true;
+            } else if (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration) {
+                isStatic = true;
+            }
         }
 
         // Check if we already have a child with the same name and static flag
@@ -46,6 +51,7 @@ module td.converter
             child = new models.DeclarationReflection(container, name, kind);
             child.setFlag(models.ReflectionFlag.Static, isStatic);
             child.setFlag(models.ReflectionFlag.Private, isPrivate);
+            child.setFlag(models.ReflectionFlag.ConstructorProperty, isConstructorProperty);
             child = setupDeclaration(context, child, node);
 
             if (child) {
@@ -81,7 +87,10 @@ module td.converter
         reflection.setFlag(models.ReflectionFlag.Optional,  !!(node['questionToken']));
         reflection.setFlag(models.ReflectionFlag.Exported,  reflection.parent.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
 
-        if (context.isInherit && node.parent == context.inheritParent) {
+        if (
+            context.isInherit &&
+            (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)
+        ) {
             if (!reflection.inheritedFrom) {
                 reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
                 reflection.getAllSignatures().forEach((signature) => {
@@ -113,7 +122,11 @@ module td.converter
             }
         }
 
-        if (context.isInherit && node.parent == context.inheritParent && context.inherited.indexOf(reflection.name) != -1) {
+        if (
+            context.isInherit &&
+            context.inherited.indexOf(reflection.name) != -1 &&
+            (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)
+        ) {
             if (!reflection.overwrites) {
                 reflection.overwrites = createReferenceType(context, node.symbol, true);
                 reflection.getAllSignatures().forEach((signature) => {

@@ -369,6 +369,7 @@
               "kindString": "Property",
               "flags": {
                 "isPrivate": true,
+                "isConstructorProperty": true,
                 "isExported": true
               },
               "comment": {
@@ -385,6 +386,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "isConstructorProperty": true,
                 "isPublic": true,
                 "isExported": true
               },
@@ -402,6 +404,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "isConstructorProperty": true,
                 "isPublic": true,
                 "isExported": true
               },
