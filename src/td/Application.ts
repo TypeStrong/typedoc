@@ -1,3 +1,5 @@
+/// <reference path="EventDispatcher.ts" />
+
 /**
  * The TypeDoc main module and namespace.
  *
@@ -47,7 +49,7 @@ module td
      * and emit a series of events while processing the project. Subscribe to these Events
      * to control the application flow or alter the output.
      */
-    export class Application implements IApplication
+    export class Application extends EventDispatcher implements IApplication
     {
         /**
          * The options used by the dispatcher and the renderer.
@@ -81,6 +83,12 @@ module td
         private typeScriptVersion:string;
 
         /**
+         *
+         * @event
+         */
+        static EVENT_COLLECT_PARAMETERS:string = 'collectParameters';
+
+        /**
          * The version number of TypeDoc.
          */
         static VERSION:string = '{{ VERSION }}';
@@ -101,6 +109,8 @@ module td
          * Create a new TypeDoc application instance.
          */
         constructor(arg?:any) {
+            super();
+
             this.converter = new converter.Converter(this);
             this.renderer  = new output.Renderer(this);
             this.logger    = new ConsoleLogger();
@@ -305,6 +315,8 @@ module td
         public collectParameters(parser:OptionsParser) {
             parser.addParameter(this.converter.getParameters());
             parser.addParameter(this.renderer.getParameters());
+
+            this.dispatch(Application.EVENT_COLLECT_PARAMETERS, parser);
         }
 
 

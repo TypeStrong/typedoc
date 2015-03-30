@@ -39,6 +39,156 @@ eval((function () {
     var contents = td.FS.readFileSync(fileName, 'utf-8');
     return contents.replace('ts.executeCommandLine(ts.sys.args);', '');
 })());
+var td;
+(function (td) {
+    /**
+     * Base class of all events.
+     *
+     * Events are emitted by [[EventDispatcher]] and are passed to all
+     * handlers registered for the associated event name.
+     */
+    var Event = (function () {
+        function Event() {
+        }
+        /**
+         * Stop the propagation of this event. Remaining event handlers will not be executed.
+         */
+        Event.prototype.stopPropagation = function () {
+            this.isPropagationStopped = true;
+        };
+        /**
+         * Prevent the default action associated with this event from being executed.
+         */
+        Event.prototype.preventDefault = function () {
+            this.isDefaultPrevented = true;
+        };
+        return Event;
+    })();
+    td.Event = Event;
+    /**
+     * Base class of all objects dispatching events.
+     *
+     * Events are dispatched by calling [[EventDispatcher.dispatch]]. Events must have a name and
+     * they can carry additional arguments that are passed to all handlers. The first argument can
+     * be an instance of [[Event]] providing additional functionality.
+     */
+    var EventDispatcher = (function () {
+        function EventDispatcher() {
+        }
+        /**
+         * Dispatch an event with the given event name.
+         *
+         * @param event  The name of the event to dispatch.
+         * @param args   Additional arguments to pass to the handlers.
+         */
+        EventDispatcher.prototype.dispatch = function (event) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            if (!this.listeners)
+                return;
+            if (!this.listeners[event])
+                return;
+            var obj;
+            if (args.length > 0 && args[0] instanceof Event) {
+                obj = args[0];
+                obj.isDefaultPrevented = false;
+                obj.isPropagationStopped = false;
+            }
+            var listeners = this.listeners[event];
+            for (var i = 0, c = listeners.length; i < c; i++) {
+                var listener = listeners[i];
+                listener.handler.apply(listener.scope, args);
+                if (obj && obj.isPropagationStopped)
+                    break;
+            }
+        };
+        /**
+         * Register an event handler for the given event name.
+         *
+         * @param event     The name of the event the handler should be registered to.
+         * @param handler   The callback that should be invoked.
+         * @param scope     The scope the callback should be executed in.
+         * @param priority  A numeric value describing the priority of the handler. Handlers
+         *                  with higher priority will be executed earlier.
+         */
+        EventDispatcher.prototype.on = function (event, handler, scope, priority) {
+            if (scope === void 0) { scope = null; }
+            if (priority === void 0) { priority = 0; }
+            if (!this.listeners)
+                this.listeners = {};
+            if (!this.listeners[event])
+                this.listeners[event] = [];
+            var listeners = this.listeners[event];
+            listeners.push({
+                handler: handler,
+                scope: scope,
+                priority: priority
+            });
+            listeners.sort(function (a, b) { return b.priority - a.priority; });
+        };
+        /**
+         * Remove an event handler.
+         *
+         * @param event    The name of the event whose handlers should be removed.
+         * @param handler  The callback that should be removed.
+         * @param scope    The scope of the callback that should be removed.
+         */
+        EventDispatcher.prototype.off = function (event, handler, scope) {
+            var _this = this;
+            if (event === void 0) { event = null; }
+            if (handler === void 0) { handler = null; }
+            if (scope === void 0) { scope = null; }
+            if (!this.listeners) {
+                return;
+            }
+            if (!event && !handler && !scope) {
+                this.listeners = null;
+            }
+            else {
+                var offEvent = function (event) {
+                    if (!_this.listeners[event])
+                        return;
+                    var listeners = _this.listeners[event];
+                    var index = 0, count = listeners.length;
+                    while (index < count) {
+                        var listener = listeners[index];
+                        if ((handler && listener.handler != handler) || (scope && listener.scope != scope)) {
+                            index += 1;
+                        }
+                        else {
+                            listeners.splice(index, 1);
+                            count -= 1;
+                        }
+                    }
+                    if (listeners.length == 0) {
+                        delete _this.listeners[event];
+                    }
+                };
+                if (!event) {
+                    for (event in this.listeners) {
+                        if (!this.listeners.hasOwnProperty(event))
+                            continue;
+                        offEvent(event);
+                    }
+                }
+                else {
+                    offEvent(event);
+                }
+            }
+        };
+        return EventDispatcher;
+    })();
+    td.EventDispatcher = EventDispatcher;
+})(td || (td = {}));
+/// <reference path="EventDispatcher.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 /**
  * The TypeDoc main module and namespace.
  *
@@ -62,11 +212,13 @@ var td;
      * and emit a series of events while processing the project. Subscribe to these Events
      * to control the application flow or alter the output.
      */
-    var Application = (function () {
+    var Application = (function (_super) {
+        __extends(Application, _super);
         /**
          * Create a new TypeDoc application instance.
          */
         function Application(arg) {
+            _super.call(this);
             this.converter = new td.converter.Converter(this);
             this.renderer = new td.output.Renderer(this);
             this.logger = new td.ConsoleLogger();
@@ -253,6 +405,7 @@ var td;
         Application.prototype.collectParameters = function (parser) {
             parser.addParameter(this.converter.getParameters());
             parser.addParameter(this.renderer.getParameters());
+            this.dispatch(Application.EVENT_COLLECT_PARAMETERS, parser);
         };
         /**
          * Run the converter for the given set of files and return the generated reflections.
@@ -370,162 +523,18 @@ var td;
             ].join(ts.sys.newLine);
         };
         /**
+         *
+         * @event
+         */
+        Application.EVENT_COLLECT_PARAMETERS = 'collectParameters';
+        /**
          * The version number of TypeDoc.
          */
         Application.VERSION = '0.3.2';
         return Application;
-    })();
+    })(td.EventDispatcher);
     td.Application = Application;
 })(td || (td = {}));
-var td;
-(function (td) {
-    /**
-     * Base class of all events.
-     *
-     * Events are emitted by [[EventDispatcher]] and are passed to all
-     * handlers registered for the associated event name.
-     */
-    var Event = (function () {
-        function Event() {
-        }
-        /**
-         * Stop the propagation of this event. Remaining event handlers will not be executed.
-         */
-        Event.prototype.stopPropagation = function () {
-            this.isPropagationStopped = true;
-        };
-        /**
-         * Prevent the default action associated with this event from being executed.
-         */
-        Event.prototype.preventDefault = function () {
-            this.isDefaultPrevented = true;
-        };
-        return Event;
-    })();
-    td.Event = Event;
-    /**
-     * Base class of all objects dispatching events.
-     *
-     * Events are dispatched by calling [[EventDispatcher.dispatch]]. Events must have a name and
-     * they can carry additional arguments that are passed to all handlers. The first argument can
-     * be an instance of [[Event]] providing additional functionality.
-     */
-    var EventDispatcher = (function () {
-        function EventDispatcher() {
-        }
-        /**
-         * Dispatch an event with the given event name.
-         *
-         * @param event  The name of the event to dispatch.
-         * @param args   Additional arguments to pass to the handlers.
-         */
-        EventDispatcher.prototype.dispatch = function (event) {
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                args[_i - 1] = arguments[_i];
-            }
-            if (!this.listeners)
-                return;
-            if (!this.listeners[event])
-                return;
-            var obj;
-            if (args.length > 0 && args[0] instanceof Event) {
-                obj = args[0];
-                obj.isDefaultPrevented = false;
-                obj.isPropagationStopped = false;
-            }
-            var listeners = this.listeners[event];
-            for (var i = 0, c = listeners.length; i < c; i++) {
-                var listener = listeners[i];
-                listener.handler.apply(listener.scope, args);
-                if (obj && obj.isPropagationStopped)
-                    break;
-            }
-        };
-        /**
-         * Register an event handler for the given event name.
-         *
-         * @param event     The name of the event the handler should be registered to.
-         * @param handler   The callback that should be invoked.
-         * @param scope     The scope the callback should be executed in.
-         * @param priority  A numeric value describing the priority of the handler. Handlers
-         *                  with higher priority will be executed earlier.
-         */
-        EventDispatcher.prototype.on = function (event, handler, scope, priority) {
-            if (scope === void 0) { scope = null; }
-            if (priority === void 0) { priority = 0; }
-            if (!this.listeners)
-                this.listeners = {};
-            if (!this.listeners[event])
-                this.listeners[event] = [];
-            var listeners = this.listeners[event];
-            listeners.push({
-                handler: handler,
-                scope: scope,
-                priority: priority
-            });
-            listeners.sort(function (a, b) { return b.priority - a.priority; });
-        };
-        /**
-         * Remove an event handler.
-         *
-         * @param event    The name of the event whose handlers should be removed.
-         * @param handler  The callback that should be removed.
-         * @param scope    The scope of the callback that should be removed.
-         */
-        EventDispatcher.prototype.off = function (event, handler, scope) {
-            var _this = this;
-            if (event === void 0) { event = null; }
-            if (handler === void 0) { handler = null; }
-            if (scope === void 0) { scope = null; }
-            if (!this.listeners) {
-                return;
-            }
-            if (!event && !handler && !scope) {
-                this.listeners = null;
-            }
-            else {
-                var offEvent = function (event) {
-                    if (!_this.listeners[event])
-                        return;
-                    var listeners = _this.listeners[event];
-                    var index = 0, count = listeners.length;
-                    while (index < count) {
-                        var listener = listeners[index];
-                        if ((handler && listener.handler != handler) || (scope && listener.scope != scope)) {
-                            index += 1;
-                        }
-                        else {
-                            listeners.splice(index, 1);
-                            count -= 1;
-                        }
-                    }
-                    if (listeners.length == 0) {
-                        delete _this.listeners[event];
-                    }
-                };
-                if (!event) {
-                    for (event in this.listeners) {
-                        if (!this.listeners.hasOwnProperty(event))
-                            continue;
-                        offEvent(event);
-                    }
-                }
-                else {
-                    offEvent(event);
-                }
-            }
-        };
-        return EventDispatcher;
-    })();
-    td.EventDispatcher = EventDispatcher;
-})(td || (td = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var td;
 (function (td) {
     /**

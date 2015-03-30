@@ -12,6 +12,75 @@ declare module td {
     var ProgressBar: any;
     var tsPath: string;
 }
+declare module td {
+    interface IListener {
+        handler: Function;
+        scope: any;
+        priority: number;
+    }
+    /**
+     * Base class of all events.
+     *
+     * Events are emitted by [[EventDispatcher]] and are passed to all
+     * handlers registered for the associated event name.
+     */
+    class Event {
+        /**
+         * Has [[Event.stopPropagation]] been called?
+         */
+        isPropagationStopped: boolean;
+        /**
+         * Has [[Event.preventDefault]] been called?
+         */
+        isDefaultPrevented: boolean;
+        /**
+         * Stop the propagation of this event. Remaining event handlers will not be executed.
+         */
+        stopPropagation(): void;
+        /**
+         * Prevent the default action associated with this event from being executed.
+         */
+        preventDefault(): void;
+    }
+    /**
+     * Base class of all objects dispatching events.
+     *
+     * Events are dispatched by calling [[EventDispatcher.dispatch]]. Events must have a name and
+     * they can carry additional arguments that are passed to all handlers. The first argument can
+     * be an instance of [[Event]] providing additional functionality.
+     */
+    class EventDispatcher {
+        /**
+         * List of all registered handlers grouped by event name.
+         */
+        private listeners;
+        /**
+         * Dispatch an event with the given event name.
+         *
+         * @param event  The name of the event to dispatch.
+         * @param args   Additional arguments to pass to the handlers.
+         */
+        dispatch(event: string, ...args: any[]): void;
+        /**
+         * Register an event handler for the given event name.
+         *
+         * @param event     The name of the event the handler should be registered to.
+         * @param handler   The callback that should be invoked.
+         * @param scope     The scope the callback should be executed in.
+         * @param priority  A numeric value describing the priority of the handler. Handlers
+         *                  with higher priority will be executed earlier.
+         */
+        on(event: string, handler: Function, scope?: any, priority?: number): void;
+        /**
+         * Remove an event handler.
+         *
+         * @param event    The name of the event whose handlers should be removed.
+         * @param handler  The callback that should be removed.
+         * @param scope    The scope of the callback that should be removed.
+         */
+        off(event?: string, handler?: Function, scope?: any): void;
+    }
+}
 /**
  * The TypeDoc main module and namespace.
  *
@@ -54,7 +123,7 @@ declare module td {
      * and emit a series of events while processing the project. Subscribe to these Events
      * to control the application flow or alter the output.
      */
-    class Application implements IApplication {
+    class Application extends EventDispatcher implements IApplication {
         /**
          * The options used by the dispatcher and the renderer.
          */
@@ -80,6 +149,11 @@ declare module td {
          * Cached return value of [[Application.getTypeScriptVersion]]
          */
         private typeScriptVersion;
+        /**
+         *
+         * @event
+         */
+        static EVENT_COLLECT_PARAMETERS: string;
         /**
          * The version number of TypeDoc.
          */
@@ -170,75 +244,6 @@ declare module td {
          * Print the version number.
          */
         toString(): string;
-    }
-}
-declare module td {
-    interface IListener {
-        handler: Function;
-        scope: any;
-        priority: number;
-    }
-    /**
-     * Base class of all events.
-     *
-     * Events are emitted by [[EventDispatcher]] and are passed to all
-     * handlers registered for the associated event name.
-     */
-    class Event {
-        /**
-         * Has [[Event.stopPropagation]] been called?
-         */
-        isPropagationStopped: boolean;
-        /**
-         * Has [[Event.preventDefault]] been called?
-         */
-        isDefaultPrevented: boolean;
-        /**
-         * Stop the propagation of this event. Remaining event handlers will not be executed.
-         */
-        stopPropagation(): void;
-        /**
-         * Prevent the default action associated with this event from being executed.
-         */
-        preventDefault(): void;
-    }
-    /**
-     * Base class of all objects dispatching events.
-     *
-     * Events are dispatched by calling [[EventDispatcher.dispatch]]. Events must have a name and
-     * they can carry additional arguments that are passed to all handlers. The first argument can
-     * be an instance of [[Event]] providing additional functionality.
-     */
-    class EventDispatcher {
-        /**
-         * List of all registered handlers grouped by event name.
-         */
-        private listeners;
-        /**
-         * Dispatch an event with the given event name.
-         *
-         * @param event  The name of the event to dispatch.
-         * @param args   Additional arguments to pass to the handlers.
-         */
-        dispatch(event: string, ...args: any[]): void;
-        /**
-         * Register an event handler for the given event name.
-         *
-         * @param event     The name of the event the handler should be registered to.
-         * @param handler   The callback that should be invoked.
-         * @param scope     The scope the callback should be executed in.
-         * @param priority  A numeric value describing the priority of the handler. Handlers
-         *                  with higher priority will be executed earlier.
-         */
-        on(event: string, handler: Function, scope?: any, priority?: number): void;
-        /**
-         * Remove an event handler.
-         *
-         * @param event    The name of the event whose handlers should be removed.
-         * @param handler  The callback that should be removed.
-         * @param scope    The scope of the callback that should be removed.
-         */
-        off(event?: string, handler?: Function, scope?: any): void;
     }
 }
 declare module td {
