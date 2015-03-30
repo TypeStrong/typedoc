@@ -274,6 +274,12 @@ module td.output
         public parseReferences(text:string) {
             return text.replace(/\[\[([^\]]+)\]\]/g, (match:string, name:string) => {
                 var reflection:models.Reflection;
+                var caption = name, splitAt = name.indexOf('|');
+                if (splitAt !== -1) {
+                    caption = name.substr(splitAt + 1);
+                    name = name.substr(0, splitAt);
+                }
+
                 if (this.reflection) {
                     reflection = this.reflection.findReflectionByName(name);
                 } else if (this.project) {
@@ -281,7 +287,7 @@ module td.output
                 }
 
                 if (reflection && reflection.url) {
-                    return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.url), name);
+                    return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.url), caption);
                 } else {
                     return match;
                 }

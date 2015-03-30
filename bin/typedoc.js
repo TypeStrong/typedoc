@@ -7252,6 +7252,11 @@ var td;
                 var _this = this;
                 return text.replace(/\[\[([^\]]+)\]\]/g, function (match, name) {
                     var reflection;
+                    var caption = name, splitAt = name.indexOf('|');
+                    if (splitAt !== -1) {
+                        caption = name.substr(splitAt + 1);
+                        name = name.substr(0, splitAt);
+                    }
                     if (_this.reflection) {
                         reflection = _this.reflection.findReflectionByName(name);
                     }
@@ -7259,7 +7264,7 @@ var td;
                         reflection = _this.project.findReflectionByName(name);
                     }
                     if (reflection && reflection.url) {
-                        return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), name);
+                        return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), caption);
                     }
                     else {
                         return match;

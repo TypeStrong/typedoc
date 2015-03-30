@@ -301,6 +301,9 @@ export class GenericClass<T extends BaseClass>
 }
 
 
+/**
+ * This a non generic class derived from a [[GenericClass|generic class]].
+ */
 export class NonGenericClass extends GenericClass<SubClassB>
 {
 
