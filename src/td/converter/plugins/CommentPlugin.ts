@@ -419,8 +419,8 @@ module td.converter
          */
         static parseComment(text:string, comment:models.Comment = new models.Comment()):models.Comment {
             function consumeTypeData(line:string):string {
-                line = line.replace(/^\{[^\}]*\}/, '');
-                line = line.replace(/^\[[^\]]*\]/, '');
+                line = line.replace(/^\{[^\}]*\}+/, '');
+                line = line.replace(/^\[[^\[][^\]]*\]+/, '');
                 return line.trim();
             }
 

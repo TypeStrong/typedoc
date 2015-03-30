@@ -287,6 +287,9 @@ export class GenericClass<T extends BaseClass>
     }
 
 
+    /**
+     * @param value [[getValue]] is the counterpart.
+     */
     public setValue(value:T) {
         this.value = value;
     }

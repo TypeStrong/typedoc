@@ -3801,8 +3801,8 @@ var td;
             CommentPlugin.parseComment = function (text, comment) {
                 if (comment === void 0) { comment = new td.models.Comment(); }
                 function consumeTypeData(line) {
-                    line = line.replace(/^\{[^\}]*\}/, '');
-                    line = line.replace(/^\[[^\]]*\]/, '');
+                    line = line.replace(/^\{[^\}]*\}+/, '');
+                    line = line.replace(/^\[[^\[][^\]]*\]+/, '');
                     return line.trim();
                 }
                 text = text.replace(/^\s*\/\*+/, '');
