@@ -64,6 +64,19 @@ module td.models
 
 
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone():Type {
+            var clone = new ReferenceType(this.name, this.symbolID, this.reflection);
+            clone.isArray = this.isArray;
+            clone.typeArguments = this.typeArguments;
+            return clone;
+        }
+
+
+        /**
          * Return a raw object representation of this type.
          */
         toObject():any {

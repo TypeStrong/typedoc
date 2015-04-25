@@ -17,6 +17,21 @@ module td.models
         constraint:Type;
 
 
+
+        /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone():Type {
+            var clone = new TypeParameterType();
+            clone.isArray = this.isArray;
+            clone.name = this.name;
+            clone.constraint = this.constraint;
+            return clone;
+        }
+
+
         /**
          * Return a raw object representation of this type.
          */

@@ -23,6 +23,18 @@ module td.models
 
 
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone():Type {
+            var clone = new UnknownType(this.name);
+            clone.isArray = this.isArray;
+            return clone;
+        }
+
+
+        /**
          * Return a raw object representation of this type.
          */
         toObject():any {

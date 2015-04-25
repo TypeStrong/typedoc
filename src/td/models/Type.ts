@@ -10,7 +10,20 @@ module td.models
         /**
          * Is this an array type?
          */
-        isArray:boolean;
+        isArray:boolean = false;
+
+
+
+        /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone():Type {
+            var clone = new Type();
+            clone.isArray = this.isArray;
+            return clone;
+        }
 
 
         /**
