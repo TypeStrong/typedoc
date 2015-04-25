@@ -37,7 +37,7 @@
           ],
           "children": [
             {
-              "id": 5,
+              "id": 6,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -47,7 +47,7 @@
               },
               "signatures": [
                 {
-                  "id": 6,
+                  "id": 7,
                   "name": "new GenericClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -57,7 +57,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 7,
+                      "id": 8,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -85,7 +85,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isPrivate": true
+                "isProtected": true
               },
               "comment": {
                 "shortText": "Generic property."
@@ -96,14 +96,31 @@
               }
             },
             {
-              "id": 8,
+              "id": 5,
+              "name": "values",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property array."
+              },
+              "type": {
+                "type": "typeParameter",
+                "isArray": true,
+                "name": "T"
+              }
+            },
+            {
+              "id": 9,
               "name": "getValue",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 9,
+                  "id": 10,
                   "name": "getValue",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -125,21 +142,22 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                5
+                6
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                4
+                4,
+                5
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                8
+                9
               ]
             }
           ]

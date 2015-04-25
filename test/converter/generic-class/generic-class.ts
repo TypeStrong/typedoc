@@ -8,7 +8,12 @@ class GenericClass<T> {
     /**
      * Generic property.
      */
-    private value:T;
+    protected value:T;
+
+    /**
+     * Generic property array.
+     */
+    protected values:T[];
 
     /**
      * Constructor short text.
