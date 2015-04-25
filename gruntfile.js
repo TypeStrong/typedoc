@@ -96,6 +96,9 @@ module.exports = function(grunt)
 
         var src = Path.join(__dirname, 'examples', 'basic', 'src');
         var out = Path.join(__dirname, 'test', 'renderer', 'specs');
+
+        TypeDoc.FS.removeSync(out);
         app.generateDocs(app.expandInputFiles([src]), out);
+        TypeDoc.FS.removeSync(Path.join(out, 'assets'));
     });
 };
