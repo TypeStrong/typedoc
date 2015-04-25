@@ -179,3 +179,13 @@ export function createSomething() {
         doAnotherThing: () => {}
     };
 }
+
+
+/**
+ * See {@linkcode INameInterface} and [INameInterface's name property]{@link INameInterface.name}.
+ * Also, check out {@link http://www.google.com|Google} and
+ * {@link https://github.com GitHub}.
+ *
+ * Taken from http://usejsdoc.org/tags-inline-link.html.
+ */
+export function functionWithDocLink():void { }
