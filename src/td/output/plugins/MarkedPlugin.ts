@@ -46,23 +46,8 @@ module td.output
      * {{#relativeURL url}}
      * ```
      */
-    export class MarkedPlugin extends RendererPlugin implements IParameterProvider
+    export class MarkedPlugin extends ContextAwareRendererPlugin implements IParameterProvider
     {
-        /**
-         * The project that is currently processed.
-         */
-        private project:models.ProjectReflection;
-
-        /**
-         * The reflection that is currently processed.
-         */
-        private reflection:models.DeclarationReflection;
-
-        /**
-         * The url of the document that is being currently generated.
-         */
-        private location:string;
-
         /**
          * The path referenced files are located in.
          */
@@ -84,6 +69,13 @@ module td.output
         private mediaPattern:RegExp = /media:\/\/([^ "\)\]\}]+)/g;
 
 
+        /**
+         * Triggered on the renderer when this plugin parses a markdown string.
+         * @event
+         */
+        static EVENT_PARSE_MARKDOWN:string = 'parseMarkdown';
+
+
 
         /**
          * Create a new MarkedPlugin instance.
@@ -92,8 +84,7 @@ module td.output
          */
         constructor(renderer:Renderer) {
             super(renderer);
-            renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
-            renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+            renderer.on(MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this);
 
             var that = this;
             Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
@@ -118,18 +109,6 @@ module td.output
                 help: 'Specifies the location with media files that should be copied to the output directory.',
                 hint: ParameterHint.Directory
             }];
-        }
-
-
-        /**
-         * Transform the given absolute path into a relative path.
-         *
-         * @param absolute  The absolute path to transform.
-         * @returns A path relative to the document currently processed.
-         */
-        public getRelativeUrl(absolute:string):string {
-            var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
-            return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
         }
 
 
@@ -253,45 +232,12 @@ module td.output
                 });
             }
 
-            return this.parseReferences(Marked(text));
-        }
+            var event = new MarkdownEvent();
+            event.originalText = text;
+            event.parsedText = text;
 
-
-        /**
-         * Find all references to symbols within the given text and transform them into a link.
-         *
-         * The references must be surrounded with double angle brackets. When the reference could
-         * not be found, the original text containing the brackets will be returned.
-         *
-         * This function is aware of the current context and will try to find the symbol within the
-         * current reflection. It will walk up the reflection chain till the symbol is found or the
-         * root reflection is reached. As a last resort the function will search the entire project
-         * for the given symbol.
-         *
-         * @param text  The text that should be parsed.
-         * @returns The text with symbol references replaced by links.
-         */
-        public parseReferences(text:string) {
-            return text.replace(/\[\[([^\]]+)\]\]/g, (match:string, name:string) => {
-                var reflection:models.Reflection;
-                var caption = name, splitAt = name.indexOf('|');
-                if (splitAt !== -1) {
-                    caption = name.substr(splitAt + 1);
-                    name = name.substr(0, splitAt);
-                }
-
-                if (this.reflection) {
-                    reflection = this.reflection.findReflectionByName(name);
-                } else if (this.project) {
-                    reflection = this.project.findReflectionByName(name);
-                }
-
-                if (reflection && reflection.url) {
-                    return Util.format('<a href="%s">%s</a>', this.getRelativeUrl(reflection.url), caption);
-                } else {
-                    return match;
-                }
-            });
+            this.renderer.dispatch(MarkedPlugin.EVENT_PARSE_MARKDOWN, event);
+            return event.parsedText;
         }
 
 
@@ -300,8 +246,8 @@ module td.output
          *
          * @param event  An event object describing the current render operation.
          */
-        private onRendererBegin(event:OutputEvent) {
-            this.project = event.project;
+        protected onRendererBegin(event:OutputEvent) {
+            super.onRendererBegin(event);
 
             delete this.includes;
             if (event.settings.includes) {
@@ -327,13 +273,12 @@ module td.output
 
 
         /**
-         * Triggered before a document will be rendered.
+         * Triggered when [[MarkedPlugin]] parses a markdown string.
          *
-         * @param page  An event object describing the current render operation.
+         * @param event
          */
-        private onRendererBeginPage(page:OutputPageEvent) {
-            this.location   = page.url;
-            this.reflection = page.model instanceof models.DeclarationReflection ? page.model : null;
+        onParseMarkdown(event:MarkdownEvent) {
+            event.parsedText = Marked(event.parsedText);
         }
     }
 

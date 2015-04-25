@@ -6611,7 +6611,7 @@ var td;
          */
         var RendererPlugin = (function () {
             /**
-             * Create a new BasePlugin instance.
+             * Create a new RendererPlugin instance.
              *
              * @param renderer  The renderer this plugin should be attached to.
              */
@@ -6627,6 +6627,51 @@ var td;
             return RendererPlugin;
         })();
         output.RendererPlugin = RendererPlugin;
+        /**
+         * A plugin for the renderer that reads the current render context.
+         */
+        var ContextAwareRendererPlugin = (function (_super) {
+            __extends(ContextAwareRendererPlugin, _super);
+            /**
+             * Create a new ContextAwareRendererPlugin instance.
+             *
+             * @param renderer  The renderer this plugin should be attached to.
+             */
+            function ContextAwareRendererPlugin(renderer) {
+                _super.call(this, renderer);
+                renderer.on(output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+                renderer.on(output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+            }
+            /**
+             * Transform the given absolute path into a relative path.
+             *
+             * @param absolute  The absolute path to transform.
+             * @returns A path relative to the document currently processed.
+             */
+            ContextAwareRendererPlugin.prototype.getRelativeUrl = function (absolute) {
+                var relative = td.Path.relative(td.Path.dirname(this.location), td.Path.dirname(absolute));
+                return td.Path.join(relative, td.Path.basename(absolute)).replace(/\\/g, '/');
+            };
+            /**
+             * Triggered before the renderer starts rendering a project.
+             *
+             * @param event  An event object describing the current render operation.
+             */
+            ContextAwareRendererPlugin.prototype.onRendererBegin = function (event) {
+                this.project = event.project;
+            };
+            /**
+             * Triggered before a document will be rendered.
+             *
+             * @param page  An event object describing the current render operation.
+             */
+            ContextAwareRendererPlugin.prototype.onRendererBeginPage = function (page) {
+                this.location = page.url;
+                this.reflection = page.model instanceof td.models.DeclarationReflection ? page.model : null;
+            };
+            return ContextAwareRendererPlugin;
+        })(RendererPlugin);
+        output.ContextAwareRendererPlugin = ContextAwareRendererPlugin;
     })(output = td.output || (td.output = {}));
 })(td || (td = {}));
 var td;
@@ -6739,6 +6784,26 @@ var td;
             return Theme;
         })();
         output.Theme = Theme;
+    })(output = td.output || (td.output = {}));
+})(td || (td = {}));
+var td;
+(function (td) {
+    var output;
+    (function (output) {
+        /**
+         * An event emitted by the [[MarkedPlugin]] on the [[Renderer]] after a chunk of
+         * markdown has been processed. Allows other plugins to manipulate the result.
+         *
+         * @see [[MarkedPlugin.EVENT_PARSE_MARKDOWN]]
+         */
+        var MarkdownEvent = (function (_super) {
+            __extends(MarkdownEvent, _super);
+            function MarkdownEvent() {
+                _super.apply(this, arguments);
+            }
+            return MarkdownEvent;
+        })(td.Event);
+        output.MarkdownEvent = MarkdownEvent;
     })(output = td.output || (td.output = {}));
 })(td || (td = {}));
 var td;
@@ -7041,6 +7106,149 @@ var td;
     var output;
     (function (output) {
         /**
+         * A plugin that builds links in markdown texts.
+         */
+        var MarkedLinksPlugin = (function (_super) {
+            __extends(MarkedLinksPlugin, _super);
+            /**
+             * Create a new MarkedLinksPlugin instance.
+             *
+             * @param renderer  The renderer this plugin should be attached to.
+             */
+            function MarkedLinksPlugin(renderer) {
+                _super.call(this, renderer);
+                /**
+                 * Regular expression for detecting bracket links.
+                 */
+                this.brackets = /\[\[([^\]]+)\]\]/g;
+                /**
+                 * Regular expression for detecting inline tags like {@link ...}.
+                 */
+                this.inlineTag = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
+                /**
+                 * Regular expression to test if a string looks like an external url.
+                 */
+                this.urlPrefix = /^(http|ftp)s?:\/\//;
+                renderer.on(output.MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this, 100);
+            }
+            /**
+             * Find all references to symbols within the given text and transform them into a link.
+             *
+             * This function is aware of the current context and will try to find the symbol within the
+             * current reflection. It will walk up the reflection chain till the symbol is found or the
+             * root reflection is reached. As a last resort the function will search the entire project
+             * for the given symbol.
+             *
+             * @param text  The text that should be parsed.
+             * @returns The text with symbol references replaced by links.
+             */
+            MarkedLinksPlugin.prototype.replaceBrackets = function (text) {
+                var _this = this;
+                return text.replace(this.brackets, function (match, content) {
+                    var split = MarkedLinksPlugin.splitLinkText(content);
+                    return _this.buildLink(match, split.target, split.caption);
+                });
+            };
+            /**
+             * Find symbol {@link ...} strings in text and turn into html links
+             *
+             * @param text  The string in which to replace the inline tags.
+             * @return      The updated string.
+             */
+            MarkedLinksPlugin.prototype.replaceInlineTags = function (text) {
+                var _this = this;
+                return text.replace(this.inlineTag, function (match, leading, tagName, content) {
+                    var split = MarkedLinksPlugin.splitLinkText(content);
+                    var target = split.target;
+                    var caption = leading || split.caption;
+                    var monospace;
+                    if (tagName == 'linkcode')
+                        monospace = true;
+                    if (tagName == 'linkplain')
+                        monospace = false;
+                    return _this.buildLink(match, target, caption, monospace);
+                });
+            };
+            /**
+             * Format a link with the given text and target.
+             *
+             * @param original   The original link string, will be returned if the target cannot be resolved..
+             * @param target     The link target.
+             * @param caption    The caption of the link.
+             * @param monospace  Whether to use monospace formatting or not.
+             * @returns A html link tag.
+             */
+            MarkedLinksPlugin.prototype.buildLink = function (original, target, caption, monospace) {
+                var attributes = '';
+                if (this.urlPrefix.test(target)) {
+                    attributes = ' class="external"';
+                }
+                else {
+                    var reflection;
+                    if (this.reflection) {
+                        reflection = this.reflection.findReflectionByName(target);
+                    }
+                    else if (this.project) {
+                        reflection = this.project.findReflectionByName(target);
+                    }
+                    if (reflection && reflection.url) {
+                        target = this.getRelativeUrl(reflection.url);
+                    }
+                    else {
+                        return original;
+                    }
+                }
+                if (monospace) {
+                    caption = '<code>' + caption + '</code>';
+                }
+                return td.Util.format('<a href="%s"%s>%s</a>', target, attributes, caption);
+            };
+            /**
+             * Triggered when [[MarkedPlugin]] parses a markdown string.
+             *
+             * @param event
+             */
+            MarkedLinksPlugin.prototype.onParseMarkdown = function (event) {
+                event.parsedText = this.replaceInlineTags(this.replaceBrackets(event.parsedText));
+            };
+            /**
+             * Split the given link into text and target at first pipe or space.
+             *
+             * @param text  The source string that should be checked for a split character.
+             * @returns An object containing the link text and target.
+             */
+            MarkedLinksPlugin.splitLinkText = function (text) {
+                var splitIndex = text.indexOf('|');
+                if (splitIndex === -1) {
+                    splitIndex = text.search(/\s/);
+                }
+                if (splitIndex !== -1) {
+                    return {
+                        caption: text.substr(splitIndex + 1).replace(/\n+/, ' '),
+                        target: text.substr(0, splitIndex)
+                    };
+                }
+                else {
+                    return {
+                        caption: text,
+                        target: text
+                    };
+                }
+            };
+            return MarkedLinksPlugin;
+        })(output.ContextAwareRendererPlugin);
+        output.MarkedLinksPlugin = MarkedLinksPlugin;
+        /**
+         * Register this plugin.
+         */
+        output.Renderer.registerPlugin('markedLinks', MarkedLinksPlugin);
+    })(output = td.output || (td.output = {}));
+})(td || (td = {}));
+var td;
+(function (td) {
+    var output;
+    (function (output) {
+        /**
          * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
          *
          * Templates should parse all comments with the markdown handler so authors can
@@ -7088,8 +7296,7 @@ var td;
                  * The pattern used to find media links.
                  */
                 this.mediaPattern = /media:\/\/([^ "\)\]\}]+)/g;
-                renderer.on(output.Renderer.EVENT_BEGIN, this.onRendererBegin, this);
-                renderer.on(output.Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+                renderer.on(MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this);
                 var that = this;
                 td.Handlebars.registerHelper('markdown', function (arg) {
                     return that.parseMarkdown(arg.fn(this), this);
@@ -7116,16 +7323,6 @@ var td;
                     help: 'Specifies the location with media files that should be copied to the output directory.',
                     hint: 1 /* Directory */
                 }];
-            };
-            /**
-             * Transform the given absolute path into a relative path.
-             *
-             * @param absolute  The absolute path to transform.
-             * @returns A path relative to the document currently processed.
-             */
-            MarkedPlugin.prototype.getRelativeUrl = function (absolute) {
-                var relative = td.Path.relative(td.Path.dirname(this.location), td.Path.dirname(absolute));
-                return td.Path.join(relative, td.Path.basename(absolute)).replace(/\\/g, '/');
             };
             /**
              * Compress the given string by removing all newlines.
@@ -7243,44 +7440,11 @@ var td;
                         }
                     });
                 }
-                return this.parseReferences(td.Marked(text));
-            };
-            /**
-             * Find all references to symbols within the given text and transform them into a link.
-             *
-             * The references must be surrounded with double angle brackets. When the reference could
-             * not be found, the original text containing the brackets will be returned.
-             *
-             * This function is aware of the current context and will try to find the symbol within the
-             * current reflection. It will walk up the reflection chain till the symbol is found or the
-             * root reflection is reached. As a last resort the function will search the entire project
-             * for the given symbol.
-             *
-             * @param text  The text that should be parsed.
-             * @returns The text with symbol references replaced by links.
-             */
-            MarkedPlugin.prototype.parseReferences = function (text) {
-                var _this = this;
-                return text.replace(/\[\[([^\]]+)\]\]/g, function (match, name) {
-                    var reflection;
-                    var caption = name, splitAt = name.indexOf('|');
-                    if (splitAt !== -1) {
-                        caption = name.substr(splitAt + 1);
-                        name = name.substr(0, splitAt);
-                    }
-                    if (_this.reflection) {
-                        reflection = _this.reflection.findReflectionByName(name);
-                    }
-                    else if (_this.project) {
-                        reflection = _this.project.findReflectionByName(name);
-                    }
-                    if (reflection && reflection.url) {
-                        return td.Util.format('<a href="%s">%s</a>', _this.getRelativeUrl(reflection.url), caption);
-                    }
-                    else {
-                        return match;
-                    }
-                });
+                var event = new output.MarkdownEvent();
+                event.originalText = text;
+                event.parsedText = text;
+                this.renderer.dispatch(MarkedPlugin.EVENT_PARSE_MARKDOWN, event);
+                return event.parsedText;
             };
             /**
              * Triggered before the renderer starts rendering a project.
@@ -7288,7 +7452,7 @@ var td;
              * @param event  An event object describing the current render operation.
              */
             MarkedPlugin.prototype.onRendererBegin = function (event) {
-                this.project = event.project;
+                _super.prototype.onRendererBegin.call(this, event);
                 delete this.includes;
                 if (event.settings.includes) {
                     var includes = td.Path.resolve(event.settings.includes);
@@ -7312,16 +7476,20 @@ var td;
                 }
             };
             /**
-             * Triggered before a document will be rendered.
+             * Triggered when [[MarkedPlugin]] parses a markdown string.
              *
-             * @param page  An event object describing the current render operation.
+             * @param event
              */
-            MarkedPlugin.prototype.onRendererBeginPage = function (page) {
-                this.location = page.url;
-                this.reflection = page.model instanceof td.models.DeclarationReflection ? page.model : null;
+            MarkedPlugin.prototype.onParseMarkdown = function (event) {
+                event.parsedText = td.Marked(event.parsedText);
             };
+            /**
+             * Triggered on the renderer when this plugin parses a markdown string.
+             * @event
+             */
+            MarkedPlugin.EVENT_PARSE_MARKDOWN = 'parseMarkdown';
             return MarkedPlugin;
-        })(output.RendererPlugin);
+        })(output.ContextAwareRendererPlugin);
         output.MarkedPlugin = MarkedPlugin;
         /**
          * Register this plugin.

@@ -2947,9 +2947,9 @@ declare module td.output {
         /**
          * The renderer this plugin is attached to.
          */
-        renderer: Renderer;
+        protected renderer: Renderer;
         /**
-         * Create a new BasePlugin instance.
+         * Create a new RendererPlugin instance.
          *
          * @param renderer  The renderer this plugin should be attached to.
          */
@@ -2958,6 +2958,48 @@ declare module td.output {
          * Remove this plugin from the renderer.
          */
         remove(): void;
+    }
+    /**
+     * A plugin for the renderer that reads the current render context.
+     */
+    class ContextAwareRendererPlugin extends RendererPlugin {
+        /**
+         * The project that is currently processed.
+         */
+        protected project: models.ProjectReflection;
+        /**
+         * The reflection that is currently processed.
+         */
+        protected reflection: models.DeclarationReflection;
+        /**
+         * The url of the document that is being currently generated.
+         */
+        private location;
+        /**
+         * Create a new ContextAwareRendererPlugin instance.
+         *
+         * @param renderer  The renderer this plugin should be attached to.
+         */
+        constructor(renderer: Renderer);
+        /**
+         * Transform the given absolute path into a relative path.
+         *
+         * @param absolute  The absolute path to transform.
+         * @returns A path relative to the document currently processed.
+         */
+        getRelativeUrl(absolute: string): string;
+        /**
+         * Triggered before the renderer starts rendering a project.
+         *
+         * @param event  An event object describing the current render operation.
+         */
+        protected onRendererBegin(event: OutputEvent): void;
+        /**
+         * Triggered before a document will be rendered.
+         *
+         * @param page  An event object describing the current render operation.
+         */
+        protected onRendererBeginPage(page: OutputPageEvent): void;
     }
 }
 declare module td.output {
@@ -3063,6 +3105,24 @@ declare module td.output {
          * @returns        The root navigation item.
          */
         getNavigation(project: models.ProjectReflection): NavigationItem;
+    }
+}
+declare module td.output {
+    /**
+     * An event emitted by the [[MarkedPlugin]] on the [[Renderer]] after a chunk of
+     * markdown has been processed. Allows other plugins to manipulate the result.
+     *
+     * @see [[MarkedPlugin.EVENT_PARSE_MARKDOWN]]
+     */
+    class MarkdownEvent extends Event {
+        /**
+         * The unparsed original text.
+         */
+        originalText: string;
+        /**
+         * The parsed output.
+         */
+        parsedText: string;
     }
 }
 declare module td.output {
@@ -3307,6 +3367,76 @@ declare module td.output {
         private onRendererEndPage(page);
     }
 }
+declare module td.output {
+    /**
+     * A plugin that builds links in markdown texts.
+     */
+    class MarkedLinksPlugin extends ContextAwareRendererPlugin {
+        /**
+         * Regular expression for detecting bracket links.
+         */
+        private brackets;
+        /**
+         * Regular expression for detecting inline tags like {@link ...}.
+         */
+        private inlineTag;
+        /**
+         * Regular expression to test if a string looks like an external url.
+         */
+        private urlPrefix;
+        /**
+         * Create a new MarkedLinksPlugin instance.
+         *
+         * @param renderer  The renderer this plugin should be attached to.
+         */
+        constructor(renderer: Renderer);
+        /**
+         * Find all references to symbols within the given text and transform them into a link.
+         *
+         * This function is aware of the current context and will try to find the symbol within the
+         * current reflection. It will walk up the reflection chain till the symbol is found or the
+         * root reflection is reached. As a last resort the function will search the entire project
+         * for the given symbol.
+         *
+         * @param text  The text that should be parsed.
+         * @returns The text with symbol references replaced by links.
+         */
+        private replaceBrackets(text);
+        /**
+         * Find symbol {@link ...} strings in text and turn into html links
+         *
+         * @param text  The string in which to replace the inline tags.
+         * @return      The updated string.
+         */
+        private replaceInlineTags(text);
+        /**
+         * Format a link with the given text and target.
+         *
+         * @param original   The original link string, will be returned if the target cannot be resolved..
+         * @param target     The link target.
+         * @param caption    The caption of the link.
+         * @param monospace  Whether to use monospace formatting or not.
+         * @returns A html link tag.
+         */
+        private buildLink(original, target, caption, monospace?);
+        /**
+         * Triggered when [[MarkedPlugin]] parses a markdown string.
+         *
+         * @param event
+         */
+        onParseMarkdown(event: MarkdownEvent): void;
+        /**
+         * Split the given link into text and target at first pipe or space.
+         *
+         * @param text  The source string that should be checked for a split character.
+         * @returns An object containing the link text and target.
+         */
+        static splitLinkText(text: string): {
+            caption: string;
+            target: string;
+        };
+    }
+}
 declare module td {
     interface IOptions {
         /**
@@ -3350,19 +3480,7 @@ declare module td.output {
      * {{#relativeURL url}}
      * ```
      */
-    class MarkedPlugin extends RendererPlugin implements IParameterProvider {
-        /**
-         * The project that is currently processed.
-         */
-        private project;
-        /**
-         * The reflection that is currently processed.
-         */
-        private reflection;
-        /**
-         * The url of the document that is being currently generated.
-         */
-        private location;
+    class MarkedPlugin extends ContextAwareRendererPlugin implements IParameterProvider {
         /**
          * The path referenced files are located in.
          */
@@ -3380,19 +3498,17 @@ declare module td.output {
          */
         private mediaPattern;
         /**
+         * Triggered on the renderer when this plugin parses a markdown string.
+         * @event
+         */
+        static EVENT_PARSE_MARKDOWN: string;
+        /**
          * Create a new MarkedPlugin instance.
          *
          * @param renderer  The renderer this plugin should be attached to.
          */
         constructor(renderer: Renderer);
         getParameters(): IParameter[];
-        /**
-         * Transform the given absolute path into a relative path.
-         *
-         * @param absolute  The absolute path to transform.
-         * @returns A path relative to the document currently processed.
-         */
-        getRelativeUrl(absolute: string): string;
         /**
          * Compress the given string by removing all newlines.
          *
@@ -3437,32 +3553,17 @@ declare module td.output {
          */
         parseMarkdown(text: string, context: any): string;
         /**
-         * Find all references to symbols within the given text and transform them into a link.
-         *
-         * The references must be surrounded with double angle brackets. When the reference could
-         * not be found, the original text containing the brackets will be returned.
-         *
-         * This function is aware of the current context and will try to find the symbol within the
-         * current reflection. It will walk up the reflection chain till the symbol is found or the
-         * root reflection is reached. As a last resort the function will search the entire project
-         * for the given symbol.
-         *
-         * @param text  The text that should be parsed.
-         * @returns The text with symbol references replaced by links.
-         */
-        parseReferences(text: string): string;
-        /**
          * Triggered before the renderer starts rendering a project.
          *
          * @param event  An event object describing the current render operation.
          */
-        private onRendererBegin(event);
+        protected onRendererBegin(event: OutputEvent): void;
         /**
-         * Triggered before a document will be rendered.
+         * Triggered when [[MarkedPlugin]] parses a markdown string.
          *
-         * @param page  An event object describing the current render operation.
+         * @param event
          */
-        private onRendererBeginPage(page);
+        onParseMarkdown(event: MarkdownEvent): void;
     }
 }
 declare module td.output {
