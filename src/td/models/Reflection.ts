@@ -460,18 +460,19 @@ module td.models
         getChildByName(arg:any):Reflection {
             var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
             var name = names[0];
+            var result = null;
 
             this.traverse((child) => {
                 if (child.name == name) {
                     if (names.length <= 1) {
-                        return child;
+                        result = child;
                     } else if (child) {
-                        return child.getChildByName(names.slice(1));
+                        result = child.getChildByName(names.slice(1));
                     }
                 }
             });
 
-            return null;
+            return result;
         }
 
 
