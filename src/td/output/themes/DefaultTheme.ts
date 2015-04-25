@@ -17,8 +17,14 @@ declare module td
          * Should we hide the TypeDoc link at the end of the page?
          */
         hideGenerator?:boolean;
+
+        /**
+         * Specifies the fully qualified name of the root symbol. Defaults to global namespace.
+         */
+        entryPoint?:string;
     }
 }
+
 
 module td.output
 {
@@ -126,6 +132,10 @@ module td.output
                 name: 'hideGenerator',
                 help: 'Do not print the TypeDoc link at the end of the page.',
                 type: ParameterType.Boolean
+            },{
+                name: 'entryPoint',
+                help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
+                type: ParameterType.String
             }];
         }
 
@@ -139,23 +149,49 @@ module td.output
          */
         getUrls(project:models.ProjectReflection):UrlMapping[] {
             var urls = [];
+            var entryPoint = this.getEntryPoint(project);
 
             if (this.renderer.application.options.readme == 'none') {
-                project.url = 'index.html';
-                urls.push(new UrlMapping('index.html', project, 'reflection.hbs'));
+                entryPoint.url = 'index.html';
+                urls.push(new UrlMapping('index.html', entryPoint, 'reflection.hbs'));
             } else {
-                project.url = 'globals.html';
-                urls.push(new UrlMapping('globals.html', project, 'reflection.hbs'));
-                urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
+                entryPoint.url = 'globals.html';
+                urls.push(new UrlMapping('globals.html', entryPoint, 'reflection.hbs'));
+                urls.push(new UrlMapping('index.html',   entryPoint, 'index.hbs'));
             }
 
-            if (project.children) {
-                project.children.forEach((child) => {
+            if (entryPoint.children) {
+                entryPoint.children.forEach((child) => {
                     DefaultTheme.buildUrls(child, urls);
                 });
             }
 
             return urls;
+        }
+
+
+        /**
+         * Return the entry point of the documentation.
+         *
+         * @param project  The current project.
+         * @returns The reflection that should be used as the entry point.
+         */
+        getEntryPoint(project:models.ProjectReflection):models.ContainerReflection {
+            var entryPoint = this.renderer.application.options.entryPoint;
+            if (entryPoint) {
+                var reflection = project.getChildByName(entryPoint);
+                if (reflection) {
+                    if (reflection instanceof models.ContainerReflection) {
+                        return reflection;
+                    } else {
+                        this.renderer.application.logger.warn('The given entry point `%s` is not a container.', entryPoint);
+                    }
+                } else {
+                    this.renderer.application.logger.warn('The entry point `%s` could not be found.', entryPoint);
+                }
+            }
+
+            return project;
         }
 
 
@@ -278,23 +314,28 @@ module td.output
                 var modules = [];
                 project.getReflectionsByKind(models.ReflectionKind.SomeModule).forEach((someModule) => {
                     var target = someModule.parent;
+                    var inScope = (someModule == entryPoint);
                     while (target) {
                         if (target.kindOf(models.ReflectionKind.ExternalModule)) return;
+                        if (entryPoint == target) inScope = true;
                         target = target.parent;
                     }
-                    modules.push(someModule);
+
+                    if (inScope) {
+                        modules.push(someModule);
+                    }
                 });
 
                 if (modules.length < 10) {
                     buildGroups(modules, root, buildChildren);
                 } else {
-                    buildGroups(project.getChildrenByKind(models.ReflectionKind.SomeModule), root, buildChildren);
+                    buildGroups(entryPoint.getChildrenByKind(models.ReflectionKind.SomeModule), root, buildChildren);
                 }
 
                 return root;
             }
 
-
+            var entryPoint = this.getEntryPoint(project);
             return build(this.renderer.application.options.readme != 'none');
         }
 

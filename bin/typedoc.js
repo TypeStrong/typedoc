@@ -5208,17 +5208,18 @@ var td;
             Reflection.prototype.getChildByName = function (arg) {
                 var names = Array.isArray(arg) ? arg : arg.split('.');
                 var name = names[0];
+                var result = null;
                 this.traverse(function (child) {
                     if (child.name == name) {
                         if (names.length <= 1) {
-                            return child;
+                            result = child;
                         }
                         else if (child) {
-                            return child.getChildByName(names.slice(1));
+                            result = child.getChildByName(names.slice(1));
                         }
                     }
                 });
-                return null;
+                return result;
             };
             /**
              * Try to find a reflection by its name.
@@ -7982,6 +7983,10 @@ var td;
                     name: 'hideGenerator',
                     help: 'Do not print the TypeDoc link at the end of the page.',
                     type: 2 /* Boolean */
+                }, {
+                    name: 'entryPoint',
+                    help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
+                    type: 0 /* String */
                 }];
             };
             /**
@@ -7993,21 +7998,46 @@ var td;
              */
             DefaultTheme.prototype.getUrls = function (project) {
                 var urls = [];
+                var entryPoint = this.getEntryPoint(project);
                 if (this.renderer.application.options.readme == 'none') {
-                    project.url = 'index.html';
-                    urls.push(new output.UrlMapping('index.html', project, 'reflection.hbs'));
+                    entryPoint.url = 'index.html';
+                    urls.push(new output.UrlMapping('index.html', entryPoint, 'reflection.hbs'));
                 }
                 else {
-                    project.url = 'globals.html';
-                    urls.push(new output.UrlMapping('globals.html', project, 'reflection.hbs'));
-                    urls.push(new output.UrlMapping('index.html', project, 'index.hbs'));
+                    entryPoint.url = 'globals.html';
+                    urls.push(new output.UrlMapping('globals.html', entryPoint, 'reflection.hbs'));
+                    urls.push(new output.UrlMapping('index.html', entryPoint, 'index.hbs'));
                 }
-                if (project.children) {
-                    project.children.forEach(function (child) {
+                if (entryPoint.children) {
+                    entryPoint.children.forEach(function (child) {
                         DefaultTheme.buildUrls(child, urls);
                     });
                 }
                 return urls;
+            };
+            /**
+             * Return the entry point of the documentation.
+             *
+             * @param project  The current project.
+             * @returns The reflection that should be used as the entry point.
+             */
+            DefaultTheme.prototype.getEntryPoint = function (project) {
+                var entryPoint = this.renderer.application.options.entryPoint;
+                if (entryPoint) {
+                    var reflection = project.getChildByName(entryPoint);
+                    if (reflection) {
+                        if (reflection instanceof td.models.ContainerReflection) {
+                            return reflection;
+                        }
+                        else {
+                            this.renderer.application.logger.warn('The given entry point `%s` is not a container.', entryPoint);
+                        }
+                    }
+                    else {
+                        this.renderer.application.logger.warn('The entry point `%s` could not be found.', entryPoint);
+                    }
+                }
+                return project;
             };
             /**
              * Create a navigation structure for the given project.
@@ -8120,21 +8150,27 @@ var td;
                     var modules = [];
                     project.getReflectionsByKind(td.models.ReflectionKind.SomeModule).forEach(function (someModule) {
                         var target = someModule.parent;
+                        var inScope = (someModule == entryPoint);
                         while (target) {
                             if (target.kindOf(1 /* ExternalModule */))
                                 return;
+                            if (entryPoint == target)
+                                inScope = true;
                             target = target.parent;
                         }
-                        modules.push(someModule);
+                        if (inScope) {
+                            modules.push(someModule);
+                        }
                     });
                     if (modules.length < 10) {
                         buildGroups(modules, root, buildChildren);
                     }
                     else {
-                        buildGroups(project.getChildrenByKind(td.models.ReflectionKind.SomeModule), root, buildChildren);
+                        buildGroups(entryPoint.getChildrenByKind(td.models.ReflectionKind.SomeModule), root, buildChildren);
                     }
                     return root;
                 }
+                var entryPoint = this.getEntryPoint(project);
                 return build(this.renderer.application.options.readme != 'none');
             };
             /**

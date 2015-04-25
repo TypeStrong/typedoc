@@ -3761,6 +3761,10 @@ declare module td {
          * Should we hide the TypeDoc link at the end of the page?
          */
         hideGenerator?: boolean;
+        /**
+         * Specifies the fully qualified name of the root symbol. Defaults to global namespace.
+         */
+        entryPoint?: string;
     }
 }
 declare module td.output {
@@ -3821,6 +3825,13 @@ declare module td.output {
          *                 should be rendered to which files.
          */
         getUrls(project: models.ProjectReflection): UrlMapping[];
+        /**
+         * Return the entry point of the documentation.
+         *
+         * @param project  The current project.
+         * @returns The reflection that should be used as the entry point.
+         */
+        getEntryPoint(project: models.ProjectReflection): models.ContainerReflection;
         /**
          * Create a navigation structure for the given project.
          *
