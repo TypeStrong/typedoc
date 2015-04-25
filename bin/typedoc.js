@@ -2227,94 +2227,53 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visit(context, node) {
-            try {
-                switch (node.kind) {
-                    case 201 /* SourceFile */:
-                        return visitSourceFile(context, node);
-                    case 185 /* ClassDeclaration */:
-                        return visitClassDeclaration(context, node);
-                    case 186 /* InterfaceDeclaration */:
-                        return visitInterfaceDeclaration(context, node);
-                    case 189 /* ModuleDeclaration */:
-                        return visitModuleDeclaration(context, node);
-                    case 164 /* VariableStatement */:
-                        return visitVariableStatement(context, node);
-                    case 124 /* Property */:
-                    case 198 /* PropertyAssignment */:
-                    case 183 /* VariableDeclaration */:
-                        return visitVariableDeclaration(context, node);
-                    case 188 /* EnumDeclaration */:
-                        return visitEnumDeclaration(context, node);
-                    case 200 /* EnumMember */:
-                        return visitEnumMember(context, node);
-                    case 126 /* Constructor */:
-                    case 130 /* ConstructSignature */:
-                        return visitConstructor(context, node);
-                    case 125 /* Method */:
-                    case 184 /* FunctionDeclaration */:
-                        return visitFunctionDeclaration(context, node);
-                    case 127 /* GetAccessor */:
-                        return visitGetAccessorDeclaration(context, node);
-                    case 128 /* SetAccessor */:
-                        return visitSetAccessorDeclaration(context, node);
-                    case 129 /* CallSignature */:
-                    case 133 /* FunctionType */:
-                        return visitCallSignatureDeclaration(context, node);
-                    case 131 /* IndexSignature */:
-                        return visitIndexSignatureDeclaration(context, node);
-                    case 163 /* Block */:
-                    case 190 /* ModuleBlock */:
-                        return visitBlock(context, node);
-                    case 142 /* ObjectLiteralExpression */:
-                        return visitObjectLiteral(context, node);
-                    case 136 /* TypeLiteral */:
-                        return visitTypeLiteral(context, node);
-                    case 192 /* ExportAssignment */:
-                        return visitExportAssignment(context, node);
-                    case 187 /* TypeAliasDeclaration */:
-                        return visitTypeAliasDeclaration(context, node);
-                    default:
-                        return null;
-                }
-            }
-            catch (error) {
-                var msg = [];
-                msg.push('An error occurred while creating reflections for the current project.');
-                msg.push('Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
-                msg.push('including the following details:');
-                msg.push('');
-                msg.push('>>> BEGIN OF ERROR DESCRIPTION');
-                msg.push('');
-                try {
-                    var sourceFile = ts.getSourceFileOfNode(node);
-                    var line = sourceFile.getLineAndCharacterFromPosition(node.pos);
-                    if (node.symbol) {
-                        msg.push(td.Util.format('The error occurred while converting `%s` in `%s` around line %s:', context.checker.getFullyQualifiedName(node.symbol), ts.getBaseFilename(sourceFile.filename), line.line));
-                    }
-                    else {
-                        msg.push(td.Util.format('The error occurred while converting `%s` around line %s:', ts.getBaseFilename(sourceFile.filename), line.line));
-                    }
-                    var lineData, lines = sourceFile.getLineStarts();
-                    var lineCount = lines.length - 1;
-                    var min = Math.max(line.line - 2, 0);
-                    var max = Math.min(line.line + 25, lineCount);
-                    msg.push('', '```');
-                    for (var index = min; index <= max; index++) {
-                        if (index == lineCount) {
-                            lineData = sourceFile.text.substring(lines[index]);
-                        }
-                        else {
-                            lineData = sourceFile.text.substring(lines[index], lines[index + 1] - 1);
-                        }
-                        msg.push((index == line.line - 1 ? '@ ' : '  ') + lineData);
-                    }
-                    msg.push('```');
-                }
-                catch (sourceError) {
-                }
-                msg.push('', '```', error.stack, '```');
-                msg.push('', '<<< END OF ERROR DESCRIPTION', '', '');
-                context.getLogger().error(msg.join('\n'));
+            switch (node.kind) {
+                case 201 /* SourceFile */:
+                    return visitSourceFile(context, node);
+                case 185 /* ClassDeclaration */:
+                    return visitClassDeclaration(context, node);
+                case 186 /* InterfaceDeclaration */:
+                    return visitInterfaceDeclaration(context, node);
+                case 189 /* ModuleDeclaration */:
+                    return visitModuleDeclaration(context, node);
+                case 164 /* VariableStatement */:
+                    return visitVariableStatement(context, node);
+                case 124 /* Property */:
+                case 198 /* PropertyAssignment */:
+                case 183 /* VariableDeclaration */:
+                    return visitVariableDeclaration(context, node);
+                case 188 /* EnumDeclaration */:
+                    return visitEnumDeclaration(context, node);
+                case 200 /* EnumMember */:
+                    return visitEnumMember(context, node);
+                case 126 /* Constructor */:
+                case 130 /* ConstructSignature */:
+                    return visitConstructor(context, node);
+                case 125 /* Method */:
+                case 184 /* FunctionDeclaration */:
+                    return visitFunctionDeclaration(context, node);
+                case 127 /* GetAccessor */:
+                    return visitGetAccessorDeclaration(context, node);
+                case 128 /* SetAccessor */:
+                    return visitSetAccessorDeclaration(context, node);
+                case 129 /* CallSignature */:
+                case 133 /* FunctionType */:
+                    return visitCallSignatureDeclaration(context, node);
+                case 131 /* IndexSignature */:
+                    return visitIndexSignatureDeclaration(context, node);
+                case 163 /* Block */:
+                case 190 /* ModuleBlock */:
+                    return visitBlock(context, node);
+                case 142 /* ObjectLiteralExpression */:
+                    return visitObjectLiteral(context, node);
+                case 136 /* TypeLiteral */:
+                    return visitTypeLiteral(context, node);
+                case 192 /* ExportAssignment */:
+                    return visitExportAssignment(context, node);
+                case 187 /* TypeAliasDeclaration */:
+                    return visitTypeAliasDeclaration(context, node);
+                default:
+                    return null;
             }
         }
         converter.visit = visit;

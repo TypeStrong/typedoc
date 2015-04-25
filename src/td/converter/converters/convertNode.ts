@@ -43,100 +43,53 @@ module td.converter
      * @return The resulting reflection or NULL.
      */
     export function visit(context:Context, node:ts.Node):models.Reflection {
-        try {
-            switch (node.kind) {
-                case ts.SyntaxKind.SourceFile:
-                    return visitSourceFile(context, <ts.SourceFile>node);
-                case ts.SyntaxKind.ClassDeclaration:
-                    return visitClassDeclaration(context, <ts.ClassDeclaration>node);
-                case ts.SyntaxKind.InterfaceDeclaration:
-                    return visitInterfaceDeclaration(context, <ts.InterfaceDeclaration>node);
-                case ts.SyntaxKind.ModuleDeclaration:
-                    return visitModuleDeclaration(context, <ts.ModuleDeclaration>node);
-                case ts.SyntaxKind.VariableStatement:
-                    return visitVariableStatement(context, <ts.VariableStatement>node);
-                case ts.SyntaxKind.Property:
-                case ts.SyntaxKind.PropertyAssignment:
-                case ts.SyntaxKind.VariableDeclaration:
-                    return visitVariableDeclaration(context, <ts.VariableDeclaration>node);
-                case ts.SyntaxKind.EnumDeclaration:
-                    return visitEnumDeclaration(context, <ts.EnumDeclaration>node);
-                case ts.SyntaxKind.EnumMember:
-                    return visitEnumMember(context, <ts.EnumMember>node);
-                case ts.SyntaxKind.Constructor:
-                case ts.SyntaxKind.ConstructSignature:
-                    return visitConstructor(context, <ts.ConstructorDeclaration>node);
-                case ts.SyntaxKind.Method:
-                case ts.SyntaxKind.FunctionDeclaration:
-                    return visitFunctionDeclaration(context, <ts.MethodDeclaration>node);
-                case ts.SyntaxKind.GetAccessor:
-                    return visitGetAccessorDeclaration(context, <ts.SignatureDeclaration>node);
-                case ts.SyntaxKind.SetAccessor:
-                    return visitSetAccessorDeclaration(context, <ts.SignatureDeclaration>node);
-                case ts.SyntaxKind.CallSignature:
-                case ts.SyntaxKind.FunctionType:
-                    return visitCallSignatureDeclaration(context, <ts.SignatureDeclaration>node);
-                case ts.SyntaxKind.IndexSignature:
-                    return visitIndexSignatureDeclaration(context, <ts.SignatureDeclaration>node);
-                case ts.SyntaxKind.Block:
-                case ts.SyntaxKind.ModuleBlock:
-                    return visitBlock(context, <ts.Block>node);
-                case ts.SyntaxKind.ObjectLiteralExpression:
-                    return visitObjectLiteral(context, <ts.ObjectLiteralExpression>node);
-                case ts.SyntaxKind.TypeLiteral:
-                    return visitTypeLiteral(context, <ts.TypeLiteralNode>node);
-                case ts.SyntaxKind.ExportAssignment:
-                    return visitExportAssignment(context, <ts.ExportAssignment>node);
-                case ts.SyntaxKind.TypeAliasDeclaration:
-                    return visitTypeAliasDeclaration(context, <ts.TypeAliasDeclaration>node);
-                default:
-                    return null;
-            }
-        } catch (error) {
-            var msg = [];
-            msg.push('An error occurred while creating reflections for the current project.');
-            msg.push('Please report this error at https://github.com/sebastian-lenz/typedoc/issues');
-            msg.push('including the following details:');
-            msg.push('');
-            msg.push('>>> BEGIN OF ERROR DESCRIPTION');
-            msg.push('');
-
-            try {
-                var sourceFile = ts.getSourceFileOfNode(node);
-                var line = sourceFile.getLineAndCharacterFromPosition(node.pos);
-
-                if (node.symbol) {
-                    msg.push(Util.format(
-                        'The error occurred while converting `%s` in `%s` around line %s:',
-                        context.checker.getFullyQualifiedName(node.symbol),
-                        ts.getBaseFilename(sourceFile.filename), line.line));
-                } else {
-                    msg.push(Util.format(
-                        'The error occurred while converting `%s` around line %s:',
-                        ts.getBaseFilename(sourceFile.filename), line.line));
-                }
-
-                var lineData, lines = sourceFile.getLineStarts();
-                var lineCount = lines.length - 1;
-                var min = Math.max(line.line - 2, 0);
-                var max = Math.min(line.line + 25, lineCount);
-
-                msg.push('', '```');
-                for (var index = min; index <= max; index++) {
-                    if (index == lineCount) {
-                        lineData = sourceFile.text.substring(lines[index]);
-                    } else {
-                        lineData = sourceFile.text.substring(lines[index], lines[index + 1] - 1);
-                    }
-
-                    msg.push((index == line.line - 1 ? '@ ' : '  ') + lineData);
-                }
-                msg.push('```');
-            } catch (sourceError) { }
-
-            msg.push('', '```', error.stack, '```');
-            msg.push('', '<<< END OF ERROR DESCRIPTION', '', '');
-            context.getLogger().error(msg.join('\n'));
+        switch (node.kind) {
+            case ts.SyntaxKind.SourceFile:
+                return visitSourceFile(context, <ts.SourceFile>node);
+            case ts.SyntaxKind.ClassDeclaration:
+                return visitClassDeclaration(context, <ts.ClassDeclaration>node);
+            case ts.SyntaxKind.InterfaceDeclaration:
+                return visitInterfaceDeclaration(context, <ts.InterfaceDeclaration>node);
+            case ts.SyntaxKind.ModuleDeclaration:
+                return visitModuleDeclaration(context, <ts.ModuleDeclaration>node);
+            case ts.SyntaxKind.VariableStatement:
+                return visitVariableStatement(context, <ts.VariableStatement>node);
+            case ts.SyntaxKind.Property:
+            case ts.SyntaxKind.PropertyAssignment:
+            case ts.SyntaxKind.VariableDeclaration:
+                return visitVariableDeclaration(context, <ts.VariableDeclaration>node);
+            case ts.SyntaxKind.EnumDeclaration:
+                return visitEnumDeclaration(context, <ts.EnumDeclaration>node);
+            case ts.SyntaxKind.EnumMember:
+                return visitEnumMember(context, <ts.EnumMember>node);
+            case ts.SyntaxKind.Constructor:
+            case ts.SyntaxKind.ConstructSignature:
+                return visitConstructor(context, <ts.ConstructorDeclaration>node);
+            case ts.SyntaxKind.Method:
+            case ts.SyntaxKind.FunctionDeclaration:
+                return visitFunctionDeclaration(context, <ts.MethodDeclaration>node);
+            case ts.SyntaxKind.GetAccessor:
+                return visitGetAccessorDeclaration(context, <ts.SignatureDeclaration>node);
+            case ts.SyntaxKind.SetAccessor:
+                return visitSetAccessorDeclaration(context, <ts.SignatureDeclaration>node);
+            case ts.SyntaxKind.CallSignature:
+            case ts.SyntaxKind.FunctionType:
+                return visitCallSignatureDeclaration(context, <ts.SignatureDeclaration>node);
+            case ts.SyntaxKind.IndexSignature:
+                return visitIndexSignatureDeclaration(context, <ts.SignatureDeclaration>node);
+            case ts.SyntaxKind.Block:
+            case ts.SyntaxKind.ModuleBlock:
+                return visitBlock(context, <ts.Block>node);
+            case ts.SyntaxKind.ObjectLiteralExpression:
+                return visitObjectLiteral(context, <ts.ObjectLiteralExpression>node);
+            case ts.SyntaxKind.TypeLiteral:
+                return visitTypeLiteral(context, <ts.TypeLiteralNode>node);
+            case ts.SyntaxKind.ExportAssignment:
+                return visitExportAssignment(context, <ts.ExportAssignment>node);
+            case ts.SyntaxKind.TypeAliasDeclaration:
+                return visitTypeAliasDeclaration(context, <ts.TypeAliasDeclaration>node);
+            default:
+                return null;
         }
     }
 
