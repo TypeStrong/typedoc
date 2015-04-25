@@ -9,3 +9,15 @@
 function genericFunction<T extends Object>(value:T):T {
     return value;
 }
+
+
+/**
+ * A function with a generic type array parameter.
+ *
+ * @param param A generic parameter.
+ * @param params A generic array parameter.
+ * @returns A generic array.
+ */
+function functionWithGenericArrayParameter<T>(param:T, params:T[]):T[] {
+    return params;
+}
