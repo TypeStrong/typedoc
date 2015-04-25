@@ -160,6 +160,192 @@
                 9
               ]
             }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "NonGenericClass",
+              "id": 11
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "NonGenericClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "NonGenericClass short text."
+          },
+          "children": [
+            {
+              "id": 14,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 15,
+                  "name": "new NonGenericClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  },
+                  "parameters": [
+                    {
+                      "id": 16,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Constructor parameter.\n"
+                      },
+                      "type": {
+                        "type": "instrinct",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "NonGenericClass",
+                    "id": 11
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "GenericClass.__constructor",
+                    "id": 6
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.__constructor",
+                "id": 6
+              }
+            },
+            {
+              "id": 12,
+              "name": "value",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property."
+              },
+              "type": {
+                "type": "instrinct",
+                "name": "string"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.value",
+                "id": 4
+              }
+            },
+            {
+              "id": 13,
+              "name": "values",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property array."
+              },
+              "type": {
+                "type": "instrinct",
+                "isArray": true,
+                "name": "string"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.values",
+                "id": 5
+              }
+            },
+            {
+              "id": 17,
+              "name": "getValue",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 18,
+                  "name": "getValue",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "getValue short text.",
+                    "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "instrinct",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "GenericClass.getValue",
+                    "id": 9
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.getValue",
+                "id": 9
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                14
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                12,
+                13
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                17
+              ]
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "GenericClass",
+              "id": 2,
+              "typeArguments": [
+                {
+                  "type": "instrinct",
+                  "name": "string"
+                }
+              ]
+            }
           ]
         }
       ],
@@ -168,7 +354,8 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            2
+            2,
+            11
           ]
         }
       ]

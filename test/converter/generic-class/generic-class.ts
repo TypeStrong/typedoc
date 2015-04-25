@@ -31,3 +31,9 @@ class GenericClass<T> {
         return this.value;
     }
 }
+
+
+/**
+ * NonGenericClass short text.
+ */
+class NonGenericClass extends GenericClass<string> {}
