@@ -4,7 +4,6 @@
             <a href="{{relativeURL reflection.url}}" class="tsd-signature-type">
                 {{reflection.name}}
             </a>
-            {{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
             {{#if typeArguments}}
                 <span class="tsd-signature-symbol">&lt;</span>
 
@@ -16,6 +15,7 @@
 
                 <span class="tsd-signature-symbol">&gt;</span>
             {{/if}}
+            {{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
         {{/compact}}
     {{else}}
         {{#if types}}
@@ -39,7 +39,17 @@
                 {{/compact}}
             {{else}}
                 {{#compact}}
-                    <span class="tsd-signature-type">{{this}}</span>
+                    <span class="tsd-signature-type">
+                        {{#if name}}
+                            {{name}}
+                        {{else}}
+                            {{#if value}}
+                                "{{value}}"
+                            {{else}}
+                                {{this}}
+                            {{/if}}
+                        {{/if}}
+                    </span>
                     {{#if typeArguments}}
                         <span class="tsd-signature-symbol">&lt;</span>
 
