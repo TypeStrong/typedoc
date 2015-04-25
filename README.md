@@ -91,6 +91,8 @@ in order to change the behaviour of TypeDoc.
   Set the Google Analytics tracking ID and activate tracking code.
 * `--gaSite <site>`<br>
   Set the site name for Google Analytics. Defaults to `auto`
+* `--entryPoint <fully.qualified.name>`<br>
+  Specifies the fully qualified name of the root symbol. Defaults to global namespace.
 
 #### Content
 * `--includes <path/to/includes>`<br>

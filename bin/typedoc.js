@@ -8145,8 +8145,10 @@ var td;
                  */
                 function build(hasSeparateGlobals) {
                     var root = new output.NavigationItem('Index', 'index.html');
-                    var globals = new output.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
-                    globals.isGlobals = true;
+                    if (entryPoint == project) {
+                        var globals = new output.NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+                        globals.isGlobals = true;
+                    }
                     var modules = [];
                     project.getReflectionsByKind(td.models.ReflectionKind.SomeModule).forEach(function (someModule) {
                         var target = someModule.parent;
@@ -8163,7 +8165,7 @@ var td;
                         }
                     });
                     if (modules.length < 10) {
-                        buildGroups(modules, root, buildChildren);
+                        buildGroups(modules, root);
                     }
                     else {
                         buildGroups(entryPoint.getChildrenByKind(td.models.ReflectionKind.SomeModule), root, buildChildren);

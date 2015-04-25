@@ -308,8 +308,11 @@ module td.output
              */
             function build(hasSeparateGlobals:boolean):NavigationItem {
                 var root = new NavigationItem('Index', 'index.html');
-                var globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
-                globals.isGlobals = true;
+
+                if (entryPoint == project) {
+                    var globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
+                    globals.isGlobals = true;
+                }
 
                 var modules = [];
                 project.getReflectionsByKind(models.ReflectionKind.SomeModule).forEach((someModule) => {
@@ -327,7 +330,7 @@ module td.output
                 });
 
                 if (modules.length < 10) {
-                    buildGroups(modules, root, buildChildren);
+                    buildGroups(modules, root);
                 } else {
                     buildGroups(entryPoint.getChildrenByKind(models.ReflectionKind.SomeModule), root, buildChildren);
                 }
