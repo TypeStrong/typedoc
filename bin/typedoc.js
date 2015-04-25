@@ -3022,7 +3022,7 @@ var td;
             if (node.typeName) {
                 var result, name = ts.getTextOfNode(node.typeName);
                 if (context.typeParameters && context.typeParameters[name]) {
-                    result = context.typeParameters[name];
+                    result = context.typeParameters[name].clone();
                 }
                 else {
                     result = new td.models.TypeParameterType();
@@ -5533,7 +5533,21 @@ var td;
          */
         var Type = (function () {
             function Type() {
+                /**
+                 * Is this an array type?
+                 */
+                this.isArray = false;
             }
+            /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            Type.prototype.clone = function () {
+                var clone = new Type();
+                clone.isArray = this.isArray;
+                return clone;
+            };
             /**
              * Return a raw object representation of this type.
              */
@@ -5966,6 +5980,16 @@ var td;
                 this.name = name;
             }
             /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            IntrinsicType.prototype.clone = function () {
+                var clone = new IntrinsicType(this.name);
+                clone.isArray = this.isArray;
+                return clone;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             IntrinsicType.prototype.toObject = function () {
@@ -6011,6 +6035,17 @@ var td;
                 this.symbolID = symbolID;
                 this.reflection = reflection;
             }
+            /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            ReferenceType.prototype.clone = function () {
+                var clone = new ReferenceType(this.name, this.symbolID, this.reflection);
+                clone.isArray = this.isArray;
+                clone.typeArguments = this.typeArguments;
+                return clone;
+            };
             /**
              * Return a raw object representation of this type.
              */
@@ -6073,6 +6108,16 @@ var td;
                 this.declaration = declaration;
             }
             /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            ReflectionType.prototype.clone = function () {
+                var clone = new ReflectionType(this.declaration);
+                clone.isArray = this.isArray;
+                return clone;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             ReflectionType.prototype.toObject = function () {
@@ -6122,6 +6167,16 @@ var td;
                 this.value = value;
             }
             /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            StringLiteralType.prototype.clone = function () {
+                var clone = new StringLiteralType(this.value);
+                clone.isArray = this.isArray;
+                return clone;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             StringLiteralType.prototype.toObject = function () {
@@ -6164,6 +6219,16 @@ var td;
                 this.elements = elements;
             }
             /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            TupleType.prototype.clone = function () {
+                var clone = new TupleType(this.elements);
+                clone.isArray = this.isArray;
+                return clone;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             TupleType.prototype.toObject = function () {
@@ -6205,6 +6270,18 @@ var td;
             function TypeParameterType() {
                 _super.apply(this, arguments);
             }
+            /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            TypeParameterType.prototype.clone = function () {
+                var clone = new TypeParameterType();
+                clone.isArray = this.isArray;
+                clone.name = this.name;
+                clone.constraint = this.constraint;
+                return clone;
+            };
             /**
              * Return a raw object representation of this type.
              */
@@ -6251,6 +6328,16 @@ var td;
                 this.types = types;
             }
             /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            UnionType.prototype.clone = function () {
+                var clone = new UnionType(this.types);
+                clone.isArray = this.isArray;
+                return clone;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             UnionType.prototype.toObject = function () {
@@ -6294,6 +6381,16 @@ var td;
                 _super.call(this);
                 this.name = name;
             }
+            /**
+             * Clone this type.
+             *
+             * @return A clone of this type.
+             */
+            UnknownType.prototype.clone = function () {
+                var clone = new UnknownType(this.name);
+                clone.isArray = this.isArray;
+                return clone;
+            };
             /**
              * Return a raw object representation of this type.
              */

@@ -272,7 +272,7 @@ module td.converter
         if (node.typeName) {
             var result, name = ts.getTextOfNode(node.typeName);
             if (context.typeParameters && context.typeParameters[name]) {
-                result = context.typeParameters[name];
+                result = context.typeParameters[name].clone();
             } else {
                 result = new models.TypeParameterType();
                 result.name = name;

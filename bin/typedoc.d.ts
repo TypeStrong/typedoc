@@ -2221,6 +2221,12 @@ declare module td.models {
          */
         isArray: boolean;
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2557,6 +2563,12 @@ declare module td.models {
          */
         constructor(name: string);
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2616,6 +2628,12 @@ declare module td.models {
          */
         constructor(name: string, symbolID: number, reflection?: Reflection);
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2644,6 +2662,12 @@ declare module td.models {
          * @param declaration  The reflection of the type.
          */
         constructor(declaration: DeclarationReflection);
+        /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
         /**
          * Return a raw object representation of this type.
          */
@@ -2674,6 +2698,12 @@ declare module td.models {
          */
         constructor(value: string);
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2703,6 +2733,12 @@ declare module td.models {
          */
         constructor(elements: Type[]);
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2726,6 +2762,12 @@ declare module td.models {
          */
         name: string;
         constraint: Type;
+        /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
         /**
          * Return a raw object representation of this type.
          */
@@ -2756,6 +2798,12 @@ declare module td.models {
          */
         constructor(types: Type[]);
         /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2780,6 +2828,12 @@ declare module td.models {
          * @param name  A string representation of the type as returned from TypeScript compiler.
          */
         constructor(name: string);
+        /**
+         * Clone this type.
+         *
+         * @return A clone of this type.
+         */
+        clone(): Type;
         /**
          * Return a raw object representation of this type.
          */
