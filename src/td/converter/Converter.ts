@@ -28,6 +28,11 @@ declare module td
          * Should externally resolved TypeScript files be ignored?
          */
         excludeExternals?:boolean;
+
+        /**
+         * Should symbols that are not marked as being exported be ignored?
+         */
+        excludeNotExported?:boolean;
     }
 }
 
@@ -259,6 +264,10 @@ module td.converter
             },{
                 name: "excludeExternals",
                 help: 'Prevent externally resolved TypeScript files from being documented.',
+                type: ParameterType.Boolean
+            },{
+                name: "excludeNotExported",
+                help: 'Prevent symbols that are not exported from being documented.',
                 type: ParameterType.Boolean
             }]);
         }

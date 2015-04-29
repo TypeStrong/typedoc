@@ -31,6 +31,12 @@ module td.converter
             name = node.symbol.name;
         }
 
+        // Test whether the node is exported
+        var isExported = container.flags.isExported || !!(node.flags & ts.NodeFlags.Export);
+        if (!isExported && context.getOptions().excludeNotExported) {
+            return null;
+        }
+
         // Test whether the node is private, when inheriting ignore private members
         var isPrivate = !!(node.flags & ts.NodeFlags.Private);
         if (context.isInherit && isPrivate) {
@@ -64,6 +70,7 @@ module td.converter
             child.setFlag(models.ReflectionFlag.Static, isStatic);
             child.setFlag(models.ReflectionFlag.Private, isPrivate);
             child.setFlag(models.ReflectionFlag.ConstructorProperty, isConstructorProperty);
+            child.setFlag(models.ReflectionFlag.Exported,  isExported);
             child = setupDeclaration(context, child, node);
 
             if (child) {
@@ -97,7 +104,6 @@ module td.converter
         reflection.setFlag(models.ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags.Protected));
         reflection.setFlag(models.ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags.Public));
         reflection.setFlag(models.ReflectionFlag.Optional,  !!(node['questionToken']));
-        reflection.setFlag(models.ReflectionFlag.Exported,  reflection.parent.flags.isExported || !!(node.flags & ts.NodeFlags.Export));
 
         if (
             context.isInherit &&
