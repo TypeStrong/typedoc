@@ -1,10 +1,16 @@
 {{#if parent}}
     {{#with parent}}{{> breadcrumb}}{{/with}}
     <li>
-        <a href="{{relativeURL url}}">{{name}}</a>
+        {{#if url}}
+            <a href="{{relativeURL url}}">{{name}}</a>
+        {{else}}
+            <span>{{name}}</span>
+        {{/if}}
     </li>
 {{else}}
-    <li>
-        <a href="{{relativeURL url}}">Globals</a>
-    </li>
+    {{#if url}}
+        <li>
+            <a href="{{relativeURL url}}">Globals</a>
+        </li>
+    {{/if}}
 {{/if}}
