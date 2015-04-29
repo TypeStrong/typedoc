@@ -3178,6 +3178,14 @@ var td;
     var converter;
     (function (converter) {
         /**
+         * List of reflection kinds that never should be static.
+         */
+        var nonStaticKinds = [
+            128 /* Class */,
+            256 /* Interface */,
+            2 /* Module */
+        ];
+        /**
          * Create a declaration reflection from the given TypeScript node.
          *
          * @param context  The context object describing the current state the converter is in. The
@@ -3205,13 +3213,16 @@ var td;
             }
             // Test whether the node is static, when merging a module to a class make the node static
             var isConstructorProperty = false;
-            var isStatic = !!(node.flags & 128 /* Static */);
-            if (container.kind == 128 /* Class */) {
-                if (node.parent && node.parent.kind == 126 /* Constructor */) {
-                    isConstructorProperty = true;
-                }
-                else if (!node.parent || node.parent.kind != 185 /* ClassDeclaration */) {
-                    isStatic = true;
+            var isStatic = false;
+            if (nonStaticKinds.indexOf(kind) == -1) {
+                isStatic = !!(node.flags & 128 /* Static */);
+                if (container.kind == 128 /* Class */) {
+                    if (node.parent && node.parent.kind == 126 /* Constructor */) {
+                        isConstructorProperty = true;
+                    }
+                    else if (!node.parent || node.parent.kind != 185 /* ClassDeclaration */) {
+                        isStatic = true;
+                    }
                 }
             }
             // Check if we already have a child with the same name and static flag
@@ -8367,17 +8378,17 @@ var td;
              */
             DefaultTheme.MAPPINGS = [{
                 kind: [128 /* Class */],
-                isLeaf: true,
+                isLeaf: false,
                 directory: 'classes',
                 template: 'reflection.hbs'
             }, {
                 kind: [256 /* Interface */],
-                isLeaf: true,
+                isLeaf: false,
                 directory: 'interfaces',
                 template: 'reflection.hbs'
             }, {
                 kind: [4 /* Enum */],
-                isLeaf: true,
+                isLeaf: false,
                 directory: 'enums',
                 template: 'reflection.hbs'
             }, {

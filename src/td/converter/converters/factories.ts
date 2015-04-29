@@ -1,6 +1,15 @@
 module td.converter
 {
     /**
+     * List of reflection kinds that never should be static.
+     */
+    var nonStaticKinds = [
+        models.ReflectionKind.Class,
+        models.ReflectionKind.Interface,
+        models.ReflectionKind.Module
+    ];
+
+    /**
      * Create a declaration reflection from the given TypeScript node.
      *
      * @param context  The context object describing the current state the converter is in. The
@@ -30,12 +39,15 @@ module td.converter
 
         // Test whether the node is static, when merging a module to a class make the node static
         var isConstructorProperty:boolean = false;
-        var isStatic = !!(node.flags & ts.NodeFlags.Static);
-        if (container.kind == models.ReflectionKind.Class) {
-            if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
-                isConstructorProperty = true;
-            } else if (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration) {
-                isStatic = true;
+        var isStatic = false;
+        if (nonStaticKinds.indexOf(kind) == -1) {
+            isStatic = !!(node.flags & ts.NodeFlags.Static);
+            if (container.kind == models.ReflectionKind.Class) {
+                if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
+                    isConstructorProperty = true;
+                } else if (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration) {
+                    isStatic = true;
+                }
             }
         }
 
