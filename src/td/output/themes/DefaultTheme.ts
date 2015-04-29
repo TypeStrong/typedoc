@@ -69,17 +69,17 @@ module td.output
          */
         static MAPPINGS:ITemplateMapping[] = [{
             kind:      [models.ReflectionKind.Class],
-            isLeaf:    true,
+            isLeaf:    false,
             directory: 'classes',
             template:  'reflection.hbs'
         },{
             kind:      [models.ReflectionKind.Interface],
-            isLeaf:    true,
+            isLeaf:    false,
             directory: 'interfaces',
             template:  'reflection.hbs'
         },{
             kind:      [models.ReflectionKind.Enum],
-            isLeaf:    true,
+            isLeaf:    false,
             directory: 'enums',
             template:  'reflection.hbs'
         },{
