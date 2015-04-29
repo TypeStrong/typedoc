@@ -50,19 +50,30 @@
             +vendors(column-break-inside, avoid)
             +vendors(page-break-inside, avoid)
 
-    a
+    a,
+    .tsd-parent-kind-module a
         color: $COLOR_TS
 
-    .tsd-kind-interface a,
     .tsd-parent-kind-interface a
         color: $COLOR_TS_INTERFACE
 
-    .tsd-kind-enum a,
     .tsd-parent-kind-enum a
         color: $COLOR_TS_ENUM
 
-    .tsd-kind-class a,
     .tsd-parent-kind-class a
+        color: $COLOR_TS_CLASS
+
+
+    .tsd-kind-module a
+        color: $COLOR_TS
+
+    .tsd-kind-interface a
+        color: $COLOR_TS_INTERFACE
+
+    .tsd-kind-enum a
+        color: $COLOR_TS_ENUM
+
+    .tsd-kind-class a
         color: $COLOR_TS_CLASS
 
     .tsd-is-private a

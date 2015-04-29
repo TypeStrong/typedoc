@@ -703,10 +703,14 @@ footer .tsd-legend { display: inline-block; width: 25%; padding: 0; font-size: 1
 @media (max-width: 900px) { .tsd-index-panel ul.tsd-index-list { -webkit-column-count: 1; -moz-column-count: 1; -ms-column-count: 1; column-count: 1; } }
 @media (min-width: 901px) and (max-width: 1024px) { .tsd-index-panel ul.tsd-index-list { -webkit-column-count: 2; -moz-column-count: 2; -ms-column-count: 2; column-count: 2; } }
 .tsd-index-panel ul.tsd-index-list li { -webkit-column-break-inside: avoid; -moz-column-break-inside: avoid; -ms-column-break-inside: avoid; -o-column-break-inside: avoid; column-break-inside: avoid; -webkit-page-break-inside: avoid; -moz-page-break-inside: avoid; -ms-page-break-inside: avoid; -o-page-break-inside: avoid; page-break-inside: avoid; }
-.tsd-index-panel a { color: #9600ff; }
-.tsd-index-panel .tsd-kind-interface a, .tsd-index-panel .tsd-parent-kind-interface a { color: #7da01f; }
-.tsd-index-panel .tsd-kind-enum a, .tsd-index-panel .tsd-parent-kind-enum a { color: #cc9900; }
-.tsd-index-panel .tsd-kind-class a, .tsd-index-panel .tsd-parent-kind-class a { color: #4da6ff; }
+.tsd-index-panel a, .tsd-index-panel .tsd-parent-kind-module a { color: #9600ff; }
+.tsd-index-panel .tsd-parent-kind-interface a { color: #7da01f; }
+.tsd-index-panel .tsd-parent-kind-enum a { color: #cc9900; }
+.tsd-index-panel .tsd-parent-kind-class a { color: #4da6ff; }
+.tsd-index-panel .tsd-kind-module a { color: #9600ff; }
+.tsd-index-panel .tsd-kind-interface a { color: #7da01f; }
+.tsd-index-panel .tsd-kind-enum a { color: #cc9900; }
+.tsd-index-panel .tsd-kind-class a { color: #4da6ff; }
 .tsd-index-panel .tsd-is-private a { color: #808080; }
 
 .tsd-flag { display: inline-block; padding: 1px 5px; border-radius: 4px; color: #fff; background-color: #808080; text-indent: 0; font-size: 14px; font-weight: normal; }
