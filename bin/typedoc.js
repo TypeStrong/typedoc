@@ -1818,6 +1818,16 @@ var td;
                 if (!(target instanceof td.models.ContainerReflection)) {
                     throw new Error('Expected container reflection');
                 }
+                if (baseNode.symbol) {
+                    var id = this.getSymbolID(baseNode.symbol);
+                    if (this.inheritedChildren && this.inheritedChildren.indexOf(id) != -1) {
+                        return target;
+                    }
+                    else {
+                        this.inheritedChildren = this.inheritedChildren || [];
+                        this.inheritedChildren.push(id);
+                    }
+                }
                 if (target.children) {
                     this.inherited = target.children.map(function (c) { return c.name; });
                 }
@@ -1835,6 +1845,9 @@ var td;
                 this.inherited = oldInherited;
                 this.inheritParent = oldInheritParent;
                 this.typeArguments = oldTypeArguments;
+                if (!this.isInherit) {
+                    delete this.inheritedChildren;
+                }
                 return target;
             };
             /**

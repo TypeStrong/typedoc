@@ -795,6 +795,10 @@ declare module td.converter {
          */
         inheritParent: ts.Node;
         /**
+         * List symbol ids of inherited children already visited while inheriting.
+         */
+        inheritedChildren: number[];
+        /**
          * The names of the children of the scope before inheritance has been started.
          */
         inherited: string[];

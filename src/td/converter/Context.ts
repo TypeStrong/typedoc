@@ -61,6 +61,11 @@ module td.converter
         inheritParent:ts.Node;
 
         /**
+         * List symbol ids of inherited children already visited while inheriting.
+         */
+        inheritedChildren:number[];
+
+        /**
          * The names of the children of the scope before inheritance has been started.
          */
         inherited:string[];
@@ -291,6 +296,7 @@ module td.converter
             var oldInherited = this.inherited;
             var oldInheritParent = this.inheritParent;
             var oldTypeArguments = this.typeArguments;
+
             this.isInherit = true;
             this.inheritParent = baseNode;
             this.inherited = [];
@@ -298,6 +304,16 @@ module td.converter
             var target = <models.ContainerReflection>this.scope;
             if (!(target instanceof models.ContainerReflection)) {
                 throw new Error('Expected container reflection');
+            }
+
+            if (baseNode.symbol) {
+                var id = this.getSymbolID(baseNode.symbol);
+                if (this.inheritedChildren && this.inheritedChildren.indexOf(id) != -1) {
+                    return target;
+                } else {
+                    this.inheritedChildren = this.inheritedChildren || [];
+                    this.inheritedChildren.push(id);
+                }
             }
 
             if (target.children) {
@@ -318,6 +334,11 @@ module td.converter
             this.inherited = oldInherited;
             this.inheritParent = oldInheritParent;
             this.typeArguments = oldTypeArguments;
+
+            if (!this.isInherit) {
+                delete this.inheritedChildren;
+            }
+
             return target;
         }
 
