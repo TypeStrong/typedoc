@@ -932,6 +932,10 @@ declare module td {
          * Should externally resolved TypeScript files be ignored?
          */
         excludeExternals?: boolean;
+        /**
+         * Should symbols that are not marked as being exported be ignored?
+         */
+        excludeNotExported?: boolean;
     }
 }
 declare module td.converter {

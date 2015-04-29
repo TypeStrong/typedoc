@@ -1933,6 +1933,10 @@ var td;
                     name: "excludeExternals",
                     help: 'Prevent externally resolved TypeScript files from being documented.',
                     type: 2 /* Boolean */
+                }, {
+                    name: "excludeNotExported",
+                    help: 'Prevent symbols that are not exported from being documented.',
+                    type: 2 /* Boolean */
                 }]);
             };
             /**
@@ -3206,6 +3210,11 @@ var td;
                     return null;
                 name = node.symbol.name;
             }
+            // Test whether the node is exported
+            var isExported = container.flags.isExported || !!(node.flags & 1 /* Export */);
+            if (!isExported && context.getOptions().excludeNotExported) {
+                return null;
+            }
             // Test whether the node is private, when inheriting ignore private members
             var isPrivate = !!(node.flags & 32 /* Private */);
             if (context.isInherit && isPrivate) {
@@ -3238,6 +3247,7 @@ var td;
                 child.setFlag(8 /* Static */, isStatic);
                 child.setFlag(1 /* Private */, isPrivate);
                 child.setFlag(1024 /* ConstructorProperty */, isConstructorProperty);
+                child.setFlag(16 /* Exported */, isExported);
                 child = setupDeclaration(context, child, node);
                 if (child) {
                     children.push(child);
@@ -3268,7 +3278,6 @@ var td;
             reflection.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
             reflection.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
             reflection.setFlag(128 /* Optional */, !!(node['questionToken']));
-            reflection.setFlag(16 /* Exported */, reflection.parent.flags.isExported || !!(node.flags & 1 /* Export */));
             if (context.isInherit && (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
                 if (!reflection.inheritedFrom) {
                     reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
