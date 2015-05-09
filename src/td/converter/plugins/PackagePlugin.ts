@@ -98,7 +98,7 @@ module td.converter
                 return;
             }
 
-            var fileName = node.filename;
+            var fileName = node.fileName;
             var dirName, parentDir = Path.resolve(Path.dirname(fileName));
             do {
                 dirName = parentDir;

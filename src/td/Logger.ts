@@ -129,8 +129,8 @@ module td
         public diagnostic(diagnostic:ts.Diagnostic) {
             var output;
             if (diagnostic.file) {
-                output = diagnostic.file.filename;
-                output += '(' + diagnostic.file.getLineAndCharacterFromPosition(diagnostic.start).line + ')';
+                output = diagnostic.file.fileName;
+                output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
                 output += ts.sys.newLine + ' ' + diagnostic.messageText;
             } else {
                 output = diagnostic.messageText;

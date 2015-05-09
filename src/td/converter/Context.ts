@@ -21,6 +21,11 @@ module td.converter
         checker:ts.TypeChecker;
 
         /**
+         * The program that is currently processed.
+         */
+        program:ts.Program;
+
+        /**
          * The project that is currently processed.
          */
         project:models.ProjectReflection;
@@ -89,10 +94,11 @@ module td.converter
          * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
          * @param checker  The TypeChecker instance returned by the TypeScript compiler.
          */
-        constructor(converter:Converter, fileNames:string[], checker:ts.TypeChecker) {
+        constructor(converter:Converter, fileNames:string[], checker:ts.TypeChecker, program:ts.Program) {
             this.converter = converter;
             this.fileNames = fileNames;
             this.checker = checker;
+            this.program = program;
 
             var project = new models.ProjectReflection(this.getOptions().name);
             this.project = project;
@@ -211,9 +217,9 @@ module td.converter
         withSourceFile(node:ts.SourceFile, callback:Function) {
             var options = this.converter.application.options;
             var externalPattern = this.externalPattern;
-            var isExternal = this.fileNames.indexOf(node.filename) == -1;
+            var isExternal = this.fileNames.indexOf(node.fileName) == -1;
             if (externalPattern) {
-                isExternal = isExternal || externalPattern.match(node.filename);
+                isExternal = isExternal || externalPattern.match(node.fileName);
             }
 
             if (isExternal && options.excludeExternals) {
@@ -223,7 +229,7 @@ module td.converter
             var isDeclaration = ts.isDeclarationFile(node);
             if (isDeclaration) {
                 var lib = this.converter.getDefaultLib();
-                var isLib = node.filename.substr(-lib.length) == lib;
+                var isLib = node.fileName.substr(-lib.length) == lib;
                 if (!options.includeDeclarations || isLib) {
                     return;
                 }

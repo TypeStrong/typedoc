@@ -183,7 +183,7 @@ var td;
     td.EventDispatcher = EventDispatcher;
 })(td || (td = {}));
 /// <reference path="EventDispatcher.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -238,7 +238,7 @@ var td;
             if (typeof this.options.logger == 'function') {
                 this.logger = new td.CallbackLogger(this.options.logger);
             }
-            else if (this.options.logger == 0 /* None */) {
+            else if (this.options.logger == td.LoggerType.None) {
                 this.logger = new td.Logger();
             }
             return this.loadNpmPlugins(this.options.plugins);
@@ -582,7 +582,7 @@ var td;
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            this.log(td.Util.format.apply(this, arguments), 0 /* Info */);
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Info);
         };
         /**
          * Log the given message with a trailing whitespace.
@@ -595,7 +595,7 @@ var td;
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            this.log(td.Util.format.apply(this, arguments), 0 /* Info */, true);
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Info, true);
         };
         /**
          * Log the given success message.
@@ -608,7 +608,7 @@ var td;
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            this.log(td.Util.format.apply(this, arguments), 3 /* Success */);
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Success);
         };
         /**
          * Log the given warning.
@@ -621,7 +621,7 @@ var td;
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            this.log(td.Util.format.apply(this, arguments), 1 /* Warn */);
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Warn);
         };
         /**
          * Log the given error.
@@ -634,7 +634,7 @@ var td;
             for (var _i = 1; _i < arguments.length; _i++) {
                 args[_i - 1] = arguments[_i];
             }
-            this.log(td.Util.format.apply(this, arguments), 2 /* Error */);
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Error);
         };
         /**
          * Print a log message.
@@ -644,8 +644,8 @@ var td;
          * @param newLine  Should the logger print a trailing whitespace?
          */
         Logger.prototype.log = function (message, level, newLine) {
-            if (level === void 0) { level = 0 /* Info */; }
-            if (level == 2 /* Error */) {
+            if (level === void 0) { level = LogLevel.Info; }
+            if (level == LogLevel.Error) {
                 this.errorCount += 1;
             }
         };
@@ -668,22 +668,22 @@ var td;
         Logger.prototype.diagnostic = function (diagnostic) {
             var output;
             if (diagnostic.file) {
-                output = diagnostic.file.filename;
-                output += '(' + diagnostic.file.getLineAndCharacterFromPosition(diagnostic.start).line + ')';
+                output = diagnostic.file.fileName;
+                output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
                 output += ts.sys.newLine + ' ' + diagnostic.messageText;
             }
             else {
                 output = diagnostic.messageText;
             }
             switch (diagnostic.category) {
-                case 1 /* Error */:
-                    this.log(output, 2 /* Error */);
+                case ts.DiagnosticCategory.Error:
+                    this.log(output, LogLevel.Error);
                     break;
-                case 0 /* Warning */:
-                    this.log(output, 1 /* Warn */);
+                case ts.DiagnosticCategory.Warning:
+                    this.log(output, LogLevel.Warn);
                     break;
-                case 2 /* Message */:
-                    this.log(output, 0 /* Info */);
+                case ts.DiagnosticCategory.Message:
+                    this.log(output, LogLevel.Info);
             }
         };
         return Logger;
@@ -705,20 +705,20 @@ var td;
          * @param newLine  Should the logger print a trailing whitespace?
          */
         ConsoleLogger.prototype.log = function (message, level, newLine) {
-            if (level === void 0) { level = 0 /* Info */; }
-            if (level == 2 /* Error */) {
+            if (level === void 0) { level = LogLevel.Info; }
+            if (level == LogLevel.Error) {
                 this.errorCount += 1;
             }
             var output = '';
-            if (level == 2 /* Error */)
+            if (level == LogLevel.Error)
                 output += 'Error: ';
-            if (level == 1 /* Warn */)
+            if (level == LogLevel.Warn)
                 output += 'Warning: ';
             output += message;
-            if (newLine || level == 3 /* Success */)
+            if (newLine || level == LogLevel.Success)
                 ts.sys.write(ts.sys.newLine);
             ts.sys.write(output + ts.sys.newLine);
-            if (level == 3 /* Success */)
+            if (level == LogLevel.Success)
                 ts.sys.write(ts.sys.newLine);
         };
         return ConsoleLogger;
@@ -746,8 +746,8 @@ var td;
          * @param newLine  Should the logger print a trailing whitespace?
          */
         CallbackLogger.prototype.log = function (message, level, newLine) {
-            if (level === void 0) { level = 0 /* Info */; }
-            if (level == 2 /* Error */) {
+            if (level === void 0) { level = LogLevel.Info; }
+            if (level == LogLevel.Error) {
                 this.errorCount += 1;
             }
             this.callback(message, level, newLine);
@@ -833,15 +833,15 @@ var td;
                     _this.addParameter.apply(_this, param);
                     return;
                 }
-                param.type = param.type || 0 /* String */;
-                param.scope = param.scope || 0 /* TypeDoc */;
+                param.type = param.type || ParameterType.String;
+                param.scope = param.scope || ParameterScope.TypeDoc;
                 _this.arguments[param.name.toLowerCase()] = param;
                 if (param.short) {
                     _this.shortNames[param.short.toLowerCase()] = param.name;
                 }
                 if (param.defaultValue && !param.isArray) {
                     var name = param.name;
-                    var target = (param.scope == 0 /* TypeDoc */) ? _this.application.options : _this.application.compilerOptions;
+                    var target = (param.scope == ParameterScope.TypeDoc) ? _this.application.options : _this.application.compilerOptions;
                     if (!target[name]) {
                         target[name] = param.defaultValue;
                     }
@@ -855,21 +855,21 @@ var td;
             this.addParameter({
                 name: 'out',
                 help: 'Specifies the location the documentation should be written to.',
-                hint: 1 /* Directory */
+                hint: ParameterHint.Directory
             }, {
                 name: 'json',
                 help: 'Specifies the location and file name a json file describing the project is written to.',
-                hint: 0 /* File */
+                hint: ParameterHint.File
             }, {
                 name: 'version',
                 short: 'v',
                 help: 'Print the TypeDoc\'s version.',
-                type: 2 /* Boolean */
+                type: ParameterType.Boolean
             }, {
                 name: 'help',
                 short: 'h',
                 help: 'Print this message.',
-                type: 2 /* Boolean */
+                type: ParameterType.Boolean
             });
         };
         /**
@@ -879,29 +879,29 @@ var td;
             this.addParameter({
                 name: 'theme',
                 help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
-                type: 0 /* String */
+                type: ParameterType.String
             }, {
                 name: OptionsParser.OPTIONS_KEY,
                 help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
-                type: 0 /* String */,
-                hint: 0 /* File */
+                type: ParameterType.String,
+                hint: ParameterHint.File
             }, {
                 name: 'exclude',
                 help: 'Define a pattern for excluded files when specifying paths.',
-                type: 0 /* String */
+                type: ParameterType.String
             }, {
                 name: 'plugin',
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
-                type: 0 /* String */,
+                type: ParameterType.String,
                 isArray: true
             }, {
                 name: 'logger',
                 help: 'Specify the logger that should be used, \'none\' or \'console\'',
-                defaultValue: 1 /* Console */,
-                type: 3 /* Map */,
+                defaultValue: td.LoggerType.Console,
+                type: ParameterType.Map,
                 map: {
-                    'none': 0 /* None */,
-                    'console': 1 /* Console */
+                    'none': td.LoggerType.None,
+                    'console': td.LoggerType.Console
                 },
                 convert: function (param, value) {
                     if (typeof value == 'function') {
@@ -926,32 +926,32 @@ var td;
                     name: option.name,
                     short: option.shortName,
                     help: option.description ? option.description.key : null,
-                    scope: 1 /* TypeScript */
+                    scope: ParameterScope.TypeScript
                 };
                 switch (option.type) {
                     case "number":
-                        param.type = 1 /* Number */;
+                        param.type = ParameterType.Number;
                         break;
                     case "boolean":
-                        param.type = 2 /* Boolean */;
+                        param.type = ParameterType.Boolean;
                         break;
                     case "string":
-                        param.type = 0 /* String */;
+                        param.type = ParameterType.String;
                         break;
                     default:
-                        param.type = 3 /* Map */;
+                        param.type = ParameterType.Map;
                         param.map = option.type;
                         if (option.error) {
                             var error = ts.createCompilerDiagnostic(option.error);
-                            param.mapError = error.messageText;
+                            param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                         }
                 }
                 switch (option.paramType) {
                     case ts.Diagnostics.FILE:
-                        param.hint = 0 /* File */;
+                        param.hint = ParameterHint.File;
                         break;
                     case ts.Diagnostics.DIRECTORY:
-                        param.hint = 1 /* Directory */;
+                        param.hint = ParameterHint.Directory;
                         break;
                 }
                 _this.addParameter(param);
@@ -1031,7 +1031,7 @@ var td;
                 return false;
             }
             var name = param.name;
-            var target = (param.scope == 0 /* TypeDoc */) ? this.application.options : this.application.compilerOptions;
+            var target = (param.scope == ParameterScope.TypeDoc) ? this.application.options : this.application.compilerOptions;
             if (param.isArray) {
                 (target[name] = target[name] || []).push(value);
             }
@@ -1185,7 +1185,7 @@ var td;
                         logger.error('Unknown option: %s', arg);
                         return false;
                     }
-                    else if (parameter.type !== 2 /* Boolean */) {
+                    else if (parameter.type !== ParameterType.Boolean) {
                         if (!args[index]) {
                             if (ignoreUnknownArgs)
                                 continue;
@@ -1290,8 +1290,8 @@ var td;
          * Taken from TypeScript (src/compiler/tsc.ts)
          */
         OptionsParser.prototype.toString = function () {
-            var typeDoc = this.getParameterHelp(0 /* TypeDoc */);
-            var typeScript = this.getParameterHelp(1 /* TypeScript */);
+            var typeDoc = this.getParameterHelp(ParameterScope.TypeDoc);
+            var typeScript = this.getParameterHelp(ParameterScope.TypeScript);
             var margin = Math.max(typeDoc.margin, typeScript.margin);
             var output = [];
             output.push('Usage:');
@@ -1322,16 +1322,16 @@ var td;
          */
         OptionsParser.convert = function (param, value) {
             switch (param.type) {
-                case 1 /* Number */:
+                case ParameterType.Number:
                     value = parseInt(value);
                     break;
-                case 2 /* Boolean */:
+                case ParameterType.Boolean:
                     value = (typeof value == 'undefined' ? true : !!value);
                     break;
-                case 0 /* String */:
+                case ParameterType.String:
                     value = value || "";
                     break;
-                case 3 /* Map */:
+                case ParameterType.Map:
                     var map = param.map;
                     var key = value ? (value + "").toLowerCase() : '';
                     if (ts.hasProperty(map, key)) {
@@ -1372,15 +1372,9 @@ var td;
          * A list of all TypeScript parameters that should be ignored.
          */
         OptionsParser.IGNORED_TS_PARAMS = [
-            'out',
-            'outDir',
-            'version',
-            'help',
-            'watch',
-            'declaration',
-            'mapRoot',
-            'sourceMap',
-            'removeComments'
+            'out', 'outDir', 'version', 'help',
+            'watch', 'declaration', 'mapRoot',
+            'sourceMap', 'removeComments'
         ];
         /**
          * The name of the parameter that specifies the options file.
@@ -1567,6 +1561,7 @@ var td;
                             continue;
                         }
                         if (m < 1) {
+                            // No match at all, try next known base path
                             continue basePaths;
                         }
                         else {
@@ -1628,7 +1623,7 @@ var td;
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_1) {
         /**
          * The context describes the current state the converter is in.
          */
@@ -1640,7 +1635,7 @@ var td;
              * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
              * @param checker  The TypeChecker instance returned by the TypeScript compiler.
              */
-            function Context(converter, fileNames, checker) {
+            function Context(converter, fileNames, checker, program) {
                 /**
                  * Next free symbol id used by [[getSymbolID]].
                  */
@@ -1648,6 +1643,7 @@ var td;
                 this.converter = converter;
                 this.fileNames = fileNames;
                 this.checker = checker;
+                this.program = program;
                 var project = new td.models.ProjectReflection(this.getOptions().name);
                 this.project = project;
                 this.scope = project;
@@ -1684,8 +1680,7 @@ var td;
                             return this.checker.getDeclaredTypeOfSymbol(node.symbol);
                         }
                     }
-                    catch (error) {
-                    }
+                    catch (error) { }
                 }
                 return null;
             };
@@ -1751,9 +1746,9 @@ var td;
             Context.prototype.withSourceFile = function (node, callback) {
                 var options = this.converter.application.options;
                 var externalPattern = this.externalPattern;
-                var isExternal = this.fileNames.indexOf(node.filename) == -1;
+                var isExternal = this.fileNames.indexOf(node.fileName) == -1;
                 if (externalPattern) {
-                    isExternal = isExternal || externalPattern.match(node.filename);
+                    isExternal = isExternal || externalPattern.match(node.fileName);
                 }
                 if (isExternal && options.excludeExternals) {
                     return;
@@ -1761,14 +1756,14 @@ var td;
                 var isDeclaration = ts.isDeclarationFile(node);
                 if (isDeclaration) {
                     var lib = this.converter.getDefaultLib();
-                    var isLib = node.filename.substr(-lib.length) == lib;
+                    var isLib = node.fileName.substr(-lib.length) == lib;
                     if (!options.includeDeclarations || isLib) {
                         return;
                     }
                 }
                 this.isExternal = isExternal;
                 this.isDeclaration = isDeclaration;
-                this.trigger(_converter.Converter.EVENT_FILE_BEGIN, this.project, node);
+                this.trigger(converter_1.Converter.EVENT_FILE_BEGIN, this.project, node);
                 callback();
                 this.isExternal = false;
                 this.isDeclaration = false;
@@ -1835,12 +1830,12 @@ var td;
                     this.inherited = [];
                 }
                 if (typeArguments) {
-                    this.typeArguments = typeArguments.map(function (t) { return _converter.convertType(_this, t); });
+                    this.typeArguments = typeArguments.map(function (t) { return converter_1.convertType(_this, t); });
                 }
                 else {
                     this.typeArguments = null;
                 }
-                _converter.visit(this, baseNode);
+                converter_1.visit(this, baseNode);
                 this.isInherit = wasInherit;
                 this.inherited = oldInherited;
                 this.inheritParent = oldInheritParent;
@@ -1873,14 +1868,14 @@ var td;
                         typeParameters[name] = _this.typeArguments[index];
                     }
                     else {
-                        typeParameters[name] = _converter.createTypeParameter(_this, declaration);
+                        typeParameters[name] = converter_1.createTypeParameter(_this, declaration);
                     }
                 });
                 return typeParameters;
             };
             return Context;
         })();
-        _converter.Context = Context;
+        converter_1.Context = Context;
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 /// <reference path="../PluginHost.ts" />
@@ -1911,33 +1906,33 @@ var td;
              */
             Converter.prototype.getParameters = function () {
                 return _super.prototype.getParameters.call(this).concat([{
-                    name: "name",
-                    help: 'Set the name of the project that will be used in the header of the template.'
-                }, {
-                    name: "mode",
-                    help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-                    type: 3 /* Map */,
-                    map: {
-                        'file': 0 /* File */,
-                        'modules': 1 /* Modules */
-                    },
-                    defaultValue: 1 /* Modules */
-                }, {
-                    name: "externalPattern",
-                    key: 'Define a pattern for files that should be considered being external.'
-                }, {
-                    name: "includeDeclarations",
-                    help: 'Turn on parsing of .d.ts declaration files.',
-                    type: 2 /* Boolean */
-                }, {
-                    name: "excludeExternals",
-                    help: 'Prevent externally resolved TypeScript files from being documented.',
-                    type: 2 /* Boolean */
-                }, {
-                    name: "excludeNotExported",
-                    help: 'Prevent symbols that are not exported from being documented.',
-                    type: 2 /* Boolean */
-                }]);
+                        name: "name",
+                        help: 'Set the name of the project that will be used in the header of the template.'
+                    }, {
+                        name: "mode",
+                        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+                        type: td.ParameterType.Map,
+                        map: {
+                            'file': td.SourceFileMode.File,
+                            'modules': td.SourceFileMode.Modules
+                        },
+                        defaultValue: td.SourceFileMode.Modules
+                    }, {
+                        name: "externalPattern",
+                        key: 'Define a pattern for files that should be considered being external.'
+                    }, {
+                        name: "includeDeclarations",
+                        help: 'Turn on parsing of .d.ts declaration files.',
+                        type: td.ParameterType.Boolean
+                    }, {
+                        name: "excludeExternals",
+                        help: 'Prevent externally resolved TypeScript files from being documented.',
+                        type: td.ParameterType.Boolean
+                    }, {
+                        name: "excludeNotExported",
+                        help: 'Prevent symbols that are not exported from being documented.',
+                        type: td.ParameterType.Boolean
+                    }]);
             };
             /**
              * Compile the given source files and create a project reflection for them.
@@ -1949,8 +1944,8 @@ var td;
                     fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
                 }
                 var program = ts.createProgram(fileNames, this.application.compilerOptions, this);
-                var checker = program.getTypeChecker(true);
-                var context = new converter.Context(this, fileNames, checker);
+                var checker = program.getTypeChecker();
+                var context = new converter.Context(this, fileNames, checker, program);
                 this.dispatch(Converter.EVENT_BEGIN, context);
                 var errors = this.compile(context);
                 var project = this.resolve(context);
@@ -1967,12 +1962,24 @@ var td;
              * @returns An array containing all errors generated by the TypeScript compiler.
              */
             Converter.prototype.compile = function (context) {
-                var checker = context.checker;
-                var program = checker.getProgram();
+                var program = context.program;
                 program.getSourceFiles().forEach(function (sourceFile) {
                     converter.visit(context, sourceFile);
                 });
-                return program.getDiagnostics().concat(checker.getDiagnostics());
+                // First get any syntactic errors.
+                var diagnostics = program.getSyntacticDiagnostics();
+                if (diagnostics.length === 0) {
+                    diagnostics = program.getGlobalDiagnostics();
+                    if (diagnostics.length === 0) {
+                        return program.getSemanticDiagnostics();
+                    }
+                    else {
+                        return diagnostics;
+                    }
+                }
+                else {
+                    return diagnostics;
+                }
             };
             /**
              * Resolve the project within the given context.
@@ -2023,7 +2030,7 @@ var td;
                     }
                     text = "";
                 }
-                return text !== undefined ? ts.createSourceFile(filename, text, languageVersion, "0") : undefined;
+                return text !== undefined ? ts.createSourceFile(filename, text, languageVersion) : undefined;
             };
             /**
              * Return the full path of the default library that should be used.
@@ -2032,7 +2039,7 @@ var td;
              *
              * @returns The full path of the default library.
              */
-            Converter.prototype.getDefaultLibFilename = function () {
+            Converter.prototype.getDefaultLibFileName = function (options) {
                 var lib = this.getDefaultLib();
                 var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
                 return td.Path.join(path, 'bin', lib);
@@ -2090,8 +2097,7 @@ var td;
              * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
              * @param onError  A callback that will be invoked if an error occurs.
              */
-            Converter.prototype.writeFile = function (fileName, data, writeByteOrderMark, onError) {
-            };
+            Converter.prototype.writeFile = function (fileName, data, writeByteOrderMark, onError) { };
             /**
              * Return code of ts.sys.readFile when the file encoding is unsupported.
              */
@@ -2179,7 +2185,7 @@ var td;
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_2) {
         var ConverterPlugin = (function () {
             /**
              * Create a new CommentPlugin instance.
@@ -2198,7 +2204,7 @@ var td;
             };
             return ConverterPlugin;
         })();
-        _converter.ConverterPlugin = ConverterPlugin;
+        converter_2.ConverterPlugin = ConverterPlugin;
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
@@ -2215,16 +2221,16 @@ var td;
             if (!node.initializer)
                 return;
             switch (node.initializer.kind) {
-                case 7 /* StringLiteral */:
+                case 8 /* StringLiteral */:
                     return '"' + node.initializer.text + '"';
                     break;
-                case 6 /* NumericLiteral */:
+                case 7 /* NumericLiteral */:
                     return node.initializer.text;
                     break;
-                case 93 /* TrueKeyword */:
+                case 95 /* TrueKeyword */:
                     return 'true';
                     break;
-                case 78 /* FalseKeyword */:
+                case 80 /* FalseKeyword */:
                     return 'false';
                     break;
                 default:
@@ -2245,49 +2251,53 @@ var td;
          */
         function visit(context, node) {
             switch (node.kind) {
-                case 201 /* SourceFile */:
+                case 228 /* SourceFile */:
                     return visitSourceFile(context, node);
-                case 185 /* ClassDeclaration */:
+                case 175 /* ClassExpression */:
+                case 202 /* ClassDeclaration */:
                     return visitClassDeclaration(context, node);
-                case 186 /* InterfaceDeclaration */:
+                case 203 /* InterfaceDeclaration */:
                     return visitInterfaceDeclaration(context, node);
-                case 189 /* ModuleDeclaration */:
+                case 206 /* ModuleDeclaration */:
                     return visitModuleDeclaration(context, node);
-                case 164 /* VariableStatement */:
+                case 181 /* VariableStatement */:
                     return visitVariableStatement(context, node);
-                case 124 /* Property */:
-                case 198 /* PropertyAssignment */:
-                case 183 /* VariableDeclaration */:
+                case 132 /* PropertySignature */:
+                case 133 /* PropertyDeclaration */:
+                case 225 /* PropertyAssignment */:
+                case 226 /* ShorthandPropertyAssignment */:
+                case 199 /* VariableDeclaration */:
                     return visitVariableDeclaration(context, node);
-                case 188 /* EnumDeclaration */:
+                case 205 /* EnumDeclaration */:
                     return visitEnumDeclaration(context, node);
-                case 200 /* EnumMember */:
+                case 227 /* EnumMember */:
                     return visitEnumMember(context, node);
-                case 126 /* Constructor */:
-                case 130 /* ConstructSignature */:
+                case 136 /* Constructor */:
+                case 140 /* ConstructSignature */:
                     return visitConstructor(context, node);
-                case 125 /* Method */:
-                case 184 /* FunctionDeclaration */:
+                case 134 /* MethodSignature */:
+                case 135 /* MethodDeclaration */:
+                case 201 /* FunctionDeclaration */:
                     return visitFunctionDeclaration(context, node);
-                case 127 /* GetAccessor */:
+                case 137 /* GetAccessor */:
                     return visitGetAccessorDeclaration(context, node);
-                case 128 /* SetAccessor */:
+                case 138 /* SetAccessor */:
                     return visitSetAccessorDeclaration(context, node);
-                case 129 /* CallSignature */:
-                case 133 /* FunctionType */:
+                case 139 /* CallSignature */:
+                case 143 /* FunctionType */:
                     return visitCallSignatureDeclaration(context, node);
-                case 131 /* IndexSignature */:
+                case 141 /* IndexSignature */:
                     return visitIndexSignatureDeclaration(context, node);
-                case 163 /* Block */:
-                case 190 /* ModuleBlock */:
+                case 180 /* Block */:
+                case 207 /* ModuleBlock */:
                     return visitBlock(context, node);
-                case 142 /* ObjectLiteralExpression */:
+                case 155 /* ObjectLiteralExpression */:
                     return visitObjectLiteral(context, node);
-                case 136 /* TypeLiteral */:
+                case 146 /* TypeLiteral */:
                     return visitTypeLiteral(context, node);
-                case 192 /* ExportAssignment */:
+                case 215 /* ExportAssignment */:
                     return visitExportAssignment(context, node);
-                case 187 /* TypeAliasDeclaration */:
+                case 204 /* TypeAliasDeclaration */:
                     return visitTypeAliasDeclaration(context, node);
                 default:
                     return null;
@@ -2296,7 +2306,7 @@ var td;
         converter.visit = visit;
         function visitBlock(context, node) {
             if (node.statements) {
-                var prefered = [185 /* ClassDeclaration */, 186 /* InterfaceDeclaration */, 188 /* EnumDeclaration */];
+                var prefered = [202 /* ClassDeclaration */, 203 /* InterfaceDeclaration */, 205 /* EnumDeclaration */];
                 var statements = [];
                 node.statements.forEach(function (statement) {
                     if (prefered.indexOf(statement.kind) != -1) {
@@ -2323,11 +2333,11 @@ var td;
             var result = context.scope;
             var options = context.getOptions();
             context.withSourceFile(node, function () {
-                if (options.mode == 1 /* Modules */) {
-                    result = converter.createDeclaration(context, node, 1 /* ExternalModule */, node.filename);
+                if (options.mode == td.SourceFileMode.Modules) {
+                    result = converter.createDeclaration(context, node, td.models.ReflectionKind.ExternalModule, node.fileName);
                     context.withScope(result, function () {
                         visitBlock(context, node);
-                        result.setFlag(16 /* Exported */);
+                        result.setFlag(td.models.ReflectionFlag.Exported);
                     });
                 }
                 else {
@@ -2345,11 +2355,12 @@ var td;
          */
         function visitModuleDeclaration(context, node) {
             var parent = context.scope;
-            var reflection = converter.createDeclaration(context, node, 2 /* Module */);
+            var reflection = converter.createDeclaration(context, node, td.models.ReflectionKind.Module);
             context.withScope(reflection, function () {
                 var opt = context.getCompilerOptions();
-                if (parent instanceof td.models.ProjectReflection && !context.isDeclaration && (!opt.module || opt.module == 0 /* None */)) {
-                    reflection.setFlag(16 /* Exported */);
+                if (parent instanceof td.models.ProjectReflection && !context.isDeclaration &&
+                    (!opt.module || opt.module == 0 /* None */)) {
+                    reflection.setFlag(td.models.ReflectionFlag.Exported);
                 }
                 if (node.body) {
                     visit(context, node.body);
@@ -2370,7 +2381,7 @@ var td;
                 reflection = context.scope;
             }
             else {
-                reflection = converter.createDeclaration(context, node, 128 /* Class */);
+                reflection = converter.createDeclaration(context, node, td.models.ReflectionKind.Class);
             }
             context.withScope(reflection, node.typeParameters, function () {
                 if (node.members) {
@@ -2378,7 +2389,7 @@ var td;
                         visit(context, member);
                     });
                 }
-                var baseType = ts.getClassBaseTypeNode(node);
+                var baseType = ts.getClassExtendsHeritageClauseElement(node);
                 if (baseType) {
                     var type = context.getTypeAtLocation(baseType);
                     if (!context.isInherit) {
@@ -2392,7 +2403,7 @@ var td;
                         });
                     }
                 }
-                var implementedTypes = ts.getClassImplementedTypeNodes(node);
+                var implementedTypes = ts.getClassImplementsHeritageClauseElements(node);
                 if (implementedTypes) {
                     implementedTypes.forEach(function (implementedType) {
                         if (!reflection.implementedTypes) {
@@ -2417,7 +2428,7 @@ var td;
                 reflection = context.scope;
             }
             else {
-                reflection = converter.createDeclaration(context, node, 256 /* Interface */);
+                reflection = converter.createDeclaration(context, node, td.models.ReflectionKind.Interface);
             }
             context.withScope(reflection, node.typeParameters, function () {
                 if (node.members) {
@@ -2452,8 +2463,8 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitVariableStatement(context, node) {
-            if (node.declarations) {
-                node.declarations.forEach(function (variableDeclaration) {
+            if (node.declarationList && node.declarationList.declarations) {
+                node.declarationList.declarations.forEach(function (variableDeclaration) {
                     visitVariableDeclaration(context, variableDeclaration);
                 });
             }
@@ -2484,19 +2495,19 @@ var td;
                 }
             }
             var scope = context.scope;
-            var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? 1024 /* Property */ : 32 /* Variable */;
+            var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Property : td.models.ReflectionKind.Variable;
             var variable = converter.createDeclaration(context, node, kind);
             context.withScope(variable, function () {
                 if (node.initializer) {
                     switch (node.initializer.kind) {
-                        case 151 /* ArrowFunction */:
-                        case 150 /* FunctionExpression */:
-                            variable.kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
+                        case 164 /* ArrowFunction */:
+                        case 163 /* FunctionExpression */:
+                            variable.kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Method : td.models.ReflectionKind.Function;
                             visitCallSignatureDeclaration(context, node.initializer);
                             break;
-                        case 142 /* ObjectLiteralExpression */:
+                        case 155 /* ObjectLiteralExpression */:
                             if (!isSimpleObjectLiteral(node.initializer)) {
-                                variable.kind = 2097152 /* ObjectLiteral */;
+                                variable.kind = td.models.ReflectionKind.ObjectLiteral;
                                 variable.type = new td.models.IntrinsicType('object');
                                 visitObjectLiteral(context, node.initializer);
                             }
@@ -2505,7 +2516,7 @@ var td;
                             variable.defaultValue = getDefaultValue(node);
                     }
                 }
-                if (variable.kind == kind || variable.kind == 8388608 /* Event */) {
+                if (variable.kind == kind || variable.kind == td.models.ReflectionKind.Event) {
                     variable.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
                 }
             });
@@ -2519,7 +2530,7 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitEnumDeclaration(context, node) {
-            var enumeration = converter.createDeclaration(context, node, 4 /* Enum */);
+            var enumeration = converter.createDeclaration(context, node, td.models.ReflectionKind.Enum);
             context.withScope(enumeration, function () {
                 if (node.members) {
                     node.members.forEach(function (node) {
@@ -2537,7 +2548,7 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitEnumMember(context, node) {
-            var member = converter.createDeclaration(context, node, 16 /* EnumMember */);
+            var member = converter.createDeclaration(context, node, td.models.ReflectionKind.EnumMember);
             if (member) {
                 member.defaultValue = getDefaultValue(node);
             }
@@ -2555,10 +2566,10 @@ var td;
                 var visibility = param.flags & (16 /* Public */ | 64 /* Protected */ | 32 /* Private */);
                 if (!visibility)
                     return;
-                var property = converter.createDeclaration(context, param, 1024 /* Property */);
+                var property = converter.createDeclaration(context, param, td.models.ReflectionKind.Property);
                 if (!property)
                     return;
-                property.setFlag(8 /* Static */, false);
+                property.setFlag(td.models.ReflectionFlag.Static, false);
                 property.type = converter.convertType(context, param.type, context.getTypeAtLocation(param));
                 var sourceComment = converter.CommentPlugin.getComment(node);
                 if (sourceComment) {
@@ -2582,12 +2593,12 @@ var td;
         function visitConstructor(context, node) {
             var parent = context.scope;
             var hasBody = !!node.body;
-            var method = converter.createDeclaration(context, node, 512 /* Constructor */, 'constructor');
+            var method = converter.createDeclaration(context, node, td.models.ReflectionKind.Constructor, 'constructor');
             visitConstructorModifiers(context, node);
             context.withScope(method, function () {
                 if (!hasBody || !method.signatures) {
                     var name = 'new ' + parent.name;
-                    var signature = converter.createSignature(context, node, name, 16384 /* ConstructorSignature */);
+                    var signature = converter.createSignature(context, node, name, td.models.ReflectionKind.ConstructorSignature);
                     signature.type = new td.models.ReferenceType(parent.name, td.models.ReferenceType.SYMBOL_ID_RESOLVED, parent);
                     method.signatures = method.signatures || [];
                     method.signatures.push(signature);
@@ -2600,12 +2611,12 @@ var td;
         }
         function visitFunctionDeclaration(context, node) {
             var scope = context.scope;
-            var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? 2048 /* Method */ : 64 /* Function */;
+            var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Method : td.models.ReflectionKind.Function;
             var hasBody = !!node.body;
             var method = converter.createDeclaration(context, node, kind);
             context.withScope(method, function () {
                 if (!hasBody || !method.signatures) {
-                    var signature = converter.createSignature(context, node, method.name, 4096 /* CallSignature */);
+                    var signature = converter.createSignature(context, node, method.name, td.models.ReflectionKind.CallSignature);
                     if (!method.signatures)
                         method.signatures = [];
                     method.signatures.push(signature);
@@ -2620,7 +2631,7 @@ var td;
             var scope = context.scope;
             if (scope instanceof td.models.DeclarationReflection) {
                 var name = scope.kindOf(td.models.ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-                var signature = converter.createSignature(context, node, name, 4096 /* CallSignature */);
+                var signature = converter.createSignature(context, node, name, td.models.ReflectionKind.CallSignature);
                 if (!scope.signatures)
                     scope.signatures = [];
                 scope.signatures.push(signature);
@@ -2637,7 +2648,7 @@ var td;
         function visitIndexSignatureDeclaration(context, node) {
             var scope = context.scope;
             if (scope instanceof td.models.DeclarationReflection) {
-                scope.indexSignature = converter.createSignature(context, node, '__index', 8192 /* IndexSignature */);
+                scope.indexSignature = converter.createSignature(context, node, '__index', td.models.ReflectionKind.IndexSignature);
             }
             return scope;
         }
@@ -2649,9 +2660,9 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitGetAccessorDeclaration(context, node) {
-            var accessor = converter.createDeclaration(context, node, 262144 /* Accessor */);
+            var accessor = converter.createDeclaration(context, node, td.models.ReflectionKind.Accessor);
             context.withScope(accessor, function () {
-                accessor.getSignature = converter.createSignature(context, node, '__get', 524288 /* GetSignature */);
+                accessor.getSignature = converter.createSignature(context, node, '__get', td.models.ReflectionKind.GetSignature);
             });
             return accessor;
         }
@@ -2663,9 +2674,9 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitSetAccessorDeclaration(context, node) {
-            var accessor = converter.createDeclaration(context, node, 262144 /* Accessor */);
+            var accessor = converter.createDeclaration(context, node, td.models.ReflectionKind.Accessor);
             context.withScope(accessor, function () {
-                accessor.setSignature = converter.createSignature(context, node, '__set', 1048576 /* SetSignature */);
+                accessor.setSignature = converter.createSignature(context, node, '__set', td.models.ReflectionKind.SetSignature);
             });
             return accessor;
         }
@@ -2707,14 +2718,17 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visitTypeAliasDeclaration(context, node) {
-            var alias = converter.createDeclaration(context, node, 4194304 /* TypeAlias */);
+            var alias = converter.createDeclaration(context, node, td.models.ReflectionKind.TypeAlias);
             context.withScope(alias, function () {
                 alias.type = converter.convertType(context, node.type, context.getTypeAtLocation(node.type));
             });
             return alias;
         }
         function visitExportAssignment(context, node) {
-            var type = context.getTypeAtLocation(node.exportName);
+            if (!node.isExportEquals) {
+                return context.scope;
+            }
+            var type = context.getTypeAtLocation(node.expression);
             if (type && type.symbol) {
                 var project = context.project;
                 type.symbol.declarations.forEach(function (declaration) {
@@ -2725,14 +2739,14 @@ var td;
                         return;
                     var reflection = project.reflections[id];
                     if (reflection instanceof td.models.DeclarationReflection) {
-                        reflection.setFlag(32 /* ExportAssignment */, true);
+                        reflection.setFlag(td.models.ReflectionFlag.ExportAssignment, true);
                     }
                     markAsExported(reflection);
                 });
             }
             function markAsExported(reflection) {
                 if (reflection instanceof td.models.DeclarationReflection) {
-                    reflection.setFlag(16 /* Exported */, true);
+                    reflection.setFlag(td.models.ReflectionFlag.Exported, true);
                 }
                 reflection.traverse(markAsExported);
             }
@@ -2759,14 +2773,15 @@ var td;
                 if (isTypeAlias(context, node, type)) {
                     return convertTypeAliasNode(node);
                 }
+                // Node based type conversions by node kind
                 switch (node.kind) {
-                    case 7 /* StringLiteral */:
+                    case 8 /* StringLiteral */:
                         return convertStringLiteralExpression(node);
-                    case 137 /* ArrayType */:
+                    case 147 /* ArrayType */:
                         return convertArrayTypeNode(context, node);
-                    case 138 /* TupleType */:
+                    case 148 /* TupleType */:
                         return convertTupleTypeNode(context, node);
-                    case 139 /* UnionType */:
+                    case 149 /* UnionType */:
                         return convertUnionTypeNode(context, node);
                 }
                 // Node based type conversions by type flags
@@ -2781,7 +2796,7 @@ var td;
             }
             // Type conversions by type flags
             if (type) {
-                if (type.flags & 127 /* Intrinsic */) {
+                if (type.flags & 1048703 /* Intrinsic */) {
                     return convertIntrinsicType(type);
                 }
                 else if (type.flags & 256 /* StringLiteral */) {
@@ -2860,7 +2875,7 @@ var td;
          */
         function convertTypeLiteral(context, symbol, node) {
             var declaration = new td.models.DeclarationReflection();
-            declaration.kind = 65536 /* TypeLiteral */;
+            declaration.kind = td.models.ReflectionKind.TypeLiteral;
             declaration.name = '__type';
             declaration.parent = context.scope;
             context.registerReflection(declaration, null, symbol);
@@ -3177,6 +3192,372 @@ var td;
         }
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
+/**
+ * Holds all data models used by TypeDoc.
+ *
+ * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
+ * serves as the root container for the current project while [[DeclarationReflection]] instances
+ * form the structure of the project. Most of the other classes in this namespace are referenced by this
+ * two base classes.
+ *
+ * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+ * while creating the final output.
+ */
+var td;
+(function (td) {
+    var models;
+    (function (models) {
+        /**
+         * Current reflection id.
+         */
+        var REFLECTION_ID = 0;
+        /**
+         * Reset the reflection id.
+         *
+         * Used by the test cases to ensure the reflection ids won't change between runs.
+         */
+        function resetReflectionID() {
+            REFLECTION_ID = 0;
+        }
+        models.resetReflectionID = resetReflectionID;
+        /**
+         * Defines the available reflection kinds.
+         */
+        (function (ReflectionKind) {
+            ReflectionKind[ReflectionKind["Global"] = 0] = "Global";
+            ReflectionKind[ReflectionKind["ExternalModule"] = 1] = "ExternalModule";
+            ReflectionKind[ReflectionKind["Module"] = 2] = "Module";
+            ReflectionKind[ReflectionKind["Enum"] = 4] = "Enum";
+            ReflectionKind[ReflectionKind["EnumMember"] = 16] = "EnumMember";
+            ReflectionKind[ReflectionKind["Variable"] = 32] = "Variable";
+            ReflectionKind[ReflectionKind["Function"] = 64] = "Function";
+            ReflectionKind[ReflectionKind["Class"] = 128] = "Class";
+            ReflectionKind[ReflectionKind["Interface"] = 256] = "Interface";
+            ReflectionKind[ReflectionKind["Constructor"] = 512] = "Constructor";
+            ReflectionKind[ReflectionKind["Property"] = 1024] = "Property";
+            ReflectionKind[ReflectionKind["Method"] = 2048] = "Method";
+            ReflectionKind[ReflectionKind["CallSignature"] = 4096] = "CallSignature";
+            ReflectionKind[ReflectionKind["IndexSignature"] = 8192] = "IndexSignature";
+            ReflectionKind[ReflectionKind["ConstructorSignature"] = 16384] = "ConstructorSignature";
+            ReflectionKind[ReflectionKind["Parameter"] = 32768] = "Parameter";
+            ReflectionKind[ReflectionKind["TypeLiteral"] = 65536] = "TypeLiteral";
+            ReflectionKind[ReflectionKind["TypeParameter"] = 131072] = "TypeParameter";
+            ReflectionKind[ReflectionKind["Accessor"] = 262144] = "Accessor";
+            ReflectionKind[ReflectionKind["GetSignature"] = 524288] = "GetSignature";
+            ReflectionKind[ReflectionKind["SetSignature"] = 1048576] = "SetSignature";
+            ReflectionKind[ReflectionKind["ObjectLiteral"] = 2097152] = "ObjectLiteral";
+            ReflectionKind[ReflectionKind["TypeAlias"] = 4194304] = "TypeAlias";
+            ReflectionKind[ReflectionKind["Event"] = 8388608] = "Event";
+            ReflectionKind[ReflectionKind["ClassOrInterface"] = 384] = "ClassOrInterface";
+            ReflectionKind[ReflectionKind["VariableOrProperty"] = 1056] = "VariableOrProperty";
+            ReflectionKind[ReflectionKind["FunctionOrMethod"] = 2112] = "FunctionOrMethod";
+            ReflectionKind[ReflectionKind["SomeSignature"] = 1601536] = "SomeSignature";
+            ReflectionKind[ReflectionKind["SomeModule"] = 3] = "SomeModule";
+        })(models.ReflectionKind || (models.ReflectionKind = {}));
+        var ReflectionKind = models.ReflectionKind;
+        (function (ReflectionFlag) {
+            ReflectionFlag[ReflectionFlag["Private"] = 1] = "Private";
+            ReflectionFlag[ReflectionFlag["Protected"] = 2] = "Protected";
+            ReflectionFlag[ReflectionFlag["Public"] = 4] = "Public";
+            ReflectionFlag[ReflectionFlag["Static"] = 8] = "Static";
+            ReflectionFlag[ReflectionFlag["Exported"] = 16] = "Exported";
+            ReflectionFlag[ReflectionFlag["ExportAssignment"] = 32] = "ExportAssignment";
+            ReflectionFlag[ReflectionFlag["External"] = 64] = "External";
+            ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
+            ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
+            ReflectionFlag[ReflectionFlag["Rest"] = 512] = "Rest";
+            ReflectionFlag[ReflectionFlag["ConstructorProperty"] = 1024] = "ConstructorProperty";
+        })(models.ReflectionFlag || (models.ReflectionFlag = {}));
+        var ReflectionFlag = models.ReflectionFlag;
+        var relevantFlags = [
+            ReflectionFlag.Private,
+            ReflectionFlag.Protected,
+            ReflectionFlag.Static,
+            ReflectionFlag.ExportAssignment,
+            ReflectionFlag.Optional,
+            ReflectionFlag.DefaultValue,
+            ReflectionFlag.Rest
+        ];
+        (function (TraverseProperty) {
+            TraverseProperty[TraverseProperty["Children"] = 0] = "Children";
+            TraverseProperty[TraverseProperty["Parameters"] = 1] = "Parameters";
+            TraverseProperty[TraverseProperty["TypeLiteral"] = 2] = "TypeLiteral";
+            TraverseProperty[TraverseProperty["TypeParameter"] = 3] = "TypeParameter";
+            TraverseProperty[TraverseProperty["Signatures"] = 4] = "Signatures";
+            TraverseProperty[TraverseProperty["IndexSignature"] = 5] = "IndexSignature";
+            TraverseProperty[TraverseProperty["GetSignature"] = 6] = "GetSignature";
+            TraverseProperty[TraverseProperty["SetSignature"] = 7] = "SetSignature";
+        })(models.TraverseProperty || (models.TraverseProperty = {}));
+        var TraverseProperty = models.TraverseProperty;
+        /**
+         * Base class for all reflection classes.
+         *
+         * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
+         * as the root for all reflections within the project. All other reflections are represented
+         * by the [[DeclarationReflection]] class.
+         *
+         * This base class exposes the basic properties one may use to traverse the reflection tree.
+         * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+         * contains a list of all children grouped and sorted for being rendered.
+         */
+        var Reflection = (function () {
+            /**
+             * Create a new BaseReflection instance.
+             */
+            function Reflection(parent, name, kind) {
+                /**
+                 * The symbol name of this reflection.
+                 */
+                this.name = '';
+                this.flags = [];
+                this.id = REFLECTION_ID++;
+                this.parent = parent;
+                this.name = name;
+                this.originalName = name;
+                this.kind = kind;
+            }
+            /**
+             * Test whether this reflection is of the given kind.
+             */
+            Reflection.prototype.kindOf = function (kind) {
+                if (Array.isArray(kind)) {
+                    for (var i = 0, c = kind.length; i < c; i++) {
+                        if ((this.kind & kind[i]) !== 0) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                else {
+                    return (this.kind & kind) !== 0;
+                }
+            };
+            /**
+             * Return the full name of this reflection.
+             *
+             * The full name contains the name of this reflection and the names of all parent reflections.
+             *
+             * @param separator  Separator used to join the names of the reflections.
+             * @returns The full name of this reflection.
+             */
+            Reflection.prototype.getFullName = function (separator) {
+                if (separator === void 0) { separator = '.'; }
+                if (this.parent && !(this.parent instanceof models.ProjectReflection)) {
+                    return this.parent.getFullName(separator) + separator + this.name;
+                }
+                else {
+                    return this.name;
+                }
+            };
+            /**
+             * Set a flag on this reflection.
+             */
+            Reflection.prototype.setFlag = function (flag, value) {
+                if (value === void 0) { value = true; }
+                var name, index;
+                if (relevantFlags.indexOf(flag) != -1) {
+                    name = ReflectionFlag[flag];
+                    name = name.replace(/(.)([A-Z])/g, function (m, a, b) { return a + ' ' + b.toLowerCase(); });
+                    index = this.flags.indexOf(name);
+                }
+                if (value) {
+                    this.flags.flags |= flag;
+                    if (name && index == -1) {
+                        this.flags.push(name);
+                    }
+                }
+                else {
+                    this.flags.flags &= ~flag;
+                    if (name && index != -1) {
+                        this.flags.splice(index, 1);
+                    }
+                }
+                switch (flag) {
+                    case ReflectionFlag.Private:
+                        this.flags.isPrivate = value;
+                        if (value) {
+                            this.setFlag(ReflectionFlag.Protected, false);
+                            this.setFlag(ReflectionFlag.Public, false);
+                        }
+                        break;
+                    case ReflectionFlag.Protected:
+                        this.flags.isProtected = value;
+                        if (value) {
+                            this.setFlag(ReflectionFlag.Private, false);
+                            this.setFlag(ReflectionFlag.Public, false);
+                        }
+                        break;
+                    case ReflectionFlag.Public:
+                        this.flags.isPublic = value;
+                        if (value) {
+                            this.setFlag(ReflectionFlag.Private, false);
+                            this.setFlag(ReflectionFlag.Protected, false);
+                        }
+                        break;
+                    case ReflectionFlag.Static:
+                        this.flags.isStatic = value;
+                        break;
+                    case ReflectionFlag.Exported:
+                        this.flags.isExported = value;
+                        break;
+                    case ReflectionFlag.External:
+                        this.flags.isExternal = value;
+                        break;
+                    case ReflectionFlag.Optional:
+                        this.flags.isOptional = value;
+                        break;
+                    case ReflectionFlag.Rest:
+                        this.flags.isRest = value;
+                        break;
+                    case ReflectionFlag.ExportAssignment:
+                        this.flags.hasExportAssignment = value;
+                        break;
+                    case ReflectionFlag.ConstructorProperty:
+                        this.flags.isConstructorProperty = value;
+                        break;
+                }
+            };
+            /**
+             * Return an url safe alias for this reflection.
+             */
+            Reflection.prototype.getAlias = function () {
+                if (!this._alias) {
+                    var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    if (alias == '') {
+                        alias = 'reflection-' + this.id;
+                    }
+                    var target = this;
+                    while (target.parent && !(target.parent instanceof models.ProjectReflection) && !target.hasOwnDocument) {
+                        target = target.parent;
+                    }
+                    if (!target._aliases)
+                        target._aliases = [];
+                    var suffix = '', index = 0;
+                    while (target._aliases.indexOf(alias + suffix) != -1) {
+                        suffix = '-' + (++index).toString();
+                    }
+                    alias += suffix;
+                    target._aliases.push(alias);
+                    this._alias = alias;
+                }
+                return this._alias;
+            };
+            /**
+             * Has this reflection a visible comment?
+             *
+             * @returns TRUE when this reflection has a visible comment.
+             */
+            Reflection.prototype.hasComment = function () {
+                return (this.comment && this.comment.hasVisibleComponent());
+            };
+            Reflection.prototype.hasGetterOrSetter = function () {
+                return false;
+            };
+            /**
+             * Return a child by its name.
+             *
+             * @returns The found child or NULL.
+             */
+            Reflection.prototype.getChildByName = function (arg) {
+                var names = Array.isArray(arg) ? arg : arg.split('.');
+                var name = names[0];
+                var result = null;
+                this.traverse(function (child) {
+                    if (child.name == name) {
+                        if (names.length <= 1) {
+                            result = child;
+                        }
+                        else if (child) {
+                            result = child.getChildByName(names.slice(1));
+                        }
+                    }
+                });
+                return result;
+            };
+            /**
+             * Try to find a reflection by its name.
+             *
+             * @return The found reflection or null.
+             */
+            Reflection.prototype.findReflectionByName = function (arg) {
+                var names = Array.isArray(arg) ? arg : arg.split('.');
+                var reflection = this.getChildByName(names);
+                if (reflection) {
+                    return reflection;
+                }
+                else {
+                    return this.parent.findReflectionByName(names);
+                }
+            };
+            /**
+             * Traverse all potential child reflections of this reflection.
+             *
+             * The given callback will be invoked for all children, signatures and type parameters
+             * attached to this reflection.
+             *
+             * @param callback  The callback function that should be applied for each child reflection.
+             */
+            Reflection.prototype.traverse = function (callback) { };
+            /**
+             * Return a raw object representation of this reflection.
+             */
+            Reflection.prototype.toObject = function () {
+                var result = {
+                    id: this.id,
+                    name: this.name,
+                    kind: this.kind,
+                    kindString: this.kindString,
+                    flags: {}
+                };
+                if (this.originalName != this.name) {
+                    result.originalName = this.originalName;
+                }
+                if (this.comment) {
+                    result.comment = this.comment.toObject();
+                }
+                for (var key in this.flags) {
+                    if (parseInt(key) == key || key == 'flags')
+                        continue;
+                    if (this.flags[key])
+                        result.flags[key] = true;
+                }
+                this.traverse(function (child, property) {
+                    if (property == TraverseProperty.TypeLiteral)
+                        return;
+                    var name = TraverseProperty[property];
+                    name = name.substr(0, 1).toLowerCase() + name.substr(1);
+                    if (!result[name])
+                        result[name] = [];
+                    result[name].push(child.toObject());
+                });
+                return result;
+            };
+            /**
+             * Return a string representation of this reflection.
+             */
+            Reflection.prototype.toString = function () {
+                return ReflectionKind[this.kind] + ' ' + this.name;
+            };
+            /**
+             * Return a string representation of this reflection and all of its children.
+             *
+             * @param indent  Used internally to indent child reflections.
+             */
+            Reflection.prototype.toStringHierarchy = function (indent) {
+                if (indent === void 0) { indent = ''; }
+                var lines = [indent + this.toString()];
+                indent += '  ';
+                this.traverse(function (child, property) {
+                    lines.push(child.toStringHierarchy(indent));
+                });
+                return lines.join('\n');
+            };
+            return Reflection;
+        })();
+        models.Reflection = Reflection;
+    })(models = td.models || (td.models = {}));
+})(td || (td = {}));
+/// <reference path="../../models/Reflection.ts" />
 var td;
 (function (td) {
     var converter;
@@ -3185,9 +3566,9 @@ var td;
          * List of reflection kinds that never should be static.
          */
         var nonStaticKinds = [
-            128 /* Class */,
-            256 /* Interface */,
-            2 /* Module */
+            td.models.ReflectionKind.Class,
+            td.models.ReflectionKind.Interface,
+            td.models.ReflectionKind.Module
         ];
         /**
          * Create a declaration reflection from the given TypeScript node.
@@ -3211,7 +3592,13 @@ var td;
                 name = node.symbol.name;
             }
             // Test whether the node is exported
-            var isExported = container.flags.isExported || !!(node.flags & 1 /* Export */);
+            var isExported = container.flags.isExported;
+            if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
+                isExported = isExported || !!(node.parent.parent.flags & 1 /* Export */);
+            }
+            else {
+                isExported = isExported || !!(node.flags & 1 /* Export */);
+            }
             if (!isExported && context.getOptions().excludeNotExported) {
                 return null;
             }
@@ -3225,11 +3612,11 @@ var td;
             var isStatic = false;
             if (nonStaticKinds.indexOf(kind) == -1) {
                 isStatic = !!(node.flags & 128 /* Static */);
-                if (container.kind == 128 /* Class */) {
-                    if (node.parent && node.parent.kind == 126 /* Constructor */) {
+                if (container.kind == td.models.ReflectionKind.Class) {
+                    if (node.parent && node.parent.kind == 136 /* Constructor */) {
                         isConstructorProperty = true;
                     }
-                    else if (!node.parent || node.parent.kind != 185 /* ClassDeclaration */) {
+                    else if (!node.parent || node.parent.kind != 202 /* ClassDeclaration */) {
                         isStatic = true;
                     }
                 }
@@ -3244,10 +3631,10 @@ var td;
             if (!child) {
                 // Child does not exist, create a new reflection
                 child = new td.models.DeclarationReflection(container, name, kind);
-                child.setFlag(8 /* Static */, isStatic);
-                child.setFlag(1 /* Private */, isPrivate);
-                child.setFlag(1024 /* ConstructorProperty */, isConstructorProperty);
-                child.setFlag(16 /* Exported */, isExported);
+                child.setFlag(td.models.ReflectionFlag.Static, isStatic);
+                child.setFlag(td.models.ReflectionFlag.Private, isPrivate);
+                child.setFlag(td.models.ReflectionFlag.ConstructorProperty, isConstructorProperty);
+                child.setFlag(td.models.ReflectionFlag.Exported, isExported);
                 child = setupDeclaration(context, child, node);
                 if (child) {
                     children.push(child);
@@ -3274,11 +3661,12 @@ var td;
          * @returns The reflection populated with the values of the given node.
          */
         function setupDeclaration(context, reflection, node) {
-            reflection.setFlag(64 /* External */, context.isExternal);
-            reflection.setFlag(2 /* Protected */, !!(node.flags & 64 /* Protected */));
-            reflection.setFlag(4 /* Public */, !!(node.flags & 16 /* Public */));
-            reflection.setFlag(128 /* Optional */, !!(node['questionToken']));
-            if (context.isInherit && (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
+            reflection.setFlag(td.models.ReflectionFlag.External, context.isExternal);
+            reflection.setFlag(td.models.ReflectionFlag.Protected, !!(node.flags & 64 /* Protected */));
+            reflection.setFlag(td.models.ReflectionFlag.Public, !!(node.flags & 16 /* Public */));
+            reflection.setFlag(td.models.ReflectionFlag.Optional, !!(node['questionToken']));
+            if (context.isInherit &&
+                (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
                 if (!reflection.inheritedFrom) {
                     reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
                     reflection.getAllSignatures().forEach(function (signature) {
@@ -3299,14 +3687,16 @@ var td;
          */
         function mergeDeclarations(context, reflection, node, kind) {
             if (reflection.kind != kind) {
-                var weights = [2 /* Module */, 4 /* Enum */, 128 /* Class */];
+                var weights = [td.models.ReflectionKind.Module, td.models.ReflectionKind.Enum, td.models.ReflectionKind.Class];
                 var kindWeight = weights.indexOf(kind);
                 var childKindWeight = weights.indexOf(reflection.kind);
                 if (kindWeight > childKindWeight) {
                     reflection.kind = kind;
                 }
             }
-            if (context.isInherit && context.inherited.indexOf(reflection.name) != -1 && (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
+            if (context.isInherit &&
+                context.inherited.indexOf(reflection.name) != -1 &&
+                (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)) {
                 if (!reflection.overwrites) {
                     reflection.overwrites = createReferenceType(context, node.symbol, true);
                     reflection.getAllSignatures().forEach(function (signature) {
@@ -3373,13 +3763,12 @@ var td;
          */
         function extractSignatureType(context, node) {
             var checker = context.checker;
-            if (node.kind & 129 /* CallSignature */ || node.kind & 145 /* CallExpression */) {
+            if (node.kind & 139 /* CallSignature */ || node.kind & 158 /* CallExpression */) {
                 try {
                     var signature = checker.getSignatureFromDeclaration(node);
                     return converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
                 }
-                catch (error) {
-                }
+                catch (error) { }
             }
             if (node.type) {
                 return converter.convertType(context, node.type);
@@ -3400,14 +3789,14 @@ var td;
             if (!(signature instanceof td.models.SignatureReflection)) {
                 throw new Error('Expected signature reflection.');
             }
-            var parameter = new td.models.ParameterReflection(signature, node.symbol.name, 32768 /* Parameter */);
+            var parameter = new td.models.ParameterReflection(signature, node.symbol.name, td.models.ReflectionKind.Parameter);
             context.registerReflection(parameter, node);
             context.withScope(parameter, function () {
                 parameter.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
                 parameter.defaultValue = converter.getDefaultValue(node);
-                parameter.setFlag(128 /* Optional */, !!node.questionToken);
-                parameter.setFlag(512 /* Rest */, !!node.dotDotDotToken);
-                parameter.setFlag(256 /* DefaultValue */, !!parameter.defaultValue);
+                parameter.setFlag(td.models.ReflectionFlag.Optional, !!node.questionToken);
+                parameter.setFlag(td.models.ReflectionFlag.Rest, !!node.dotDotDotToken);
+                parameter.setFlag(td.models.ReflectionFlag.DefaultValue, !!parameter.defaultValue);
                 if (!signature.parameters)
                     signature.parameters = [];
                 signature.parameters.push(parameter);
@@ -3443,7 +3832,7 @@ var td;
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_3) {
         /**
          * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
          * the generated reflections.
@@ -3457,13 +3846,13 @@ var td;
              */
             function CommentPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(_converter.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(_converter.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(_converter.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
-                converter.on(_converter.Converter.EVENT_CREATE_TYPE_PARAMETER, this.onCreateTypeParameter, this);
-                converter.on(_converter.Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_3.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_3.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_3.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+                converter.on(converter_3.Converter.EVENT_CREATE_TYPE_PARAMETER, this.onCreateTypeParameter, this);
+                converter.on(converter_3.Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
+                converter.on(converter_3.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_3.Converter.EVENT_RESOLVE, this.onResolve, this);
             }
             CommentPlugin.prototype.storeModuleComment = function (comment, reflection) {
                 var isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
@@ -3491,19 +3880,19 @@ var td;
              */
             CommentPlugin.prototype.applyModifiers = function (reflection, comment) {
                 if (comment.hasTag('private')) {
-                    reflection.setFlag(1 /* Private */);
+                    reflection.setFlag(td.models.ReflectionFlag.Private);
                     CommentPlugin.removeTags(comment, 'private');
                 }
                 if (comment.hasTag('protected')) {
-                    reflection.setFlag(2 /* Protected */);
+                    reflection.setFlag(td.models.ReflectionFlag.Protected);
                     CommentPlugin.removeTags(comment, 'protected');
                 }
                 if (comment.hasTag('public')) {
-                    reflection.setFlag(4 /* Public */);
+                    reflection.setFlag(td.models.ReflectionFlag.Public);
                     CommentPlugin.removeTags(comment, 'public');
                 }
                 if (comment.hasTag('event')) {
-                    reflection.kind = 8388608 /* Event */;
+                    reflection.kind = td.models.ReflectionKind.Event;
                     // reflection.setFlag(ReflectionFlag.Event);
                     CommentPlugin.removeTags(comment, 'event');
                 }
@@ -3561,7 +3950,7 @@ var td;
                     var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
                     this.applyModifiers(reflection, comment);
                 }
-                else if (reflection.kindOf(2 /* Module */)) {
+                else if (reflection.kindOf(td.models.ReflectionKind.Module)) {
                     this.storeModuleComment(rawComment, reflection);
                 }
                 else {
@@ -3669,17 +4058,18 @@ var td;
             CommentPlugin.getComment = function (node) {
                 var sourceFile = ts.getSourceFileOfNode(node);
                 var target = node;
-                if (node.kind == 189 /* ModuleDeclaration */) {
+                if (node.kind == 206 /* ModuleDeclaration */) {
                     var a, b;
                     // Ignore comments for cascaded modules, e.g. module A.B { }
-                    if (node.nextContainer && node.nextContainer.kind == 189 /* ModuleDeclaration */) {
+                    if (node.nextContainer && node.nextContainer.kind == 206 /* ModuleDeclaration */) {
                         a = node;
                         b = node.nextContainer;
                         if (a.name.end + 1 == b.name.pos) {
                             return null;
                         }
                     }
-                    while (target.parent && target.parent.kind == 189 /* ModuleDeclaration */) {
+                    // Pull back comments of cascaded modules
+                    while (target.parent && target.parent.kind == 206 /* ModuleDeclaration */) {
                         a = target;
                         b = target.parent;
                         if (a.name.pos == b.name.end + 1) {
@@ -3690,13 +4080,13 @@ var td;
                         }
                     }
                 }
-                if (node.parent && node.parent.kind == 164 /* VariableStatement */) {
-                    target = node.parent;
+                if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
+                    target = node.parent.parent;
                 }
                 var comments = ts.getJsDocComments(target, sourceFile);
                 if (comments && comments.length) {
                     var comment;
-                    if (node.kind == 201 /* 'SourceFile' */) {
+                    if (node.kind == 228 /* 'SourceFile' */) {
                         if (comments.length == 1)
                             return null;
                         comment = comments[0];
@@ -3739,40 +4129,40 @@ var td;
                 parent.traverse(function (child, property) {
                     if (child == reflection) {
                         switch (property) {
-                            case 0 /* Children */:
+                            case td.models.TraverseProperty.Children:
                                 if (parent.children) {
                                     var index = parent.children.indexOf(reflection);
                                     if (index != -1)
                                         parent.children.splice(index, 1);
                                 }
                                 break;
-                            case 6 /* GetSignature */:
+                            case td.models.TraverseProperty.GetSignature:
                                 delete parent.getSignature;
                                 break;
-                            case 5 /* IndexSignature */:
+                            case td.models.TraverseProperty.IndexSignature:
                                 delete parent.indexSignature;
                                 break;
-                            case 1 /* Parameters */:
+                            case td.models.TraverseProperty.Parameters:
                                 if (reflection.parent.parameters) {
                                     var index = reflection.parent.parameters.indexOf(reflection);
                                     if (index != -1)
                                         reflection.parent.parameters.splice(index, 1);
                                 }
                                 break;
-                            case 7 /* SetSignature */:
+                            case td.models.TraverseProperty.SetSignature:
                                 delete parent.setSignature;
                                 break;
-                            case 4 /* Signatures */:
+                            case td.models.TraverseProperty.Signatures:
                                 if (parent.signatures) {
                                     var index = parent.signatures.indexOf(reflection);
                                     if (index != -1)
                                         parent.signatures.splice(index, 1);
                                 }
                                 break;
-                            case 2 /* TypeLiteral */:
+                            case td.models.TraverseProperty.TypeLiteral:
                                 parent.type = new td.models.IntrinsicType('Object');
                                 break;
-                            case 3 /* TypeParameter */:
+                            case td.models.TraverseProperty.TypeParameter:
                                 if (parent.typeParameters) {
                                     var index = parent.typeParameters.indexOf(reflection);
                                     if (index != -1)
@@ -3858,18 +4248,18 @@ var td;
                 return comment;
             };
             return CommentPlugin;
-        })(_converter.ConverterPlugin);
-        _converter.CommentPlugin = CommentPlugin;
+        })(converter_3.ConverterPlugin);
+        converter_3.CommentPlugin = CommentPlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('comment', CommentPlugin);
+        converter_3.Converter.registerPlugin('comment', CommentPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_4) {
         /**
          * A handler that moves comments with dot syntax to their target.
          */
@@ -3882,7 +4272,7 @@ var td;
              */
             function DeepCommentPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(_converter.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
+                converter.on(converter_4.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
             }
             /**
              * Triggered when the converter begins resolving a project.
@@ -3933,18 +4323,18 @@ var td;
                 }
             };
             return DeepCommentPlugin;
-        })(_converter.ConverterPlugin);
-        _converter.DeepCommentPlugin = DeepCommentPlugin;
+        })(converter_4.ConverterPlugin);
+        converter_4.DeepCommentPlugin = DeepCommentPlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('deepComment', DeepCommentPlugin);
+        converter_4.Converter.registerPlugin('deepComment', DeepCommentPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_5) {
         /**
          * A handler that truncates the names of dynamic modules to not include the
          * project's base path.
@@ -3961,10 +4351,10 @@ var td;
                 /**
                  * Helper class for determining the base path.
                  */
-                this.basePath = new _converter.BasePath();
-                converter.on(_converter.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(_converter.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                this.basePath = new converter_5.BasePath();
+                converter.on(converter_5.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_5.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_5.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             }
             /**
              * Triggered when the converter begins converting a project.
@@ -3983,7 +4373,7 @@ var td;
              * @param node  The node that is currently processed if available.
              */
             DynamicModulePlugin.prototype.onDeclaration = function (context, reflection, node) {
-                if (reflection.kindOf(1 /* ExternalModule */)) {
+                if (reflection.kindOf(td.models.ReflectionKind.ExternalModule)) {
                     var name = reflection.name;
                     if (name.indexOf('/') == -1) {
                         return;
@@ -4007,18 +4397,18 @@ var td;
                 });
             };
             return DynamicModulePlugin;
-        })(_converter.ConverterPlugin);
-        _converter.DynamicModulePlugin = DynamicModulePlugin;
+        })(converter_5.ConverterPlugin);
+        converter_5.DynamicModulePlugin = DynamicModulePlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
+        converter_5.Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_6) {
         /**
          * Stores data of a repository.
          */
@@ -4059,7 +4449,7 @@ var td;
                 if (out.code == 0) {
                     out.output.split('\n').forEach(function (file) {
                         if (file != '') {
-                            _this.files.push(_converter.BasePath.normalize(path + '/' + file));
+                            _this.files.push(converter_6.BasePath.normalize(path + '/' + file));
                         }
                     });
                 }
@@ -4113,7 +4503,7 @@ var td;
                 td.ShellJS.popd();
                 if (out.code != 0)
                     return null;
-                return new Repository(_converter.BasePath.normalize(out.output.replace("\n", '')));
+                return new Repository(converter_6.BasePath.normalize(out.output.replace("\n", '')));
             };
             return Repository;
         })();
@@ -4140,7 +4530,7 @@ var td;
                 this.ignoredPaths = [];
                 td.ShellJS.config.silent = true;
                 if (td.ShellJS.which('git')) {
-                    converter.on(_converter.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                    converter.on(converter_6.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
                 }
             }
             /**
@@ -4157,6 +4547,7 @@ var td;
                         return null;
                     }
                 }
+                // Check for known repositories
                 for (var path in this.repositories) {
                     if (!this.repositories.hasOwnProperty(path))
                         continue;
@@ -4202,18 +4593,18 @@ var td;
                 }
             };
             return GitHubPlugin;
-        })(_converter.ConverterPlugin);
-        _converter.GitHubPlugin = GitHubPlugin;
+        })(converter_6.ConverterPlugin);
+        converter_6.GitHubPlugin = GitHubPlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('gitHub', GitHubPlugin);
+        converter_6.Converter.registerPlugin('gitHub', GitHubPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_7) {
         /**
          * A handler that sorts and groups the found reflections in the resolving phase.
          *
@@ -4228,8 +4619,8 @@ var td;
              */
             function GroupPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(_converter.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                converter.on(converter_7.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_7.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
             /**
              * Triggered when the converter resolves a reflection.
@@ -4377,38 +4768,38 @@ var td;
              * Define the sort order of reflections.
              */
             GroupPlugin.WEIGHTS = [
-                0 /* Global */,
-                1 /* ExternalModule */,
-                2 /* Module */,
-                4 /* Enum */,
-                16 /* EnumMember */,
-                128 /* Class */,
-                256 /* Interface */,
-                4194304 /* TypeAlias */,
-                512 /* Constructor */,
-                8388608 /* Event */,
-                1024 /* Property */,
-                32 /* Variable */,
-                64 /* Function */,
-                262144 /* Accessor */,
-                2048 /* Method */,
-                2097152 /* ObjectLiteral */,
-                32768 /* Parameter */,
-                131072 /* TypeParameter */,
-                65536 /* TypeLiteral */,
-                4096 /* CallSignature */,
-                16384 /* ConstructorSignature */,
-                8192 /* IndexSignature */,
-                524288 /* GetSignature */,
-                1048576 /* SetSignature */,
+                td.models.ReflectionKind.Global,
+                td.models.ReflectionKind.ExternalModule,
+                td.models.ReflectionKind.Module,
+                td.models.ReflectionKind.Enum,
+                td.models.ReflectionKind.EnumMember,
+                td.models.ReflectionKind.Class,
+                td.models.ReflectionKind.Interface,
+                td.models.ReflectionKind.TypeAlias,
+                td.models.ReflectionKind.Constructor,
+                td.models.ReflectionKind.Event,
+                td.models.ReflectionKind.Property,
+                td.models.ReflectionKind.Variable,
+                td.models.ReflectionKind.Function,
+                td.models.ReflectionKind.Accessor,
+                td.models.ReflectionKind.Method,
+                td.models.ReflectionKind.ObjectLiteral,
+                td.models.ReflectionKind.Parameter,
+                td.models.ReflectionKind.TypeParameter,
+                td.models.ReflectionKind.TypeLiteral,
+                td.models.ReflectionKind.CallSignature,
+                td.models.ReflectionKind.ConstructorSignature,
+                td.models.ReflectionKind.IndexSignature,
+                td.models.ReflectionKind.GetSignature,
+                td.models.ReflectionKind.SetSignature,
             ];
             /**
              * Define the singular name of individual reflection kinds.
              */
             GroupPlugin.SINGULARS = (function () {
                 var singulars = {};
-                singulars[4 /* Enum */] = 'Enumeration';
-                singulars[16 /* EnumMember */] = 'Enumeration member';
+                singulars[td.models.ReflectionKind.Enum] = 'Enumeration';
+                singulars[td.models.ReflectionKind.EnumMember] = 'Enumeration member';
                 return singulars;
             })();
             /**
@@ -4416,26 +4807,26 @@ var td;
              */
             GroupPlugin.PLURALS = (function () {
                 var plurals = {};
-                plurals[128 /* Class */] = 'Classes';
-                plurals[1024 /* Property */] = 'Properties';
-                plurals[4 /* Enum */] = 'Enumerations';
-                plurals[16 /* EnumMember */] = 'Enumeration members';
-                plurals[4194304 /* TypeAlias */] = 'Type aliases';
+                plurals[td.models.ReflectionKind.Class] = 'Classes';
+                plurals[td.models.ReflectionKind.Property] = 'Properties';
+                plurals[td.models.ReflectionKind.Enum] = 'Enumerations';
+                plurals[td.models.ReflectionKind.EnumMember] = 'Enumeration members';
+                plurals[td.models.ReflectionKind.TypeAlias] = 'Type aliases';
                 return plurals;
             })();
             return GroupPlugin;
-        })(_converter.ConverterPlugin);
-        _converter.GroupPlugin = GroupPlugin;
+        })(converter_7.ConverterPlugin);
+        converter_7.GroupPlugin = GroupPlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('group', GroupPlugin);
+        converter_7.Converter.registerPlugin('group', GroupPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_8) {
         /**
          * A handler that tries to find the package.json and readme.md files of the
          * current project.
@@ -4453,15 +4844,15 @@ var td;
              */
             function PackagePlugin(converter) {
                 _super.call(this, converter);
-                converter.on(_converter.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(_converter.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_8.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_8.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_8.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             }
             PackagePlugin.prototype.getParameters = function () {
                 return [{
-                    name: 'readme',
-                    help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
-                }];
+                        name: 'readme',
+                        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+                    }];
             };
             /**
              * Triggered when the converter begins converting a project.
@@ -4495,7 +4886,7 @@ var td;
                 if (this.readmeFile && this.packageFile) {
                     return;
                 }
-                var fileName = node.filename;
+                var fileName = node.fileName;
                 var dirName, parentDir = td.Path.resolve(td.Path.dirname(fileName));
                 do {
                     dirName = parentDir;
@@ -4533,18 +4924,18 @@ var td;
                 }
             };
             return PackagePlugin;
-        })(_converter.ConverterPlugin);
-        _converter.PackagePlugin = PackagePlugin;
+        })(converter_8.ConverterPlugin);
+        converter_8.PackagePlugin = PackagePlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('package', PackagePlugin);
+        converter_8.Converter.registerPlugin('package', PackagePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_9) {
         /**
          * A handler that attaches source file information to reflections.
          */
@@ -4560,18 +4951,18 @@ var td;
                 /**
                  * Helper for resolving the base path of all source files.
                  */
-                this.basePath = new _converter.BasePath();
+                this.basePath = new converter_9.BasePath();
                 /**
                  * A map of all generated [[SourceFile]] instances.
                  */
                 this.fileMappings = {};
-                converter.on(_converter.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(_converter.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(_converter.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(_converter.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                converter.on(converter_9.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_9.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_9.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_9.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+                converter.on(converter_9.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_9.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_9.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
             SourcePlugin.prototype.getSourceFile = function (fileName, project) {
                 if (!this.fileMappings[fileName]) {
@@ -4602,7 +4993,7 @@ var td;
             SourcePlugin.prototype.onBeginDocument = function (context, reflection, node) {
                 if (!node)
                     return;
-                var fileName = node.filename;
+                var fileName = node.fileName;
                 this.basePath.add(fileName);
                 this.getSourceFile(fileName, context.project);
             };
@@ -4619,14 +5010,14 @@ var td;
                 if (!node)
                     return;
                 var sourceFile = ts.getSourceFileOfNode(node);
-                var fileName = sourceFile.filename;
+                var fileName = sourceFile.fileName;
                 var file = this.getSourceFile(fileName, context.project);
                 var position;
                 if (node['name'] && node['name'].end) {
-                    position = sourceFile.getLineAndCharacterFromPosition(node['name'].end);
+                    position = ts.getLineAndCharacterOfPosition(sourceFile, node['name'].end);
                 }
                 else {
-                    position = sourceFile.getLineAndCharacterFromPosition(node.pos);
+                    position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
                 }
                 if (!reflection.sources)
                     reflection.sources = [];
@@ -4636,7 +5027,7 @@ var td;
                 reflection.sources.push({
                     file: file,
                     fileName: fileName,
-                    line: position.line,
+                    line: position.line + 1,
                     character: position.character
                 });
             };
@@ -4696,18 +5087,18 @@ var td;
                 });
             };
             return SourcePlugin;
-        })(_converter.ConverterPlugin);
-        _converter.SourcePlugin = SourcePlugin;
+        })(converter_9.ConverterPlugin);
+        converter_9.SourcePlugin = SourcePlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('source', SourcePlugin);
+        converter_9.Converter.registerPlugin('source', SourcePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (_converter) {
+    (function (converter_10) {
         /**
          * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
          */
@@ -4721,8 +5112,8 @@ var td;
             function TypePlugin(converter) {
                 _super.call(this, converter);
                 this.reflections = [];
-                converter.on(_converter.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(_converter.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
             }
             /**
              * Triggered when the converter resolves a reflection.
@@ -4844,12 +5235,12 @@ var td;
                 });
             };
             return TypePlugin;
-        })(_converter.ConverterPlugin);
-        _converter.TypePlugin = TypePlugin;
+        })(converter_10.ConverterPlugin);
+        converter_10.TypePlugin = TypePlugin;
         /**
          * Register this handler.
          */
-        _converter.Converter.registerPlugin('type', TypePlugin);
+        converter_10.Converter.registerPlugin('type', TypePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
@@ -4970,372 +5361,6 @@ var td;
             return CommentTag;
         })();
         models.CommentTag = CommentTag;
-    })(models = td.models || (td.models = {}));
-})(td || (td = {}));
-/**
- * Holds all data models used by TypeDoc.
- *
- * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
- * serves as the root container for the current project while [[DeclarationReflection]] instances
- * form the structure of the project. Most of the other classes in this namespace are referenced by this
- * two base classes.
- *
- * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
- * while creating the final output.
- */
-var td;
-(function (td) {
-    var models;
-    (function (models) {
-        /**
-         * Current reflection id.
-         */
-        var REFLECTION_ID = 0;
-        /**
-         * Reset the reflection id.
-         *
-         * Used by the test cases to ensure the reflection ids won't change between runs.
-         */
-        function resetReflectionID() {
-            REFLECTION_ID = 0;
-        }
-        models.resetReflectionID = resetReflectionID;
-        /**
-         * Defines the available reflection kinds.
-         */
-        (function (ReflectionKind) {
-            ReflectionKind[ReflectionKind["Global"] = 0] = "Global";
-            ReflectionKind[ReflectionKind["ExternalModule"] = 1] = "ExternalModule";
-            ReflectionKind[ReflectionKind["Module"] = 2] = "Module";
-            ReflectionKind[ReflectionKind["Enum"] = 4] = "Enum";
-            ReflectionKind[ReflectionKind["EnumMember"] = 16] = "EnumMember";
-            ReflectionKind[ReflectionKind["Variable"] = 32] = "Variable";
-            ReflectionKind[ReflectionKind["Function"] = 64] = "Function";
-            ReflectionKind[ReflectionKind["Class"] = 128] = "Class";
-            ReflectionKind[ReflectionKind["Interface"] = 256] = "Interface";
-            ReflectionKind[ReflectionKind["Constructor"] = 512] = "Constructor";
-            ReflectionKind[ReflectionKind["Property"] = 1024] = "Property";
-            ReflectionKind[ReflectionKind["Method"] = 2048] = "Method";
-            ReflectionKind[ReflectionKind["CallSignature"] = 4096] = "CallSignature";
-            ReflectionKind[ReflectionKind["IndexSignature"] = 8192] = "IndexSignature";
-            ReflectionKind[ReflectionKind["ConstructorSignature"] = 16384] = "ConstructorSignature";
-            ReflectionKind[ReflectionKind["Parameter"] = 32768] = "Parameter";
-            ReflectionKind[ReflectionKind["TypeLiteral"] = 65536] = "TypeLiteral";
-            ReflectionKind[ReflectionKind["TypeParameter"] = 131072] = "TypeParameter";
-            ReflectionKind[ReflectionKind["Accessor"] = 262144] = "Accessor";
-            ReflectionKind[ReflectionKind["GetSignature"] = 524288] = "GetSignature";
-            ReflectionKind[ReflectionKind["SetSignature"] = 1048576] = "SetSignature";
-            ReflectionKind[ReflectionKind["ObjectLiteral"] = 2097152] = "ObjectLiteral";
-            ReflectionKind[ReflectionKind["TypeAlias"] = 4194304] = "TypeAlias";
-            ReflectionKind[ReflectionKind["Event"] = 8388608] = "Event";
-            ReflectionKind[ReflectionKind["ClassOrInterface"] = ReflectionKind.Class | ReflectionKind.Interface] = "ClassOrInterface";
-            ReflectionKind[ReflectionKind["VariableOrProperty"] = ReflectionKind.Variable | ReflectionKind.Property] = "VariableOrProperty";
-            ReflectionKind[ReflectionKind["FunctionOrMethod"] = ReflectionKind.Function | ReflectionKind.Method] = "FunctionOrMethod";
-            ReflectionKind[ReflectionKind["SomeSignature"] = ReflectionKind.CallSignature | ReflectionKind.IndexSignature | ReflectionKind.ConstructorSignature | ReflectionKind.GetSignature | ReflectionKind.SetSignature] = "SomeSignature";
-            ReflectionKind[ReflectionKind["SomeModule"] = ReflectionKind.Module | ReflectionKind.ExternalModule] = "SomeModule";
-        })(models.ReflectionKind || (models.ReflectionKind = {}));
-        var ReflectionKind = models.ReflectionKind;
-        (function (ReflectionFlag) {
-            ReflectionFlag[ReflectionFlag["Private"] = 1] = "Private";
-            ReflectionFlag[ReflectionFlag["Protected"] = 2] = "Protected";
-            ReflectionFlag[ReflectionFlag["Public"] = 4] = "Public";
-            ReflectionFlag[ReflectionFlag["Static"] = 8] = "Static";
-            ReflectionFlag[ReflectionFlag["Exported"] = 16] = "Exported";
-            ReflectionFlag[ReflectionFlag["ExportAssignment"] = 32] = "ExportAssignment";
-            ReflectionFlag[ReflectionFlag["External"] = 64] = "External";
-            ReflectionFlag[ReflectionFlag["Optional"] = 128] = "Optional";
-            ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
-            ReflectionFlag[ReflectionFlag["Rest"] = 512] = "Rest";
-            ReflectionFlag[ReflectionFlag["ConstructorProperty"] = 1024] = "ConstructorProperty";
-        })(models.ReflectionFlag || (models.ReflectionFlag = {}));
-        var ReflectionFlag = models.ReflectionFlag;
-        var relevantFlags = [
-            1 /* Private */,
-            2 /* Protected */,
-            8 /* Static */,
-            32 /* ExportAssignment */,
-            128 /* Optional */,
-            256 /* DefaultValue */,
-            512 /* Rest */
-        ];
-        (function (TraverseProperty) {
-            TraverseProperty[TraverseProperty["Children"] = 0] = "Children";
-            TraverseProperty[TraverseProperty["Parameters"] = 1] = "Parameters";
-            TraverseProperty[TraverseProperty["TypeLiteral"] = 2] = "TypeLiteral";
-            TraverseProperty[TraverseProperty["TypeParameter"] = 3] = "TypeParameter";
-            TraverseProperty[TraverseProperty["Signatures"] = 4] = "Signatures";
-            TraverseProperty[TraverseProperty["IndexSignature"] = 5] = "IndexSignature";
-            TraverseProperty[TraverseProperty["GetSignature"] = 6] = "GetSignature";
-            TraverseProperty[TraverseProperty["SetSignature"] = 7] = "SetSignature";
-        })(models.TraverseProperty || (models.TraverseProperty = {}));
-        var TraverseProperty = models.TraverseProperty;
-        /**
-         * Base class for all reflection classes.
-         *
-         * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
-         * as the root for all reflections within the project. All other reflections are represented
-         * by the [[DeclarationReflection]] class.
-         *
-         * This base class exposes the basic properties one may use to traverse the reflection tree.
-         * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
-         * contains a list of all children grouped and sorted for being rendered.
-         */
-        var Reflection = (function () {
-            /**
-             * Create a new BaseReflection instance.
-             */
-            function Reflection(parent, name, kind) {
-                /**
-                 * The symbol name of this reflection.
-                 */
-                this.name = '';
-                this.flags = [];
-                this.id = REFLECTION_ID++;
-                this.parent = parent;
-                this.name = name;
-                this.originalName = name;
-                this.kind = kind;
-            }
-            /**
-             * Test whether this reflection is of the given kind.
-             */
-            Reflection.prototype.kindOf = function (kind) {
-                if (Array.isArray(kind)) {
-                    for (var i = 0, c = kind.length; i < c; i++) {
-                        if ((this.kind & kind[i]) !== 0) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                else {
-                    return (this.kind & kind) !== 0;
-                }
-            };
-            /**
-             * Return the full name of this reflection.
-             *
-             * The full name contains the name of this reflection and the names of all parent reflections.
-             *
-             * @param separator  Separator used to join the names of the reflections.
-             * @returns The full name of this reflection.
-             */
-            Reflection.prototype.getFullName = function (separator) {
-                if (separator === void 0) { separator = '.'; }
-                if (this.parent && !(this.parent instanceof models.ProjectReflection)) {
-                    return this.parent.getFullName(separator) + separator + this.name;
-                }
-                else {
-                    return this.name;
-                }
-            };
-            /**
-             * Set a flag on this reflection.
-             */
-            Reflection.prototype.setFlag = function (flag, value) {
-                if (value === void 0) { value = true; }
-                var name, index;
-                if (relevantFlags.indexOf(flag) != -1) {
-                    name = ReflectionFlag[flag];
-                    name = name.replace(/(.)([A-Z])/g, function (m, a, b) { return a + ' ' + b.toLowerCase(); });
-                    index = this.flags.indexOf(name);
-                }
-                if (value) {
-                    this.flags.flags |= flag;
-                    if (name && index == -1) {
-                        this.flags.push(name);
-                    }
-                }
-                else {
-                    this.flags.flags &= ~flag;
-                    if (name && index != -1) {
-                        this.flags.splice(index, 1);
-                    }
-                }
-                switch (flag) {
-                    case 1 /* Private */:
-                        this.flags.isPrivate = value;
-                        if (value) {
-                            this.setFlag(2 /* Protected */, false);
-                            this.setFlag(4 /* Public */, false);
-                        }
-                        break;
-                    case 2 /* Protected */:
-                        this.flags.isProtected = value;
-                        if (value) {
-                            this.setFlag(1 /* Private */, false);
-                            this.setFlag(4 /* Public */, false);
-                        }
-                        break;
-                    case 4 /* Public */:
-                        this.flags.isPublic = value;
-                        if (value) {
-                            this.setFlag(1 /* Private */, false);
-                            this.setFlag(2 /* Protected */, false);
-                        }
-                        break;
-                    case 8 /* Static */:
-                        this.flags.isStatic = value;
-                        break;
-                    case 16 /* Exported */:
-                        this.flags.isExported = value;
-                        break;
-                    case 64 /* External */:
-                        this.flags.isExternal = value;
-                        break;
-                    case 128 /* Optional */:
-                        this.flags.isOptional = value;
-                        break;
-                    case 512 /* Rest */:
-                        this.flags.isRest = value;
-                        break;
-                    case 32 /* ExportAssignment */:
-                        this.flags.hasExportAssignment = value;
-                        break;
-                    case 1024 /* ConstructorProperty */:
-                        this.flags.isConstructorProperty = value;
-                        break;
-                }
-            };
-            /**
-             * Return an url safe alias for this reflection.
-             */
-            Reflection.prototype.getAlias = function () {
-                if (!this._alias) {
-                    var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                    if (alias == '') {
-                        alias = 'reflection-' + this.id;
-                    }
-                    var target = this;
-                    while (target.parent && !(target.parent instanceof models.ProjectReflection) && !target.hasOwnDocument) {
-                        target = target.parent;
-                    }
-                    if (!target._aliases)
-                        target._aliases = [];
-                    var suffix = '', index = 0;
-                    while (target._aliases.indexOf(alias + suffix) != -1) {
-                        suffix = '-' + (++index).toString();
-                    }
-                    alias += suffix;
-                    target._aliases.push(alias);
-                    this._alias = alias;
-                }
-                return this._alias;
-            };
-            /**
-             * Has this reflection a visible comment?
-             *
-             * @returns TRUE when this reflection has a visible comment.
-             */
-            Reflection.prototype.hasComment = function () {
-                return (this.comment && this.comment.hasVisibleComponent());
-            };
-            Reflection.prototype.hasGetterOrSetter = function () {
-                return false;
-            };
-            /**
-             * Return a child by its name.
-             *
-             * @returns The found child or NULL.
-             */
-            Reflection.prototype.getChildByName = function (arg) {
-                var names = Array.isArray(arg) ? arg : arg.split('.');
-                var name = names[0];
-                var result = null;
-                this.traverse(function (child) {
-                    if (child.name == name) {
-                        if (names.length <= 1) {
-                            result = child;
-                        }
-                        else if (child) {
-                            result = child.getChildByName(names.slice(1));
-                        }
-                    }
-                });
-                return result;
-            };
-            /**
-             * Try to find a reflection by its name.
-             *
-             * @return The found reflection or null.
-             */
-            Reflection.prototype.findReflectionByName = function (arg) {
-                var names = Array.isArray(arg) ? arg : arg.split('.');
-                var reflection = this.getChildByName(names);
-                if (reflection) {
-                    return reflection;
-                }
-                else {
-                    return this.parent.findReflectionByName(names);
-                }
-            };
-            /**
-             * Traverse all potential child reflections of this reflection.
-             *
-             * The given callback will be invoked for all children, signatures and type parameters
-             * attached to this reflection.
-             *
-             * @param callback  The callback function that should be applied for each child reflection.
-             */
-            Reflection.prototype.traverse = function (callback) {
-            };
-            /**
-             * Return a raw object representation of this reflection.
-             */
-            Reflection.prototype.toObject = function () {
-                var result = {
-                    id: this.id,
-                    name: this.name,
-                    kind: this.kind,
-                    kindString: this.kindString,
-                    flags: {}
-                };
-                if (this.originalName != this.name) {
-                    result.originalName = this.originalName;
-                }
-                if (this.comment) {
-                    result.comment = this.comment.toObject();
-                }
-                for (var key in this.flags) {
-                    if (parseInt(key) == key || key == 'flags')
-                        continue;
-                    if (this.flags[key])
-                        result.flags[key] = true;
-                }
-                this.traverse(function (child, property) {
-                    if (property == 2 /* TypeLiteral */)
-                        return;
-                    var name = TraverseProperty[property];
-                    name = name.substr(0, 1).toLowerCase() + name.substr(1);
-                    if (!result[name])
-                        result[name] = [];
-                    result[name].push(child.toObject());
-                });
-                return result;
-            };
-            /**
-             * Return a string representation of this reflection.
-             */
-            Reflection.prototype.toString = function () {
-                return ReflectionKind[this.kind] + ' ' + this.name;
-            };
-            /**
-             * Return a string representation of this reflection and all of its children.
-             *
-             * @param indent  Used internally to indent child reflections.
-             */
-            Reflection.prototype.toStringHierarchy = function (indent) {
-                if (indent === void 0) { indent = ''; }
-                var lines = [indent + this.toString()];
-                indent += '  ';
-                this.traverse(function (child, property) {
-                    lines.push(child.toStringHierarchy(indent));
-                });
-                return lines.join('\n');
-            };
-            return Reflection;
-        })();
-        models.Reflection = Reflection;
     })(models = td.models || (td.models = {}));
 })(td || (td = {}));
 var td;
@@ -5598,7 +5623,7 @@ var td;
              */
             ContainerReflection.prototype.traverse = function (callback) {
                 if (this.children) {
-                    this.children.forEach(function (child) { return callback(child, 0 /* Children */); });
+                    this.children.forEach(function (child) { return callback(child, models.TraverseProperty.Children); });
                 }
             };
             /**
@@ -5660,22 +5685,22 @@ var td;
              */
             DeclarationReflection.prototype.traverse = function (callback) {
                 if (this.typeParameters) {
-                    this.typeParameters.forEach(function (parameter) { return callback(parameter, 3 /* TypeParameter */); });
+                    this.typeParameters.forEach(function (parameter) { return callback(parameter, models.TraverseProperty.TypeParameter); });
                 }
                 if (this.type instanceof models.ReflectionType) {
-                    callback(this.type.declaration, 2 /* TypeLiteral */);
+                    callback(this.type.declaration, models.TraverseProperty.TypeLiteral);
                 }
                 if (this.signatures) {
-                    this.signatures.forEach(function (signature) { return callback(signature, 4 /* Signatures */); });
+                    this.signatures.forEach(function (signature) { return callback(signature, models.TraverseProperty.Signatures); });
                 }
                 if (this.indexSignature) {
-                    callback(this.indexSignature, 5 /* IndexSignature */);
+                    callback(this.indexSignature, models.TraverseProperty.IndexSignature);
                 }
                 if (this.getSignature) {
-                    callback(this.getSignature, 6 /* GetSignature */);
+                    callback(this.getSignature, models.TraverseProperty.GetSignature);
                 }
                 if (this.setSignature) {
-                    callback(this.setSignature, 7 /* SetSignature */);
+                    callback(this.setSignature, models.TraverseProperty.SetSignature);
                 }
                 _super.prototype.traverse.call(this, callback);
             };
@@ -5751,7 +5776,7 @@ var td;
              */
             ParameterReflection.prototype.traverse = function (callback) {
                 if (this.type instanceof models.ReflectionType) {
-                    callback(this.type.declaration, 2 /* TypeLiteral */);
+                    callback(this.type.declaration, models.TraverseProperty.TypeLiteral);
                 }
                 _super.prototype.traverse.call(this, callback);
             };
@@ -5797,7 +5822,7 @@ var td;
              * @param name  The name of the project.
              */
             function ProjectReflection(name) {
-                _super.call(this, null, name, 0 /* Global */);
+                _super.call(this, null, name, models.ReflectionKind.Global);
                 /**
                  * A list of all reflections within the project.
                  */
@@ -5876,13 +5901,13 @@ var td;
              */
             SignatureReflection.prototype.traverse = function (callback) {
                 if (this.type instanceof models.ReflectionType) {
-                    callback(this.type.declaration, 2 /* TypeLiteral */);
+                    callback(this.type.declaration, models.TraverseProperty.TypeLiteral);
                 }
                 if (this.typeParameters) {
-                    this.typeParameters.forEach(function (parameter) { return callback(parameter, 3 /* TypeParameter */); });
+                    this.typeParameters.forEach(function (parameter) { return callback(parameter, models.TraverseProperty.TypeParameter); });
                 }
                 if (this.parameters) {
-                    this.parameters.forEach(function (parameter) { return callback(parameter, 1 /* Parameters */); });
+                    this.parameters.forEach(function (parameter) { return callback(parameter, models.TraverseProperty.Parameters); });
                 }
                 _super.prototype.traverse.call(this, callback);
             };
@@ -5932,7 +5957,7 @@ var td;
              * Create a new TypeParameterReflection instance.
              */
             function TypeParameterReflection(parent, type) {
-                _super.call(this, parent, type.name, 131072 /* TypeParameter */);
+                _super.call(this, parent, type.name, models.ReflectionKind.TypeParameter);
                 this.type = type.constraint;
             }
             /**
@@ -6415,7 +6440,7 @@ var td;
 var td;
 (function (td) {
     var output;
-    (function (_output) {
+    (function (output_1) {
         /**
          * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
          * the emitted html documents to a output directory. You can specify which theme should be used
@@ -6513,7 +6538,7 @@ var td;
                 if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
                     return;
                 }
-                var output = new _output.OutputEvent();
+                var output = new output_1.OutputEvent();
                 output.outputDirectory = outputDirectory;
                 output.project = project;
                 output.settings = this.application.options;
@@ -6578,7 +6603,7 @@ var td;
                     }
                     var filename = td.Path.join(path, 'theme.js');
                     if (!td.FS.existsSync(filename)) {
-                        this.theme = new _output.DefaultTheme(this, path);
+                        this.theme = new output_1.DefaultTheme(this, path);
                     }
                     else {
                         var themeClass = eval(Renderer.readFile(filename));
@@ -6597,7 +6622,8 @@ var td;
             Renderer.prototype.prepareOutputDirectory = function (directory) {
                 if (td.FS.existsSync(directory)) {
                     if (!this.theme.isOutputDirectory(directory)) {
-                        this.application.logger.error('The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' + 'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', directory);
+                        this.application.logger.error('The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' +
+                            'Make sure this is the right target directory, delete the folder and rerun TypeDoc.', directory);
                         return false;
                     }
                     try {
@@ -6689,7 +6715,7 @@ var td;
             Renderer.EVENT_END_PAGE = 'endPage';
             return Renderer;
         })(td.PluginHost);
-        _output.Renderer = Renderer;
+        output_1.Renderer = Renderer;
     })(output = td.output || (td.output = {}));
 })(td || (td = {}));
 var td;
@@ -7118,7 +7144,10 @@ var td;
                     var reflection = event.project.reflections[key];
                     if (!(reflection instanceof td.models.DeclarationReflection))
                         continue;
-                    if (!reflection.url || !reflection.name || reflection.flags.isExternal || reflection.name == '')
+                    if (!reflection.url ||
+                        !reflection.name ||
+                        reflection.flags.isExternal ||
+                        reflection.name == '')
                         continue;
                     var parent = reflection.parent;
                     if (parent instanceof td.models.ProjectReflection) {
@@ -7140,7 +7169,9 @@ var td;
                     rows.push(row);
                 }
                 var fileName = td.Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-                var data = 'var typedoc = typedoc || {};' + 'typedoc.search = typedoc.search || {};' + 'typedoc.search.data = ' + JSON.stringify({ kinds: kinds, rows: rows }) + ';';
+                var data = 'var typedoc = typedoc || {};' +
+                    'typedoc.search = typedoc.search || {};' +
+                    'typedoc.search.data = ' + JSON.stringify({ kinds: kinds, rows: rows }) + ';';
                 td.writeFile(fileName, data, true);
             };
             return JavascriptIndexPlugin;
@@ -7388,31 +7419,25 @@ var td;
                 this.mediaPattern = /media:\/\/([^ "\)\]\}]+)/g;
                 renderer.on(MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this);
                 var that = this;
-                td.Handlebars.registerHelper('markdown', function (arg) {
-                    return that.parseMarkdown(arg.fn(this), this);
-                });
-                td.Handlebars.registerHelper('compact', function (arg) {
-                    return that.getCompact(arg.fn(this));
-                });
+                td.Handlebars.registerHelper('markdown', function (arg) { return that.parseMarkdown(arg.fn(this), this); });
+                td.Handlebars.registerHelper('compact', function (arg) { return that.getCompact(arg.fn(this)); });
                 td.Handlebars.registerHelper('relativeURL', function (url) { return _this.getRelativeUrl(url); });
                 td.Handlebars.registerHelper('wbr', function (str) { return _this.getWordBreaks(str); });
-                td.Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-                    return that.getIfCond(v1, operator, v2, options, this);
-                });
+                td.Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) { return that.getIfCond(v1, operator, v2, options, this); });
                 td.Marked.setOptions({
                     highlight: function (text, lang) { return _this.getHighlighted(text, lang); }
                 });
             }
             MarkedPlugin.prototype.getParameters = function () {
                 return [{
-                    name: 'includes',
-                    help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
-                    hint: 1 /* Directory */
-                }, {
-                    name: 'media',
-                    help: 'Specifies the location with media files that should be copied to the output directory.',
-                    hint: 1 /* Directory */
-                }];
+                        name: 'includes',
+                        help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+                        hint: td.ParameterHint.Directory
+                    }, {
+                        name: 'media',
+                        help: 'Specifies the location with media files that should be copied to the output directory.',
+                        hint: td.ParameterHint.Directory
+                    }];
             };
             /**
              * Compress the given string by removing all newlines.
@@ -7779,7 +7804,7 @@ var td;
                 var tagExp = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
                 var emptyLineExp = /^[\s]*$/;
                 var minLineDepth = 1;
-                var state = 0 /* Default */;
+                var state = PrettyPrintState.Default;
                 var stack = [];
                 var lines = event.contents.split(/\r\n?|\n/);
                 var index = 0;
@@ -7787,7 +7812,7 @@ var td;
                 while (index < count) {
                     line = lines[index];
                     if (emptyLineExp.test(line)) {
-                        if (state == 0 /* Default */) {
+                        if (state == PrettyPrintState.Default) {
                             lines.splice(index, 1);
                             count -= 1;
                             continue;
@@ -7797,26 +7822,26 @@ var td;
                         lineState = state;
                         lineDepth = stack.length;
                         while (match = tagExp.exec(line)) {
-                            if (state == 1 /* Comment */) {
+                            if (state == PrettyPrintState.Comment) {
                                 if (match[0] == '-->') {
-                                    state = 0 /* Default */;
+                                    state = PrettyPrintState.Default;
                                 }
                             }
-                            else if (state == 2 /* Pre */) {
+                            else if (state == PrettyPrintState.Pre) {
                                 if (match[2] && match[2].toLowerCase() == preName) {
-                                    state = 0 /* Default */;
+                                    state = PrettyPrintState.Default;
                                 }
                             }
                             else {
                                 if (match[0] == '<!--') {
-                                    state = 1 /* Comment */;
+                                    state = PrettyPrintState.Comment;
                                 }
                                 else if (match[1]) {
                                     tagName = match[1].toLowerCase();
                                     if (tagName in PrettyPrintPlugin.IGNORED_TAGS)
                                         continue;
                                     if (tagName in PrettyPrintPlugin.PRE_TAGS) {
-                                        state = 2 /* Pre */;
+                                        state = PrettyPrintState.Pre;
                                         preName = tagName;
                                     }
                                     else {
@@ -7836,7 +7861,7 @@ var td;
                                 }
                             }
                         }
-                        if (lineState == 0 /* Default */) {
+                        if (lineState == PrettyPrintState.Default) {
                             lineDepth = Math.min(lineDepth, stack.length);
                             line = line.replace(/^\s+/, '').replace(/\s+$/, '');
                             if (lineDepth > minLineDepth) {
@@ -8006,21 +8031,21 @@ var td;
             };
             DefaultTheme.prototype.getParameters = function () {
                 return [{
-                    name: 'gaID',
-                    help: 'Set the Google Analytics tracking ID and activate tracking code.'
-                }, {
-                    name: 'gaSite',
-                    help: 'Set the site name for Google Analytics. Defaults to `auto`.',
-                    defaultValue: 'auto'
-                }, {
-                    name: 'hideGenerator',
-                    help: 'Do not print the TypeDoc link at the end of the page.',
-                    type: 2 /* Boolean */
-                }, {
-                    name: 'entryPoint',
-                    help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
-                    type: 0 /* String */
-                }];
+                        name: 'gaID',
+                        help: 'Set the Google Analytics tracking ID and activate tracking code.'
+                    }, {
+                        name: 'gaSite',
+                        help: 'Set the site name for Google Analytics. Defaults to `auto`.',
+                        defaultValue: 'auto'
+                    }, {
+                        name: 'hideGenerator',
+                        help: 'Do not print the TypeDoc link at the end of the page.',
+                        type: td.ParameterType.Boolean
+                    }, {
+                        name: 'entryPoint',
+                        help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
+                        type: td.ParameterType.String
+                    }];
             };
             /**
              * Map the models of the given project to the desired output files.
@@ -8187,7 +8212,7 @@ var td;
                         var target = someModule.parent;
                         var inScope = (someModule == entryPoint);
                         while (target) {
-                            if (target.kindOf(1 /* ExternalModule */))
+                            if (target.kindOf(td.models.ReflectionKind.ExternalModule))
                                 return;
                             if (entryPoint == target)
                                 inScope = true;
@@ -8238,7 +8263,8 @@ var td;
             DefaultTheme.getUrl = function (reflection, relative, separator) {
                 if (separator === void 0) { separator = '.'; }
                 var url = reflection.getAlias();
-                if (reflection.parent && reflection.parent != relative && !(reflection.parent instanceof td.models.ProjectReflection))
+                if (reflection.parent && reflection.parent != relative &&
+                    !(reflection.parent instanceof td.models.ProjectReflection))
                     url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
                 return url;
             };
@@ -8314,7 +8340,7 @@ var td;
              */
             DefaultTheme.applyReflectionClasses = function (reflection) {
                 var classes = [];
-                if (reflection.kind == 262144 /* Accessor */) {
+                if (reflection.kind == td.models.ReflectionKind.Accessor) {
                     if (!reflection.getSignature) {
                         classes.push('tsd-kind-set-signature');
                     }
@@ -8386,26 +8412,26 @@ var td;
              * Mappings of reflections kinds to templates used by this theme.
              */
             DefaultTheme.MAPPINGS = [{
-                kind: [128 /* Class */],
-                isLeaf: false,
-                directory: 'classes',
-                template: 'reflection.hbs'
-            }, {
-                kind: [256 /* Interface */],
-                isLeaf: false,
-                directory: 'interfaces',
-                template: 'reflection.hbs'
-            }, {
-                kind: [4 /* Enum */],
-                isLeaf: false,
-                directory: 'enums',
-                template: 'reflection.hbs'
-            }, {
-                kind: [2 /* Module */, 1 /* ExternalModule */],
-                isLeaf: false,
-                directory: 'modules',
-                template: 'reflection.hbs'
-            }];
+                    kind: [td.models.ReflectionKind.Class],
+                    isLeaf: false,
+                    directory: 'classes',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [td.models.ReflectionKind.Interface],
+                    isLeaf: false,
+                    directory: 'interfaces',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [td.models.ReflectionKind.Enum],
+                    isLeaf: false,
+                    directory: 'enums',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [td.models.ReflectionKind.Module, td.models.ReflectionKind.ExternalModule],
+                    isLeaf: false,
+                    directory: 'modules',
+                    template: 'reflection.hbs'
+                }];
             return DefaultTheme;
         })(output.Theme);
         output.DefaultTheme = DefaultTheme;

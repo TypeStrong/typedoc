@@ -66,7 +66,7 @@ module td.converter
          */
         private onBeginDocument(context:Context, reflection:models.Reflection, node?:ts.SourceFile) {
             if (!node) return;
-            var fileName = node.filename;
+            var fileName = node.fileName;
             this.basePath.add(fileName);
             this.getSourceFile(fileName, context.project);
         }
@@ -84,14 +84,14 @@ module td.converter
         private onDeclaration(context:Context, reflection:models.Reflection, node?:ts.Node) {
             if (!node) return;
             var sourceFile      = ts.getSourceFileOfNode(node);
-            var fileName        = sourceFile.filename;
+            var fileName        = sourceFile.fileName;
             var file:models.SourceFile = this.getSourceFile(fileName, context.project);
 
             var position;
             if (node['name'] && node['name'].end) {
-                position = sourceFile.getLineAndCharacterFromPosition(node['name'].end);
+                position = ts.getLineAndCharacterOfPosition(sourceFile, node['name'].end);
             } else {
-                position = sourceFile.getLineAndCharacterFromPosition(node.pos);
+                position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
             }
 
             if (!reflection.sources) reflection.sources = [];
@@ -102,7 +102,7 @@ module td.converter
             reflection.sources.push({
                 file: file,
                 fileName: fileName,
-                line: position.line,
+                line: position.line + 1,
                 character: position.character
             });
         }

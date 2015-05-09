@@ -763,6 +763,10 @@ declare module td.converter {
          */
         checker: ts.TypeChecker;
         /**
+         * The program that is currently processed.
+         */
+        program: ts.Program;
+        /**
          * The project that is currently processed.
          */
         project: models.ProjectReflection;
@@ -817,7 +821,7 @@ declare module td.converter {
          * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
          * @param checker  The TypeChecker instance returned by the TypeScript compiler.
          */
-        constructor(converter: Converter, fileNames: string[], checker: ts.TypeChecker);
+        constructor(converter: Converter, fileNames: string[], checker: ts.TypeChecker, program: ts.Program);
         /**
          * Return the current TypeDoc options object.
          */
@@ -1103,7 +1107,7 @@ declare module td.converter {
          *
          * @returns The full path of the default library.
          */
-        getDefaultLibFilename(): string;
+        getDefaultLibFileName(options: ts.CompilerOptions): string;
         /**
          * Return the full path of the current directory.
          *
@@ -1195,6 +1199,283 @@ declare module td.converter {
      * @returns The TypeDoc type reflection representing the given node and type.
      */
     function convertType(context: Context, node?: ts.Node, type?: ts.Type): models.Type;
+}
+/**
+ * Holds all data models used by TypeDoc.
+ *
+ * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
+ * serves as the root container for the current project while [[DeclarationReflection]] instances
+ * form the structure of the project. Most of the other classes in this namespace are referenced by this
+ * two base classes.
+ *
+ * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
+ * while creating the final output.
+ */
+declare module td.models {
+    /**
+     * Reset the reflection id.
+     *
+     * Used by the test cases to ensure the reflection ids won't change between runs.
+     */
+    function resetReflectionID(): void;
+    /**
+     * Defines the available reflection kinds.
+     */
+    enum ReflectionKind {
+        Global = 0,
+        ExternalModule = 1,
+        Module = 2,
+        Enum = 4,
+        EnumMember = 16,
+        Variable = 32,
+        Function = 64,
+        Class = 128,
+        Interface = 256,
+        Constructor = 512,
+        Property = 1024,
+        Method = 2048,
+        CallSignature = 4096,
+        IndexSignature = 8192,
+        ConstructorSignature = 16384,
+        Parameter = 32768,
+        TypeLiteral = 65536,
+        TypeParameter = 131072,
+        Accessor = 262144,
+        GetSignature = 524288,
+        SetSignature = 1048576,
+        ObjectLiteral = 2097152,
+        TypeAlias = 4194304,
+        Event = 8388608,
+        ClassOrInterface = 384,
+        VariableOrProperty = 1056,
+        FunctionOrMethod = 2112,
+        SomeSignature = 1601536,
+        SomeModule = 3,
+    }
+    enum ReflectionFlag {
+        Private = 1,
+        Protected = 2,
+        Public = 4,
+        Static = 8,
+        Exported = 16,
+        ExportAssignment = 32,
+        External = 64,
+        Optional = 128,
+        DefaultValue = 256,
+        Rest = 512,
+        ConstructorProperty = 1024,
+    }
+    interface IReflectionFlags extends Array<string> {
+        flags?: ReflectionFlag;
+        /**
+         * Is this a private member?
+         */
+        isPrivate?: boolean;
+        /**
+         * Is this a protected member?
+         */
+        isProtected?: boolean;
+        /**
+         * Is this a public member?
+         */
+        isPublic?: boolean;
+        /**
+         * Is this a static member?
+         */
+        isStatic?: boolean;
+        /**
+         * Is this member exported?
+         */
+        isExported?: boolean;
+        /**
+         * Is this a declaration from an external document?
+         */
+        isExternal?: boolean;
+        /**
+         * Whether this reflection is an optional component or not.
+         *
+         * Applies to function parameters and object members.
+         */
+        isOptional?: boolean;
+        /**
+         * Whether it's a rest parameter, like `foo(...params);`.
+         */
+        isRest?: boolean;
+        /**
+         *
+         */
+        hasExportAssignment?: boolean;
+        isConstructorProperty?: boolean;
+    }
+    interface IDefaultValueContainer extends Reflection {
+        defaultValue: string;
+    }
+    interface ITypeContainer extends Reflection {
+        type: Type;
+    }
+    interface ITypeParameterContainer extends Reflection {
+        typeParameters: TypeParameterReflection[];
+    }
+    enum TraverseProperty {
+        Children = 0,
+        Parameters = 1,
+        TypeLiteral = 2,
+        TypeParameter = 3,
+        Signatures = 4,
+        IndexSignature = 5,
+        GetSignature = 6,
+        SetSignature = 7,
+    }
+    interface ITraverseCallback {
+        (reflection: Reflection, property: TraverseProperty): void;
+    }
+    /**
+     * Base class for all reflection classes.
+     *
+     * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
+     * as the root for all reflections within the project. All other reflections are represented
+     * by the [[DeclarationReflection]] class.
+     *
+     * This base class exposes the basic properties one may use to traverse the reflection tree.
+     * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
+     * contains a list of all children grouped and sorted for being rendered.
+     */
+    class Reflection {
+        /**
+         * Unique id of this reflection.
+         */
+        id: number;
+        /**
+         * The symbol name of this reflection.
+         */
+        name: string;
+        /**
+         * The original name of the TypeScript declaration.
+         */
+        originalName: string;
+        /**
+         * The kind of this reflection.
+         */
+        kind: ReflectionKind;
+        /**
+         * The human readable string representation of the kind of this reflection.
+         */
+        kindString: string;
+        flags: IReflectionFlags;
+        /**
+         * The reflection this reflection is a child of.
+         */
+        parent: Reflection;
+        /**
+         * The parsed documentation comment attached to this reflection.
+         */
+        comment: Comment;
+        /**
+         * A list of all source files that contributed to this reflection.
+         */
+        sources: ISourceReference[];
+        /**
+         * The url of this reflection in the generated documentation.
+         */
+        url: string;
+        /**
+         * The name of the anchor of this child.
+         */
+        anchor: string;
+        /**
+         * Is the url pointing to an individual document?
+         *
+         * When FALSE, the url points to an anchor tag on a page of a different reflection.
+         */
+        hasOwnDocument: boolean;
+        /**
+         * A list of generated css classes that should be applied to representations of this
+         * reflection in the generated markup.
+         */
+        cssClasses: string;
+        /**
+         * Url safe alias for this reflection.
+         *
+         * @see [[BaseReflection.getAlias]]
+         */
+        private _alias;
+        private _aliases;
+        /**
+         * Create a new BaseReflection instance.
+         */
+        constructor(parent?: Reflection, name?: string, kind?: ReflectionKind);
+        /**
+         * @param kind  The kind to test for.
+         */
+        kindOf(kind: ReflectionKind): boolean;
+        /**
+         * @param kind  An array of kinds to test for.
+         */
+        kindOf(kind: ReflectionKind[]): boolean;
+        /**
+         * Return the full name of this reflection.
+         *
+         * The full name contains the name of this reflection and the names of all parent reflections.
+         *
+         * @param separator  Separator used to join the names of the reflections.
+         * @returns The full name of this reflection.
+         */
+        getFullName(separator?: string): string;
+        /**
+         * Set a flag on this reflection.
+         */
+        setFlag(flag: ReflectionFlag, value?: boolean): void;
+        /**
+         * Return an url safe alias for this reflection.
+         */
+        getAlias(): string;
+        /**
+         * Has this reflection a visible comment?
+         *
+         * @returns TRUE when this reflection has a visible comment.
+         */
+        hasComment(): boolean;
+        hasGetterOrSetter(): boolean;
+        /**
+         * @param name  The name of the child to look for. Might contain a hierarchy.
+         */
+        getChildByName(name: string): Reflection;
+        /**
+         * @param names  The name hierarchy of the child to look for.
+         */
+        getChildByName(names: string[]): Reflection;
+        /**
+         * @param name  The name to look for. Might contain a hierarchy.
+         */
+        findReflectionByName(name: string): Reflection;
+        /**
+         * @param names  The name hierarchy to look for.
+         */
+        findReflectionByName(names: string[]): Reflection;
+        /**
+         * Traverse all potential child reflections of this reflection.
+         *
+         * The given callback will be invoked for all children, signatures and type parameters
+         * attached to this reflection.
+         *
+         * @param callback  The callback function that should be applied for each child reflection.
+         */
+        traverse(callback: ITraverseCallback): void;
+        /**
+         * Return a raw object representation of this reflection.
+         */
+        toObject(): any;
+        /**
+         * Return a string representation of this reflection.
+         */
+        toString(): string;
+        /**
+         * Return a string representation of this reflection and all of its children.
+         *
+         * @param indent  Used internally to indent child reflections.
+         */
+        toStringHierarchy(indent?: string): string;
+    }
 }
 declare module td.converter {
     /**
@@ -1761,283 +2042,6 @@ declare module td.models {
          * Return a raw object representation of this tag.
          */
         toObject(): any;
-    }
-}
-/**
- * Holds all data models used by TypeDoc.
- *
- * The [[BaseReflection]] is base class of all reflection models. The subclass [[ProjectReflection]]
- * serves as the root container for the current project while [[DeclarationReflection]] instances
- * form the structure of the project. Most of the other classes in this namespace are referenced by this
- * two base classes.
- *
- * The models [[NavigationItem]] and [[UrlMapping]] are special as they are only used by the [[Renderer]]
- * while creating the final output.
- */
-declare module td.models {
-    /**
-     * Reset the reflection id.
-     *
-     * Used by the test cases to ensure the reflection ids won't change between runs.
-     */
-    function resetReflectionID(): void;
-    /**
-     * Defines the available reflection kinds.
-     */
-    enum ReflectionKind {
-        Global = 0,
-        ExternalModule = 1,
-        Module = 2,
-        Enum = 4,
-        EnumMember = 16,
-        Variable = 32,
-        Function = 64,
-        Class = 128,
-        Interface = 256,
-        Constructor = 512,
-        Property = 1024,
-        Method = 2048,
-        CallSignature = 4096,
-        IndexSignature = 8192,
-        ConstructorSignature = 16384,
-        Parameter = 32768,
-        TypeLiteral = 65536,
-        TypeParameter = 131072,
-        Accessor = 262144,
-        GetSignature = 524288,
-        SetSignature = 1048576,
-        ObjectLiteral = 2097152,
-        TypeAlias = 4194304,
-        Event = 8388608,
-        ClassOrInterface,
-        VariableOrProperty,
-        FunctionOrMethod,
-        SomeSignature,
-        SomeModule,
-    }
-    enum ReflectionFlag {
-        Private = 1,
-        Protected = 2,
-        Public = 4,
-        Static = 8,
-        Exported = 16,
-        ExportAssignment = 32,
-        External = 64,
-        Optional = 128,
-        DefaultValue = 256,
-        Rest = 512,
-        ConstructorProperty = 1024,
-    }
-    interface IReflectionFlags extends Array<string> {
-        flags?: ReflectionFlag;
-        /**
-         * Is this a private member?
-         */
-        isPrivate?: boolean;
-        /**
-         * Is this a protected member?
-         */
-        isProtected?: boolean;
-        /**
-         * Is this a public member?
-         */
-        isPublic?: boolean;
-        /**
-         * Is this a static member?
-         */
-        isStatic?: boolean;
-        /**
-         * Is this member exported?
-         */
-        isExported?: boolean;
-        /**
-         * Is this a declaration from an external document?
-         */
-        isExternal?: boolean;
-        /**
-         * Whether this reflection is an optional component or not.
-         *
-         * Applies to function parameters and object members.
-         */
-        isOptional?: boolean;
-        /**
-         * Whether it's a rest parameter, like `foo(...params);`.
-         */
-        isRest?: boolean;
-        /**
-         *
-         */
-        hasExportAssignment?: boolean;
-        isConstructorProperty?: boolean;
-    }
-    interface IDefaultValueContainer extends Reflection {
-        defaultValue: string;
-    }
-    interface ITypeContainer extends Reflection {
-        type: Type;
-    }
-    interface ITypeParameterContainer extends Reflection {
-        typeParameters: TypeParameterReflection[];
-    }
-    enum TraverseProperty {
-        Children = 0,
-        Parameters = 1,
-        TypeLiteral = 2,
-        TypeParameter = 3,
-        Signatures = 4,
-        IndexSignature = 5,
-        GetSignature = 6,
-        SetSignature = 7,
-    }
-    interface ITraverseCallback {
-        (reflection: Reflection, property: TraverseProperty): void;
-    }
-    /**
-     * Base class for all reflection classes.
-     *
-     * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
-     * as the root for all reflections within the project. All other reflections are represented
-     * by the [[DeclarationReflection]] class.
-     *
-     * This base class exposes the basic properties one may use to traverse the reflection tree.
-     * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
-     * contains a list of all children grouped and sorted for being rendered.
-     */
-    class Reflection {
-        /**
-         * Unique id of this reflection.
-         */
-        id: number;
-        /**
-         * The symbol name of this reflection.
-         */
-        name: string;
-        /**
-         * The original name of the TypeScript declaration.
-         */
-        originalName: string;
-        /**
-         * The kind of this reflection.
-         */
-        kind: ReflectionKind;
-        /**
-         * The human readable string representation of the kind of this reflection.
-         */
-        kindString: string;
-        flags: IReflectionFlags;
-        /**
-         * The reflection this reflection is a child of.
-         */
-        parent: Reflection;
-        /**
-         * The parsed documentation comment attached to this reflection.
-         */
-        comment: Comment;
-        /**
-         * A list of all source files that contributed to this reflection.
-         */
-        sources: ISourceReference[];
-        /**
-         * The url of this reflection in the generated documentation.
-         */
-        url: string;
-        /**
-         * The name of the anchor of this child.
-         */
-        anchor: string;
-        /**
-         * Is the url pointing to an individual document?
-         *
-         * When FALSE, the url points to an anchor tag on a page of a different reflection.
-         */
-        hasOwnDocument: boolean;
-        /**
-         * A list of generated css classes that should be applied to representations of this
-         * reflection in the generated markup.
-         */
-        cssClasses: string;
-        /**
-         * Url safe alias for this reflection.
-         *
-         * @see [[BaseReflection.getAlias]]
-         */
-        private _alias;
-        private _aliases;
-        /**
-         * Create a new BaseReflection instance.
-         */
-        constructor(parent?: Reflection, name?: string, kind?: ReflectionKind);
-        /**
-         * @param kind  The kind to test for.
-         */
-        kindOf(kind: ReflectionKind): boolean;
-        /**
-         * @param kind  An array of kinds to test for.
-         */
-        kindOf(kind: ReflectionKind[]): boolean;
-        /**
-         * Return the full name of this reflection.
-         *
-         * The full name contains the name of this reflection and the names of all parent reflections.
-         *
-         * @param separator  Separator used to join the names of the reflections.
-         * @returns The full name of this reflection.
-         */
-        getFullName(separator?: string): string;
-        /**
-         * Set a flag on this reflection.
-         */
-        setFlag(flag: ReflectionFlag, value?: boolean): void;
-        /**
-         * Return an url safe alias for this reflection.
-         */
-        getAlias(): string;
-        /**
-         * Has this reflection a visible comment?
-         *
-         * @returns TRUE when this reflection has a visible comment.
-         */
-        hasComment(): boolean;
-        hasGetterOrSetter(): boolean;
-        /**
-         * @param name  The name of the child to look for. Might contain a hierarchy.
-         */
-        getChildByName(name: string): Reflection;
-        /**
-         * @param names  The name hierarchy of the child to look for.
-         */
-        getChildByName(names: string[]): Reflection;
-        /**
-         * @param name  The name to look for. Might contain a hierarchy.
-         */
-        findReflectionByName(name: string): Reflection;
-        /**
-         * @param names  The name hierarchy to look for.
-         */
-        findReflectionByName(names: string[]): Reflection;
-        /**
-         * Traverse all potential child reflections of this reflection.
-         *
-         * The given callback will be invoked for all children, signatures and type parameters
-         * attached to this reflection.
-         *
-         * @param callback  The callback function that should be applied for each child reflection.
-         */
-        traverse(callback: ITraverseCallback): void;
-        /**
-         * Return a raw object representation of this reflection.
-         */
-        toObject(): any;
-        /**
-         * Return a string representation of this reflection.
-         */
-        toString(): string;
-        /**
-         * Return a string representation of this reflection and all of its children.
-         *
-         * @param indent  Used internally to indent child reflections.
-         */
-        toStringHierarchy(indent?: string): string;
     }
 }
 declare module td.models {

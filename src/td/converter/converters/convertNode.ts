@@ -46,6 +46,7 @@ module td.converter
         switch (node.kind) {
             case ts.SyntaxKind.SourceFile:
                 return visitSourceFile(context, <ts.SourceFile>node);
+            case ts.SyntaxKind.ClassExpression:
             case ts.SyntaxKind.ClassDeclaration:
                 return visitClassDeclaration(context, <ts.ClassDeclaration>node);
             case ts.SyntaxKind.InterfaceDeclaration:
@@ -54,8 +55,10 @@ module td.converter
                 return visitModuleDeclaration(context, <ts.ModuleDeclaration>node);
             case ts.SyntaxKind.VariableStatement:
                 return visitVariableStatement(context, <ts.VariableStatement>node);
-            case ts.SyntaxKind.Property:
+            case ts.SyntaxKind.PropertySignature:
+            case ts.SyntaxKind.PropertyDeclaration:
             case ts.SyntaxKind.PropertyAssignment:
+            case ts.SyntaxKind.ShorthandPropertyAssignment:
             case ts.SyntaxKind.VariableDeclaration:
                 return visitVariableDeclaration(context, <ts.VariableDeclaration>node);
             case ts.SyntaxKind.EnumDeclaration:
@@ -65,7 +68,8 @@ module td.converter
             case ts.SyntaxKind.Constructor:
             case ts.SyntaxKind.ConstructSignature:
                 return visitConstructor(context, <ts.ConstructorDeclaration>node);
-            case ts.SyntaxKind.Method:
+            case ts.SyntaxKind.MethodSignature:
+            case ts.SyntaxKind.MethodDeclaration:
             case ts.SyntaxKind.FunctionDeclaration:
                 return visitFunctionDeclaration(context, <ts.MethodDeclaration>node);
             case ts.SyntaxKind.GetAccessor:
@@ -136,7 +140,7 @@ module td.converter
         var options = context.getOptions();
         context.withSourceFile(node, () => {
             if (options.mode == SourceFileMode.Modules) {
-                result = createDeclaration(context, node, models.ReflectionKind.ExternalModule, node.filename);
+                result = createDeclaration(context, node, models.ReflectionKind.ExternalModule, node.fileName);
                 context.withScope(result, () => {
                     visitBlock(context, node);
                     result.setFlag(models.ReflectionFlag.Exported);
@@ -199,7 +203,7 @@ module td.converter
                 });
             }
 
-            var baseType = ts.getClassBaseTypeNode(node);
+            var baseType = ts.getClassExtendsHeritageClauseElement(node);
             if (baseType) {
                 var type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
@@ -214,7 +218,7 @@ module td.converter
                 }
             }
 
-            var implementedTypes = ts.getClassImplementedTypeNodes(node);
+            var implementedTypes = ts.getClassImplementsHeritageClauseElements(node);
             if (implementedTypes) {
                 implementedTypes.forEach((implementedType) => {
                     if (!reflection.implementedTypes) {
@@ -282,8 +286,8 @@ module td.converter
      * @return The resulting reflection or NULL.
      */
     function visitVariableStatement(context:Context, node:ts.VariableStatement):models.Reflection {
-        if (node.declarations) {
-            node.declarations.forEach((variableDeclaration) => {
+        if (node.declarationList && node.declarationList.declarations) {
+            node.declarationList.declarations.forEach((variableDeclaration) => {
                 visitVariableDeclaration(context, variableDeclaration);
             });
         }
@@ -606,7 +610,11 @@ module td.converter
 
 
     function visitExportAssignment(context:Context, node:ts.ExportAssignment):models.Reflection {
-        var type = context.getTypeAtLocation(node.exportName);
+        if (!node.isExportEquals) {
+            return context.scope;
+        }
+
+        var type = context.getTypeAtLocation(node.expression);
         if (type && type.symbol) {
             var project = context.project;
             type.symbol.declarations.forEach((declaration) => {

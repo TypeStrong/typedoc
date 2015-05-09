@@ -307,8 +307,8 @@ module td.converter
                 }
             }
 
-            if (node.parent && node.parent.kind == ts.SyntaxKind.VariableStatement) {
-                target = node.parent;
+            if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
+                target = node.parent.parent;
             }
 
             var comments = ts.getJsDocComments(target, sourceFile);

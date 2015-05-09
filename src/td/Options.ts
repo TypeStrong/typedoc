@@ -310,7 +310,7 @@ module td
                         param.map = option.type;
                         if (option.error) {
                             var error = ts.createCompilerDiagnostic(option.error);
-                            param.mapError = error.messageText;
+                            param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                         }
                 }
 

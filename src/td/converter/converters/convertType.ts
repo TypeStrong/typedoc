@@ -20,7 +20,7 @@ module td.converter
             // Node based type conversions by node kind
             switch (node.kind) {
                 case ts.SyntaxKind.StringLiteral:
-                    return convertStringLiteralExpression(<ts.StringLiteralExpression>node);
+                    return convertStringLiteralExpression(<ts.StringLiteral>node);
                 case ts.SyntaxKind.ArrayType:
                     return convertArrayTypeNode(context, <ts.ArrayTypeNode>node);
                 case ts.SyntaxKind.TupleType:
@@ -173,7 +173,7 @@ module td.converter
      * @param node  The string literal node that should be converted.
      * @returns The type reflection representing the given string literal node.
      */
-    function convertStringLiteralExpression(node:ts.StringLiteralExpression):models.StringLiteralType {
+    function convertStringLiteralExpression(node:ts.StringLiteral):models.StringLiteralType {
         return new models.StringLiteralType(node.text);
     }
 

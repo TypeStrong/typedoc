@@ -1,3 +1,5 @@
+/// <reference path="../../models/Reflection.ts" />
+
 module td.converter
 {
     /**
@@ -32,7 +34,13 @@ module td.converter
         }
 
         // Test whether the node is exported
-        var isExported = container.flags.isExported || !!(node.flags & ts.NodeFlags.Export);
+        var isExported = container.flags.isExported;
+        if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
+            isExported = isExported || !!(node.parent.parent.flags & ts.NodeFlags.Export)
+        } else {
+            isExported = isExported || !!(node.flags & ts.NodeFlags.Export);
+        }
+
         if (!isExported && context.getOptions().excludeNotExported) {
             return null;
         }
