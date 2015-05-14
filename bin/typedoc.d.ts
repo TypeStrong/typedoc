@@ -1199,6 +1199,14 @@ declare module td.converter {
      * @returns The TypeDoc type reflection representing the given node and type.
      */
     function convertType(context: Context, node?: ts.Node, type?: ts.Type): models.Type;
+    /**
+     * Convert the given binding pattern to its type reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The binding pattern that should be converted.
+     * @returns The type reflection representing the given binding pattern.
+     */
+    function convertDestructuringType(context: Context, node: ts.BindingPattern): models.Type;
 }
 /**
  * Holds all data models used by TypeDoc.

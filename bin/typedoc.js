@@ -1720,7 +1720,7 @@ var td;
              */
             Context.prototype.registerReflection = function (reflection, node, symbol) {
                 this.project.reflections[reflection.id] = reflection;
-                var id = this.getSymbolID(symbol ? symbol : node.symbol);
+                var id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : null));
                 if (!this.isInherit && id && !this.project.symbolMapping[id]) {
                     this.project.symbolMapping[id] = reflection.id;
                 }
@@ -2267,6 +2267,7 @@ var td;
                 case 225 /* PropertyAssignment */:
                 case 226 /* ShorthandPropertyAssignment */:
                 case 199 /* VariableDeclaration */:
+                case 153 /* BindingElement */:
                     return visitVariableDeclaration(context, node);
                 case 205 /* EnumDeclaration */:
                     return visitEnumDeclaration(context, node);
@@ -2465,7 +2466,12 @@ var td;
         function visitVariableStatement(context, node) {
             if (node.declarationList && node.declarationList.declarations) {
                 node.declarationList.declarations.forEach(function (variableDeclaration) {
-                    visitVariableDeclaration(context, variableDeclaration);
+                    if (ts.isBindingPattern(variableDeclaration.name)) {
+                        visitBindingPattern(context, variableDeclaration.name);
+                    }
+                    else {
+                        visitVariableDeclaration(context, variableDeclaration);
+                    }
                 });
             }
             return context.scope;
@@ -2494,13 +2500,19 @@ var td;
                     return resolved;
                 }
             }
+            var name, isBindingPattern;
             if (ts.isBindingPattern(node.name)) {
-                visitBindingPattern(context, node.name);
-                return context.scope;
+                if (node['propertyName']) {
+                    name = ts.declarationNameToString(node['propertyName']);
+                    isBindingPattern = true;
+                }
+                else {
+                    return null;
+                }
             }
             var scope = context.scope;
             var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Property : td.models.ReflectionKind.Variable;
-            var variable = converter.createDeclaration(context, node, kind);
+            var variable = converter.createDeclaration(context, node, kind, name);
             context.withScope(variable, function () {
                 if (node.initializer) {
                     switch (node.initializer.kind) {
@@ -2521,7 +2533,12 @@ var td;
                     }
                 }
                 if (variable.kind == kind || variable.kind == td.models.ReflectionKind.Event) {
-                    variable.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
+                    if (isBindingPattern) {
+                        variable.type = converter.convertDestructuringType(context, node.name);
+                    }
+                    else {
+                        variable.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
+                    }
                 }
             });
             return variable;
@@ -2534,11 +2551,9 @@ var td;
          */
         function visitBindingPattern(context, node) {
             node.elements.forEach(function (element) {
+                visitVariableDeclaration(context, element);
                 if (ts.isBindingPattern(element.name)) {
                     visitBindingPattern(context, element.name);
-                }
-                else {
-                    visitVariableDeclaration(context, element);
                 }
             });
         }
@@ -3210,6 +3225,37 @@ var td;
             }
             return result;
         }
+        /**
+         * Convert the given binding pattern to its type reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param node  The binding pattern that should be converted.
+         * @returns The type reflection representing the given binding pattern.
+         */
+        function convertDestructuringType(context, node) {
+            if (node.kind == 152 /* ArrayBindingPattern */) {
+                var types = [];
+                node.elements.forEach(function (element) {
+                    types.push(convertType(context, element));
+                });
+                return new td.models.TupleType(types);
+            }
+            else {
+                var declaration = new td.models.DeclarationReflection();
+                declaration.kind = td.models.ReflectionKind.TypeLiteral;
+                declaration.name = '__type';
+                declaration.parent = context.scope;
+                context.registerReflection(declaration, null);
+                context.trigger(converter.Converter.EVENT_CREATE_DECLARATION, declaration, node);
+                context.withScope(declaration, function () {
+                    node.elements.forEach(function (element) {
+                        converter.visit(context, element);
+                    });
+                });
+                return new td.models.ReflectionType(declaration);
+            }
+        }
+        converter.convertDestructuringType = convertDestructuringType;
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 /**
@@ -3812,7 +3858,13 @@ var td;
             var parameter = new td.models.ParameterReflection(signature, node.symbol.name, td.models.ReflectionKind.Parameter);
             context.registerReflection(parameter, node);
             context.withScope(parameter, function () {
-                parameter.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
+                if (ts.isBindingPattern(node.name)) {
+                    parameter.type = converter.convertDestructuringType(context, node.name);
+                    parameter.name = '__namedParameters';
+                }
+                else {
+                    parameter.type = converter.convertType(context, node.type, context.getTypeAtLocation(node));
+                }
                 parameter.defaultValue = converter.getDefaultValue(node);
                 parameter.setFlag(td.models.ReflectionFlag.Optional, !!node.questionToken);
                 parameter.setFlag(td.models.ReflectionFlag.Rest, !!node.dotDotDotToken);

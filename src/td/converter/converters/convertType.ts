@@ -471,4 +471,37 @@ module td.converter
 
         return result;
     }
+
+
+    /**
+     * Convert the given binding pattern to its type reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The binding pattern that should be converted.
+     * @returns The type reflection representing the given binding pattern.
+     */
+    export function convertDestructuringType(context:Context, node:ts.BindingPattern):models.Type {
+        if (node.kind == ts.SyntaxKind.ArrayBindingPattern) {
+            var types = [];
+            node.elements.forEach((element) => {
+                types.push(convertType(context, element));
+            });
+            return new models.TupleType(types);
+        } else {
+            var declaration = new models.DeclarationReflection();
+            declaration.kind = models.ReflectionKind.TypeLiteral;
+            declaration.name = '__type';
+            declaration.parent = context.scope;
+
+            context.registerReflection(declaration, null);
+            context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
+            context.withScope(declaration, () => {
+                node.elements.forEach((element) => {
+                    visit(context, element);
+                });
+            });
+
+            return new models.ReflectionType(declaration);
+        }
+    }
 }

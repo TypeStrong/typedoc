@@ -187,7 +187,7 @@ module td.converter
         registerReflection(reflection:models.Reflection, node:ts.Node, symbol?:ts.Symbol) {
             this.project.reflections[reflection.id] = reflection;
 
-            var id = this.getSymbolID(symbol ? symbol : node.symbol);
+            var id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : null));
             if (!this.isInherit && id && !this.project.symbolMapping[id]) {
                 this.project.symbolMapping[id] = reflection.id;
             }

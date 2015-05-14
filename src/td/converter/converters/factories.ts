@@ -261,7 +261,13 @@ module td.converter
         var parameter = new models.ParameterReflection(signature, node.symbol.name, models.ReflectionKind.Parameter);
         context.registerReflection(parameter, node);
         context.withScope(parameter, () => {
-            parameter.type = convertType(context, node.type, context.getTypeAtLocation(node));
+            if (ts.isBindingPattern(node.name)) {
+                parameter.type = convertDestructuringType(context, <ts.BindingPattern>node.name);
+                parameter.name = '__namedParameters'
+            } else {
+                parameter.type = convertType(context, node.type, context.getTypeAtLocation(node));
+            }
+
             parameter.defaultValue = getDefaultValue(node);
             parameter.setFlag(models.ReflectionFlag.Optional, !!node.questionToken);
             parameter.setFlag(models.ReflectionFlag.Rest, !!node.dotDotDotToken);

@@ -60,6 +60,7 @@ module td.converter
             case ts.SyntaxKind.PropertyAssignment:
             case ts.SyntaxKind.ShorthandPropertyAssignment:
             case ts.SyntaxKind.VariableDeclaration:
+                case ts.SyntaxKind.BindingElement:
                 return visitVariableDeclaration(context, <ts.VariableDeclaration>node);
             case ts.SyntaxKind.EnumDeclaration:
                 return visitEnumDeclaration(context, <ts.EnumDeclaration>node);
@@ -288,7 +289,11 @@ module td.converter
     function visitVariableStatement(context:Context, node:ts.VariableStatement):models.Reflection {
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
-                visitVariableDeclaration(context, variableDeclaration);
+                if (ts.isBindingPattern(variableDeclaration.name)) {
+                    visitBindingPattern(context, <ts.BindingPattern>variableDeclaration.name);
+                } else {
+                    visitVariableDeclaration(context, variableDeclaration);
+                }
             });
         }
 
@@ -322,14 +327,19 @@ module td.converter
             }
         }
 
+        var name, isBindingPattern;
         if (ts.isBindingPattern(node.name)) {
-            visitBindingPattern(context, <ts.BindingPattern>node.name);
-            return context.scope;
+            if (node['propertyName']) {
+                name = ts.declarationNameToString(node['propertyName']);
+                isBindingPattern = true;
+            } else {
+                return null;
+            }
         }
 
         var scope = context.scope;
         var kind = scope.kind & models.ReflectionKind.ClassOrInterface ? models.ReflectionKind.Property : models.ReflectionKind.Variable;
-        var variable = createDeclaration(context, node, kind);
+        var variable = createDeclaration(context, node, kind, name);
         context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {
@@ -351,7 +361,11 @@ module td.converter
             }
 
             if (variable.kind == kind || variable.kind == models.ReflectionKind.Event) {
-                variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
+                if (isBindingPattern) {
+                    variable.type = convertDestructuringType(context, <ts.BindingPattern>node.name);
+                } else {
+                    variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
+                }
             }
         });
 
@@ -367,10 +381,9 @@ module td.converter
      */
     function visitBindingPattern(context:Context, node:ts.BindingPattern) {
         node.elements.forEach((element:ts.BindingElement) => {
+            visitVariableDeclaration(context, <any>element);
             if (ts.isBindingPattern(element.name)) {
                 visitBindingPattern(context, <ts.BindingPattern>element.name);
-            } else {
-                visitVariableDeclaration(context, <any>element);
             }
         });
     }
