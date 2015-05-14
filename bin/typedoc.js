@@ -2494,6 +2494,10 @@ var td;
                     return resolved;
                 }
             }
+            if (ts.isBindingPattern(node.name)) {
+                visitBindingPattern(context, node.name);
+                return context.scope;
+            }
             var scope = context.scope;
             var kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Property : td.models.ReflectionKind.Variable;
             var variable = converter.createDeclaration(context, node, kind);
@@ -2521,6 +2525,22 @@ var td;
                 }
             });
             return variable;
+        }
+        /**
+         * Traverse the elements of the given binding pattern and create the corresponding variable reflections.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param node     The binding pattern node that should be analyzed.
+         */
+        function visitBindingPattern(context, node) {
+            node.elements.forEach(function (element) {
+                if (ts.isBindingPattern(element.name)) {
+                    visitBindingPattern(context, element.name);
+                }
+                else {
+                    visitVariableDeclaration(context, element);
+                }
+            });
         }
         /**
          * Analyze the given enumeration declaration node and create a suitable reflection.

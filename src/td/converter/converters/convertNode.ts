@@ -322,6 +322,11 @@ module td.converter
             }
         }
 
+        if (ts.isBindingPattern(node.name)) {
+            visitBindingPattern(context, <ts.BindingPattern>node.name);
+            return context.scope;
+        }
+
         var scope = context.scope;
         var kind = scope.kind & models.ReflectionKind.ClassOrInterface ? models.ReflectionKind.Property : models.ReflectionKind.Variable;
         var variable = createDeclaration(context, node, kind);
@@ -351,6 +356,23 @@ module td.converter
         });
 
         return variable;
+    }
+
+
+    /**
+     * Traverse the elements of the given binding pattern and create the corresponding variable reflections.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The binding pattern node that should be analyzed.
+     */
+    function visitBindingPattern(context:Context, node:ts.BindingPattern) {
+        node.elements.forEach((element:ts.BindingElement) => {
+            if (ts.isBindingPattern(element.name)) {
+                visitBindingPattern(context, <ts.BindingPattern>element.name);
+            } else {
+                visitVariableDeclaration(context, <any>element);
+            }
+        });
     }
 
 
