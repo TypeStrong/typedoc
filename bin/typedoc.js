@@ -3592,7 +3592,7 @@ var td;
                 name = node.symbol.name;
             }
             // Test whether the node is exported
-            var isExported = container.flags.isExported;
+            var isExported = container.kindOf(td.models.ReflectionKind.Module) ? false : container.flags.isExported;
             if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
                 isExported = isExported || !!(node.parent.parent.flags & 1 /* Export */);
             }

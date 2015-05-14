@@ -34,7 +34,7 @@ module td.converter
         }
 
         // Test whether the node is exported
-        var isExported = container.flags.isExported;
+        var isExported = container.kindOf(models.ReflectionKind.Module) ? false : container.flags.isExported;
         if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
             isExported = isExported || !!(node.parent.parent.flags & ts.NodeFlags.Export)
         } else {

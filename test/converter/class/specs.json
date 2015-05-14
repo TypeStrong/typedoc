@@ -86,8 +86,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -147,8 +147,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isProtected": true,
-                "isExported": true
+                "isExported": true,
+                "isProtected": true
               },
               "signatures": [
                 {
@@ -173,8 +173,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "signatures": [
                 {
@@ -387,8 +387,8 @@
               "kindString": "Property",
               "flags": {
                 "isConstructorProperty": true,
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "comment": {
                 "shortText": "Public number property"
@@ -405,8 +405,8 @@
               "kindString": "Property",
               "flags": {
                 "isConstructorProperty": true,
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "comment": {
                 "shortText": "Public implicit any property"
@@ -422,8 +422,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -467,8 +467,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isProtected": true,
-                "isExported": true
+                "isExported": true,
+                "isProtected": true
               },
               "signatures": [
                 {
@@ -503,8 +503,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isPublic": true,
-                "isExported": true
+                "isExported": true,
+                "isPublic": true
               },
               "signatures": [
                 {
