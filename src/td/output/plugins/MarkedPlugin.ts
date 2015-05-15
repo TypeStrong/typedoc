@@ -92,6 +92,7 @@ module td.output
             Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
             Handlebars.registerHelper('wbr', (str:string) => this.getWordBreaks(str));
             Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) { return that.getIfCond(v1, operator, v2, options, this) });
+            Handlebars.registerHelper('ifSignature', function(obj:any, arg:any) { return obj instanceof models.SignatureReflection ? arg.fn(this) : arg.inverse(this) });
 
             Marked.setOptions({
                 highlight: (text, lang) => this.getHighlighted(text, lang)

@@ -4900,6 +4900,90 @@ var td;
     var converter;
     (function (converter_8) {
         /**
+         * A plugin that detects interface implementations of functions and
+         * properties on classes and links them.
+         */
+        var ImplementsPlugin = (function (_super) {
+            __extends(ImplementsPlugin, _super);
+            /**
+             * Create a new ImplementsPlugin instance.
+             *
+             * @param converter  The converter this plugin should be attached to.
+             */
+            function ImplementsPlugin(converter) {
+                _super.call(this, converter);
+                converter.on(converter_8.Converter.EVENT_RESOLVE, this.onResolve, this, -10);
+            }
+            /**
+             * Mark all members of the given class to be the implementation of the matching interface member.
+             *
+             * @param context  The context object describing the current state the converter is in.
+             * @param classReflection  The reflection of the classReflection class.
+             * @param interfaceReflection  The reflection of the interfaceReflection interface.
+             */
+            ImplementsPlugin.prototype.analyzeClass = function (context, classReflection, interfaceReflection) {
+                interfaceReflection.children.forEach(function (interfaceMember) {
+                    if (!(interfaceMember instanceof td.models.DeclarationReflection)) {
+                        return;
+                    }
+                    var classMember;
+                    for (var index = 0, count = classReflection.children.length; index < count; index++) {
+                        var child = classReflection.children[index];
+                        if (child.name != interfaceMember.name)
+                            continue;
+                        if (child.flags.isStatic != interfaceMember.flags.isStatic)
+                            continue;
+                        classMember = child;
+                        break;
+                    }
+                    var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
+                    classMember.implementationOf = new td.models.ReferenceType(interfaceMemberName, td.models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
+                    if (interfaceMember.kindOf(td.models.ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
+                        interfaceMember.signatures.forEach(function (interfaceSignature) {
+                            var interfaceParameters = interfaceSignature.getParameterTypes();
+                            classMember.signatures.forEach(function (classSignature) {
+                                if (td.models.Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
+                                    classSignature.implementationOf = new td.models.ReferenceType(interfaceMemberName, td.models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
+                                }
+                            });
+                        });
+                    }
+                });
+            };
+            /**
+             * Triggered when the converter resolves a reflection.
+             *
+             * @param context  The context object describing the current state the converter is in.
+             * @param reflection  The reflection that is currently resolved.
+             */
+            ImplementsPlugin.prototype.onResolve = function (context, reflection) {
+                var _this = this;
+                if (reflection.kindOf(td.models.ReflectionKind.Class) && reflection.implementedTypes) {
+                    reflection.implementedTypes.forEach(function (type) {
+                        if (!(type instanceof td.models.ReferenceType)) {
+                            return;
+                        }
+                        var source = type.reflection;
+                        if (source && source.kindOf(td.models.ReflectionKind.Interface)) {
+                            _this.analyzeClass(context, reflection, source);
+                        }
+                    });
+                }
+            };
+            return ImplementsPlugin;
+        })(converter_8.ConverterPlugin);
+        converter_8.ImplementsPlugin = ImplementsPlugin;
+        /**
+         * Register this handler.
+         */
+        converter_8.Converter.registerPlugin('implements', ImplementsPlugin);
+    })(converter = td.converter || (td.converter = {}));
+})(td || (td = {}));
+var td;
+(function (td) {
+    var converter;
+    (function (converter_9) {
+        /**
          * A handler that tries to find the package.json and readme.md files of the
          * current project.
          *
@@ -4916,9 +5000,9 @@ var td;
              */
             function PackagePlugin(converter) {
                 _super.call(this, converter);
-                converter.on(converter_8.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(converter_8.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(converter_8.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_9.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_9.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_9.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             }
             PackagePlugin.prototype.getParameters = function () {
                 return [{
@@ -4996,18 +5080,18 @@ var td;
                 }
             };
             return PackagePlugin;
-        })(converter_8.ConverterPlugin);
-        converter_8.PackagePlugin = PackagePlugin;
+        })(converter_9.ConverterPlugin);
+        converter_9.PackagePlugin = PackagePlugin;
         /**
          * Register this handler.
          */
-        converter_8.Converter.registerPlugin('package', PackagePlugin);
+        converter_9.Converter.registerPlugin('package', PackagePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_9) {
+    (function (converter_10) {
         /**
          * A handler that attaches source file information to reflections.
          */
@@ -5023,18 +5107,18 @@ var td;
                 /**
                  * Helper for resolving the base path of all source files.
                  */
-                this.basePath = new converter_9.BasePath();
+                this.basePath = new converter_10.BasePath();
                 /**
                  * A map of all generated [[SourceFile]] instances.
                  */
                 this.fileMappings = {};
-                converter.on(converter_9.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(converter_9.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(converter_9.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(converter_9.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
-                converter.on(converter_9.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
-                converter.on(converter_9.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(converter_9.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                converter.on(converter_10.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_10.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_10.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_10.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
             SourcePlugin.prototype.getSourceFile = function (fileName, project) {
                 if (!this.fileMappings[fileName]) {
@@ -5159,18 +5243,18 @@ var td;
                 });
             };
             return SourcePlugin;
-        })(converter_9.ConverterPlugin);
-        converter_9.SourcePlugin = SourcePlugin;
+        })(converter_10.ConverterPlugin);
+        converter_10.SourcePlugin = SourcePlugin;
         /**
          * Register this handler.
          */
-        converter_9.Converter.registerPlugin('source', SourcePlugin);
+        converter_10.Converter.registerPlugin('source', SourcePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_10) {
+    (function (converter_11) {
         /**
          * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
          */
@@ -5184,8 +5268,8 @@ var td;
             function TypePlugin(converter) {
                 _super.call(this, converter);
                 this.reflections = [];
-                converter.on(converter_10.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(converter_10.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
+                converter.on(converter_11.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_11.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
             }
             /**
              * Triggered when the converter resolves a reflection.
@@ -5307,12 +5391,12 @@ var td;
                 });
             };
             return TypePlugin;
-        })(converter_10.ConverterPlugin);
-        converter_10.TypePlugin = TypePlugin;
+        })(converter_11.ConverterPlugin);
+        converter_11.TypePlugin = TypePlugin;
         /**
          * Register this handler.
          */
-        converter_10.Converter.registerPlugin('type', TypePlugin);
+        converter_11.Converter.registerPlugin('type', TypePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
@@ -5639,6 +5723,15 @@ var td;
                 return clone;
             };
             /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            Type.prototype.equals = function (type) {
+                return false;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             Type.prototype.toObject = function () {
@@ -5654,6 +5747,41 @@ var td;
              */
             Type.prototype.toString = function () {
                 return 'void';
+            };
+            /**
+             * Test whether the two given list of types contain equal types.
+             *
+             * @param a
+             * @param b
+             */
+            Type.isTypeListSimiliar = function (a, b) {
+                if (a.length != b.length)
+                    return false;
+                outerLoop: for (var an = 0, count = a.length; an < count; an++) {
+                    var at = a[an];
+                    for (var bn = 0; bn < count; bn++) {
+                        if (b[bn].equals(at))
+                            continue outerLoop;
+                    }
+                    return false;
+                }
+                return true;
+            };
+            /**
+             * Test whether the two given list of types are equal.
+             *
+             * @param a
+             * @param b
+             */
+            Type.isTypeListEqual = function (a, b) {
+                if (a.length != b.length)
+                    return false;
+                for (var index = 0, count = a.length; index < count; index++) {
+                    if (!a[index].equals(b[index])) {
+                        return false;
+                    }
+                }
+                return true;
             };
             return Type;
         })();
@@ -5804,6 +5932,9 @@ var td;
                 }
                 if (this.implementedBy) {
                     result.implementedBy = this.implementedBy.map(function (t) { return t.toObject(); });
+                }
+                if (this.implementationOf) {
+                    result.implementationOf = this.implementationOf.toObject();
                 }
                 return result;
             };
@@ -5964,6 +6095,14 @@ var td;
                 _super.apply(this, arguments);
             }
             /**
+             * Return an array of the parameter types.
+             */
+            SignatureReflection.prototype.getParameterTypes = function () {
+                if (!this.parameters)
+                    return [];
+                return this.parameters.map(function (parameter) { return parameter.type; });
+            };
+            /**
              * Traverse all potential child reflections of this reflection.
              *
              * The given callback will be invoked for all children, signatures and type parameters
@@ -5996,6 +6135,9 @@ var td;
                 }
                 if (this.inheritedFrom) {
                     result.inheritedFrom = this.inheritedFrom.toObject();
+                }
+                if (this.implementationOf) {
+                    result.implementationOf = this.implementationOf.toObject();
                 }
                 return result;
             };
@@ -6080,6 +6222,17 @@ var td;
                 return clone;
             };
             /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            IntrinsicType.prototype.equals = function (type) {
+                return type instanceof IntrinsicType &&
+                    type.isArray == this.isArray &&
+                    type.name == this.name;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             IntrinsicType.prototype.toObject = function () {
@@ -6135,6 +6288,17 @@ var td;
                 clone.isArray = this.isArray;
                 clone.typeArguments = this.typeArguments;
                 return clone;
+            };
+            /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            ReferenceType.prototype.equals = function (type) {
+                return type instanceof ReferenceType &&
+                    type.isArray == this.isArray &&
+                    (type.symbolID == this.symbolID || type.reflection == this.reflection);
             };
             /**
              * Return a raw object representation of this type.
@@ -6208,6 +6372,15 @@ var td;
                 return clone;
             };
             /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            ReflectionType.prototype.equals = function (type) {
+                return type == this;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             ReflectionType.prototype.toObject = function () {
@@ -6267,6 +6440,17 @@ var td;
                 return clone;
             };
             /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            StringLiteralType.prototype.equals = function (type) {
+                return type instanceof StringLiteralType &&
+                    type.isArray == this.isArray &&
+                    type.value == this.value;
+            };
+            /**
              * Return a raw object representation of this type.
              */
             StringLiteralType.prototype.toObject = function () {
@@ -6317,6 +6501,19 @@ var td;
                 var clone = new TupleType(this.elements);
                 clone.isArray = this.isArray;
                 return clone;
+            };
+            /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            TupleType.prototype.equals = function (type) {
+                if (!(type instanceof TupleType))
+                    return false;
+                if (type.isArray != this.isArray)
+                    return false;
+                return models.Type.isTypeListEqual(type.elements, this.elements);
             };
             /**
              * Return a raw object representation of this type.
@@ -6371,6 +6568,18 @@ var td;
                 clone.name = this.name;
                 clone.constraint = this.constraint;
                 return clone;
+            };
+            /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            TypeParameterType.prototype.equals = function (type) {
+                return type instanceof TypeParameterType &&
+                    type.isArray == this.isArray &&
+                    type.constraint.equals(this.constraint) &&
+                    type.name == this.name;
             };
             /**
              * Return a raw object representation of this type.
@@ -6428,6 +6637,19 @@ var td;
                 return clone;
             };
             /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            UnionType.prototype.equals = function (type) {
+                if (!(type instanceof UnionType))
+                    return false;
+                if (type.isArray != this.isArray)
+                    return false;
+                return models.Type.isTypeListSimiliar(type.types, this.types);
+            };
+            /**
              * Return a raw object representation of this type.
              */
             UnionType.prototype.toObject = function () {
@@ -6480,6 +6702,17 @@ var td;
                 var clone = new UnknownType(this.name);
                 clone.isArray = this.isArray;
                 return clone;
+            };
+            /**
+             * Test whether this type equals the given type.
+             *
+             * @param type  The type that should be checked for equality.
+             * @returns TRUE if the given type equals this type, FALSE otherwise.
+             */
+            UnknownType.prototype.equals = function (type) {
+                return type instanceof UnknownType &&
+                    type.isArray == this.isArray &&
+                    type.name == this.name;
             };
             /**
              * Return a raw object representation of this type.
@@ -7496,6 +7729,7 @@ var td;
                 td.Handlebars.registerHelper('relativeURL', function (url) { return _this.getRelativeUrl(url); });
                 td.Handlebars.registerHelper('wbr', function (str) { return _this.getWordBreaks(str); });
                 td.Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) { return that.getIfCond(v1, operator, v2, options, this); });
+                td.Handlebars.registerHelper('ifSignature', function (obj, arg) { return obj instanceof td.models.SignatureReflection ? arg.fn(this) : arg.inverse(this); });
                 td.Marked.setOptions({
                     highlight: function (text, lang) { return _this.getHighlighted(text, lang); }
                 });

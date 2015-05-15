@@ -1806,6 +1806,35 @@ declare module td.converter {
         static sortCallback(a: models.Reflection, b: models.Reflection): number;
     }
 }
+declare module td.converter {
+    /**
+     * A plugin that detects interface implementations of functions and
+     * properties on classes and links them.
+     */
+    class ImplementsPlugin extends ConverterPlugin {
+        /**
+         * Create a new ImplementsPlugin instance.
+         *
+         * @param converter  The converter this plugin should be attached to.
+         */
+        constructor(converter: Converter);
+        /**
+         * Mark all members of the given class to be the implementation of the matching interface member.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param classReflection  The reflection of the classReflection class.
+         * @param interfaceReflection  The reflection of the interfaceReflection interface.
+         */
+        private analyzeClass(context, classReflection, interfaceReflection);
+        /**
+         * Triggered when the converter resolves a reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
+         */
+        private onResolve(context, reflection);
+    }
+}
 declare module td {
     interface IOptions {
         /**
@@ -2247,6 +2276,13 @@ declare module td.models {
          */
         clone(): Type;
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: Type): boolean;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2254,6 +2290,20 @@ declare module td.models {
          * Return a string representation of this type.
          */
         toString(): string;
+        /**
+         * Test whether the two given list of types contain equal types.
+         *
+         * @param a
+         * @param b
+         */
+        static isTypeListSimiliar(a: Type[], b: Type[]): boolean;
+        /**
+         * Test whether the two given list of types are equal.
+         *
+         * @param a
+         * @param b
+         */
+        static isTypeListEqual(a: Type[], b: Type[]): boolean;
     }
 }
 declare module td.models {
@@ -2384,6 +2434,12 @@ declare module td.models {
          * Applies to interface and class members.
          */
         inheritedFrom: Type;
+        /**
+         * A type that points to the reflection this reflection is the implementation of.
+         *
+         * Applies to class members.
+         */
+        implementationOf: Type;
         /**
          * A list of all types this reflection extends (e.g. the parent classes).
          */
@@ -2531,6 +2587,16 @@ declare module td.models {
          */
         inheritedFrom: Type;
         /**
+         * A type that points to the reflection this reflection is the implementation of.
+         *
+         * Applies to class members.
+         */
+        implementationOf: Type;
+        /**
+         * Return an array of the parameter types.
+         */
+        getParameterTypes(): Type[];
+        /**
          * Traverse all potential child reflections of this reflection.
          *
          * The given callback will be invoked for all children, signatures and type parameters
@@ -2588,6 +2654,13 @@ declare module td.models {
          * @return A clone of this type.
          */
         clone(): Type;
+        /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: IntrinsicType): boolean;
         /**
          * Return a raw object representation of this type.
          */
@@ -2654,6 +2727,13 @@ declare module td.models {
          */
         clone(): Type;
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: ReferenceType): boolean;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2688,6 +2768,13 @@ declare module td.models {
          * @return A clone of this type.
          */
         clone(): Type;
+        /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: ReflectionType): boolean;
         /**
          * Return a raw object representation of this type.
          */
@@ -2724,6 +2811,13 @@ declare module td.models {
          */
         clone(): Type;
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: StringLiteralType): boolean;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2759,6 +2853,13 @@ declare module td.models {
          */
         clone(): Type;
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: TupleType): boolean;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2788,6 +2889,13 @@ declare module td.models {
          * @return A clone of this type.
          */
         clone(): Type;
+        /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: TypeParameterType): boolean;
         /**
          * Return a raw object representation of this type.
          */
@@ -2824,6 +2932,13 @@ declare module td.models {
          */
         clone(): Type;
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: UnionType): boolean;
+        /**
          * Return a raw object representation of this type.
          */
         toObject(): any;
@@ -2854,6 +2969,13 @@ declare module td.models {
          * @return A clone of this type.
          */
         clone(): Type;
+        /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type: UnknownType): boolean;
         /**
          * Return a raw object representation of this type.
          */
