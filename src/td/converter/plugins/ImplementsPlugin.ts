@@ -42,6 +42,7 @@ module td.converter
 
                 var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
                 classMember.implementationOf = new models.ReferenceType(interfaceMemberName, models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
+                this.copyComment(classMember, interfaceMember);
 
                 if (interfaceMember.kindOf(models.ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
                     interfaceMember.signatures.forEach((interfaceSignature:models.SignatureReflection) => {
@@ -49,11 +50,32 @@ module td.converter
                         classMember.signatures.forEach((classSignature:models.SignatureReflection) => {
                             if (models.Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
                                 classSignature.implementationOf = new models.ReferenceType(interfaceMemberName, models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
+                                this.copyComment(classSignature, interfaceSignature);
                             }
                         });
                     });
                 }
             });
+        }
+
+
+        /**
+         * Copy the comment of the source reflection to the target reflection.
+         *
+         * @param target
+         * @param source
+         */
+        private copyComment(target:models.Reflection, source:models.Reflection) {
+            if (target.comment && source.comment && target.comment.hasTag('inheritdoc')) {
+                target.comment.copyFrom(source.comment);
+
+                if (target instanceof models.SignatureReflection && target.parameters &&
+                    source instanceof models.SignatureReflection && source.parameters) {
+                    for (var index = 0, count = target.parameters.length; index < count; index++) {
+                        target.parameters[index].comment.copyFrom(source.parameters[index].comment);
+                    }
+                }
+            }
         }
 
 

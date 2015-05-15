@@ -89,6 +89,19 @@ module td.models
 
 
         /**
+         * Copy the data of the given comment into this comment.
+         *
+         * @param comment
+         */
+        copyFrom(comment:Comment) {
+            this.shortText = comment.shortText;
+            this.text      = comment.text;
+            this.returns   = comment.returns;
+            this.tags      = comment.tags ? comment.tags.map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)) : null;
+        }
+
+
+        /**
          * Return a raw object representation of this comment.
          */
         toObject():any {

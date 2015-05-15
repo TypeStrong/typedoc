@@ -1827,6 +1827,13 @@ declare module td.converter {
          */
         private analyzeClass(context, classReflection, interfaceReflection);
         /**
+         * Copy the comment of the source reflection to the target reflection.
+         *
+         * @param target
+         * @param source
+         */
+        private copyComment(target, source);
+        /**
          * Triggered when the converter resolves a reflection.
          *
          * @param context  The context object describing the current state the converter is in.
@@ -2046,6 +2053,12 @@ declare module td.models {
          * @returns The found tag or NULL.
          */
         getTag(tagName: string, paramName?: string): CommentTag;
+        /**
+         * Copy the data of the given comment into this comment.
+         *
+         * @param comment
+         */
+        copyFrom(comment: Comment): void;
         /**
          * Return a raw object representation of this comment.
          */

@@ -4922,6 +4922,7 @@ var td;
              * @param interfaceReflection  The reflection of the interfaceReflection interface.
              */
             ImplementsPlugin.prototype.analyzeClass = function (context, classReflection, interfaceReflection) {
+                var _this = this;
                 interfaceReflection.children.forEach(function (interfaceMember) {
                     if (!(interfaceMember instanceof td.models.DeclarationReflection)) {
                         return;
@@ -4938,17 +4939,36 @@ var td;
                     }
                     var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
                     classMember.implementationOf = new td.models.ReferenceType(interfaceMemberName, td.models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
+                    _this.copyComment(classMember, interfaceMember);
                     if (interfaceMember.kindOf(td.models.ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
                         interfaceMember.signatures.forEach(function (interfaceSignature) {
                             var interfaceParameters = interfaceSignature.getParameterTypes();
                             classMember.signatures.forEach(function (classSignature) {
                                 if (td.models.Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
                                     classSignature.implementationOf = new td.models.ReferenceType(interfaceMemberName, td.models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
+                                    _this.copyComment(classSignature, interfaceSignature);
                                 }
                             });
                         });
                     }
                 });
+            };
+            /**
+             * Copy the comment of the source reflection to the target reflection.
+             *
+             * @param target
+             * @param source
+             */
+            ImplementsPlugin.prototype.copyComment = function (target, source) {
+                if (target.comment && source.comment && target.comment.hasTag('inheritdoc')) {
+                    target.comment.copyFrom(source.comment);
+                    if (target instanceof td.models.SignatureReflection && target.parameters &&
+                        source instanceof td.models.SignatureReflection && source.parameters) {
+                        for (var index = 0, count = target.parameters.length; index < count; index++) {
+                            target.parameters[index].comment.copyFrom(source.parameters[index].comment);
+                        }
+                    }
+                }
             };
             /**
              * Triggered when the converter resolves a reflection.
@@ -5460,6 +5480,17 @@ var td;
                     }
                 }
                 return null;
+            };
+            /**
+             * Copy the data of the given comment into this comment.
+             *
+             * @param comment
+             */
+            Comment.prototype.copyFrom = function (comment) {
+                this.shortText = comment.shortText;
+                this.text = comment.text;
+                this.returns = comment.returns;
+                this.tags = comment.tags ? comment.tags.map(function (tag) { return new models.CommentTag(tag.tagName, tag.paramName, tag.text); }) : null;
             };
             /**
              * Return a raw object representation of this comment.
