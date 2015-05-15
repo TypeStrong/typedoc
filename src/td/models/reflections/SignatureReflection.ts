@@ -24,6 +24,22 @@ module td.models
          */
         inheritedFrom:Type;
 
+        /**
+         * A type that points to the reflection this reflection is the implementation of.
+         *
+         * Applies to class members.
+         */
+        implementationOf:Type;
+
+
+
+        /**
+         * Return an array of the parameter types.
+         */
+        getParameterTypes():Type[] {
+            if (!this.parameters) return [];
+            return this.parameters.map((parameter:models.ParameterReflection) => parameter.type);
+        }
 
 
         /**
@@ -67,6 +83,10 @@ module td.models
 
             if (this.inheritedFrom) {
                 result.inheritedFrom = this.inheritedFrom.toObject();
+            }
+
+            if (this.implementationOf) {
+                result.implementationOf = this.implementationOf.toObject();
             }
 
             return result;

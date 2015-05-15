@@ -118,6 +118,13 @@ module td.models
         inheritedFrom:Type;
 
         /**
+         * A type that points to the reflection this reflection is the implementation of.
+         *
+         * Applies to class members.
+         */
+        implementationOf:Type;
+
+        /**
          * A list of all types this reflection extends (e.g. the parent classes).
          */
         extendedTypes:Type[];
@@ -234,6 +241,10 @@ module td.models
 
             if (this.implementedBy) {
                 result.implementedBy = this.implementedBy.map((t) => t.toObject());
+            }
+
+            if (this.implementationOf) {
+                result.implementationOf = this.implementationOf.toObject();
             }
 
             return result;
