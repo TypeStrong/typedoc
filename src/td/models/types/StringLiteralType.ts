@@ -39,6 +39,19 @@ module td.models
 
 
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type:StringLiteralType):boolean {
+            return type instanceof StringLiteralType &&
+                type.isArray == this.isArray &&
+                type.value == this.value;
+        }
+
+
+        /**
          * Return a raw object representation of this type.
          */
         toObject():any {

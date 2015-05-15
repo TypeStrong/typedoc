@@ -39,6 +39,19 @@ module td.models
 
 
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type:TupleType):boolean {
+            if (!(type instanceof TupleType)) return false;
+            if (type.isArray != this.isArray) return false;
+            return Type.isTypeListEqual(type.elements, this.elements);
+        }
+
+
+        /**
          * Return a raw object representation of this type.
          */
         toObject():any {

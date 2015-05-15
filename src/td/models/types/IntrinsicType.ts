@@ -40,6 +40,19 @@ module td.models
 
 
         /**
+         * Test whether this type equals the given type.
+         *
+         * @param type  The type that should be checked for equality.
+         * @returns TRUE if the given type equals this type, FALSE otherwise.
+         */
+        equals(type:IntrinsicType):boolean {
+            return type instanceof IntrinsicType &&
+                type.isArray == this.isArray &&
+                type.name == this.name;
+        }
+
+
+        /**
          * Return a raw object representation of this type.
          */
         toObject():any {
