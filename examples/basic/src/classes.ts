@@ -202,6 +202,10 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
      */
     public print(value:string):void { }
 
+
+    /**
+     * @inheritdoc
+     */
     public printName():void {
         this.print(this.getName());
     }
