@@ -1,17 +1,31 @@
 {{#compact}}
     {{#if this}}
         {{#if reflection}}
-            {{#if reflection.parent.url}}
-                <a href="{{relativeURL reflection.parent.url}}">{{reflection.parent.name}}</a>
+            {{#ifSignature reflection}}
+                {{#if reflection.parent.parent.url}}
+                    <a href="{{relativeURL reflection.parent.parent.url}}">{{reflection.parent.parent.name}}</a>
+                {{else}}
+                    {{reflection.parent.parent.name}}
+                {{/if}}
+                .
+                {{#if reflection.parent.url}}
+                    <a href="{{relativeURL reflection.parent.url}}">{{reflection.parent.name}}</a>
+                {{else}}
+                    {{reflection.parent.name}}
+                {{/if}}
             {{else}}
-                {{reflection.parent.name}}
-            {{/if}}
-            .
-            {{#if reflection.url}}
-                <a href="{{relativeURL reflection.url}}">{{reflection.name}}</a>
-            {{else}}
-                {{reflection.name}}
-            {{/if}}
+                {{#if reflection.parent.url}}
+                    <a href="{{relativeURL reflection.parent.url}}">{{reflection.parent.name}}</a>
+                {{else}}
+                    {{reflection.parent.name}}
+                {{/if}}
+                .
+                {{#if reflection.url}}
+                    <a href="{{relativeURL reflection.url}}">{{reflection.name}}</a>
+                {{else}}
+                    {{reflection.name}}
+                {{/if}}
+            {{/ifSignature}}
             {{#if isArray}}
                 []
             {{/if}}
