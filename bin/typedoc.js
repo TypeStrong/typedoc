@@ -3587,6 +3587,19 @@ var td;
                     if (this.flags[key])
                         result.flags[key] = true;
                 }
+                if (this.decorates) {
+                    result.decorates = this.decorates.map(function (type) { return type.toObject(); });
+                }
+                if (this.decorators) {
+                    result.decorators = this.decorators.map(function (decorator) {
+                        var result = { name: decorator.name };
+                        if (decorator.type)
+                            result.type = decorator.type.toObject();
+                        if (decorator.arguments)
+                            result.arguments = decorator.arguments;
+                        return result;
+                    });
+                }
                 this.traverse(function (child, property) {
                     if (property == TraverseProperty.TypeLiteral)
                         return;
@@ -4333,6 +4346,131 @@ var td;
     var converter;
     (function (converter_4) {
         /**
+         * A plugin that detects decorators.
+         */
+        var DecoratorPlugin = (function (_super) {
+            __extends(DecoratorPlugin, _super);
+            /**
+             * Create a new ImplementsPlugin instance.
+             *
+             * @param converter  The converter this plugin should be attached to.
+             */
+            function DecoratorPlugin(converter) {
+                _super.call(this, converter);
+                converter.on(converter_4.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_4.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_4.Converter.EVENT_RESOLVE, this.onBeginResolve, this);
+            }
+            /**
+             * Create an object describing the arguments a decorator is set with.
+             *
+             * @param args  The arguments resolved from the decorator's call expression.
+             * @param signature  The signature definition of the decorator being used.
+             * @returns An object describing the decorator parameters,
+             */
+            DecoratorPlugin.prototype.extractArguments = function (args, signature) {
+                var result = {};
+                args.forEach(function (arg, index) {
+                    if (index < signature.parameters.length) {
+                        var parameter = signature.parameters[index];
+                        result[parameter.name] = ts.getTextOfNode(arg);
+                    }
+                    else {
+                        if (!result['...'])
+                            result['...'] = [];
+                        result['...'].push(ts.getTextOfNode(arg));
+                    }
+                });
+                return result;
+            };
+            /**
+             * Triggered when the converter begins converting a project.
+             *
+             * @param context  The context object describing the current state the converter is in.
+             */
+            DecoratorPlugin.prototype.onBegin = function (context) {
+                this.usages = {};
+            };
+            /**
+             * Triggered when the converter has created a declaration or signature reflection.
+             *
+             * @param context  The context object describing the current state the converter is in.
+             * @param reflection  The reflection that is currently processed.
+             * @param node  The node that is currently processed if available.
+             */
+            DecoratorPlugin.prototype.onDeclaration = function (context, reflection, node) {
+                var _this = this;
+                if (!node || !node.decorators)
+                    return;
+                node.decorators.forEach(function (decorator) {
+                    var callExpression;
+                    var identifier;
+                    switch (decorator.expression.kind) {
+                        case 65 /* Identifier */:
+                            identifier = decorator.expression;
+                            break;
+                        case 158 /* CallExpression */:
+                            callExpression = decorator.expression;
+                            identifier = callExpression.expression;
+                            break;
+                        default:
+                            return;
+                    }
+                    var info = {
+                        name: ts.getTextOfNode(identifier)
+                    };
+                    var type = context.checker.getTypeAtLocation(identifier);
+                    if (type && type.symbol) {
+                        var symbolID = context.getSymbolID(type.symbol);
+                        info.type = new td.models.ReferenceType(info.name, symbolID);
+                        if (callExpression && callExpression.arguments) {
+                            var signature = context.checker.getResolvedSignature(callExpression);
+                            if (signature) {
+                                info.arguments = _this.extractArguments(callExpression.arguments, signature);
+                            }
+                        }
+                        if (!_this.usages[symbolID])
+                            _this.usages[symbolID] = [];
+                        _this.usages[symbolID].push(new td.models.ReferenceType(reflection.name, td.models.ReferenceType.SYMBOL_ID_RESOLVED, reflection));
+                    }
+                    if (!reflection.decorators)
+                        reflection.decorators = [];
+                    reflection.decorators.push(info);
+                });
+            };
+            /**
+             * Triggered when the converter resolves a reflection.
+             *
+             * @param context  The context object describing the current state the converter is in.
+             * @param reflection  The reflection that is currently resolved.
+             */
+            DecoratorPlugin.prototype.onBeginResolve = function (context) {
+                for (var symbolID in this.usages) {
+                    if (!this.usages.hasOwnProperty(symbolID))
+                        continue;
+                    var id = context.project.symbolMapping[symbolID];
+                    if (!id)
+                        continue;
+                    var reflection = context.project.reflections[id];
+                    if (reflection) {
+                        reflection.decorates = this.usages[symbolID];
+                    }
+                }
+            };
+            return DecoratorPlugin;
+        })(converter_4.ConverterPlugin);
+        converter_4.DecoratorPlugin = DecoratorPlugin;
+        /**
+         * Register this handler.
+         */
+        converter_4.Converter.registerPlugin('decorator', DecoratorPlugin);
+    })(converter = td.converter || (td.converter = {}));
+})(td || (td = {}));
+var td;
+(function (td) {
+    var converter;
+    (function (converter_5) {
+        /**
          * A handler that moves comments with dot syntax to their target.
          */
         var DeepCommentPlugin = (function (_super) {
@@ -4344,7 +4482,7 @@ var td;
              */
             function DeepCommentPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(converter_4.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
+                converter.on(converter_5.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
             }
             /**
              * Triggered when the converter begins resolving a project.
@@ -4395,18 +4533,18 @@ var td;
                 }
             };
             return DeepCommentPlugin;
-        })(converter_4.ConverterPlugin);
-        converter_4.DeepCommentPlugin = DeepCommentPlugin;
+        })(converter_5.ConverterPlugin);
+        converter_5.DeepCommentPlugin = DeepCommentPlugin;
         /**
          * Register this handler.
          */
-        converter_4.Converter.registerPlugin('deepComment', DeepCommentPlugin);
+        converter_5.Converter.registerPlugin('deepComment', DeepCommentPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_5) {
+    (function (converter_6) {
         /**
          * A handler that truncates the names of dynamic modules to not include the
          * project's base path.
@@ -4423,10 +4561,10 @@ var td;
                 /**
                  * Helper class for determining the base path.
                  */
-                this.basePath = new converter_5.BasePath();
-                converter.on(converter_5.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(converter_5.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(converter_5.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                this.basePath = new converter_6.BasePath();
+                converter.on(converter_6.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_6.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_6.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             }
             /**
              * Triggered when the converter begins converting a project.
@@ -4469,18 +4607,18 @@ var td;
                 });
             };
             return DynamicModulePlugin;
-        })(converter_5.ConverterPlugin);
-        converter_5.DynamicModulePlugin = DynamicModulePlugin;
+        })(converter_6.ConverterPlugin);
+        converter_6.DynamicModulePlugin = DynamicModulePlugin;
         /**
          * Register this handler.
          */
-        converter_5.Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
+        converter_6.Converter.registerPlugin('dynamicModule', DynamicModulePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_6) {
+    (function (converter_7) {
         /**
          * Stores data of a repository.
          */
@@ -4521,7 +4659,7 @@ var td;
                 if (out.code == 0) {
                     out.output.split('\n').forEach(function (file) {
                         if (file != '') {
-                            _this.files.push(converter_6.BasePath.normalize(path + '/' + file));
+                            _this.files.push(converter_7.BasePath.normalize(path + '/' + file));
                         }
                     });
                 }
@@ -4575,7 +4713,7 @@ var td;
                 td.ShellJS.popd();
                 if (out.code != 0)
                     return null;
-                return new Repository(converter_6.BasePath.normalize(out.output.replace("\n", '')));
+                return new Repository(converter_7.BasePath.normalize(out.output.replace("\n", '')));
             };
             return Repository;
         })();
@@ -4602,7 +4740,7 @@ var td;
                 this.ignoredPaths = [];
                 td.ShellJS.config.silent = true;
                 if (td.ShellJS.which('git')) {
-                    converter.on(converter_6.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                    converter.on(converter_7.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
                 }
             }
             /**
@@ -4665,18 +4803,18 @@ var td;
                 }
             };
             return GitHubPlugin;
-        })(converter_6.ConverterPlugin);
-        converter_6.GitHubPlugin = GitHubPlugin;
+        })(converter_7.ConverterPlugin);
+        converter_7.GitHubPlugin = GitHubPlugin;
         /**
          * Register this handler.
          */
-        converter_6.Converter.registerPlugin('gitHub', GitHubPlugin);
+        converter_7.Converter.registerPlugin('gitHub', GitHubPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_7) {
+    (function (converter_8) {
         /**
          * A handler that sorts and groups the found reflections in the resolving phase.
          *
@@ -4691,8 +4829,8 @@ var td;
              */
             function GroupPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(converter_7.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(converter_7.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                converter.on(converter_8.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_8.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
             /**
              * Triggered when the converter resolves a reflection.
@@ -4887,18 +5025,18 @@ var td;
                 return plurals;
             })();
             return GroupPlugin;
-        })(converter_7.ConverterPlugin);
-        converter_7.GroupPlugin = GroupPlugin;
+        })(converter_8.ConverterPlugin);
+        converter_8.GroupPlugin = GroupPlugin;
         /**
          * Register this handler.
          */
-        converter_7.Converter.registerPlugin('group', GroupPlugin);
+        converter_8.Converter.registerPlugin('group', GroupPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_8) {
+    (function (converter_9) {
         /**
          * A plugin that detects interface implementations of functions and
          * properties on classes and links them.
@@ -4912,7 +5050,7 @@ var td;
              */
             function ImplementsPlugin(converter) {
                 _super.call(this, converter);
-                converter.on(converter_8.Converter.EVENT_RESOLVE, this.onResolve, this, -10);
+                converter.on(converter_9.Converter.EVENT_RESOLVE, this.onResolve, this, -10);
             }
             /**
              * Mark all members of the given class to be the implementation of the matching interface member.
@@ -4991,18 +5129,18 @@ var td;
                 }
             };
             return ImplementsPlugin;
-        })(converter_8.ConverterPlugin);
-        converter_8.ImplementsPlugin = ImplementsPlugin;
+        })(converter_9.ConverterPlugin);
+        converter_9.ImplementsPlugin = ImplementsPlugin;
         /**
          * Register this handler.
          */
-        converter_8.Converter.registerPlugin('implements', ImplementsPlugin);
+        converter_9.Converter.registerPlugin('implements', ImplementsPlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_9) {
+    (function (converter_10) {
         /**
          * A handler that tries to find the package.json and readme.md files of the
          * current project.
@@ -5020,9 +5158,9 @@ var td;
              */
             function PackagePlugin(converter) {
                 _super.call(this, converter);
-                converter.on(converter_9.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(converter_9.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(converter_9.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_10.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_10.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_10.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
             }
             PackagePlugin.prototype.getParameters = function () {
                 return [{
@@ -5100,18 +5238,18 @@ var td;
                 }
             };
             return PackagePlugin;
-        })(converter_9.ConverterPlugin);
-        converter_9.PackagePlugin = PackagePlugin;
+        })(converter_10.ConverterPlugin);
+        converter_10.PackagePlugin = PackagePlugin;
         /**
          * Register this handler.
          */
-        converter_9.Converter.registerPlugin('package', PackagePlugin);
+        converter_10.Converter.registerPlugin('package', PackagePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_10) {
+    (function (converter_11) {
         /**
          * A handler that attaches source file information to reflections.
          */
@@ -5127,18 +5265,18 @@ var td;
                 /**
                  * Helper for resolving the base path of all source files.
                  */
-                this.basePath = new converter_10.BasePath();
+                this.basePath = new converter_11.BasePath();
                 /**
                  * A map of all generated [[SourceFile]] instances.
                  */
                 this.fileMappings = {};
-                converter.on(converter_10.Converter.EVENT_BEGIN, this.onBegin, this);
-                converter.on(converter_10.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
-                converter.on(converter_10.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-                converter.on(converter_10.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
-                converter.on(converter_10.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
-                converter.on(converter_10.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(converter_10.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+                converter.on(converter_11.Converter.EVENT_BEGIN, this.onBegin, this);
+                converter.on(converter_11.Converter.EVENT_FILE_BEGIN, this.onBeginDocument, this);
+                converter.on(converter_11.Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
+                converter.on(converter_11.Converter.EVENT_CREATE_SIGNATURE, this.onDeclaration, this);
+                converter.on(converter_11.Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this);
+                converter.on(converter_11.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_11.Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
             }
             SourcePlugin.prototype.getSourceFile = function (fileName, project) {
                 if (!this.fileMappings[fileName]) {
@@ -5263,18 +5401,18 @@ var td;
                 });
             };
             return SourcePlugin;
-        })(converter_10.ConverterPlugin);
-        converter_10.SourcePlugin = SourcePlugin;
+        })(converter_11.ConverterPlugin);
+        converter_11.SourcePlugin = SourcePlugin;
         /**
          * Register this handler.
          */
-        converter_10.Converter.registerPlugin('source', SourcePlugin);
+        converter_11.Converter.registerPlugin('source', SourcePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;
 (function (td) {
     var converter;
-    (function (converter_11) {
+    (function (converter_12) {
         /**
          * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
          */
@@ -5288,8 +5426,8 @@ var td;
             function TypePlugin(converter) {
                 _super.call(this, converter);
                 this.reflections = [];
-                converter.on(converter_11.Converter.EVENT_RESOLVE, this.onResolve, this);
-                converter.on(converter_11.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
+                converter.on(converter_12.Converter.EVENT_RESOLVE, this.onResolve, this);
+                converter.on(converter_12.Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
             }
             /**
              * Triggered when the converter resolves a reflection.
@@ -5306,6 +5444,12 @@ var td;
                 resolveTypes(reflection, reflection.extendedTypes);
                 resolveTypes(reflection, reflection.extendedBy);
                 resolveTypes(reflection, reflection.implementedTypes);
+                if (reflection.decorators)
+                    reflection.decorators.forEach(function (decorator) {
+                        if (decorator.type) {
+                            resolveType(reflection, decorator.type);
+                        }
+                    });
                 if (reflection.kindOf(td.models.ReflectionKind.ClassOrInterface)) {
                     this.postpone(reflection);
                     walk(reflection.implementedTypes, function (target) {
@@ -5411,12 +5555,12 @@ var td;
                 });
             };
             return TypePlugin;
-        })(converter_11.ConverterPlugin);
-        converter_11.TypePlugin = TypePlugin;
+        })(converter_12.ConverterPlugin);
+        converter_12.TypePlugin = TypePlugin;
         /**
          * Register this handler.
          */
-        converter_11.Converter.registerPlugin('type', TypePlugin);
+        converter_12.Converter.registerPlugin('type', TypePlugin);
     })(converter = td.converter || (td.converter = {}));
 })(td || (td = {}));
 var td;

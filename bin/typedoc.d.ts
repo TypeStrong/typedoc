@@ -1338,6 +1338,24 @@ declare module td.models {
         (reflection: Reflection, property: TraverseProperty): void;
     }
     /**
+     * Defines the usage of a decorator.
+     */
+    interface IDecorator {
+        /**
+         * The name of the decorator being applied.
+         */
+        name: string;
+        /**
+         * The type declaring the decorator.
+         * Usually a ReferenceType instance pointing to the decorator function.
+         */
+        type?: Type;
+        /**
+         * A named map of arguments the decorator is applied with.
+         */
+        arguments?: any;
+    }
+    /**
      * Base class for all reflection classes.
      *
      * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
@@ -1382,6 +1400,14 @@ declare module td.models {
          * A list of all source files that contributed to this reflection.
          */
         sources: ISourceReference[];
+        /**
+         * A list of all decorators attached to this reflection.
+         */
+        decorators: IDecorator[];
+        /**
+         * A list of all types that are decorated by this reflection.
+         */
+        decorates: Type[];
         /**
          * The url of this reflection in the generated documentation.
          */
@@ -1630,6 +1656,49 @@ declare module td.converter {
          * @returns        A populated [[Models.Comment]] instance.
          */
         static parseComment(text: string, comment?: models.Comment): models.Comment;
+    }
+}
+declare module td.converter {
+    /**
+     * A plugin that detects decorators.
+     */
+    class DecoratorPlugin extends ConverterPlugin {
+        private usages;
+        /**
+         * Create a new ImplementsPlugin instance.
+         *
+         * @param converter  The converter this plugin should be attached to.
+         */
+        constructor(converter: Converter);
+        /**
+         * Create an object describing the arguments a decorator is set with.
+         *
+         * @param args  The arguments resolved from the decorator's call expression.
+         * @param signature  The signature definition of the decorator being used.
+         * @returns An object describing the decorator parameters,
+         */
+        private extractArguments(args, signature);
+        /**
+         * Triggered when the converter begins converting a project.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         */
+        private onBegin(context);
+        /**
+         * Triggered when the converter has created a declaration or signature reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently processed.
+         * @param node  The node that is currently processed if available.
+         */
+        private onDeclaration(context, reflection, node?);
+        /**
+         * Triggered when the converter resolves a reflection.
+         *
+         * @param context  The context object describing the current state the converter is in.
+         * @param reflection  The reflection that is currently resolved.
+         */
+        private onBeginResolve(context);
     }
 }
 declare module td.converter {

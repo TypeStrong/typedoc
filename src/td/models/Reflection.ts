@@ -183,6 +183,29 @@ module td.models
 
 
     /**
+     * Defines the usage of a decorator.
+     */
+    export interface IDecorator
+    {
+        /**
+         * The name of the decorator being applied.
+         */
+        name:string;
+
+        /**
+         * The type declaring the decorator.
+         * Usually a ReferenceType instance pointing to the decorator function.
+         */
+        type?:Type;
+
+        /**
+         * A named map of arguments the decorator is applied with.
+         */
+        arguments?:any;
+    }
+
+
+    /**
      * Base class for all reflection classes.
      *
      * While generating a documentation, TypeDoc generates an instance of [[ProjectReflection]]
@@ -236,6 +259,16 @@ module td.models
          * A list of all source files that contributed to this reflection.
          */
         sources:ISourceReference[];
+
+        /**
+         * A list of all decorators attached to this reflection.
+         */
+        decorators:IDecorator[];
+
+        /**
+         * A list of all types that are decorated by this reflection.
+         */
+        decorates:Type[];
 
         /**
          * The url of this reflection in the generated documentation.
@@ -537,6 +570,19 @@ module td.models
             for (var key in this.flags) {
                 if (parseInt(key) == key || key == 'flags') continue;
                 if (this.flags[key]) result.flags[key] = true;
+            }
+
+            if (this.decorates) {
+                result.decorates = this.decorates.map((type) => type.toObject());
+            }
+
+            if (this.decorators) {
+                result.decorators = this.decorators.map((decorator) => {
+                    var result:any = { name:decorator.name };
+                    if (decorator.type) result.type = decorator.type.toObject();
+                    if (decorator.arguments) result.arguments = decorator.arguments;
+                    return result;
+                });
             }
 
             this.traverse((child, property) => {

@@ -36,6 +36,12 @@ module td.converter
             resolveTypes(reflection, reflection.extendedBy);
             resolveTypes(reflection, reflection.implementedTypes);
 
+            if (reflection.decorators) reflection.decorators.forEach((decorator:models.IDecorator) => {
+                if (decorator.type) {
+                    resolveType(reflection, decorator.type);
+                }
+            });
+
             if (reflection.kindOf(models.ReflectionKind.ClassOrInterface)) {
                 this.postpone(reflection);
 
