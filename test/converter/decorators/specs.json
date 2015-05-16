@@ -1,0 +1,313 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"decorators\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/decorators/decorators.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "DecoratedClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A decorated class."
+          },
+          "decorators": [
+            {
+              "name": "decoratorWithOptions",
+              "type": {
+                "type": "reference",
+                "name": "decoratorWithOptions",
+                "id": 13
+              },
+              "arguments": {
+                "options": "{\n    name: 'Name of class'\n}"
+              }
+            }
+          ],
+          "children": [
+            {
+              "id": 3,
+              "name": "decoratedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "decorators": [
+                {
+                  "name": "decoratorAtom",
+                  "type": {
+                    "type": "reference",
+                    "name": "decoratorAtom",
+                    "id": 5
+                  }
+                },
+                {
+                  "name": "decoratorWithParam",
+                  "type": {
+                    "type": "reference",
+                    "name": "decoratorWithParam",
+                    "id": 10
+                  },
+                  "arguments": {
+                    "value": "false"
+                  }
+                }
+              ],
+              "signatures": [
+                {
+                  "id": 4,
+                  "name": "decoratedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "A decorated method."
+                  },
+                  "type": {
+                    "type": "instrinct",
+                    "name": "void"
+                  }
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "decoratorAtom",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "decorates": [
+            {
+              "type": "reference",
+              "name": "decoratedMethod",
+              "id": 3
+            }
+          ],
+          "signatures": [
+            {
+              "id": 6,
+              "name": "decoratorAtom",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "A decorator with no options."
+              },
+              "parameters": [
+                {
+                  "id": 7,
+                  "name": "target",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "instrinct",
+                    "name": "any"
+                  }
+                },
+                {
+                  "id": 8,
+                  "name": "key",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "instrinct",
+                    "name": "any"
+                  }
+                },
+                {
+                  "id": 9,
+                  "name": "descriptor",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "instrinct",
+                    "name": "any"
+                  }
+                }
+              ],
+              "type": {
+                "type": "instrinct",
+                "name": "void"
+              }
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "decoratorWithOptions",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "decorates": [
+            {
+              "type": "reference",
+              "name": "DecoratedClass",
+              "id": 2
+            }
+          ],
+          "signatures": [
+            {
+              "id": 14,
+              "name": "decoratorWithOptions",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "A decorator consuming an options object."
+              },
+              "parameters": [
+                {
+                  "id": 15,
+                  "name": "options",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "The options object of this decorator."
+                  },
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 16,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 17,
+                          "name": "name",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "comment": {
+                            "text": "A property on the options object of this decorator.\n"
+                          },
+                          "type": {
+                            "type": "instrinct",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            17
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "__function"
+              }
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "decoratorWithParam",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "decorates": [
+            {
+              "type": "reference",
+              "name": "decoratedMethod",
+              "id": 3
+            }
+          ],
+          "signatures": [
+            {
+              "id": 11,
+              "name": "decoratorWithParam",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "A decorator with a parameter."
+              },
+              "parameters": [
+                {
+                  "id": 12,
+                  "name": "value",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "The parameter of this decorator.\n"
+                  },
+                  "type": {
+                    "type": "instrinct",
+                    "name": "boolean"
+                  }
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "__function"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            5,
+            13,
+            10
+          ]
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
