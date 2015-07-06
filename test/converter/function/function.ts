@@ -16,8 +16,8 @@ export function exportedFunction():void { }
 /**
  * This is a function with multiple arguments and a return value.
  *
- * @param paramZ  This is a string parameter.
- * @param paramG  This is a parameter flagged with any.
+ * @param paramZ - This is a string parameter.
+ * @param paramG - This is a parameter flagged with any.
  *     This sentence is placed in the next line.
  *
  * @param paramA

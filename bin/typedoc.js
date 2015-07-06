@@ -530,7 +530,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.3.4';
+        Application.VERSION = '0.3.5';
         return Application;
     })(td.EventDispatcher);
     td.Application = Application;
@@ -4301,6 +4301,7 @@ var td;
                                 line = line.substr(paramName.length + 1).trim();
                             }
                             line = consumeTypeData(line);
+                            line = line.replace(/^\-\s+/, '');
                         }
                         else if (tagName == 'returns') {
                             line = consumeTypeData(line);

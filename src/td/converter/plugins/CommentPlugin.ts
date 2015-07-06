@@ -448,6 +448,7 @@ module td.converter
                             line = line.substr(paramName.length + 1).trim();
                         }
                         line = consumeTypeData(line);
+                        line = line.replace(/^\-\s+/, '');
                     } else if (tagName == 'returns') {
                         line = consumeTypeData(line);
                     }
