@@ -183,7 +183,7 @@ var td;
     td.EventDispatcher = EventDispatcher;
 })(td || (td = {}));
 /// <reference path="EventDispatcher.ts" />
-var __extends = (this && this.__extends) || function (d, b) {
+var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -2251,54 +2251,54 @@ var td;
          */
         function visit(context, node) {
             switch (node.kind) {
-                case 228 /* SourceFile */:
+                case 227 /* SourceFile */:
                     return visitSourceFile(context, node);
-                case 175 /* ClassExpression */:
-                case 202 /* ClassDeclaration */:
+                case 174 /* ClassExpression */:
+                case 201 /* ClassDeclaration */:
                     return visitClassDeclaration(context, node);
-                case 203 /* InterfaceDeclaration */:
+                case 202 /* InterfaceDeclaration */:
                     return visitInterfaceDeclaration(context, node);
-                case 206 /* ModuleDeclaration */:
+                case 205 /* ModuleDeclaration */:
                     return visitModuleDeclaration(context, node);
-                case 181 /* VariableStatement */:
+                case 180 /* VariableStatement */:
                     return visitVariableStatement(context, node);
-                case 132 /* PropertySignature */:
-                case 133 /* PropertyDeclaration */:
-                case 225 /* PropertyAssignment */:
-                case 226 /* ShorthandPropertyAssignment */:
-                case 199 /* VariableDeclaration */:
-                case 153 /* BindingElement */:
+                case 131 /* PropertySignature */:
+                case 132 /* PropertyDeclaration */:
+                case 224 /* PropertyAssignment */:
+                case 225 /* ShorthandPropertyAssignment */:
+                case 198 /* VariableDeclaration */:
+                case 152 /* BindingElement */:
                     return visitVariableDeclaration(context, node);
-                case 205 /* EnumDeclaration */:
+                case 204 /* EnumDeclaration */:
                     return visitEnumDeclaration(context, node);
-                case 227 /* EnumMember */:
+                case 226 /* EnumMember */:
                     return visitEnumMember(context, node);
-                case 136 /* Constructor */:
-                case 140 /* ConstructSignature */:
+                case 135 /* Constructor */:
+                case 139 /* ConstructSignature */:
                     return visitConstructor(context, node);
-                case 134 /* MethodSignature */:
-                case 135 /* MethodDeclaration */:
-                case 201 /* FunctionDeclaration */:
+                case 133 /* MethodSignature */:
+                case 134 /* MethodDeclaration */:
+                case 200 /* FunctionDeclaration */:
                     return visitFunctionDeclaration(context, node);
-                case 137 /* GetAccessor */:
+                case 136 /* GetAccessor */:
                     return visitGetAccessorDeclaration(context, node);
-                case 138 /* SetAccessor */:
+                case 137 /* SetAccessor */:
                     return visitSetAccessorDeclaration(context, node);
-                case 139 /* CallSignature */:
-                case 143 /* FunctionType */:
+                case 138 /* CallSignature */:
+                case 142 /* FunctionType */:
                     return visitCallSignatureDeclaration(context, node);
-                case 141 /* IndexSignature */:
+                case 140 /* IndexSignature */:
                     return visitIndexSignatureDeclaration(context, node);
-                case 180 /* Block */:
-                case 207 /* ModuleBlock */:
+                case 179 /* Block */:
+                case 206 /* ModuleBlock */:
                     return visitBlock(context, node);
-                case 155 /* ObjectLiteralExpression */:
+                case 154 /* ObjectLiteralExpression */:
                     return visitObjectLiteral(context, node);
-                case 146 /* TypeLiteral */:
+                case 145 /* TypeLiteral */:
                     return visitTypeLiteral(context, node);
-                case 215 /* ExportAssignment */:
+                case 214 /* ExportAssignment */:
                     return visitExportAssignment(context, node);
-                case 204 /* TypeAliasDeclaration */:
+                case 203 /* TypeAliasDeclaration */:
                     return visitTypeAliasDeclaration(context, node);
                 default:
                     return null;
@@ -2307,7 +2307,7 @@ var td;
         converter.visit = visit;
         function visitBlock(context, node) {
             if (node.statements) {
-                var prefered = [202 /* ClassDeclaration */, 203 /* InterfaceDeclaration */, 205 /* EnumDeclaration */];
+                var prefered = [201 /* ClassDeclaration */, 202 /* InterfaceDeclaration */, 204 /* EnumDeclaration */];
                 var statements = [];
                 node.statements.forEach(function (statement) {
                     if (prefered.indexOf(statement.kind) != -1) {
@@ -2516,12 +2516,12 @@ var td;
             context.withScope(variable, function () {
                 if (node.initializer) {
                     switch (node.initializer.kind) {
-                        case 164 /* ArrowFunction */:
-                        case 163 /* FunctionExpression */:
+                        case 163 /* ArrowFunction */:
+                        case 162 /* FunctionExpression */:
                             variable.kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Method : td.models.ReflectionKind.Function;
                             visitCallSignatureDeclaration(context, node.initializer);
                             break;
-                        case 155 /* ObjectLiteralExpression */:
+                        case 154 /* ObjectLiteralExpression */:
                             if (!isSimpleObjectLiteral(node.initializer)) {
                                 variable.kind = td.models.ReflectionKind.ObjectLiteral;
                                 variable.type = new td.models.IntrinsicType('object');
@@ -2812,11 +2812,11 @@ var td;
                 switch (node.kind) {
                     case 8 /* StringLiteral */:
                         return convertStringLiteralExpression(node);
-                    case 147 /* ArrayType */:
+                    case 146 /* ArrayType */:
                         return convertArrayTypeNode(context, node);
-                    case 148 /* TupleType */:
+                    case 147 /* TupleType */:
                         return convertTupleTypeNode(context, node);
-                    case 149 /* UnionType */:
+                    case 148 /* UnionType */:
                         return convertUnionTypeNode(context, node);
                 }
                 // Node based type conversions by type flags
@@ -3233,7 +3233,7 @@ var td;
          * @returns The type reflection representing the given binding pattern.
          */
         function convertDestructuringType(context, node) {
-            if (node.kind == 152 /* ArrayBindingPattern */) {
+            if (node.kind == 151 /* ArrayBindingPattern */) {
                 var types = [];
                 node.elements.forEach(function (element) {
                     types.push(convertType(context, element));
@@ -3672,7 +3672,7 @@ var td;
             }
             // Test whether the node is exported
             var isExported = container.kindOf(td.models.ReflectionKind.Module) ? false : container.flags.isExported;
-            if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
+            if (node.parent && node.parent.kind == 199 /* VariableDeclarationList */) {
                 isExported = isExported || !!(node.parent.parent.flags & 1 /* Export */);
             }
             else {
@@ -3692,10 +3692,10 @@ var td;
             if (nonStaticKinds.indexOf(kind) == -1) {
                 isStatic = !!(node.flags & 128 /* Static */);
                 if (container.kind == td.models.ReflectionKind.Class) {
-                    if (node.parent && node.parent.kind == 136 /* Constructor */) {
+                    if (node.parent && node.parent.kind == 135 /* Constructor */) {
                         isConstructorProperty = true;
                     }
-                    else if (!node.parent || node.parent.kind != 202 /* ClassDeclaration */) {
+                    else if (!node.parent || node.parent.kind != 201 /* ClassDeclaration */) {
                         isStatic = true;
                     }
                 }
@@ -3842,7 +3842,7 @@ var td;
          */
         function extractSignatureType(context, node) {
             var checker = context.checker;
-            if (node.kind & 139 /* CallSignature */ || node.kind & 158 /* CallExpression */) {
+            if (node.kind & 138 /* CallSignature */ || node.kind & 157 /* CallExpression */) {
                 try {
                     var signature = checker.getSignatureFromDeclaration(node);
                     return converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
@@ -4143,10 +4143,10 @@ var td;
             CommentPlugin.getComment = function (node) {
                 var sourceFile = ts.getSourceFileOfNode(node);
                 var target = node;
-                if (node.kind == 206 /* ModuleDeclaration */) {
+                if (node.kind == 205 /* ModuleDeclaration */) {
                     var a, b;
                     // Ignore comments for cascaded modules, e.g. module A.B { }
-                    if (node.nextContainer && node.nextContainer.kind == 206 /* ModuleDeclaration */) {
+                    if (node.nextContainer && node.nextContainer.kind == 205 /* ModuleDeclaration */) {
                         a = node;
                         b = node.nextContainer;
                         if (a.name.end + 1 == b.name.pos) {
@@ -4154,7 +4154,7 @@ var td;
                         }
                     }
                     // Pull back comments of cascaded modules
-                    while (target.parent && target.parent.kind == 206 /* ModuleDeclaration */) {
+                    while (target.parent && target.parent.kind == 205 /* ModuleDeclaration */) {
                         a = target;
                         b = target.parent;
                         if (a.name.pos == b.name.end + 1) {
@@ -4165,13 +4165,13 @@ var td;
                         }
                     }
                 }
-                if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
+                if (node.parent && node.parent.kind == 199 /* VariableDeclarationList */) {
                     target = node.parent.parent;
                 }
                 var comments = ts.getJsDocComments(target, sourceFile);
                 if (comments && comments.length) {
                     var comment;
-                    if (node.kind == 228 /* 'SourceFile' */) {
+                    if (node.kind == 227 /* 'SourceFile' */) {
                         if (comments.length == 1)
                             return null;
                         comment = comments[0];
@@ -4409,7 +4409,7 @@ var td;
                         case 65 /* Identifier */:
                             identifier = decorator.expression;
                             break;
-                        case 158 /* CallExpression */:
+                        case 157 /* CallExpression */:
                             callExpression = decorator.expression;
                             identifier = callExpression.expression;
                             break;
