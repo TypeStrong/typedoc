@@ -206,7 +206,7 @@ module td.output
             }
 
             try {
-                writeFile(page.filename, page.contents, true);
+                writeFile(page.filename, page.contents, false);
             } catch (error) {
                 this.application.logger.error('Could not write %s', page.filename);
                 return false;

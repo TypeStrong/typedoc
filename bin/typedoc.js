@@ -7055,7 +7055,7 @@ var td;
                     return false;
                 }
                 try {
-                    td.writeFile(page.filename, page.contents, true);
+                    td.writeFile(page.filename, page.contents, false);
                 }
                 catch (error) {
                     this.application.logger.error('Could not write %s', page.filename);
