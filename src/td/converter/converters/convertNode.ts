@@ -43,6 +43,24 @@ module td.converter
      * @return The resulting reflection or NULL.
      */
     export function visit(context:Context, node:ts.Node):models.Reflection {
+        if (context.getOptions().verbose) {
+            var file = ts.getSourceFileOfNode(node);
+            var pos = ts.getLineAndCharacterOfPosition(file, node.pos);
+            if (node.symbol) {
+                context.getLogger().verbose(
+                    'Visiting \x1b[34m%s\x1b[0m\n    in %s (%s:%s)',
+                    context.checker.getFullyQualifiedName(node.symbol),
+                    file.fileName, pos.line.toString(), pos.character.toString()
+                );
+            } else {
+                context.getLogger().verbose(
+                    'Visiting node of kind %s in %s (%s:%s)',
+                    node.kind.toString(),
+                    file.fileName, pos.line.toString(), pos.character.toString()
+                );
+            }
+        }
+
         switch (node.kind) {
             case ts.SyntaxKind.SourceFile:
                 return visitSourceFile(context, <ts.SourceFile>node);

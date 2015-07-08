@@ -279,6 +279,14 @@ module td.converter
          * @param fileNames  Array of the file names that should be compiled.
          */
         convert(fileNames:string[]):IConverterResult {
+            if (this.application.options.verbose) {
+                this.application.logger.verbose('\n\x1b[32mStarting conversion\x1b[0m\n\nInput files:');
+                for (var i = 0, c = fileNames.length; i < c; i++) {
+                    this.application.logger.verbose(' - ' + fileNames[i]);
+                }
+                this.application.logger.verbose('\n');
+            }
+
             for (var i = 0, c = fileNames.length; i < c; i++) {
                 fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
             }
@@ -293,6 +301,10 @@ module td.converter
             var project = this.resolve(context);
 
             this.dispatch(Converter.EVENT_END, context);
+
+            if (this.application.options.verbose) {
+                this.application.logger.verbose('\n\x1b[32mFinished conversion\x1b[0m\n');
+            }
 
             return {
                 errors: errors,
@@ -341,6 +353,10 @@ module td.converter
 
             for (var id in project.reflections) {
                 if (!project.reflections.hasOwnProperty(id)) continue;
+                if (this.application.options.verbose) {
+                    this.application.logger.verbose('Resolving %s', project.reflections[id].getFullName());
+                }
+
                 this.dispatch(Converter.EVENT_RESOLVE, context, project.reflections[id]);
             }
 

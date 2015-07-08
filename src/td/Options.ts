@@ -38,6 +38,11 @@ declare module td
         help?:boolean;
 
         /**
+         * Should we display some extra debug information?
+         */
+        verbose?:boolean;
+
+        /**
          * Does the user want to know the version number?
          */
         version?:boolean;
@@ -260,6 +265,10 @@ module td
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
                 type: ParameterType.String,
                 isArray: true
+            },{
+                name: 'verbose',
+                help: 'Should TypeDoc print additional debug information?',
+                type: ParameterType.Boolean
             },{
                 name: 'logger',
                 help: 'Specify the logger that should be used, \'none\' or \'console\'',

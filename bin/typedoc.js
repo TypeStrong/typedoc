@@ -541,10 +541,11 @@ var td;
      * List of known log levels. Used to specify the urgency of a log message.
      */
     (function (LogLevel) {
-        LogLevel[LogLevel["Info"] = 0] = "Info";
-        LogLevel[LogLevel["Warn"] = 1] = "Warn";
-        LogLevel[LogLevel["Error"] = 2] = "Error";
-        LogLevel[LogLevel["Success"] = 3] = "Success";
+        LogLevel[LogLevel["Verbose"] = 0] = "Verbose";
+        LogLevel[LogLevel["Info"] = 1] = "Info";
+        LogLevel[LogLevel["Warn"] = 2] = "Warn";
+        LogLevel[LogLevel["Error"] = 3] = "Error";
+        LogLevel[LogLevel["Success"] = 4] = "Success";
     })(td.LogLevel || (td.LogLevel = {}));
     var LogLevel = td.LogLevel;
     (function (LoggerType) {
@@ -609,6 +610,19 @@ var td;
                 args[_i - 1] = arguments[_i];
             }
             this.log(td.Util.format.apply(this, arguments), LogLevel.Success);
+        };
+        /**
+         * Log the given verbose message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        Logger.prototype.verbose = function (text) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            this.log(td.Util.format.apply(this, arguments), LogLevel.Verbose);
         };
         /**
          * Log the given warning.
@@ -894,6 +908,10 @@ var td;
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
                 type: ParameterType.String,
                 isArray: true
+            }, {
+                name: 'verbose',
+                help: 'Should TypeDoc print additional debug information?',
+                type: ParameterType.Boolean
             }, {
                 name: 'logger',
                 help: 'Specify the logger that should be used, \'none\' or \'console\'',
@@ -1940,6 +1958,13 @@ var td;
              * @param fileNames  Array of the file names that should be compiled.
              */
             Converter.prototype.convert = function (fileNames) {
+                if (this.application.options.verbose) {
+                    this.application.logger.verbose('\n\x1b[32mStarting conversion\x1b[0m\n\nInput files:');
+                    for (var i = 0, c = fileNames.length; i < c; i++) {
+                        this.application.logger.verbose(' - ' + fileNames[i]);
+                    }
+                    this.application.logger.verbose('\n');
+                }
                 for (var i = 0, c = fileNames.length; i < c; i++) {
                     fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
                 }
@@ -1950,6 +1975,9 @@ var td;
                 var errors = this.compile(context);
                 var project = this.resolve(context);
                 this.dispatch(Converter.EVENT_END, context);
+                if (this.application.options.verbose) {
+                    this.application.logger.verbose('\n\x1b[32mFinished conversion\x1b[0m\n');
+                }
                 return {
                     errors: errors,
                     project: project
@@ -1993,6 +2021,9 @@ var td;
                 for (var id in project.reflections) {
                     if (!project.reflections.hasOwnProperty(id))
                         continue;
+                    if (this.application.options.verbose) {
+                        this.application.logger.verbose('Resolving %s', project.reflections[id].getFullName());
+                    }
                     this.dispatch(Converter.EVENT_RESOLVE, context, project.reflections[id]);
                 }
                 this.dispatch(Converter.EVENT_RESOLVE_END, context);
@@ -2250,6 +2281,16 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visit(context, node) {
+            if (context.getOptions().verbose) {
+                var file = ts.getSourceFileOfNode(node);
+                var pos = ts.getLineAndCharacterOfPosition(file, node.pos);
+                if (node.symbol) {
+                    context.getLogger().verbose('Visiting \x1b[34m%s\x1b[0m\n    in %s (%s:%s)', context.checker.getFullyQualifiedName(node.symbol), file.fileName, pos.line.toString(), pos.character.toString());
+                }
+                else {
+                    context.getLogger().verbose('Visiting node of kind %s in %s (%s:%s)', node.kind.toString(), file.fileName, pos.line.toString(), pos.character.toString());
+                }
+            }
             switch (node.kind) {
                 case 227 /* SourceFile */:
                     return visitSourceFile(context, node);

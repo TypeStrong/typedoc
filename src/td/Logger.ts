@@ -4,6 +4,7 @@ module td
      * List of known log levels. Used to specify the urgency of a log message.
      */
     export enum LogLevel {
+        Verbose,
         Info,
         Warn,
         Error,
@@ -70,6 +71,17 @@ module td
          */
         public success(text:string, ...args:string[]) {
             this.log(Util.format.apply(this, arguments), LogLevel.Success);
+        }
+
+
+        /**
+         * Log the given verbose message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        public verbose(text:string, ...args:string[]) {
+            this.log(Util.format.apply(this, arguments), LogLevel.Verbose);
         }
 
 

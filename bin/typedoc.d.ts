@@ -251,10 +251,11 @@ declare module td {
      * List of known log levels. Used to specify the urgency of a log message.
      */
     enum LogLevel {
-        Info = 0,
-        Warn = 1,
-        Error = 2,
-        Success = 3,
+        Verbose = 0,
+        Info = 1,
+        Warn = 2,
+        Error = 3,
+        Success = 4,
     }
     enum LoggerType {
         None = 0,
@@ -296,6 +297,13 @@ declare module td {
          * @param args  The arguments that should be printed into the given message.
          */
         success(text: string, ...args: string[]): void;
+        /**
+         * Log the given verbose message.
+         *
+         * @param text  The message that should be logged.
+         * @param args  The arguments that should be printed into the given message.
+         */
+        verbose(text: string, ...args: string[]): void;
         /**
          * Log the given warning.
          *
@@ -399,6 +407,10 @@ declare module td {
          * Does the user want to display the help message?
          */
         help?: boolean;
+        /**
+         * Should we display some extra debug information?
+         */
+        verbose?: boolean;
         /**
          * Does the user want to know the version number?
          */
