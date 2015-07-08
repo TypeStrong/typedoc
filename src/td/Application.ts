@@ -157,16 +157,25 @@ module td
 
             if (this.options.version) {
                 ts.sys.write(this.toString());
-            } else if (parser.inputFiles.length === 0 || this.options.help) {
+            } else if (this.options.help) {
                 ts.sys.write(parser.toString());
+            } else if (parser.inputFiles.length === 0) {
+                ts.sys.write(parser.toString());
+                process.exit(1);
             } else if (!this.options.out && !this.options.json) {
                 this.logger.error("You must either specify the 'out' or 'json' option.");
+                process.exit(1);
             } else {
                 var src = this.expandInputFiles(parser.inputFiles);
                 var project = this.convert(src);
                 if (project) {
                     if (this.options.out) this.generateDocs(project, this.options.out);
                     if (this.options.json) this.generateJson(project, this.options.json);
+                    if (this.logger.hasErrors()) {
+                        process.exit(3);
+                    }
+                } else {
+                    process.exit(2);
                 }
             }
         }
