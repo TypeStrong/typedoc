@@ -254,6 +254,7 @@ var td;
             this.bootstrap();
             this.collectParameters(parser);
             if (!parser.loadOptionFileFromArguments() || !parser.parseArguments()) {
+                process.exit(1);
                 return;
             }
             if (this.options.version) {

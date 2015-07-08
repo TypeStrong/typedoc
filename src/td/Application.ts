@@ -152,6 +152,7 @@ module td
 
             this.collectParameters(parser);
             if (!parser.loadOptionFileFromArguments() || !parser.parseArguments()) {
+                process.exit(1);
                 return;
             }
 
