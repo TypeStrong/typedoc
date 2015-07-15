@@ -157,7 +157,7 @@ module td.output
             } else {
                 entryPoint.url = 'globals.html';
                 urls.push(new UrlMapping('globals.html', entryPoint, 'reflection.hbs'));
-                urls.push(new UrlMapping('index.html',   entryPoint, 'index.hbs'));
+                urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
             }
 
             if (entryPoint.children) {
