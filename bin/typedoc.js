@@ -8602,7 +8602,7 @@ var td;
                 else {
                     entryPoint.url = 'globals.html';
                     urls.push(new output.UrlMapping('globals.html', entryPoint, 'reflection.hbs'));
-                    urls.push(new output.UrlMapping('index.html', entryPoint, 'index.hbs'));
+                    urls.push(new output.UrlMapping('index.html', project, 'index.hbs'));
                 }
                 if (entryPoint.children) {
                     entryPoint.children.forEach(function (child) {
