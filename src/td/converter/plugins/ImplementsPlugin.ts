@@ -40,6 +40,10 @@ module td.converter
                     break;
                 }
 
+                if (!classMember) {
+                    return;
+                }
+
                 var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
                 classMember.implementationOf = new models.ReferenceType(interfaceMemberName, models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
                 this.copyComment(classMember, interfaceMember);

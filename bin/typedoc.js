@@ -5129,6 +5129,9 @@ var td;
                         classMember = child;
                         break;
                     }
+                    if (!classMember) {
+                        return;
+                    }
                     var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
                     classMember.implementationOf = new td.models.ReferenceType(interfaceMemberName, td.models.ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
                     _this.copyComment(classMember, interfaceMember);
