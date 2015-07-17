@@ -1674,6 +1674,7 @@ var td;
                 this.fileNames = fileNames;
                 this.checker = checker;
                 this.program = program;
+                this.visitStack = [];
                 var project = new td.models.ProjectReflection(this.getOptions().name);
                 this.project = project;
                 this.scope = project;
@@ -2293,6 +2294,12 @@ var td;
          * @return The resulting reflection or NULL.
          */
         function visit(context, node) {
+            if (context.visitStack.indexOf(node) != -1) {
+                return null;
+            }
+            var oldVisitStack = context.visitStack;
+            context.visitStack = oldVisitStack.slice();
+            context.visitStack.push(node);
             if (context.getOptions().verbose) {
                 var file = ts.getSourceFileOfNode(node);
                 var pos = ts.getLineAndCharacterOfPosition(file, node.pos);
@@ -2303,59 +2310,79 @@ var td;
                     context.getLogger().verbose('Visiting node of kind %s in %s (%s:%s)', node.kind.toString(), file.fileName, pos.line.toString(), pos.character.toString());
                 }
             }
+            var result;
             switch (node.kind) {
                 case 227 /* SourceFile */:
-                    return visitSourceFile(context, node);
+                    result = visitSourceFile(context, node);
+                    break;
                 case 174 /* ClassExpression */:
                 case 201 /* ClassDeclaration */:
-                    return visitClassDeclaration(context, node);
+                    result = visitClassDeclaration(context, node);
+                    break;
                 case 202 /* InterfaceDeclaration */:
-                    return visitInterfaceDeclaration(context, node);
+                    result = visitInterfaceDeclaration(context, node);
+                    break;
                 case 205 /* ModuleDeclaration */:
-                    return visitModuleDeclaration(context, node);
+                    result = visitModuleDeclaration(context, node);
+                    break;
                 case 180 /* VariableStatement */:
-                    return visitVariableStatement(context, node);
+                    result = visitVariableStatement(context, node);
+                    break;
                 case 131 /* PropertySignature */:
                 case 132 /* PropertyDeclaration */:
                 case 224 /* PropertyAssignment */:
                 case 225 /* ShorthandPropertyAssignment */:
                 case 198 /* VariableDeclaration */:
                 case 152 /* BindingElement */:
-                    return visitVariableDeclaration(context, node);
+                    result = visitVariableDeclaration(context, node);
+                    break;
                 case 204 /* EnumDeclaration */:
-                    return visitEnumDeclaration(context, node);
+                    result = visitEnumDeclaration(context, node);
+                    break;
                 case 226 /* EnumMember */:
-                    return visitEnumMember(context, node);
+                    result = visitEnumMember(context, node);
+                    break;
                 case 135 /* Constructor */:
                 case 139 /* ConstructSignature */:
-                    return visitConstructor(context, node);
+                    result = visitConstructor(context, node);
+                    break;
                 case 133 /* MethodSignature */:
                 case 134 /* MethodDeclaration */:
                 case 200 /* FunctionDeclaration */:
-                    return visitFunctionDeclaration(context, node);
+                    result = visitFunctionDeclaration(context, node);
+                    break;
                 case 136 /* GetAccessor */:
-                    return visitGetAccessorDeclaration(context, node);
+                    result = visitGetAccessorDeclaration(context, node);
+                    break;
                 case 137 /* SetAccessor */:
-                    return visitSetAccessorDeclaration(context, node);
+                    result = visitSetAccessorDeclaration(context, node);
+                    break;
                 case 138 /* CallSignature */:
                 case 142 /* FunctionType */:
-                    return visitCallSignatureDeclaration(context, node);
+                    result = visitCallSignatureDeclaration(context, node);
+                    break;
                 case 140 /* IndexSignature */:
-                    return visitIndexSignatureDeclaration(context, node);
+                    result = visitIndexSignatureDeclaration(context, node);
+                    break;
                 case 179 /* Block */:
                 case 206 /* ModuleBlock */:
-                    return visitBlock(context, node);
+                    result = visitBlock(context, node);
+                    break;
                 case 154 /* ObjectLiteralExpression */:
-                    return visitObjectLiteral(context, node);
+                    result = visitObjectLiteral(context, node);
+                    break;
                 case 145 /* TypeLiteral */:
-                    return visitTypeLiteral(context, node);
+                    result = visitTypeLiteral(context, node);
+                    break;
                 case 214 /* ExportAssignment */:
-                    return visitExportAssignment(context, node);
+                    result = visitExportAssignment(context, node);
+                    break;
                 case 203 /* TypeAliasDeclaration */:
-                    return visitTypeAliasDeclaration(context, node);
-                default:
-                    return null;
+                    result = visitTypeAliasDeclaration(context, node);
+                    break;
             }
+            context.visitStack = oldVisitStack;
+            return result;
         }
         converter.visit = visit;
         function visitBlock(context, node) {

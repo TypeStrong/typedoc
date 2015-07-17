@@ -819,6 +819,10 @@ declare module td.converter {
          */
         inherited: string[];
         /**
+         * A list of parent nodes that have been passed to the visit function.
+         */
+        visitStack: ts.Node[];
+        /**
          * Next free symbol id used by [[getSymbolID]].
          */
         private symbolID;

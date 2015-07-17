@@ -76,6 +76,11 @@ module td.converter
         inherited:string[];
 
         /**
+         * A list of parent nodes that have been passed to the visit function.
+         */
+        visitStack:ts.Node[];
+
+        /**
          * Next free symbol id used by [[getSymbolID]].
          */
         private symbolID:number = -1024;
@@ -99,6 +104,7 @@ module td.converter
             this.fileNames = fileNames;
             this.checker = checker;
             this.program = program;
+            this.visitStack = [];
 
             var project = new models.ProjectReflection(this.getOptions().name);
             this.project = project;
