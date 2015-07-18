@@ -430,7 +430,13 @@ var td;
             var result = this.converter.convert(src);
             if (result.errors && result.errors.length) {
                 this.logger.diagnostics(result.errors);
-                return null;
+                if (this.options.ignoreCompilerErrors) {
+                    this.logger.resetErrors();
+                    return result.project;
+                }
+                else {
+                    return null;
+                }
             }
             else {
                 return result.project;
@@ -583,6 +589,12 @@ var td;
          */
         Logger.prototype.hasErrors = function () {
             return this.errorCount > 0;
+        };
+        /**
+         * Reset the error counter.
+         */
+        Logger.prototype.resetErrors = function () {
+            this.errorCount = 0;
         };
         /**
          * Log the given message.
@@ -915,6 +927,10 @@ var td;
                 name: 'exclude',
                 help: 'Define a pattern for excluded files when specifying paths.',
                 type: ParameterType.String
+            }, {
+                name: 'ignoreCompilerErrors',
+                help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+                type: ParameterType.Boolean
             }, {
                 name: 'plugin',
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',

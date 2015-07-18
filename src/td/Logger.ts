@@ -42,6 +42,14 @@ module td
 
 
         /**
+         * Reset the error counter.
+         */
+        public resetErrors() {
+            this.errorCount = 0;
+        }
+
+
+        /**
          * Log the given message.
          *
          * @param text  The message that should be logged.

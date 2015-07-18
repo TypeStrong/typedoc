@@ -33,6 +33,11 @@ declare module td
         json?:string;
 
         /**
+         * Should TypeDoc generate documentation pages even after the compiler has returned errors?
+         */
+        ignoreCompilerErrors?:boolean;
+
+        /**
          * Does the user want to display the help message?
          */
         help?:boolean;
@@ -260,6 +265,10 @@ module td
                 name: 'exclude',
                 help: 'Define a pattern for excluded files when specifying paths.',
                 type: ParameterType.String
+            },{
+                name: 'ignoreCompilerErrors',
+                help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+                type: ParameterType.Boolean
             },{
                 name: 'plugin',
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',

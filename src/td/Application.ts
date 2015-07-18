@@ -342,7 +342,12 @@ module td
             var result = this.converter.convert(src);
             if (result.errors && result.errors.length) {
                 this.logger.diagnostics(result.errors);
-                return null;
+                if (this.options.ignoreCompilerErrors) {
+                    this.logger.resetErrors();
+                    return result.project;
+                } else {
+                    return null;
+                }
             } else {
                 return result.project;
             }

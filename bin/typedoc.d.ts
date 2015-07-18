@@ -277,6 +277,10 @@ declare module td {
          */
         hasErrors(): boolean;
         /**
+         * Reset the error counter.
+         */
+        resetErrors(): void;
+        /**
          * Log the given message.
          *
          * @param text  The message that should be logged.
@@ -403,6 +407,10 @@ declare module td {
          * Path and filename of the json file.
          */
         json?: string;
+        /**
+         * Should TypeDoc generate documentation pages even after the compiler has returned errors?
+         */
+        ignoreCompilerErrors?: boolean;
         /**
          * Does the user want to display the help message?
          */
