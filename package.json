@@ -30,20 +30,20 @@
   "dependencies": {
     "typescript": "1.5.0-beta",
     "typedoc-default-themes": "0.3.4",
-    "fs-extra": "^0.16.5",
-    "minimatch": "^2.0.4",
-    "handlebars": "3.0.0",
+    "fs-extra": "^0.22.1",
+    "minimatch": "^2.0.8",
+    "handlebars": "3.0.3",
     "marked": "^0.3.3",
-    "highlight.js": "^8.4.0",
-    "shelljs": "^0.4.0",
+    "highlight.js": "^8.6.0",
+    "shelljs": "^0.5.1",
     "progress": "^1.1.8"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-string-replace": "^1.0.0",
-    "grunt-ts": "^3.0.0"
+    "grunt-string-replace": "^1.2.0",
+    "grunt-ts": "^4.2.0-beta"
   },
   "files": [
     "bin",
