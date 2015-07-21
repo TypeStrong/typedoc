@@ -6851,9 +6851,21 @@ var td;
              * @returns TRUE if the given type equals this type, FALSE otherwise.
              */
             TypeParameterType.prototype.equals = function (type) {
-                return type instanceof TypeParameterType &&
+                if (!(type instanceof TypeParameterType)) {
+                    return false;
+                }
+                var constraintEquals;
+                if (this.constraint && type.constraint) {
+                    constraintEquals = type.constraint.equals(this.constraint);
+                }
+                else if (!this.constraint && !type.constraint) {
+                    constraintEquals = true;
+                }
+                else {
+                    return false;
+                }
+                return constraintEquals &&
                     type.isArray == this.isArray &&
-                    type.constraint.equals(this.constraint) &&
                     type.name == this.name;
             };
             /**
