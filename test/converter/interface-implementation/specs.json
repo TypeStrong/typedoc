@@ -358,7 +358,7 @@
               "typeParameter": [
                 {
                   "id": 15,
-                  "name": "T",
+                  "name": "V",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {}
@@ -392,7 +392,7 @@
                             "typeArguments": [
                               {
                                 "type": "typeParameter",
-                                "name": "T"
+                                "name": "V"
                               }
                             ]
                           }
@@ -432,7 +432,7 @@
                             "typeArguments": [
                               {
                                 "type": "typeParameter",
-                                "name": "T"
+                                "name": "V"
                               }
                             ]
                           }
@@ -462,7 +462,7 @@
                     "typeArguments": [
                       {
                         "type": "typeParameter",
-                        "name": "T"
+                        "name": "V"
                       }
                     ]
                   }
@@ -502,7 +502,7 @@
                     "typeArguments": [
                       {
                         "type": "typeParameter",
-                        "name": "T"
+                        "name": "V"
                       }
                     ]
                   },
@@ -596,7 +596,7 @@
                   "typeArguments": [
                     {
                       "type": "typeParameter",
-                      "name": "T"
+                      "name": "V"
                     }
                   ]
                 }
@@ -616,7 +616,7 @@
               "typeParameter": [
                 {
                   "id": 29,
-                  "name": "T",
+                  "name": "U",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {}
@@ -652,7 +652,7 @@
                             "typeArguments": [
                               {
                                 "type": "typeParameter",
-                                "name": "T"
+                                "name": "U"
                               }
                             ]
                           }
@@ -691,7 +691,7 @@
                         "typeArguments": [
                           {
                             "type": "typeParameter",
-                            "name": "T"
+                            "name": "U"
                           }
                         ]
                       }
@@ -744,7 +744,7 @@
                           "flags": {},
                           "type": {
                             "type": "typeParameter",
-                            "name": "T"
+                            "name": "U"
                           }
                         }
                       ],
@@ -806,7 +806,7 @@
                             "typeArguments": [
                               {
                                 "type": "typeParameter",
-                                "name": "T"
+                                "name": "U"
                               }
                             ]
                           }
