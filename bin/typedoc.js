@@ -6865,8 +6865,7 @@ var td;
                     return false;
                 }
                 return constraintEquals &&
-                    type.isArray == this.isArray &&
-                    type.name == this.name;
+                    type.isArray == this.isArray;
             };
             /**
              * Return a raw object representation of this type.

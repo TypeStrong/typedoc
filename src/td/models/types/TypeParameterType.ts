@@ -53,8 +53,7 @@ module td.models
             }
 
             return constraintEquals &&
-                type.isArray == this.isArray &&
-                type.name == this.name;
+                type.isArray == this.isArray;
         }
 
 
