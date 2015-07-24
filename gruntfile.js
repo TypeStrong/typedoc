@@ -88,7 +88,8 @@ module.exports = function(grunt)
             mode:   'Modules',
             target: 'ES5',
             module: 'CommonJS',
-            noLib:  true
+            noLib:  true,
+            experimentalDecorators: true
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
