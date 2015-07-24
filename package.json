@@ -28,10 +28,10 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "typescript": "1.5.0-beta",
+    "typescript": "1.5.3",
     "typedoc-default-themes": "0.3.4",
     "fs-extra": "^0.22.1",
-    "minimatch": "^2.0.8",
+    "minimatch": "^2.0.10",
     "handlebars": "3.0.3",
     "marked": "^0.3.3",
     "highlight.js": "^8.6.0",
@@ -43,7 +43,7 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^4.2.0-beta",
+    "grunt-ts": "^4.2.0",
     "grunt-mocha-istanbul": "^2.4.0",
     "istanbul": "^0.3.17",
     "mocha": "^2.2.5"
