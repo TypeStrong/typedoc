@@ -56,6 +56,14 @@ module.exports = function(grunt)
                 files: ['src/**/*.ts'],
                 tasks: ['ts:typedoc', 'string-replace:version']
             }
+        },
+        mocha_istanbul: {
+            coverage: {
+                src: 'test',
+                options: {
+                    mask: '*.js'
+                }
+            }
         }
     });
 
@@ -64,8 +72,10 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-ts');
+    grunt.loadNpmTasks('grunt-mocha-istanbul');
 
     grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
+    grunt.registerTask('build_and_test', ['default', 'specs', 'mocha_istanbul:coverage']);
     grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
     grunt.registerTask('build-specs', function() {
