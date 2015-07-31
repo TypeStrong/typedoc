@@ -3767,8 +3767,17 @@ var td;
                 name = node.symbol.name;
             }
             // Test whether the node is exported
-            var isExported = container.kindOf(td.models.ReflectionKind.Module) ? false : container.flags.isExported;
-            if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
+            var isExported;
+            if (container.kindOf([td.models.ReflectionKind.Module, td.models.ReflectionKind.ExternalModule])) {
+                isExported = false; // Don't inherit exported state in modules and namespaces
+            }
+            else {
+                isExported = container.flags.isExported;
+            }
+            if (kind == td.models.ReflectionKind.ExternalModule) {
+                isExported = true; // Always mark external modules as exported
+            }
+            else if (node.parent && node.parent.kind == 200 /* VariableDeclarationList */) {
                 isExported = isExported || !!(node.parent.parent.flags & 1 /* Export */);
             }
             else {
@@ -5158,6 +5167,9 @@ var td;
              */
             ImplementsPlugin.prototype.analyzeClass = function (context, classReflection, interfaceReflection) {
                 var _this = this;
+                if (!interfaceReflection.children) {
+                    return;
+                }
                 interfaceReflection.children.forEach(function (interfaceMember) {
                     if (!(interfaceMember instanceof td.models.DeclarationReflection)) {
                         return;

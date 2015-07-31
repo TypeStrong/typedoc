@@ -25,6 +25,10 @@ module td.converter
          * @param interfaceReflection  The reflection of the interfaceReflection interface.
          */
         private analyzeClass(context:Context, classReflection:models.DeclarationReflection, interfaceReflection:models.DeclarationReflection) {
+            if (!interfaceReflection.children) {
+                return;
+            }
+
             interfaceReflection.children.forEach((interfaceMember:models.DeclarationReflection) => {
                 if (!(interfaceMember instanceof models.DeclarationReflection)) {
                     return;
