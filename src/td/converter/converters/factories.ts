@@ -34,8 +34,16 @@ module td.converter
         }
 
         // Test whether the node is exported
-        var isExported = container.kindOf(models.ReflectionKind.Module) ? false : container.flags.isExported;
-        if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
+        var isExported;
+        if (container.kindOf([models.ReflectionKind.Module, models.ReflectionKind.ExternalModule])) {
+            isExported = false; // Don't inherit exported state in modules and namespaces
+        } else {
+            isExported = container.flags.isExported;
+        }
+
+        if (kind == models.ReflectionKind.ExternalModule) {
+            isExported = true; // Always mark external modules as exported
+        } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
             isExported = isExported || !!(node.parent.parent.flags & ts.NodeFlags.Export)
         } else {
             isExported = isExported || !!(node.flags & ts.NodeFlags.Export);
