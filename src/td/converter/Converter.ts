@@ -256,7 +256,7 @@ module td.converter
                 defaultValue: SourceFileMode.Modules
             },{
                 name: "externalPattern",
-                key: 'Define a pattern for files that should be considered being external.'
+                help: 'Define a pattern for files that should be considered being external.'
             },{
                 name: "includeDeclarations",
                 help: 'Turn on parsing of .d.ts declaration files.',
