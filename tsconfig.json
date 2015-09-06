@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "outDir": "./",
+        "experimentalDecorators": true
+    },
+    "filesGlob": [
+        "./src/typings/**/*.d.ts",
+        "./src/lib/**/*.ts",
+        "./src/index.ts"
+    ],
+    "files": [
+        "./src/typings/fs-extra/fs-extra.d.ts",
+        "./src/typings/handlebars/handlebars.d.ts",
+        "./src/typings/highlightjs/highlightjs.d.ts",
+        "./src/typings/marked/marked.d.ts",
+        "./src/typings/minimatch/minimatch.d.ts",
+        "./src/typings/node/node.d.ts",
+        "./src/typings/tsd.d.ts",
+        "./src/typings/typescript/tsc.d.ts",
+        "./src/index.ts"
+    ]
+}
