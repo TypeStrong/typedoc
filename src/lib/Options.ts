@@ -1,8 +1,10 @@
-import {IApplication} from "./Application";
-import {LoggerType} from "./Logger";
 import * as Util from "util";
 import * as Path from "path";
 import * as FS from "fs";
+
+import {IApplication} from "./Application";
+import {LoggerType} from "./Logger";
+import {SourceFileMode} from "./converter/Converter";
 
 
 /**
@@ -61,6 +63,51 @@ export interface IOptions
      * Which logger should be used to record messages?
      */
     logger?:LoggerType;
+
+
+    /**
+     * Converter options
+     */
+
+    /**
+     * The human readable name of the project. Used within the templates to set the title of the document.
+     */
+    name?:string;
+
+    /**
+     * Specifies the output mode the project is used to be compiled with.
+     */
+    mode?:SourceFileMode;
+
+    /**
+     * Define a pattern for files that should be considered being external.
+     */
+    externalPattern?:string;
+
+    /**
+     * Should declaration files be documented?
+     */
+    includeDeclarations?:boolean;
+
+    /**
+     * Should externally resolved TypeScript files be ignored?
+     */
+    excludeExternals?:boolean;
+
+    /**
+     * Should symbols that are not marked as being exported be ignored?
+     */
+    excludeNotExported?:boolean;
+
+    /**
+     * Package Plugin Options
+     */
+
+    /**
+     * The location of the readme file that should be displayed on the index page. Set this to 'none' to
+     * remove the index page and start with the globals page.
+     */
+    readme?:string;
 }
 
 
@@ -75,10 +122,6 @@ export enum ScriptTarget {
     ES5 = 1,
     ES6 = 2,
     Latest = 2,
-}
-
-export enum SourceFileMode {
-    File, Modules
 }
 
 

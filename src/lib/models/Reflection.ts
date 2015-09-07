@@ -1,4 +1,8 @@
 import {Type} from "./Type";
+import {TypeParameterReflection} from "./reflections/TypeParameterReflection";
+import {ProjectReflection} from "./reflections/ProjectReflection";
+import {Comment} from "./Comment";
+import {SourceFile} from "./SourceFile";
 
 
 /**
@@ -185,6 +189,37 @@ export interface ITraverseCallback
 
 
 /**
+ * Represents references of reflections to their defining source files.
+ *
+ * @see [[DeclarationReflection.sources]]
+ */
+export interface ISourceReference
+{
+    /**
+     * A reference to the corresponding file instance.
+     */
+    file?:SourceFile;
+
+    /**
+     * The filename of the source file.
+     */
+    fileName:string;
+
+    /**
+     * The number of the line that emitted the declaration.
+     */
+    line:number;
+
+    character:number;
+
+    /**
+     * URL for displaying the source file.
+     */
+    url?:string;
+}
+
+
+/**
  * Defines the usage of a decorator.
  */
 export interface IDecorator
@@ -366,7 +401,7 @@ export class Reflection
      * Set a flag on this reflection.
      */
     setFlag(flag:ReflectionFlag, value:boolean = true) {
-        var name, index;
+        var name:string, index:number;
         if (relevantFlags.indexOf(flag) != -1) {
             name = ReflectionFlag[flag];
             name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
@@ -495,7 +530,7 @@ export class Reflection
     getChildByName(arg:any):Reflection {
         var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
         var name = names[0];
-        var result = null;
+        var result:Reflection = null;
 
         this.traverse((child) => {
             if (child.name == name) {

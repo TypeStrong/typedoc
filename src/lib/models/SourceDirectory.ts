@@ -1,3 +1,8 @@
+import {SourceFile} from "./SourceFile";
+import {Reflection} from "./Reflection";
+import {ReflectionGroup} from "./ReflectionGroup";
+
+
 /**
  * Exposes information about a directory containing source files.
  *
@@ -16,6 +21,8 @@ export class SourceDirectory
      * A list of all subdirectories.
      */
     directories:{[name:string]:SourceDirectory} = {};
+
+    groups:ReflectionGroup[];
 
     /**
      * A list of all files in this directory.
@@ -81,8 +88,8 @@ export class SourceDirectory
      * @returns An aggregated list of all [[DeclarationReflection]] defined in the
      * files of this directory.
      */
-    getAllReflections():DeclarationReflection[] {
-        var reflections = [];
+    getAllReflections():Reflection[] {
+        var reflections:Reflection[] = [];
         this.files.forEach((file) => {
             reflections.push.apply(reflections, file.reflections);
         });

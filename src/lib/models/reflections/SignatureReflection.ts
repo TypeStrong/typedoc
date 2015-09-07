@@ -37,7 +37,7 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
      */
     implementationOf:Type;
 
-
+ 
 
     /**
      * Return an array of the parameter types.

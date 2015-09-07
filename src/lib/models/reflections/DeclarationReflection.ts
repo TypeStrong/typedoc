@@ -1,9 +1,10 @@
-import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer} from "../Reflection";
+import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from "../Reflection";
 import {SourceFile} from "../SourceFile";
 import {Type} from "../Type";
 import {ContainerReflection} from "./ContainerReflection";
-import {SigantureReflection} from "./SignatureReflection";
+import {SignatureReflection} from "./SignatureReflection";
 import {TypeParameterReflection} from "./TypeParameterReflection";
+import {ReflectionType} from "../types/ReflectionType";
 
 
 /**
@@ -27,37 +28,6 @@ export interface IDeclarationHierarchy
      * Is this the entry containing the target type?
      */
     isTarget?:boolean;
-}
-
-
-/**
- * Represents references of reflections to their defining source files.
- *
- * @see [[DeclarationReflection.sources]]
- */
-export interface ISourceReference
-{
-    /**
-     * A reference to the corresponding file instance.
-     */
-    file?:SourceFile;
-
-    /**
-     * The filename of the source file.
-     */
-    fileName:string;
-
-    /**
-     * The number of the line that emitted the declaration.
-     */
-    line:number;
-
-    character:number;
-
-    /**
-     * URL for displaying the source file.
-     */
-    url?:string;
 }
 
 
@@ -163,7 +133,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
 
 
     getAllSignatures():SignatureReflection[] {
-        var result = [];
+        var result:SignatureReflection[] = [];
 
         if (this.signatures) result = result.concat(this.signatures);
         if (this.indexSignature) result.push(this.indexSignature);
@@ -264,7 +234,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
         var result = super.toString();
 
         if (this.typeParameters) {
-            var parameters = [];
+            var parameters:string[] = [];
             this.typeParameters.forEach((parameter) => {
                 parameters.push(parameter.name)
             });

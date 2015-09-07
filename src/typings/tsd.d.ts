@@ -4,4 +4,5 @@
 /// <reference path="marked/marked.d.ts" />
 /// <reference path="minimatch/minimatch.d.ts" />
 /// <reference path="node/node.d.ts" />
+/// <reference path="shelljs/shelljs.d.ts" />
 

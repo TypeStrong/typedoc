@@ -87,7 +87,7 @@ export class Comment
         }
         return null;
     }
-
+ 
 
     /**
      * Copy the data of the given comment into this comment.

@@ -1,3 +1,9 @@
+import {Reflection} from "./Reflection";
+import {SourceDirectory} from "./SourceDirectory";
+import {ReflectionGroup} from "./ReflectionGroup";
+import * as Path from "path";
+
+
 /**
  * Exposes information about a source file.
  *
@@ -39,7 +45,7 @@ export class SourceFile
     /**
      * A list of all reflections that are declared in this file.
      */
-    reflections:DeclarationReflection[] = [];
+    reflections:Reflection[] = [];
 
     /**
      * A grouped list of the reflections declared in this file.

@@ -1,3 +1,6 @@
+import {Reflection, ReflectionKind} from "./Reflection";
+import {DeclarationReflection} from "./reflections/DeclarationReflection";
+
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -21,7 +24,7 @@ export class ReflectionGroup
     /**
      * All reflections of this group.
      */
-    children:DeclarationReflection[] = [];
+    children:Reflection[] = [];
 
     /**
      * A list of generated css classes that should be applied to representations of this
@@ -100,7 +103,7 @@ export class ReflectionGroup
         };
 
         if (this.children) {
-            var children = [];
+            var children:any[] = [];
             this.children.forEach((child) => {
                 children.push(child.id)
             });
