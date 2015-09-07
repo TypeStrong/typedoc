@@ -4,7 +4,7 @@
 .baseDir.js
 .baseDir.ts
 
-/src/lib/typescript/typescript.js
+/src/typings/typescript/typescript.js
 
 /tmp/
 /etc/
