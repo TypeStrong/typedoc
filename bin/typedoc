@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-var TypeDoc = require('./typedoc.js');
-new TypeDoc.Application(true);
+var td = require('../index.js');
+new td.Application(true);
