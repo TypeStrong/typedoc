@@ -108,6 +108,45 @@ export interface IOptions
      * remove the index page and start with the globals page.
      */
     readme?:string;
+
+    /**
+     * DefaultTheme Options
+     */
+
+    /**
+     * The Google Analytics tracking ID that should be used. When not set, the tracking code
+     * should be omitted.
+     */
+    gaID?:string;
+
+    /**
+     * Optional site name for Google Analytics. Defaults to `auto`.
+     */
+    gaSite?:string;
+
+    /**
+     * Should we hide the TypeDoc link at the end of the page?
+     */
+    hideGenerator?:boolean;
+
+    /**
+     * Specifies the fully qualified name of the root symbol. Defaults to global namespace.
+     */
+    entryPoint?:string;
+
+    /**
+     * MarkedPlugin options
+     */
+
+    /**
+     * Specifies the location to look for included documents.
+     */
+    includes?:string;
+
+    /**
+     * Specifies the location with media files that should be copied to the output directory.
+     */
+    media?:string;
 }
 
 
@@ -558,7 +597,7 @@ export class OptionsParser
 
         var data = require(optionFile);
         if (typeof data == 'function') {
-            data = data(this.application, td);
+            data = data(this.application);
         }
 
         if (!(typeof data == 'object')) {

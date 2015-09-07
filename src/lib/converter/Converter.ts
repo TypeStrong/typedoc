@@ -6,6 +6,7 @@ import {Context} from "./Context";
 import {ConverterPlugin} from "./ConverterPlugin";
 import {IParameter, ParameterType} from "../Options";
 import {visit} from "./converters/convertNode";
+import {typescriptPath} from "./typescript";
 import * as Path from "path";
 
 
@@ -391,7 +392,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      */
     getDefaultLibFileName(options: ts.CompilerOptions):string {
         var lib = this.getDefaultLib();
-        var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
+        var path = ts.getDirectoryPath(ts.normalizePath(typescriptPath));
         return Path.join(path, 'bin', lib);
     }
 

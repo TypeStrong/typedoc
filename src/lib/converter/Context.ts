@@ -1,11 +1,13 @@
 import {Converter} from "./Converter";
+import {Logger} from "../Logger";
 import {Reflection} from "../models/Reflection";
 import {ProjectReflection} from "../models/reflections/ProjectReflection";
 import {ContainerReflection} from "../models/reflections/ContainerReflection";
 import {Type} from "../models/Type";
 import {IOptions} from "../Options";
 import {visit} from "./converters/convertNode";
-
+import {convertType} from "./converters/convertType";
+import {createTypeParameter} from "./converters/factories";
 import {Minimatch, IMinimatch} from "minimatch";
 
 
@@ -264,27 +266,27 @@ export class Context
     /**
      * @param callback  The callback function that should be executed with the changed context.
      */
-    public withScope(scope:Reflection, callback:Function);
+    public withScope(scope:Reflection, callback:Function):void;
 
     /**
      * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
      * @param callback  The callback function that should be executed with the changed context.
      */
-    public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, callback:Function);
+    public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, callback:Function):void;
 
     /**
      * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
      * @param preserve  Should the currently set type parameters of the context be preserved?
      * @param callback  The callback function that should be executed with the changed context.
      */
-    public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve:boolean, callback:Function);
+    public withScope(scope:Reflection, parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve:boolean, callback:Function):void;
 
     /**
      * Run the given callback with the scope of the context set to the given reflection.
      *
      * @param scope  The reflection that should be set as the scope of the context while the callback is invoked.
      */
-    public withScope(scope:Reflection, ...args) {
+    public withScope(scope:Reflection, ...args:any[]):void {
         if (!scope || !args.length) return;
         var callback = args.pop();
         var parameters = args.shift();

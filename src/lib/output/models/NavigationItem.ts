@@ -1,117 +1,117 @@
-module td.output
+import {Reflection} from "../../models/Reflection";
+
+
+/**
+ * A hierarchical model holding the data of single node within the navigation.
+ *
+ * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
+ * navigation state to the template engine. Themes should generate the primary navigation structure
+ * through the [[BaseTheme.getNavigation]] method.
+ */
+export class NavigationItem
 {
     /**
-     * A hierarchical model holding the data of single node within the navigation.
-     *
-     * This structure is used by the [[NavigationPlugin]] and [[TocPlugin]] to expose the current
-     * navigation state to the template engine. Themes should generate the primary navigation structure
-     * through the [[BaseTheme.getNavigation]] method.
+     * The visible title of the navigation node.
      */
-    export class NavigationItem
-    {
-        /**
-         * The visible title of the navigation node.
-         */
-        title:string;
+    title:string;
 
-        /**
-         * The url this navigation node points to.
-         */
-        url:string;
+    /**
+     * The url this navigation node points to.
+     */
+    url:string;
 
-        /**
-         * A list of urls that should be seen as sub-pages of this node.
-         */
-        dedicatedUrls:string[];
+    /**
+     * A list of urls that should be seen as sub-pages of this node.
+     */
+    dedicatedUrls:string[];
 
-        /**
-         * The parent navigation node.
-         */
-        parent:NavigationItem;
+    /**
+     * The parent navigation node.
+     */
+    parent:NavigationItem;
 
-        /**
-         * An array containing all child navigation nodes.
-         */
-        children:NavigationItem[];
+    /**
+     * An array containing all child navigation nodes.
+     */
+    children:NavigationItem[];
 
-        /**
-         * A string containing the css classes of this node.
-         */
-        cssClasses:string;
+    /**
+     * A string containing the css classes of this node.
+     */
+    cssClasses:string;
 
-        /**
-         * Is this item a simple label without a link?
-         */
-        isLabel:boolean;
+    /**
+     * Is this item a simple label without a link?
+     */
+    isLabel:boolean;
 
-        /**
-         * Is this item visible?
-         */
-        isVisible:boolean;
+    /**
+     * Is this item visible?
+     */
+    isVisible:boolean;
 
-        /**
-         * Does this navigation node represent the current page?
-         */
-        isCurrent:boolean;
+    /**
+     * Does this navigation node represent the current page?
+     */
+    isCurrent:boolean;
 
-        /**
-         * Is this the navigation node for the globals page?
-         */
-        isGlobals:boolean;
+    /**
+     * Is this the navigation node for the globals page?
+     */
+    isGlobals:boolean;
 
-        /**
-         * Is this navigation node one of the parents of the current page?
-         */
-        isInPath:boolean;
+    /**
+     * Is this navigation node one of the parents of the current page?
+     */
+    isInPath:boolean;
 
 
 
-        /**
-         * Create a new NavigationItem instance.
-         *
-         * @param title       The visible title of the navigation node.
-         * @param url         The url this navigation node points to.
-         * @param parent      The parent navigation node.
-         * @param cssClasses  A string containing the css classes of this node.
-         */
-        constructor(title?:string, url?:string, parent?:NavigationItem, cssClasses?:string) {
-            this.title      = title  || '';
-            this.url        = url    || '';
-            this.parent     = parent || null;
-            this.cssClasses = cssClasses || '';
+    /**
+     * Create a new NavigationItem instance.
+     *
+     * @param title       The visible title of the navigation node.
+     * @param url         The url this navigation node points to.
+     * @param parent      The parent navigation node.
+     * @param cssClasses  A string containing the css classes of this node.
+     */
+    constructor(title?:string, url?:string, parent?:NavigationItem, cssClasses?:string) {
+        this.title      = title  || '';
+        this.url        = url    || '';
+        this.parent     = parent || null;
+        this.cssClasses = cssClasses || '';
 
-            if (!url) {
-                this.isLabel = true;
-            }
-
-            if (this.parent) {
-                if (!this.parent.children) this.parent.children = [];
-                this.parent.children.push(this);
-            }
+        if (!url) {
+            this.isLabel = true;
         }
 
-
-        /**
-         * Create a navigation node for the given reflection.
-         *
-         * @param reflection     The reflection whose navigation node should be created.
-         * @param parent         The parent navigation node.
-         * @param useShortNames  Force this function to always use short names.
-         */
-        static create(reflection:models.Reflection, parent?:NavigationItem, useShortNames?:boolean) {
-            var name;
-            if (useShortNames || (parent && parent.parent)) {
-                name = reflection.name;
-            } else {
-                name = reflection.getFullName();
-            }
-
-            name = name.trim();
-            if (name == '') {
-                name = '<em>' + reflection.kindString + '</em>';
-            }
-
-            return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
+        if (this.parent) {
+            if (!this.parent.children) this.parent.children = [];
+            this.parent.children.push(this);
         }
+    }
+
+
+    /**
+     * Create a navigation node for the given reflection.
+     *
+     * @param reflection     The reflection whose navigation node should be created.
+     * @param parent         The parent navigation node.
+     * @param useShortNames  Force this function to always use short names.
+     */
+    static create(reflection:Reflection, parent?:NavigationItem, useShortNames?:boolean) {
+        var name:string;
+        if (useShortNames || (parent && parent.parent)) {
+            name = reflection.name;
+        } else {
+            name = reflection.getFullName();
+        }
+
+        name = name.trim();
+        if (name == '') {
+            name = '<em>' + reflection.kindString + '</em>';
+        }
+
+        return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
     }
 }

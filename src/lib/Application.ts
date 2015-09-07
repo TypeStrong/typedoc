@@ -6,16 +6,19 @@
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
 
+import * as Path from "path";
+import * as FS from "fs";
+import * as Util from "util";
+import {Minimatch, IMinimatch} from "minimatch";
+
 import {EventDispatcher} from "./EventDispatcher";
 import {IOptions, OptionsParser} from "./Options";
 import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./Logger";
 import {writeFile} from "./Utils";
 import {ProjectReflection} from "./models/reflections/ProjectReflection";
-
-import * as Path from "path";
-import * as FS from "fs";
-import * as Util from "util";
-import {Minimatch, IMinimatch} from "minimatch";
+import {Converter} from "./converter/Converter";
+import {Renderer} from "./output/Renderer";
+import {typescriptVersion, typescriptPath} from "./converter/typescript";
 
 
 /**
@@ -73,23 +76,17 @@ export class Application extends EventDispatcher implements IApplication
     /**
      * The converter used to create the declaration reflections.
      */
-    converter:converter.Converter;
+    converter:Converter;
 
     /**
      * The renderer used to generate the documentation output.
      */
-    renderer:output.Renderer;
+    renderer:Renderer;
 
     /**
      * The logger that should be used to output messages.
      */
     logger:Logger;
-
-    /**
-     * The version number of the loaded TypeScript compiler.
-     * Cached return value of [[Application.getTypeScriptVersion]]
-     */
-    private typeScriptVersion:string;
 
     /**
      *
@@ -120,8 +117,8 @@ export class Application extends EventDispatcher implements IApplication
     constructor(arg?:any) {
         super();
 
-        this.converter = new converter.Converter(this);
-        this.renderer  = new output.Renderer(this);
+        this.converter = new Converter(this);
+        this.renderer  = new Renderer(this);
         this.logger    = new ConsoleLogger();
         this.options   = OptionsParser.createOptions();
         this.compilerOptions = OptionsParser.createCompilerOptions();
@@ -235,7 +232,7 @@ export class Application extends EventDispatcher implements IApplication
             try {
                 var instance = require(plugin);
                 if (typeof instance == 'function') {
-                    instance(this, td);
+                    instance(this);
                     this.logger.write('Loaded plugin %s', plugin);
                 } else {
                     this.logger.error('The plugin %s did not return a function.', plugin);
@@ -346,7 +343,7 @@ export class Application extends EventDispatcher implements IApplication
      * @returns An instance of ProjectReflection on success, NULL otherwise.
      */
     public convert(src:string[]):ProjectReflection {
-        this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), tsPath);
+        this.logger.writeln('Using TypeScript %s from %s', typescriptVersion, typescriptPath);
 
         var result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
@@ -468,28 +465,13 @@ export class Application extends EventDispatcher implements IApplication
 
 
     /**
-     * Return the version number of the loaded TypeScript compiler.
-     *
-     * @returns The version number of the loaded TypeScript package.
-     */
-    public getTypeScriptVersion():string {
-        if (!this.typeScriptVersion) {
-            var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
-            this.typeScriptVersion = json.version;
-        }
-
-        return this.typeScriptVersion;
-    }
-
-
-    /**
      * Print the version number.
      */
     public toString() {
         return [
             '',
             'TypeDoc ' + Application.VERSION,
-            'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + tsPath,
+            'Using TypeScript ' + typescriptVersion + ' from ' + typescriptPath,
             ''
         ].join(ts.sys.newLine);
     }

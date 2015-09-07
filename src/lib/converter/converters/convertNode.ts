@@ -6,8 +6,12 @@ import {ProjectReflection} from "../../models/reflections/ProjectReflection";
 import {IntrinsicType} from "../../models/types/IntrinsicType";
 import {convertType} from "./convertType";
 import {createDeclaration} from "./factories";
+import {CommentPlugin} from "../plugins/CommentPlugin";
+import {convertDestructuringType} from "./convertType";
+import {createSignature} from "./factories";
+import {ReferenceType} from "../../models/types/ReferenceType";
+import {Converter} from "../Converter";
 
- 
 export function getDefaultValue(node:ts.VariableDeclaration):string;
 export function getDefaultValue(node:ts.ParameterDeclaration):string;
 export function getDefaultValue(node:ts.EnumMember):string;
@@ -184,7 +188,7 @@ function visitBlock(context:Context, node:ts.Block):Reflection;
 function visitBlock(context:Context, node:{statements:ts.NodeArray<ts.ModuleElement>}):Reflection {
     if (node.statements) {
         var prefered = [ts.SyntaxKind.ClassDeclaration, ts.SyntaxKind.InterfaceDeclaration, ts.SyntaxKind.EnumDeclaration];
-        var statements = [];
+        var statements:ts.ModuleElement[] = [];
         node.statements.forEach((statement) => {
             if (prefered.indexOf(statement.kind) != -1) {
                 visit(context, statement);
@@ -265,7 +269,7 @@ function visitModuleDeclaration(context:Context, node:ts.ModuleDeclaration):Refl
 function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):Reflection {
     var reflection:DeclarationReflection;
     if (context.isInherit && context.inheritParent == node) {
-        reflection = context.scope;
+        reflection = <DeclarationReflection>context.scope;
     } else {
         reflection = createDeclaration(context, node, ReflectionKind.Class);
     }
@@ -318,7 +322,7 @@ function visitClassDeclaration(context:Context, node:ts.ClassDeclaration):Reflec
 function visitInterfaceDeclaration(context:Context, node:ts.InterfaceDeclaration):Reflection {
     var reflection:DeclarationReflection;
     if (context.isInherit && context.inheritParent == node) {
-        reflection = context.scope;
+        reflection = <DeclarationReflection>context.scope;
     } else {
         reflection = createDeclaration(context, node, ReflectionKind.Interface);
     }
