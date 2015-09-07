@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty} from "../../models/Reflection";
 import {Comment} from "../../models/Comment";
 import {CommentTag} from "../../models/CommentTag";
@@ -10,6 +12,7 @@ import {ProjectReflection} from "../../models/reflections/ProjectReflection";
 import {SignatureReflection} from "../../models/reflections/SignatureReflection";
 import {ParameterReflection} from "../../models/reflections/ParameterReflection";
 import {IntrinsicType} from "../../models/types/IntrinsicType";
+
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.

@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {ProjectReflection} from "../models/reflections/ProjectReflection";
 import {PluginHost} from "../PluginHost";
 import {Reflection} from "../models/Reflection";
@@ -6,7 +8,6 @@ import {Context} from "./Context";
 import {ConverterPlugin} from "./ConverterPlugin";
 import {IParameter, ParameterType} from "../Options";
 import {visit} from "./converters/convertNode";
-import {typescriptPath} from "./typescript";
 import * as Path from "path";
 
 
@@ -392,7 +393,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      */
     getDefaultLibFileName(options: ts.CompilerOptions):string {
         var lib = this.getDefaultLib();
-        var path = ts.getDirectoryPath(ts.normalizePath(typescriptPath));
+        var path = ts.getDirectoryPath(ts.normalizePath(this.application.getTypeScriptPath()));
         return Path.join(path, 'bin', lib);
     }
 

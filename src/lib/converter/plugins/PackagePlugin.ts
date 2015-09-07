@@ -1,5 +1,6 @@
 import * as Path from "path";
 import * as FS from "fs";
+import * as ts from "typescript";
 
 import {Converter} from "../Converter";
 import {ConverterPlugin} from "../ConverterPlugin";

@@ -1,6 +1,7 @@
 import * as Util from "util";
 import * as Path from "path";
 import * as FS from "fs";
+import * as ts from "typescript";
 
 import {IApplication} from "./Application";
 import {LoggerType} from "./Logger";

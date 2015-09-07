@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {Converter} from "./Converter";
 import {Logger} from "../Logger";
 import {Reflection} from "../models/Reflection";

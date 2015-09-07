@@ -24,14 +24,16 @@ module.exports = function(grunt)
                     'typescript/src/compiler/types.ts',
                     'typescript/src/compiler/scanner.ts',
                     'typescript/src/compiler/parser.ts',
+                    'typescript/src/compiler/utilities.ts',
                     'typescript/src/compiler/binder.ts',
                     'typescript/src/compiler/checker.ts',
+                    'typescript/src/compiler/declarationEmitter.ts',
                     'typescript/src/compiler/emitter.ts',
+                    'typescript/src/compiler/program.ts',
                     'typescript/src/compiler/commandLineParser.ts',
-                    'typescript/src/compiler/tsc.ts',
                     'typescript/src/compiler/diagnosticInformationMap.generated.ts'
                 ],
-                out: 'src/lib/typescript/tsc.js'
+                out: 'src/typings/typescript/typescript.js'
             }
         },
         'string-replace': {
@@ -43,6 +45,20 @@ module.exports = function(grunt)
                     replacements: [{
                         pattern: /{{ VERSION }}/g,
                         replacement: '<%= pkg.version %>'
+                    }]
+                }
+            },
+            typescript: {
+                files: {
+                    'src/typings/typescript/typescript.d.ts': ['src/typings/typescript/typescript.d.ts']
+                },
+                options: {
+                    replacements: [{
+                        pattern: /\}[\s\n\r]*declare module ts \{/g,
+                        replacement: ''
+                    }, {
+                        pattern: /declare module ts/g,
+                        replacement: 'declare module "typescript"'
                     }]
                 }
             }

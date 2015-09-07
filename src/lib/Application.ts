@@ -9,6 +9,7 @@
 import * as Path from "path";
 import * as FS from "fs";
 import * as Util from "util";
+import * as typescript from "typescript";
 import {Minimatch, IMinimatch} from "minimatch";
 
 import {EventDispatcher} from "./EventDispatcher";
@@ -18,7 +19,6 @@ import {writeFile} from "./Utils";
 import {ProjectReflection} from "./models/reflections/ProjectReflection";
 import {Converter} from "./converter/Converter";
 import {Renderer} from "./output/Renderer";
-import {typescriptVersion, typescriptPath} from "./converter/typescript";
 
 
 /**
@@ -37,7 +37,7 @@ export interface IApplication
     /**
      * The options used by the TypeScript compiler.
      */
-    compilerOptions:ts.CompilerOptions;
+    compilerOptions:typescript.CompilerOptions;
 
     /**
      * The logger that should be used to output messages.
@@ -71,7 +71,7 @@ export class Application extends EventDispatcher implements IApplication
     /**
      * The options used by the TypeScript compiler.
      */
-    compilerOptions:ts.CompilerOptions;
+    compilerOptions:typescript.CompilerOptions;
 
     /**
      * The converter used to create the declaration reflections.
@@ -163,11 +163,11 @@ export class Application extends EventDispatcher implements IApplication
         }
 
         if (this.options.version) {
-            ts.sys.write(this.toString());
+            typescript.sys.write(this.toString());
         } else if (this.options.help) {
-            ts.sys.write(parser.toString());
+            typescript.sys.write(parser.toString());
         } else if (parser.inputFiles.length === 0) {
-            ts.sys.write(parser.toString());
+            typescript.sys.write(parser.toString());
             process.exit(1);
         } else if (!this.options.out && !this.options.json) {
             this.logger.error("You must either specify the 'out' or 'json' option.");
@@ -335,6 +335,20 @@ export class Application extends EventDispatcher implements IApplication
         this.dispatch(Application.EVENT_COLLECT_PARAMETERS, parser);
     }
 
+    /**
+     * Return the path to the TypeScript compiler.
+     */
+    public getTypeScriptPath():string {
+        return require.resolve('typescript');
+    }
+
+
+    public getTypeScriptVersion():string {
+        var tsPath = this.getTypeScriptPath();
+        var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
+        return json.version;
+    }
+
 
     /**
      * Run the converter for the given set of files and return the generated reflections.
@@ -343,7 +357,7 @@ export class Application extends EventDispatcher implements IApplication
      * @returns An instance of ProjectReflection on success, NULL otherwise.
      */
     public convert(src:string[]):ProjectReflection {
-        this.logger.writeln('Using TypeScript %s from %s', typescriptVersion, typescriptPath);
+        this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
         var result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
@@ -471,8 +485,8 @@ export class Application extends EventDispatcher implements IApplication
         return [
             '',
             'TypeDoc ' + Application.VERSION,
-            'Using TypeScript ' + typescriptVersion + ' from ' + typescriptPath,
+            'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + this.getTypeScriptPath(),
             ''
-        ].join(ts.sys.newLine);
+        ].join(typescript.sys.newLine);
     }
 }

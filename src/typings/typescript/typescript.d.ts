@@ -1,4 +1,4 @@
-declare module ts {
+declare module "typescript" {
     interface Map<T> {
         [index: string]: T;
     }
@@ -1439,8 +1439,7 @@ declare module ts {
         getDiagnostics(fileName?: string): Diagnostic[];
         getModificationCount(): number;
     }
-}
-declare module ts {
+
     const enum Ternary {
         False = 0,
         Maybe = 1,
@@ -1524,8 +1523,7 @@ declare module ts {
         function assert(expression: boolean, message?: string, verboseDebugInfo?: () => string): void;
         function fail(message?: string): void;
     }
-}
-declare module ts {
+
     interface System {
         args: string[];
         newLine: string;
@@ -1548,8 +1546,7 @@ declare module ts {
         close(): void;
     }
     var sys: System;
-}
-declare module ts {
+
     var Diagnostics: {
         Unterminated_string_literal: {
             code: number;
@@ -4282,8 +4279,7 @@ declare module ts {
             key: string;
         };
     };
-}
-declare module ts {
+
     interface ErrorCallback {
         (message: DiagnosticMessage, length: number): void;
     }
@@ -4331,8 +4327,7 @@ declare module ts {
     function isIdentifierStart(ch: number, languageVersion: ScriptTarget): boolean;
     function isIdentifierPart(ch: number, languageVersion: ScriptTarget): boolean;
     function createScanner(languageVersion: ScriptTarget, skipTrivia: boolean, text?: string, onError?: ErrorCallback, start?: number, length?: number): Scanner;
-}
-declare module ts {
+
     let bindTime: number;
     const enum ModuleInstanceState {
         NonInstantiated = 0,
@@ -4341,8 +4336,7 @@ declare module ts {
     }
     function getModuleInstanceState(node: Node): ModuleInstanceState;
     function bindSourceFile(file: SourceFile): void;
-}
-declare module ts {
+
     interface ReferencePathMatchResult {
         fileReference?: FileReference;
         diagnosticMessage?: DiagnosticMessage;
@@ -4495,8 +4489,7 @@ declare module ts {
     function getLocalSymbolForExportDefault(symbol: Symbol): Symbol;
     function convertToBase64(input: string): string;
     function getNewLineCharacter(options: CompilerOptions): string;
-}
-declare module ts {
+
     function getDefaultLibFileName(options: CompilerOptions): string;
     function textSpanEnd(span: TextSpan): number;
     function textSpanIsEmpty(span: TextSpan): boolean;
@@ -4515,30 +4508,36 @@ declare module ts {
     function createTextChangeRange(span: TextSpan, newLength: number): TextChangeRange;
     let unchangedTextChangeRange: TextChangeRange;
     function collapseTextChangeRangesAcrossMultipleVersions(changes: TextChangeRange[]): TextChangeRange;
-}
-declare module ts {
+
     let parseTime: number;
     function getNodeConstructor(kind: SyntaxKind): new () => Node;
     function createNode(kind: SyntaxKind): Node;
     function forEachChild<T>(node: Node, cbNode: (node: Node) => T, cbNodeArray?: (nodes: Node[]) => T): T;
     function createSourceFile(fileName: string, sourceText: string, languageVersion: ScriptTarget, setParentNodes?: boolean): SourceFile;
     function updateSourceFile(sourceFile: SourceFile, newText: string, textChangeRange: TextChangeRange, aggressiveChecks?: boolean): SourceFile;
-}
-declare module ts {
+
     function getNodeId(node: Node): number;
     let checkTime: number;
     function getSymbolId(symbol: Symbol): number;
     function createTypeChecker(host: TypeCheckerHost, produceDiagnostics: boolean): TypeChecker;
-}
-declare module ts {
+
     function getDeclarationDiagnostics(host: EmitHost, resolver: EmitResolver, targetSourceFile: SourceFile): Diagnostic[];
     function writeDeclarationFile(jsFilePath: string, sourceFile: SourceFile, host: EmitHost, resolver: EmitResolver, diagnostics: Diagnostic[]): void;
-}
-declare module ts {
+
     function isExternalModuleOrDeclarationFile(sourceFile: SourceFile): boolean;
     function emitFiles(resolver: EmitResolver, host: EmitHost, targetSourceFile: SourceFile): EmitResult;
-}
-declare module ts {
+
+    let programTime: number;
+    let emitTime: number;
+    let ioReadTime: number;
+    let ioWriteTime: number;
+    const version: string;
+    function findConfigFile(searchPath: string): string;
+    function createCompilerHost(options: CompilerOptions, setParentNodes?: boolean): CompilerHost;
+    function getPreEmitDiagnostics(program: Program, sourceFile?: SourceFile): Diagnostic[];
+    function flattenDiagnosticMessageText(messageText: string | DiagnosticMessageChain, newLine: string): string;
+    function createProgram(rootNames: string[], options: CompilerOptions, host?: CompilerHost): Program;
+
     var optionDeclarations: CommandLineOption[];
     function parseCommandLine(commandLine: string[]): ParsedCommandLine;
     function readConfigFile(fileName: string): {
@@ -4550,22 +4549,4 @@ declare module ts {
         error?: Diagnostic;
     };
     function parseConfigFile(json: any, host: ParseConfigHost, basePath: string): ParsedCommandLine;
-}
-declare module ts {
-    let programTime: number;
-    let emitTime: number;
-    let ioReadTime: number;
-    let ioWriteTime: number;
-    const version: string;
-    function findConfigFile(searchPath: string): string;
-    function createCompilerHost(options: CompilerOptions, setParentNodes?: boolean): CompilerHost;
-    function getPreEmitDiagnostics(program: Program, sourceFile?: SourceFile): Diagnostic[];
-    function flattenDiagnosticMessageText(messageText: string | DiagnosticMessageChain, newLine: string): string;
-    function createProgram(rootNames: string[], options: CompilerOptions, host?: CompilerHost): Program;
-}
-declare module ts {
-    interface SourceFile {
-        fileWatcher: FileWatcher;
-    }
-    function executeCommandLine(args: string[]): void;
 }

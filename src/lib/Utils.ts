@@ -1,3 +1,6 @@
+import * as ts from "typescript";
+
+
 /**
  * List of known existent directories. Used to speed up [[directoryExists]].
  */

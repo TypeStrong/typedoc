@@ -1,4 +1,5 @@
 import * as Path from "path";
+import * as ts from "typescript";
 
 import {Converter} from "../Converter";
 import {ConverterPlugin} from "../ConverterPlugin";

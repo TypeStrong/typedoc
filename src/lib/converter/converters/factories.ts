@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {Context} from "../Context";
 import {Converter} from "../Converter";
 import {ReflectionKind, ReflectionFlag, ITypeParameterContainer} from "../../models/Reflection";

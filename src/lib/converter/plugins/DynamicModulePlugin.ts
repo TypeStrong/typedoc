@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {Converter} from "../Converter";
 import {ConverterPlugin} from "../ConverterPlugin";
 import {Context} from "../Context";

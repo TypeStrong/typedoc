@@ -1,3 +1,5 @@
+import * as ts from "typescript";
+
 import {SourceFileMode} from "../Converter";
 import {Context} from "../Context";
 import {Reflection, ReflectionKind, ReflectionFlag} from "../../models/Reflection";
