@@ -95,9 +95,9 @@ module.exports = function(grunt)
     grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
     grunt.registerTask('build-specs', function() {
-        var FS = require('fs');
+        var FS = require('fs-extra');
         var Path = require('path');
-        var TypeDoc = require(Path.join(__dirname, 'bin', 'typedoc.js'));
+        var TypeDoc = require('./index.js');
 
         var base = Path.join(__dirname, 'test', 'converter');
         var app = new TypeDoc.Application({
@@ -111,7 +111,7 @@ module.exports = function(grunt)
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
             var path = Path.join(base, directory);
             if (!FS.lstatSync(path).isDirectory()) return;
-            TypeDoc.models.resetReflectionID();
+            TypeDoc.resetReflectionID();
 
             var src = app.expandInputFiles([path]);
             var out = Path.join(base, directory, 'specs.json');
@@ -124,8 +124,8 @@ module.exports = function(grunt)
         var src = Path.join(__dirname, 'examples', 'basic', 'src');
         var out = Path.join(__dirname, 'test', 'renderer', 'specs');
 
-        TypeDoc.FS.removeSync(out);
+        FS.removeSync(out);
         app.generateDocs(app.expandInputFiles([src]), out);
-        TypeDoc.FS.removeSync(Path.join(out, 'assets'));
+        FS.removeSync(Path.join(out, 'assets'));
     });
 };
