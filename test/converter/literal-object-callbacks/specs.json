@@ -82,21 +82,21 @@
           "flags": {},
           "children": [
             {
-              "id": 27,
+              "id": 14,
               "name": "error",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 28,
+                  "id": 15,
                   "name": "error",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 29,
+                      "id": 16,
                       "name": "error_callback",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -104,14 +104,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 30,
+                          "id": 17,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 31,
+                              "id": 18,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -127,162 +127,29 @@
                     }
                   ],
                   "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 32,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 39,
-                          "name": "finally",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 40,
-                              "name": "finally",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 41,
-                                  "name": "finally_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 42,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 43,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 44,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "id": 33,
-                          "name": "success",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 34,
-                              "name": "success",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 35,
-                                  "name": "success_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 36,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 37,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 38,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Functions",
-                          "kind": 64,
-                          "children": [
-                            39,
-                            33
-                          ]
-                        }
-                      ]
-                    }
+                    "type": "reference",
+                    "name": "callbackReturn",
+                    "id": 8
                   }
                 }
               ]
             },
             {
-              "id": 45,
+              "id": 19,
               "name": "finally",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 46,
+                  "id": 20,
                   "name": "finally",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 47,
+                      "id": 21,
                       "name": "finally_callback",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -290,14 +157,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 48,
+                          "id": 22,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 49,
+                              "id": 23,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -313,142 +180,9 @@
                     }
                   ],
                   "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 50,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 57,
-                          "name": "error",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 58,
-                              "name": "error",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 59,
-                                  "name": "error_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 60,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 61,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 62,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "id": 51,
-                          "name": "success",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 52,
-                              "name": "success",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 53,
-                                  "name": "success_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 54,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 55,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 56,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Functions",
-                          "kind": 64,
-                          "children": [
-                            57,
-                            51
-                          ]
-                        }
-                      ]
-                    }
+                    "type": "reference",
+                    "name": "callbackReturn",
+                    "id": 8
                   }
                 }
               ]
@@ -499,142 +233,9 @@
                     }
                   ],
                   "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 14,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 15,
-                          "name": "error",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 16,
-                              "name": "error",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 17,
-                                  "name": "error_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 18,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 19,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 20,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "id": 21,
-                          "name": "finally",
-                          "kind": 64,
-                          "kindString": "Function",
-                          "flags": {},
-                          "signatures": [
-                            {
-                              "id": 22,
-                              "name": "finally",
-                              "kind": 4096,
-                              "kindString": "Call signature",
-                              "flags": {},
-                              "parameters": [
-                                {
-                                  "id": 23,
-                                  "name": "finally_callback",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {},
-                                  "type": {
-                                    "type": "reflection",
-                                    "declaration": {
-                                      "id": 24,
-                                      "name": "__type",
-                                      "kind": 65536,
-                                      "kindString": "Type literal",
-                                      "flags": {},
-                                      "signatures": [
-                                        {
-                                          "id": 25,
-                                          "name": "__call",
-                                          "kind": 4096,
-                                          "kindString": "Call signature",
-                                          "flags": {},
-                                          "type": {
-                                            "type": "instrinct",
-                                            "name": "any"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                }
-                              ],
-                              "type": {
-                                "type": "reflection",
-                                "declaration": {
-                                  "id": 26,
-                                  "name": "__type",
-                                  "kind": 65536,
-                                  "kindString": "Type literal",
-                                  "flags": {}
-                                }
-                              }
-                            }
-                          ]
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Functions",
-                          "kind": 64,
-                          "children": [
-                            15,
-                            21
-                          ]
-                        }
-                      ]
-                    }
+                    "type": "reference",
+                    "name": "callbackReturn",
+                    "id": 8
                   }
                 }
               ]
@@ -645,8 +246,8 @@
               "title": "Functions",
               "kind": 64,
               "children": [
-                27,
-                45,
+                14,
+                19,
                 9
               ]
             }

@@ -104,7 +104,7 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "Y component of the Vector"
+                "shortText": "Y component of the Vector\n"
               },
               "type": {
                 "type": "instrinct",
@@ -278,7 +278,7 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "Z component of the Vector"
+                "shortText": "Z component of the Vector\n"
               },
               "type": {
                 "type": "instrinct",

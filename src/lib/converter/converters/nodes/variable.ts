@@ -85,10 +85,10 @@ export class VariableConverter implements NodeConveter<ts.VariableDeclaration>
             }
 
             if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
-                if (ts.isBindingPattern(node.name)) {
+                if (isBindingPattern) {
                     variable.type = convertType(context, node.name);
                 } else {
-                    variable.type = convertType(context, node.type);
+                    variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
                 }
             }
         });

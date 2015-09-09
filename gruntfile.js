@@ -109,6 +109,8 @@ module.exports = function(grunt)
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
+            console.log(directory);
+
             var path = Path.join(base, directory);
             if (!FS.lstatSync(path).isDirectory()) return;
             TypeDoc.resetReflectionID();
@@ -126,6 +128,29 @@ module.exports = function(grunt)
 
         FS.removeSync(out);
         app.generateDocs(app.expandInputFiles([src]), out);
+
+
+        function getFileIndex(base, dir, results) {
+            results = results || [];
+            dir = dir || '';
+            var files = FS.readdirSync(Path.join(base, dir));
+            files.forEach(function(file) {
+                file = Path.join(dir, file);
+                if (FS.statSync(Path.join(base, file)).isDirectory()) {
+                    getFileIndex(base, file, results);
+                } else {
+                    results.push(file);
+                }
+            });
+
+            return results.sort();
+        }
+
         FS.removeSync(Path.join(out, 'assets'));
+        var gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9\-]+\/typedoc\/blob\/[^\/]*\/examples/g;
+        getFileIndex(out).forEach(function (file) {
+            file = Path.join(out, file);
+            FS.writeFileSync(file, FS.readFileSync(file, {encoding:'utf-8'}).replace(gitHubRegExp, 'https://github.com/sebastian-lenz/typedoc/blob/master/examples'));
+        });
     });
 };

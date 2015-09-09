@@ -13,7 +13,7 @@ export class ModuleConverter implements NodeConveter<ts.ModuleDeclaration>
      * List of supported TypeScript syntax kinds.
      */
     supports:ts.SyntaxKind[] = [
-        ts.SyntaxKind.InterfaceDeclaration
+        ts.SyntaxKind.ModuleDeclaration
     ];
 
 

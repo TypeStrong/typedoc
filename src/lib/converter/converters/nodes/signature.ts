@@ -14,7 +14,9 @@ export class SignatureConverter implements NodeConveter<ts.FunctionExpression|ts
      */
     supports:ts.SyntaxKind[] = [
         ts.SyntaxKind.CallSignature,
-        ts.SyntaxKind.FunctionType
+        ts.SyntaxKind.FunctionType,
+        ts.SyntaxKind.FunctionExpression,
+        ts.SyntaxKind.ArrowFunction
     ];
 
 

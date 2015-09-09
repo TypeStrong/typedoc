@@ -33,6 +33,10 @@ export class ImplementsPlugin extends ConverterPlugin
      * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
     private analyzeClass(context:Context, classReflection:DeclarationReflection, interfaceReflection:DeclarationReflection) {
+        if (!interfaceReflection.children) {
+            return;
+        }
+
         interfaceReflection.children.forEach((interfaceMember:DeclarationReflection) => {
             if (!(interfaceMember instanceof DeclarationReflection)) {
                 return;

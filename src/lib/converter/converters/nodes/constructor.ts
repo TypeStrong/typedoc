@@ -10,6 +10,7 @@ import {convertNode, NodeConveter} from "../node";
 import {convertType} from "../type";
 import {createDeclaration} from "../factories/declaration";
 import {createSignature} from "../factories/signature";
+import {createComment} from "../factories/comment";
 
 
 export class ConstructorConverter implements NodeConveter<ts.ConstructorDeclaration>
@@ -34,12 +35,12 @@ export class ConstructorConverter implements NodeConveter<ts.ConstructorDeclarat
         var parent = context.scope;
         var hasBody = !!node.body;
         var method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
-        if (!method) {
-            return null;
-        }
-        
-        for (var parameter of node.parameters) {
-            this.addParameterProperty(context, parameter, method.comment);
+
+        if (node.parameters && node.parameters.length) {
+            var comment = method ? method.comment : createComment(node);
+            for (var parameter of node.parameters) {
+                this.addParameterProperty(context, parameter, comment);
+            }
         }
 
         context.withScope(method, () => {

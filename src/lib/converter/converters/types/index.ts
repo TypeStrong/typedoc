@@ -1,5 +1,7 @@
 export {AliasConverter} from "./alias";
 export {ArrayConverter} from "./array";
+export {BindingArrayConverter} from "./binding-array";
+export {BindingObjectConverter} from "./binding-object";
 export {EnumConverter} from "./enum";
 export {IntrinsicConverter} from "./intrinsic"
 export {LiteralConverter} from "./literal";

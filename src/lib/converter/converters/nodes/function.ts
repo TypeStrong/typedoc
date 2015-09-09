@@ -16,9 +16,7 @@ export class FunctionConverter implements NodeConveter<ts.FunctionDeclaration|ts
     supports:ts.SyntaxKind[] = [
         ts.SyntaxKind.MethodSignature,
         ts.SyntaxKind.MethodDeclaration,
-        ts.SyntaxKind.FunctionDeclaration,
-        ts.SyntaxKind.FunctionExpression,
-        ts.SyntaxKind.ArrowFunction
+        ts.SyntaxKind.FunctionDeclaration
     ];
 
 

@@ -409,7 +409,7 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "Public implicit any property"
+                "shortText": "Public implicit any property\n"
               },
               "type": {
                 "type": "instrinct",
