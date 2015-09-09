@@ -25,3 +25,7 @@ class Foo
         };
     }
 }
+
+
+export default class DataService {
+}

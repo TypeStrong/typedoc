@@ -1,4 +1,4 @@
-import classes = require('classes');
+import classes = require('./classes');
 
 /**
  * This is an internal function.
