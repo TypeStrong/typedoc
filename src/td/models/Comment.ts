@@ -80,7 +80,7 @@ module td.models
             if (!this.tags) return null;
             for (var i = 0, c = this.tags.length; i < c; i++) {
                 var tag = this.tags[i];
-                if (tag.tagName == tagName && (!paramName || tag.paramName == paramName)) {
+                if (tag.tagName == tagName && (paramName == void 0 || tag.paramName == paramName)) {
                     return this.tags[i];
                 }
             }
