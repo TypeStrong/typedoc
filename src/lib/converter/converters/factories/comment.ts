@@ -176,6 +176,7 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
 
     text = text.replace(/^\s*\/\*+\s*(\r\n?|\n)/, '');
     text = text.replace(/(\r\n?|\n)\s*\*+\/\s*$/, '');
+    text.split(/\r\n?|\n/).forEach(readLine);
 
     return comment;
 }
