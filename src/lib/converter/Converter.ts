@@ -394,7 +394,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
     getDefaultLibFileName(options: ts.CompilerOptions):string {
         var lib = this.getDefaultLib();
         var path = ts.getDirectoryPath(ts.normalizePath(require.resolve('typescript')));
-        return Path.join(path, 'bin', lib);
+        return Path.join(path, 'lib', lib);
     }
 
 
