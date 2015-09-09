@@ -28,7 +28,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "typescript": "1.5.3",
+    "typescript": "1.6.0-beta",
     "typedoc-default-themes": "0.3.4",
     "fs-extra": "^0.22.1",
     "minimatch": "^2.0.10",
