@@ -9,6 +9,7 @@
 
 import * as Path from "path";
 import * as FS from "fs-extra";
+import * as Handlebars from "handlebars";
 var ProgressBar = require("progress");
 
 import {PluginHost} from "../PluginHost";
@@ -256,8 +257,9 @@ export class Renderer extends PluginHost<RendererPlugin>
             if (!FS.existsSync(filename)) {
                 this.theme = new DefaultTheme(this, path);
             } else {
-                var themeClass = eval(Renderer.readFile(filename));
-                this.theme = new themeClass(this, path);
+                // var themeClass = eval(Renderer.readFile(filename));
+                // this.theme = new themeClass(this, path);
+                this.theme = new DefaultTheme(this, path);
             }
         }
 
@@ -279,6 +281,10 @@ export class Renderer extends PluginHost<RendererPlugin>
                     'The output target "%s" exists but it is not a directory.',
                     directory);
                 return false;
+            }
+
+            if (this.application.options.disableOutputCheck) {
+                return true;
             }
 
             if (FS.readdirSync(directory).length == 0) {
@@ -369,3 +375,6 @@ export class Renderer extends PluginHost<RendererPlugin>
         return buffer.toString("utf8", 0);
     }
 }
+
+
+import "./plugins";

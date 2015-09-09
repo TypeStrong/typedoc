@@ -339,7 +339,7 @@ export class Application extends EventDispatcher implements IApplication
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath():string {
-        return require.resolve('typescript');
+        return Path.dirname(require.resolve('typescript'));
     }
 
 

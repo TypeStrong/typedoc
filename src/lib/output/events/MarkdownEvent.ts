@@ -1,3 +1,5 @@
+import {Event} from "../../EventDispatcher";
+
 
 /**
  * An event emitted by the [[MarkedPlugin]] on the [[Renderer]] after a chunk of

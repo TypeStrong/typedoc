@@ -153,7 +153,7 @@ export class Logger
         if (diagnostic.file) {
             output = diagnostic.file.fileName;
             output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
-            output += ts.sys.newLine + ' ' + diagnostic.messageText;
+            output += ts.sys.newLine + ' ' + ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
         } else {
             output = diagnostic.messageText.toString();
         }

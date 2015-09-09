@@ -2,6 +2,7 @@ import * as FS from "fs-extra";
 import * as Path from "path";
 import * as Marked from "marked";
 import * as HighlightJS from "highlight.js";
+import * as Handlebars from "handlebars";
 
 import {Renderer} from "../Renderer";
 import {ContextAwareRendererPlugin} from "../RendererPlugin";
@@ -228,7 +229,7 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
             });
         }
 
-        var event = new MarkdownEvent(MarkedPlugin.EVENT_PARSE_MARKDOWN);
+        var event = new MarkdownEvent();
         event.originalText = text;
         event.parsedText = text;
 

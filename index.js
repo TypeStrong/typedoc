@@ -1,2 +1,15 @@
 var Application_1 = require("./lib/Application");
 exports.Application = Application_1.Application;
+var Options_1 = require("./lib/Options");
+exports.OptionsParser = Options_1.OptionsParser;
+exports.ModuleKind = Options_1.ModuleKind;
+exports.ScriptTarget = Options_1.ScriptTarget;
+var EventDispatcher_1 = require("./lib/EventDispatcher");
+exports.EventDispatcher = EventDispatcher_1.EventDispatcher;
+exports.Event = EventDispatcher_1.Event;
+var Reflection_1 = require("./lib/models/Reflection");
+exports.resetReflectionID = Reflection_1.resetReflectionID;
+var Utils_1 = require("./lib/Utils");
+exports.normalizePath = Utils_1.normalizePath;
+var ProjectReflection_1 = require("./lib/models/reflections/ProjectReflection");
+exports.ProjectReflection = ProjectReflection_1.ProjectReflection;

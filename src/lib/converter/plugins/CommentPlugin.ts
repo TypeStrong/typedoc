@@ -12,6 +12,7 @@ import {ProjectReflection} from "../../models/reflections/ProjectReflection";
 import {SignatureReflection} from "../../models/reflections/SignatureReflection";
 import {ParameterReflection} from "../../models/reflections/ParameterReflection";
 import {IntrinsicType} from "../../models/types/IntrinsicType";
+import {parseComment, getRawComment} from "../converters/factories/comment";
 
 
 /**
@@ -169,16 +170,16 @@ export class CommentPlugin extends ConverterPlugin
      */
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
-        var rawComment = CommentPlugin.getComment(node);
+        var rawComment = getRawComment(node);
         if (!rawComment) return;
 
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
-            var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+            var comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
-            var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
+            var comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             reflection.comment = comment;
         }
@@ -195,9 +196,9 @@ export class CommentPlugin extends ConverterPlugin
     private onFunctionImplementation(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
 
-        var comment = CommentPlugin.getComment(node);
+        var comment = getRawComment(node);
         if (comment) {
-            reflection.comment = CommentPlugin.parseComment(comment, reflection.comment);
+            reflection.comment = parseComment(comment, reflection.comment);
         }
     }
 
@@ -212,7 +213,7 @@ export class CommentPlugin extends ConverterPlugin
             if (!this.comments.hasOwnProperty(id)) continue;
 
             var info    = this.comments[id];
-            var comment = CommentPlugin.parseComment(info.fullText);
+            var comment = parseComment(info.fullText);
             CommentPlugin.removeTags(comment, 'preferred');
 
             this.applyModifiers(info.reflection, comment);
@@ -283,61 +284,6 @@ export class CommentPlugin extends ConverterPlugin
             });
 
             CommentPlugin.removeTags(comment, 'param');
-        }
-    }
-
-
-    /**
-     * Return the raw comment string for the given node.
-     *
-     * @param node  The node whose comment should be resolved.
-     * @returns     The raw comment string or NULL if no comment could be found.
-     */
-    static getComment(node:ts.Node):string {
-        var sourceFile = ts.getSourceFileOfNode(node);
-        var target = node;
-
-        if (node.kind == ts.SyntaxKind.ModuleDeclaration) {
-            var a:ts.Declaration, b:ts.Declaration;
-
-            // Ignore comments for cascaded modules, e.g. module A.B { }
-            if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind.ModuleDeclaration) {
-                a = <ts.ModuleDeclaration>node;
-                b = <ts.ModuleDeclaration>node.nextContainer;
-                if (a.name.end + 1 == b.name.pos) {
-                    return null;
-                }
-            }
-
-            // Pull back comments of cascaded modules
-            while (target.parent && target.parent.kind == ts.SyntaxKind.ModuleDeclaration) {
-                a = <ts.ModuleDeclaration>target;
-                b = <ts.ModuleDeclaration>target.parent;
-                if (a.name.pos == b.name.end + 1) {
-                    target = target.parent;
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
-            target = node.parent.parent;
-        }
-
-        var comments = ts.getJsDocComments(target, sourceFile);
-        if (comments && comments.length) {
-            var comment:ts.CommentRange;
-            if (node.kind == ts.SyntaxKind['SourceFile']) {
-                if (comments.length == 1) return null;
-                comment = comments[0];
-            } else {
-                comment = comments[comments.length - 1];
-            }
-
-            return sourceFile.text.substring(comment.pos, comment.end);
-        } else {
-            return null;
         }
     }
 
@@ -421,74 +367,6 @@ export class CommentPlugin extends ConverterPlugin
                 delete project.symbolMapping[key];
             }
         }
-    }
-
-
-    /**
-     * Parse the given doc comment string.
-     *
-     * @param text     The doc comment string that should be parsed.
-     * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
-     * @returns        A populated [[Models.Comment]] instance.
-     */
-    static parseComment(text:string, comment:Comment = new Comment()):Comment {
-        function consumeTypeData(line:string):string {
-            line = line.replace(/^\{[^\}]*\}+/, '');
-            line = line.replace(/^\[[^\[][^\]]*\]+/, '');
-            return line.trim();
-        }
-
-        text = text.replace(/^\s*\/\*+/, '');
-        text = text.replace(/\*+\/\s*$/, '');
-
-        var currentTag:CommentTag;
-        var shortText:number = 0;
-        var lines = text.split(/\r\n?|\n/);
-        lines.forEach((line) => {
-            line = line.replace(/^\s*\*? ?/, '');
-            line = line.replace(/\s*$/, '');
-
-            var tag = /^@(\w+)/.exec(line);
-            if (tag) {
-                var tagName = tag[1].toLowerCase();
-                line = line.substr(tagName.length + 1).trim();
-
-                if (tagName == 'return') tagName = 'returns';
-                if (tagName == 'param' || tagName == 'typeparam') {
-                    line = consumeTypeData(line);
-                    var param = /[^\s]+/.exec(line);
-                    if (param) {
-                        var paramName = param[0];
-                        line = line.substr(paramName.length + 1).trim();
-                    }
-                    line = consumeTypeData(line);
-                    line = line.replace(/^\-\s+/, '');
-                } else if (tagName == 'returns') {
-                    line = consumeTypeData(line);
-                }
-
-                currentTag = new CommentTag(tagName, paramName, line);
-                if (!comment.tags) comment.tags = [];
-                comment.tags.push(currentTag);
-            } else {
-                if (currentTag) {
-                    currentTag.text += '\n' + line;
-                } else if (line == '' && shortText == 0) {
-                    // Ignore
-                } else if (line == '' && shortText == 1) {
-                    shortText = 2;
-                } else {
-                    if (shortText == 2) {
-                        comment.text += (comment.text == '' ? '' : '\n') + line;
-                    } else {
-                        comment.shortText += (comment.shortText == '' ? '' : '\n') + line;
-                        shortText = 1;
-                    }
-                }
-            }
-        });
-
-        return comment;
     }
 }
 

@@ -7,7 +7,7 @@ import {IApplication} from "../Application";
 import {Context} from "./Context";
 import {ConverterPlugin} from "./ConverterPlugin";
 import {IParameter, ParameterType} from "../Options";
-import {visit} from "./converters/convertNode";
+import {convertNode} from "./converters/node";
 import * as Path from "path";
 
 
@@ -301,7 +301,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
         var program = context.program;
 
         program.getSourceFiles().forEach((sourceFile) => {
-            visit(context, sourceFile);
+            convertNode(context, sourceFile);
         });
 
         // First get any syntactic errors.
@@ -423,6 +423,32 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
 
 
     /**
+     * Check whether the given file exists.
+     *
+     * Implementation of ts.CompilerHost.fileExists(fileName)
+     *
+     * @param fileName
+     * @returns {boolean}
+     */
+    fileExists(fileName:string):boolean {
+        return ts.sys.fileExists(fileName);
+    }
+
+
+    /**
+     * Return the contents of the given file.
+     *
+     * Implementation of ts.CompilerHost.readFile(fileName)
+     *
+     * @param fileName
+     * @returns {string}
+     */
+    readFile(fileName:string):string {
+        return ts.sys.readFile(fileName);
+    }
+
+
+    /**
      * Return the canonical file name of the given file.
      *
      * Implementation of ts.CompilerHost.getCanonicalFileName()
@@ -461,3 +487,6 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      */
     writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) { }
 }
+
+
+import "./plugins";

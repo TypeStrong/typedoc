@@ -1,4 +1,4 @@
-var TypeDoc = require("../bin/typedoc.js");
+var TypeDoc = require("../index.js");
 var FS = require("fs-extra");
 var Path    = require("path");
 var Assert  = require("assert");
@@ -75,7 +75,7 @@ describe('Renderer', function() {
         project = app.convert(input);
 
         Assert(app.logger.errorCount == 0, 'Application.convert returned errors');
-        Assert(project instanceof TypeDoc.models.ProjectReflection, 'Application.convert did not return a reflection');
+        Assert(project instanceof TypeDoc.ProjectReflection, 'Application.convert did not return a reflection');
     });
 
     it('renders basic example', function() {

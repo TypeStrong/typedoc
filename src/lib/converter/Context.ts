@@ -7,9 +7,9 @@ import {ProjectReflection} from "../models/reflections/ProjectReflection";
 import {ContainerReflection} from "../models/reflections/ContainerReflection";
 import {Type} from "../models/Type";
 import {IOptions} from "../Options";
-import {visit} from "./converters/convertNode";
-import {convertType} from "./converters/convertType";
-import {createTypeParameter} from "./converters/factories";
+import {convertNode} from "./converters/node";
+import {convertType} from "./converters/type";
+import {createTypeParameter} from "./converters/factories/type-parameter";
 import {Minimatch, IMinimatch} from "minimatch";
 
 
@@ -353,7 +353,7 @@ export class Context
             this.typeArguments = null;
         }
 
-        visit(this, baseNode);
+        convertNode(this, baseNode);
 
         this.isInherit = wasInherit;
         this.inherited = oldInherited;

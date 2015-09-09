@@ -1,5 +1,6 @@
 import * as FS from "fs";
 import * as Path from "path";
+import * as Handlebars from "handlebars";
 
 import {Renderer} from "../Renderer";
 import {RendererPlugin} from "../RendererPlugin";

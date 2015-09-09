@@ -54,10 +54,10 @@ module.exports = function(grunt)
                 },
                 options: {
                     replacements: [{
-                        pattern: /\}[\s\n\r]*declare module ts \{/g,
+                        pattern: /\}[\s\n\r]*declare namespace ts \{/g,
                         replacement: ''
                     }, {
-                        pattern: /declare module ts/g,
+                        pattern: /declare namespace ts/g,
                         replacement: 'declare module "typescript"'
                     }]
                 }

@@ -46,6 +46,11 @@ export interface IOptions
     ignoreCompilerErrors?:boolean;
 
     /**
+     * Should TypeDoc disable the testing and cleaning of the output directory?
+     */
+    disableOutputCheck?: boolean;
+
+    /**
      * Does the user want to display the help message?
      */
     help?:boolean;
@@ -355,6 +360,10 @@ export class OptionsParser
         },{
             name: 'ignoreCompilerErrors',
             help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+            type: ParameterType.Boolean
+        },{
+            name: 'disableOutputCheck',
+            help: 'Should TypeDoc disable the testing and cleaning of the output directory?',
             type: ParameterType.Boolean
         },{
             name: 'plugin',
