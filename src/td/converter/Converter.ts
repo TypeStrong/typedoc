@@ -416,7 +416,7 @@ module td.converter
         getDefaultLibFileName(options: ts.CompilerOptions):string {
             var lib = this.getDefaultLib();
             var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
-            return Path.join(path, 'bin', lib);
+            return Path.join(path, 'lib', lib);
         }
 
 

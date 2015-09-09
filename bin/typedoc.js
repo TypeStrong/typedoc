@@ -547,7 +547,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.3.9';
+        Application.VERSION = '0.3.10';
         return Application;
     })(td.EventDispatcher);
     td.Application = Application;
@@ -2105,7 +2105,7 @@ var td;
             Converter.prototype.getDefaultLibFileName = function (options) {
                 var lib = this.getDefaultLib();
                 var path = ts.getDirectoryPath(ts.normalizePath(td.tsPath));
-                return td.Path.join(path, 'bin', lib);
+                return td.Path.join(path, 'lib', lib);
             };
             /**
              * Return the full path of the current directory.
