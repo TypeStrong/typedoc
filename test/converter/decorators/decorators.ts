@@ -21,8 +21,8 @@ class DecoratedClass
 /**
  * A decorator with no options.
  */
-function decoratorAtom(target, key, descriptor) {
-    descriptor.writable = false;
+function decoratorAtom(target:Object, propertyKey:string|symbol, descriptor:TypedPropertyDescriptor<any>) {
+    target[propertyKey].writable = true;
 }
 
 
@@ -31,9 +31,9 @@ function decoratorAtom(target, key, descriptor) {
  *
  * @param value  The parameter of this decorator.
  */
-function decoratorWithParam(value:boolean) {
-    return function (target, key, descriptor) {
-        descriptor.enumerable = value;
+function decoratorWithParam(value:boolean):MethodDecorator {
+    return function (target:Object, propertyKey:string|symbol, descriptor:TypedPropertyDescriptor<any>) {
+        target[propertyKey].enumerable = value;
     }
 }
 
@@ -44,8 +44,8 @@ function decoratorWithParam(value:boolean) {
  * @param options  The options object of this decorator.
  * @param options.name  A property on the options object of this decorator.
  */
-function decoratorWithOptions(options:{name:string}) {
-    return function (target, key, descriptor) {
-        descriptor.options = options;
+function decoratorWithOptions(options:{name:string}):ClassDecorator {
+    return function (target) {
+        target.options = options;
     }
 }

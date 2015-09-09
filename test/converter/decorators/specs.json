@@ -123,19 +123,28 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
-                    "name": "any"
+                    "type": "reference",
+                    "name": "Object"
                   }
                 },
                 {
                   "id": 8,
-                  "name": "key",
+                  "name": "propertyKey",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
-                    "name": "any"
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "instrinct",
+                        "name": "string"
+                      },
+                      {
+                        "type": "instrinct",
+                        "name": "symbol"
+                      }
+                    ]
                   }
                 },
                 {
@@ -145,8 +154,14 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
-                    "name": "any"
+                    "type": "reference",
+                    "name": "TypedPropertyDescriptor",
+                    "typeArguments": [
+                      {
+                        "type": "instrinct",
+                        "name": "any"
+                      }
+                    ]
                   }
                 }
               ],
@@ -229,7 +244,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "__function"
+                "name": "ClassDecorator"
               }
             }
           ]
@@ -275,7 +290,7 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "__function"
+                "name": "MethodDecorator"
               }
             }
           ]
