@@ -21,6 +21,10 @@ var [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = [1, 2, 3, 4
 
 /**
  * Destructuring function parameters.
+ *
+ * @param text This is the text
+ * @param location This is the location
+ * @param bold Should it be bold?
  */
 function drawText({text = "", location:[x, y] = [0, 0], bold = false}) {
 }
