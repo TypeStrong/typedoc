@@ -173,7 +173,7 @@ module td.converter
      */
     function visitBlock(context:Context, node:ts.SourceFile):models.Reflection;
     function visitBlock(context:Context, node:ts.Block):models.Reflection;
-    function visitBlock(context:Context, node:{statements:ts.NodeArray<ts.ModuleElement>}):models.Reflection {
+    function visitBlock(context:Context, node:{statements:ts.NodeArray<ts.Statement>}):models.Reflection {
         if (node.statements) {
             var prefered = [ts.SyntaxKind.ClassDeclaration, ts.SyntaxKind.InterfaceDeclaration, ts.SyntaxKind.EnumDeclaration];
             var statements = [];

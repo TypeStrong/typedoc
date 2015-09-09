@@ -445,6 +445,32 @@ module td.converter
 
 
         /**
+         * Check whether the given file exists.
+         *
+         * Implementation of ts.CompilerHost.fileExists(fileName)
+         *
+         * @param fileName
+         * @returns {boolean}
+         */
+        fileExists(fileName:string):boolean {
+            return ts.sys.fileExists(fileName);
+        }
+
+
+        /**
+         * Return the contents of the given file.
+         *
+         * Implementation of ts.CompilerHost.readFile(fileName)
+         *
+         * @param fileName
+         * @returns {string}
+         */
+        readFile(fileName:string):string {
+            return ts.sys.readFile(fileName);
+        }
+
+
+        /**
          * Return the canonical file name of the given file.
          *
          * Implementation of ts.CompilerHost.getCanonicalFileName()

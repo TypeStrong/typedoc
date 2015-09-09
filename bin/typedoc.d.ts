@@ -1153,6 +1153,24 @@ declare module td.converter {
          */
         useCaseSensitiveFileNames(): boolean;
         /**
+         * Check whether the given file exists.
+         *
+         * Implementation of ts.CompilerHost.fileExists(fileName)
+         *
+         * @param fileName
+         * @returns {boolean}
+         */
+        fileExists(fileName: string): boolean;
+        /**
+         * Return the contents of the given file.
+         *
+         * Implementation of ts.CompilerHost.readFile(fileName)
+         *
+         * @param fileName
+         * @returns {string}
+         */
+        readFile(fileName: string): string;
+        /**
          * Return the canonical file name of the given file.
          *
          * Implementation of ts.CompilerHost.getCanonicalFileName()
