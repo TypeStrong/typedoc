@@ -412,6 +412,10 @@ declare module td {
          */
         ignoreCompilerErrors?: boolean;
         /**
+         * Should TypeDoc disable the testing and cleaning of the output directory?
+         */
+        disableOutputCheck?: boolean;
+        /**
          * Does the user want to display the help message?
          */
         help?: boolean;

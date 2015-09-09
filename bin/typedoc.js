@@ -932,6 +932,10 @@ var td;
                 help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
                 type: ParameterType.Boolean
             }, {
+                name: 'disableOutputCheck',
+                help: 'Should TypeDoc disable the testing and cleaning of the output directory?',
+                type: ParameterType.Boolean
+            }, {
                 name: 'plugin',
                 help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
                 type: ParameterType.String,
@@ -7227,6 +7231,9 @@ var td;
                     if (!td.FS.statSync(directory).isDirectory()) {
                         this.application.logger.error('The output target "%s" exists but it is not a directory.', directory);
                         return false;
+                    }
+                    if (this.application.options.disableOutputCheck) {
+                        return true;
                     }
                     if (td.FS.readdirSync(directory).length == 0) {
                         return true;

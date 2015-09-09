@@ -265,6 +265,10 @@ module td.output
                     return false;
                 }
 
+                if (this.application.options.disableOutputCheck) {
+                    return true;
+                }
+
                 if (FS.readdirSync(directory).length == 0) {
                     return true;
                 }
