@@ -548,7 +548,7 @@ var td;
         /**
          * The version number of TypeDoc.
          */
-        Application.VERSION = '0.3.8';
+        Application.VERSION = '0.3.9';
         return Application;
     })(td.EventDispatcher);
     td.Application = Application;
