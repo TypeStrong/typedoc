@@ -3,8 +3,7 @@ import * as Path from "path";
 import {Renderer} from "../Renderer";
 import {RendererPlugin} from "../RendererPlugin";
 import {OutputEvent} from "../events/OutputEvent";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
+import {DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
 import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
 import {writeFile} from "../../Utils";
 

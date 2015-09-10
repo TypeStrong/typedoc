@@ -1,10 +1,10 @@
 import * as ts from "typescript";
 
-import {Converter} from "../Converter";
-import {Context} from "../Context";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {ReferenceType} from "../../models/types/ReferenceType";
-import {Reflection, IDecorator} from "../../models/Reflection";
+import {ReferenceType} from "../../models/types/index";
+import {Reflection, IDecorator} from "../../models/reflections/index";
+import {Converter} from "../converter";
+import {Context} from "../context";
+import {ConverterPlugin} from "../plugin";
 
 
 /**

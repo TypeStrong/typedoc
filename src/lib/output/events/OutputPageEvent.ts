@@ -1,5 +1,5 @@
 import {Event} from "../../EventDispatcher";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
+import {ProjectReflection} from "../../models/reflections/project";
 import {IOptions} from "../../Options";
 import {NavigationItem} from "../models/NavigationItem";
 

@@ -2,11 +2,11 @@ import * as Path from "path";
 import * as FS from "fs";
 import * as ts from "typescript";
 
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {Reflection} from "../../models/Reflection";
+import {Reflection} from "../../models/reflections/abstract";
 import {IParameter, IParameterProvider} from "../../Options";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 
 /**

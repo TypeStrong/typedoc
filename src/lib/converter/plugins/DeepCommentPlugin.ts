@@ -1,12 +1,8 @@
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {Reflection} from "../../models/Reflection";
-import {SignatureReflection} from "../../models/reflections/SignatureReflection";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
-import {TypeParameterReflection} from "../../models/reflections/TypeParameterReflection";
-import {Comment} from "../../models/Comment";
-import {CommentTag} from "../../models/CommentTag";
+import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from "../../models/reflections/index";
+import {Comment, CommentTag} from "../../models/comments/index";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 
 /**

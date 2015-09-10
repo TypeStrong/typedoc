@@ -1,15 +1,13 @@
 import * as Path from "path";
 import * as ts from "typescript";
 
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {BasePath} from "../BasePath";
-import {Reflection} from "../../models/Reflection";
-import {SourceFile} from "../../models/SourceFile";
-import {SourceDirectory} from "../../models/SourceDirectory";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
+import {Reflection, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
+import {SourceDirectory, SourceFile} from "../../models/sources/index";
+import {BasePath} from "../utils/base-path";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
+
 
 /**
  * A handler that attaches source file information to reflections.

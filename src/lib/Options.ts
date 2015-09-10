@@ -5,7 +5,7 @@ import * as ts from "typescript";
 
 import {IApplication} from "./Application";
 import {LoggerType} from "./Logger";
-import {SourceFileMode} from "./converter/Converter";
+import {SourceFileMode} from "./converter/converter";
 
 
 /**

@@ -1,16 +1,13 @@
 import * as ts from "typescript";
-
-import {Converter} from "./Converter";
-import {Logger} from "../Logger";
-import {Reflection} from "../models/Reflection";
-import {ProjectReflection} from "../models/reflections/ProjectReflection";
-import {ContainerReflection} from "../models/reflections/ContainerReflection";
-import {Type} from "../models/Type";
-import {IOptions} from "../Options";
-import {convertNode} from "./converters/node";
-import {convertType} from "./converters/type";
-import {createTypeParameter} from "./converters/factories/type-parameter";
 import {Minimatch, IMinimatch} from "minimatch";
+
+import {Logger} from "../Logger";
+import {IOptions} from "../Options";
+import {Reflection, ProjectReflection, ContainerReflection, Type} from "../models/index";
+import {createTypeParameter} from "./factories/type-parameter";
+import {Converter} from "./converter";
+import {convertNode} from "./convert-node";
+import {convertType} from "./convert-type";
 
 
 /**

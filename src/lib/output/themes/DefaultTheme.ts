@@ -4,13 +4,10 @@ import * as FS from "fs";
 import {Theme} from "../Theme";
 import {IParameterProvider, IParameter, ParameterType} from "../../Options";
 import {Renderer} from "../Renderer";
-import {Reflection, ReflectionKind} from "../../models/Reflection";
+import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
-import {ContainerReflection} from "../../models/reflections/ContainerReflection";
 import {UrlMapping} from "../models/UrlMapping";
 import {NavigationItem} from "../models/NavigationItem";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
 import {OutputEvent} from "../events/OutputEvent";
 
 

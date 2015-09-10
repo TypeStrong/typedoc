@@ -1,13 +1,8 @@
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
-import {ReferenceType} from "../../models/types/ReferenceType";
-import {Reflection, ReflectionKind, IDecorator} from "../../models/Reflection";
-import {Type} from "../../models/Type";
-import {TupleType} from "../../models/types/TupleType";
-import {UnionType} from "../../models/types/UnionType";
-import {IDeclarationHierarchy} from "../../models/reflections/DeclarationReflection";
+import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from "../../models/reflections/index";
+import {Type, ReferenceType, TupleType, UnionType} from "../../models/types/index";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 
 /**

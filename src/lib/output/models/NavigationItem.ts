@@ -1,4 +1,4 @@
-import {Reflection} from "../../models/Reflection";
+import {Reflection} from "../../models/reflections/abstract";
 
 
 /**

@@ -1,5 +1,5 @@
 import {Renderer} from "./Renderer";
-import {ProjectReflection} from "../models/reflections/ProjectReflection";
+import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {NavigationItem} from "./models/NavigationItem";
 

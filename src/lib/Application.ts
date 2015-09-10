@@ -16,8 +16,8 @@ import {EventDispatcher} from "./EventDispatcher";
 import {IOptions, OptionsParser} from "./Options";
 import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./Logger";
 import {writeFile} from "./Utils";
-import {ProjectReflection} from "./models/reflections/ProjectReflection";
-import {Converter} from "./converter/Converter";
+import {ProjectReflection} from "./models/index";
+import {Converter} from "./converter/converter";
 import {Renderer} from "./output/Renderer";
 
 

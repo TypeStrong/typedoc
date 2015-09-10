@@ -1,14 +1,13 @@
 import * as ts from "typescript";
-
-import {ProjectReflection} from "../models/reflections/ProjectReflection";
-import {PluginHost} from "../PluginHost";
-import {Reflection} from "../models/Reflection";
-import {IApplication} from "../Application";
-import {Context} from "./Context";
-import {ConverterPlugin} from "./ConverterPlugin";
-import {IParameter, ParameterType} from "../Options";
-import {convertNode} from "./converters/node";
 import * as Path from "path";
+
+import {PluginHost} from "../PluginHost";
+import {IApplication} from "../Application";
+import {IParameter, ParameterType} from "../Options";
+import {Reflection, ProjectReflection} from "../models/index";
+import {Context} from "./context";
+import {ConverterPlugin} from "./plugin";
+import {convertNode} from "./convert-node";
 
 
 export enum SourceFileMode {
@@ -209,7 +208,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
     constructor(application:IApplication) {
         super();
         this.application = application;
-
+        console.log('Converter!');
         Converter.loadPlugins(this);
     }
 
@@ -489,4 +488,4 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
 }
 
 
-import "./plugins";
+import "./plugins/index";

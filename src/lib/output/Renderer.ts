@@ -19,7 +19,7 @@ import {IParameter, IParameterProvider} from "../Options";
 import {Theme} from "./Theme";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
-import {ProjectReflection} from "../models/reflections/ProjectReflection";
+import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {writeFile} from "../Utils";
 import {DefaultTheme} from "./themes/DefaultTheme";

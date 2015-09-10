@@ -1,5 +1,5 @@
-import {Reflection, ReflectionKind} from "./Reflection";
-import {DeclarationReflection} from "./reflections/DeclarationReflection";
+import {Reflection, ReflectionKind} from "./reflections/abstract";
+import {DeclarationReflection} from "./reflections/declaration";
 
 
 /**

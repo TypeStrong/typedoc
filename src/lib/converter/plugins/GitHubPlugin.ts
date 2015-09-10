@@ -1,11 +1,11 @@
 import * as ShellJS from "shelljs";
 import * as Path from "path";
 
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {BasePath} from "../BasePath";
-import {ISourceReference} from "../../models/Reflection";
+import {ISourceReference} from "../../models/sources/file";
+import {BasePath} from "../utils/base-path";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 
 /**

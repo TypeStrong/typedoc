@@ -1,10 +1,10 @@
 import * as ts from "typescript";
 
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {Reflection, ReflectionKind} from "../../models/Reflection";
-import {BasePath} from "../BasePath";
+import {Reflection, ReflectionKind} from "../../models/reflections/abstract";
+import {BasePath} from "../utils/base-path";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 import * as Path from "path";
 

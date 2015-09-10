@@ -1,7 +1,6 @@
 import * as Path from "path";
 import {Renderer} from "./Renderer";
-import {ProjectReflection} from "../models/reflections/ProjectReflection";
-import {DeclarationReflection} from "../models/reflections/DeclarationReflection";
+import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
 

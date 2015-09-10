@@ -1,18 +1,14 @@
 import * as ts from "typescript";
 
-import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty} from "../../models/Reflection";
-import {Comment} from "../../models/Comment";
-import {CommentTag} from "../../models/CommentTag";
-import {Converter} from "../Converter";
-import {Context} from "../Context";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {TypeParameterReflection} from "../../models/reflections/TypeParameterReflection";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
-import {SignatureReflection} from "../../models/reflections/SignatureReflection";
-import {ParameterReflection} from "../../models/reflections/ParameterReflection";
-import {IntrinsicType} from "../../models/types/IntrinsicType";
-import {parseComment, getRawComment} from "../converters/factories/comment";
+import {Comment, CommentTag} from "../../models/comments/index";
+import {IntrinsicType} from "../../models/types/index";
+import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
+    TypeParameterReflection, DeclarationReflection, ProjectReflection,
+    SignatureReflection, ParameterReflection} from "../../models/reflections/index";
+import {parseComment, getRawComment} from "../factories/comment";
+import {Converter} from "../converter";
+import {Context} from "../context";
+import {ConverterPlugin} from "../plugin";
 
 
 /**

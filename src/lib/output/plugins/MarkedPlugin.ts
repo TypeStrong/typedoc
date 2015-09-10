@@ -7,7 +7,7 @@ import * as Handlebars from "handlebars";
 import {Renderer} from "../Renderer";
 import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {ParameterHint, IParameter, IParameterProvider} from "../../Options";
-import {SignatureReflection} from "../../models/reflections/SignatureReflection";
+import {SignatureReflection} from "../../models/reflections/signature";
 import {OutputEvent} from "../events/OutputEvent";
 import {MarkdownEvent} from "../events/MarkdownEvent";
 

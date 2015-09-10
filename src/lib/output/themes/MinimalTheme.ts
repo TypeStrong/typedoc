@@ -4,11 +4,9 @@ import * as Path from "path";
 import {DefaultTheme} from "./DefaultTheme";
 import {Renderer} from "../Renderer";
 import {UrlMapping} from "../models/UrlMapping";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
+import {Reflection, DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
 import {OutputPageEvent} from "../events/OutputPageEvent";
 import {NavigationItem} from "../models/NavigationItem";
-import {Reflection} from "../../models/Reflection";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
 
 
 export class MinimalTheme extends DefaultTheme

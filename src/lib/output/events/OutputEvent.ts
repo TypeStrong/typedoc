@@ -2,7 +2,7 @@ import * as Path from "path";
 
 import {Event} from "../../EventDispatcher";
 import {IOptions} from "../../Options";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
+import {ProjectReflection} from "../../models/reflections/project";
 import {UrlMapping} from "../models/UrlMapping";
 import {OutputPageEvent} from "./OutputPageEvent";
 

@@ -1,11 +1,9 @@
-import {Converter} from "../Converter";
-import {ConverterPlugin} from "../ConverterPlugin";
-import {Context} from "../Context";
-import {Reflection, ReflectionKind} from "../../models/Reflection";
+import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {ContainerReflection} from "../../models/reflections/ContainerReflection";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
-import {SourceDirectory} from "../../models/SourceDirectory";
+import {SourceDirectory} from "../../models/sources/directory";
+import {Converter} from "../converter";
+import {ConverterPlugin} from "../plugin";
+import {Context} from "../context";
 
 
 /**

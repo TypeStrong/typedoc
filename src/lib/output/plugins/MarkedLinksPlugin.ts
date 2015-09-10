@@ -4,7 +4,7 @@ import {Renderer} from "../Renderer";
 import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {MarkedPlugin} from "./MarkedPlugin";
 import {MarkdownEvent} from "../events/MarkdownEvent";
-import {Reflection} from "../../models/Reflection";
+import {Reflection} from "../../models/reflections/abstract";
 
 
 /**

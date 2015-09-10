@@ -1,10 +1,8 @@
 import {Renderer} from "../Renderer";
 import {RendererPlugin} from "../RendererPlugin";
 import {OutputPageEvent} from "../events/OutputPageEvent";
-import {Reflection, ReflectionKind} from "../../models/Reflection";
-import {ProjectReflection} from "../../models/reflections/ProjectReflection";
+import {Reflection, ReflectionKind, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
 import {NavigationItem} from "../models/NavigationItem";
-import {DeclarationReflection} from "../../models/reflections/DeclarationReflection";
 
 
 /**
