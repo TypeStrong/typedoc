@@ -1,19 +1,19 @@
 import * as ts from "typescript";
+import * as Path from "path";
 
 import {Reflection, ReflectionKind} from "../../models/reflections/abstract";
+import {Component, ConverterComponent} from "../../utils/component";
 import {BasePath} from "../utils/base-path";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
-
-import * as Path from "path";
 
 
 /**
  * A handler that truncates the names of dynamic modules to not include the
  * project's base path.
  */
-export class DynamicModulePlugin extends ConverterPlugin
+@Component('dynamicModule')
+export class DynamicModulePlugin extends ConverterComponent
 {
     /**
      * Helper class for determining the base path.
@@ -28,14 +28,13 @@ export class DynamicModulePlugin extends ConverterPlugin
 
     /**
      * Create a new DynamicModuleHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_BEGIN,              this.onBegin,        this);
-        converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,  this);
-        converter.on(Converter.EVENT_RESOLVE_BEGIN,      this.onBeginResolve, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_BEGIN]:              this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_RESOLVE_BEGIN]:      this.onBeginResolve
+        });
     }
 
 
@@ -84,9 +83,3 @@ export class DynamicModulePlugin extends ConverterPlugin
         });
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('dynamicModule', DynamicModulePlugin);

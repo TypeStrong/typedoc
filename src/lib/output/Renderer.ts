@@ -12,17 +12,16 @@ import * as FS from "fs-extra";
 import * as Handlebars from "handlebars";
 var ProgressBar = require("progress");
 
-import {PluginHost} from "../PluginHost";
 import {IApplication} from "../Application";
-import {RendererPlugin} from "./RendererPlugin";
 import {IParameter, IParameterProvider} from "../Options";
 import {Theme} from "./Theme";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
 import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
-import {writeFile} from "../Utils";
+import {writeFile} from "../utils/fs";
 import {DefaultTheme} from "./themes/DefaultTheme";
+import {Component, RendererHost} from "../utils/component";
 
 
 /**
@@ -64,13 +63,8 @@ export interface IHandlebarTemplate {
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[OutputEvent]].
  */
-export class Renderer extends PluginHost<RendererPlugin>
+export class Renderer extends RendererHost
 {
-    /**
-     * The application this dispatcher is attached to.
-     */
-    application:IApplication;
-
     /**
      * The theme that is used to render the documentation.
      */
@@ -112,16 +106,12 @@ export class Renderer extends PluginHost<RendererPlugin>
      *
      * @param application  The application this dispatcher is attached to.
      */
-    constructor(application:IApplication) {
-        super();
-        this.application = application;
-
-        Renderer.loadPlugins(this);
+    initialize() {
     }
 
 
     getParameters():IParameter[] {
-        var result = super.getParameters();
+        var result:IParameter[] = super.getParameters();
 
         this.prepareTheme();
         var theme:IParameterProvider = <any>this.theme;
@@ -179,7 +169,7 @@ export class Renderer extends PluginHost<RendererPlugin>
             return;
         }
 
-        var output = new OutputEvent();
+        var output = new OutputEvent(Renderer.EVENT_BEGIN);
         output.outputDirectory = outputDirectory;
         output.project = project;
         output.settings = this.application.options;
@@ -190,14 +180,14 @@ export class Renderer extends PluginHost<RendererPlugin>
             width: 40
         });
 
-        this.dispatch(Renderer.EVENT_BEGIN, output);
+        this.trigger(output);
         if (!output.isDefaultPrevented) {
             output.urls.forEach((mapping:UrlMapping) => {
                 this.renderDocument(output.createPageEvent(mapping));
                 bar.tick();
             });
 
-            this.dispatch(Renderer.EVENT_END, output);
+            this.trigger(Renderer.EVENT_END, output);
         }
     }
 
@@ -209,7 +199,7 @@ export class Renderer extends PluginHost<RendererPlugin>
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
     private renderDocument(page:OutputPageEvent):boolean {
-        this.dispatch(Renderer.EVENT_BEGIN_PAGE, page);
+        this.trigger(Renderer.EVENT_BEGIN_PAGE, page);
         if (page.isDefaultPrevented) {
             return false;
         }
@@ -217,7 +207,7 @@ export class Renderer extends PluginHost<RendererPlugin>
         page.template = page.template || this.getTemplate(Path.join('templates', page.templateName));
         page.contents = page.template(page);
 
-        this.dispatch(Renderer.EVENT_END_PAGE, page);
+        this.trigger(Renderer.EVENT_END_PAGE, page);
         if (page.isDefaultPrevented) {
             return false;
         }

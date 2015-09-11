@@ -25,6 +25,9 @@
     },
     "shelljs/shelljs.d.ts": {
       "commit": "bb051830df88f5a55dcf06b7fe85bf6b62cc97f2"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "a461a243e2e09b213bc49d12650f80d81047576d"
     }
   }
 }

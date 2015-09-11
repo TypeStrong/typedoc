@@ -20,10 +20,10 @@ export class MinimalTheme extends DefaultTheme
     constructor(renderer:Renderer, basePath:string) {
         super(renderer, basePath);
 
-        renderer.removePlugin('assets');
-        renderer.removePlugin('javascriptIndex');
-        renderer.removePlugin('navigation');
-        renderer.removePlugin('toc');
+        renderer.removeComponent('assets');
+        renderer.removeComponent('javascriptIndex');
+        renderer.removeComponent('navigation');
+        renderer.removeComponent('toc');
 
         renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
     }

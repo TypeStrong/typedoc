@@ -1,4 +1,4 @@
-import {Event} from "../../EventDispatcher";
+import {Event} from "../../utils/events";
 import {ProjectReflection} from "../../models/reflections/project";
 import {IOptions} from "../../Options";
 import {NavigationItem} from "../models/NavigationItem";

@@ -1,5 +1,5 @@
 var TypeDoc = require("../index.js");
-var FS = require("fs-extra");
+var FS      = require("fs-extra");
 var Path    = require("path");
 var Assert  = require("assert");
 

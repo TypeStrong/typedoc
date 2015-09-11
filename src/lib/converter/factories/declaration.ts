@@ -39,8 +39,16 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Test whether the node is exported
-    var isExported = container.kindOf(ReflectionKind.Module) ? false : container.flags.isExported;
-    if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
+    var isExported:boolean;
+    if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
+        isExported = false; // Don't inherit exported state in modules and namespaces
+    } else {
+        isExported = container.flags.isExported;
+    }
+
+    if (kind == ReflectionKind.ExternalModule) {
+        isExported = true; // Always mark external modules as exported
+    } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
         isExported = isExported || !!(node.parent.parent.flags & ts.NodeFlags.Export)
     } else {
         isExported = isExported || !!(node.flags & ts.NodeFlags.Export);

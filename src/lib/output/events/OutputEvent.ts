@@ -1,6 +1,6 @@
 import * as Path from "path";
 
-import {Event} from "../../EventDispatcher";
+import {Event} from "../../utils/events";
 import {IOptions} from "../../Options";
 import {ProjectReflection} from "../../models/reflections/project";
 import {UrlMapping} from "../models/UrlMapping";
@@ -47,7 +47,7 @@ export class OutputEvent extends Event
      * @returns A newly created [[OutputPageEvent]] instance.
      */
     public createPageEvent(mapping:UrlMapping):OutputPageEvent {
-        var event = new OutputPageEvent();
+        var event = new OutputPageEvent("");
         event.project      = this.project;
         event.settings     = this.settings;
         event.url          = mapping.url;

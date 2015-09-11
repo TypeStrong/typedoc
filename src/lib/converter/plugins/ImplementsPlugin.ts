@@ -1,7 +1,7 @@
 import {Reflection, ReflectionKind, DeclarationReflection, SignatureReflection} from "../../models/reflections/index";
 import {Type, ReferenceType} from "../../models/types/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
@@ -9,16 +9,14 @@ import {Context} from "../context";
  * A plugin that detects interface implementations of functions and
  * properties on classes and links them.
  */
-export class ImplementsPlugin extends ConverterPlugin
+@Component('implements')
+export class ImplementsPlugin extends ConverterComponent
 {
     /**
      * Create a new ImplementsPlugin instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_RESOLVE, this.onResolve, this, -10);
+    initialize() {
+        this.listenTo(this.owner, Converter.EVENT_RESOLVE, this.onResolve, -10);
     }
 
 
@@ -113,9 +111,3 @@ export class ImplementsPlugin extends ConverterPlugin
         }
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('implements', ImplementsPlugin);

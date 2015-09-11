@@ -1,24 +1,21 @@
 import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from "../../models/reflections/index";
 import {Comment, CommentTag} from "../../models/comments/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
 /**
  * A handler that moves comments with dot syntax to their target.
  */
-export class DeepCommentPlugin extends ConverterPlugin
+@Component('deepComment')
+export class DeepCommentPlugin extends ConverterComponent
 {
     /**
      * Create a new CommentHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-
-        converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, this, 512);
+    initialize() {
+        this.listenTo(this.owner, Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, 512);
     }
 
 
@@ -78,9 +75,3 @@ export class DeepCommentPlugin extends ConverterPlugin
         }
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('deepComment', DeepCommentPlugin);

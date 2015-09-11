@@ -4,6 +4,7 @@ import * as Marked from "marked";
 import * as HighlightJS from "highlight.js";
 import * as Handlebars from "handlebars";
 
+import {Component, RendererComponent} from "../../utils/component";
 import {Renderer} from "../Renderer";
 import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {ParameterHint, IParameter, IParameterProvider} from "../../Options";
@@ -42,6 +43,7 @@ import {MarkdownEvent} from "../events/MarkdownEvent";
  * {{#relativeURL url}}
  * ```
  */
+@Component("marked")
 export class MarkedPlugin extends ContextAwareRendererPlugin implements IParameterProvider
 {
     /**
@@ -75,12 +77,11 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
 
     /**
      * Create a new MarkedPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [MarkedPlugin.EVENT_PARSE_MARKDOWN]: this.onParseMarkdown
+        });
 
         var that = this;
         Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
@@ -154,7 +155,7 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
                 return HighlightJS.highlightAuto(text).value;
             }
         } catch (error) {
-            this.renderer.application.logger.warn(error.message);
+            this.application.logger.warn(error.message);
             return text;
         }
     }
@@ -229,11 +230,11 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
             });
         }
 
-        var event = new MarkdownEvent();
+        var event = new MarkdownEvent(MarkedPlugin.EVENT_PARSE_MARKDOWN);
         event.originalText = text;
         event.parsedText = text;
 
-        this.renderer.dispatch(MarkedPlugin.EVENT_PARSE_MARKDOWN, event);
+        this.owner.trigger(event);
         return event.parsedText;
     }
 
@@ -252,7 +253,7 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
             if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
                 this.includes = includes;
             } else {
-                this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
+                this.application.logger.warn('Could not find provided includes directory: ' + includes);
             }
         }
 
@@ -263,7 +264,7 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
                 FS.copySync(media, this.mediaDirectory);
             } else {
                 this.mediaDirectory = null;
-                this.renderer.application.logger.warn('Could not find provided includes directory: ' + includes);
+                this.application.logger.warn('Could not find provided includes directory: ' + includes);
             }
         }
     }
@@ -278,9 +279,3 @@ export class MarkedPlugin extends ContextAwareRendererPlugin implements IParamet
         event.parsedText = Marked(event.parsedText);
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('marked', MarkedPlugin);

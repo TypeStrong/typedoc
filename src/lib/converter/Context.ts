@@ -220,7 +220,7 @@ export class Context
      * @param node  The triggering TypeScript node if available.
      */
     trigger(name:string, reflection:Reflection, node?:ts.Node) {
-        this.converter.dispatch(name, this, reflection, node);
+        this.converter.trigger(name, this, reflection, node);
     }
 
 

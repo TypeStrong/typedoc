@@ -1,16 +1,17 @@
 import * as Path from "path";
 import * as FS from "fs-extra";
 
-import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
+import {Component, RendererComponent} from "../../utils/component";
 import {OutputEvent} from "../events/OutputEvent";
+import {Renderer} from "../Renderer";
 
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
  * source folder to the output directory.
  */
-export class AssetsPlugin extends RendererPlugin
+@Component("assets")
+export class AssetsPlugin extends RendererComponent
 {
     /**
      * Should the default assets always be copied to the output directory?
@@ -20,12 +21,11 @@ export class AssetsPlugin extends RendererPlugin
 
     /**
      * Create a new AssetsPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_BEGIN]: this.onRendererBegin
+        });
     }
 
 
@@ -44,15 +44,9 @@ export class AssetsPlugin extends RendererPlugin
             fromDefault = null;
         }
 
-        var from = Path.join(this.renderer.theme.basePath, 'assets');
+        var from = Path.join(this.owner.theme.basePath, 'assets');
         if (from != fromDefault && FS.existsSync(from)) {
             FS.copySync(from, to);
         }
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('assets', AssetsPlugin);

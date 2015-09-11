@@ -5,4 +5,5 @@
 /// <reference path="minimatch/minimatch.d.ts" />
 /// <reference path="node/node.d.ts" />
 /// <reference path="shelljs/shelljs.d.ts" />
+/// <reference path="lodash/lodash.d.ts" />
 

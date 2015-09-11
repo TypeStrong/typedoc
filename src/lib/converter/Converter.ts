@@ -1,13 +1,13 @@
 import * as ts from "typescript";
 import * as Path from "path";
 
-import {PluginHost} from "../PluginHost";
 import {IApplication} from "../Application";
 import {IParameter, ParameterType} from "../Options";
 import {Reflection, ProjectReflection} from "../models/index";
 import {Context} from "./context";
-import {ConverterPlugin} from "./plugin";
 import {convertNode} from "./convert-node";
+import {CompilerHost} from "./utils/compiler-host";
+import {Component, ConverterHost} from "../utils/component"
 
 
 export enum SourceFileMode {
@@ -88,22 +88,9 @@ interface IConverterResolveCallback
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-export class Converter extends PluginHost<ConverterPlugin> implements ts.CompilerHost
+export class Converter extends ConverterHost
 {
-    /**
-     * The host application of this converter instance.
-     */
-    application:IApplication;
-
-    /**
-     * The full path of the current directory. Result cache of [[getCurrentDirectory]].
-     */
-    private currentDirectory:string;
-
-    /**
-     * Return code of ts.sys.readFile when the file encoding is unsupported.
-     */
-    static ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
+    private compilerHost:CompilerHost;
 
 
     /**
@@ -205,11 +192,8 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      * @param application  The application instance this converter relies on. The application
      *   must expose the settings that should be used and serves as a global logging endpoint.
      */
-    constructor(application:IApplication) {
-        super();
-        this.application = application;
-        console.log('Converter!');
-        Converter.loadPlugins(this);
+     initialize() {
+        this.compilerHost = new CompilerHost(this);
     }
 
 
@@ -219,7 +203,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      * @returns A list of parameter definitions introduced by this component.
      */
     getParameters():IParameter[] {
-        return super.getParameters().concat(<IParameter[]>[{
+        return super.getParameters().concat([{
             name: "name",
             help: 'Set the name of the project that will be used in the header of the template.'
         },{
@@ -233,7 +217,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
             defaultValue: SourceFileMode.Modules
         },{
             name: "externalPattern",
-            key: 'Define a pattern for files that should be considered being external.'
+            help: 'Define a pattern for files that should be considered being external.'
         },{
             name: "includeDeclarations",
             help: 'Turn on parsing of .d.ts declaration files.',
@@ -268,16 +252,16 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
             fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
         }
 
-        var program = ts.createProgram(fileNames, this.application.compilerOptions, this);
+        var program = ts.createProgram(fileNames, this.application.compilerOptions, this.compilerHost);
         var checker = program.getTypeChecker();
         var context = new Context(this, fileNames, checker, program);
 
-        this.dispatch(Converter.EVENT_BEGIN, context);
+        this.trigger(Converter.EVENT_BEGIN, context);
 
         var errors = this.compile(context);
         var project = this.resolve(context);
 
-        this.dispatch(Converter.EVENT_END, context);
+        this.trigger(Converter.EVENT_END, context);
 
         if (this.application.options.verbose) {
             this.application.logger.verbose('\n\x1b[32mFinished conversion\x1b[0m\n');
@@ -325,7 +309,7 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
      * @returns The final project reflection.
      */
     private resolve(context:Context):ProjectReflection {
-        this.dispatch(Converter.EVENT_RESOLVE_BEGIN, context);
+        this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         var project = context.project;
 
         for (var id in project.reflections) {
@@ -334,10 +318,10 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
                 this.application.logger.verbose('Resolving %s', project.reflections[id].getFullName());
             }
 
-            this.dispatch(Converter.EVENT_RESOLVE, context, project.reflections[id]);
+            this.trigger(Converter.EVENT_RESOLVE, context, project.reflections[id]);
         }
 
-        this.dispatch(Converter.EVENT_RESOLVE_END, context);
+        this.trigger(Converter.EVENT_RESOLVE_END, context);
         return project;
     }
 
@@ -351,140 +335,6 @@ export class Converter extends PluginHost<ConverterPlugin> implements ts.Compile
         var target = this.application.compilerOptions.target;
         return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
     }
-
-
-
-    /**
-     * CompilerHost implementation
-     */
-
-
-    /**
-     * Return an instance of ts.SourceFile representing the given file.
-     *
-     * Implementation of ts.CompilerHost.getSourceFile()
-     *
-     * @param filename  The path and name of the file that should be loaded.
-     * @param languageVersion  The script target the file should be interpreted with.
-     * @param onError  A callback that will be invoked if an error occurs.
-     * @returns An instance of ts.SourceFile representing the given file.
-     */
-    getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
-        try {
-            var text = ts.sys.readFile(filename, this.application.compilerOptions.charset);
-        } catch (e) {
-            if (onError) {
-                onError(e.number === Converter.ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
-            }
-            text = "";
-        }
-
-        return text !== undefined ? ts.createSourceFile(filename, text, languageVersion) : undefined;
-    }
-
-
-    /**
-     * Return the full path of the default library that should be used.
-     *
-     * Implementation of ts.CompilerHost.getDefaultLibFilename()
-     *
-     * @returns The full path of the default library.
-     */
-    getDefaultLibFileName(options: ts.CompilerOptions):string {
-        var lib = this.getDefaultLib();
-        var path = ts.getDirectoryPath(ts.normalizePath(require.resolve('typescript')));
-        return Path.join(path, 'lib', lib);
-    }
-
-
-    /**
-     * Return the full path of the current directory.
-     *
-     * Implementation of ts.CompilerHost.getCurrentDirectory()
-     *
-     * @returns The full path of the current directory.
-     */
-    getCurrentDirectory():string {
-        return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());
-    }
-
-
-    /**
-     * Return whether file names are case sensitive on the current platform or not.
-     *
-     * Implementation of ts.CompilerHost.useCaseSensitiveFileNames()
-     *
-     * @returns TRUE if file names are case sensitive on the current platform, FALSE otherwise.
-     */
-    useCaseSensitiveFileNames():boolean {
-        return ts.sys.useCaseSensitiveFileNames;
-    }
-
-
-    /**
-     * Check whether the given file exists.
-     *
-     * Implementation of ts.CompilerHost.fileExists(fileName)
-     *
-     * @param fileName
-     * @returns {boolean}
-     */
-    fileExists(fileName:string):boolean {
-        return ts.sys.fileExists(fileName);
-    }
-
-
-    /**
-     * Return the contents of the given file.
-     *
-     * Implementation of ts.CompilerHost.readFile(fileName)
-     *
-     * @param fileName
-     * @returns {string}
-     */
-    readFile(fileName:string):string {
-        return ts.sys.readFile(fileName);
-    }
-
-
-    /**
-     * Return the canonical file name of the given file.
-     *
-     * Implementation of ts.CompilerHost.getCanonicalFileName()
-     *
-     * @param fileName  The file name whose canonical variant should be resolved.
-     * @returns The canonical file name of the given file.
-     */
-    getCanonicalFileName(fileName:string):string {
-        return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
-    }
-
-
-    /**
-     * Return the new line char sequence of the current platform.
-     *
-     * Implementation of ts.CompilerHost.getNewLine()
-     *
-     * @returns The new line char sequence of the current platform.
-     */
-    getNewLine():string {
-        return ts.sys.newLine;
-    }
-
-
-    /**
-     * Write a compiled javascript file to disc.
-     *
-     * As TypeDoc will not emit compiled javascript files this is a null operation.
-     *
-     * Implementation of ts.CompilerHost.writeFile()
-     *
-     * @param fileName  The name of the file that should be written.
-     * @param data  The contents of the file.
-     * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
-     * @param onError  A callback that will be invoked if an error occurs.
-     */
-    writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) { }
 }
 
 

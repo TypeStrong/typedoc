@@ -1,4 +1,4 @@
-import {Event} from "../../EventDispatcher";
+import {Event} from "../../utils/events";
 
 
 /**

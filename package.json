@@ -28,15 +28,16 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "typescript": "1.6.0-beta",
-    "typedoc-default-themes": "0.3.4",
     "fs-extra": "^0.22.1",
-    "minimatch": "^2.0.10",
     "handlebars": "3.0.3",
-    "marked": "^0.3.3",
     "highlight.js": "^8.6.0",
+    "lodash": "^3.10.1",
+    "marked": "^0.3.3",
+    "minimatch": "^2.0.10",
+    "progress": "^1.1.8",
     "shelljs": "^0.5.1",
-    "progress": "^1.1.8"
+    "typedoc-default-themes": "0.3.4",
+    "typescript": "1.6.0-beta"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

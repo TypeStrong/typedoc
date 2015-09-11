@@ -1,6 +1,6 @@
-import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
+import {Component, RendererComponent} from "../../utils/component";
 import {OutputPageEvent} from "../events/OutputPageEvent";
+import {Renderer} from "../Renderer";
 
 
 /**
@@ -34,7 +34,8 @@ enum PrettyPrintState {
  * At the point writing this the docs of TypeDoc took 97.8 MB  without and 66.4 MB with this
  * plugin enabled, so it reduced the size to 68% of the original output.
  */
-export class PrettyPrintPlugin extends RendererPlugin
+@Component("pretty-print")
+export class PrettyPrintPlugin extends RendererComponent
 {
     /**
      * Map of all tags that will be ignored.
@@ -70,12 +71,11 @@ export class PrettyPrintPlugin extends RendererPlugin
 
     /**
      * Create a new PrettyPrintPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_END_PAGE, this.onRendererEndPage, this, -1024);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_END_PAGE]: this.onRendererEndPage
+        }, void 0, -1024);
     }
 
 
@@ -165,9 +165,3 @@ export class PrettyPrintPlugin extends RendererPlugin
         event.contents = lines.join('\n');
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('prettyPrint', PrettyPrintPlugin);

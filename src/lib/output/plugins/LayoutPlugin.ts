@@ -1,5 +1,5 @@
+import {Component, RendererComponent} from "../../utils/component";
 import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
 import {OutputPageEvent} from "../events/OutputPageEvent";
 
 
@@ -9,16 +9,16 @@ import {OutputPageEvent} from "../events/OutputPageEvent";
  * Currently only a default layout is supported. The layout must be stored
  * as ´layouts/default.hbs´ in the theme directory.
  */
-export class LayoutPlugin extends RendererPlugin
+@Component("layout")
+export class LayoutPlugin extends RendererComponent
 {
     /**
      * Create a new LayoutPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_END_PAGE, this.onRendererEndPage, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_END_PAGE]: this.onRendererEndPage
+        });
     }
 
 
@@ -28,13 +28,7 @@ export class LayoutPlugin extends RendererPlugin
      * @param page  An event object describing the current render operation.
      */
     private onRendererEndPage(page:OutputPageEvent) {
-        var layout = this.renderer.getTemplate('layouts/default.hbs');
+        var layout = this.owner.getTemplate('layouts/default.hbs');
         page.contents = layout(page);
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('layout', LayoutPlugin);

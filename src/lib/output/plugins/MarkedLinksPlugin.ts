@@ -1,15 +1,17 @@
 import * as Util from "util";
 
+import {Reflection} from "../../models/reflections/abstract";
+import {Component, RendererComponent} from "../../utils/component";
+import {MarkdownEvent} from "../events/MarkdownEvent";
 import {Renderer} from "../Renderer";
 import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {MarkedPlugin} from "./MarkedPlugin";
-import {MarkdownEvent} from "../events/MarkdownEvent";
-import {Reflection} from "../../models/reflections/abstract";
 
 
 /**
  * A plugin that builds links in markdown texts.
  */
+@Component("marked-links")
 export class MarkedLinksPlugin extends ContextAwareRendererPlugin
 {
     /**
@@ -31,12 +33,11 @@ export class MarkedLinksPlugin extends ContextAwareRendererPlugin
 
     /**
      * Create a new MarkedLinksPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(MarkedPlugin.EVENT_PARSE_MARKDOWN, this.onParseMarkdown, this, 100);
+    initialize() {
+        this.listenTo(this.owner, {
+            [MarkedPlugin.EVENT_PARSE_MARKDOWN]: this.onParseMarkdown
+        }, void 0, 100);
     }
 
 
@@ -151,9 +152,3 @@ export class MarkedLinksPlugin extends ContextAwareRendererPlugin
         }
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('markedLinks', MarkedLinksPlugin);

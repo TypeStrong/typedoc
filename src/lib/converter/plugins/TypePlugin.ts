@@ -1,27 +1,27 @@
 import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from "../../models/reflections/index";
 import {Type, ReferenceType, TupleType, UnionType} from "../../models/types/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
 /**
  * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
  */
-export class TypePlugin extends ConverterPlugin
+@Component('type')
+export class TypePlugin extends ConverterComponent
 {
     reflections:DeclarationReflection[] = [];
 
 
     /**
      * Create a new TypeHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_RESOLVE, this.onResolve, this);
-        converter.on(Converter.EVENT_RESOLVE_END, this.onResolveEnd, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_RESOLVE]:     this.onResolve,
+            [Converter.EVENT_RESOLVE_END]: this.onResolveEnd
+        });
     }
 
 
@@ -157,9 +157,3 @@ export class TypePlugin extends ConverterPlugin
         });
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('type', TypePlugin);

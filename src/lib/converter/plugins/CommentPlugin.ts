@@ -5,10 +5,10 @@ import {IntrinsicType} from "../../models/types/index";
 import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
     SignatureReflection, ParameterReflection} from "../../models/reflections/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {parseComment, getRawComment} from "../factories/comment";
 import {Converter} from "../converter";
 import {Context} from "../context";
-import {ConverterPlugin} from "../plugin";
 
 
 /**
@@ -37,7 +37,8 @@ interface IModuleComment
  * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
  * the generated reflections.
  */
-export class CommentPlugin extends ConverterPlugin
+@Component('comment')
+export class CommentPlugin extends ConverterComponent
 {
     /**
      * List of discovered module comments.
@@ -52,18 +53,17 @@ export class CommentPlugin extends ConverterPlugin
 
     /**
      * Create a new CommentPlugin instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_BEGIN,                   this.onBegin,        this);
-        converter.on(Converter.EVENT_CREATE_DECLARATION,      this.onDeclaration,  this);
-        converter.on(Converter.EVENT_CREATE_SIGNATURE,        this.onDeclaration,  this);
-        converter.on(Converter.EVENT_CREATE_TYPE_PARAMETER,   this.onCreateTypeParameter,  this);
-        converter.on(Converter.EVENT_FUNCTION_IMPLEMENTATION, this.onFunctionImplementation, this);
-        converter.on(Converter.EVENT_RESOLVE_BEGIN,           this.onBeginResolve, this);
-        converter.on(Converter.EVENT_RESOLVE,                 this.onResolve,      this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_BEGIN]:                   this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]:      this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]:        this.onDeclaration,
+            [Converter.EVENT_CREATE_TYPE_PARAMETER]:   this.onCreateTypeParameter,
+            [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this.onFunctionImplementation,
+            [Converter.EVENT_RESOLVE_BEGIN]:           this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]:                 this.onResolve
+        });
     }
 
 
@@ -365,9 +365,3 @@ export class CommentPlugin extends ConverterPlugin
         }
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('comment', CommentPlugin);

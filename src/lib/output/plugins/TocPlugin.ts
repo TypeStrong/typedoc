@@ -1,8 +1,8 @@
-import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
-import {OutputPageEvent} from "../events/OutputPageEvent";
 import {Reflection, ReflectionKind, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
+import {Component, RendererComponent} from "../../utils/component";
+import {OutputPageEvent} from "../events/OutputPageEvent";
 import {NavigationItem} from "../models/NavigationItem";
+import {Renderer} from "../Renderer";
 
 
 /**
@@ -11,16 +11,16 @@ import {NavigationItem} from "../models/NavigationItem";
  * The table of contents will start at the nearest module or dynamic module. This plugin
  * sets the [[OutputPageEvent.toc]] property.
  */
-export class TocPlugin extends RendererPlugin
+@Component("toc")
+export class TocPlugin extends RendererComponent
 {
     /**
      * Create a new TocPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_BEGIN_PAGE]: this.onRendererBeginPage
+        });
     }
 
 
@@ -79,9 +79,3 @@ export class TocPlugin extends RendererPlugin
         }
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('toc', TocPlugin);

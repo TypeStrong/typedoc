@@ -2,8 +2,8 @@ import * as FS from "fs";
 import * as Path from "path";
 import * as Handlebars from "handlebars";
 
+import {Component, RendererComponent} from "../../utils/component";
 import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
 
 
 /**
@@ -12,16 +12,16 @@ import {RendererPlugin} from "../RendererPlugin";
  * Partials must be placed in the ´partials´ subdirectory of the theme. The plugin first
  * loads the partials of the default theme and then the partials of the current theme.
  */
-export class PartialsPlugin extends RendererPlugin
+@Component("partials")
+export class PartialsPlugin extends RendererComponent
 {
     /**
      * Create a new PartialsPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_BEGIN]: this.onRendererBegin
+        });
     }
 
 
@@ -49,7 +49,7 @@ export class PartialsPlugin extends RendererPlugin
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event:DocumentEvent) {
-        var themePath = Path.join(this.renderer.theme.basePath, 'partials');
+        var themePath = Path.join(this.owner.theme.basePath, 'partials');
         var defaultPath = Path.join(Renderer.getDefaultTheme(), 'partials');
 
         if (themePath != defaultPath) {
@@ -59,9 +59,3 @@ export class PartialsPlugin extends RendererPlugin
         this.loadPartials(themePath);
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('partials', PartialsPlugin);

@@ -1,11 +1,11 @@
 import * as Path from "path";
 
-import {Renderer} from "../Renderer";
-import {RendererPlugin} from "../RendererPlugin";
-import {OutputEvent} from "../events/OutputEvent";
 import {DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
 import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
-import {writeFile} from "../../Utils";
+import {Component, RendererComponent} from "../../utils/component";
+import {writeFile} from "../../utils/fs";
+import {OutputEvent} from "../events/OutputEvent";
+import {Renderer} from "../Renderer";
 
 
 /**
@@ -13,16 +13,16 @@ import {writeFile} from "../../Utils";
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-export class JavascriptIndexPlugin extends RendererPlugin
+@Component("javascript-index")
+export class JavascriptIndexPlugin extends RendererComponent
 {
     /**
      * Create a new JavascriptIndexPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Renderer.EVENT_BEGIN]: this.onRendererBegin
+        });
     }
 
 
@@ -78,9 +78,3 @@ export class JavascriptIndexPlugin extends RendererPlugin
         writeFile(fileName, data, true);
     }
 }
-
-
-/**
- * Register this plugin.
- */
-Renderer.registerPlugin('javascriptIndex', JavascriptIndexPlugin);

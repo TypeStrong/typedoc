@@ -12,13 +12,14 @@ import * as Util from "util";
 import * as typescript from "typescript";
 import {Minimatch, IMinimatch} from "minimatch";
 
-import {EventDispatcher} from "./EventDispatcher";
+import {EventDispatcher} from "./utils/events";
 import {IOptions, OptionsParser} from "./Options";
 import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./Logger";
-import {writeFile} from "./Utils";
+import {writeFile} from "./utils/fs";
 import {ProjectReflection} from "./models/index";
 import {Converter} from "./converter/converter";
 import {Renderer} from "./output/Renderer";
+import {IComponentHost} from "./utils/component";
 
 
 /**
@@ -61,7 +62,7 @@ export interface IApplication
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-export class Application extends EventDispatcher implements IApplication
+export class Application extends EventDispatcher implements IApplication, IComponentHost
 {
     /**
      * The options used by the dispatcher and the renderer.
@@ -332,8 +333,17 @@ export class Application extends EventDispatcher implements IApplication
         parser.addParameter(this.converter.getParameters());
         parser.addParameter(this.renderer.getParameters());
 
-        this.dispatch(Application.EVENT_COLLECT_PARAMETERS, parser);
+        this.trigger(Application.EVENT_COLLECT_PARAMETERS, parser);
     }
+
+
+    /**
+     * Return the application / root component instance.
+     */
+    get application():Application {
+        return this
+    }
+
 
     /**
      * Return the path to the TypeScript compiler.

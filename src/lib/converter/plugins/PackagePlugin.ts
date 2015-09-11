@@ -3,9 +3,9 @@ import * as FS from "fs";
 import * as ts from "typescript";
 
 import {Reflection} from "../../models/reflections/abstract";
+import {Component, ConverterComponent} from "../../utils/component";
 import {IParameter, IParameterProvider} from "../../Options";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
@@ -17,7 +17,8 @@ import {Context} from "../context";
  * and records the nearest package info files it can find. Within the resolve files, the
  * contents of the found files will be read and appended to the ProjectReflection.
  */
-export class PackagePlugin extends ConverterPlugin implements IParameterProvider
+@Component('package')
+export class PackagePlugin extends ConverterComponent implements IParameterProvider
 {
     /**
      * The file name of the found readme.md file.
@@ -42,14 +43,13 @@ export class PackagePlugin extends ConverterPlugin implements IParameterProvider
 
     /**
      * Create a new PackageHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_BEGIN,         this.onBegin,         this);
-        converter.on(Converter.EVENT_FILE_BEGIN,    this.onBeginDocument, this);
-        converter.on(Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve,  this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_BEGIN]:         this.onBegin,
+            [Converter.EVENT_FILE_BEGIN]:    this.onBeginDocument,
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve
+        });
     }
 
 
@@ -139,9 +139,3 @@ export class PackagePlugin extends ConverterPlugin implements IParameterProvider
         }
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('package', PackagePlugin);

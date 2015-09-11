@@ -3,16 +3,17 @@ import * as ts from "typescript";
 
 import {Reflection, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
 import {SourceDirectory, SourceFile} from "../../models/sources/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {BasePath} from "../utils/base-path";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
 /**
  * A handler that attaches source file information to reflections.
  */
-export class SourcePlugin extends ConverterPlugin
+@Component('source')
+export class SourcePlugin extends ConverterComponent
 {
     /**
      * Helper for resolving the base path of all source files.
@@ -27,18 +28,17 @@ export class SourcePlugin extends ConverterPlugin
 
     /**
      * Create a new SourceHandler instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_BEGIN,              this.onBegin,         this);
-        converter.on(Converter.EVENT_FILE_BEGIN,         this.onBeginDocument, this);
-        converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration,   this);
-        converter.on(Converter.EVENT_CREATE_SIGNATURE,   this.onDeclaration,   this);
-        converter.on(Converter.EVENT_RESOLVE_BEGIN,      this.onBeginResolve,  this);
-        converter.on(Converter.EVENT_RESOLVE,            this.onResolve,       this);
-        converter.on(Converter.EVENT_RESOLVE_END,        this.onEndResolve,    this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_BEGIN]:              this.onBegin,
+            [Converter.EVENT_FILE_BEGIN]:         this.onBeginDocument,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]:   this.onDeclaration,
+            [Converter.EVENT_RESOLVE_BEGIN]:      this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]:            this.onResolve,
+            [Converter.EVENT_RESOLVE_END]:        this.onEndResolve
+        });
     }
 
 
@@ -176,9 +176,3 @@ export class SourcePlugin extends ConverterPlugin
         });
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('source', SourcePlugin);

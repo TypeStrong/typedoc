@@ -1,45 +1,16 @@
 import * as Path from "path";
+
 import {Renderer} from "./Renderer";
 import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
-
-
-/**
- * Base class of all plugins that can be attached to the [[Renderer]].
- */
-export class RendererPlugin
-{
-    /**
-     * The renderer this plugin is attached to.
-     */
-    protected renderer:Renderer;
-
-
-
-    /**
-     * Create a new RendererPlugin instance.
-     *
-     * @param renderer  The renderer this plugin should be attached to.
-     */
-    constructor(renderer:Renderer) {
-        this.renderer = renderer;
-    }
-
-
-    /**
-     * Remove this plugin from the renderer.
-     */
-    remove() {
-        this.renderer.off(null, null, this);
-    }
-}
+import {RendererComponent} from "../utils/component";
 
 
 /**
  * A plugin for the renderer that reads the current render context.
  */
-export class ContextAwareRendererPlugin extends RendererPlugin
+export abstract class ContextAwareRendererPlugin extends RendererComponent
 {
     /**
      * The project that is currently processed.

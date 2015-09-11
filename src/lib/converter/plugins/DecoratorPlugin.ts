@@ -2,29 +2,29 @@ import * as ts from "typescript";
 
 import {ReferenceType} from "../../models/types/index";
 import {Reflection, IDecorator} from "../../models/reflections/index";
+import {Component, ConverterComponent} from "../../utils/component";
 import {Converter} from "../converter";
 import {Context} from "../context";
-import {ConverterPlugin} from "../plugin";
 
 
 /**
  * A plugin that detects decorators.
  */
-export class DecoratorPlugin extends ConverterPlugin
+@Component('decorator')
+export class DecoratorPlugin extends ConverterComponent
 {
     private usages:{[symbolID:number]:ReferenceType[]};
 
 
     /**
      * Create a new ImplementsPlugin instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_BEGIN, this.onBegin, this);
-        converter.on(Converter.EVENT_CREATE_DECLARATION, this.onDeclaration, this);
-        converter.on(Converter.EVENT_RESOLVE, this.onBeginResolve, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_BEGIN]:              this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_RESOLVE]:            this.onBeginResolve,
+        });
     }
 
 
@@ -132,9 +132,3 @@ export class DecoratorPlugin extends ConverterPlugin
         }
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('decorator', DecoratorPlugin);

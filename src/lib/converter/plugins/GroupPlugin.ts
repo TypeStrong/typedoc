@@ -1,8 +1,8 @@
 import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
 import {SourceDirectory} from "../../models/sources/directory";
+import {Component, ConverterComponent} from "../../utils/component";
 import {Converter} from "../converter";
-import {ConverterPlugin} from "../plugin";
 import {Context} from "../context";
 
 
@@ -11,7 +11,8 @@ import {Context} from "../context";
  *
  * The handler sets the ´groups´ property of all reflections.
  */
-export class GroupPlugin extends ConverterPlugin
+@Component('group')
+export class GroupPlugin extends ConverterComponent
 {
     /**
      * Define the sort order of reflections.
@@ -72,13 +73,12 @@ export class GroupPlugin extends ConverterPlugin
 
     /**
      * Create a new GroupPlugin instance.
-     *
-     * @param converter  The converter this plugin should be attached to.
      */
-    constructor(converter:Converter) {
-        super(converter);
-        converter.on(Converter.EVENT_RESOLVE, this.onResolve, this);
-        converter.on(Converter.EVENT_RESOLVE_END, this.onEndResolve, this);
+    initialize() {
+        this.listenTo(this.owner, {
+            [Converter.EVENT_RESOLVE]:     this.onResolve,
+            [Converter.EVENT_RESOLVE_END]: this.onEndResolve
+        });
     }
 
 
@@ -243,9 +243,3 @@ export class GroupPlugin extends ConverterPlugin
         } else return aWeight - bWeight;
     }
 }
-
-
-/**
- * Register this handler.
- */
-Converter.registerPlugin('group', GroupPlugin);
