@@ -4161,7 +4161,7 @@ var td;
                 var rawComment = CommentPlugin.getComment(node);
                 if (!rawComment)
                     return;
-                if (reflection.kindOf(td.models.ReflectionKind.FunctionOrMethod)) {
+                if (reflection.kindOf(td.models.ReflectionKind.FunctionOrMethod) || (reflection.kindOf(td.models.ReflectionKind.Event) && reflection['signatures'])) {
                     var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
                     this.applyModifiers(reflection, comment);
                 }

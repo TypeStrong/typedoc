@@ -158,7 +158,7 @@ module td.converter
             var rawComment = CommentPlugin.getComment(node);
             if (!rawComment) return;
 
-            if (reflection.kindOf(models.ReflectionKind.FunctionOrMethod)) {
+            if (reflection.kindOf(models.ReflectionKind.FunctionOrMethod) || (reflection.kindOf(models.ReflectionKind.Event) && reflection['signatures'])) {
                 var comment = CommentPlugin.parseComment(rawComment, reflection.comment);
                 this.applyModifiers(reflection, comment);
             } else if (reflection.kindOf(models.ReflectionKind.Module)) {
