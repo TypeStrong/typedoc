@@ -5240,7 +5240,9 @@ var td;
                     if (target instanceof td.models.SignatureReflection && target.parameters &&
                         source instanceof td.models.SignatureReflection && source.parameters) {
                         for (var index = 0, count = target.parameters.length; index < count; index++) {
-                            target.parameters[index].comment.copyFrom(source.parameters[index].comment);
+                            if (target.parameters[index].comment) {
+                                target.parameters[index].comment.copyFrom(source.parameters[index].comment);
+                            }
                         }
                     }
                 }
