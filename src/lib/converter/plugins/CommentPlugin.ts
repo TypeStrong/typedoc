@@ -169,7 +169,7 @@ export class CommentPlugin extends ConverterComponent
         var rawComment = getRawComment(node);
         if (!rawComment) return;
 
-        if (reflection.kindOf(ReflectionKind.FunctionOrMethod)) {
+        if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
             var comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
