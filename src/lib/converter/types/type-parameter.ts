@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {Type, TypeParameterType} from "../../models/types/index";
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
 import {Context} from "../context";
-import {TypeNodeConverter} from "../convert-type";
 
 
-export class TypeParameterConverter implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode>
+@Component({name:'type:type-parameter'})
+export class TypeParameterConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.TypeReferenceNode>
 {
     /**
      * The priority this converter should be executed with.

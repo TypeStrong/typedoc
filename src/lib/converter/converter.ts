@@ -1,13 +1,13 @@
 import * as ts from "typescript";
 import * as Path from "path";
 
-import {IApplication} from "../Application";
+import {Application} from "../Application";
 import {IParameter, ParameterType} from "../Options";
-import {Reflection, ProjectReflection} from "../models/index";
+import {Reflection, Type, ProjectReflection} from "../models/index";
 import {Context} from "./context";
-import {convertNode} from "./convert-node";
+import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITypeTypeConverter, ITypeNodeConverter} from "./components";
 import {CompilerHost} from "./utils/compiler-host";
-import {Component, ConverterHost} from "../utils/component"
+import {Component, ChildableComponent, IComponentClass} from "../utils/component"
 
 
 export enum SourceFileMode {
@@ -88,9 +88,16 @@ interface IConverterResolveCallback
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-export class Converter extends ConverterHost
+@Component({childClass:ConverterComponent})
+export class Converter extends ChildableComponent<Application, ConverterComponent>
 {
     private compilerHost:CompilerHost;
+
+    private nodeConverters:{[syntaxKind:number]:ConverterNodeComponent<ts.Node>};
+
+    private typeNodeConverters:ITypeNodeConverter<ts.Type, ts.Node>[];
+
+    private typeTypeConverters:ITypeTypeConverter<ts.Type>[];
 
 
     /**
@@ -192,8 +199,11 @@ export class Converter extends ConverterHost
      * @param application  The application instance this converter relies on. The application
      *   must expose the settings that should be used and serves as a global logging endpoint.
      */
-     initialize() {
+    initialize() {
         this.compilerHost = new CompilerHost(this);
+        this.nodeConverters = {};
+        this.typeTypeConverters = [];
+        this.typeNodeConverters = [];
     }
 
 
@@ -232,6 +242,84 @@ export class Converter extends ConverterHost
             type: ParameterType.Boolean
         }]);
     }
+
+
+    addComponent(name:string, componentClass:IComponentClass<ConverterComponent>):ConverterComponent {
+        var component = super.addComponent(name, componentClass);
+        if (component instanceof ConverterNodeComponent) {
+            this.addNodeConverter(component);
+        } else if (component instanceof ConverterTypeComponent) {
+            this.addTypeConverter(<ITypeTypeConverter<any>|ITypeNodeConverter<any, any>>component);
+        }
+
+        return component;
+    }
+
+
+    private addNodeConverter(converter:ConverterNodeComponent<any>) {
+        for (var supports of converter.supports) {
+            this.nodeConverters[supports] = converter;
+        }
+    }
+
+
+    private addTypeConverter(converter:ITypeTypeConverter<any>|ITypeNodeConverter<any, any>) {
+        if ("supportsNode" in converter && "convertNode" in converter) {
+            this.typeNodeConverters.push(<ITypeNodeConverter<any, any>>converter);
+            this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+        }
+
+        if ("supportsType" in converter && "convertType" in converter) {
+            this.typeTypeConverters.push(<ITypeTypeConverter<any>>converter);
+            this.typeTypeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+        }
+    }
+
+
+    removeComponent(name:string):ConverterComponent {
+        var component = super.removeComponent(name);
+        if (component instanceof ConverterNodeComponent) {
+            this.removeNodeConverter(component);
+        } else if (component instanceof ConverterTypeComponent) {
+            this.removeTypeConverter(component);
+        }
+
+        return component;
+    }
+
+
+    private removeNodeConverter(converter:ConverterNodeComponent<any>) {
+        var converters = this.nodeConverters;
+        var keys = _.keys(this.nodeConverters);
+        for (var key of keys) {
+            if (converters[key] === converter) {
+                delete converters[key];
+            }
+        }
+    }
+
+
+    private removeTypeConverter(converter:ConverterTypeComponent) {
+        var index = this.typeNodeConverters.indexOf(<any>converter);
+        if (index != -1) {
+            this.typeTypeConverters.splice(index, 1);
+        }
+
+        index = this.typeNodeConverters.indexOf(<any>converter);
+        if (index != -1) {
+            this.typeNodeConverters.splice(index, 1);
+        }
+    }
+
+
+    removeAllComponents() {
+        super.removeAllComponents();
+
+        this.nodeConverters = {};
+        this.typeTypeConverters = [];
+        this.typeNodeConverters = [];
+    }
+
 
 
     /**
@@ -275,6 +363,83 @@ export class Converter extends ConverterHost
 
 
     /**
+     * Analyze the given node and create a suitable reflection.
+     *
+     * This function checks the kind of the node and delegates to the matching function implementation.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node     The compiler node that should be analyzed.
+     * @return The resulting reflection or NULL.
+     */
+    convertNode(context:Context, node:ts.Node):Reflection {
+        if (context.visitStack.indexOf(node) != -1) {
+            return null;
+        }
+
+        var oldVisitStack = context.visitStack;
+        context.visitStack = oldVisitStack.slice();
+        context.visitStack.push(node);
+
+        if (context.getOptions().verbose) {
+            var file = ts.getSourceFileOfNode(node);
+            var pos = ts.getLineAndCharacterOfPosition(file, node.pos);
+            if (node.symbol) {
+                context.getLogger().verbose(
+                    'Visiting \x1b[34m%s\x1b[0m\n    in %s (%s:%s)',
+                    context.checker.getFullyQualifiedName(node.symbol),
+                    file.fileName, pos.line.toString(), pos.character.toString()
+                );
+            } else {
+                context.getLogger().verbose(
+                    'Visiting node of kind %s in %s (%s:%s)',
+                    node.kind.toString(),
+                    file.fileName, pos.line.toString(), pos.character.toString()
+                );
+            }
+        }
+
+        var result:Reflection;
+        if (node.kind in this.nodeConverters) {
+            result = this.nodeConverters[node.kind].convert(context, node);
+        }
+
+        context.visitStack = oldVisitStack;
+        return result;
+    }
+
+
+    /**
+     * Convert the given TypeScript type into its TypeDoc type reflection.
+     *
+     * @param context  The context object describing the current state the converter is in.
+     * @param node  The node whose type should be reflected.
+     * @param type  The type of the node if already known.
+     * @returns The TypeDoc type reflection representing the given node and type.
+     */
+    convertType(context:Context, node?:ts.Node, type?:ts.Type):Type {
+        // Run all node based type conversions
+        if (node) {
+            type = type || context.getTypeAtLocation(node);
+
+            for (let converter of this.typeNodeConverters) {
+                if (converter.supportsNode(context, node, type)) {
+                    return converter.convertNode(context, node, type);
+                }
+            }
+        }
+
+        // Run all type based type conversions
+        if (type) {
+            for (let converter of this.typeTypeConverters) {
+                if (converter.supportsType(context, type)) {
+                    return converter.convertType(context, type);
+                }
+            }
+        }
+    }
+
+
+    /**
      * Compile the files within the given context and convert the compiler symbols to reflections.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -284,7 +449,7 @@ export class Converter extends ConverterHost
         var program = context.program;
 
         program.getSourceFiles().forEach((sourceFile) => {
-            convertNode(context, sourceFile);
+            this.convertNode(context, sourceFile);
         });
 
         // First get any syntactic errors.
@@ -336,6 +501,3 @@ export class Converter extends ConverterHost
         return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
     }
 }
-
-
-import "./plugins/index";

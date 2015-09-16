@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {Type, IntrinsicType} from "../../models/index";
+import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
 import {Context} from "../context";
-import {TypeTypeConverter} from "../convert-type";
 
 
-export class IntrinsicConverter implements TypeTypeConverter<ts.IntrinsicType>
+@Component({name:'type:intrinsic'})
+export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.IntrinsicType>
 {
     /**
      * Test whether this converter can handle the given TypeScript type.

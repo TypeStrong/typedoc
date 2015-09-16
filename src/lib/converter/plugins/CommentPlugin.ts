@@ -5,7 +5,7 @@ import {IntrinsicType} from "../../models/types/index";
 import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
     SignatureReflection, ParameterReflection} from "../../models/reflections/index";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {parseComment, getRawComment} from "../factories/comment";
 import {Converter} from "../converter";
 import {Context} from "../context";
@@ -37,7 +37,7 @@ interface IModuleComment
  * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
  * the generated reflections.
  */
-@Component('comment')
+@Component({name:'comment'})
 export class CommentPlugin extends ConverterComponent
 {
     /**

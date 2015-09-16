@@ -1,5 +1,5 @@
 import {Reflection, ReflectionKind, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {OutputPageEvent} from "../events/OutputPageEvent";
 import {NavigationItem} from "../models/NavigationItem";
 import {Renderer} from "../Renderer";
@@ -11,7 +11,7 @@ import {Renderer} from "../Renderer";
  * The table of contents will start at the nearest module or dynamic module. This plugin
  * sets the [[OutputPageEvent.toc]] property.
  */
-@Component("toc")
+@Component({name:"toc"})
 export class TocPlugin extends RendererComponent
 {
     /**

@@ -3,7 +3,6 @@ import * as ts from "typescript";
 import {ReflectionKind, SignatureReflection, ContainerReflection, DeclarationReflection, Type} from "../../models/index";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertType} from "../convert-type";
 import {createParameter} from "./parameter";
 import {createReferenceType} from "./reference";
 
@@ -56,13 +55,13 @@ function extractSignatureType(context:Context, node:ts.SignatureDeclaration):Typ
     if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
         try {
             var signature = checker.getSignatureFromDeclaration(node);
-            return convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
+            return context.converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
         } catch (error) {}
     }
 
     if (node.type) {
-        return convertType(context, node.type);
+        return context.converter.convertType(context, node.type);
     } else {
-        return convertType(context, node);
+        return context.converter.convertType(context, node);
     }
 }

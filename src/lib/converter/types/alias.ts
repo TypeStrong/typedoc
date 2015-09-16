@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {ReferenceType} from "../../models/index";
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
 import {Context} from "../context";
-import {TypeNodeConverter} from "../convert-type";
 
 
-export class AliasConverter implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode>
+@Component({name:'type:alias'})
+export class AliasConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.TypeReferenceNode>
 {
     /**
      * The priority this converter should be executed with.

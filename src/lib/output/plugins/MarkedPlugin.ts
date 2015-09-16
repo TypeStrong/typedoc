@@ -4,9 +4,8 @@ import * as Marked from "marked";
 import * as HighlightJS from "highlight.js";
 import * as Handlebars from "handlebars";
 
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, ContextAwareRendererComponent} from "../components";
 import {Renderer} from "../Renderer";
-import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {ParameterHint, IParameter, IParameterProvider} from "../../Options";
 import {SignatureReflection} from "../../models/reflections/signature";
 import {OutputEvent} from "../events/OutputEvent";
@@ -43,8 +42,8 @@ import {MarkdownEvent} from "../events/MarkdownEvent";
  * {{#relativeURL url}}
  * ```
  */
-@Component("marked")
-export class MarkedPlugin extends ContextAwareRendererPlugin implements IParameterProvider
+@Component({name:"marked"})
+export class MarkedPlugin extends ContextAwareRendererComponent implements IParameterProvider
 {
     /**
      * The path referenced files are located in.

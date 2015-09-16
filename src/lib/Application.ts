@@ -17,7 +17,7 @@ import {IOptions, OptionsParser} from "./Options";
 import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./Logger";
 import {writeFile} from "./utils/fs";
 import {ProjectReflection} from "./models/index";
-import {Converter} from "./converter/converter";
+import {Converter} from "./converter/index";
 import {Renderer} from "./output/Renderer";
 import {IComponentHost} from "./utils/component";
 

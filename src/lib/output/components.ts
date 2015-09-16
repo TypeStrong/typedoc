@@ -1,16 +1,23 @@
 import * as Path from "path";
+import * as ts from "typescript";
 
-import {Renderer} from "./Renderer";
+import {Component, AbstractComponent, ChildableComponent} from "../utils/component";
 import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
+import {Renderer} from "./Renderer";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
-import {RendererComponent} from "../utils/component";
+
+
+export {Component};
+
+
+export abstract class RendererComponent extends AbstractComponent<Renderer> { }
 
 
 /**
  * A plugin for the renderer that reads the current render context.
  */
-export abstract class ContextAwareRendererPlugin extends RendererComponent
+export abstract class ContextAwareRendererComponent extends RendererComponent
 {
     /**
      * The project that is currently processed.

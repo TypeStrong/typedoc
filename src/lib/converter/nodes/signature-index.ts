@@ -3,10 +3,11 @@ import * as ts from "typescript";
 import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
 import {createSignature} from "../factories/index";
 import {Context} from "../context";
-import {NodeConveter} from "../convert-node";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class IndexSignatureConverter implements NodeConveter<ts.SignatureDeclaration>
+@Component({name:'node:signature-index'})
+export class IndexSignatureConverter extends ConverterNodeComponent<ts.SignatureDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.

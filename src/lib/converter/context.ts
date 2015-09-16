@@ -6,8 +6,6 @@ import {IOptions} from "../Options";
 import {Reflection, ProjectReflection, ContainerReflection, Type} from "../models/index";
 import {createTypeParameter} from "./factories/type-parameter";
 import {Converter} from "./converter";
-import {convertNode} from "./convert-node";
-import {convertType} from "./convert-type";
 
 
 /**
@@ -345,12 +343,12 @@ export class Context
         }
 
         if (typeArguments) {
-            this.typeArguments = typeArguments.map((t) => convertType(this, t));
+            this.typeArguments = typeArguments.map((t) => this.converter.convertType(this, t));
         } else {
             this.typeArguments = null;
         }
 
-        convertNode(this, baseNode);
+        this.converter.convertNode(this, baseNode);
 
         this.isInherit = wasInherit;
         this.inherited = oldInherited;

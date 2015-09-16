@@ -12,7 +12,7 @@ import * as FS from "fs-extra";
 import * as Handlebars from "handlebars";
 var ProgressBar = require("progress");
 
-import {IApplication} from "../Application";
+import {Application} from "../Application";
 import {IParameter, IParameterProvider} from "../Options";
 import {Theme} from "./Theme";
 import {OutputEvent} from "./events/OutputEvent";
@@ -21,7 +21,8 @@ import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {writeFile} from "../utils/fs";
 import {DefaultTheme} from "./themes/DefaultTheme";
-import {Component, RendererHost} from "../utils/component";
+import {RendererComponent} from "./components";
+import {Component, ChildableComponent} from "../utils/component";
 
 
 /**
@@ -63,7 +64,8 @@ export interface IHandlebarTemplate {
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[OutputEvent]].
  */
-export class Renderer extends RendererHost
+@Component({childClass:RendererComponent})
+export class Renderer extends ChildableComponent<Application, RendererComponent>
 {
     /**
      * The theme that is used to render the documentation.

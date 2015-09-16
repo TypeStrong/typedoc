@@ -14,7 +14,7 @@ interface IComponent extends AbstractComponent<IComponentHost> {
 }
 
 
-interface IComponentClass<T extends IComponent> extends Function {
+export interface IComponentClass<T extends IComponent> extends Function {
     new(owner:IComponentHost):T;
 }
 
@@ -29,22 +29,45 @@ interface IComponentRegistry {
 }
 
 
-export function Component(name:string):ClassDecorator {
-    return (target:IComponentClass<IComponent>) => {
-        target.prototype._componentName = name;
+interface IComponentOptions {
+    name?:string;
+    childClass?:Function;
+}
 
-        var proto:any;
-        if (target.prototype instanceof ConverterComponent) {
-            proto = ConverterHost.prototype;
-        } else if (target.prototype instanceof RendererComponent) {
-            proto = RendererHost.prototype;
-        } else {
-            console.log("Unknown component type for '" + name + "'");
+
+var childMappings:{host:any, child:Function}[] = [];
+
+
+export function Component(options:IComponentOptions):ClassDecorator {
+    return (target:IComponentClass<IComponent>) => {
+        var proto = target.prototype;
+        if (!(proto instanceof AbstractComponent)) {
+            throw new Error('The `Component` decorator can only be used with a subclass of `AbstractComponent`.');
         }
 
-        if (proto) {
-            if (!proto._defaultComponents) proto._defaultComponents = {};
-            proto._defaultComponents[name] = target;
+        if (options.childClass) {
+            if (!(proto instanceof ChildableComponent)) {
+                throw new Error('The `Component` decorator accepts the parameter `childClass` only when used with a subclass of `ChildableComponent`.');
+            }
+
+            childMappings.push({
+                host: proto,
+                child: options.childClass
+            });
+        }
+
+        if (options.name) {
+            var name = options.name;
+            proto._componentName = name;
+
+            for (var childMapping of childMappings) {
+                if (!(proto instanceof childMapping.child)) continue;
+
+                var host = childMapping.host;
+                var defaults = host._defaultComponents || (host._defaultComponents = {});
+                defaults[name] = target;
+                break;
+            }
         }
     };
 }
@@ -120,7 +143,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
 /**
  * Component base class.
  */
-export abstract class AbstractChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O> implements IParameterProvider
+export abstract class ChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O> implements IParameterProvider
 {
     /**
      *
@@ -171,14 +194,15 @@ export abstract class AbstractChildableComponent<O extends IComponentHost, C ext
     }
 
 
-    removeComponent(name:string):boolean {
-        if (!this._componentChildren) return false;
-        if (this._componentChildren[name]) {
-            this._componentChildren[name].stopListening();
+    removeComponent(name:string):C {
+        if (!this._componentChildren) return null;
+        var component = this._componentChildren[name];
+        if (component) {
             delete this._componentChildren[name];
-            return true;
+            component.stopListening();
+            return component;
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -205,16 +229,3 @@ export abstract class AbstractChildableComponent<O extends IComponentHost, C ext
         return result;
     }
 }
-
-
-export abstract class ApplicationHost extends AbstractChildableComponent<Application, ApplicationComponent> { }
-
-export abstract class ApplicationComponent extends AbstractComponent<Application> { }
-
-export abstract class ConverterHost extends AbstractChildableComponent<Application, ConverterComponent> { }
-
-export abstract class ConverterComponent extends AbstractComponent<Converter> { }
-
-export abstract class RendererHost extends AbstractChildableComponent<Application, RendererComponent> { }
-
-export abstract class RendererComponent extends AbstractComponent<Renderer> { }

@@ -1,12 +1,13 @@
 import * as ts from "typescript";
 
 import {Type, ReflectionKind, DeclarationReflection, ReflectionType} from "../../models/index";
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertNode, TypeNodeConverter} from "../index";
 
 
-export class BindingObjectConverter implements TypeNodeConverter<ts.Type, ts.BindingPattern>
+@Component({name:'type:binding-object'})
+export class BindingObjectConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern>
 {
     /**
      * Test whether this converter can handle the given TypeScript node.
@@ -33,7 +34,7 @@ export class BindingObjectConverter implements TypeNodeConverter<ts.Type, ts.Bin
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
             node.elements.forEach((element) => {
-                convertNode(context, element);
+                this.owner.convertNode(context, element);
             });
         });
 

@@ -3,7 +3,7 @@ import * as FS from "fs";
 import * as ts from "typescript";
 
 import {Reflection} from "../../models/reflections/abstract";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {IParameter, IParameterProvider} from "../../Options";
 import {Converter} from "../converter";
 import {Context} from "../context";
@@ -17,7 +17,7 @@ import {Context} from "../context";
  * and records the nearest package info files it can find. Within the resolve files, the
  * contents of the found files will be read and appended to the ProjectReflection.
  */
-@Component('package')
+@Component({name:'package'})
 export class PackagePlugin extends ConverterComponent implements IParameterProvider
 {
     /**

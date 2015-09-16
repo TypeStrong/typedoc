@@ -1,7 +1,7 @@
 import * as Path from "path";
 import * as FS from "fs-extra";
 
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {OutputEvent} from "../events/OutputEvent";
 import {Renderer} from "../Renderer";
 
@@ -10,7 +10,7 @@ import {Renderer} from "../Renderer";
  * A plugin that copies the subdirectory ´assets´ from the current themes
  * source folder to the output directory.
  */
-@Component("assets")
+@Component({name:"assets"})
 export class AssetsPlugin extends RendererComponent
 {
     /**

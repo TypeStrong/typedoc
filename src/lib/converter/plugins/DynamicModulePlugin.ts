@@ -2,7 +2,7 @@ import * as ts from "typescript";
 import * as Path from "path";
 
 import {Reflection, ReflectionKind} from "../../models/reflections/abstract";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {BasePath} from "../utils/base-path";
 import {Converter} from "../converter";
 import {Context} from "../context";
@@ -12,7 +12,7 @@ import {Context} from "../context";
  * A handler that truncates the names of dynamic modules to not include the
  * project's base path.
  */
-@Component('dynamicModule')
+@Component({name:'dynamic-module'})
 export class DynamicModulePlugin extends ConverterComponent
 {
     /**

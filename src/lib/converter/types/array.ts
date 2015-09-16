@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {Type, IntrinsicType} from "../../models/index";
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
 import {Context} from "../context";
-import {TypeNodeConverter, convertType} from "../convert-type";
 
 
-export class ArrayConverter implements TypeNodeConverter<ts.Type, ts.ArrayTypeNode>
+@Component({name:'type:array'})
+export class ArrayConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.ArrayTypeNode>
 {
     /**
      * Test whether this converter can handle the given TypeScript node.
@@ -29,7 +30,7 @@ export class ArrayConverter implements TypeNodeConverter<ts.Type, ts.ArrayTypeNo
      * @returns The type reflection representing the given array type node.
      */
     convertNode(context:Context, node:ts.ArrayTypeNode):Type {
-        var result = convertType(context, node.elementType);
+        var result = this.owner.convertType(context, node.elementType);
 
         if (result) {
             result.isArray = true;

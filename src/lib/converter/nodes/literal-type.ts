@@ -2,10 +2,11 @@ import * as ts from "typescript";
 
 import {Reflection, ReflectionKind} from "../../models/index";
 import {Context} from "../context";
-import {convertNode, NodeConveter} from "../convert-node";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class TypeLiteralConverter implements NodeConveter<ts.TypeLiteralNode>
+@Component({name:'node:literal-type'})
+export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralNode>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -25,7 +26,7 @@ export class TypeLiteralConverter implements NodeConveter<ts.TypeLiteralNode>
     convert(context:Context, node:ts.TypeLiteralNode):Reflection {
         if (node.members) {
             node.members.forEach((node) => {
-                convertNode(context, node);
+                this.owner.convertNode(context, node);
             });
         }
 

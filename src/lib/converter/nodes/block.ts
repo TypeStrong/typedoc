@@ -4,7 +4,7 @@ import {Reflection, ReflectionKind, ReflectionFlag} from "../../models/index";
 import {createDeclaration} from "../factories/index";
 import {SourceFileMode} from "../converter";
 import {Context} from "../context";
-import {convertNode, NodeConveter} from "../convert-node";
+import {Component, ConverterNodeComponent} from "../components";
 
 
 var prefered:ts.SyntaxKind[] = [
@@ -14,7 +14,8 @@ var prefered:ts.SyntaxKind[] = [
 ];
 
 
-export class BlockConverter implements NodeConveter<ts.SourceFile|ts.Block|ts.ModuleBlock>
+@Component({name:'node:block'})
+export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -77,14 +78,14 @@ export class BlockConverter implements NodeConveter<ts.SourceFile|ts.Block|ts.Mo
 
             node.statements.forEach((statement) => {
                 if (prefered.indexOf(statement.kind) != -1) {
-                    convertNode(context, statement);
+                    this.owner.convertNode(context, statement);
                 } else {
                     statements.push(statement);
                 }
             });
 
             statements.forEach((statement) => {
-                convertNode(context, statement);
+                this.owner.convertNode(context, statement);
             });
         }
     }

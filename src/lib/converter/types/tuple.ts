@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {Type, TupleType} from "../../models/types/index";
+import {Component, ConverterTypeComponent, ITypeConverter} from "../components";
 import {Context} from "../context";
-import {convertType, TypeConverter} from "../convert-type";
 
 
-export class TupleConverter implements TypeConverter<ts.TupleType, ts.TupleTypeNode>
+@Component({name:'type:tuple'})
+export class TupleConverter extends ConverterTypeComponent implements ITypeConverter<ts.TupleType, ts.TupleTypeNode>
 {
     /**
      * Test whether this converter can handle the given TypeScript node.
@@ -39,7 +40,7 @@ export class TupleConverter implements TypeConverter<ts.TupleType, ts.TupleTypeN
     convertNode(context:Context, node:ts.TupleTypeNode):TupleType {
         var elements:Type[];
         if (node.elementTypes) {
-            elements = node.elementTypes.map((n) => convertType(context, n));
+            elements = node.elementTypes.map((n) => this.owner.convertType(context, n));
         } else {
             elements = [];
         }
@@ -64,7 +65,7 @@ export class TupleConverter implements TypeConverter<ts.TupleType, ts.TupleTypeN
     convertType(context:Context, type:ts.TupleType):TupleType {
         var elements:Type[];
         if (type.elementTypes) {
-            elements = type.elementTypes.map((t) => convertType(context, null, t));
+            elements = type.elementTypes.map((t) => this.owner.convertType(context, null, t));
         } else {
             elements = [];
         }

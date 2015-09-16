@@ -3,12 +3,13 @@ import * as ts from "typescript";
 import {Type, IntrinsicType, ReflectionType} from "../../models/types/index";
 import {ReflectionKind, DeclarationReflection} from "../../models/reflections/index";
 import {createReferenceType} from "../factories/index";
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertNode, convertType, TypeNodeConverter} from "../index";
 
 
-export class ReferenceConverter implements TypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode>
+@Component({name:'type:reference'})
+export class ReferenceConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode>
 {
     /**
      * The priority this converter should be executed with.
@@ -58,7 +59,7 @@ export class ReferenceConverter implements TypeNodeConverter<ts.TypeReference, t
 
         var result = createReferenceType(context, type.symbol);
         if (node.typeArguments) {
-            result.typeArguments = node.typeArguments.map((n) => convertType(context, n));
+            result.typeArguments = node.typeArguments.map((n) => this.owner.convertType(context, n));
         }
 
         return result;
@@ -88,7 +89,7 @@ export class ReferenceConverter implements TypeNodeConverter<ts.TypeReference, t
 
         var result = createReferenceType(context, type.symbol);
         if (type.typeArguments) {
-            result.typeArguments = type.typeArguments.map((t) => convertType(context, null, t));
+            result.typeArguments = type.typeArguments.map((t) => this.owner.convertType(context, null, t));
         }
 
         return result;
@@ -138,7 +139,7 @@ export class ReferenceConverter implements TypeNodeConverter<ts.TypeReference, t
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
             symbol.declarations.forEach((node) => {
-                convertNode(context, node);
+                this.owner.convertNode(context, node);
             });
         });
 

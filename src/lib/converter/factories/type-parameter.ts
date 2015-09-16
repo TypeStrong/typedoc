@@ -3,7 +3,6 @@ import * as ts from "typescript";
 import {ITypeParameterContainer, TypeParameterReflection, TypeParameterType} from "../../models/index";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertType} from "../convert-type";
 
 
 /**
@@ -17,7 +16,7 @@ export function createTypeParameter(context:Context, node:ts.TypeParameterDeclar
     var typeParameter = new TypeParameterType();
     typeParameter.name = node.symbol.name;
     if (node.constraint) {
-        typeParameter.constraint = convertType(context, node.constraint);
+        typeParameter.constraint = context.converter.convertType(context, node.constraint);
     }
 
     var reflection = <ITypeParameterContainer>context.scope;

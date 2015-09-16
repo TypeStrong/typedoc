@@ -4,10 +4,12 @@ import * as ts from "typescript";
 import {Reflection, ReflectionKind} from "../../models/index";
 import {createDeclaration} from "../factories/index";
 import {Context} from "../context";
-import {NodeConveter, convertDefaultValue} from "../index";
+import {Component, ConverterNodeComponent} from "../components";
+import {convertDefaultValue} from "../index";
 
 
-export class EnumConverter implements NodeConveter<ts.EnumDeclaration>
+@Component({name:'node:enum'})
+export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.

@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 import * as Path from "path";
 
-import {ConverterComponent} from "../../utils/component";
+import {ConverterComponent} from "../components";
 
 
 /**

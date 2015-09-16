@@ -2,7 +2,7 @@ import * as Path from "path";
 
 import {DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
 import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {writeFile} from "../../utils/fs";
 import {OutputEvent} from "../events/OutputEvent";
 import {Renderer} from "../Renderer";
@@ -13,7 +13,7 @@ import {Renderer} from "../Renderer";
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-@Component("javascript-index")
+@Component({name:"javascript-index"})
 export class JavascriptIndexPlugin extends RendererComponent
 {
     /**

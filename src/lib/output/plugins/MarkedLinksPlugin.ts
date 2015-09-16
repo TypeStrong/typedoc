@@ -1,18 +1,17 @@
 import * as Util from "util";
 
 import {Reflection} from "../../models/reflections/abstract";
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, ContextAwareRendererComponent} from "../components";
 import {MarkdownEvent} from "../events/MarkdownEvent";
 import {Renderer} from "../Renderer";
-import {ContextAwareRendererPlugin} from "../RendererPlugin";
 import {MarkedPlugin} from "./MarkedPlugin";
 
 
 /**
  * A plugin that builds links in markdown texts.
  */
-@Component("marked-links")
-export class MarkedLinksPlugin extends ContextAwareRendererPlugin
+@Component({name:"marked-links"})
+export class MarkedLinksPlugin extends ContextAwareRendererComponent
 {
     /**
      * Regular expression for detecting bracket links.

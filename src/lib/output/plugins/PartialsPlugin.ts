@@ -2,7 +2,7 @@ import * as FS from "fs";
 import * as Path from "path";
 import * as Handlebars from "handlebars";
 
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {Renderer} from "../Renderer";
 
 
@@ -12,7 +12,7 @@ import {Renderer} from "../Renderer";
  * Partials must be placed in the ´partials´ subdirectory of the theme. The plugin first
  * loads the partials of the default theme and then the partials of the current theme.
  */
-@Component("partials")
+@Component({name:"partials"})
 export class PartialsPlugin extends RendererComponent
 {
     /**

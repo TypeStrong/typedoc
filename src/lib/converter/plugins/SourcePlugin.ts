@@ -3,7 +3,7 @@ import * as ts from "typescript";
 
 import {Reflection, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
 import {SourceDirectory, SourceFile} from "../../models/sources/index";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {BasePath} from "../utils/base-path";
 import {Converter} from "../converter";
 import {Context} from "../context";
@@ -12,7 +12,7 @@ import {Context} from "../context";
 /**
  * A handler that attaches source file information to reflections.
  */
-@Component('source')
+@Component({name:'source'})
 export class SourcePlugin extends ConverterComponent
 {
     /**

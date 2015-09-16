@@ -2,10 +2,11 @@ import * as ts from "typescript";
 
 import {Reflection, ReflectionKind} from "../../models/index";
 import {Context} from "../context";
-import {convertNode, NodeConveter} from "../convert-node";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class VariableStatementConverter implements NodeConveter<ts.VariableStatement>
+@Component({name:'node:variable-statement'})
+export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -28,7 +29,7 @@ export class VariableStatementConverter implements NodeConveter<ts.VariableState
                 if (ts.isBindingPattern(variableDeclaration.name)) {
                     this.convertBindingPattern(context, <ts.BindingPattern>variableDeclaration.name);
                 } else {
-                    convertNode(context, variableDeclaration);
+                    this.owner.convertNode(context, variableDeclaration);
                 }
             });
         }
@@ -45,7 +46,7 @@ export class VariableStatementConverter implements NodeConveter<ts.VariableState
      */
     convertBindingPattern(context:Context, node:ts.BindingPattern) {
         node.elements.forEach((element:ts.BindingElement) => {
-            convertNode(context, <any>element);
+            this.owner.convertNode(context, <any>element);
 
             if (ts.isBindingPattern(element.name)) {
                 this.convertBindingPattern(context, <ts.BindingPattern>element.name);

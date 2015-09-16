@@ -1,11 +1,12 @@
 import * as ts from "typescript";
 
 import {Type, StringLiteralType} from "../../models/types/index";
+import {Component, ConverterTypeComponent, ITypeConverter} from "../components";
 import {Context} from "../context";
-import {TypeConverter} from "../convert-type";
 
 
-export class StringLiteralConverter implements TypeConverter<ts.StringLiteralType, ts.StringLiteral>
+@Component({name:'type:string-literal'})
+export class StringLiteralConverter extends ConverterTypeComponent implements ITypeConverter<ts.StringLiteralType, ts.StringLiteral>
 {
     /**
      * Test whether this converter can handle the given TypeScript node.

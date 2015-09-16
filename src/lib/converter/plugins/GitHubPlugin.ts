@@ -2,7 +2,7 @@ import * as ShellJS from "shelljs";
 import * as Path from "path";
 
 import {ISourceReference} from "../../models/sources/file";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {BasePath} from "../utils/base-path";
 import {Converter} from "../converter";
 import {Context} from "../context";
@@ -140,7 +140,7 @@ class Repository
  * A handler that watches for repositories with GitHub origin and links
  * their source files to the related GitHub pages.
  */
-@Component('gitHub')
+@Component({name:'git-hub'})
 export class GitHubPlugin extends ConverterComponent
 {
     /**

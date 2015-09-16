@@ -1,7 +1,7 @@
 import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
 import {SourceDirectory} from "../../models/sources/directory";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {Converter} from "../converter";
 import {Context} from "../context";
 
@@ -11,7 +11,7 @@ import {Context} from "../context";
  *
  * The handler sets the ´groups´ property of all reflections.
  */
-@Component('group')
+@Component({name:'group'})
 export class GroupPlugin extends ConverterComponent
 {
     /**

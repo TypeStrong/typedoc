@@ -1,4 +1,4 @@
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {NavigationItem} from "../models/NavigationItem";
 import {OutputEvent} from "../events/OutputEvent";
 import {OutputPageEvent} from "../events/OutputPageEvent";
@@ -13,7 +13,7 @@ import {Renderer} from "../Renderer";
  * [[BaseTheme.getNavigation]] function. This plugins takes care that the navigation
  * is updated and passed to the render context.
  */
-@Component("navigation")
+@Component({name:"navigation"})
 export class NavigationPlugin extends RendererComponent
 {
     /**

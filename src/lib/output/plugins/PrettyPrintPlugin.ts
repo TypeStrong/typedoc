@@ -1,4 +1,4 @@
-import {Component, RendererComponent} from "../../utils/component";
+import {Component, RendererComponent} from "../components";
 import {OutputPageEvent} from "../events/OutputPageEvent";
 import {Renderer} from "../Renderer";
 
@@ -34,7 +34,7 @@ enum PrettyPrintState {
  * At the point writing this the docs of TypeDoc took 97.8 MB  without and 66.4 MB with this
  * plugin enabled, so it reduced the size to 68% of the original output.
  */
-@Component("pretty-print")
+@Component({name:"pretty-print"})
 export class PrettyPrintPlugin extends RendererComponent
 {
     /**

@@ -2,7 +2,7 @@ import * as ts from "typescript";
 
 import {ReferenceType} from "../../models/types/index";
 import {Reflection, IDecorator} from "../../models/reflections/index";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {Converter} from "../converter";
 import {Context} from "../context";
 
@@ -10,7 +10,7 @@ import {Context} from "../context";
 /**
  * A plugin that detects decorators.
  */
-@Component('decorator')
+@Component({name:'decorator'})
 export class DecoratorPlugin extends ConverterComponent
 {
     private usages:{[symbolID:number]:ReferenceType[]};

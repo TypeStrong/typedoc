@@ -3,10 +3,11 @@ import * as ts from "typescript";
 import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
 import {createDeclaration} from "../factories/index";
 import {Context} from "../context";
-import {convertType, convertNode, NodeConveter} from "../index";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class ClassConverter implements NodeConveter<ts.ClassDeclaration>
+@Component({name:'node:class'})
+export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -35,7 +36,7 @@ export class ClassConverter implements NodeConveter<ts.ClassDeclaration>
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
                 node.members.forEach((member) => {
-                    convertNode(context, member);
+                    this.owner.convertNode(context, member);
                 });
             }
 
@@ -44,7 +45,7 @@ export class ClassConverter implements NodeConveter<ts.ClassDeclaration>
                 var type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
                     if (!reflection.extendedTypes) reflection.extendedTypes = [];
-                    reflection.extendedTypes.push(convertType(context, baseType, type));
+                    reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
                 }
 
                 if (type && type.symbol) {
@@ -61,7 +62,7 @@ export class ClassConverter implements NodeConveter<ts.ClassDeclaration>
                         reflection.implementedTypes = [];
                     }
 
-                    reflection.implementedTypes.push(convertType(context, implementedType));
+                    reflection.implementedTypes.push(this.owner.convertType(context, implementedType));
                 });
             }
         });

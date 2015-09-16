@@ -3,7 +3,6 @@ import * as ts from "typescript";
 import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from "../../models/reflections/index";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertType} from "../convert-type";
 import {convertDefaultValue} from "../convert-expression";
 
 
@@ -24,10 +23,10 @@ export function createParameter(context:Context, node:ts.ParameterDeclaration):P
     context.registerReflection(parameter, node);
     context.withScope(parameter, () => {
         if (ts.isBindingPattern(node.name)) {
-            parameter.type = convertType(context, node.name);
+            parameter.type = context.converter.convertType(context, node.name);
             parameter.name = '__namedParameters'
         } else {
-            parameter.type = convertType(context, node.type, context.getTypeAtLocation(node));
+            parameter.type = context.converter.convertType(context, node.type, context.getTypeAtLocation(node));
         }
 
         parameter.defaultValue = convertDefaultValue(node);

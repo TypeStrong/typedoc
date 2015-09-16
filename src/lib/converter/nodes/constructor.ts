@@ -4,10 +4,11 @@ import {Reflection, ReflectionKind, ReflectionFlag, DeclarationReflection, Refer
 import {createDeclaration, createSignature, createComment} from "../factories/index";
 import {Context} from "../context";
 import {Converter} from "../converter";
-import {convertNode, convertType, NodeConveter} from "../index";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class ConstructorConverter implements NodeConveter<ts.ConstructorDeclaration>
+@Component({name:'node:constructor'})
+export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -68,7 +69,7 @@ export class ConstructorConverter implements NodeConveter<ts.ConstructorDeclarat
         if (!property) return;
 
         property.setFlag(ReflectionFlag.Static, false);
-        property.type = convertType(context, parameter.type, context.getTypeAtLocation(parameter));
+        property.type = this.owner.convertType(context, parameter.type, context.getTypeAtLocation(parameter));
 
         if (comment) {
             var tag = comment.getTag('param', property.name);

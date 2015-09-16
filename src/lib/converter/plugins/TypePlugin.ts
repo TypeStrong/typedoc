@@ -1,6 +1,6 @@
 import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from "../../models/reflections/index";
 import {Type, ReferenceType, TupleType, UnionType} from "../../models/types/index";
-import {Component, ConverterComponent} from "../../utils/component";
+import {Component, ConverterComponent} from "../components";
 import {Converter} from "../converter";
 import {Context} from "../context";
 
@@ -8,7 +8,7 @@ import {Context} from "../context";
 /**
  * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
  */
-@Component('type')
+@Component({name:'type'})
 export class TypePlugin extends ConverterComponent
 {
     reflections:DeclarationReflection[] = [];

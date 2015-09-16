@@ -3,10 +3,11 @@ import * as ts from "typescript";
 import {Reflection, ReflectionKind, ReflectionFlag, ProjectReflection} from "../../models/index";
 import {createDeclaration} from "../factories/index";
 import {Context} from "../context";
-import {convertNode, NodeConveter} from "../convert-node";
+import {Component, ConverterNodeComponent} from "../components";
 
 
-export class ModuleConverter implements NodeConveter<ts.ModuleDeclaration>
+@Component({name:'node:module'})
+export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -35,7 +36,7 @@ export class ModuleConverter implements NodeConveter<ts.ModuleDeclaration>
             }
 
             if (node.body) {
-                convertNode(context, node.body);
+                this.owner.convertNode(context, node.body);
             }
         });
 

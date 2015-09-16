@@ -3,10 +3,12 @@ import * as ts from "typescript";
 import {Reflection, ReflectionKind, IntrinsicType} from "../../models/index";
 import {createDeclaration, createComment} from "../factories/index";
 import {Context} from "../context";
-import {convertNode, convertType, convertDefaultValue, NodeConveter} from "../index";
+import {Component, ConverterNodeComponent} from "../components";
+import {convertDefaultValue} from "../index";
 
 
-export class VariableConverter implements NodeConveter<ts.VariableDeclaration>
+@Component({name:'node:variable'})
+export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclaration>
 {
     /**
      * List of supported TypeScript syntax kinds.
@@ -39,7 +41,7 @@ export class VariableConverter implements NodeConveter<ts.VariableDeclaration>
         if (comment && comment.hasTag("resolve")) {
             var resolveType = context.getTypeAtLocation(node);
             if (resolveType && resolveType.symbol) {
-                var resolved = convertNode(context, resolveType.symbol.declarations[0]);
+                var resolved = this.owner.convertNode(context, resolveType.symbol.declarations[0]);
                 if (resolved) {
                     resolved.name = node.symbol.name;
                 }
@@ -66,13 +68,13 @@ export class VariableConverter implements NodeConveter<ts.VariableDeclaration>
                     case ts.SyntaxKind.ArrowFunction:
                     case ts.SyntaxKind.FunctionExpression:
                         variable.kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
-                        convertNode(context, node.initializer);
+                        this.owner.convertNode(context, node.initializer);
                         break;
                     case ts.SyntaxKind.ObjectLiteralExpression:
                         if (!this.isSimpleObjectLiteral(<ts.ObjectLiteralExpression>node.initializer)) {
                             variable.kind = ReflectionKind.ObjectLiteral;
                             variable.type = new IntrinsicType('object');
-                            convertNode(context, node.initializer);
+                            this.owner.convertNode(context, node.initializer);
                         }
                         break;
                     default:
@@ -82,9 +84,9 @@ export class VariableConverter implements NodeConveter<ts.VariableDeclaration>
 
             if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
                 if (isBindingPattern) {
-                    variable.type = convertType(context, node.name);
+                    variable.type = this.owner.convertType(context, node.name);
                 } else {
-                    variable.type = convertType(context, node.type, context.getTypeAtLocation(node));
+                    variable.type = this.owner.convertType(context, node.type, context.getTypeAtLocation(node));
                 }
             }
         });
