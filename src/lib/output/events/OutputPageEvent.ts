@@ -1,6 +1,5 @@
 import {Event} from "../../utils/events";
 import {ProjectReflection} from "../../models/reflections/project";
-import {IOptions} from "../../Options";
 import {NavigationItem} from "../models/NavigationItem";
 
 
@@ -23,7 +22,7 @@ export class OutputPageEvent extends Event
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings:IOptions;
+    settings:any;
 
     /**
      * The filename the page will be written to.

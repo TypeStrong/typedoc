@@ -1,8 +1,7 @@
 import * as ts from "typescript";
 import {Minimatch, IMinimatch} from "minimatch";
 
-import {Logger} from "../Logger";
-import {IOptions} from "../Options";
+import {Logger} from "../utils/loggers";
 import {Reflection, ProjectReflection, ContainerReflection, Type} from "../models/index";
 import {createTypeParameter} from "./factories/type-parameter";
 import {Converter} from "./converter";
@@ -114,22 +113,13 @@ export class Context
         this.program = program;
         this.visitStack = [];
 
-        var project = new ProjectReflection(this.getOptions().name);
+        var project = new ProjectReflection(converter.name);
         this.project = project;
         this.scope = project;
 
-        var options = converter.application.options;
-        if (options.externalPattern) {
-            this.externalPattern = new Minimatch(options.externalPattern);
+        if (converter.externalPattern) {
+            this.externalPattern = new Minimatch(converter.externalPattern);
         }
-    }
-
-
-    /**
-     * Return the current TypeDoc options object.
-     */
-    getOptions():IOptions {
-        return this.converter.application.options;
     }
 
 
@@ -137,7 +127,7 @@ export class Context
      * Return the compiler options.
      */
     getCompilerOptions():ts.CompilerOptions {
-        return this.converter.application.compilerOptions;
+        return this.converter.application.options.getCompilerOptions();
     }
 
 
@@ -236,7 +226,7 @@ export class Context
             isExternal = isExternal || externalPattern.match(node.fileName);
         }
 
-        if (isExternal && options.excludeExternals) {
+        if (isExternal && this.converter.excludeExternals) {
             return;
         }
 
@@ -244,7 +234,7 @@ export class Context
         if (isDeclaration) {
             var lib = this.converter.getDefaultLib();
             var isLib = node.fileName.substr(-lib.length) == lib;
-            if (!options.includeDeclarations || isLib) {
+            if (!this.converter.includeDeclarations || isLib) {
                 return;
             }
         }

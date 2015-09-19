@@ -12,8 +12,7 @@ import * as FS from "fs-extra";
 import * as Handlebars from "handlebars";
 var ProgressBar = require("progress");
 
-import {Application} from "../Application";
-import {IParameter, IParameterProvider} from "../Options";
+import {Application} from "../application";
 import {Theme} from "./Theme";
 import {OutputEvent} from "./events/OutputEvent";
 import {OutputPageEvent} from "./events/OutputPageEvent";
@@ -22,7 +21,8 @@ import {UrlMapping} from "./models/UrlMapping";
 import {writeFile} from "../utils/fs";
 import {DefaultTheme} from "./themes/DefaultTheme";
 import {RendererComponent} from "./components";
-import {Component, ChildableComponent} from "../utils/component";
+import {Component, ChildableComponent, Option} from "../utils/component";
+import {ParameterType} from "../utils/options/declaration";
 
 
 /**
@@ -64,13 +64,28 @@ export interface IHandlebarTemplate {
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[OutputEvent]].
  */
-@Component({childClass:RendererComponent})
+@Component({name:"renderer", internal:true, childClass:RendererComponent})
 export class Renderer extends ChildableComponent<Application, RendererComponent>
 {
     /**
      * The theme that is used to render the documentation.
      */
     theme:Theme;
+
+    @Option({
+        name: 'theme',
+        help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
+        type: ParameterType.String,
+        defaultValue: 'default'
+    })
+    themeName:string
+
+    @Option({
+        name: 'disableOutputCheck',
+        help: 'Should TypeDoc disable the testing and cleaning of the output directory?',
+        type: ParameterType.Boolean
+    })
+    disableOutputCheck:boolean;
 
     /**
      * Hash map of all loaded templates indexed by filename.
@@ -109,19 +124,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @param application  The application this dispatcher is attached to.
      */
     initialize() {
-    }
-
-
-    getParameters():IParameter[] {
-        var result:IParameter[] = super.getParameters();
-
-        this.prepareTheme();
-        var theme:IParameterProvider = <any>this.theme;
-        if (theme.getParameters) {
-            result = result.concat(theme.getParameters());
-        }
-
-        return result;
     }
 
 
@@ -174,7 +176,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         var output = new OutputEvent(Renderer.EVENT_BEGIN);
         output.outputDirectory = outputDirectory;
         output.project = project;
-        output.settings = this.application.options;
+        output.settings = this.application.options.getRawValues();
         output.urls = this.theme.getUrls(project);
 
         var bar = new ProgressBar('Rendering [:bar] :percent', {
@@ -235,7 +237,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      */
     private prepareTheme():boolean {
         if (!this.theme) {
-            var themeName = this.application.options.theme;
+            var themeName = this.themeName;
             var path = Path.resolve(themeName);
             if (!FS.existsSync(path)) {
                 path = Path.join(Renderer.getThemeDirectory(), themeName);
@@ -247,11 +249,11 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
 
             var filename = Path.join(path, 'theme.js');
             if (!FS.existsSync(filename)) {
-                this.theme = new DefaultTheme(this, path);
+                this.theme = this.addComponent("theme", new DefaultTheme(this, path));
             } else {
                 // var themeClass = eval(Renderer.readFile(filename));
                 // this.theme = new themeClass(this, path);
-                this.theme = new DefaultTheme(this, path);
+                this.theme = this.addComponent("theme", new DefaultTheme(this, path));
             }
         }
 
@@ -275,7 +277,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 return false;
             }
 
-            if (this.application.options.disableOutputCheck) {
+            if (this.disableOutputCheck) {
                 return true;
             }
 

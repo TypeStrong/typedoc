@@ -1,5 +1,4 @@
-export {Application} from "./lib/Application";
-export {OptionsParser, ModuleKind, ScriptTarget} from "./lib/Options";
+export {Application} from "./lib/application";
 export {EventDispatcher, Event} from "./lib/utils/events";
 export {resetReflectionID} from "./lib/models/reflections/abstract";
 export {normalizePath} from "./lib/utils/fs";

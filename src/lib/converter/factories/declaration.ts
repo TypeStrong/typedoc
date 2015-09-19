@@ -54,7 +54,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
         isExported = isExported || !!(node.flags & ts.NodeFlags.Export);
     }
 
-    if (!isExported && context.getOptions().excludeNotExported) {
+    if (!isExported && context.converter.excludeNotExported) {
         return null;
     }
 

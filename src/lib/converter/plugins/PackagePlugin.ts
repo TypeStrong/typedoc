@@ -4,9 +4,9 @@ import * as ts from "typescript";
 
 import {Reflection} from "../../models/reflections/abstract";
 import {Component, ConverterComponent} from "../components";
-import {IParameter, IParameterProvider} from "../../Options";
 import {Converter} from "../converter";
 import {Context} from "../context";
+import {Option} from "../../utils/component";
 
 
 /**
@@ -18,8 +18,14 @@ import {Context} from "../context";
  * contents of the found files will be read and appended to the ProjectReflection.
  */
 @Component({name:'package'})
-export class PackagePlugin extends ConverterComponent implements IParameterProvider
+export class PackagePlugin extends ConverterComponent
 {
+    @Option({
+        name: 'readme',
+        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+    })
+    readme:string;
+
     /**
      * The file name of the found readme.md file.
      */
@@ -53,14 +59,6 @@ export class PackagePlugin extends ConverterComponent implements IParameterProvi
     }
 
 
-    getParameters():IParameter[] {
-        return <IParameter[]>[{
-            name: 'readme',
-            help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
-        }];
-    }
-
-
     /**
      * Triggered when the converter begins converting a project.
      *
@@ -71,7 +69,7 @@ export class PackagePlugin extends ConverterComponent implements IParameterProvi
         this.packageFile = null;
         this.visited     = [];
 
-        var readme = context.getOptions().readme;
+        var readme = this.readme;
         this.noReadmeFile = (readme == 'none');
         if (!this.noReadmeFile && readme) {
             readme = Path.resolve(readme);

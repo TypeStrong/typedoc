@@ -2,9 +2,10 @@ import * as ts from "typescript";
 
 import {Reflection, ReflectionKind, ReflectionFlag} from "../../models/index";
 import {createDeclaration} from "../factories/index";
-import {SourceFileMode} from "../converter";
 import {Context} from "../context";
 import {Component, ConverterNodeComponent} from "../components";
+import {Option} from "../../utils/component";
+import {ParameterType} from "../../utils/options/declaration";
 
 
 var prefered:ts.SyntaxKind[] = [
@@ -14,9 +15,26 @@ var prefered:ts.SyntaxKind[] = [
 ];
 
 
+export enum SourceFileMode {
+    File, Modules
+}
+
+
 @Component({name:'node:block'})
 export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock>
 {
+    @Option({
+        name: "mode",
+        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        type: ParameterType.Map,
+        map: {
+            'file': SourceFileMode.File,
+            'modules': SourceFileMode.Modules
+        },
+        defaultValue: SourceFileMode.Modules
+    })
+    mode:number;
+
     /**
      * List of supported TypeScript syntax kinds.
      */
@@ -54,10 +72,9 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      */
     private convertSourceFile(context:Context, node:ts.SourceFile):Reflection {
         var result = context.scope;
-        var options = context.getOptions();
 
         context.withSourceFile(node, () => {
-            if (options.mode == SourceFileMode.Modules) {
+            if (this.mode == SourceFileMode.Modules) {
                 result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);

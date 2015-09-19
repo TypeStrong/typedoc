@@ -13,39 +13,15 @@ import * as typescript from "typescript";
 import {Minimatch, IMinimatch} from "minimatch";
 
 import {EventDispatcher} from "./utils/events";
-import {IOptions, OptionsParser} from "./Options";
-import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./Logger";
+import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./utils/loggers";
 import {writeFile} from "./utils/fs";
 import {ProjectReflection} from "./models/index";
 import {Converter} from "./converter/index";
 import {Renderer} from "./output/Renderer";
-import {IComponentHost} from "./utils/component";
-
-
-/**
- * An interface of the application class.
- *
- * All classes should expect this interface allowing other third parties
- * to use their own implementation.
- */
-export interface IApplication
-{
-    /**
-     * The options used by the dispatcher and the renderer.
-     */
-    options:IOptions;
-
-    /**
-     * The options used by the TypeScript compiler.
-     */
-    compilerOptions:typescript.CompilerOptions;
-
-    /**
-     * The logger that should be used to output messages.
-     */
-    logger:Logger;
-}
-
+import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
+import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
+import {ParameterType} from "./utils/options/declaration";
+import {Plugins} from "./utils/plugins";
 
 
 /**
@@ -62,17 +38,10 @@ export interface IApplication
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-export class Application extends EventDispatcher implements IApplication, IComponentHost
+@Component({name:"application", internal:true})
+export class Application extends ChildableComponent<Application, AbstractComponent<Application>>
 {
-    /**
-     * The options used by the dispatcher and the renderer.
-     */
-    options:IOptions;
-
-    /**
-     * The options used by the TypeScript compiler.
-     */
-    compilerOptions:typescript.CompilerOptions;
+    options:Options;
 
     /**
      * The converter used to create the declaration reflections.
@@ -89,11 +58,29 @@ export class Application extends EventDispatcher implements IApplication, ICompo
      */
     logger:Logger;
 
-    /**
-     *
-     * @event
-     */
-    static EVENT_COLLECT_PARAMETERS:string = 'collectParameters';
+    plugins:Plugins;
+
+    @Option({
+        name: 'logger',
+        help: 'Specify the logger that should be used, \'none\' or \'console\'',
+        defaultValue: 'console',
+        type: ParameterType.Mixed,
+    })
+    loggerType:string|Function;
+
+    @Option({
+        name: 'ignoreCompilerErrors',
+        help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+        type: ParameterType.Boolean
+    })
+    ignoreCompilerErrors:boolean;
+
+    @Option({
+        name: 'exclude',
+        help: 'Define a pattern for excluded files when specifying paths.',
+        type: ParameterType.String
+    })
+    exclude:string;
 
     /**
      * The version number of TypeDoc.
@@ -103,89 +90,20 @@ export class Application extends EventDispatcher implements IApplication, ICompo
 
 
     /**
+     * Create a new TypeDoc application instance.
+     *
      * @param options An object containing the options that should be used.
      */
-    constructor(options?:IOptions);
+    constructor(options?:Object) {
+        super(null);
 
-    /**
-     * @param fromCommandLine  TRUE if the application should execute in command line mode.
-     */
-    constructor(fromCommandLine:boolean);
-
-    /**
-     * Create a new TypeDoc application instance.
-     */
-    constructor(arg?:any) {
-        super();
-
-        this.converter = new Converter(this);
-        this.renderer  = new Renderer(this);
         this.logger    = new ConsoleLogger();
-        this.options   = OptionsParser.createOptions();
-        this.compilerOptions = OptionsParser.createCompilerOptions();
+        this.converter = this.addComponent('converter', Converter);
+        this.renderer  = this.addComponent('renderer', Renderer);
+        this.plugins   = this.addComponent('plugins', Plugins);
+        this.options   = this.addComponent('options', Options);
 
-        if (arg == undefined || typeof arg == 'object') {
-            this.bootstrapWithOptions(arg);
-        } else if (arg === true) {
-            this.bootstrapFromCommandline();
-        }
-    }
-
-
-    /**
-     * Generic initialization logic.
-     */
-    private bootstrap() {
-        if (typeof this.options.logger == 'function') {
-            this.logger = new CallbackLogger(<any>this.options.logger);
-        } else if (this.options.logger == LoggerType.None) {
-            this.logger = new Logger();
-        }
-
-        return this.loadNpmPlugins(this.options.plugins);
-    }
-
-
-    /**
-     * Run TypeDoc from the command line.
-     */
-    private bootstrapFromCommandline() {
-        var parser = new OptionsParser(this);
-        parser.addCommandLineParameters();
-        parser.loadOptionFileFromArguments(null, true);
-        parser.parseArguments(null, true);
-
-        this.bootstrap();
-
-        this.collectParameters(parser);
-        if (!parser.loadOptionFileFromArguments() || !parser.parseArguments()) {
-            process.exit(1);
-            return;
-        }
-
-        if (this.options.version) {
-            typescript.sys.write(this.toString());
-        } else if (this.options.help) {
-            typescript.sys.write(parser.toString());
-        } else if (parser.inputFiles.length === 0) {
-            typescript.sys.write(parser.toString());
-            process.exit(1);
-        } else if (!this.options.out && !this.options.json) {
-            this.logger.error("You must either specify the 'out' or 'json' option.");
-            process.exit(1);
-        } else {
-            var src = this.expandInputFiles(parser.inputFiles);
-            var project = this.convert(src);
-            if (project) {
-                if (this.options.out) this.generateDocs(project, this.options.out);
-                if (this.options.json) this.generateJson(project, this.options.json);
-                if (this.logger.hasErrors()) {
-                    process.exit(3);
-                }
-            } else {
-                process.exit(2);
-            }
-        }
+        this.bootstrap(options);
     }
 
 
@@ -194,146 +112,18 @@ export class Application extends EventDispatcher implements IApplication, ICompo
      *
      * @param options  The desired options to set.
      */
-    private bootstrapWithOptions(options?:IOptions) {
-        var parser = new OptionsParser(this);
-        parser.loadOptionFileFromObject(options, true);
-        parser.parseObject(options, true);
+    protected bootstrap(options?:Object):IOptionsReadResult {
+        this.options.read(options, OptionsReadMode.Prefetch);
 
-        this.bootstrap();
-
-        this.collectParameters(parser);
-        parser.loadOptionFileFromObject(options);
-        parser.parseObject(options);
-    }
-
-
-    /**
-     * Load the given list of npm plugins.
-     *
-     * @param plugins  A list of npm modules that should be loaded as plugins. When not specified
-     *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
-     * @returns TRUE on success, otherwise FALSE.
-     */
-    private loadNpmPlugins(plugins?:string[]):boolean {
-        plugins = plugins || this.discoverNpmPlugins();
-
-        var i:number, c:number = plugins.length;
-        for (i = 0; i < c; i++) {
-            var plugin = plugins[i];
-            if (typeof plugin != 'string') {
-                this.logger.error('Unknown plugin %s', plugin);
-                return false;
-            } else if (plugin.toLowerCase() == 'none') {
-                return true;
-            }
+        var logger = this.loggerType;
+        if (typeof logger == 'function') {
+            this.logger = new CallbackLogger(<any>logger);
+        } else if (logger == 'none') {
+            this.logger = new Logger();
         }
 
-        for (i = 0; i < c; i++) {
-            var plugin = plugins[i];
-            try {
-                var instance = require(plugin);
-                if (typeof instance == 'function') {
-                    instance(this);
-                    this.logger.write('Loaded plugin %s', plugin);
-                } else {
-                    this.logger.error('The plugin %s did not return a function.', plugin);
-                }
-            } catch (error) {
-                this.logger.error('The plugin %s could not be loaded.', plugin);
-                this.logger.writeln(error.stack);
-            }
-        }
-    }
-
-
-    /**
-     * Discover all installed TypeDoc plugins.
-     *
-     * @returns A list of all npm module names that are qualified TypeDoc plugins.
-     */
-    private discoverNpmPlugins():string[] {
-        var result:string[] = [];
-        var logger = this.logger;
-        discover();
-        return result;
-
-        /**
-         * Find all parent folders containing a `node_modules` subdirectory.
-         */
-        function discover() {
-            var path = process.cwd(), previous:string;
-            do {
-                var modules = Path.join(path, 'node_modules');
-                if (FS.existsSync(modules) && FS.lstatSync(modules).isDirectory()) {
-                    discoverModules(modules);
-                }
-
-                previous = path;
-                path = Path.resolve(Path.join(previous, '..'));
-            } while (previous != path);
-        }
-
-        /**
-         * Scan the given `node_modules` directory for TypeDoc plugins.
-         */
-        function discoverModules(basePath:string) {
-            FS.readdirSync(basePath).forEach((name) => {
-                var dir = Path.join(basePath, name);
-                var infoFile = Path.join(dir, 'package.json');
-                if (!FS.existsSync(infoFile)) {
-                    return;
-                }
-
-                var info = loadPackageInfo(infoFile);
-                if (isPlugin(info)) {
-                    result.push(name);
-                }
-            });
-        }
-
-        /**
-         * Load and parse the given `package.json`.
-         */
-        function loadPackageInfo(fileName:string):any {
-            try {
-                return JSON.parse(FS.readFileSync(fileName, {encoding: 'utf-8'}));
-            } catch (error) {
-                logger.error('Could not parse %s', fileName);
-                return {};
-            }
-        }
-
-        /**
-         * Test whether the given package info describes a TypeDoc plugin.
-         */
-        function isPlugin(info:any):boolean {
-            var keywords:string[] = info.keywords;
-            if (!keywords || !Util.isArray(keywords)) {
-                return false;
-            }
-
-            for (var i = 0, c = keywords.length; i < c; i++) {
-                var keyword = keywords[i];
-                if (typeof keyword == 'string' && keyword.toLowerCase() == 'typedocplugin') {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }
-
-
-    /**
-     * Allow [[Converter]] and [[Renderer]] to add parameters to the given [[OptionsParser]].
-     *
-     * @param parser  The parser instance the found parameters should be added to.
-     */
-    public collectParameters(parser:OptionsParser) {
-        parser.addParameter(this.converter.getParameters());
-        parser.addParameter(this.renderer.getParameters());
-
-        this.trigger(Application.EVENT_COLLECT_PARAMETERS, parser);
+        this.plugins.load();
+        return this.options.read(options, OptionsReadMode.Fetch);
     }
 
 
@@ -342,6 +132,11 @@ export class Application extends EventDispatcher implements IApplication, ICompo
      */
     get application():Application {
         return this
+    }
+
+
+    get isCLI():boolean {
+        return false;
     }
 
 
@@ -372,7 +167,7 @@ export class Application extends EventDispatcher implements IApplication, ICompo
         var result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
             this.logger.diagnostics(result.errors);
-            if (this.options.ignoreCompilerErrors) {
+            if (this.ignoreCompilerErrors) {
                 this.logger.resetErrors();
                 return result.project;
             } else {
@@ -456,8 +251,8 @@ export class Application extends EventDispatcher implements IApplication, ICompo
      */
     public expandInputFiles(inputFiles?:string[]):string[] {
         var exclude:IMinimatch, files:string[] = [];
-        if (this.options.exclude) {
-            exclude = new Minimatch(this.options.exclude);
+        if (this.exclude) {
+            exclude = new Minimatch(this.exclude);
         }
 
         function add(dirname:string) {

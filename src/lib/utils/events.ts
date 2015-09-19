@@ -38,7 +38,7 @@ interface IEventHandlers {
     [name:string]:IEventHandler[];
 }
 
-interface IEventMap {
+export interface IEventMap {
     [name:string]:IEventCallback;
 }
 

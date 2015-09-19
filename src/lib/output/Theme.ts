@@ -2,6 +2,8 @@ import {Renderer} from "./Renderer";
 import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {NavigationItem} from "./models/NavigationItem";
+import {RendererComponent} from "./components";
+import {Component} from "../utils/component";
 
 
 /**
@@ -47,13 +49,9 @@ import {NavigationItem} from "./models/NavigationItem";
  *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
  *   this theme.
  */
-export class Theme
+@Component({name:"rendrer:theme", internal:true})
+export class Theme extends RendererComponent
 {
-    /**
-     * The renderer this theme is attached to.
-     */
-    renderer:Renderer;
-
     /**
      * The base path of this theme.
      */
@@ -67,7 +65,7 @@ export class Theme
      * @param basePath  The base path of this theme.
      */
     constructor(renderer:Renderer, basePath:string) {
-        this.renderer = renderer;
+        super(renderer);
         this.basePath = basePath;
     }
 

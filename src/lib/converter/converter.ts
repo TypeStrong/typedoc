@@ -1,18 +1,13 @@
 import * as ts from "typescript";
 import * as Path from "path";
 
-import {Application} from "../Application";
-import {IParameter, ParameterType} from "../Options";
+import {Application} from "../application";
+import {ParameterType} from "../utils/options/declaration";
 import {Reflection, Type, ProjectReflection} from "../models/index";
 import {Context} from "./context";
 import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITypeTypeConverter, ITypeNodeConverter} from "./components";
 import {CompilerHost} from "./utils/compiler-host";
-import {Component, ChildableComponent, IComponentClass} from "../utils/component"
-
-
-export enum SourceFileMode {
-    File, Modules
-}
+import {Component, Option, ChildableComponent, IComponentClass} from "../utils/component"
 
 
 /**
@@ -88,9 +83,45 @@ interface IConverterResolveCallback
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-@Component({childClass:ConverterComponent})
+@Component({name:"converter", internal:true, childClass:ConverterComponent})
 export class Converter extends ChildableComponent<Application, ConverterComponent>
 {
+    /**
+     * The human readable name of the project. Used within the templates to set the title of the document.
+     */
+    @Option({
+        name: "name",
+        help: "Set the name of the project that will be used in the header of the template."
+    })
+    name:string;
+
+    @Option({
+        name: "externalPattern",
+        help: 'Define a pattern for files that should be considered being external.'
+    })
+    externalPattern:string;
+
+    @Option({
+        name: "includeDeclarations",
+        help: 'Turn on parsing of .d.ts declaration files.',
+        type: ParameterType.Boolean
+    })
+    includeDeclarations:boolean;
+
+    @Option({
+        name: "excludeExternals",
+        help: 'Prevent externally resolved TypeScript files from being documented.',
+        type: ParameterType.Boolean
+    })
+    excludeExternals:boolean;
+
+    @Option({
+        name: "excludeNotExported",
+        help: 'Prevent symbols that are not exported from being documented.',
+        type: ParameterType.Boolean
+    })
+    excludeNotExported:boolean;
+
     private compilerHost:CompilerHost;
 
     private nodeConverters:{[syntaxKind:number]:ConverterNodeComponent<ts.Node>};
@@ -207,43 +238,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
 
-    /**
-     * Return a list of parameters introduced by this component.
-     *
-     * @returns A list of parameter definitions introduced by this component.
-     */
-    getParameters():IParameter[] {
-        return super.getParameters().concat([{
-            name: "name",
-            help: 'Set the name of the project that will be used in the header of the template.'
-        },{
-            name: "mode",
-            help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-            type: ParameterType.Map,
-            map: {
-                'file': SourceFileMode.File,
-                'modules': SourceFileMode.Modules
-            },
-            defaultValue: SourceFileMode.Modules
-        },{
-            name: "externalPattern",
-            help: 'Define a pattern for files that should be considered being external.'
-        },{
-            name: "includeDeclarations",
-            help: 'Turn on parsing of .d.ts declaration files.',
-            type: ParameterType.Boolean
-        },{
-            name: "excludeExternals",
-            help: 'Prevent externally resolved TypeScript files from being documented.',
-            type: ParameterType.Boolean
-        },{
-            name: "excludeNotExported",
-            help: 'Prevent symbols that are not exported from being documented.',
-            type: ParameterType.Boolean
-        }]);
-    }
-
-
     addComponent(name:string, componentClass:IComponentClass<ConverterComponent>):ConverterComponent {
         var component = super.addComponent(name, componentClass);
         if (component instanceof ConverterNodeComponent) {
@@ -328,19 +322,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(fileNames:string[]):IConverterResult {
-        if (this.application.options.verbose) {
-            this.application.logger.verbose('\n\x1b[32mStarting conversion\x1b[0m\n\nInput files:');
-            for (var i = 0, c = fileNames.length; i < c; i++) {
-                this.application.logger.verbose(' - ' + fileNames[i]);
-            }
-            this.application.logger.verbose('\n');
-        }
-
         for (var i = 0, c = fileNames.length; i < c; i++) {
             fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
         }
 
-        var program = ts.createProgram(fileNames, this.application.compilerOptions, this.compilerHost);
+        var program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);
         var checker = program.getTypeChecker();
         var context = new Context(this, fileNames, checker, program);
 
@@ -350,10 +336,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         var project = this.resolve(context);
 
         this.trigger(Converter.EVENT_END, context);
-
-        if (this.application.options.verbose) {
-            this.application.logger.verbose('\n\x1b[32mFinished conversion\x1b[0m\n');
-        }
 
         return {
             errors: errors,
@@ -379,24 +361,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         var oldVisitStack = context.visitStack;
         context.visitStack = oldVisitStack.slice();
         context.visitStack.push(node);
-
-        if (context.getOptions().verbose) {
-            var file = ts.getSourceFileOfNode(node);
-            var pos = ts.getLineAndCharacterOfPosition(file, node.pos);
-            if (node.symbol) {
-                context.getLogger().verbose(
-                    'Visiting \x1b[34m%s\x1b[0m\n    in %s (%s:%s)',
-                    context.checker.getFullyQualifiedName(node.symbol),
-                    file.fileName, pos.line.toString(), pos.character.toString()
-                );
-            } else {
-                context.getLogger().verbose(
-                    'Visiting node of kind %s in %s (%s:%s)',
-                    node.kind.toString(),
-                    file.fileName, pos.line.toString(), pos.character.toString()
-                );
-            }
-        }
 
         var result:Reflection;
         if (node.kind in this.nodeConverters) {
@@ -479,10 +443,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         for (var id in project.reflections) {
             if (!project.reflections.hasOwnProperty(id)) continue;
-            if (this.application.options.verbose) {
-                this.application.logger.verbose('Resolving %s', project.reflections[id].getFullName());
-            }
-
             this.trigger(Converter.EVENT_RESOLVE, context, project.reflections[id]);
         }
 
@@ -497,7 +457,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @returns The basename of the default library.
      */
     getDefaultLib():string {
-        var target = this.application.compilerOptions.target;
+        var target = this.application.options.getCompilerOptions().target;
         return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
     }
 }

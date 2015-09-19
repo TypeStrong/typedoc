@@ -6,10 +6,11 @@ import * as Handlebars from "handlebars";
 
 import {Component, ContextAwareRendererComponent} from "../components";
 import {Renderer} from "../Renderer";
-import {ParameterHint, IParameter, IParameterProvider} from "../../Options";
 import {SignatureReflection} from "../../models/reflections/signature";
 import {OutputEvent} from "../events/OutputEvent";
 import {MarkdownEvent} from "../events/MarkdownEvent";
+import {Option} from "../../utils/component";
+import {ParameterHint} from "../../utils/options/declaration";
 
 
 /**
@@ -43,8 +44,22 @@ import {MarkdownEvent} from "../events/MarkdownEvent";
  * ```
  */
 @Component({name:"marked"})
-export class MarkedPlugin extends ContextAwareRendererComponent implements IParameterProvider
+export class MarkedPlugin extends ContextAwareRendererComponent
 {
+    @Option({
+        name: 'includes',
+        help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
+        hint: ParameterHint.Directory
+    })
+    includeSource:string;
+
+    @Option({
+        name: 'media',
+        help: 'Specifies the location with media files that should be copied to the output directory.',
+        hint: ParameterHint.Directory
+    })
+    mediaSource:string;
+
     /**
      * The path referenced files are located in.
      */
@@ -93,19 +108,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent implements IPara
         Marked.setOptions({
             highlight: (text:any, lang:any) => this.getHighlighted(text, lang)
         });
-    }
-
-
-    getParameters():IParameter[] {
-        return <IParameter[]>[{
-            name: 'includes',
-            help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
-            hint: ParameterHint.Directory
-        },{
-            name: 'media',
-            help: 'Specifies the location with media files that should be copied to the output directory.',
-            hint: ParameterHint.Directory
-        }];
     }
 
 
@@ -247,8 +249,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent implements IPara
         super.onRendererBegin(event);
 
         delete this.includes;
-        if (event.settings.includes) {
-            var includes = Path.resolve(event.settings.includes);
+        if (this.includeSource) {
+            var includes = Path.resolve(this.includeSource);
             if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
                 this.includes = includes;
             } else {
@@ -256,14 +258,14 @@ export class MarkedPlugin extends ContextAwareRendererComponent implements IPara
             }
         }
 
-        if (event.settings.media) {
-            var media = Path.resolve(event.settings.media);
+        if (this.mediaSource) {
+            var media = Path.resolve(this.mediaSource);
             if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
                 this.mediaDirectory = Path.join(event.outputDirectory, 'media');
                 FS.copySync(media, this.mediaDirectory);
             } else {
                 this.mediaDirectory = null;
-                this.application.logger.warn('Could not find provided includes directory: ' + includes);
+                this.application.logger.warn('Could not find provided media directory: ' + media);
             }
         }
     }

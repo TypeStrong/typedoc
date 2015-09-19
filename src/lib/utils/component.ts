@@ -1,8 +1,10 @@
-import {Application} from "../Application";
-import {IParameterProvider, IParameter} from "../Options";
+import * as _ from "lodash";
+
+import {Application} from "../application";
 import {Converter} from "../converter/converter";
 import {Renderer} from "../output/Renderer";
-import {EventDispatcher} from "./events";
+import {EventDispatcher, Event, IEventMap} from "./events";
+import {IOptionDeclaration} from "./options/declaration";
 
 
 export interface IComponentHost {
@@ -32,6 +34,7 @@ interface IComponentRegistry {
 interface IComponentOptions {
     name?:string;
     childClass?:Function;
+    internal?:boolean;
 }
 
 
@@ -56,10 +59,13 @@ export function Component(options:IComponentOptions):ClassDecorator {
             });
         }
 
-        if (options.name) {
-            var name = options.name;
+        var name = options.name;
+        if (name) {
             proto._componentName = name;
+        }
 
+        var internal = !!options.internal;
+        if (name && !internal) {
             for (var childMapping of childMappings) {
                 if (!(proto instanceof childMapping.child)) continue;
 
@@ -70,6 +76,46 @@ export function Component(options:IComponentOptions):ClassDecorator {
             }
         }
     };
+}
+
+
+export function Option(options:IOptionDeclaration):PropertyDecorator {
+    return function(target:AbstractComponent<any>, propertyKey:string) {
+        if (!(target instanceof AbstractComponent)) {
+            throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
+        }
+
+        var list = target['_componentOptions'] || (target['_componentOptions'] = []);
+        options.component = target['_componentName'];
+        list.push(options);
+
+        Object.defineProperty(target, propertyKey, {
+            get: function () {
+                return this.application.options.getValue(options.name)
+            },
+            enumerable: true,
+            configurable: true
+        });
+    }
+}
+
+
+export class ComponentEvent extends Event
+{
+    owner:IComponentHost;
+
+    component:AbstractComponent<IComponentHost>;
+
+    static ADDED:string = 'componentAdded';
+
+    static REMOVED:string = 'componentRemoved';
+
+
+    constructor(name:string, owner:IComponentHost, component:AbstractComponent<IComponentHost>) {
+        super(name);
+        this.owner = owner;
+        this.component = component;
+    }
 }
 
 
@@ -87,6 +133,11 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
      * The name of this component as set by the @Component decorator.
      */
     private _componentName:string;
+
+    /**
+     * A list of options defined by this component.
+     */
+    private _componentOptions:IOptionDeclaration[];
 
 
 
@@ -106,11 +157,23 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     protected initialize() {}
 
 
+    protected bubble(name:Event|IEventMap|string, ...args:any[]) {
+        super.trigger.apply(this, arguments);
+
+        var owner = <any>this.owner;
+        if (owner instanceof AbstractComponent) {
+            owner.bubble.apply(this._componentOwner, arguments);
+        }
+
+        return this;
+    }
+
+
     /**
-     * Clean up this component on removal.
+     * Return all option declarations emitted by this component.
      */
-    protected remove() {
-        this.stopListening();
+    getOptionDeclarations():IOptionDeclaration[] {
+        return this._componentOptions ? this._componentOptions.slice() : [];
     }
 
 
@@ -143,7 +206,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
 /**
  * Component base class.
  */
-export abstract class ChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O> implements IParameterProvider
+export abstract class ChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O>
 {
     /**
      *
@@ -179,17 +242,31 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
     }
 
 
+    getComponents():C[] {
+        return _.values<C>(this._componentChildren);
+    }
+
+
     hasComponent(name:string):boolean {
         return !!(this._componentChildren && this._componentChildren[name]);
     }
 
 
-    addComponent(name:string, componentClass:IComponentClass<C>):C {
-        if (!this._componentChildren) this._componentChildren = {};
+    addComponent<T extends C>(name:string, componentClass:T|IComponentClass<T>):T {
+        if (!this._componentChildren) {
+            this._componentChildren = {};
+        }
+
         if (this._componentChildren[name]) {
-            return null;
+            throw new Error('The component `%s` has already been added.');
         } else {
-            return this._componentChildren[name] = new componentClass(this);
+            var component:T = typeof componentClass == "function" ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
+            var event = new ComponentEvent(ComponentEvent.ADDED, this, component);
+
+            this.bubble(event);
+            this._componentChildren[name] = component;
+
+            return component;
         }
     }
 
@@ -200,6 +277,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         if (component) {
             delete this._componentChildren[name];
             component.stopListening();
+            this.bubble(new ComponentEvent(ComponentEvent.REMOVED, this, component));
             return component;
         } else {
             return null;
@@ -214,18 +292,5 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         }
 
         this._componentChildren = {};
-    }
-
-
-    getParameters():IParameter[] {
-        var result:IParameter[] = [];
-        for (var key in this._componentChildren) {
-            var plugin:IParameterProvider = <any>this._componentChildren[key];
-            if (plugin.getParameters) {
-                result.push.call(result, plugin.getParameters());
-            }
-        }
-
-        return result;
     }
 }

@@ -1,9 +1,5 @@
-var Application_1 = require("./lib/Application");
-exports.Application = Application_1.Application;
-var Options_1 = require("./lib/Options");
-exports.OptionsParser = Options_1.OptionsParser;
-exports.ModuleKind = Options_1.ModuleKind;
-exports.ScriptTarget = Options_1.ScriptTarget;
+var application_1 = require("./lib/application");
+exports.Application = application_1.Application;
 var events_1 = require("./lib/utils/events");
 exports.EventDispatcher = events_1.EventDispatcher;
 exports.Event = events_1.Event;

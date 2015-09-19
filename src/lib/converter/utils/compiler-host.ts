@@ -34,7 +34,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      */
     getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
         try {
-            var text = ts.sys.readFile(filename, this.application.compilerOptions.charset);
+            var text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
         } catch (e) {
             if (onError) {
                 onError(e.number === ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);

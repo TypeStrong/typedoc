@@ -1,7 +1,6 @@
 import * as Path from "path";
 
 import {Event} from "../../utils/events";
-import {IOptions} from "../../Options";
 import {ProjectReflection} from "../../models/reflections/project";
 import {UrlMapping} from "../models/UrlMapping";
 import {OutputPageEvent} from "./OutputPageEvent";
@@ -24,7 +23,7 @@ export class OutputEvent extends Event
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings:IOptions;
+    settings:any;
 
     /**
      * The path of the directory the documentation should be written to.

@@ -2,13 +2,14 @@ import * as Path from "path";
 import * as FS from "fs";
 
 import {Theme} from "../Theme";
-import {IParameterProvider, IParameter, ParameterType} from "../../Options";
 import {Renderer} from "../Renderer";
 import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
 import {UrlMapping} from "../models/UrlMapping";
 import {NavigationItem} from "../models/NavigationItem";
 import {OutputEvent} from "../events/OutputEvent";
+import {Option} from "../../utils/component";
+import {ParameterType} from "../../utils/options/declaration";
 
 
 /**
@@ -45,8 +46,35 @@ export interface ITemplateMapping
  * Default theme implementation of TypeDoc. If a theme does not provide a custom
  * [[BaseTheme]] implementation, this theme class will be used.
  */
-export class DefaultTheme extends Theme implements IParameterProvider
+export class DefaultTheme extends Theme
 {
+    @Option({
+        name: 'gaID',
+        help: 'Set the Google Analytics tracking ID and activate tracking code.'
+    })
+    gaID:string;
+
+    @Option({
+        name: 'gaSite',
+        help: 'Set the site name for Google Analytics. Defaults to `auto`.',
+        defaultValue: 'auto'
+    })
+    gaSite:string;
+
+    @Option({
+        name: 'hideGenerator',
+        help: 'Do not print the TypeDoc link at the end of the page.',
+        type: ParameterType.Boolean
+    })
+    hideGenerator:boolean;
+
+    @Option({
+        name: 'entryPoint',
+        help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
+        type: ParameterType.String
+    })
+    entryPoint:string;
+
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
@@ -103,26 +131,6 @@ export class DefaultTheme extends Theme implements IParameterProvider
     }
 
 
-    getParameters():IParameter[] {
-        return <IParameter[]>[{
-            name: 'gaID',
-            help: 'Set the Google Analytics tracking ID and activate tracking code.'
-        },{
-            name: 'gaSite',
-            help: 'Set the site name for Google Analytics. Defaults to `auto`.',
-            defaultValue: 'auto'
-        },{
-            name: 'hideGenerator',
-            help: 'Do not print the TypeDoc link at the end of the page.',
-            type: ParameterType.Boolean
-        },{
-            name: 'entryPoint',
-            help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
-            type: ParameterType.String
-        }];
-    }
-
-
     /**
      * Map the models of the given project to the desired output files.
      *
@@ -134,7 +142,7 @@ export class DefaultTheme extends Theme implements IParameterProvider
         var urls:UrlMapping[] = [];
         var entryPoint = this.getEntryPoint(project);
 
-        if (this.renderer.application.options.readme == 'none') {
+        if (this.application.options.getValue('readme') == 'none') {
             entryPoint.url = 'index.html';
             urls.push(new UrlMapping('index.html', entryPoint, 'reflection.hbs'));
         } else {
@@ -162,17 +170,17 @@ export class DefaultTheme extends Theme implements IParameterProvider
      * @returns The reflection that should be used as the entry point.
      */
     getEntryPoint(project:ProjectReflection):ContainerReflection {
-        var entryPoint = this.renderer.application.options.entryPoint;
+        var entryPoint = this.entryPoint;
         if (entryPoint) {
             var reflection = project.getChildByName(entryPoint);
             if (reflection) {
                 if (reflection instanceof ContainerReflection) {
                     return reflection;
                 } else {
-                    this.renderer.application.logger.warn('The given entry point `%s` is not a container.', entryPoint);
+                    this.application.logger.warn('The given entry point `%s` is not a container.', entryPoint);
                 }
             } else {
-                this.renderer.application.logger.warn('The entry point `%s` could not be found.', entryPoint);
+                this.application.logger.warn('The entry point `%s` could not be found.', entryPoint);
             }
         }
 
@@ -324,7 +332,7 @@ export class DefaultTheme extends Theme implements IParameterProvider
         }
 
         var entryPoint = this.getEntryPoint(project);
-        return build(this.renderer.application.options.readme != 'none');
+        return build(this.application.options.getValue('readme') != 'none');
     }
 
 
