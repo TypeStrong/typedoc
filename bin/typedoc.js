@@ -3789,7 +3789,13 @@ var td;
             if (!name) {
                 if (!node.symbol)
                     return null;
-                name = node.symbol.name;
+                // Get name (even of default export)
+                if (node.localSymbol) {
+                    name = node.localSymbol.name;
+                }
+                else {
+                    name = node.symbol.name;
+                }
             }
             // Test whether the node is exported
             var isExported;
