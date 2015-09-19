@@ -1,6 +1,5 @@
 import {Component, RendererComponent} from "../components";
-import {Renderer} from "../Renderer";
-import {OutputPageEvent} from "../events/OutputPageEvent";
+import {PageEvent} from "../events";
 
 
 /**
@@ -16,9 +15,7 @@ export class LayoutPlugin extends RendererComponent
      * Create a new LayoutPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [Renderer.EVENT_END_PAGE]: this.onRendererEndPage
-        });
+        this.listenTo(this.owner, PageEvent.END, this.onRendererEndPage);
     }
 
 
@@ -27,7 +24,7 @@ export class LayoutPlugin extends RendererComponent
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererEndPage(page:OutputPageEvent) {
+    private onRendererEndPage(page:PageEvent) {
         var layout = this.owner.getTemplate('layouts/default.hbs');
         page.contents = layout(page);
     }

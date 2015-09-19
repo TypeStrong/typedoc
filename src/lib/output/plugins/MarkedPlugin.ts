@@ -5,10 +5,8 @@ import * as HighlightJS from "highlight.js";
 import * as Handlebars from "handlebars";
 
 import {Component, ContextAwareRendererComponent} from "../components";
-import {Renderer} from "../Renderer";
 import {SignatureReflection} from "../../models/reflections/signature";
-import {OutputEvent} from "../events/OutputEvent";
-import {MarkdownEvent} from "../events/MarkdownEvent";
+import {RendererEvent, MarkdownEvent} from "../events";
 import {Option} from "../../utils/component";
 import {ParameterHint} from "../../utils/options/declaration";
 
@@ -81,21 +79,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent
     private mediaPattern:RegExp = /media:\/\/([^ "\)\]\}]+)/g;
 
 
-    /**
-     * Triggered on the renderer when this plugin parses a markdown string.
-     * @event
-     */
-    static EVENT_PARSE_MARKDOWN:string = 'parseMarkdown';
-
-
 
     /**
      * Create a new MarkedPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [MarkedPlugin.EVENT_PARSE_MARKDOWN]: this.onParseMarkdown
-        });
+        super.initialize();
+        this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
         var that = this;
         Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
@@ -231,7 +221,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
             });
         }
 
-        var event = new MarkdownEvent(MarkedPlugin.EVENT_PARSE_MARKDOWN);
+        var event = new MarkdownEvent(MarkdownEvent.PARSE);
         event.originalText = text;
         event.parsedText = text;
 
@@ -245,8 +235,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    protected onRendererBegin(event:OutputEvent) {
-        super.onRendererBegin(event);
+    protected onBeginRenderer(event:RendererEvent) {
+        super.onBeginRenderer(event);
 
         delete this.includes;
         if (this.includeSource) {

@@ -1,4 +1,4 @@
-import {Renderer} from "./Renderer";
+import {Renderer} from "./renderer";
 import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {NavigationItem} from "./models/NavigationItem";
@@ -28,7 +28,7 @@ import {Component} from "../utils/component";
  * - ```/layouts/```<br>
  *   Contains layout templates that the [[LayoutPlugin]] wraps around the output of the
  *   page template. Currently only one ```default.hbs``` layout is supported. Layout templates
- *   receive the current [[OutputPageEvent]] instance as their handlebars context. Place the
+ *   receive the current [[PageEvent]] instance as their handlebars context. Place the
  *   ```{{{contents}}}``` variable to render the actual body of the document within this template.
  *
  * - ```/partials/```<br>
@@ -40,7 +40,7 @@ import {Component} from "../utils/component";
  *   Contains the main templates of the theme. The theme maps models to these templates through
  *   the [[BaseTheme.getUrls]] function. If the [[Renderer.getTemplate]] function cannot find a
  *   given template within this directory, it will try to find it in the default theme
- *   ```/templates/``` directory. Templates receive the current [[OutputPageEvent]] instance as
+ *   ```/templates/``` directory. Templates receive the current [[PageEvent]] instance as
  *   their handlebars context. You can access the target model through the ```{{model}}``` variable.
  *
  * - ```/theme.js```<br>

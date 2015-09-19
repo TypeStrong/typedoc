@@ -4,8 +4,7 @@ import {DeclarationReflection, ProjectReflection} from "../../models/reflections
 import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
 import {Component, RendererComponent} from "../components";
 import {writeFile} from "../../utils/fs";
-import {OutputEvent} from "../events/OutputEvent";
-import {Renderer} from "../Renderer";
+import {RendererEvent} from "../events";
 
 
 /**
@@ -20,9 +19,7 @@ export class JavascriptIndexPlugin extends RendererComponent
      * Create a new JavascriptIndexPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [Renderer.EVENT_BEGIN]: this.onRendererBegin
-        });
+        this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
     }
 
 
@@ -31,7 +28,7 @@ export class JavascriptIndexPlugin extends RendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:OutputEvent) {
+    private onRendererBegin(event:RendererEvent) {
         var rows:any[] = [];
         var kinds = {};
 

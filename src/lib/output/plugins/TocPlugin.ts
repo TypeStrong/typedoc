@@ -1,15 +1,14 @@
 import {Reflection, ReflectionKind, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
 import {Component, RendererComponent} from "../components";
-import {OutputPageEvent} from "../events/OutputPageEvent";
+import {PageEvent} from "../events";
 import {NavigationItem} from "../models/NavigationItem";
-import {Renderer} from "../Renderer";
 
 
 /**
  * A plugin that generates a table of contents for the current page.
  *
  * The table of contents will start at the nearest module or dynamic module. This plugin
- * sets the [[OutputPageEvent.toc]] property.
+ * sets the [[PageEvent.toc]] property.
  */
 @Component({name:"toc"})
 export class TocPlugin extends RendererComponent
@@ -19,7 +18,7 @@ export class TocPlugin extends RendererComponent
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Renderer.EVENT_BEGIN_PAGE]: this.onRendererBeginPage
+            [PageEvent.BEGIN]: this.onRendererBeginPage
         });
     }
 
@@ -29,7 +28,7 @@ export class TocPlugin extends RendererComponent
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page:OutputPageEvent) {
+    private onRendererBeginPage(page:PageEvent) {
         var model = page.model;
         if (!(model instanceof Reflection)) {
             return;

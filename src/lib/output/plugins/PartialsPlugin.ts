@@ -3,7 +3,8 @@ import * as Path from "path";
 import * as Handlebars from "handlebars";
 
 import {Component, RendererComponent} from "../components";
-import {Renderer} from "../Renderer";
+import {Renderer} from "../renderer";
+import {RendererEvent} from "../events";
 
 
 /**
@@ -19,9 +20,7 @@ export class PartialsPlugin extends RendererComponent
      * Create a new PartialsPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [Renderer.EVENT_BEGIN]: this.onRendererBegin
-        });
+        this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
     }
 
 
@@ -48,7 +47,7 @@ export class PartialsPlugin extends RendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:DocumentEvent) {
+    private onRendererBegin(event:RendererEvent) {
         var themePath = Path.join(this.owner.theme.basePath, 'partials');
         var defaultPath = Path.join(Renderer.getDefaultTheme(), 'partials');
 

@@ -2,9 +2,7 @@ import * as Util from "util";
 
 import {Reflection} from "../../models/reflections/abstract";
 import {Component, ContextAwareRendererComponent} from "../components";
-import {MarkdownEvent} from "../events/MarkdownEvent";
-import {Renderer} from "../Renderer";
-import {MarkedPlugin} from "./MarkedPlugin";
+import {MarkdownEvent} from "../events";
 
 
 /**
@@ -34,9 +32,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * Create a new MarkedLinksPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [MarkedPlugin.EVENT_PARSE_MARKDOWN]: this.onParseMarkdown
-        }, void 0, 100);
+        super.initialize();
+        this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown, 100);
     }
 
 

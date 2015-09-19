@@ -17,7 +17,7 @@ import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./utils/loggers
 import {writeFile} from "./utils/fs";
 import {ProjectReflection} from "./models/index";
 import {Converter} from "./converter/index";
-import {Renderer} from "./output/Renderer";
+import {Renderer} from "./output/renderer";
 import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
 import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
 import {ParameterType} from "./utils/options/declaration";

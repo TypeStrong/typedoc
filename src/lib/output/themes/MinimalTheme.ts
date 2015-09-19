@@ -2,10 +2,10 @@ import * as FS from "fs";
 import * as Path from "path";
 
 import {DefaultTheme} from "./DefaultTheme";
-import {Renderer} from "../Renderer";
+import {Renderer} from "../renderer";
 import {UrlMapping} from "../models/UrlMapping";
 import {Reflection, DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
-import {OutputPageEvent} from "../events/OutputPageEvent";
+import {PageEvent} from "../events";
 import {NavigationItem} from "../models/NavigationItem";
 
 
@@ -25,7 +25,7 @@ export class MinimalTheme extends DefaultTheme
         renderer.removeComponent('navigation');
         renderer.removeComponent('toc');
 
-        renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+        this.listenTo(renderer, PageEvent.BEGIN, this.onRendererBeginPage);
     }
 
 
@@ -70,7 +70,7 @@ export class MinimalTheme extends DefaultTheme
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page:OutputPageEvent) {
+    private onRendererBeginPage(page:PageEvent) {
         var model = page.model;
         if (!(model instanceof Reflection)) {
             return;

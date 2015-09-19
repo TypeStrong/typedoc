@@ -2,8 +2,8 @@ import * as Path from "path";
 import * as FS from "fs-extra";
 
 import {Component, RendererComponent} from "../components";
-import {OutputEvent} from "../events/OutputEvent";
-import {Renderer} from "../Renderer";
+import {RendererEvent} from "../events";
+import {Renderer} from "../renderer";
 
 
 /**
@@ -24,7 +24,7 @@ export class AssetsPlugin extends RendererComponent
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Renderer.EVENT_BEGIN]: this.onRendererBegin
+            [RendererEvent.BEGIN]: this.onRendererBegin
         });
     }
 
@@ -34,7 +34,7 @@ export class AssetsPlugin extends RendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:OutputEvent) {
+    private onRendererBegin(event:RendererEvent) {
         var fromDefault = Path.join(Renderer.getDefaultTheme(), 'assets');
         var to = Path.join(event.outputDirectory, 'assets');
 

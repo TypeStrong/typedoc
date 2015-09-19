@@ -3,7 +3,7 @@
  *
  * The [[Renderer]] class is the central controller within this namespace. When invoked it creates
  * an instance of [[BaseTheme]] which defines the layout of the documentation and fires a
- * series of [[OutputEvent]] events. Instances of [[BasePlugin]] can listen to these events and
+ * series of [[RendererEvent]] events. Instances of [[BasePlugin]] can listen to these events and
  * alter the generated output.
  */
 
@@ -13,9 +13,8 @@ import * as Handlebars from "handlebars";
 var ProgressBar = require("progress");
 
 import {Application} from "../application";
-import {Theme} from "./Theme";
-import {OutputEvent} from "./events/OutputEvent";
-import {OutputPageEvent} from "./events/OutputPageEvent";
+import {Theme} from "./theme";
+import {RendererEvent, PageEvent} from "./events";
 import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {writeFile} from "../utils/fs";
@@ -47,22 +46,22 @@ export interface IHandlebarTemplate {
  *
  *  * [[Renderer.EVENT_BEGIN]]<br>
  *    Triggered before the renderer starts rendering a project. The listener receives
- *    an instance of [[OutputEvent]]. By calling [[OutputEvent.preventDefault]] the entire
+ *    an instance of [[RendererEvent]]. By calling [[RendererEvent.preventDefault]] the entire
  *    render process can be canceled.
  *
  *    * [[Renderer.EVENT_BEGIN_PAGE]]<br>
  *      Triggered before a document will be rendered. The listener receives an instance of
- *      [[OutputPageEvent]]. By calling [[OutputPageEvent.preventDefault]] the generation of the
+ *      [[PageEvent]]. By calling [[PageEvent.preventDefault]] the generation of the
  *      document can be canceled.
  *
  *    * [[Renderer.EVENT_END_PAGE]]<br>
  *      Triggered after a document has been rendered, just before it is written to disc. The
- *      listener receives an instance of [[OutputPageEvent]]. When calling
- *      [[OutputPageEvent.preventDefault]] the the document will not be saved to disc.
+ *      listener receives an instance of [[PageEvent]]. When calling
+ *      [[PageEvent.preventDefault]] the the document will not be saved to disc.
  *
  *  * [[Renderer.EVENT_END]]<br>
  *    Triggered after the renderer has written all documents. The listener receives
- *    an instance of [[OutputEvent]].
+ *    an instance of [[RendererEvent]].
  */
 @Component({name:"renderer", internal:true, childClass:RendererComponent})
 export class Renderer extends ChildableComponent<Application, RendererComponent>
@@ -91,30 +90,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * Hash map of all loaded templates indexed by filename.
      */
     private templates:{[path:string]:IHandlebarTemplate} = {};
-
-    /**
-     * Triggered before the renderer starts rendering a project.
-     * @event
-     */
-    static EVENT_BEGIN:string = 'beginRender';
-
-    /**
-     * Triggered after the renderer has written all documents.
-     * @event
-     */
-    static EVENT_END:string = 'endRender';
-
-    /**
-     * Triggered before a document will be rendered.
-     * @event
-     */
-    static EVENT_BEGIN_PAGE:string = 'beginPage';
-
-    /**
-     * Triggered after a document has been rendered, just before it is written to disc.
-     * @event
-     */
-    static EVENT_END_PAGE:string = 'endPage';
 
 
 
@@ -173,7 +148,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             return;
         }
 
-        var output = new OutputEvent(Renderer.EVENT_BEGIN);
+        var output = new RendererEvent(RendererEvent.BEGIN);
         output.outputDirectory = outputDirectory;
         output.project = project;
         output.settings = this.application.options.getRawValues();
@@ -191,7 +166,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 bar.tick();
             });
 
-            this.trigger(Renderer.EVENT_END, output);
+            this.trigger(RendererEvent.END, output);
         }
     }
 
@@ -202,8 +177,8 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(page:OutputPageEvent):boolean {
-        this.trigger(Renderer.EVENT_BEGIN_PAGE, page);
+    private renderDocument(page:PageEvent):boolean {
+        this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
             return false;
         }
@@ -211,7 +186,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         page.template = page.template || this.getTemplate(Path.join('templates', page.templateName));
         page.contents = page.template(page);
 
-        this.trigger(Renderer.EVENT_END_PAGE, page);
+        this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {
             return false;
         }

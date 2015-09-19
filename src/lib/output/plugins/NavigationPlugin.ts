@@ -1,8 +1,6 @@
 import {Component, RendererComponent} from "../components";
 import {NavigationItem} from "../models/NavigationItem";
-import {OutputEvent} from "../events/OutputEvent";
-import {OutputPageEvent} from "../events/OutputPageEvent";
-import {Renderer} from "../Renderer";
+import {RendererEvent, PageEvent} from "../events";
 
 
 /**
@@ -27,8 +25,8 @@ export class NavigationPlugin extends RendererComponent
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Renderer.EVENT_BEGIN]: this.onRendererBegin,
-            [Renderer.EVENT_BEGIN_PAGE]: this.onRendererBeginPage
+            [RendererEvent.BEGIN]: this.onBeginRenderer,
+            [PageEvent.BEGIN]:     this.onBeginPage
         });
     }
 
@@ -38,7 +36,7 @@ export class NavigationPlugin extends RendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:OutputEvent) {
+    private onBeginRenderer(event:RendererEvent) {
         this.navigation = this.owner.theme.getNavigation(event.project);
     }
 
@@ -48,7 +46,7 @@ export class NavigationPlugin extends RendererComponent
      *
      * @param page  An event object describing the current render operation.
      */
-    private onRendererBeginPage(page:OutputPageEvent) {
+    private onBeginPage(page:PageEvent) {
         var currentItems:NavigationItem[] = [];
         (function updateItem(item:NavigationItem) {
             item.isCurrent = false;

@@ -1,8 +1,6 @@
 import * as _ from "lodash";
 
 import {Application} from "../application";
-import {Converter} from "../converter/converter";
-import {Renderer} from "../output/Renderer";
 import {EventDispatcher, Event, IEventMap} from "./events";
 import {IOptionDeclaration} from "./options/declaration";
 

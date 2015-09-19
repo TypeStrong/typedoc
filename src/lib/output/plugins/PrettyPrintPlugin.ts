@@ -1,6 +1,5 @@
 import {Component, RendererComponent} from "../components";
-import {OutputPageEvent} from "../events/OutputPageEvent";
-import {Renderer} from "../Renderer";
+import {PageEvent} from "../events";
 
 
 /**
@@ -73,9 +72,7 @@ export class PrettyPrintPlugin extends RendererComponent
      * Create a new PrettyPrintPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [Renderer.EVENT_END_PAGE]: this.onRendererEndPage
-        }, void 0, -1024);
+        this.listenTo(this.owner, PageEvent.END, this.onRendererEndPage, -1024);
     }
 
 
@@ -84,7 +81,7 @@ export class PrettyPrintPlugin extends RendererComponent
      *
      * @param event
      */
-    onRendererEndPage(event:OutputPageEvent) {
+    onRendererEndPage(event:PageEvent) {
         var match:RegExpMatchArray;
         var line:string;
         var lineState:PrettyPrintState;

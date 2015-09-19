@@ -1,13 +1,13 @@
 import * as Path from "path";
 import * as FS from "fs";
 
-import {Theme} from "../Theme";
-import {Renderer} from "../Renderer";
+import {Theme} from "../theme";
+import {Renderer} from "../renderer";
 import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
 import {ReflectionGroup} from "../../models/ReflectionGroup";
 import {UrlMapping} from "../models/UrlMapping";
 import {NavigationItem} from "../models/NavigationItem";
-import {OutputEvent} from "../events/OutputEvent";
+import {RendererEvent} from "../events";
 import {Option} from "../../utils/component";
 import {ParameterType} from "../../utils/options/declaration";
 
@@ -110,7 +110,7 @@ export class DefaultTheme extends Theme
      */
     constructor(renderer:Renderer, basePath:string) {
         super(renderer, basePath);
-        renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this, 1024);
+        this.listenTo(renderer, RendererEvent.BEGIN, this.onRendererBegin, 1024);
     }
 
 
@@ -341,7 +341,7 @@ export class DefaultTheme extends Theme
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:OutputEvent) {
+    private onRendererBegin(event:RendererEvent) {
         if (event.project.groups) {
             event.project.groups.forEach(DefaultTheme.applyGroupClasses);
         }

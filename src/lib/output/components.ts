@@ -3,9 +3,8 @@ import * as ts from "typescript";
 
 import {Component, AbstractComponent, ChildableComponent} from "../utils/component";
 import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
-import {Renderer} from "./Renderer";
-import {OutputEvent} from "./events/OutputEvent";
-import {OutputPageEvent} from "./events/OutputPageEvent";
+import {Renderer} from "./renderer";
+import {RendererEvent, PageEvent} from "./events";
 
 
 export {Component};
@@ -41,10 +40,11 @@ export abstract class ContextAwareRendererComponent extends RendererComponent
      *
      * @param renderer  The renderer this plugin should be attached to.
      */
-    constructor(renderer:Renderer) {
-        super(renderer);
-        renderer.on(Renderer.EVENT_BEGIN, this.onRendererBegin, this);
-        renderer.on(Renderer.EVENT_BEGIN_PAGE, this.onRendererBeginPage, this);
+    protected initialize() {
+        this.listenTo(this.owner, {
+            [RendererEvent.BEGIN]: this.onBeginRenderer,
+            [PageEvent.BEGIN]:     this.onBeginPage
+        });
     }
 
 
@@ -65,7 +65,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent
      *
      * @param event  An event object describing the current render operation.
      */
-    protected onRendererBegin(event:OutputEvent) {
+    protected onBeginRenderer(event:RendererEvent) {
         this.project = event.project;
     }
 
@@ -75,7 +75,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent
      *
      * @param page  An event object describing the current render operation.
      */
-    protected onRendererBeginPage(page:OutputPageEvent) {
+    protected onBeginPage(page:PageEvent) {
         this.location   = page.url;
         this.reflection = page.model instanceof DeclarationReflection ? page.model : null;
     }
