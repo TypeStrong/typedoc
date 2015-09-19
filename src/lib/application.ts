@@ -12,16 +12,14 @@ import * as Util from "util";
 import * as typescript from "typescript";
 import {Minimatch, IMinimatch} from "minimatch";
 
-import {EventDispatcher} from "./utils/events";
-import {Logger, LoggerType, ConsoleLogger, CallbackLogger} from "./utils/loggers";
-import {writeFile} from "./utils/fs";
-import {ProjectReflection} from "./models/index";
 import {Converter} from "./converter/index";
 import {Renderer} from "./output/renderer";
+import {ProjectReflection} from "./models/index";
+import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from "./utils/index";
+
 import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
 import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
 import {ParameterType} from "./utils/options/declaration";
-import {Plugins} from "./utils/plugins";
 
 
 /**
@@ -58,7 +56,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     logger:Logger;
 
-    plugins:Plugins;
+    plugins:PluginHost;
 
     @Option({
         name: 'logger',
@@ -100,7 +98,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         this.logger    = new ConsoleLogger();
         this.converter = this.addComponent('converter', Converter);
         this.renderer  = this.addComponent('renderer', Renderer);
-        this.plugins   = this.addComponent('plugins', Plugins);
+        this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
 
         this.bootstrap(options);

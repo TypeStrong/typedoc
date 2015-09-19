@@ -14,12 +14,6 @@ export enum LogLevel {
 }
 
 
-export enum LoggerType {
-    None,
-    Console
-}
-
-
 /**
  * A logger that will not produce any output.
  *

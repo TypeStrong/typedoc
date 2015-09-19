@@ -7,8 +7,8 @@ import {AbstractComponent, Component, Option} from "./component";
 import {ParameterType} from "./options/declaration";
 
 
-@Component({name:'plugins', internal:true})
-export class Plugins extends AbstractComponent<Application>
+@Component({name:'plugin-host', internal:true})
+export class PluginHost extends AbstractComponent<Application>
 {
     @Option({
         name: 'plugin',
