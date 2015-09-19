@@ -7,7 +7,7 @@ describe('TypeDoc', function() {
 
     describe('Application', function() {
         it('constructs', function() {
-            application = new TypeDoc.Application(false);
+            application = new TypeDoc.Application();
         });
         it('expands input files', function() {
             var inputFiles = Path.join(__dirname, 'converter', 'class');

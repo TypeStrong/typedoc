@@ -5,26 +5,29 @@ import {OptionsComponent} from "../options";
 import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from "../declaration";
 
 
-/**
- * A list of all TypeScript parameters that should be ignored.
- */
-var ignored:string[] = [
-    'out', 'outDir', 'version', 'help',
-    'watch', 'declaration', 'mapRoot',
-    'sourceMap', 'removeComments'
-];
-
-
 @Component({name:"options:typescript"})
 export class TypeScriptSource extends OptionsComponent
 {
     private declarations:IOptionDeclaration[];
 
+    /**
+     * A list of all TypeScript parameters that should be ignored.
+     */
+    static IGNORED:string[] = [
+        'out', 'version', 'help',
+        'watch', 'declaration', 'mapRoot',
+        'sourceMap', 'removeComments'
+    ];
+
 
     initialize() {
+        var ignored = TypeScriptSource.IGNORED;
         this.declarations = [];
+
         for (var declaration of ts.optionDeclarations) {
-            this.addTSOption(declaration);
+            if (ignored.indexOf(declaration.name) === -1) {
+                this.addTSOption(declaration);
+            }
         }
     }
 
@@ -38,7 +41,6 @@ export class TypeScriptSource extends OptionsComponent
 
 
     private addTSOption(option:ts.CommandLineOption) {
-        if (ignored.indexOf(option.name) != -1) return;
         var param:IOptionDeclaration = {
             name:      option.name,
             short:     option.shortName,

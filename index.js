@@ -1,5 +1,7 @@
 var application_1 = require("./lib/application");
 exports.Application = application_1.Application;
+var cli_1 = require("./lib/cli");
+exports.CliApplication = cli_1.CliApplication;
 var events_1 = require("./lib/utils/events");
 exports.EventDispatcher = events_1.EventDispatcher;
 exports.Event = events_1.Event;

@@ -81,11 +81,11 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         event.mode = mode;
 
         this.trigger(event);
-        this.setValues(event.data, '', event.addError);
+        this.setValues(event.data, '', event.addError.bind(event));
 
         if (mode == OptionsReadMode.Fetch) {
             var logger = this.application.logger;
-            for (var error in event.errors) {
+            for (var error of event.errors) {
                 logger.error(error);
             }
         }

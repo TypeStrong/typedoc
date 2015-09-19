@@ -7,13 +7,13 @@ import {ParameterHint, ParameterType} from "./utils/options/declaration";
 import {getOptionsHelp} from "./utils/options/help";
 
 
-export enum ExitCode
+export const enum ExitCode
 {
-    OptionError = 1,
+    OptionError  = 1,
     NoInputFiles = 2,
-    NoOutput = 3,
+    NoOutput     = 3,
     CompileError = 4,
-    OutputError = 5
+    OutputError  = 5
 }
 
 

@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import {Component, Option} from "../../component";
 import {OptionsComponent, DiscoverEvent} from "../options";
 import {ParameterType, ParameterHint} from "../declaration";
+import {TypeScriptSource} from "../sources/typescript";
 
 
 @Component({name:"options:tsconfig"})
@@ -55,13 +56,23 @@ export class TSConfigReader extends OptionsComponent
         }
 
         var data = require(fileName);
+        if (typeof data !== "object") {
+            event.addError('The tsconfig file %s does not return an object.', fileName);
+            return;
+        }
 
         if ("files" in data && _.isArray(data.files)) {
             event.inputFiles = data.files;
         }
 
         if ("compilerOptions" in data) {
-            _.merge(event.data, data.compilerOptions);
+            var ignored = TypeScriptSource.IGNORED;
+            var compilerOptions = _.clone(data.compilerOptions);
+            for (var key of ignored) {
+                delete compilerOptions[key];
+            }
+
+            _.merge(event.data, compilerOptions);
         }
 
         if ("typedocOptions" in data) {
