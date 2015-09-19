@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "homepage": "http://typedoc.io",
   "bin": {
     "typedoc": "bin/typedoc"
@@ -36,7 +36,7 @@
     "minimatch": "^2.0.10",
     "progress": "^1.1.8",
     "shelljs": "^0.5.1",
-    "typedoc-default-themes": "0.3.4",
+    "typedoc-default-themes": "0.4.0",
     "typescript": "1.6.2"
   },
   "devDependencies": {

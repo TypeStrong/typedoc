@@ -4,6 +4,5 @@ export {LayoutPlugin} from "./LayoutPlugin";
 export {MarkedLinksPlugin} from "./MarkedLinksPlugin";
 export {MarkedPlugin} from "./MarkedPlugin";
 export {NavigationPlugin} from "./NavigationPlugin";
-export {PartialsPlugin} from "./PartialsPlugin";
 export {PrettyPrintPlugin} from "./PrettyPrintPlugin";
 export {TocPlugin} from "./TocPlugin";

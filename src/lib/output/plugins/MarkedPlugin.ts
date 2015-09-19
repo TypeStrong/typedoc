@@ -5,7 +5,6 @@ import * as HighlightJS from "highlight.js";
 import * as Handlebars from "handlebars";
 
 import {Component, ContextAwareRendererComponent} from "../components";
-import {SignatureReflection} from "../../models/reflections/signature";
 import {RendererEvent, MarkdownEvent} from "../events";
 import {Option} from "../../utils/component";
 import {ParameterHint} from "../../utils/options/declaration";
@@ -89,45 +88,11 @@ export class MarkedPlugin extends ContextAwareRendererComponent
 
         var that = this;
         Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
-        Handlebars.registerHelper('compact',  function(arg:any) { return that.getCompact(arg.fn(this)); });
         Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
-        Handlebars.registerHelper('wbr', (str:string) => this.getWordBreaks(str));
-        Handlebars.registerHelper('ifCond', function(v1:any, operator:any, v2:any, options:any) { return that.getIfCond(v1, operator, v2, options, this) });
-        Handlebars.registerHelper('ifSignature', function(obj:any, arg:any) { return obj instanceof SignatureReflection ? arg.fn(this) : arg.inverse(this) });
 
         Marked.setOptions({
             highlight: (text:any, lang:any) => this.getHighlighted(text, lang)
         });
-    }
-
-
-    /**
-     * Compress the given string by removing all newlines.
-     *
-     * @param text  The string that should be compressed.
-     * @returns The string with all newlsines stripped.
-     */
-    public getCompact(text:string):string {
-        var lines = text.split('\n');
-        for (var i = 0, c = lines.length; i < c; i++) {
-            lines[i] = lines[i].trim().replace(/&nbsp;/, ' ');
-        }
-        return lines.join('');
-    }
-
-
-    /**
-     * Insert word break tags ``<wbr>`` into the given string.
-     *
-     * Breaks the given string at ``_``, ``-`` and captial letters.
-     *
-     * @param str  The string that should be split.
-     * @return     The original string containing ``<wbr>`` tags where possible.
-     */
-    public getWordBreaks(str:string):string {
-        str = str.replace(/([^_\-][_\-])([^_\-])/g, (m, a, b) => a + '<wbr>' + b);
-        str = str.replace(/([^A-Z])([A-Z][^A-Z])/g, (m, a, b) => a + '<wbr>' + b);
-        return str;
     }
 
 
@@ -148,40 +113,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         } catch (error) {
             this.application.logger.warn(error.message);
             return text;
-        }
-    }
-
-
-    /**
-     * Handlebars if helper with condition.
-     *
-     * @param v1        The first value to be compared.
-     * @param operator  The operand to perform on the two given values.
-     * @param v2        The second value to be compared
-     * @param options   The current handlebars object.
-     * @param context   The current handlebars context.
-     * @returns {*}
-     */
-    public getIfCond(v1:any, operator:any, v2:any, options:any, context:any) {
-        switch (operator) {
-            case '==':
-                return (v1 == v2) ? options.fn(context) : options.inverse(context);
-            case '===':
-                return (v1 === v2) ? options.fn(context) : options.inverse(context);
-            case '<':
-                return (v1 < v2) ? options.fn(context) : options.inverse(context);
-            case '<=':
-                return (v1 <= v2) ? options.fn(context) : options.inverse(context);
-            case '>':
-                return (v1 > v2) ? options.fn(context) : options.inverse(context);
-            case '>=':
-                return (v1 >= v2) ? options.fn(context) : options.inverse(context);
-            case '&&':
-                return (v1 && v2) ? options.fn(context) : options.inverse(context);
-            case '||':
-                return (v1 || v2) ? options.fn(context) : options.inverse(context);
-            default:
-                return options.inverse(context);
         }
     }
 

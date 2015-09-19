@@ -25,14 +25,6 @@ import {ParameterType} from "../utils/options/declaration";
 
 
 /**
- * Interface representation of a handlebars template.
- */
-export interface IHandlebarTemplate {
-    (context?: any, options?: any):string;
-}
-
-
-/**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
  * the emitted html documents to a output directory. You can specify which theme should be used
  * using the ```--theme <name>``` commandline argument.
@@ -86,11 +78,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
     })
     disableOutputCheck:boolean;
 
-    /**
-     * Hash map of all loaded templates indexed by filename.
-     */
-    private templates:{[path:string]:IHandlebarTemplate} = {};
-
 
 
     /**
@@ -99,41 +86,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @param application  The application this dispatcher is attached to.
      */
     initialize() {
-    }
-
-
-    /**
-     * Return the template with the given filename.
-     *
-     * Tries to find the file in the ´templates´ subdirectory of the current theme.
-     * If it does not exist, TypeDoc tries to find the template in the default
-     * theme templates subdirectory.
-     *
-     * @param fileName  The filename of the template that should be loaded.
-     * @returns The compiled template or NULL if the file could not be found.
-     */
-    public getTemplate(fileName:string):IHandlebarTemplate {
-        if (!this.theme) {
-            this.application.logger.error('Cannot resolve templates before theme is set.');
-            return null;
-        }
-
-        if (!this.templates[fileName]) {
-            var path = Path.resolve(Path.join(this.theme.basePath, fileName));
-            if (!FS.existsSync(path)) {
-                path = Path.resolve(Path.join(Renderer.getDefaultTheme(), fileName));
-                if (!FS.existsSync(path)) {
-                    this.application.logger.error('Cannot find template %s', fileName);
-                    return null;
-                }
-            }
-
-            this.templates[fileName] = Handlebars.compile(Renderer.readFile(path), {
-                preventIndent: true
-            });
-        }
-
-        return this.templates[fileName];
     }
 
 
@@ -183,7 +135,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             return false;
         }
 
-        page.template = page.template || this.getTemplate(Path.join('templates', page.templateName));
+        page.template = page.template || this.theme.resources.templates.getResource(page.templateName).getTemplate();
         page.contents = page.template(page);
 
         this.trigger(PageEvent.END, page);
@@ -232,6 +184,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             }
         }
 
+        this.theme.resources.activate();
         return true;
     }
 
@@ -305,43 +258,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      */
     static getDefaultTheme():string {
         return Path.join(Renderer.getThemeDirectory(), 'default');
-    }
-
-
-    /**
-     * Load the given file and return its contents.
-     *
-     * @param file  The path of the file to read.
-     * @returns The files contents.
-     */
-    static readFile(file:string):string
-    {
-        var buffer = FS.readFileSync(file);
-        switch (buffer[0]) {
-            case 0xFE:
-                if (buffer[1] === 0xFF) {
-                    var i = 0;
-                    while ((i + 1) < buffer.length) {
-                        var temp = buffer[i];
-                        buffer[i] = buffer[i + 1];
-                        buffer[i + 1] = temp;
-                        i += 2;
-                    }
-                    return buffer.toString("ucs2", 2);
-                }
-                break;
-            case 0xFF:
-                if (buffer[1] === 0xFE) {
-                    return buffer.toString("ucs2", 2);
-                }
-                break;
-            case 0xEF:
-                if (buffer[1] === 0xBB) {
-                    return buffer.toString("utf8", 3);
-                }
-        }
-
-        return buffer.toString("utf8", 0);
     }
 }
 
