@@ -1,9 +1,11 @@
 import * as ts from "typescript";
 
+import {Component} from "../../component";
 import {DiscoverEvent, OptionsComponent} from "../options";
 import {ParameterType} from "../declaration";
 
 
+@Component({name:"options:arguments"})
 export class ArgumentsReader extends OptionsComponent
 {
     initialize() {
