@@ -11,6 +11,7 @@
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
   },
+  "license" : "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/sebastian-lenz/TypeDoc.git"
