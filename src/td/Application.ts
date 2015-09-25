@@ -435,7 +435,7 @@ module td
                     var realpath = Path.join(dirname, file);
                     if (FS.statSync(realpath).isDirectory()) {
                         add(realpath);
-                    } else if (/\.ts$/.test(realpath)) {
+                    } else if (/\.tsx?$/.test(realpath)) {
                         if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
                             return;
                         }

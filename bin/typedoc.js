@@ -497,7 +497,7 @@ var td;
                     if (td.FS.statSync(realpath).isDirectory()) {
                         add(realpath);
                     }
-                    else if (/\.ts$/.test(realpath)) {
+                    else if (/\.tsx?$/.test(realpath)) {
                         if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
                             return;
                         }
