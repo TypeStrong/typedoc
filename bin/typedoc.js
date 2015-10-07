@@ -8934,7 +8934,7 @@ var td;
             DefaultTheme.buildUrls = function (reflection, urls) {
                 var mapping = DefaultTheme.getMapping(reflection);
                 if (mapping) {
-                    var url = td.Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
+                    var url = [mapping.directory, DefaultTheme.getUrl(reflection) + '.html'].join('/');
                     urls.push(new output.UrlMapping(url, reflection, mapping.template));
                     reflection.url = url;
                     reflection.hasOwnDocument = true;

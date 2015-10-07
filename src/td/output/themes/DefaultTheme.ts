@@ -413,7 +413,7 @@ module td.output
         static buildUrls(reflection:models.DeclarationReflection, urls:UrlMapping[]):UrlMapping[] {
             var mapping = DefaultTheme.getMapping(reflection);
             if (mapping) {
-                var url = Path.join(mapping.directory, DefaultTheme.getUrl(reflection) + '.html');
+                var url = [mapping.directory, DefaultTheme.getUrl(reflection) + '.html'].join('/');
                 urls.push(new UrlMapping(url, reflection, mapping.template));
 
                 reflection.url = url;
