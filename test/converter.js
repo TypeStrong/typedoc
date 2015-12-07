@@ -58,13 +58,18 @@ function compareChildren(fixture, spec, path) {
 
 describe('Converter', function() {
     var base = Path.join(__dirname, 'converter');
-    var app = new TypeDoc.Application({
-        mode:   'Modules',
-        logger: 'none',
-        target: 'ES5',
-        module: 'CommonJS',
-        noLib:  true,
-        experimentalDecorators: true
+    var app;
+
+    it('constructs', function() {
+        app = new TypeDoc.Application({
+            mode:   'Modules',
+            logger: 'none',
+            target: 'ES5',
+            module: 'CommonJS',
+            noLib:  true,
+            experimentalDecorators: true,
+            jsx: 'react'
+        });
     });
 
     FS.readdirSync(base).forEach(function (directory) {
@@ -75,9 +80,9 @@ describe('Converter', function() {
             var result;
 
             it('converts fixtures', function() {
-                TypeDoc.resetReflectionID();
+                TypeDoc.models.resetReflectionID();
                 result = app.convert(app.expandInputFiles([path]));
-                Assert(result instanceof TypeDoc.ProjectReflection, 'No reflection returned');
+                Assert(result instanceof TypeDoc.models.ProjectReflection, 'No reflection returned');
             });
 
             it('matches specs', function() {
