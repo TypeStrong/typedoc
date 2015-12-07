@@ -67,10 +67,10 @@
         "./src/lib/converter/plugins/GitHubPlugin.ts",
         "./src/lib/converter/plugins/GroupPlugin.ts",
         "./src/lib/converter/plugins/ImplementsPlugin.ts",
+        "./src/lib/converter/plugins/index.ts",
         "./src/lib/converter/plugins/PackagePlugin.ts",
         "./src/lib/converter/plugins/SourcePlugin.ts",
         "./src/lib/converter/plugins/TypePlugin.ts",
-        "./src/lib/converter/plugins/index.ts",
         "./src/lib/converter/types/alias.ts",
         "./src/lib/converter/types/array.ts",
         "./src/lib/converter/types/binding-array.ts",
@@ -86,11 +86,11 @@
         "./src/lib/converter/types/unknown.ts",
         "./src/lib/converter/utils/base-path.ts",
         "./src/lib/converter/utils/compiler-host.ts",
-        "./src/lib/models/ReflectionGroup.ts",
         "./src/lib/models/comments/comment.ts",
         "./src/lib/models/comments/index.ts",
         "./src/lib/models/comments/tag.ts",
         "./src/lib/models/index.ts",
+        "./src/lib/models/ReflectionGroup.ts",
         "./src/lib/models/reflections/abstract.ts",
         "./src/lib/models/reflections/container.ts",
         "./src/lib/models/reflections/declaration.ts",
@@ -121,6 +121,7 @@
         "./src/lib/output/models/NavigationItem.ts",
         "./src/lib/output/models/UrlMapping.ts",
         "./src/lib/output/plugins/AssetsPlugin.ts",
+        "./src/lib/output/plugins/index.ts",
         "./src/lib/output/plugins/JavascriptIndexPlugin.ts",
         "./src/lib/output/plugins/LayoutPlugin.ts",
         "./src/lib/output/plugins/MarkedLinksPlugin.ts",
@@ -128,7 +129,6 @@
         "./src/lib/output/plugins/NavigationPlugin.ts",
         "./src/lib/output/plugins/PrettyPrintPlugin.ts",
         "./src/lib/output/plugins/TocPlugin.ts",
-        "./src/lib/output/plugins/index.ts",
         "./src/lib/output/renderer.ts",
         "./src/lib/output/theme.ts",
         "./src/lib/output/themes/DefaultTheme.ts",
@@ -155,5 +155,8 @@
         "./src/lib/utils/options/sources/typescript.ts",
         "./src/lib/utils/plugins.ts",
         "./src/index.ts"
-    ]
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }

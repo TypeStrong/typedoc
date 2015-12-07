@@ -446,7 +446,7 @@ export abstract class Reflection
                 alias = 'reflection-' + this.id;
             }
 
-            var target = this;
+            var target = <Reflection>this;
             while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
                 target = target.parent;
             }

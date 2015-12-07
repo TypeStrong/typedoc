@@ -66,12 +66,10 @@ export class Resources
         path = Path.resolve(path);
         if (!FS.existsSync(path)) {
             throw new Error(Util.format("The theme path `%s` does not exist.", path));
-            return;
         }
 
         if (!FS.statSync(path).isDirectory()) {
             throw new Error(Util.format("The theme path `%s` is not a directory.", path));
-            return;
         }
 
         this.templates.addOrigin(name, Path.join(path, 'templates'), true);

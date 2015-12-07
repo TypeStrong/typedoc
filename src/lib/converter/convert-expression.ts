@@ -22,19 +22,14 @@ export function convertExpression(expression:ts.Expression):string
     switch (expression.kind) {
         case ts.SyntaxKind.StringLiteral:
             return '"' + (<ts.LiteralExpression>expression).text + '"';
-            break;
         case ts.SyntaxKind.NumericLiteral:
             return (<ts.LiteralExpression>expression).text;
-            break;
         case ts.SyntaxKind.TrueKeyword:
             return 'true';
-            break;
         case ts.SyntaxKind.FalseKeyword:
             return 'false';
-            break;
         default:
             var source = ts.getSourceFileOfNode(<ts.Node>expression);
             return source.text.substring(expression.pos, expression.end);
-            break;
     }
 }

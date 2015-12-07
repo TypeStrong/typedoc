@@ -162,7 +162,6 @@ export abstract class ResourceStack<T extends Resource>
         }
 
         throw new Error(Util.format("Cannot find resource `%s`.", name));
-        return null;
     }
 
 
