@@ -34,8 +34,13 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
 
     // Ensure we have a name for the reflection
     if (!name) {
-        if (!node.symbol) return null;
-        name = node.symbol.name;
+        if (node.localSymbol) {
+            name = node.localSymbol.name;
+        } else if (node.symbol) {
+            name = node.symbol.name;
+        } else {
+            return null;
+        }
     }
 
     // Test whether the node is exported
