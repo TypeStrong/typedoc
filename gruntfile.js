@@ -4,14 +4,7 @@ module.exports = function(grunt)
         pkg: grunt.file.readJSON('package.json'),
         ts: {
             typedoc: {
-                options: {
-                    basePath: 'src',
-                    declaration: true,
-                    comments: true,
-                    sourceMap: false
-                },
-                src: ['src/**/*.ts'],
-                out: 'bin/typedoc.js'
+                tsconfig: true
             },
             typescript: {
                 options: {
