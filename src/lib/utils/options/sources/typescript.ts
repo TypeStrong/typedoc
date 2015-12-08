@@ -62,8 +62,8 @@ export class TypeScriptSource extends OptionsComponent
             default:
                 param.type = ParameterType.Map;
                 param.map = option.type;
-                if (option.error) {
-                    var error = ts.createCompilerDiagnostic(option.error);
+                if (option['error']) {
+                    var error = ts.createCompilerDiagnostic(option['error']);
                     param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                 }
         }
