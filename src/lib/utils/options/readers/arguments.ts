@@ -30,21 +30,22 @@ export class ArgumentsReader extends OptionsComponent
      * @returns TRUE on success, otherwise FALSE.
      */
     private parseArguments(event:DiscoverEvent, args?:string[]) {
-        var index  = 0;
+        var index = 0;
+        var owner = this.owner;
         args = args || process.argv.slice(2);
 
         function readArgument(arg:string) {
-            var declaration = this.owner.getDeclaration(arg);
+            var declaration = owner.getDeclaration(arg);
             if (!declaration) {
                 event.addError('Unknown option: %s', arg);
-            } else if (declaration.getType() !== ParameterType.Boolean) {
+            } else if (declaration.type !== ParameterType.Boolean) {
                 if (!args[index]) {
-                    event.addError('Option "%s" expects an argument', declaration.getName());
+                    event.addError('Option "%s" expects an argument', declaration.name);
                 } else {
-                    event.data[declaration.getName()] = args[index++];
+                    event.data[declaration.name] = args[index++];
                 }
             } else {
-                event.data[declaration.getName()] = true;
+                event.data[declaration.name] = true;
             }
         }
 
