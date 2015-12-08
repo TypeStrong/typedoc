@@ -29,26 +29,26 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "fs-extra": "^0.22.1",
-    "handlebars": "3.0.3",
-    "highlight.js": "^8.6.0",
+    "fs-extra": "^0.26.2",
+    "handlebars": "4.0.5",
+    "highlight.js": "^9.0.0",
     "lodash": "^3.10.1",
-    "marked": "^0.3.3",
-    "minimatch": "^2.0.10",
+    "marked": "^0.3.5",
+    "minimatch": "^3.0.0",
     "progress": "^1.1.8",
-    "shelljs": "^0.5.1",
+    "shelljs": "^0.5.3",
     "typedoc-default-themes": "0.4.0",
-    "typescript": "1.6.2"
+    "typescript": "1.7.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^4.2.0",
-    "grunt-mocha-istanbul": "^2.4.0",
-    "istanbul": "^0.3.17",
-    "mocha": "^2.2.5"
+    "grunt-ts": "^5.3.0-beta.2",
+    "grunt-mocha-istanbul": "^3.0.1",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4"
   },
   "files": [
     "bin",
