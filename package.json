@@ -37,21 +37,23 @@
     "minimatch": "^3.0.0",
     "progress": "^1.1.8",
     "shelljs": "^0.5.3",
-    "typedoc-default-themes": "0.4.0",
-    "typescript": "1.7.3"
+    "typedoc-default-themes": "0.3.4",
+    "typescript": "1.7.5"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-watch": "~0.6.1",
+    "grunt-mocha-istanbul": "^3.0.1",
     "grunt-string-replace": "^1.2.0",
     "grunt-ts": "^5.3.0-beta.2",
-    "grunt-mocha-istanbul": "^3.0.1",
     "istanbul": "^0.4.1",
     "mocha": "^2.3.4"
   },
   "files": [
     "bin",
+    "lib",
     "tasks",
     "LICENSE"
   ],
