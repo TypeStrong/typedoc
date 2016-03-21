@@ -56,7 +56,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
     getDefaultLibFileName(options:ts.CompilerOptions):string {
         var lib = this.owner.getDefaultLib();
         var path = ts.getDirectoryPath(ts.normalizePath(require.resolve('typescript')));
-        return Path.join(path, 'lib', lib);
+        return Path.join(path, lib);
     }
 
 
