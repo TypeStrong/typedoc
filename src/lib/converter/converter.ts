@@ -457,7 +457,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @returns The basename of the default library.
      */
     getDefaultLib():string {
-        var target = this.application.options.getCompilerOptions().target;
-        return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
+        return ts.getDefaultLibFileName(this.application.options.getCompilerOptions());
     }
 }

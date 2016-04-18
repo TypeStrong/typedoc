@@ -2,12 +2,15 @@ declare module "typescript" {
     interface Map<T> {
         [index: string]: T;
     }
+    type Path = string & {
+        __pathBrand: any;
+    };
     interface FileMap<T> {
-        get(fileName: string): T;
-        set(fileName: string, value: T): void;
-        contains(fileName: string): boolean;
-        remove(fileName: string): void;
-        forEachValue(f: (v: T) => void): void;
+        get(fileName: Path): T;
+        set(fileName: Path, value: T): void;
+        contains(fileName: Path): boolean;
+        remove(fileName: Path): void;
+        forEachValue(f: (key: Path, v: T) => void): void;
         clear(): void;
     }
     interface TextRange {
@@ -149,159 +152,162 @@ declare module "typescript" {
         SymbolKeyword = 131,
         TypeKeyword = 132,
         FromKeyword = 133,
-        OfKeyword = 134,
-        QualifiedName = 135,
-        ComputedPropertyName = 136,
-        TypeParameter = 137,
-        Parameter = 138,
-        Decorator = 139,
-        PropertySignature = 140,
-        PropertyDeclaration = 141,
-        MethodSignature = 142,
-        MethodDeclaration = 143,
-        Constructor = 144,
-        GetAccessor = 145,
-        SetAccessor = 146,
-        CallSignature = 147,
-        ConstructSignature = 148,
-        IndexSignature = 149,
-        TypePredicate = 150,
-        TypeReference = 151,
-        FunctionType = 152,
-        ConstructorType = 153,
-        TypeQuery = 154,
-        TypeLiteral = 155,
-        ArrayType = 156,
-        TupleType = 157,
-        UnionType = 158,
-        IntersectionType = 159,
-        ParenthesizedType = 160,
-        ObjectBindingPattern = 161,
-        ArrayBindingPattern = 162,
-        BindingElement = 163,
-        ArrayLiteralExpression = 164,
-        ObjectLiteralExpression = 165,
-        PropertyAccessExpression = 166,
-        ElementAccessExpression = 167,
-        CallExpression = 168,
-        NewExpression = 169,
-        TaggedTemplateExpression = 170,
-        TypeAssertionExpression = 171,
-        ParenthesizedExpression = 172,
-        FunctionExpression = 173,
-        ArrowFunction = 174,
-        DeleteExpression = 175,
-        TypeOfExpression = 176,
-        VoidExpression = 177,
-        AwaitExpression = 178,
-        PrefixUnaryExpression = 179,
-        PostfixUnaryExpression = 180,
-        BinaryExpression = 181,
-        ConditionalExpression = 182,
-        TemplateExpression = 183,
-        YieldExpression = 184,
-        SpreadElementExpression = 185,
-        ClassExpression = 186,
-        OmittedExpression = 187,
-        ExpressionWithTypeArguments = 188,
-        AsExpression = 189,
-        TemplateSpan = 190,
-        SemicolonClassElement = 191,
-        Block = 192,
-        VariableStatement = 193,
-        EmptyStatement = 194,
-        ExpressionStatement = 195,
-        IfStatement = 196,
-        DoStatement = 197,
-        WhileStatement = 198,
-        ForStatement = 199,
-        ForInStatement = 200,
-        ForOfStatement = 201,
-        ContinueStatement = 202,
-        BreakStatement = 203,
-        ReturnStatement = 204,
-        WithStatement = 205,
-        SwitchStatement = 206,
-        LabeledStatement = 207,
-        ThrowStatement = 208,
-        TryStatement = 209,
-        DebuggerStatement = 210,
-        VariableDeclaration = 211,
-        VariableDeclarationList = 212,
-        FunctionDeclaration = 213,
-        ClassDeclaration = 214,
-        InterfaceDeclaration = 215,
-        TypeAliasDeclaration = 216,
-        EnumDeclaration = 217,
-        ModuleDeclaration = 218,
-        ModuleBlock = 219,
-        CaseBlock = 220,
-        ImportEqualsDeclaration = 221,
-        ImportDeclaration = 222,
-        ImportClause = 223,
-        NamespaceImport = 224,
-        NamedImports = 225,
-        ImportSpecifier = 226,
-        ExportAssignment = 227,
-        ExportDeclaration = 228,
-        NamedExports = 229,
-        ExportSpecifier = 230,
-        MissingDeclaration = 231,
-        ExternalModuleReference = 232,
-        JsxElement = 233,
-        JsxSelfClosingElement = 234,
-        JsxOpeningElement = 235,
-        JsxText = 236,
-        JsxClosingElement = 237,
-        JsxAttribute = 238,
-        JsxSpreadAttribute = 239,
-        JsxExpression = 240,
-        CaseClause = 241,
-        DefaultClause = 242,
-        HeritageClause = 243,
-        CatchClause = 244,
-        PropertyAssignment = 245,
-        ShorthandPropertyAssignment = 246,
-        EnumMember = 247,
-        SourceFile = 248,
-        JSDocTypeExpression = 249,
-        JSDocAllType = 250,
-        JSDocUnknownType = 251,
-        JSDocArrayType = 252,
-        JSDocUnionType = 253,
-        JSDocTupleType = 254,
-        JSDocNullableType = 255,
-        JSDocNonNullableType = 256,
-        JSDocRecordType = 257,
-        JSDocRecordMember = 258,
-        JSDocTypeReference = 259,
-        JSDocOptionalType = 260,
-        JSDocFunctionType = 261,
-        JSDocVariadicType = 262,
-        JSDocConstructorType = 263,
-        JSDocThisType = 264,
-        JSDocComment = 265,
-        JSDocTag = 266,
-        JSDocParameterTag = 267,
-        JSDocReturnTag = 268,
-        JSDocTypeTag = 269,
-        JSDocTemplateTag = 270,
-        SyntaxList = 271,
-        Count = 272,
+        GlobalKeyword = 134,
+        OfKeyword = 135,
+        QualifiedName = 136,
+        ComputedPropertyName = 137,
+        TypeParameter = 138,
+        Parameter = 139,
+        Decorator = 140,
+        PropertySignature = 141,
+        PropertyDeclaration = 142,
+        MethodSignature = 143,
+        MethodDeclaration = 144,
+        Constructor = 145,
+        GetAccessor = 146,
+        SetAccessor = 147,
+        CallSignature = 148,
+        ConstructSignature = 149,
+        IndexSignature = 150,
+        TypePredicate = 151,
+        TypeReference = 152,
+        FunctionType = 153,
+        ConstructorType = 154,
+        TypeQuery = 155,
+        TypeLiteral = 156,
+        ArrayType = 157,
+        TupleType = 158,
+        UnionType = 159,
+        IntersectionType = 160,
+        ParenthesizedType = 161,
+        ThisType = 162,
+        StringLiteralType = 163,
+        ObjectBindingPattern = 164,
+        ArrayBindingPattern = 165,
+        BindingElement = 166,
+        ArrayLiteralExpression = 167,
+        ObjectLiteralExpression = 168,
+        PropertyAccessExpression = 169,
+        ElementAccessExpression = 170,
+        CallExpression = 171,
+        NewExpression = 172,
+        TaggedTemplateExpression = 173,
+        TypeAssertionExpression = 174,
+        ParenthesizedExpression = 175,
+        FunctionExpression = 176,
+        ArrowFunction = 177,
+        DeleteExpression = 178,
+        TypeOfExpression = 179,
+        VoidExpression = 180,
+        AwaitExpression = 181,
+        PrefixUnaryExpression = 182,
+        PostfixUnaryExpression = 183,
+        BinaryExpression = 184,
+        ConditionalExpression = 185,
+        TemplateExpression = 186,
+        YieldExpression = 187,
+        SpreadElementExpression = 188,
+        ClassExpression = 189,
+        OmittedExpression = 190,
+        ExpressionWithTypeArguments = 191,
+        AsExpression = 192,
+        TemplateSpan = 193,
+        SemicolonClassElement = 194,
+        Block = 195,
+        VariableStatement = 196,
+        EmptyStatement = 197,
+        ExpressionStatement = 198,
+        IfStatement = 199,
+        DoStatement = 200,
+        WhileStatement = 201,
+        ForStatement = 202,
+        ForInStatement = 203,
+        ForOfStatement = 204,
+        ContinueStatement = 205,
+        BreakStatement = 206,
+        ReturnStatement = 207,
+        WithStatement = 208,
+        SwitchStatement = 209,
+        LabeledStatement = 210,
+        ThrowStatement = 211,
+        TryStatement = 212,
+        DebuggerStatement = 213,
+        VariableDeclaration = 214,
+        VariableDeclarationList = 215,
+        FunctionDeclaration = 216,
+        ClassDeclaration = 217,
+        InterfaceDeclaration = 218,
+        TypeAliasDeclaration = 219,
+        EnumDeclaration = 220,
+        ModuleDeclaration = 221,
+        ModuleBlock = 222,
+        CaseBlock = 223,
+        ImportEqualsDeclaration = 224,
+        ImportDeclaration = 225,
+        ImportClause = 226,
+        NamespaceImport = 227,
+        NamedImports = 228,
+        ImportSpecifier = 229,
+        ExportAssignment = 230,
+        ExportDeclaration = 231,
+        NamedExports = 232,
+        ExportSpecifier = 233,
+        MissingDeclaration = 234,
+        ExternalModuleReference = 235,
+        JsxElement = 236,
+        JsxSelfClosingElement = 237,
+        JsxOpeningElement = 238,
+        JsxText = 239,
+        JsxClosingElement = 240,
+        JsxAttribute = 241,
+        JsxSpreadAttribute = 242,
+        JsxExpression = 243,
+        CaseClause = 244,
+        DefaultClause = 245,
+        HeritageClause = 246,
+        CatchClause = 247,
+        PropertyAssignment = 248,
+        ShorthandPropertyAssignment = 249,
+        EnumMember = 250,
+        SourceFile = 251,
+        JSDocTypeExpression = 252,
+        JSDocAllType = 253,
+        JSDocUnknownType = 254,
+        JSDocArrayType = 255,
+        JSDocUnionType = 256,
+        JSDocTupleType = 257,
+        JSDocNullableType = 258,
+        JSDocNonNullableType = 259,
+        JSDocRecordType = 260,
+        JSDocRecordMember = 261,
+        JSDocTypeReference = 262,
+        JSDocOptionalType = 263,
+        JSDocFunctionType = 264,
+        JSDocVariadicType = 265,
+        JSDocConstructorType = 266,
+        JSDocThisType = 267,
+        JSDocComment = 268,
+        JSDocTag = 269,
+        JSDocParameterTag = 270,
+        JSDocReturnTag = 271,
+        JSDocTypeTag = 272,
+        JSDocTemplateTag = 273,
+        SyntaxList = 274,
+        Count = 275,
         FirstAssignment = 56,
         LastAssignment = 68,
         FirstReservedWord = 70,
         LastReservedWord = 105,
         FirstKeyword = 70,
-        LastKeyword = 134,
+        LastKeyword = 135,
         FirstFutureReservedWord = 106,
         LastFutureReservedWord = 114,
         FirstTypeNode = 151,
-        LastTypeNode = 160,
+        LastTypeNode = 163,
         FirstPunctuation = 15,
         LastPunctuation = 68,
         FirstToken = 0,
-        LastToken = 134,
+        LastToken = 135,
         FirstTriviaToken = 2,
         LastTriviaToken = 7,
         FirstLiteralToken = 8,
@@ -310,30 +316,41 @@ declare module "typescript" {
         LastTemplateToken = 14,
         FirstBinaryOperator = 25,
         LastBinaryOperator = 68,
-        FirstNode = 135,
+        FirstNode = 136,
     }
     const enum NodeFlags {
-        Export = 1,
-        Ambient = 2,
-        Public = 16,
-        Private = 32,
-        Protected = 64,
-        Static = 128,
-        Abstract = 256,
-        Async = 512,
-        Default = 1024,
-        MultiLine = 2048,
-        Synthetic = 4096,
-        DeclarationFile = 8192,
-        Let = 16384,
-        Const = 32768,
-        OctalLiteral = 65536,
-        Namespace = 131072,
-        ExportContext = 262144,
-        ContainsThis = 524288,
-        Modifier = 2035,
-        AccessibilityModifier = 112,
-        BlockScoped = 49152,
+        None = 0,
+        Export = 2,
+        Ambient = 4,
+        Public = 8,
+        Private = 16,
+        Protected = 32,
+        Static = 64,
+        Abstract = 128,
+        Async = 256,
+        Default = 512,
+        MultiLine = 1024,
+        Synthetic = 2048,
+        DeclarationFile = 4096,
+        Let = 8192,
+        Const = 16384,
+        OctalLiteral = 32768,
+        Namespace = 65536,
+        ExportContext = 131072,
+        ContainsThis = 262144,
+        HasImplicitReturn = 524288,
+        HasExplicitReturn = 1048576,
+        GlobalAugmentation = 2097152,
+        HasClassExtends = 4194304,
+        HasDecorators = 8388608,
+        HasParamDecorators = 16777216,
+        HasAsyncFunctions = 33554432,
+        HasJsxSpreadAttribute = 1073741824,
+        Modifier = 1022,
+        AccessibilityModifier = 56,
+        BlockScoped = 24576,
+        ReachabilityCheckFlags = 1572864,
+        EmitHelperFlags = 62914560,
     }
     const enum ParserContextFlags {
         None = 0,
@@ -343,7 +360,7 @@ declare module "typescript" {
         Await = 8,
         ThisNodeHasError = 16,
         JavaScriptFile = 32,
-        ParserGeneratedFlags = 31,
+        ParserGeneratedFlags = 63,
         TypeExcludesFlags = 10,
         ThisNodeOrAnySubNodesHasError = 64,
         HasAggregatedChildData = 128,
@@ -352,8 +369,8 @@ declare module "typescript" {
         None = 0,
         IntrinsicNamedElement = 1,
         IntrinsicIndexedElement = 2,
-        ClassElement = 4,
-        UnknownElement = 8,
+        ValueElement = 4,
+        UnknownElement = 16,
         IntrinsicElement = 3,
     }
     const enum RelationComparisonResult {
@@ -378,8 +395,10 @@ declare module "typescript" {
     interface NodeArray<T> extends Array<T>, TextRange {
         hasTrailingComma?: boolean;
     }
-    interface ModifiersArray extends NodeArray<Node> {
+    interface ModifiersArray extends NodeArray<Modifier> {
         flags: number;
+    }
+    interface Modifier extends Node {
     }
     interface Identifier extends PrimaryExpression {
         text: string;
@@ -390,10 +409,14 @@ declare module "typescript" {
         right: Identifier;
     }
     type EntityName = Identifier | QualifiedName;
+    type PropertyName = Identifier | LiteralExpression | ComputedPropertyName;
     type DeclarationName = Identifier | LiteralExpression | ComputedPropertyName | BindingPattern;
     interface Declaration extends Node {
         _declarationBrand: any;
         name?: DeclarationName;
+    }
+    interface DeclarationStatement extends Declaration, Statement {
+        name?: Identifier;
     }
     interface ComputedPropertyName extends Node {
         expression: Expression;
@@ -407,9 +430,14 @@ declare module "typescript" {
         expression?: Expression;
     }
     interface SignatureDeclaration extends Declaration {
+        name?: PropertyName;
         typeParameters?: NodeArray<TypeParameterDeclaration>;
         parameters: NodeArray<ParameterDeclaration>;
         type?: TypeNode;
+    }
+    interface CallSignatureDeclaration extends SignatureDeclaration, TypeElement {
+    }
+    interface ConstructSignatureDeclaration extends SignatureDeclaration, TypeElement {
     }
     interface VariableDeclaration extends Declaration {
         parent?: VariableDeclarationList;
@@ -428,23 +456,30 @@ declare module "typescript" {
         initializer?: Expression;
     }
     interface BindingElement extends Declaration {
-        propertyName?: Identifier;
+        propertyName?: PropertyName;
         dotDotDotToken?: Node;
         name: Identifier | BindingPattern;
         initializer?: Expression;
     }
-    interface PropertyDeclaration extends Declaration, ClassElement {
-        name: DeclarationName;
+    interface PropertySignature extends TypeElement {
+        name: PropertyName;
         questionToken?: Node;
+        type?: TypeNode;
+        initializer?: Expression;
+    }
+    interface PropertyDeclaration extends ClassElement {
+        questionToken?: Node;
+        name: PropertyName;
         type?: TypeNode;
         initializer?: Expression;
     }
     interface ObjectLiteralElement extends Declaration {
         _objectLiteralBrandBrand: any;
+        name?: PropertyName;
     }
     interface PropertyAssignment extends ObjectLiteralElement {
         _propertyAssignmentBrand: any;
-        name: DeclarationName;
+        name: PropertyName;
         questionToken?: Node;
         initializer: Expression;
     }
@@ -455,15 +490,22 @@ declare module "typescript" {
         objectAssignmentInitializer?: Expression;
     }
     interface VariableLikeDeclaration extends Declaration {
-        propertyName?: Identifier;
+        propertyName?: PropertyName;
         dotDotDotToken?: Node;
         name: DeclarationName;
         questionToken?: Node;
         type?: TypeNode;
         initializer?: Expression;
     }
+    interface PropertyLikeDeclaration extends Declaration {
+        name: PropertyName;
+    }
     interface BindingPattern extends Node {
         elements: NodeArray<BindingElement>;
+    }
+    interface ObjectBindingPattern extends BindingPattern {
+    }
+    interface ArrayBindingPattern extends BindingPattern {
     }
     interface FunctionLikeDeclaration extends SignatureDeclaration {
         _functionLikeDeclarationBrand: any;
@@ -471,45 +513,61 @@ declare module "typescript" {
         questionToken?: Node;
         body?: Block | Expression;
     }
-    interface FunctionDeclaration extends FunctionLikeDeclaration, Statement {
+    interface FunctionDeclaration extends FunctionLikeDeclaration, DeclarationStatement {
         name?: Identifier;
-        body?: Block;
+        body?: FunctionBody;
+    }
+    interface MethodSignature extends SignatureDeclaration, TypeElement {
+        name: PropertyName;
     }
     interface MethodDeclaration extends FunctionLikeDeclaration, ClassElement, ObjectLiteralElement {
-        body?: Block;
+        name: PropertyName;
+        body?: FunctionBody;
     }
     interface ConstructorDeclaration extends FunctionLikeDeclaration, ClassElement {
-        body?: Block;
+        body?: FunctionBody;
     }
     interface SemicolonClassElement extends ClassElement {
         _semicolonClassElementBrand: any;
     }
     interface AccessorDeclaration extends FunctionLikeDeclaration, ClassElement, ObjectLiteralElement {
         _accessorDeclarationBrand: any;
-        body: Block;
+        name: PropertyName;
+        body: FunctionBody;
     }
-    interface IndexSignatureDeclaration extends SignatureDeclaration, ClassElement {
+    interface GetAccessorDeclaration extends AccessorDeclaration {
+    }
+    interface SetAccessorDeclaration extends AccessorDeclaration {
+    }
+    interface IndexSignatureDeclaration extends SignatureDeclaration, ClassElement, TypeElement {
         _indexSignatureDeclarationBrand: any;
     }
     interface TypeNode extends Node {
         _typeNodeBrand: any;
     }
+    interface ThisTypeNode extends TypeNode {
+        _thisTypeNodeBrand: any;
+    }
     interface FunctionOrConstructorTypeNode extends TypeNode, SignatureDeclaration {
         _functionOrConstructorTypeNodeBrand: any;
+    }
+    interface FunctionTypeNode extends FunctionOrConstructorTypeNode {
+    }
+    interface ConstructorTypeNode extends FunctionOrConstructorTypeNode {
     }
     interface TypeReferenceNode extends TypeNode {
         typeName: EntityName;
         typeArguments?: NodeArray<TypeNode>;
     }
     interface TypePredicateNode extends TypeNode {
-        parameterName: Identifier;
+        parameterName: Identifier | ThisTypeNode;
         type: TypeNode;
     }
     interface TypeQueryNode extends TypeNode {
         exprName: EntityName;
     }
     interface TypeLiteralNode extends TypeNode, Declaration {
-        members: NodeArray<Node>;
+        members: NodeArray<TypeElement>;
     }
     interface ArrayTypeNode extends TypeNode {
         elementType: TypeNode;
@@ -527,12 +585,17 @@ declare module "typescript" {
     interface ParenthesizedTypeNode extends TypeNode {
         type: TypeNode;
     }
-    interface StringLiteral extends LiteralExpression, TypeNode {
+    interface StringLiteralTypeNode extends LiteralLikeNode, TypeNode {
+        _stringLiteralTypeBrand: any;
+    }
+    interface StringLiteral extends LiteralExpression {
         _stringLiteralBrand: any;
     }
     interface Expression extends Node {
         _expressionBrand: any;
         contextualType?: Type;
+    }
+    interface OmittedExpression extends Expression {
     }
     interface UnaryExpression extends Expression {
         _unaryExpressionBrand: any;
@@ -576,7 +639,7 @@ declare module "typescript" {
         asteriskToken?: Node;
         expression?: Expression;
     }
-    interface BinaryExpression extends Expression {
+    interface BinaryExpression extends Expression, Declaration {
         left: Expression;
         operatorToken: Node;
         right: Expression;
@@ -588,25 +651,34 @@ declare module "typescript" {
         colonToken: Node;
         whenFalse: Expression;
     }
+    type FunctionBody = Block;
+    type ConciseBody = FunctionBody | Expression;
     interface FunctionExpression extends PrimaryExpression, FunctionLikeDeclaration {
         name?: Identifier;
-        body: Block | Expression;
+        body: FunctionBody;
     }
     interface ArrowFunction extends Expression, FunctionLikeDeclaration {
         equalsGreaterThanToken: Node;
+        body: ConciseBody;
     }
-    interface LiteralExpression extends PrimaryExpression {
+    interface LiteralLikeNode extends Node {
         text: string;
         isUnterminated?: boolean;
         hasExtendedUnicodeEscape?: boolean;
     }
+    interface LiteralExpression extends LiteralLikeNode, PrimaryExpression {
+        _literalExpressionBrand: any;
+    }
+    interface TemplateLiteralFragment extends LiteralLikeNode {
+        _templateLiteralFragmentBrand: any;
+    }
     interface TemplateExpression extends PrimaryExpression {
-        head: LiteralExpression;
+        head: TemplateLiteralFragment;
         templateSpans: NodeArray<TemplateSpan>;
     }
     interface TemplateSpan extends Node {
         expression: Expression;
-        literal: LiteralExpression;
+        literal: TemplateLiteralFragment;
     }
     interface ParenthesizedExpression extends PrimaryExpression {
         expression: Expression;
@@ -620,7 +692,7 @@ declare module "typescript" {
     interface ObjectLiteralExpression extends PrimaryExpression, Declaration {
         properties: NodeArray<ObjectLiteralElement>;
     }
-    interface PropertyAccessExpression extends MemberExpression {
+    interface PropertyAccessExpression extends MemberExpression, Declaration {
         expression: LeftHandSideExpression;
         dotToken: Node;
         name: Identifier;
@@ -629,7 +701,7 @@ declare module "typescript" {
         expression: LeftHandSideExpression;
         argumentExpression?: Expression;
     }
-    interface CallExpression extends LeftHandSideExpression {
+    interface CallExpression extends LeftHandSideExpression, Declaration {
         expression: LeftHandSideExpression;
         typeArguments?: NodeArray<TypeNode>;
         arguments: NodeArray<Expression>;
@@ -688,6 +760,14 @@ declare module "typescript" {
     interface Statement extends Node {
         _statementBrand: any;
     }
+    interface EmptyStatement extends Statement {
+    }
+    interface DebuggerStatement extends Statement {
+    }
+    interface MissingDeclaration extends DeclarationStatement, ClassElement, ObjectLiteralElement, TypeElement {
+        name?: Identifier;
+    }
+    type BlockLike = SourceFile | Block | ModuleBlock | CaseClause;
     interface Block extends Statement {
         statements: NodeArray<Statement>;
     }
@@ -724,9 +804,13 @@ declare module "typescript" {
         initializer: VariableDeclarationList | Expression;
         expression: Expression;
     }
-    interface BreakOrContinueStatement extends Statement {
+    interface BreakStatement extends Statement {
         label?: Identifier;
     }
+    interface ContinueStatement extends Statement {
+        label?: Identifier;
+    }
+    type BreakOrContinueStatement = BreakStatement | ContinueStatement;
     interface ReturnStatement extends Statement {
         expression?: Expression;
     }
@@ -742,7 +826,7 @@ declare module "typescript" {
         clauses: NodeArray<CaseOrDefaultClause>;
     }
     interface CaseClause extends Node {
-        expression?: Expression;
+        expression: Expression;
         statements: NodeArray<Statement>;
     }
     interface DefaultClause extends Node {
@@ -771,24 +855,31 @@ declare module "typescript" {
         heritageClauses?: NodeArray<HeritageClause>;
         members: NodeArray<ClassElement>;
     }
-    interface ClassDeclaration extends ClassLikeDeclaration, Statement {
+    interface ClassDeclaration extends ClassLikeDeclaration, DeclarationStatement {
+        name?: Identifier;
     }
     interface ClassExpression extends ClassLikeDeclaration, PrimaryExpression {
     }
     interface ClassElement extends Declaration {
         _classElementBrand: any;
+        name?: PropertyName;
     }
-    interface InterfaceDeclaration extends Declaration, Statement {
+    interface TypeElement extends Declaration {
+        _typeElementBrand: any;
+        name?: PropertyName;
+        questionToken?: Node;
+    }
+    interface InterfaceDeclaration extends DeclarationStatement {
         name: Identifier;
         typeParameters?: NodeArray<TypeParameterDeclaration>;
         heritageClauses?: NodeArray<HeritageClause>;
-        members: NodeArray<Declaration>;
+        members: NodeArray<TypeElement>;
     }
     interface HeritageClause extends Node {
         token: SyntaxKind;
         types?: NodeArray<ExpressionWithTypeArguments>;
     }
-    interface TypeAliasDeclaration extends Declaration, Statement {
+    interface TypeAliasDeclaration extends DeclarationStatement {
         name: Identifier;
         typeParameters?: NodeArray<TypeParameterDeclaration>;
         type: TypeNode;
@@ -797,18 +888,19 @@ declare module "typescript" {
         name: DeclarationName;
         initializer?: Expression;
     }
-    interface EnumDeclaration extends Declaration, Statement {
+    interface EnumDeclaration extends DeclarationStatement {
         name: Identifier;
         members: NodeArray<EnumMember>;
     }
-    interface ModuleDeclaration extends Declaration, Statement {
+    type ModuleBody = ModuleBlock | ModuleDeclaration;
+    interface ModuleDeclaration extends DeclarationStatement {
         name: Identifier | LiteralExpression;
         body: ModuleBlock | ModuleDeclaration;
     }
     interface ModuleBlock extends Node, Statement {
         statements: NodeArray<Statement>;
     }
-    interface ImportEqualsDeclaration extends Declaration, Statement {
+    interface ImportEqualsDeclaration extends DeclarationStatement {
         name: Identifier;
         moduleReference: EntityName | ExternalModuleReference;
     }
@@ -826,22 +918,27 @@ declare module "typescript" {
     interface NamespaceImport extends Declaration {
         name: Identifier;
     }
-    interface ExportDeclaration extends Declaration, Statement {
+    interface ExportDeclaration extends DeclarationStatement {
         exportClause?: NamedExports;
         moduleSpecifier?: Expression;
     }
-    interface NamedImportsOrExports extends Node {
-        elements: NodeArray<ImportOrExportSpecifier>;
+    interface NamedImports extends Node {
+        elements: NodeArray<ImportSpecifier>;
     }
-    type NamedImports = NamedImportsOrExports;
-    type NamedExports = NamedImportsOrExports;
-    interface ImportOrExportSpecifier extends Declaration {
+    interface NamedExports extends Node {
+        elements: NodeArray<ExportSpecifier>;
+    }
+    type NamedImportsOrExports = NamedImports | NamedExports;
+    interface ImportSpecifier extends Declaration {
         propertyName?: Identifier;
         name: Identifier;
     }
-    type ImportSpecifier = ImportOrExportSpecifier;
-    type ExportSpecifier = ImportOrExportSpecifier;
-    interface ExportAssignment extends Declaration, Statement {
+    interface ExportSpecifier extends Declaration {
+        propertyName?: Identifier;
+        name: Identifier;
+    }
+    type ImportOrExportSpecifier = ImportSpecifier | ExportSpecifier;
+    interface ExportAssignment extends DeclarationStatement {
         isExportEquals?: boolean;
         expression: Expression;
     }
@@ -902,7 +999,8 @@ declare module "typescript" {
     interface JSDocThisType extends JSDocType {
         type: JSDocType;
     }
-    interface JSDocRecordMember extends PropertyDeclaration {
+    type JSDocTypeReferencingNode = JSDocThisType | JSDocConstructorType | JSDocVariadicType | JSDocOptionalType | JSDocNullableType | JSDocNonNullableType;
+    interface JSDocRecordMember extends PropertySignature {
         name: Identifier | LiteralExpression;
         type?: JSDocType;
     }
@@ -928,23 +1026,26 @@ declare module "typescript" {
         postParameterName?: Identifier;
         isBracketed: boolean;
     }
+    interface AmdDependency {
+        path: string;
+        name: string;
+    }
     interface SourceFile extends Declaration {
         statements: NodeArray<Statement>;
         endOfFileToken: Node;
         fileName: string;
+        path: Path;
         text: string;
-        amdDependencies: {
-            path: string;
-            name: string;
-        }[];
+        amdDependencies: AmdDependency[];
         moduleName: string;
         referencedFiles: FileReference[];
         languageVariant: LanguageVariant;
         renamedDependencies?: Map<string>;
         hasNoDefaultLib: boolean;
         languageVersion: ScriptTarget;
+        scriptKind: ScriptKind;
         externalModuleIndicator: Node;
-        isDefaultLib: boolean;
+        commonJsModuleIndicator: Node;
         identifiers: Map<string>;
         nodeCount: number;
         identifierCount: number;
@@ -955,13 +1056,14 @@ declare module "typescript" {
         classifiableNames?: Map<string>;
         resolvedModules: Map<ResolvedModule>;
         imports: LiteralExpression[];
+        moduleAugmentations: LiteralExpression[];
     }
     interface ScriptReferenceHost {
         getCompilerOptions(): CompilerOptions;
         getSourceFile(fileName: string): SourceFile;
         getCurrentDirectory(): string;
     }
-    interface ParseConfigHost extends ModuleResolutionHost {
+    interface ParseConfigHost {
         readDirectory(rootDir: string, extension: string, exclude: string[]): string[];
     }
     interface WriteFileCallback {
@@ -1039,7 +1141,9 @@ declare module "typescript" {
         getReturnTypeOfSignature(signature: Signature): Type;
         getSymbolsInScope(location: Node, meaning: SymbolFlags): Symbol[];
         getSymbolAtLocation(node: Node): Symbol;
+        getSymbolsOfParameterPropertyDeclaration(parameter: ParameterDeclaration, parameterName: string): Symbol[];
         getShorthandAssignmentValueSymbol(location: Node): Symbol;
+        getExportSpecifierLocalTargetSymbol(location: ExportSpecifier): Symbol;
         getTypeAtLocation(node: Node): Type;
         typeToString(type: Type, enclosingDeclaration?: Node, flags?: TypeFormatFlags): string;
         symbolToString(symbol: Symbol, enclosingDeclaration?: Node, meaning?: SymbolFlags): string;
@@ -1053,6 +1157,7 @@ declare module "typescript" {
         isImplementationOfOverload(node: FunctionLikeDeclaration): boolean;
         isUndefinedSymbol(symbol: Symbol): boolean;
         isArgumentsSymbol(symbol: Symbol): boolean;
+        isUnknownSymbol(symbol: Symbol): boolean;
         getConstantValue(node: EnumMember | PropertyAccessExpression | ElementAccessExpression): number;
         isValidPropertyAccess(node: PropertyAccessExpression | QualifiedName, propertyName: string): boolean;
         getAliasedSymbol(symbol: Symbol): Symbol;
@@ -1071,10 +1176,11 @@ declare module "typescript" {
     interface SymbolDisplayBuilder {
         buildTypeDisplay(type: Type, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
         buildSymbolDisplay(symbol: Symbol, writer: SymbolWriter, enclosingDeclaration?: Node, meaning?: SymbolFlags, flags?: SymbolFormatFlags): void;
-        buildSignatureDisplay(signatures: Signature, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
+        buildSignatureDisplay(signatures: Signature, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags, kind?: SignatureKind): void;
         buildParameterDisplay(parameter: Symbol, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
         buildTypeParameterDisplay(tp: TypeParameter, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
-        buildTypeParameterDisplayFromSymbol(symbol: Symbol, writer: SymbolWriter, enclosingDeclaraiton?: Node, flags?: TypeFormatFlags): void;
+        buildTypePredicateDisplay(predicate: TypePredicate, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
+        buildTypeParameterDisplayFromSymbol(symbol: Symbol, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
         buildDisplayForParametersAndDelimiters(parameters: Symbol[], writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
         buildDisplayForTypeParametersAndDelimiters(typeParameters: TypeParameter[], writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
         buildReturnTypeDisplay(signature: Signature, writer: SymbolWriter, enclosingDeclaration?: Node, flags?: TypeFormatFlags): void;
@@ -1115,11 +1221,22 @@ declare module "typescript" {
         NotAccessible = 1,
         CannotBeNamed = 2,
     }
-    interface TypePredicate {
-        parameterName: string;
-        parameterIndex: number;
+    const enum TypePredicateKind {
+        This = 0,
+        Identifier = 1,
+    }
+    interface TypePredicateBase {
+        kind: TypePredicateKind;
         type: Type;
     }
+    interface ThisTypePredicate extends TypePredicateBase {
+        _thisTypePredicateBrand: any;
+    }
+    interface IdentifierTypePredicate extends TypePredicateBase {
+        parameterName: string;
+        parameterIndex: number;
+    }
+    type TypePredicate = IdentifierTypePredicate | ThisTypePredicate;
     type AnyImportSyntax = ImportDeclaration | ImportEqualsDeclaration;
     interface SymbolVisibilityResult {
         accessibility: SymbolAccessibility;
@@ -1146,8 +1263,8 @@ declare module "typescript" {
         hasGlobalName(name: string): boolean;
         getReferencedExportContainer(node: Identifier): SourceFile | ModuleDeclaration | EnumDeclaration;
         getReferencedImportDeclaration(node: Identifier): Declaration;
-        getReferencedNestedRedeclaration(node: Identifier): Declaration;
-        isNestedRedeclaration(node: Declaration): boolean;
+        getReferencedDeclarationWithCollidingName(node: Identifier): Declaration;
+        isDeclarationWithCollidingName(node: Declaration): boolean;
         isValueAliasDeclaration(node: Node): boolean;
         isReferencedAliasDeclaration(node: Node, checkChildren?: boolean): boolean;
         isTopLevelValueImportEqualsWithEntityName(node: ImportEqualsDeclaration): boolean;
@@ -1164,6 +1281,9 @@ declare module "typescript" {
         getReferencedValueDeclaration(reference: Identifier): Declaration;
         getTypeReferenceSerializationKind(typeName: EntityName): TypeReferenceSerializationKind;
         isOptionalParameter(node: ParameterDeclaration): boolean;
+        moduleExportsSomeValue(moduleReferenceExpression: Expression): boolean;
+        isArgumentsLocalBinding(node: Identifier): boolean;
+        getExternalModuleFileFromDeclaration(declaration: ImportEqualsDeclaration | ImportDeclaration | ExportDeclaration | ModuleDeclaration): SourceFile;
     }
     const enum SymbolFlags {
         None = 0,
@@ -1250,14 +1370,16 @@ declare module "typescript" {
         type?: Type;
         declaredType?: Type;
         typeParameters?: TypeParameter[];
+        inferredClassType?: Type;
         instantiations?: Map<Type>;
         mapper?: TypeMapper;
         referenced?: boolean;
         containingType?: UnionOrIntersectionType;
         resolvedExports?: SymbolTable;
         exportsChecked?: boolean;
-        isNestedRedeclaration?: boolean;
+        isDeclaratonWithCollidingName?: boolean;
         bindingElement?: BindingElement;
+        exportsSomeValue?: boolean;
     }
     interface TransientSymbol extends Symbol, SymbolLinks {
     }
@@ -1268,19 +1390,20 @@ declare module "typescript" {
         TypeChecked = 1,
         LexicalThis = 2,
         CaptureThis = 4,
-        EmitExtends = 8,
-        EmitDecorate = 16,
-        EmitParam = 32,
-        EmitAwaiter = 64,
-        EmitGenerator = 128,
         SuperInstance = 256,
         SuperStatic = 512,
         ContextChecked = 1024,
-        LexicalArguments = 2048,
-        CaptureArguments = 4096,
-        EnumValuesComputed = 8192,
-        BlockScopedBindingInLoop = 16384,
+        AsyncMethodWithSuper = 2048,
+        AsyncMethodWithSuperBinding = 4096,
+        CaptureArguments = 8192,
+        EnumValuesComputed = 16384,
         LexicalModuleMergesWithClass = 32768,
+        LoopWithCapturedBlockScopedBinding = 65536,
+        CapturedBlockScopedBinding = 131072,
+        BlockScopedBindingInLoop = 262144,
+        ClassWithBodyScopedClassBinding = 524288,
+        BodyScopedClassBinding = 1048576,
+        NeedsLoopOutParameter = 2097152,
     }
     interface NodeLinks {
         resolvedType?: Type;
@@ -1289,7 +1412,6 @@ declare module "typescript" {
         resolvedSymbol?: Symbol;
         flags?: NodeCheckFlags;
         enumMemberValue?: number;
-        isIllegalTypeReferenceInConstraint?: boolean;
         isVisible?: boolean;
         generatedName?: string;
         generatedNames?: Map<string>;
@@ -1298,6 +1420,8 @@ declare module "typescript" {
         importOnRightSide?: Symbol;
         jsxFlags?: JsxFlags;
         resolvedJsxType?: Type;
+        hasSuperCall?: boolean;
+        superCall?: ExpressionStatement;
     }
     const enum TypeFlags {
         Any = 1,
@@ -1326,6 +1450,7 @@ declare module "typescript" {
         ContainsAnyFunctionType = 8388608,
         ESSymbol = 16777216,
         ThisType = 33554432,
+        ObjectLiteralPatternWithComputedProperties = 67108864,
         Intrinsic = 16777343,
         Primitive = 16777726,
         StringLike = 258,
@@ -1408,6 +1533,7 @@ declare module "typescript" {
         constraint: Type;
         target?: TypeParameter;
         mapper?: TypeMapper;
+        resolvedApparentType: Type;
     }
     const enum SignatureKind {
         Call = 0,
@@ -1417,7 +1543,6 @@ declare module "typescript" {
         declaration: SignatureDeclaration;
         typeParameters: TypeParameter[];
         parameters: Symbol[];
-        typePredicate?: TypePredicate;
         resolvedReturnType: Type;
         minArgumentCount: number;
         hasRestParameter: boolean;
@@ -1427,6 +1552,7 @@ declare module "typescript" {
         unionSignatures?: Signature[];
         erasedSignatureCache?: Signature;
         isolatedSignatureType?: ObjectType;
+        typePredicate?: TypePredicate;
     }
     const enum IndexKind {
         String = 0,
@@ -1447,12 +1573,21 @@ declare module "typescript" {
         inferUnionTypes: boolean;
         inferences: TypeInferences[];
         inferredTypes: Type[];
+        mapper?: TypeMapper;
         failedTypeParameterIndex?: number;
+    }
+    const enum SpecialPropertyAssignmentKind {
+        None = 0,
+        ExportsProperty = 1,
+        ModuleExports = 2,
+        PrototypeProperty = 3,
+        ThisProperty = 4,
     }
     interface DiagnosticMessage {
         key: string;
         category: DiagnosticCategory;
         code: number;
+        message: string;
     }
     interface DiagnosticMessageChain {
         messageText: string;
@@ -1488,6 +1623,7 @@ declare module "typescript" {
         inlineSourceMap?: boolean;
         inlineSources?: boolean;
         jsx?: JsxEmit;
+        reactNamespace?: string;
         listFiles?: boolean;
         locale?: string;
         mapRoot?: string;
@@ -1504,6 +1640,7 @@ declare module "typescript" {
         outFile?: string;
         outDir?: string;
         preserveConstEnums?: boolean;
+        pretty?: DiagnosticStyle;
         project?: string;
         removeComments?: boolean;
         rootDir?: string;
@@ -1518,9 +1655,34 @@ declare module "typescript" {
         experimentalDecorators?: boolean;
         emitDecoratorMetadata?: boolean;
         moduleResolution?: ModuleResolutionKind;
+        allowUnusedLabels?: boolean;
+        allowUnreachableCode?: boolean;
+        noImplicitReturns?: boolean;
+        noFallthroughCasesInSwitch?: boolean;
+        forceConsistentCasingInFileNames?: boolean;
+        allowSyntheticDefaultImports?: boolean;
+        allowJs?: boolean;
+        noImplicitUseStrict?: boolean;
+        disableSizeLimit?: boolean;
         stripInternal?: boolean;
         skipDefaultLibCheck?: boolean;
+        suppressOutputPathCheck?: boolean;
+        noCustomAsyncPromise?: boolean;
         [option: string]: string | number | boolean;
+    }
+    interface TypingOptions {
+        enableAutoDiscovery?: boolean;
+        include?: string[];
+        exclude?: string[];
+        [option: string]: string[] | boolean;
+    }
+    interface DiscoverTypingsInfo {
+        fileNames: string[];
+        projectRootPath: string;
+        safeListPath: string;
+        packageNameToTypingLocation: Map<string>;
+        typingOptions: TypingOptions;
+        compilerOptions: CompilerOptions;
     }
     const enum ModuleKind {
         None = 0,
@@ -1544,6 +1706,13 @@ declare module "typescript" {
         line: number;
         character: number;
     }
+    const enum ScriptKind {
+        Unknown = 0,
+        JS = 1,
+        JSX = 2,
+        TS = 3,
+        TSX = 4,
+    }
     const enum ScriptTarget {
         ES3 = 0,
         ES5 = 1,
@@ -1555,14 +1724,19 @@ declare module "typescript" {
         Standard = 0,
         JSX = 1,
     }
+    const enum DiagnosticStyle {
+        Simple = 0,
+        Pretty = 1,
+    }
     interface ParsedCommandLine {
         options: CompilerOptions;
+        typingOptions?: TypingOptions;
         fileNames: string[];
         errors: Diagnostic[];
     }
     interface CommandLineOptionBase {
         name: string;
-        type: string | Map<number>;
+        type: "string" | "number" | "boolean" | Map<number>;
         isFilePath?: boolean;
         shortName?: string;
         description?: DiagnosticMessage;
@@ -1570,7 +1744,7 @@ declare module "typescript" {
         experimental?: boolean;
     }
     interface CommandLineOptionOfPrimitiveType extends CommandLineOptionBase {
-        type: string;
+        type: "string" | "number" | "boolean";
     }
     interface CommandLineOptionOfCustomType extends CommandLineOptionBase {
         type: Map<number>;
@@ -1706,6 +1880,7 @@ declare module "typescript" {
     interface ModuleResolutionHost {
         fileExists(fileName: string): boolean;
         readFile(fileName: string): string;
+        directoryExists?(directoryName: string): boolean;
     }
     interface ResolvedModule {
         resolvedFileName: string;
@@ -1741,12 +1916,14 @@ declare module "typescript" {
         getModificationCount(): number;
         reattachFileDiagnostics(newFile: SourceFile): void;
     }
+
     const enum Ternary {
         False = 0,
         Maybe = 1,
         True = -1,
     }
-    function createFileMap<T>(getCanonicalFileName: (fileName: string) => string): FileMap<T>;
+    function createFileMap<T>(keyMapper?: (key: string) => string): FileMap<T>;
+    function toPath(fileName: string, basePath: string, getCanonicalFileName: (path: string) => string): Path;
     const enum Comparison {
         LessThan = -1,
         EqualTo = 0,
@@ -1772,18 +1949,21 @@ declare module "typescript" {
     function reduceRight<T>(array: T[], f: (a: T, x: T) => T): T;
     function reduceRight<T, U>(array: T[], f: (a: U, x: T) => U, initial: U): U;
     function hasProperty<T>(map: Map<T>, key: string): boolean;
+    function getKeys<T>(map: Map<T>): string[];
     function getProperty<T>(map: Map<T>, key: string): T;
     function isEmpty<T>(map: Map<T>): boolean;
     function clone<T>(object: T): T;
-    function extend<T1, T2>(first: Map<T1>, second: Map<T2>): Map<T1 & T2>;
+    function extend<T1 extends Map<{}>, T2 extends Map<{}>>(first: T1, second: T2): T1 & T2;
     function forEachValue<T, U>(map: Map<T>, callback: (value: T) => U): U;
     function forEachKey<T, U>(map: Map<T>, callback: (key: string) => U): U;
     function lookUp<T>(map: Map<T>, key: string): T;
     function copyMap<T>(source: Map<T>, target: Map<T>): void;
     function arrayToMap<T>(array: T[], makeKey: (value: T) => string): Map<T>;
+    function reduceProperties<T, U>(map: Map<T>, callback: (aggregate: U, value: T, key: string) => U, initial: U): U;
+    function isArray(value: any): value is any[];
     function memoize<T>(callback: () => T): () => T;
     let localizedDiagnosticMessages: Map<string>;
-    function getLocaleSpecificMessage(message: string): string;
+    function getLocaleSpecificMessage(message: DiagnosticMessage): string;
     function createFileDiagnostic(file: SourceFile, start: number, length: number, message: DiagnosticMessage, ...args: any[]): Diagnostic;
     function createCompilerDiagnostic(message: DiagnosticMessage, ...args: any[]): Diagnostic;
     function chainDiagnosticMessages(details: DiagnosticMessageChain, message: DiagnosticMessage, ...args: any[]): DiagnosticMessageChain;
@@ -1796,6 +1976,7 @@ declare module "typescript" {
     function getRootLength(path: string): number;
     let directorySeparator: string;
     function normalizePath(path: string): string;
+    function getDirectoryPath(path: Path): Path;
     function getDirectoryPath(path: string): string;
     function isUrl(path: string): boolean;
     function isRootedDiskPath(path: string): boolean;
@@ -1806,12 +1987,16 @@ declare module "typescript" {
     function getBaseFileName(path: string): string;
     function combinePaths(path1: string, path2: string): string;
     function fileExtensionIs(path: string, extension: string): boolean;
-    const supportedExtensions: string[];
-    const moduleFileExtensions: string[];
-    function isSupportedSourceFileName(fileName: string): boolean;
+    function ensureScriptKind(fileName: string, scriptKind?: ScriptKind): ScriptKind;
+    function getScriptKindFromFileName(fileName: string): ScriptKind;
+    const supportedTypeScriptExtensions: string[];
+    const supportedJavascriptExtensions: string[];
+    function getSupportedExtensions(options?: CompilerOptions): string[];
+    function isSupportedSourceFileName(fileName: string, compilerOptions?: CompilerOptions): boolean;
     function removeFileExtension(path: string): string;
     interface ObjectAllocator {
-        getNodeConstructor(kind: SyntaxKind): new () => Node;
+        getNodeConstructor(): new (kind: SyntaxKind, pos?: number, end?: number) => Node;
+        getSourceFileConstructor(): new (kind: SyntaxKind, pos?: number, end?: number) => SourceFile;
         getSymbolConstructor(): new (flags: SymbolFlags, name: string) => Symbol;
         getTypeConstructor(): new (checker: TypeChecker, flags: TypeFlags) => Type;
         getSignatureConstructor(): new (checker: TypeChecker) => Signature;
@@ -1829,6 +2014,10 @@ declare module "typescript" {
         function fail(message?: string): void;
     }
     function copyListRemovingItem<T>(item: T, list: T[]): T[];
+    function createGetCanonicalFileName(useCaseSensitivefileNames: boolean): (fileName: string) => string;
+
+    type FileWatcherCallback = (path: string, removed?: boolean) => void;
+    type DirectoryWatcherCallback = (path: string) => void;
     interface System {
         args: string[];
         newLine: string;
@@ -1836,8 +2025,8 @@ declare module "typescript" {
         write(s: string): void;
         readFile(path: string, encoding?: string): string;
         writeFile(path: string, data: string, writeByteOrderMark?: boolean): void;
-        watchFile?(path: string, callback: (path: string, removed?: boolean) => void): FileWatcher;
-        watchDirectory?(path: string, callback: (path: string) => void, recursive?: boolean): FileWatcher;
+        watchFile?(path: Path, callback: FileWatcherCallback): FileWatcher;
+        watchDirectory?(path: string, callback: DirectoryWatcherCallback, recursive?: boolean): FileWatcher;
         resolvePath(path: string): string;
         fileExists(path: string): boolean;
         directoryExists(path: string): boolean;
@@ -1851,3089 +2040,4011 @@ declare module "typescript" {
     interface FileWatcher {
         close(): void;
     }
+    interface DirectoryWatcher extends FileWatcher {
+        directoryPath: Path;
+        referenceCount: number;
+    }
     var sys: System;
+
     var Diagnostics: {
         Unterminated_string_literal: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Identifier_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_file_cannot_have_a_reference_to_itself: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Trailing_comma_not_allowed: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Asterisk_Slash_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unexpected_token: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_parameter_must_be_last_in_a_parameter_list: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_cannot_have_question_mark_and_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_required_parameter_cannot_follow_an_optional_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_cannot_have_a_rest_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_parameter_cannot_have_an_accessibility_modifier: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_parameter_cannot_have_a_question_mark: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_parameter_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_must_have_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_parameter_must_have_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_parameter_type_must_be_string_or_number: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Accessibility_modifier_already_seen: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_must_precede_1_modifier: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_already_seen: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_appear_on_a_class_element: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         super_must_be_followed_by_an_argument_list_or_member_access: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Only_ambient_modules_can_use_quoted_names: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Statements_are_not_allowed_in_ambient_contexts: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_declare_modifier_cannot_be_used_in_an_already_ambient_context: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Initializers_are_not_allowed_in_ambient_contexts: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_be_used_in_an_ambient_context: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_be_used_with_a_class_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_be_used_here: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_appear_on_a_data_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_appear_on_a_module_element: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_0_modifier_cannot_be_used_with_an_interface_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_declare_modifier_is_required_for_a_top_level_declaration_in_a_d_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_parameter_cannot_be_optional: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_parameter_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_set_accessor_must_have_exactly_one_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_set_accessor_cannot_have_an_optional_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_set_accessor_parameter_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_set_accessor_cannot_have_rest_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_get_accessor_cannot_have_parameters: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_a_valid_async_function_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Accessors_are_only_available_when_targeting_ECMAScript_5_and_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_async_function_or_method_must_have_a_valid_awaitable_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Operand_for_await_does_not_have_a_valid_callable_then_member: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_expression_in_async_function_does_not_have_a_valid_callable_then_member: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_body_for_async_arrow_function_does_not_have_a_valid_callable_then_member: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enum_member_must_have_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_is_referenced_directly_or_indirectly_in_the_fulfillment_callback_of_its_own_then_method: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_export_assignment_cannot_be_used_in_a_namespace: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        The_return_type_of_an_async_function_or_method_must_be_the_global_Promise_T_type: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         In_ambient_enum_declarations_member_initializer_must_be_constant_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unexpected_token_A_constructor_method_accessor_or_property_was_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_0_modifier_cannot_be_used_with_an_import_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_reference_directive_syntax: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Octal_literals_are_not_available_when_targeting_ECMAScript_5_and_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_accessor_cannot_be_declared_in_an_ambient_context: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_appear_on_a_constructor_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_appear_on_a_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Only_a_single_variable_declaration_is_allowed_in_a_for_in_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameters_cannot_appear_on_a_constructor_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_annotation_cannot_appear_on_a_constructor_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_accessor_cannot_have_type_parameters: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_set_accessor_cannot_have_a_return_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_signature_must_have_exactly_one_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_list_cannot_be_empty: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_list_cannot_be_empty: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_argument_list_cannot_be_empty: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_use_of_0_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         with_statements_are_not_allowed_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         delete_cannot_be_called_on_an_identifier_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_continue_statement_can_only_be_used_within_an_enclosing_iteration_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_break_statement_can_only_be_used_within_an_enclosing_iteration_or_switch_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Jump_target_cannot_cross_function_boundary: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_return_statement_can_only_be_used_within_a_function_body: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_class_member_cannot_be_declared_optional: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_default_clause_cannot_appear_more_than_once_in_a_switch_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_label_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_continue_statement_can_only_jump_to_a_label_of_an_enclosing_iteration_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_break_statement_can_only_jump_to_a_label_of_an_enclosing_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_object_literal_cannot_have_multiple_properties_with_the_same_name_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_object_literal_cannot_have_multiple_get_Slashset_accessors_with_the_same_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_object_literal_cannot_have_property_and_accessor_with_the_same_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_export_assignment_cannot_have_modifiers: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Octal_literals_are_not_allowed_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_tuple_type_element_list_cannot_be_empty: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Variable_declaration_list_cannot_be_empty: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Digit_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Hexadecimal_digit_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unexpected_end_of_text: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_character: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Declaration_or_statement_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Statement_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         case_or_default_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_or_signature_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enum_member_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Variable_declaration_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Argument_expression_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_assignment_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_or_comma_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_declaration_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_declaration_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_argument_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         String_literal_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Line_break_not_permitted_here: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         or_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Modifiers_not_permitted_on_index_signature_members: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Declaration_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Import_declarations_in_a_namespace_cannot_reference_a_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Cannot_compile_modules_unless_the_module_flag_is_provided: {
+        Cannot_compile_modules_unless_the_module_flag_is_provided_with_a_valid_module_type_Consider_setting_the_module_compiler_option_in_a_tsconfig_json_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_name_0_differs_from_already_included_file_name_1_only_in_casing: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         new_T_cannot_be_used_to_create_an_array_Use_new_Array_T_instead: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         const_declarations_must_be_initialized: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         const_declarations_can_only_be_declared_inside_a_block: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         let_declarations_can_only_be_declared_inside_a_block: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unterminated_template_literal: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unterminated_regular_expression_literal: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_object_member_cannot_be_declared_optional: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_yield_expression_is_only_allowed_in_a_generator_body: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Computed_property_names_are_not_allowed_in_enums: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_in_an_ambient_context_must_directly_refer_to_a_built_in_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_in_a_class_property_declaration_must_directly_refer_to_a_built_in_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_in_a_method_overload_must_directly_refer_to_a_built_in_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_in_an_interface_must_directly_refer_to_a_built_in_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_in_a_type_literal_must_directly_refer_to_a_built_in_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_comma_expression_is_not_allowed_in_a_computed_property_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         extends_clause_already_seen: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         extends_clause_must_precede_implements_clause: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Classes_can_only_extend_a_single_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         implements_clause_already_seen: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Interface_declaration_cannot_have_implements_clause: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Binary_digit_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Octal_digit_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unexpected_token_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_destructuring_pattern_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Array_element_destructuring_pattern_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_destructuring_declaration_must_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_implementation_cannot_be_declared_in_ambient_contexts: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Modifiers_cannot_appear_here: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Merge_conflict_marker_encountered: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_element_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_parameter_property_may_not_be_a_binding_pattern: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Only_a_single_variable_declaration_is_allowed_in_a_for_of_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_variable_declaration_of_a_for_in_statement_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_variable_declaration_of_a_for_of_statement_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_import_declaration_cannot_have_modifiers: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Module_0_has_no_default_export: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_export_declaration_cannot_have_modifiers: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Export_declarations_are_not_permitted_in_a_namespace: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Catch_clause_variable_name_must_be_an_identifier: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Catch_clause_variable_cannot_have_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Catch_clause_variable_cannot_have_an_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_extended_Unicode_escape_value_must_be_between_0x0_and_0x10FFFF_inclusive: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unterminated_Unicode_escape_sequence: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Line_terminator_not_permitted_before_arrow: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Import_assignment_cannot_be_used_when_targeting_ECMAScript_6_modules_Consider_using_import_Asterisk_as_ns_from_mod_import_a_from_mod_import_d_from_mod_or_another_module_format_instead: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Export_assignment_cannot_be_used_when_targeting_ECMAScript_6_modules_Consider_using_export_default_or_another_module_format_instead: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Cannot_compile_modules_into_es6_when_targeting_ES5_or_lower: {
+        Cannot_compile_modules_into_es2015_when_targeting_ES5_or_lower: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Decorators_are_not_valid_here: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Decorators_cannot_be_applied_to_multiple_get_Slashset_accessors_of_the_same_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_compile_namespaces_when_the_isolatedModules_flag_is_provided: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Ambient_const_enums_are_not_allowed_when_the_isolatedModules_flag_is_provided: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_use_of_0_Class_definitions_are_automatically_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_class_declaration_without_the_default_modifier_must_have_a_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Identifier_expected_0_is_a_reserved_word_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Identifier_expected_0_is_a_reserved_word_in_strict_mode_Class_definitions_are_automatically_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Identifier_expected_0_is_a_reserved_word_in_strict_mode_Modules_are_automatically_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_use_of_0_Modules_are_automatically_in_strict_mode: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Export_assignment_is_not_supported_when_module_flag_is_system: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Experimental_support_for_decorators_is_a_feature_that_is_subject_to_change_in_a_future_release_Specify_experimentalDecorators_to_remove_this_warning: {
+        Experimental_support_for_decorators_is_a_feature_that_is_subject_to_change_in_a_future_release_Set_the_experimentalDecorators_option_to_remove_this_warning: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generators_are_only_available_when_targeting_ECMAScript_6_or_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generators_are_not_allowed_in_an_ambient_context: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_overload_signature_cannot_be_declared_as_a_generator: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_tag_already_specified: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Signature_0_must_have_a_type_predicate: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_parameter_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_predicate_0_is_not_assignable_to_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_is_not_in_the_same_position_as_parameter_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_type_predicate_is_only_allowed_in_return_type_position_for_functions_and_methods: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_type_predicate_cannot_reference_a_rest_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_type_predicate_cannot_reference_element_0_in_a_binding_pattern: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_export_assignment_can_only_be_used_in_a_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_import_declaration_can_only_be_used_in_a_namespace_or_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_export_declaration_can_only_be_used_in_a_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_ambient_module_declaration_is_only_allowed_at_the_top_level_in_a_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_namespace_declaration_is_only_allowed_in_a_namespace_or_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_return_type_of_a_property_decorator_function_must_be_either_void_or_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_return_type_of_a_parameter_decorator_function_must_be_either_void_or_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unable_to_resolve_signature_of_class_decorator_when_called_as_an_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unable_to_resolve_signature_of_parameter_decorator_when_called_as_an_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unable_to_resolve_signature_of_property_decorator_when_called_as_an_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unable_to_resolve_signature_of_method_decorator_when_called_as_an_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         abstract_modifier_can_only_appear_on_a_class_or_method_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_modifier_cannot_be_used_with_1_modifier: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Abstract_methods_can_only_appear_within_an_abstract_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Method_0_cannot_have_an_implementation_because_it_is_marked_abstract: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        An_interface_property_cannot_have_an_initializer: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        A_type_literal_property_cannot_have_an_initializer: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        A_class_member_cannot_have_the_0_keyword: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        A_decorator_can_only_decorate_a_method_implementation_not_an_overload: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         with_statements_are_not_allowed_in_an_async_function_block: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         await_expression_is_only_allowed_within_an_async_function: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Async_functions_are_only_available_when_targeting_ECMAScript_6_and_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         can_only_be_used_in_an_object_literal_property_inside_a_destructuring_assignment: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        The_body_of_an_if_statement_cannot_be_the_empty_statement: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Duplicate_identifier_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Initializer_of_instance_member_variable_0_cannot_reference_identifier_1_declared_in_the_constructor: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Static_members_cannot_reference_class_type_parameters: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Circular_definition_of_import_alias_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Module_0_has_no_exported_member_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_0_is_not_a_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_module_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Module_0_has_already_exported_a_member_named_1_Consider_explicitly_re_exporting_to_resolve_the_ambiguity: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         An_export_assignment_cannot_be_used_in_a_module_with_other_exported_elements: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_recursively_references_itself_as_a_base_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_class_may_only_extend_another_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_interface_may_only_extend_a_class_or_another_interface: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Constraint_of_a_type_parameter_cannot_reference_any_type_parameter_from_the_same_type_parameter_list: {
+        Type_parameter_0_has_a_circular_constraint: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generic_type_0_requires_1_type_argument_s: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_generic: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Global_type_0_must_be_a_class_or_interface_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Global_type_0_must_have_1_type_parameter_s: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_global_type_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Named_property_0_of_types_1_and_2_are_not_identical: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Interface_0_cannot_simultaneously_extend_types_1_and_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Excessive_stack_depth_comparing_types_0_and_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_assignable_to_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Cannot_redeclare_exported_variable_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Property_0_is_missing_in_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_private_in_type_1_but_not_in_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Types_of_property_0_are_incompatible: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_optional_in_type_1_but_required_in_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Types_of_parameters_0_and_1_are_incompatible: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Index_signature_is_missing_in_type_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Index_signatures_are_incompatible: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         this_cannot_be_referenced_in_a_module_or_namespace_body: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         this_cannot_be_referenced_in_current_location: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         this_cannot_be_referenced_in_constructor_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         this_cannot_be_referenced_in_a_static_property_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         super_can_only_be_referenced_in_a_derived_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         super_cannot_be_referenced_in_constructor_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Super_calls_are_not_permitted_outside_constructors_or_in_nested_functions_inside_constructors: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         super_property_access_is_permitted_only_in_a_constructor_member_function_or_member_accessor_of_a_derived_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_does_not_exist_on_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Only_public_and_protected_methods_of_the_base_class_are_accessible_via_the_super_keyword: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_private_and_only_accessible_within_class_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_index_expression_argument_must_be_of_type_string_number_symbol_or_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_does_not_satisfy_the_constraint_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Argument_of_type_0_is_not_assignable_to_parameter_of_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Supplied_parameters_do_not_match_any_signature_of_call_target: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Untyped_function_calls_may_not_accept_type_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Value_of_type_0_is_not_callable_Did_you_mean_to_include_new: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_invoke_an_expression_whose_type_lacks_a_call_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Only_a_void_function_can_be_called_with_the_new_keyword: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_use_new_with_an_expression_whose_type_lacks_a_call_or_construct_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Neither_type_0_nor_type_1_is_assignable_to_the_other: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Object_literal_may_only_specify_known_properties_and_0_does_not_exist_in_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         No_best_common_type_exists_among_return_expressions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        A_function_whose_declared_type_is_neither_void_nor_any_must_return_a_value_or_consist_of_a_single_throw_statement: {
+        A_function_whose_declared_type_is_neither_void_nor_any_must_return_a_value: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_arithmetic_operand_must_be_of_type_any_number_or_an_enum_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_operand_of_an_increment_or_decrement_operator_must_be_a_variable_property_or_indexer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_an_instanceof_expression_must_be_of_type_any_an_object_type_or_a_type_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_right_hand_side_of_an_instanceof_expression_must_be_of_type_any_or_of_a_type_assignable_to_the_Function_interface_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_an_in_expression_must_be_of_type_any_string_number_or_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_right_hand_side_of_an_in_expression_must_be_of_type_any_an_object_type_or_a_type_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_an_arithmetic_operation_must_be_of_type_any_number_or_an_enum_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_right_hand_side_of_an_arithmetic_operation_must_be_of_type_any_number_or_an_enum_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_left_hand_side_of_assignment_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Operator_0_cannot_be_applied_to_types_1_and_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_parameter_property_is_only_allowed_in_a_constructor_implementation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_parameter_must_be_of_an_array_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_parameter_initializer_is_only_allowed_in_a_function_or_constructor_implementation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_cannot_be_referenced_in_its_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Initializer_of_parameter_0_cannot_reference_identifier_1_declared_after_it: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_string_index_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_number_index_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_super_call_must_be_the_first_statement_in_the_constructor_when_a_class_contains_initialized_properties_or_has_parameter_properties: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Constructors_for_derived_classes_must_contain_a_super_call: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        A_get_accessor_must_return_a_value_or_consist_of_a_single_throw_statement: {
+        A_get_accessor_must_return_a_value: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Getter_and_setter_accessors_do_not_agree_in_visibility: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         get_and_set_accessor_must_have_the_same_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_signature_with_an_implementation_cannot_use_a_string_literal_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specialized_overload_signature_is_not_assignable_to_any_non_specialized_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signatures_must_all_be_exported_or_not_exported: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signatures_must_all_be_ambient_or_non_ambient: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signatures_must_all_be_public_private_or_protected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signatures_must_all_be_optional_or_required: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_overload_must_be_static: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_overload_must_not_be_static: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_implementation_name_must_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Constructor_implementation_is_missing: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_implementation_is_missing_or_not_immediately_following_the_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Multiple_constructor_implementations_are_not_allowed: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_function_implementation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signature_is_not_compatible_with_function_implementation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Individual_declarations_in_merged_declaration_0_must_be_all_exported_or_all_local: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_identifier_arguments_Compiler_uses_arguments_to_initialize_rest_parameters: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Declaration_name_conflicts_with_built_in_global_identifier_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Duplicate_identifier_this_Compiler_uses_variable_declaration_this_to_capture_this_reference: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_resolves_to_variable_declaration_this_that_compiler_uses_to_capture_this_reference: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_identifier_super_Compiler_uses_super_to_capture_base_class_reference: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_resolves_to_super_that_compiler_uses_to_capture_base_class_reference: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Subsequent_variable_declarations_must_have_the_same_type_Variable_0_must_be_of_type_1_but_here_has_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_in_statement_cannot_use_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_in_statement_must_be_of_type_string_or_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_left_hand_side_in_for_in_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_right_hand_side_of_a_for_in_statement_must_be_of_type_any_an_object_type_or_a_type_parameter: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Setters_cannot_return_a_value: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_constructor_signature_must_be_assignable_to_the_instance_type_of_the_class: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         All_symbols_within_a_with_block_will_be_resolved_to_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_of_type_1_is_not_assignable_to_string_index_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_of_type_1_is_not_assignable_to_numeric_index_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Numeric_index_type_0_is_not_assignable_to_string_index_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_incorrectly_extends_base_class_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_static_side_0_incorrectly_extends_base_class_static_side_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_name_0_in_extends_clause_does_not_reference_constructor_function_for_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_incorrectly_implements_interface_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_class_may_only_implement_another_class_or_interface: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_defines_instance_member_function_1_but_extended_class_2_defines_it_as_instance_member_accessor: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_defines_instance_member_function_1_but_extended_class_2_defines_it_as_instance_member_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_defines_instance_member_property_1_but_extended_class_2_defines_it_as_instance_member_function: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Class_0_defines_instance_member_accessor_1_but_extended_class_2_defines_it_as_instance_member_function: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Interface_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         All_declarations_of_an_interface_must_have_identical_type_parameters: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Interface_0_incorrectly_extends_interface_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enum_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         In_an_enum_with_multiple_declarations_only_one_declaration_can_omit_an_initializer_for_its_first_enum_element: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_namespace_declaration_cannot_be_in_a_different_file_from_a_class_or_function_with_which_it_is_merged: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_namespace_declaration_cannot_be_located_prior_to_a_class_or_function_with_which_it_is_merged: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Ambient_modules_cannot_be_nested_in_other_modules_or_namespaces: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Ambient_module_declaration_cannot_specify_relative_module_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Module_0_is_hidden_by_a_local_declaration_with_the_same_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Import_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Import_or_export_declaration_in_an_ambient_module_declaration_cannot_reference_module_through_relative_module_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Import_declaration_conflicts_with_local_declaration_of_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Duplicate_identifier_0_Compiler_reserves_name_1_in_top_level_scope_of_a_module: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Types_have_separate_declarations_of_a_private_property_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_protected_but_type_1_is_not_a_class_derived_from_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_protected_in_type_1_but_public_in_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_protected_and_only_accessible_within_class_1_and_its_subclasses: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_is_protected_and_only_accessible_through_an_instance_of_class_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_0_operator_is_not_allowed_for_boolean_types_Consider_using_1_instead: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Block_scoped_variable_0_used_before_its_declaration: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_operand_of_an_increment_or_decrement_operator_cannot_be_a_constant: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Left_hand_side_of_assignment_expression_cannot_be_a_constant: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_redeclare_block_scoped_variable_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_enum_member_cannot_have_a_numeric_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_type_argument_for_type_parameter_0_cannot_be_inferred_from_the_usage_Consider_specifying_the_type_arguments_explicitly: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_argument_candidate_1_is_not_a_valid_type_argument_because_it_is_not_a_supertype_of_candidate_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_alias_0_circularly_references_itself: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_alias_name_cannot_be_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_AMD_module_cannot_have_multiple_name_assignments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_has_no_property_1_and_no_string_index_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_has_no_property_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_an_array_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_element_must_be_last_in_an_array_destructuring_pattern: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_binding_pattern_parameter_cannot_be_optional_in_an_implementation_signature: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_must_be_of_type_string_number_symbol_or_any: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         this_cannot_be_referenced_in_a_computed_property_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         super_cannot_be_referenced_in_a_computed_property_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_cannot_reference_a_type_parameter_from_its_containing_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_global_value_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_0_operator_cannot_be_applied_to_type_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Symbol_reference_does_not_refer_to_the_global_Symbol_constructor_object: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_computed_property_name_of_the_form_0_must_be_of_type_symbol: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Spread_operator_in_new_expressions_is_only_available_when_targeting_ECMAScript_5_and_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enum_declarations_must_all_be_const_or_non_const: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         In_const_enum_declarations_member_initializer_must_be_constant_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         const_enums_can_only_be_used_in_property_or_index_access_expressions_or_the_right_hand_side_of_an_import_declaration_or_export_assignment: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_const_enum_member_can_only_be_accessed_using_a_string_literal: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         const_enum_member_initializer_was_evaluated_to_a_non_finite_value: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         const_enum_member_initializer_was_evaluated_to_disallowed_value_NaN: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_does_not_exist_on_const_enum_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         let_is_not_allowed_to_be_used_as_a_name_in_let_or_const_declarations: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_initialize_outer_scoped_variable_0_in_the_same_scope_as_block_scoped_declaration_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_of_statement_cannot_use_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Export_declaration_conflicts_with_exported_declaration_of_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_of_statement_cannot_be_a_previously_defined_constant: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_in_statement_cannot_be_a_previously_defined_constant: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Invalid_left_hand_side_in_for_of_statement: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_must_have_a_Symbol_iterator_method_that_returns_an_iterator: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_iterator_must_have_a_next_method: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_type_returned_by_the_next_method_of_an_iterator_must_have_a_value_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_left_hand_side_of_a_for_in_statement_cannot_be_a_destructuring_pattern: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_redeclare_identifier_0_in_catch_clause: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Tuple_type_0_with_length_1_cannot_be_assigned_to_tuple_with_length_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Using_a_string_in_a_for_of_statement_is_only_supported_in_ECMAScript_5_and_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_an_array_type_or_a_string_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_arguments_object_cannot_be_referenced_in_an_arrow_function_in_ES3_and_ES5_Consider_using_a_standard_function_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Module_0_resolves_to_a_non_module_entity_and_cannot_be_imported_using_this_construct: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Module_0_uses_export_and_cannot_be_used_with_export_Asterisk: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_interface_can_only_extend_an_identifier_Slashqualified_name_with_optional_type_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_class_can_only_implement_an_identifier_Slashqualified_name_with_optional_type_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_rest_element_cannot_contain_a_binding_pattern: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_is_referenced_directly_or_indirectly_in_its_own_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_namespace_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         No_best_common_type_exists_among_yield_expressions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_generator_cannot_have_a_void_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_is_referenced_directly_or_indirectly_in_its_own_base_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_0_is_not_a_constructor_function_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         No_base_constructor_has_the_specified_number_of_type_arguments: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Base_constructor_return_type_0_is_not_a_class_or_interface_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Base_constructors_must_all_have_the_same_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_create_an_instance_of_the_abstract_class_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Overload_signatures_must_all_be_abstract_or_not_abstract: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Abstract_method_0_in_class_1_cannot_be_accessed_via_super_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Classes_containing_abstract_methods_must_be_marked_abstract: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Non_abstract_class_0_does_not_implement_inherited_abstract_member_1_from_class_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         All_declarations_of_an_abstract_method_must_be_consecutive: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_assign_an_abstract_constructor_type_to_a_non_abstract_constructor_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        A_this_based_type_guard_is_not_compatible_with_a_parameter_based_type_guard: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Duplicate_identifier_0_Compiler_uses_declaration_1_to_support_async_functions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expression_resolves_to_variable_declaration_0_that_compiler_uses_to_support_async_functions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_arguments_object_cannot_be_referenced_in_an_async_arrow_function_Consider_using_a_standard_async_function_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         yield_expressions_cannot_be_used_in_a_parameter_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         await_expressions_cannot_be_used_in_a_parameter_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Initializer_provides_no_value_for_this_binding_element_and_the_binding_element_has_no_default_value: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_this_type_is_available_only_in_a_non_static_member_of_a_class_or_interface: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_inferred_type_of_0_references_an_inaccessible_this_type_A_type_annotation_is_necessary: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_module_cannot_have_multiple_default_exports: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        JSX_element_attributes_type_0_must_be_an_object_type: {
+        Duplicate_identifier_0_Compiler_reserves_name_1_in_top_level_scope_of_a_module_containing_async_functions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        JSX_element_attributes_type_0_may_not_be_a_union_type: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         The_return_type_of_a_JSX_element_constructor_must_return_an_object_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_element_implicitly_has_type_any_because_the_global_type_JSX_Element_does_not_exist: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_in_type_1_is_not_assignable_to_type_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_element_type_0_does_not_have_any_construct_or_call_signatures: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_element_type_0_is_not_a_constructor_function_for_JSX_elements: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_of_JSX_spread_attribute_is_not_assignable_to_target_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_element_class_does_not_support_attributes_because_it_does_not_have_a_0_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         The_global_type_JSX_0_may_not_have_more_than_one_property: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_emit_namespaced_JSX_elements_in_React: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_member_initializer_in_a_enum_declaration_cannot_reference_members_declared_after_it_including_members_defined_in_other_enums: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Merged_declaration_0_cannot_include_a_default_export_declaration_Consider_adding_a_separate_export_default_0_declaration_instead: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Non_abstract_class_expression_does_not_implement_inherited_abstract_member_0_from_class_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_external_package_typings_file_cannot_contain_tripleslash_references_Please_contact_the_package_author_to_update_the_package_definition: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_external_package_typings_file_0_is_not_a_module_Please_contact_the_package_author_to_update_the_package_definition: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        JSX_expressions_must_have_one_parent_element: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Type_0_provides_no_match_for_the_signature_1: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        super_is_only_allowed_in_members_of_object_literal_expressions_when_option_target_is_ES2015_or_higher: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        super_can_only_be_referenced_in_members_of_derived_classes_or_object_literal_expressions: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_re_export_name_that_is_not_defined_in_the_module: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_find_name_0_Did_you_mean_the_static_member_1_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_find_name_0_Did_you_mean_the_instance_member_this_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Invalid_module_name_in_augmentation_module_0_cannot_be_found: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Module_augmentation_cannot_introduce_new_names_in_the_top_level_scope: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Exports_and_export_assignments_are_not_permitted_in_module_augmentations: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Imports_are_not_permitted_in_module_augmentations_Consider_moving_them_to_the_enclosing_external_module: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        export_modifier_cannot_be_applied_to_ambient_modules_and_module_augmentations_since_they_are_always_visible: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Augmentations_for_the_global_scope_can_only_be_directly_nested_in_external_modules_or_ambient_module_declarations: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Augmentations_for_the_global_scope_should_have_declare_modifier_unless_they_appear_in_already_ambient_context: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_augment_module_0_because_it_resolves_to_a_non_module_entity: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Import_declaration_0_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_constructor_signature_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_call_signature_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_public_static_method_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_public_method_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_method_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Type_parameter_0_of_exported_function_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Implements_clause_of_exported_class_0_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Extends_clause_of_exported_class_0_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Extends_clause_of_exported_interface_0_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_variable_0_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_variable_0_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_variable_0_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_static_property_0_of_exported_class_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_static_property_0_of_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_static_property_0_of_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_property_0_of_exported_class_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_property_0_of_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Public_property_0_of_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_of_exported_interface_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Property_0_of_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_static_property_setter_from_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_static_property_setter_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_property_setter_from_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_property_setter_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_property_getter_from_exported_class_has_or_is_using_name_0_from_external_module_1_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_property_getter_from_exported_class_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_property_getter_from_exported_class_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_property_getter_from_exported_class_has_or_is_using_name_0_from_external_module_1_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_property_getter_from_exported_class_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_property_getter_from_exported_class_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_constructor_signature_from_exported_interface_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_constructor_signature_from_exported_interface_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_call_signature_from_exported_interface_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_call_signature_from_exported_interface_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_index_signature_from_exported_interface_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_index_signature_from_exported_interface_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_method_from_exported_class_has_or_is_using_name_0_from_external_module_1_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_method_from_exported_class_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_static_method_from_exported_class_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_method_from_exported_class_has_or_is_using_name_0_from_external_module_1_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_method_from_exported_class_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_public_method_from_exported_class_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_method_from_exported_interface_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_method_from_exported_interface_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_exported_function_has_or_is_using_name_0_from_external_module_1_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_exported_function_has_or_is_using_name_0_from_private_module_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Return_type_of_exported_function_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_constructor_from_exported_class_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_constructor_from_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_constructor_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_constructor_signature_from_exported_interface_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_constructor_signature_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_call_signature_from_exported_interface_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_call_signature_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_static_method_from_exported_class_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_static_method_from_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_static_method_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_method_from_exported_class_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_method_from_exported_class_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_public_method_from_exported_class_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_method_from_exported_interface_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_method_from_exported_interface_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_exported_function_has_or_is_using_name_1_from_external_module_2_but_cannot_be_named: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_exported_function_has_or_is_using_name_1_from_private_module_2: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_of_exported_function_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Exported_type_alias_0_has_or_is_using_private_name_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Default_export_of_the_module_has_or_is_using_private_name_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
-        };
-        Loop_contains_block_scoped_variable_0_referenced_by_a_function_in_the_loop_This_is_only_supported_in_ECMAScript_6_or_higher: {
-            code: number;
-            category: DiagnosticCategory;
-            key: string;
+            message: string;
         };
         The_current_host_does_not_support_the_0_option: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_find_the_common_subdirectory_path_for_the_input_files: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_read_file_0_Colon_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unsupported_file_encoding: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Failed_to_parse_file_0_Colon_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unknown_compiler_option_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Compiler_option_0_requires_a_value_of_type_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Could_not_write_file_0_Colon_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Option_project_cannot_be_mixed_with_source_files_on_a_command_line: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Option_isolatedModules_can_only_be_used_when_either_option_module_is_provided_or_option_target_is_ES6_or_higher: {
+        Option_isolatedModules_can_only_be_used_when_either_option_module_is_provided_or_option_target_is_ES2015_or_higher: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Option_inlineSources_can_only_be_used_when_either_option_inlineSourceMap_or_option_sourceMap_is_provided: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Option_0_cannot_be_specified_without_specifying_option_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Option_0_cannot_be_specified_with_option_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_tsconfig_json_file_is_already_defined_at_Colon_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Cannot_write_file_0_because_it_would_overwrite_input_file: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_write_file_0_because_it_would_be_overwritten_by_multiple_input_files: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Cannot_find_a_tsconfig_json_file_at_the_specified_directory_Colon_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        The_specified_path_does_not_exist_Colon_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Invalide_value_for_reactNamespace_0_is_not_a_valid_identifier: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Concatenate_and_emit_output_to_single_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generates_corresponding_d_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specifies_the_location_where_debugger_should_locate_map_files_instead_of_generated_locations: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specifies_the_location_where_debugger_should_locate_TypeScript_files_instead_of_source_locations: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Watch_input_files: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Redirect_output_structure_to_the_directory: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Do_not_erase_const_enum_declarations_in_generated_code: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Do_not_emit_outputs_if_any_errors_were_reported: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Do_not_emit_comments_to_output: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Do_not_emit_outputs: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Specify_ECMAScript_target_version_Colon_ES3_default_ES5_or_ES6_experimental: {
+        Allow_default_imports_from_modules_with_no_default_export_This_does_not_affect_code_emit_just_typechecking: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Specify_module_code_generation_Colon_commonjs_amd_system_umd_or_es6: {
+        Specify_ECMAScript_target_version_Colon_ES3_default_ES5_or_ES2015_experimental: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Specify_module_code_generation_Colon_commonjs_amd_system_umd_or_es2015: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Print_this_message: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Print_the_compiler_s_version: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Compile_the_project_in_the_given_directory: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Syntax_Colon_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         options: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Examples_Colon_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Options_Colon: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Version_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Insert_command_line_options_and_files_from_a_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_change_detected_Starting_incremental_compilation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         KIND: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         FILE: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         VERSION: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         LOCATION: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         DIRECTORY: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Compilation_complete_Watching_for_file_changes: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generates_corresponding_map_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Compiler_option_0_expects_an_argument: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unterminated_quoted_string_in_response_file_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Argument_for_module_option_must_be_commonjs_amd_system_umd_or_es6: {
+        Argument_for_module_option_must_be_commonjs_amd_system_umd_es2015_or_none: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
-        Argument_for_target_option_must_be_ES3_ES5_or_ES6: {
+        Argument_for_target_option_must_be_ES3_ES5_or_ES2015: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Locale_must_be_of_the_form_language_or_language_territory_For_example_0_or_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unsupported_locale_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Unable_to_open_file_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Corrupted_locale_file_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Raise_error_on_expressions_and_declarations_with_an_implied_any_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_0_not_found: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_0_has_unsupported_extension_The_only_supported_extensions_are_1: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Suppress_noImplicitAny_errors_for_indexing_objects_lacking_index_signatures: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Do_not_emit_declarations_for_code_that_has_an_internal_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specifies_the_root_directory_of_input_files_Use_to_control_the_output_directory_structure_with_outDir: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         File_0_is_not_under_rootDir_1_rootDir_is_expected_to_contain_all_source_files: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specifies_the_end_of_line_sequence_to_be_used_when_emitting_files_Colon_CRLF_dos_or_LF_unix: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         NEWLINE: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Argument_for_newLine_option_must_be_CRLF_or_LF: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Argument_for_moduleResolution_option_must_be_node_or_classic: {
             code: number;
             category: DiagnosticCategory;
             key: string;
-        };
-        Specify_JSX_code_generation_Colon_preserve_or_react: {
-            code: number;
-            category: DiagnosticCategory;
-            key: string;
-        };
-        Argument_for_jsx_must_be_preserve_or_react: {
-            code: number;
-            category: DiagnosticCategory;
-            key: string;
+            message: string;
         };
         Enables_experimental_support_for_ES7_decorators: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enables_experimental_support_for_emitting_type_metadata_for_decorators: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Enables_experimental_support_for_ES7_async_functions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Specifies_module_resolution_strategy_Colon_node_Node_js_or_classic_TypeScript_pre_1_6: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Initializes_a_TypeScript_project_and_creates_a_tsconfig_json_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Successfully_created_a_tsconfig_json_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Suppress_excess_property_checks_for_object_literals: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Stylize_errors_and_messages_using_color_and_context_experimental: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Do_not_report_errors_on_unused_labels: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Report_error_when_not_all_code_paths_in_function_return_a_value: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Report_errors_for_fallthrough_cases_in_switch_statement: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Do_not_report_errors_on_unreachable_code: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Disallow_inconsistently_cased_references_to_the_same_file: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Specify_JSX_code_generation_Colon_preserve_or_react: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Argument_for_jsx_must_be_preserve_or_react: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Only_amd_and_system_modules_are_supported_alongside_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Allow_javascript_files_to_be_compiled: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Specifies_the_object_invoked_for_createElement_and_spread_when_targeting_react_JSX_emit: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Option_0_should_have_array_of_strings_as_a_value: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Do_not_emit_use_strict_directives_in_module_output: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Variable_0_implicitly_has_an_1_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Parameter_0_implicitly_has_an_1_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Member_0_implicitly_has_an_1_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         new_expression_whose_target_lacks_a_construct_signature_implicitly_has_an_any_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_which_lacks_return_type_annotation_implicitly_has_an_1_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_expression_which_lacks_return_type_annotation_implicitly_has_an_0_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Construct_signature_which_lacks_return_type_annotation_implicitly_has_an_any_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Element_implicitly_has_an_any_type_because_index_expression_is_not_of_type_number: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         Property_0_implicitly_has_type_any_because_its_set_accessor_lacks_a_type_annotation: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Index_signature_of_object_type_implicitly_has_an_any_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Object_literal_s_property_0_implicitly_has_an_1_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Rest_parameter_0_implicitly_has_an_any_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Call_signature_which_lacks_return_type_annotation_implicitly_has_an_any_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_implicitly_has_type_any_because_it_does_not_have_a_type_annotation_and_is_referenced_directly_or_indirectly_in_its_own_initializer: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_implicitly_has_return_type_any_because_it_does_not_have_a_return_type_annotation_and_is_referenced_directly_or_indirectly_in_one_of_its_return_expressions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Function_implicitly_has_return_type_any_because_it_does_not_have_a_return_type_annotation_and_is_referenced_directly_or_indirectly_in_one_of_its_return_expressions: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Generator_implicitly_has_type_0_because_it_does_not_yield_any_values_Consider_supplying_a_return_type: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_element_implicitly_has_type_any_because_no_interface_JSX_0_exists: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        Unreachable_code_detected: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Unused_label: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Fallthrough_case_in_switch: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Not_all_code_paths_return_a_value: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
         You_cannot_rename_this_element: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         You_cannot_rename_elements_that_are_defined_in_the_standard_TypeScript_library: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         import_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         export_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         type_parameter_declarations_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         implements_clauses_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         interface_declarations_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         module_declarations_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         type_aliases_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         _0_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         types_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         type_arguments_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         parameter_modifiers_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         property_declarations_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         enum_declarations_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         type_assertion_expressions_can_only_be_used_in_a_ts_file: {
             code: number;
             category: DiagnosticCategory;
             key: string;
-        };
-        decorators_can_only_be_used_in_a_ts_file: {
-            code: number;
-            category: DiagnosticCategory;
-            key: string;
+            message: string;
         };
         Only_identifiers_Slashqualified_names_with_optional_type_arguments_are_currently_supported_in_a_class_extends_clauses: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         class_expressions_are_not_currently_supported: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_attributes_must_only_be_assigned_a_non_empty_expression: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_elements_cannot_have_multiple_attributes_with_the_same_name: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Expected_corresponding_JSX_closing_tag_for_0: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         JSX_attribute_expected: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         Cannot_use_JSX_unless_the_jsx_flag_is_provided: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_constructor_cannot_contain_a_super_call_when_its_class_extends_null: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         An_unary_expression_with_the_0_operator_is_not_allowed_in_the_left_hand_side_of_an_exponentiation_expression_Consider_enclosing_the_expression_in_parentheses: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
         };
         A_type_assertion_expression_is_not_allowed_in_the_left_hand_side_of_an_exponentiation_expression_Consider_enclosing_the_expression_in_parentheses: {
             code: number;
             category: DiagnosticCategory;
             key: string;
+            message: string;
+        };
+        JSX_element_0_has_no_corresponding_closing_tag: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        super_must_be_called_before_accessing_this_in_the_constructor_of_a_derived_class: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Unknown_typing_option_0: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
+        };
+        Too_many_JavaScript_files_in_the_project_Consider_specifying_the_exclude_setting_in_project_configuration_to_limit_included_source_folders_The_likely_folder_to_exclude_is_0_To_disable_the_project_size_limit_set_the_disableSizeLimit_compiler_option_to_true: {
+            code: number;
+            category: DiagnosticCategory;
+            key: string;
+            message: string;
         };
     };
+
     interface ErrorCallback {
         (message: DiagnosticMessage, length: number): void;
     }
@@ -4956,6 +6067,7 @@ declare module "typescript" {
         scanJsxIdentifier(): SyntaxKind;
         reScanJsxToken(): SyntaxKind;
         scanJsxToken(): SyntaxKind;
+        scanJSDocToken(): SyntaxKind;
         scan(): SyntaxKind;
         setText(text: string, start?: number, length?: number): void;
         setOnError(onError: ErrorCallback): void;
@@ -4963,6 +6075,7 @@ declare module "typescript" {
         setLanguageVariant(variant: LanguageVariant): void;
         setTextPos(textPos: number): void;
         lookAhead<T>(callback: () => T): T;
+        scanRange<T>(start: number, length: number, callback: () => T): T;
         tryScan<T>(callback: () => T): T;
     }
     function isUnicodeIdentifierStart(code: number, languageVersion: ScriptTarget): boolean;
@@ -4987,15 +6100,9 @@ declare module "typescript" {
     function getShebang(text: string): string;
     function isIdentifierStart(ch: number, languageVersion: ScriptTarget): boolean;
     function isIdentifierPart(ch: number, languageVersion: ScriptTarget): boolean;
+    function isIdentifier(name: string, languageVersion: ScriptTarget): boolean;
     function createScanner(languageVersion: ScriptTarget, skipTrivia: boolean, languageVariant?: LanguageVariant, text?: string, onError?: ErrorCallback, start?: number, length?: number): Scanner;
-    let bindTime: number;
-    const enum ModuleInstanceState {
-        NonInstantiated = 0,
-        Instantiated = 1,
-        ConstEnumOnly = 2,
-    }
-    function getModuleInstanceState(node: Node): ModuleInstanceState;
-    function bindSourceFile(file: SourceFile): void;
+
     interface ReferencePathMatchResult {
         fileReference?: FileReference;
         diagnosticMessage?: DiagnosticMessage;
@@ -5015,17 +6122,19 @@ declare module "typescript" {
         getCommonSourceDirectory(): string;
         getCanonicalFileName(fileName: string): string;
         getNewLine(): string;
+        isEmitBlocked(emitFileName: string): boolean;
         writeFile: WriteFileCallback;
     }
     function getSingleLineStringWriter(): StringSymbolWriter;
     function releaseStringWriter(writer: StringSymbolWriter): void;
     function getFullWidth(node: Node): number;
-    function arrayIsEqualTo<T>(arr1: T[], arr2: T[], comparer?: (a: T, b: T) => boolean): boolean;
+    function arrayIsEqualTo<T>(array1: T[], array2: T[], equaler?: (a: T, b: T) => boolean): boolean;
     function hasResolvedModule(sourceFile: SourceFile, moduleNameText: string): boolean;
     function getResolvedModule(sourceFile: SourceFile, moduleNameText: string): ResolvedModule;
     function setResolvedModule(sourceFile: SourceFile, moduleNameText: string, resolvedModule: ResolvedModule): void;
     function containsParseError(node: Node): boolean;
     function getSourceFileOfNode(node: Node): SourceFile;
+    function isStatementWithLocals(node: Node): boolean;
     function getStartPositionOfLine(line: number, sourceFile: SourceFile): number;
     function nodePosToString(node: Node): string;
     function getStartPosOfNode(node: Node): number;
@@ -5040,6 +6149,10 @@ declare module "typescript" {
     function unescapeIdentifier(identifier: string): string;
     function makeIdentifierFromModuleName(moduleName: string): string;
     function isBlockOrCatchScoped(declaration: Declaration): boolean;
+    function isAmbientModule(node: Node): boolean;
+    function isBlockScopedContainerTopLevel(node: Node): boolean;
+    function isGlobalScopeAugmentation(module: ModuleDeclaration): boolean;
+    function isExternalModuleAugmentation(node: Node): boolean;
     function getEnclosingBlockScopeContainer(node: Node): Node;
     function isCatchClauseVariableDeclaration(declaration: Declaration): boolean;
     function declarationNameToString(name: DeclarationName): string;
@@ -5048,14 +6161,18 @@ declare module "typescript" {
     function getSpanOfTokenAtPosition(sourceFile: SourceFile, pos: number): TextSpan;
     function getErrorSpanForNode(sourceFile: SourceFile, node: Node): TextSpan;
     function isExternalModule(file: SourceFile): boolean;
+    function isExternalOrCommonJsModule(file: SourceFile): boolean;
     function isDeclarationFile(file: SourceFile): boolean;
     function isConstEnumDeclaration(node: Node): boolean;
     function getCombinedNodeFlags(node: Node): NodeFlags;
     function isConst(node: Node): boolean;
     function isLet(node: Node): boolean;
+    function isSuperCallExpression(n: Node): boolean;
     function isPrologueDirective(node: Node): boolean;
     function getLeadingCommentRangesOfNode(node: Node, sourceFileOfNode: SourceFile): CommentRange[];
+    function getLeadingCommentRangesOfNodeFromText(node: Node, text: string): CommentRange[];
     function getJsDocComments(node: Node, sourceFileOfNode: SourceFile): CommentRange[];
+    function getJsDocCommentsFromText(node: Node, text: string): CommentRange[];
     let fullTripleSlashReferencePathRegEx: RegExp;
     let fullTripleSlashAMDReferencePathRegEx: RegExp;
     function isTypeNode(node: Node): boolean;
@@ -5065,19 +6182,22 @@ declare module "typescript" {
     function isAccessor(node: Node): node is AccessorDeclaration;
     function isClassLike(node: Node): node is ClassLikeDeclaration;
     function isFunctionLike(node: Node): node is FunctionLikeDeclaration;
+    function isFunctionLikeKind(kind: SyntaxKind): boolean;
     function introducesArgumentsExoticObject(node: Node): boolean;
+    function isIterationStatement(node: Node, lookInLabeledStatements: boolean): boolean;
     function isFunctionBlock(node: Node): boolean;
     function isObjectLiteralMethod(node: Node): node is MethodDeclaration;
+    function isIdentifierTypePredicate(predicate: TypePredicate): predicate is IdentifierTypePredicate;
+    function isThisTypePredicate(predicate: TypePredicate): predicate is ThisTypePredicate;
     function getContainingFunction(node: Node): FunctionLikeDeclaration;
     function getContainingClass(node: Node): ClassLikeDeclaration;
     function getThisContainer(node: Node, includeArrowFunctions: boolean): Node;
-    function getSuperContainer(node: Node, includeFunctions: boolean): Node;
+    function getSuperContainer(node: Node, stopOnFunctions: boolean): Node;
+    function isSuperPropertyOrElementAccess(node: Node): boolean;
     function getEntityNameFromTypeNode(node: TypeNode): EntityName | Expression;
     function getInvokedExpression(node: CallLikeExpression): Expression;
     function nodeCanBeDecorated(node: Node): boolean;
     function nodeIsDecorated(node: Node): boolean;
-    function childIsDecorated(node: Node): boolean;
-    function nodeOrChildIsDecorated(node: Node): boolean;
     function isPropertyAccessExpression(node: Node): node is PropertyAccessExpression;
     function isElementAccessExpression(node: Node): node is ElementAccessExpression;
     function isExpression(node: Node): boolean;
@@ -5086,6 +6206,10 @@ declare module "typescript" {
     function isExternalModuleImportEqualsDeclaration(node: Node): boolean;
     function getExternalModuleImportEqualsDeclarationExpression(node: Node): Expression;
     function isInternalModuleImportEqualsDeclaration(node: Node): node is ImportEqualsDeclaration;
+    function isSourceFileJavaScript(file: SourceFile): boolean;
+    function isInJavaScriptFile(node: Node): boolean;
+    function isRequireCall(expression: Node, checkArgumentIsStringLiteral: boolean): expression is CallExpression;
+    function getSpecialPropertyAssignmentKind(expression: Node): SpecialPropertyAssignmentKind;
     function getExternalModuleName(node: Node): Expression;
     function hasQuestionToken(node: Node): boolean;
     function isJSDocConstructSignature(node: Node): boolean;
@@ -5104,7 +6228,7 @@ declare module "typescript" {
     function isDeclaration(node: Node): boolean;
     function isStatement(n: Node): boolean;
     function isClassElement(n: Node): boolean;
-    function isDeclarationName(name: Node): boolean;
+    function isDeclarationName(name: Node): name is Identifier | StringLiteral | LiteralExpression;
     function isIdentifierName(node: Identifier): boolean;
     function isAliasSymbolDeclaration(node: Node): boolean;
     function getClassExtendsHeritageClauseElement(node: ClassLikeDeclaration): ExpressionWithTypeArguments;
@@ -5117,16 +6241,20 @@ declare module "typescript" {
     function isKeyword(token: SyntaxKind): boolean;
     function isTrivia(token: SyntaxKind): boolean;
     function isAsyncFunctionLike(node: Node): boolean;
+    function isStringOrNumericLiteral(kind: SyntaxKind): boolean;
     function hasDynamicName(declaration: Declaration): boolean;
+    function isDynamicName(name: DeclarationName): boolean;
     function isWellKnownSymbolSyntactically(node: Expression): boolean;
     function getPropertyNameForPropertyNameNode(name: DeclarationName): string;
     function getPropertyNameForKnownSymbolName(symbolName: string): string;
     function isESSymbolIdentifier(node: Node): boolean;
-    function isModifier(token: SyntaxKind): boolean;
+    function isModifierKind(token: SyntaxKind): boolean;
     function isParameterDeclaration(node: VariableLikeDeclaration): boolean;
     function getRootDeclaration(node: Node): Node;
     function nodeStartsNewLexicalEnvironment(n: Node): boolean;
-    function cloneEntityName(node: EntityName): EntityName;
+    function cloneNode<T extends Node>(node: T, location?: TextRange, flags?: NodeFlags, parent?: Node): T;
+    function cloneEntityName(node: EntityName, parent?: Node): EntityName;
+    function isQualifiedName(node: Node): node is QualifiedName;
     function nodeIsSynthesized(node: Node): boolean;
     function createSynthesizedNode(kind: SyntaxKind, startsOnNewLine?: boolean): Node;
     function createSynthesizedNodeArray(): NodeArray<any>;
@@ -5136,7 +6264,7 @@ declare module "typescript" {
     function escapeNonAsciiCharacters(s: string): string;
     interface EmitTextWriter {
         write(s: string): void;
-        writeTextOfNode(sourceFile: SourceFile, node: Node): void;
+        writeTextOfNode(text: string, node: Node): void;
         writeLine(): void;
         increaseIndent(): void;
         decreaseIndent(): void;
@@ -5147,26 +6275,40 @@ declare module "typescript" {
         getLine(): number;
         getColumn(): number;
         getIndent(): number;
+        reset(): void;
     }
     function getIndentString(level: number): string;
     function getIndentSize(): number;
     function createTextWriter(newLine: String): EmitTextWriter;
+    function getExternalModuleNameFromPath(host: EmitHost, fileName: string): string;
     function getOwnEmitOutputFilePath(sourceFile: SourceFile, host: EmitHost, extension: string): string;
+    function getEmitScriptTarget(compilerOptions: CompilerOptions): ScriptTarget;
+    function getEmitModuleKind(compilerOptions: CompilerOptions): ModuleKind;
+    interface EmitFileNames {
+        jsFilePath: string;
+        sourceMapFilePath: string;
+        declarationFilePath: string;
+    }
+    function forEachExpectedEmitFile(host: EmitHost, action: (emitFileNames: EmitFileNames, sourceFiles: SourceFile[], isBundledEmit: boolean) => void, targetSourceFile?: SourceFile): void;
     function getSourceFilePathInNewDir(sourceFile: SourceFile, host: EmitHost, newDirPath: string): string;
-    function writeFile(host: EmitHost, diagnostics: Diagnostic[], fileName: string, data: string, writeByteOrderMark: boolean): void;
+    function writeFile(host: EmitHost, diagnostics: DiagnosticCollection, fileName: string, data: string, writeByteOrderMark: boolean): void;
     function getLineOfLocalPosition(currentSourceFile: SourceFile, pos: number): number;
+    function getLineOfLocalPositionFromLineMap(lineMap: number[], pos: number): number;
     function getFirstConstructorWithBody(node: ClassLikeDeclaration): ConstructorDeclaration;
     function getSetAccessorTypeAnnotationNode(accessor: AccessorDeclaration): TypeNode;
-    function shouldEmitToOwnFile(sourceFile: SourceFile, compilerOptions: CompilerOptions): boolean;
     function getAllAccessorDeclarations(declarations: NodeArray<Declaration>, accessor: AccessorDeclaration): {
         firstAccessor: AccessorDeclaration;
         secondAccessor: AccessorDeclaration;
         getAccessor: AccessorDeclaration;
         setAccessor: AccessorDeclaration;
     };
-    function emitNewLineBeforeLeadingComments(currentSourceFile: SourceFile, writer: EmitTextWriter, node: TextRange, leadingComments: CommentRange[]): void;
-    function emitComments(currentSourceFile: SourceFile, writer: EmitTextWriter, comments: CommentRange[], trailingSeparator: boolean, newLine: string, writeComment: (currentSourceFile: SourceFile, writer: EmitTextWriter, comment: CommentRange, newLine: string) => void): void;
-    function writeCommentRange(currentSourceFile: SourceFile, writer: EmitTextWriter, comment: CommentRange, newLine: string): void;
+    function emitNewLineBeforeLeadingComments(lineMap: number[], writer: EmitTextWriter, node: TextRange, leadingComments: CommentRange[]): void;
+    function emitComments(text: string, lineMap: number[], writer: EmitTextWriter, comments: CommentRange[], trailingSeparator: boolean, newLine: string, writeComment: (text: string, lineMap: number[], writer: EmitTextWriter, comment: CommentRange, newLine: string) => void): void;
+    function emitDetachedComments(text: string, lineMap: number[], writer: EmitTextWriter, writeComment: (text: string, lineMap: number[], writer: EmitTextWriter, comment: CommentRange, newLine: string) => void, node: TextRange, newLine: string, removeComments: boolean): {
+        nodePos: number;
+        detachedCommentEndPos: number;
+    };
+    function writeCommentRange(text: string, lineMap: number[], writer: EmitTextWriter, comment: CommentRange, newLine: string): void;
     function modifierToFlag(token: SyntaxKind): NodeFlags;
     function isLeftHandSideExpression(expr: Expression): boolean;
     function isAssignmentOperator(token: SyntaxKind): boolean;
@@ -5175,10 +6317,13 @@ declare module "typescript" {
     function isRightSideOfQualifiedNameOrPropertyAccess(node: Node): boolean;
     function isEmptyObjectLiteralOrArrayLiteral(expression: Node): boolean;
     function getLocalSymbolForExportDefault(symbol: Symbol): Symbol;
-    function isJavaScript(fileName: string): boolean;
-    function isTsx(fileName: string): boolean;
+    function hasJavaScriptFileExtension(fileName: string): boolean;
+    function hasTypeScriptFileExtension(fileName: string): boolean;
+    const stringify: (value: any) => string;
     function convertToBase64(input: string): string;
+    function convertToRelativePath(absoluteOrRelativePath: string, basePath: string, getCanonicalFileName: (path: string) => string): string;
     function getNewLineCharacter(options: CompilerOptions): string;
+
     function getDefaultLibFileName(options: CompilerOptions): string;
     function textSpanEnd(span: TextSpan): number;
     function textSpanIsEmpty(span: TextSpan): boolean;
@@ -5199,12 +6344,12 @@ declare module "typescript" {
     let unchangedTextChangeRange: TextChangeRange;
     function collapseTextChangeRangesAcrossMultipleVersions(changes: TextChangeRange[]): TextChangeRange;
     function getTypeParameterOwner(d: Declaration): Declaration;
-    function arrayStructurallyIsEqualTo<T>(array1: Array<T>, array2: Array<T>): boolean;
+    function isParameterPropertyDeclaration(node: ParameterDeclaration): boolean;
+
     let parseTime: number;
-    function getNodeConstructor(kind: SyntaxKind): new () => Node;
-    function createNode(kind: SyntaxKind): Node;
+    function createNode(kind: SyntaxKind, pos?: number, end?: number): Node;
     function forEachChild<T>(node: Node, cbNode: (node: Node) => T, cbNodeArray?: (nodes: Node[]) => T): T;
-    function createSourceFile(fileName: string, sourceText: string, languageVersion: ScriptTarget, setParentNodes?: boolean): SourceFile;
+    function createSourceFile(fileName: string, sourceText: string, languageVersion: ScriptTarget, setParentNodes?: boolean, scriptKind?: ScriptKind): SourceFile;
     function updateSourceFile(sourceFile: SourceFile, newText: string, textChangeRange: TextChangeRange, aggressiveChecks?: boolean): SourceFile;
     function parseIsolatedJSDocComment(content: string, start?: number, length?: number): {
         jsDocComment: JSDocComment;
@@ -5214,29 +6359,63 @@ declare module "typescript" {
         jsDocTypeExpression: JSDocTypeExpression;
         diagnostics: Diagnostic[];
     };
+
+    let bindTime: number;
+    const enum ModuleInstanceState {
+        NonInstantiated = 0,
+        Instantiated = 1,
+        ConstEnumOnly = 2,
+    }
+    function getModuleInstanceState(node: Node): ModuleInstanceState;
+    function bindSourceFile(file: SourceFile, options: CompilerOptions): void;
+
     function getNodeId(node: Node): number;
     let checkTime: number;
     function getSymbolId(symbol: Symbol): number;
     function createTypeChecker(host: TypeCheckerHost, produceDiagnostics: boolean): TypeChecker;
+
     function getDeclarationDiagnostics(host: EmitHost, resolver: EmitResolver, targetSourceFile: SourceFile): Diagnostic[];
-    function writeDeclarationFile(jsFilePath: string, sourceFile: SourceFile, host: EmitHost, resolver: EmitResolver, diagnostics: Diagnostic[]): void;
-    function isExternalModuleOrDeclarationFile(sourceFile: SourceFile): boolean;
+    function writeDeclarationFile(declarationFilePath: string, sourceFiles: SourceFile[], isBundledEmit: boolean, host: EmitHost, resolver: EmitResolver, emitterDiagnostics: DiagnosticCollection): boolean;
+
+    interface SourceMapWriter {
+        getSourceMapData(): SourceMapData;
+        setSourceFile(sourceFile: SourceFile): void;
+        emitPos(pos: number): void;
+        emitStart(range: TextRange): void;
+        emitEnd(range: TextRange, stopOverridingSpan?: boolean): void;
+        changeEmitSourcePos(): void;
+        getText(): string;
+        getSourceMappingURL(): string;
+        initialize(filePath: string, sourceMapFilePath: string, sourceFiles: SourceFile[], isBundledEmit: boolean): void;
+        reset(): void;
+    }
+    function getNullSourceMapWriter(): SourceMapWriter;
+    function createSourceMapWriter(host: EmitHost, writer: EmitTextWriter): SourceMapWriter;
+
+    function getResolvedExternalModuleName(host: EmitHost, file: SourceFile): string;
+    function getExternalModuleNameFromDeclaration(host: EmitHost, resolver: EmitResolver, declaration: ImportEqualsDeclaration | ImportDeclaration | ExportDeclaration): string;
     function emitFiles(resolver: EmitResolver, host: EmitHost, targetSourceFile: SourceFile): EmitResult;
+
     let programTime: number;
     let emitTime: number;
     let ioReadTime: number;
     let ioWriteTime: number;
+    const maxProgramSizeForNonTsFiles: number;
     const version: string;
-    function findConfigFile(searchPath: string): string;
+    function findConfigFile(searchPath: string, fileExists: (fileName: string) => boolean): string;
     function resolveTripleslashReference(moduleName: string, containingFile: string): string;
     function resolveModuleName(moduleName: string, containingFile: string, compilerOptions: CompilerOptions, host: ModuleResolutionHost): ResolvedModuleWithFailedLookupLocations;
-    function nodeModuleNameResolver(moduleName: string, containingFile: string, host: ModuleResolutionHost): ResolvedModuleWithFailedLookupLocations;
+    function nodeModuleNameResolver(moduleName: string, containingFile: string, compilerOptions: CompilerOptions, host: ModuleResolutionHost): ResolvedModuleWithFailedLookupLocations;
+    function directoryProbablyExists(directoryName: string, host: {
+        directoryExists?: (directoryName: string) => boolean;
+    }): boolean;
     function classicNameResolver(moduleName: string, containingFile: string, compilerOptions: CompilerOptions, host: ModuleResolutionHost): ResolvedModuleWithFailedLookupLocations;
     const defaultInitCompilerOptions: CompilerOptions;
     function createCompilerHost(options: CompilerOptions, setParentNodes?: boolean): CompilerHost;
     function getPreEmitDiagnostics(program: Program, sourceFile?: SourceFile, cancellationToken?: CancellationToken): Diagnostic[];
     function flattenDiagnosticMessageText(messageText: string | DiagnosticMessageChain, newLine: string): string;
     function createProgram(rootNames: string[], options: CompilerOptions, host?: CompilerHost, oldProgram?: Program): Program;
+
     let optionDeclarations: CommandLineOption[];
     interface OptionNameMap {
         optionNameMap: Map<CommandLineOption>;
@@ -5252,5 +6431,9 @@ declare module "typescript" {
         config?: any;
         error?: Diagnostic;
     };
-    function parseJsonConfigFileContent(json: any, host: ParseConfigHost, basePath: string): ParsedCommandLine;
+    function parseJsonConfigFileContent(json: any, host: ParseConfigHost, basePath: string, existingOptions?: CompilerOptions, configFileName?: string): ParsedCommandLine;
+    function convertCompilerOptionsFromJson(jsonOptions: any, basePath: string, configFileName?: string): {
+        options: CompilerOptions;
+        errors: Diagnostic[];
+    };
 }
