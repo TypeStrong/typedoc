@@ -37,7 +37,7 @@
     "minimatch": "^3.0.0",
     "progress": "^1.1.8",
     "shelljs": "^0.5.3",
-    "typedoc-default-themes": "0.3.4",
+    "typedoc-default-themes": "sierrasoftworks/typedoc-default-themes#v0.3.5",
     "typescript": "1.8.10"
   },
   "devDependencies": {
