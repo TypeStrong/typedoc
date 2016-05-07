@@ -415,19 +415,20 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         program.getSourceFiles().forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
+        
+        let diagnostics = program.getOptionsDiagnostics();
+        if (diagnostics.length) return diagnostics;
+        
+        diagnostics = program.getSyntacticDiagnostics();
+        if (diagnostics.length) return diagnostics;
+        
+        diagnostics = program.getGlobalDiagnostics();
+        if (diagnostics.length) return diagnostics;
 
-        // First get any syntactic errors.
-        var diagnostics = program.getSyntacticDiagnostics();
-        if (diagnostics.length === 0) {
-            diagnostics = program.getGlobalDiagnostics();
-            if (diagnostics.length === 0) {
-                return program.getSemanticDiagnostics();
-            } else {
-                return diagnostics;
-            }
-        } else {
-            return diagnostics;
-        }
+        diagnostics = program.getSemanticDiagnostics();
+        if (diagnostics.length) return diagnostics;
+        
+        return [];
     }
 
 
@@ -457,7 +458,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @returns The basename of the default library.
      */
     getDefaultLib():string {
-        var target = this.application.options.getCompilerOptions().target;
-        return target == ts.ScriptTarget.ES6 ? 'lib.es6.d.ts' : 'lib.d.ts';
+        return ts.getDefaultLibFileName(this.application.options.getCompilerOptions());
     }
 }
