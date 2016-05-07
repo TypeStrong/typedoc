@@ -72,10 +72,10 @@ in order to change the behaviour of TypeDoc.
   Prevent externally resolved TypeScript files from being documented.
 
 #### TypeScript compiler
-* `--module <commonjs or amd>`<br>
-  Specify module code generation: "commonjs" or "amd"
-* `--target <ES3 or ES5>`<br>
-  Specify ECMAScript target version: "ES3" (default), or "ES5"
+* `--module <commonjs, amd, system or umd>`<br>
+  Specify module code generation: "commonjs", "amd", "system" or "umd".
+* `--target <ES3, ES5, or ES6>`<br>
+  Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
 
 #### Theming
 * `--theme <default|minimal|path/to/theme>`<br>
