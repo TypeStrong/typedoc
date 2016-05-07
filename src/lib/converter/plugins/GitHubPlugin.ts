@@ -74,7 +74,7 @@ class Repository
             });
         }
 
-        out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --abbrev-ref HEAD', {silent:true});
+        out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --short HEAD', {silent:true});
         if (out.code == 0) {
             this.branch = out.output.replace('\n', '');
         }
