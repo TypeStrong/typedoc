@@ -1,12 +1,6 @@
 /// <reference path="../lib.core.d.ts" />
 
-/**
- * TestClass comment short text.
- *
- * TestClass comment text.
- *
- * @see [[TestClass]] @ fixtures
- */
+
 export class TestClass {
 
     /**

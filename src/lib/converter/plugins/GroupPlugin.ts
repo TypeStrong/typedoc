@@ -26,15 +26,15 @@ export class GroupPlugin extends ConverterComponent
         ReflectionKind.Class,
         ReflectionKind.Interface,
         ReflectionKind.TypeAlias,
+        ReflectionKind.Method,
 
-        ReflectionKind.Constructor,
         ReflectionKind.Event,
         ReflectionKind.Property,
         ReflectionKind.Variable,
         ReflectionKind.Function,
         ReflectionKind.Accessor,
-        ReflectionKind.Method,
         ReflectionKind.ObjectLiteral,
+        ReflectionKind.Constructor,
 
         ReflectionKind.Parameter,
         ReflectionKind.TypeParameter,
@@ -152,7 +152,15 @@ export class GroupPlugin extends ConverterComponent
             }
 
             var group = new ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+            if(child.flags.isCoveoComponentOptions) {
+                group.title = 'Component Options';
+            }
             group.children.push(child);
+            if (group.title == 'Component Options') {
+                if (group.children[0]['children']) {
+                    group.children = group.children[0]['children'];
+                }
+            }
             groups.push(group);
         });
 
@@ -235,6 +243,12 @@ export class GroupPlugin extends ConverterComponent
     static sortCallback(a:Reflection, b:Reflection):number {
         var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
         var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
+        // Special sort for component options : Try to put them at the top of each class
+        if(a.flags.isCoveoComponentOptions && b.kind > ReflectionKind.Class) {
+            return -1;
+        } else if(b.flags.isCoveoComponentOptions && a.kind > ReflectionKind.Class) {
+            return 1;
+        }
         if (aWeight == bWeight) {
             if (a.flags.isStatic && !b.flags.isStatic) return 1;
             if (!a.flags.isStatic && b.flags.isStatic) return -1;

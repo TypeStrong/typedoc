@@ -98,6 +98,11 @@ export class DefaultTheme extends Theme
         isLeaf:    false,
         directory: 'modules',
         template:  'reflection.hbs'
+    },{
+        kind: [ReflectionKind.CoveoComponent],
+        isLeaf: false,
+        directory: 'components',
+        template : 'reflection.hbs'
     }];
 
 
@@ -459,6 +464,9 @@ export class DefaultTheme extends Theme
      */
     static applyReflectionClasses(reflection:DeclarationReflection) {
         var classes:string[] = [];
+        if(reflection.kind == ReflectionKind.CoveoComponent) {
+            classes.push('tsd-kind-class');
+        }
 
         if (reflection.kind == ReflectionKind.Accessor) {
             if (!reflection.getSignature) {
@@ -476,6 +484,9 @@ export class DefaultTheme extends Theme
         if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
             kind = ReflectionKind[reflection.parent.kind];
             classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
+            if(ReflectionKind[kind] == ReflectionKind.CoveoComponent) {
+                classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + ReflectionKind[ReflectionKind.Class]))
+            }
         }
 
         var hasTypeParameters = !!reflection.typeParameters;

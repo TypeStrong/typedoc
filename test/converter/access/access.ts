@@ -1,15 +1,6 @@
 /// <reference path="../lib.core.d.ts" />
 
-/**
- * A variable that is made private via comment.
- * @private
- */
 export var fakePrivateVariable = 'test';
-
-/**
- * A variable that is made protected via comment.
- * @protected
- */
 export var fakeProtectedVariable = 'test';
 
 /**
@@ -24,10 +15,7 @@ export function fakePrivateFunction() {}
  */
 export function fakeProtectedFunction() {}
 
-/**
- * A class that is documented as being private.
- * @private
- */
+
 export class PrivateClass
 {
     /**

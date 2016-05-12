@@ -19,7 +19,9 @@
           "name": "functionWithGenericArrayParameter",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "signatures": [
             {
               "id": 7,
@@ -84,7 +86,9 @@
           "name": "genericFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "signatures": [
             {
               "id": 3,
@@ -146,7 +150,7 @@
       ],
       "groups": [
         {
-          "title": "Functions",
+          "title": "Component Options",
           "kind": 64,
           "children": [
             6,

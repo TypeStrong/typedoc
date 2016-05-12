@@ -60,6 +60,7 @@ export enum ReflectionKind
     ObjectLiteral = 2097152,
     TypeAlias = 4194304,
     Event = 8388608,
+    CoveoComponent = 16777216,
 
     ClassOrInterface = Class | Interface,
     VariableOrProperty = Variable | Property,
@@ -81,7 +82,8 @@ export enum ReflectionFlag
     Optional = 128,
     DefaultValue = 256,
     Rest = 512,
-    ConstructorProperty = 1024
+    ConstructorProperty = 1024,
+    CoveoComponentOptions = 2048
 }
 
 
@@ -149,6 +151,8 @@ export interface IReflectionFlags extends Array<string>
     hasExportAssignment?:boolean;
 
     isConstructorProperty?:boolean;
+
+    isCoveoComponentOptions?:boolean;
 }
 
 
@@ -431,6 +435,9 @@ export abstract class Reflection
                 break;
             case ReflectionFlag.ConstructorProperty:
                 this.flags.isConstructorProperty = value;
+                break;
+            case ReflectionFlag.CoveoComponentOptions:
+                this.flags.isCoveoComponentOptions = value;
                 break;
         }
     }

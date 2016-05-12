@@ -20,7 +20,8 @@
           "kind": 4,
           "kindString": "Enumeration",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isCoveoComponentOptions": true
           },
           "comment": {
             "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
@@ -71,7 +72,8 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {
-                "isExported": true
+                "isExported": true,
+                "isCoveoComponentOptions": true
               },
               "comment": {
                 "shortText": "This is a variable appended to an enumeration."
@@ -87,7 +89,8 @@
               "kind": 64,
               "kindString": "Function",
               "flags": {
-                "isExported": true
+                "isExported": true,
+                "isCoveoComponentOptions": true
               },
               "signatures": [
                 {
@@ -118,14 +121,14 @@
               ]
             },
             {
-              "title": "Variables",
+              "title": "Component Options",
               "kind": 32,
               "children": [
                 10
               ]
             },
             {
-              "title": "Functions",
+              "title": "Component Options",
               "kind": 64,
               "children": [
                 11
@@ -139,7 +142,8 @@
           "kind": 4,
           "kindString": "Enumeration",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isCoveoComponentOptions": true
           },
           "comment": {
             "shortText": "This is a simple enumeration."
@@ -200,7 +204,7 @@
       ],
       "groups": [
         {
-          "title": "Enumerations",
+          "title": "Component Options",
           "kind": 4,
           "children": [
             6,

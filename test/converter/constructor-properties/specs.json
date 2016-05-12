@@ -19,7 +19,9 @@
           "name": "Vector2",
           "kind": 128,
           "kindString": "Class",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "comment": {
             "shortText": "A class with constructor properties."
           },
@@ -29,11 +31,13 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {},
+              "flags": {
+                "isCoveoComponentOptions": true
+              },
               "comment": {},
               "signatures": [
                 {
-                  "id": 6,
+                  "id": 4,
                   "name": "new Vector2",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -41,7 +45,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 7,
+                      "id": 5,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -55,7 +59,7 @@
                       }
                     },
                     {
-                      "id": 8,
+                      "id": 6,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -76,56 +80,14 @@
                   }
                 }
               ]
-            },
-            {
-              "id": 4,
-              "name": "x",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
-              },
-              "comment": {
-                "shortText": "X component of the Vector"
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "number"
-              }
-            },
-            {
-              "id": 5,
-              "name": "y",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
-              },
-              "comment": {
-                "shortText": "Y component of the Vector\n"
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "number"
-              }
             }
           ],
           "groups": [
             {
-              "title": "Constructors",
+              "title": "Component Options",
               "kind": 512,
               "children": [
                 3
-              ]
-            },
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                4,
-                5
               ]
             }
           ],
@@ -133,30 +95,34 @@
             {
               "type": "reference",
               "name": "Vector3",
-              "id": 9
+              "id": 7
             }
           ]
         },
         {
-          "id": 9,
+          "id": 7,
           "name": "Vector3",
           "kind": 128,
           "kindString": "Class",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "comment": {
             "shortText": "A class with inherited and overwritten constructor properties."
           },
           "children": [
             {
-              "id": 10,
+              "id": 8,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {},
+              "flags": {
+                "isCoveoComponentOptions": true
+              },
               "comment": {},
               "signatures": [
                 {
-                  "id": 13,
+                  "id": 9,
                   "name": "new Vector3",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -164,7 +130,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 14,
+                      "id": 10,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -178,7 +144,7 @@
                       }
                     },
                     {
-                      "id": 15,
+                      "id": 11,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -192,7 +158,7 @@
                       }
                     },
                     {
-                      "id": 16,
+                      "id": 12,
                       "name": "z",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -209,7 +175,7 @@
                   "type": {
                     "type": "reference",
                     "name": "Vector3",
-                    "id": 9
+                    "id": 7
                   },
                   "overwrites": {
                     "type": "reference",
@@ -223,84 +189,14 @@
                 "name": "Vector2.__constructor",
                 "id": 3
               }
-            },
-            {
-              "id": 17,
-              "name": "x",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
-              },
-              "comment": {
-                "shortText": "X component of the Vector"
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "number"
-              },
-              "inheritedFrom": {
-                "type": "reference",
-                "name": "Vector2.x",
-                "id": 4
-              }
-            },
-            {
-              "id": 11,
-              "name": "y",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
-              },
-              "comment": {
-                "shortText": "Y component of the Vector"
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "number"
-              },
-              "overwrites": {
-                "type": "reference",
-                "name": "Vector2.y",
-                "id": 5
-              }
-            },
-            {
-              "id": 12,
-              "name": "z",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
-              },
-              "comment": {
-                "shortText": "Z component of the Vector\n"
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "number"
-              }
             }
           ],
           "groups": [
             {
-              "title": "Constructors",
+              "title": "Component Options",
               "kind": 512,
               "children": [
-                10
-              ]
-            },
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                17,
-                11,
-                12
+                8
               ]
             }
           ],
@@ -315,11 +211,11 @@
       ],
       "groups": [
         {
-          "title": "Classes",
+          "title": "Component Options",
           "kind": 128,
           "children": [
             2,
-            9
+            7
           ]
         }
       ]

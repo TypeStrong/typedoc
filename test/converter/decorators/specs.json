@@ -19,7 +19,9 @@
           "name": "DecoratedClass",
           "kind": 128,
           "kindString": "Class",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "comment": {
             "shortText": "A decorated class."
           },
@@ -42,7 +44,9 @@
               "name": "decoratedMethod",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {},
+              "flags": {
+                "isCoveoComponentOptions": true
+              },
               "decorators": [
                 {
                   "name": "decoratorAtom",
@@ -84,7 +88,7 @@
           ],
           "groups": [
             {
-              "title": "Methods",
+              "title": "Component Options",
               "kind": 2048,
               "children": [
                 3
@@ -97,7 +101,9 @@
           "name": "decoratorAtom",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "decorates": [
             {
               "type": "reference",
@@ -177,7 +183,9 @@
           "name": "decoratorWithOptions",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "decorates": [
             {
               "type": "reference",
@@ -212,32 +220,7 @@
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 17,
-                          "name": "name",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "comment": {
-                            "text": "A property on the options object of this decorator.\n"
-                          },
-                          "type": {
-                            "type": "instrinct",
-                            "name": "string"
-                          }
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Variables",
-                          "kind": 32,
-                          "children": [
-                            17
-                          ]
-                        }
-                      ]
+                      "flags": {}
                     }
                   }
                 }
@@ -254,7 +237,9 @@
           "name": "decoratorWithParam",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "decorates": [
             {
               "type": "reference",
@@ -298,14 +283,14 @@
       ],
       "groups": [
         {
-          "title": "Classes",
+          "title": "Component Options",
           "kind": 128,
           "children": [
             2
           ]
         },
         {
-          "title": "Functions",
+          "title": "Component Options",
           "kind": 64,
           "children": [
             5,

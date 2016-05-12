@@ -19,63 +19,12 @@
           "name": "ClassImplementingEmptyInterface",
           "kind": 128,
           "kindString": "Class",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "comment": {
             "shortText": "A class implementing an empty interface."
           },
-          "children": [
-            {
-              "id": 4,
-              "name": "name",
-              "kind": 1024,
-              "kindString": "Property",
-              "flags": {
-                "isPrivate": true
-              },
-              "type": {
-                "type": "instrinct",
-                "name": "string"
-              }
-            },
-            {
-              "id": 5,
-              "name": "goto",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isPublic": true
-              },
-              "signatures": [
-                {
-                  "id": 6,
-                  "name": "goto",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "type": {
-                    "type": "instrinct",
-                    "name": "void"
-                  }
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                4
-              ]
-            },
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                5
-              ]
-            }
-          ],
           "implementedTypes": [
             {
               "type": "reference",
@@ -89,7 +38,9 @@
           "name": "EmptyInterface",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {},
+          "flags": {
+            "isCoveoComponentOptions": true
+          },
           "comment": {
             "shortText": "An empty interface"
           },
@@ -104,14 +55,14 @@
       ],
       "groups": [
         {
-          "title": "Classes",
+          "title": "Component Options",
           "kind": 128,
           "children": [
             3
           ]
         },
         {
-          "title": "Interfaces",
+          "title": "Component Options",
           "kind": 256,
           "children": [
             2
