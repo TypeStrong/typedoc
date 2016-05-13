@@ -19,9 +19,7 @@
           "name": "DecoratedClass",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A decorated class."
           },
@@ -44,9 +42,7 @@
               "name": "decoratedMethod",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "decorators": [
                 {
                   "name": "decoratorAtom",
@@ -88,7 +84,7 @@
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Methods",
               "kind": 2048,
               "children": [
                 3
@@ -101,9 +97,7 @@
           "name": "decoratorAtom",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "decorates": [
             {
               "type": "reference",
@@ -183,9 +177,7 @@
           "name": "decoratorWithOptions",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "decorates": [
             {
               "type": "reference",
@@ -237,9 +229,7 @@
           "name": "decoratorWithParam",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "decorates": [
             {
               "type": "reference",
@@ -283,14 +273,14 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Classes",
           "kind": 128,
           "children": [
             2
           ]
         },
         {
-          "title": "Component Options",
+          "title": "Functions",
           "kind": 64,
           "children": [
             5,

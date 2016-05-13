@@ -19,9 +19,7 @@
           "name": "ClassImplementingEmptyInterface",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A class implementing an empty interface."
           },
@@ -38,9 +36,7 @@
           "name": "EmptyInterface",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "An empty interface"
           },
@@ -55,14 +51,14 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Classes",
           "kind": 128,
           "children": [
             3
           ]
         },
         {
-          "title": "Component Options",
+          "title": "Interfaces",
           "kind": 256,
           "children": [
             2

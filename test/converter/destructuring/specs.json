@@ -10,8 +10,7 @@
       "kind": 1,
       "kindString": "External module",
       "flags": {
-        "isExported": true,
-        "isCoveoComponentOptions": true
+        "isExported": true
       },
       "originalName": "%BASE%/destructuring/destructuring.ts",
       "children": [
@@ -20,9 +19,7 @@
           "name": "drawText",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 3,
@@ -63,7 +60,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Functions",
           "kind": 64,
           "children": [
             2
@@ -74,7 +71,7 @@
   ],
   "groups": [
     {
-      "title": "Component Options",
+      "title": "External modules",
       "kind": 1,
       "children": [
         1

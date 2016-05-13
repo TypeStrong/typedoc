@@ -19,9 +19,7 @@
           "name": "Test",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Encapsulates some information for background http transfers.",
             "tags": [
@@ -37,9 +35,7 @@
               "name": "on",
               "kind": 8388608,
               "kindString": "Event",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 4,
@@ -350,7 +346,7 @@
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Events",
               "kind": 8388608,
               "children": [
                 3
@@ -361,7 +357,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Interfaces",
           "kind": 256,
           "children": [
             2

@@ -19,9 +19,7 @@
           "name": "GenericClass",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "GenericClass short text."
           },
@@ -39,13 +37,36 @@
           ],
           "children": [
             {
+              "id": 9,
+              "name": "getValue",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 10,
+                  "name": "getValue",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "getValue short text.",
+                    "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ]
+            },
+            {
               "id": 4,
               "name": "value",
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isProtected": true,
-                "isCoveoComponentOptions": true
+                "isProtected": true
               },
               "comment": {
                 "shortText": "Generic property."
@@ -61,8 +82,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isProtected": true,
-                "isCoveoComponentOptions": true
+                "isProtected": true
               },
               "comment": {
                 "shortText": "Generic property array."
@@ -78,9 +98,7 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Constructor short text."
               },
@@ -117,37 +135,18 @@
                   }
                 }
               ]
-            },
-            {
-              "id": 9,
-              "name": "getValue",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
-              "signatures": [
-                {
-                  "id": 10,
-                  "name": "getValue",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "getValue short text.",
-                    "returns": "Return value comment.\n"
-                  },
-                  "type": {
-                    "type": "typeParameter",
-                    "name": "T"
-                  }
-                }
-              ]
             }
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                9
+              ]
+            },
+            {
+              "title": "Properties",
               "kind": 1024,
               "children": [
                 4,
@@ -155,17 +154,10 @@
               ]
             },
             {
-              "title": "Component Options",
+              "title": "Constructors",
               "kind": 512,
               "children": [
                 6
-              ]
-            },
-            {
-              "title": "Component Options",
-              "kind": 2048,
-              "children": [
-                9
               ]
             }
           ],
@@ -182,21 +174,52 @@
           "name": "NonGenericClass",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "NonGenericClass short text."
           },
           "children": [
+            {
+              "id": 17,
+              "name": "getValue",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 18,
+                  "name": "getValue",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "getValue short text.",
+                    "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "instrinct",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "GenericClass.getValue",
+                    "id": 9
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.getValue",
+                "id": 9
+              }
+            },
             {
               "id": 12,
               "name": "value",
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isProtected": true,
-                "isCoveoComponentOptions": true
+                "isProtected": true
               },
               "comment": {
                 "shortText": "Generic property."
@@ -217,8 +240,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isProtected": true,
-                "isCoveoComponentOptions": true
+                "isProtected": true
               },
               "comment": {
                 "shortText": "Generic property array."
@@ -239,9 +261,7 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Constructor short text."
               },
@@ -288,47 +308,18 @@
                 "name": "GenericClass.__constructor",
                 "id": 6
               }
-            },
-            {
-              "id": 17,
-              "name": "getValue",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
-              "signatures": [
-                {
-                  "id": 18,
-                  "name": "getValue",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "getValue short text.",
-                    "returns": "Return value comment.\n"
-                  },
-                  "type": {
-                    "type": "instrinct",
-                    "name": "string"
-                  },
-                  "inheritedFrom": {
-                    "type": "reference",
-                    "name": "GenericClass.getValue",
-                    "id": 9
-                  }
-                }
-              ],
-              "inheritedFrom": {
-                "type": "reference",
-                "name": "GenericClass.getValue",
-                "id": 9
-              }
             }
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                17
+              ]
+            },
+            {
+              "title": "Properties",
               "kind": 1024,
               "children": [
                 12,
@@ -336,17 +327,10 @@
               ]
             },
             {
-              "title": "Component Options",
+              "title": "Constructors",
               "kind": 512,
               "children": [
                 14
-              ]
-            },
-            {
-              "title": "Component Options",
-              "kind": 2048,
-              "children": [
-                17
               ]
             }
           ],
@@ -367,7 +351,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Classes",
           "kind": 128,
           "children": [
             2,

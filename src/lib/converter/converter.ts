@@ -376,21 +376,26 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             result.setFlag(ReflectionFlag.CoveoComponentOptions, true);
         }
 
+
         if (result && result instanceof DeclarationReflection) {
             var declarationReflection: DeclarationReflection = <DeclarationReflection>result;
-            declarationReflection.extendedTypes.forEach((type)=> {
-                if (type.toString() == 'component') {
-                    result.kind = ReflectionKind.CoveoComponent;
-                }
-            })
+            if (declarationReflection.extendedTypes) {
+                declarationReflection.extendedTypes.forEach((type)=> {
+                    if (type.toString() == 'component') {
+                        result.kind = ReflectionKind.CoveoComponent;
+                    }
+                })
+            }
+
+            if (declarationReflection.implementedTypes) {
+                declarationReflection.implementedTypes.forEach((impl)=> {
+                    if (impl.toString().toLowerCase().indexOf('icomponentbindings') >= 0) {
+                        result.kind = ReflectionKind.CoveoComponent;
+                    }
+                })
+            }
         }
-        if (declarationReflection.implementedTypes) {
-            declarationReflection.implementedTypes.forEach((impl)=> {
-                if (impl.toString().toLowerCase().indexOf('icomponentbindings') >= 0) {
-                    result.kind = ReflectionKind.CoveoComponent;
-                }
-            })
-        }
+
 
         return result;
     }

@@ -27,8 +27,7 @@
               "kind": 128,
               "kindString": "Class",
               "flags": {
-                "isExported": true,
-                "isCoveoComponentOptions": true
+                "isExported": true
               },
               "comment": {
                 "shortText": "Implementation of IEventDispatcher",
@@ -63,13 +62,39 @@
               ]
             },
             {
+              "id": 11,
+              "name": "IEventDispatcher",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
+              },
+              "typeParameter": [
+                {
+                  "id": 12,
+                  "name": "U",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "implementedBy": [
+                {
+                  "type": "reference",
+                  "name": "EventDispatcher",
+                  "id": 13
+                }
+              ]
+            },
+            {
               "id": 3,
               "name": "IEventListener",
               "kind": 256,
               "kindString": "Interface",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Function signature of an event listener callback"
               },
@@ -117,9 +142,7 @@
               "name": "ISubscription",
               "kind": 256,
               "kindString": "Interface",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
               },
@@ -138,9 +161,7 @@
                   "name": "unsubscribe",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isCoveoComponentOptions": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 10,
@@ -161,59 +182,30 @@
               ],
               "groups": [
                 {
-                  "title": "Component Options",
+                  "title": "Methods",
                   "kind": 2048,
                   "children": [
                     9
                   ]
                 }
               ]
-            },
-            {
-              "id": 11,
-              "name": "IEventDispatcher",
-              "kind": 256,
-              "kindString": "Interface",
-              "flags": {
-                "isExported": true,
-                "isCoveoComponentOptions": true
-              },
-              "comment": {
-                "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
-              },
-              "typeParameter": [
-                {
-                  "id": 12,
-                  "name": "U",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
-              "implementedBy": [
-                {
-                  "type": "reference",
-                  "name": "EventDispatcher",
-                  "id": 13
-                }
-              ]
             }
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Classes",
               "kind": 128,
               "children": [
                 13
               ]
             },
             {
-              "title": "Component Options",
+              "title": "Interfaces",
               "kind": 256,
               "children": [
+                11,
                 3,
-                7,
-                11
+                7
               ]
             }
           ]

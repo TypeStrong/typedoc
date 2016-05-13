@@ -21,8 +21,7 @@
           "kindString": "Function",
           "flags": {
             "isPrivate": true,
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "signatures": [
             {
@@ -50,8 +49,7 @@
           "kindString": "Function",
           "flags": {
             "isExported": true,
-            "isProtected": true,
-            "isCoveoComponentOptions": true
+            "isProtected": true
           },
           "signatures": [
             {
@@ -75,7 +73,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Functions",
           "kind": 64,
           "children": [
             2,

@@ -10,8 +10,7 @@
       "kind": 1,
       "kindString": "External module",
       "flags": {
-        "isExported": true,
-        "isCoveoComponentOptions": true
+        "isExported": true
       },
       "originalName": "%BASE%/literal-object/literal-object.ts",
       "children": [
@@ -20,9 +19,7 @@
           "name": "objectLiteral",
           "kind": 2097152,
           "kindString": "Object literal",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "An object literal."
           },
@@ -34,7 +31,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Object literals",
           "kind": 2097152,
           "children": [
             2
@@ -45,7 +42,7 @@
   ],
   "groups": [
     {
-      "title": "Component Options",
+      "title": "External modules",
       "kind": 1,
       "children": [
         1

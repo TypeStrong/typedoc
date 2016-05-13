@@ -10,8 +10,7 @@
       "kind": 1,
       "kindString": "External module",
       "flags": {
-        "isExported": true,
-        "isCoveoComponentOptions": true
+        "isExported": true
       },
       "originalName": "%BASE%/function/function.ts",
       "children": [
@@ -21,8 +20,7 @@
           "kind": 2,
           "kindString": "Module",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "comment": {
             "shortText": "This is the module extending the function moduleFunction()."
@@ -65,9 +63,7 @@
               "name": "functionVariable",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This variable is appended to a function."
               },
@@ -81,9 +77,7 @@
               "name": "append",
               "kind": 64,
               "kindString": "Function",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 39,
@@ -106,9 +100,7 @@
               "name": "prepend",
               "kind": 64,
               "kindString": "Function",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 41,
@@ -129,14 +121,14 @@
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Variables",
               "kind": 32,
               "children": [
                 37
               ]
             },
             {
-              "title": "Component Options",
+              "title": "Functions",
               "kind": 64,
               "children": [
                 38,
@@ -151,8 +143,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "signatures": [
             {
@@ -177,8 +168,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "signatures": [
             {
@@ -281,8 +271,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "signatures": [
             {
@@ -339,8 +328,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "signatures": [
             {
@@ -409,9 +397,7 @@
           "name": "functionWithRest",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 26,
@@ -454,9 +440,7 @@
           "name": "internalFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "signatures": [
             {
               "id": 3,
@@ -480,8 +464,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "comment": {
             "shortText": "This is the actual implementation, this comment will not be visible\nin the generated documentation.",
@@ -564,8 +547,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
-            "isCoveoComponentOptions": true
+            "isExported": true
           },
           "comment": {
             "shortText": "This is a function that is assigned to a variable.",
@@ -608,14 +590,14 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Modules",
           "kind": 2,
           "children": [
             34
           ]
         },
         {
-          "title": "Component Options",
+          "title": "Functions",
           "kind": 64,
           "children": [
             4,
@@ -633,7 +615,7 @@
   ],
   "groups": [
     {
-      "title": "Component Options",
+      "title": "External modules",
       "kind": 1,
       "children": [
         1

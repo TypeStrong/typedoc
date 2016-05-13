@@ -19,9 +19,7 @@
           "name": "Vector2",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A class with constructor properties."
           },
@@ -31,9 +29,7 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {},
               "signatures": [
                 {
@@ -84,7 +80,7 @@
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Constructors",
               "kind": 512,
               "children": [
                 3
@@ -104,9 +100,7 @@
           "name": "Vector3",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isCoveoComponentOptions": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A class with inherited and overwritten constructor properties."
           },
@@ -116,9 +110,7 @@
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {
-                "isCoveoComponentOptions": true
-              },
+              "flags": {},
               "comment": {},
               "signatures": [
                 {
@@ -193,7 +185,7 @@
           ],
           "groups": [
             {
-              "title": "Component Options",
+              "title": "Constructors",
               "kind": 512,
               "children": [
                 8
@@ -211,7 +203,7 @@
       ],
       "groups": [
         {
-          "title": "Component Options",
+          "title": "Classes",
           "kind": 128,
           "children": [
             2,
