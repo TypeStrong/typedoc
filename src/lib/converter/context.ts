@@ -221,7 +221,7 @@ export class Context
     withSourceFile(node:ts.SourceFile, callback:Function) {
         var options = this.converter.application.options;
         var externalPattern = this.externalPattern;
-        var isExternal = this.fileNames.indexOf(node.fileName) == -1;
+        var isExternal = false;
         if (externalPattern) {
             isExternal = isExternal || externalPattern.match(node.fileName);
         }
