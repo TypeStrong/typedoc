@@ -381,7 +381,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             var declarationReflection: DeclarationReflection = <DeclarationReflection>result;
             if (declarationReflection.extendedTypes) {
                 declarationReflection.extendedTypes.forEach((type)=> {
-                    if (type.toString() == 'component') {
+                    if (type.toString().toLowerCase() == 'component') {
                         result.kind = ReflectionKind.CoveoComponent;
                     }
                 })
