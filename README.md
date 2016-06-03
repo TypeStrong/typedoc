@@ -32,6 +32,7 @@ themes shipped with the package:
 [http://typedoc.io/themes/default](http://typedoc.io/themes/default)<br>
 [http://typedoc.io/themes/minimal](http://typedoc.io/themes/minimal)
 
+The default themes can be found here: [https://github.com/TypeStrong/typedoc-default-themes](https://github.com/TypeStrong/typedoc-default-themes)
 
 ## Usage
 
