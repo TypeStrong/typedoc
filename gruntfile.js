@@ -83,11 +83,19 @@ module.exports = function(grunt)
             }
         },
         copy: {
+            plugin: {
+              files: [{
+                expand: true,
+                cwd: 'src',
+                src: ['*.js'],
+                dest: 'bin'
+              }]
+            },
             themeDefault: {
                 files: [{
                     expand: true,
                     cwd: 'src/default',
-                    src: ['**/*.hbs'],
+                    src: ['**/*.hbs', '**/*.png'],
                     dest: 'bin/default'
                 }]
             },
@@ -141,7 +149,7 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-ts');
 
-    grunt.registerTask('css', ['sass', 'autoprefixer', 'string-replace']);
-    grunt.registerTask('js', ['ts:themeDefault', 'uglify', 'string-replace']);
-    grunt.registerTask('default', ['copy', 'css', 'js']);
+    grunt.registerTask('css', ['sass', 'autoprefixer']);
+    grunt.registerTask('js', ['ts:themeDefault', 'uglify']);
+    grunt.registerTask('default', ['copy', 'css', 'js', 'string-replace']);
 };

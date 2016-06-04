@@ -1,1 +1,0 @@
-exports = td.output.DefaultTheme;

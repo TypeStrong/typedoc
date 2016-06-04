@@ -4,6 +4,16 @@
   "version": "0.3.4",
   "homepage": "http://typedoc.io",
   "main": "bin/plugin.js",
+  "files": [
+    "bin",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf bin",
+    "grunt": "grunt",
+    "build": "npm run clean && npm run grunt",
+    "prepublish": "npm run build"
+  },
   "author": {
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
@@ -25,20 +35,17 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "typescript": "1.4.x",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^2.2.0",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-string-replace": "^1.0.0",
-    "grunt-ts": "^2.0.1"
+    "grunt-ts": "^2.0.1",
+    "typescript": "1.4.x"
   },
-  "files": [
-    "bin",
-    "LICENSE"
-  ],
   "keywords": [
     "typescript",
     "documentation",
