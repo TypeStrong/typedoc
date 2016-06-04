@@ -2,7 +2,7 @@
 
 > Documentation generator for TypeScript projects.
 
-[![Build Status](https://travis-ci.org/sebastian-lenz/typedoc.svg?branch=master)](https://travis-ci.org/sebastian-lenz/typedoc) [![NPM version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
+[![Build Status](https://travis-ci.org/TypeDoc/typedoc.svg?branch=master)](https://travis-ci.org/TypeDoc/typedoc) [![NPM version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
 
 
 ## Installation
@@ -133,10 +133,10 @@ Visit our homepage for advanced guides and an extensive API documentation:<br>
 
 Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
 an issue or create a pull requests:<br>
-[https://github.com/sebastian-lenz/typedoc](https://github.com/sebastian-lenz/typedoc)
+[https://github.com/TypeDoc/typedoc](https://github.com/TypeDoc/typedoc)
 
 
 ## License
 
-Copyright (c) 2015 [Sebastian Lenz](http://www.sebastian-lenz.de).<br>
+Copyright (c) 2015 [Sebastian Lenz](http://www.TypeDoc.de).<br>
 Licensed under the Apache License 2.0.

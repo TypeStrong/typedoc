@@ -14,15 +14,15 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebastian-lenz/TypeDoc.git"
+    "url": "git://github.com/TypeStrong/TypeDoc.git"
   },
   "bugs": {
-    "url": "https://github.com/sebastian-lenz/TypeDoc/issues"
+    "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "licenses": [
     {
       "type": "Apache-2.0",
-      "url": "https://github.com/sebastian-lenz/TypeDoc/blob/master/LICENSE"
+      "url": "https://github.com/TypeStrong/TypeDoc/blob/master/LICENSE"
     }
   ],
   "engines": {
