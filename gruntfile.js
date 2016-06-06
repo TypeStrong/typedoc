@@ -32,7 +32,7 @@ module.exports = function(grunt)
         'string-replace': {
             version: {
                 files: {
-                    'bin/typedoc.js': ['bin/typedoc.js']
+                    'lib/application.js': ['lib/application.js']
                 },
                 options: {
                     replacements: [{
