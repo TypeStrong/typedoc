@@ -33,7 +33,7 @@ export class TSConfigReader extends OptionsComponent
 
     onDiscover(event:DiscoverEvent) {
         if (TSConfigReader.OPTIONS_KEY in event.data) {
-            this.load(event, event.data[TSConfigReader.OPTIONS_KEY]);
+            this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
             var file = Path.resolve('tsconfig.json');
             if (FS.existsSync(file)) {

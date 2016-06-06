@@ -32,7 +32,7 @@ export class TypedocReader extends OptionsComponent
 
     onDiscover(event:DiscoverEvent) {
         if (TypedocReader.OPTIONS_KEY in event.data) {
-            this.load(event, event.data[TypedocReader.OPTIONS_KEY]);
+            this.load(event, Path.resolve(event.data[TypedocReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
             var file = Path.resolve('typedoc.js');
             if (FS.existsSync(file)) {
