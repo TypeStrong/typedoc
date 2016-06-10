@@ -69,7 +69,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         type: ParameterType.String,
         defaultValue: 'default'
     })
-    themeName:string
+    themeName:string;
 
     @Option({
         name: 'disableOutputCheck',
@@ -78,7 +78,32 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
     })
     disableOutputCheck:boolean;
 
+    @Option({
+        name: 'gaID',
+        help: 'Set the Google Analytics tracking ID and activate tracking code.'
+    })
+    gaID:string;
 
+    @Option({
+        name: 'gaSite',
+        help: 'Set the site name for Google Analytics. Defaults to `auto`.',
+        defaultValue: 'auto'
+    })
+    gaSite:string;
+
+    @Option({
+        name: 'hideGenerator',
+        help: 'Do not print the TypeDoc link at the end of the page.',
+        type: ParameterType.Boolean
+    })
+    hideGenerator:boolean;
+
+    @Option({
+        name: 'entryPoint',
+        help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
+        type: ParameterType.String
+    })
+    entryPoint:string;
 
     /**
      * Create a new Renderer instance.

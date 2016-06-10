@@ -3,9 +3,9 @@ import {ProjectReflection} from "../models/reflections/project";
 import {UrlMapping} from "./models/UrlMapping";
 import {NavigationItem} from "./models/NavigationItem";
 import {RendererComponent} from "./components";
-import {Component} from "../utils/component";
+import {Component, Option} from "../utils/component";
 import {Resources} from "./utils/resources";
-
+import {ParameterType} from "../utils/options/declaration";
 
 /**
  * Base class of all themes.
@@ -50,7 +50,7 @@ import {Resources} from "./utils/resources";
  *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
  *   this theme.
  */
-@Component({name:"rendrer:theme", internal:true})
+@Component({name:"theme", internal:true})
 export class Theme extends RendererComponent
 {
     /**
@@ -58,7 +58,7 @@ export class Theme extends RendererComponent
      */
     basePath:string;
 
-    resources:Resources;
+    resources:Resources;    
 
 
     /**
