@@ -128,7 +128,7 @@ declare module "shelljs"
      * @param {string} dest   The destination.
      */
     export function mv(source: string, dest: string): void;
-    
+
     /**
      * Moves files. The wildcard * is accepted.
      * @param {string[]} source The source.
@@ -436,7 +436,7 @@ declare module "shelljs"
      * Object containing environment variables (both getter and setter). Shortcut to process.env.
      */
     export var env: { [key: string]: string };
-    
+
     /**
      * Executes the given command synchronously.
      * @param  {string}                 command The command to execute.
@@ -476,7 +476,8 @@ declare module "shelljs"
     export interface ExecOutputReturnValue
     {
         code: number;
-        output: string;
+        stdout: string;
+        stderr: string;
     }
 
     /**

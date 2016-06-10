@@ -51,7 +51,7 @@ class Repository
         var out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-remote --get-url', {silent:true});
         if (out.code == 0) {
             var url:RegExpExecArray;
-            var remotes = out.output.split('\n');
+            var remotes = out.stdout.split('\n');
             for (var i = 0, c = remotes.length; i < c; i++) {
                 url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
                 if (url) {
@@ -67,7 +67,7 @@ class Repository
 
         out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-files', {silent:true});
         if (out.code == 0) {
-            out.output.split('\n').forEach((file) => {
+            out.stdout.split('\n').forEach((file) => {
                 if (file != '') {
                     this.files.push(BasePath.normalize(path + '/' + file));
                 }
@@ -76,7 +76,7 @@ class Repository
 
         out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --short HEAD', {silent:true});
         if (out.code == 0) {
-            this.branch = out.output.replace('\n', '');
+            this.branch = out.stdout.replace('\n', '');
         }
 
         ShellJS.popd();
@@ -131,7 +131,7 @@ class Repository
         ShellJS.popd();
 
         if (out.code != 0) return null;
-        return new Repository(BasePath.normalize(out.output.replace("\n", '')));
+        return new Repository(BasePath.normalize(out.stdout.replace("\n", '')));
     }
 }
 
