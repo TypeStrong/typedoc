@@ -62,9 +62,10 @@ describe('Renderer', function() {
     it('constructs', function() {
         app = new TypeDoc.Application({
             mode:   'Modules',
-            logger: 'none',
+            logger: 'console',
             target: 'ES5',
             module: 'CommonJS',
+            gaSite: 'foo.com', // verify theme option without modifying output
             noLib:  true
         });
     });

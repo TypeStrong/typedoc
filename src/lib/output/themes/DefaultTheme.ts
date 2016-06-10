@@ -8,9 +8,7 @@ import {ReflectionGroup} from "../../models/ReflectionGroup";
 import {UrlMapping} from "../models/UrlMapping";
 import {NavigationItem} from "../models/NavigationItem";
 import {RendererEvent} from "../events";
-import {Option} from "../../utils/component";
-import {ParameterType} from "../../utils/options/declaration";
-
+import {Component} from "../../utils/component";
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -47,34 +45,7 @@ export interface ITemplateMapping
  * [[BaseTheme]] implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme
-{
-    @Option({
-        name: 'gaID',
-        help: 'Set the Google Analytics tracking ID and activate tracking code.'
-    })
-    gaID:string;
-
-    @Option({
-        name: 'gaSite',
-        help: 'Set the site name for Google Analytics. Defaults to `auto`.',
-        defaultValue: 'auto'
-    })
-    gaSite:string;
-
-    @Option({
-        name: 'hideGenerator',
-        help: 'Do not print the TypeDoc link at the end of the page.',
-        type: ParameterType.Boolean
-    })
-    hideGenerator:boolean;
-
-    @Option({
-        name: 'entryPoint',
-        help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
-        type: ParameterType.String
-    })
-    entryPoint:string;
-
+{    
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
@@ -170,7 +141,7 @@ export class DefaultTheme extends Theme
      * @returns The reflection that should be used as the entry point.
      */
     getEntryPoint(project:ProjectReflection):ContainerReflection {
-        var entryPoint = this.entryPoint;
+        var entryPoint = this.owner.entryPoint;
         if (entryPoint) {
             var reflection = project.getChildByName(entryPoint);
             if (reflection) {
