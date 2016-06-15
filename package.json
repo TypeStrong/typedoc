@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "http://typedoc.io",
   "bin": {
     "typedoc": "bin/typedoc"
