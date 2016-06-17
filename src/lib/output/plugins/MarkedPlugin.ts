@@ -88,7 +88,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
 
         var that = this;
         Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
-        Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
+        Handlebars.registerHelper('relativeURL', (url:string) => url ? this.getRelativeUrl(url) : url);
 
         Marked.setOptions({
             highlight: (text:any, lang:any) => this.getHighlighted(text, lang)
