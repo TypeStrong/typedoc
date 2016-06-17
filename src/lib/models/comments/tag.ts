@@ -30,6 +30,14 @@ export class CommentTag
         this.text = text || '';
     }
 
+    /**
+     * Test whether this tag is deprecated .
+     *
+     * @returns TRUE when this tag is deprecated, otherwise FALSE.
+     */
+    isDeprecated():boolean {
+        return <boolean>(this.tagName == 'deprecated');
+    }
 
     /**
      * Return a raw object representation of this tag.
