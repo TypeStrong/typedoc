@@ -375,9 +375,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         if (result && comment != null && comment.indexOf('@componentOptions') != -1) {
             result.setFlag(ReflectionFlag.CoveoComponentOptions, true);
         }
-        if (result && comment != null && comment.indexOf('@deprecated') != -1) {
-            result.setFlag(ReflectionFlag.CoveoDeprecated, true);
-        }
+
 
         if (result && result instanceof DeclarationReflection) {
             var declarationReflection: DeclarationReflection = <DeclarationReflection>result;

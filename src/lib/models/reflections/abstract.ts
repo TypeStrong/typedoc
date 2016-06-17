@@ -83,8 +83,7 @@ export enum ReflectionFlag
     DefaultValue = 256,
     Rest = 512,
     ConstructorProperty = 1024,
-    CoveoComponentOptions = 2048,
-    CoveoDeprecated = 4096
+    CoveoComponentOptions = 2048
 }
 
 
@@ -154,11 +153,6 @@ export interface IReflectionFlags extends Array<string>
     isConstructorProperty?:boolean;
 
     isCoveoComponentOptions?:boolean;
-
-    /**
-     * Whether the parameter is deprecated.
-     */
-    isCoveoDeprecated?:boolean;
 }
 
 
@@ -444,9 +438,6 @@ export abstract class Reflection
                 break;
             case ReflectionFlag.CoveoComponentOptions:
                 this.flags.isCoveoComponentOptions = value;
-                break;
-            case ReflectionFlag.CoveoDeprecated:
-                this.flags.isCoveoDeprecated = value;
                 break;
         }
     }
