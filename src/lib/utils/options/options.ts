@@ -138,7 +138,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
             }
         }
 
-        return _.unique(result);
+        return _.uniq(result);
     }
 
 
