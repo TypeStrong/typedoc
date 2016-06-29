@@ -1,6 +1,7 @@
 import * as Path from "path";
 import * as FS from "fs";
 import * as _ from "lodash";
+import * as ts from "typescript";
 
 import {Component, Option} from "../../component";
 import {OptionsComponent, DiscoverEvent} from "../options";
@@ -55,7 +56,8 @@ export class TSConfigReader extends OptionsComponent
             return;
         }
 
-        var data = require(fileName);
+        var result = ts.readConfigFile(fileName, (fileName) => FS.readFileSync(fileName, 'utf8'));
+        var data = result.config;
         if (typeof data !== "object") {
             event.addError('The tsconfig file %s does not return an object.', fileName);
             return;
