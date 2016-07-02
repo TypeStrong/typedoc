@@ -56,8 +56,7 @@ export class TSConfigReader extends OptionsComponent
             return;
         }
 
-        var result = ts.readConfigFile(fileName, (fileName) => FS.readFileSync(fileName, 'utf8'));
-        var data = result.config;
+        var data = ts.readConfigFile(fileName, (fileName) => ts.sys.readFile(fileName)).config;
         if (typeof data !== "object") {
             event.addError('The tsconfig file %s does not return an object.', fileName);
             return;
