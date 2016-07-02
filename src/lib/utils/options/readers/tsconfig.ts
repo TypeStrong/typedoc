@@ -1,6 +1,7 @@
 import * as Path from "path";
 import * as FS from "fs";
 import * as _ from "lodash";
+import * as ts from "typescript";
 
 import {Component, Option} from "../../component";
 import {OptionsComponent, DiscoverEvent} from "../options";
@@ -55,9 +56,13 @@ export class TSConfigReader extends OptionsComponent
             return;
         }
 
-        var data = require(fileName);
-        if (typeof data !== "object") {
-            event.addError('The tsconfig file %s does not return an object.', fileName);
+        var data = ts.readConfigFile(fileName, (fileName) => ts.sys.readFile(fileName)).config;
+        if (data === undefined) {
+            event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
+            return;
+        }
+        if (!_.isPlainObject(data)) {
+            event.addError('The tsconfig file %s does not contain a JSON object.', fileName);
             return;
         }
 
