@@ -5,6 +5,7 @@ import * as Util from "util";
 import {Theme} from "../theme";
 import {HelperStack} from "./resources/helpers";
 import {TemplateStack, PartialStack} from "./resources/templates";
+import {Renderer} from "../renderer";
 
 
 export class Resources
@@ -29,7 +30,8 @@ export class Resources
         this.partials  = new PartialStack();
         this.helpers   = new HelperStack();
 
-        this.addDirectory(Path.basename(theme.basePath), theme.basePath);
+        this.addDirectory('default', Renderer.getDefaultTheme());
+        this.addDirectory('theme', theme.basePath);
     }
 
 
