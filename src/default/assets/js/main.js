@@ -1,9 +1,12 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var typedoc;
+(function (typedoc) {
+    typedoc.app = new typedoc.Application();
+})(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
     typedoc.$html = $('html');
@@ -37,8 +40,7 @@ var typedoc;
     typedoc.registerComponent = registerComponent;
     if (typeof Backbone != 'undefined') {
         typedoc['Events'] = (function () {
-            var res = function () {
-            };
+            var res = function () { };
             _.extend(res.prototype, Backbone.Events);
             return res;
         })();
@@ -80,7 +82,7 @@ var typedoc;
             return result;
         };
         return Application;
-    })(typedoc.Events);
+    }(typedoc.Events));
     typedoc.Application = Application;
 })(typedoc || (typedoc = {}));
 var typedoc;
@@ -95,10 +97,8 @@ var typedoc;
                 this.setValue(this.fromLocalStorage(window.localStorage[this.key]));
             }
         }
-        FilterItem.prototype.initialize = function () {
-        };
-        FilterItem.prototype.handleValueChange = function (oldValue, newValue) {
-        };
+        FilterItem.prototype.initialize = function () { };
+        FilterItem.prototype.handleValueChange = function (oldValue, newValue) { };
         FilterItem.prototype.fromLocalStorage = function (value) {
             return value;
         };
@@ -114,7 +114,7 @@ var typedoc;
             this.handleValueChange(oldValue, value);
         };
         return FilterItem;
-    })();
+    }());
     var FilterItemCheckbox = (function (_super) {
         __extends(FilterItemCheckbox, _super);
         function FilterItemCheckbox() {
@@ -138,7 +138,7 @@ var typedoc;
             return value ? 'true' : 'false';
         };
         return FilterItemCheckbox;
-    })(FilterItem);
+    }(FilterItem));
     var FilterItemSelect = (function (_super) {
         __extends(FilterItemSelect, _super);
         function FilterItemSelect() {
@@ -170,7 +170,7 @@ var typedoc;
             typedoc.$html.addClass('toggle-' + newValue);
         };
         return FilterItemSelect;
-    })(FilterItem);
+    }(FilterItem));
     var Filter = (function (_super) {
         __extends(Filter, _super);
         function Filter(options) {
@@ -189,7 +189,7 @@ var typedoc;
             }
         };
         return Filter;
-    })(Backbone.View);
+    }(Backbone.View));
     if (Filter.isSupported()) {
         typedoc.registerComponent(Filter, '#tsd-filter');
     }
@@ -212,8 +212,8 @@ var typedoc;
             var _this = this;
             this.index = 0;
             this.anchors = [{
-                position: 0
-            }];
+                    position: 0
+                }];
             var base = window.location.href;
             if (base.indexOf('#') != -1) {
                 base = base.substr(0, base.indexOf('#'));
@@ -267,7 +267,7 @@ var typedoc;
             }
         };
         return MenuHighlight;
-    })(Backbone.View);
+    }(Backbone.View));
     typedoc.MenuHighlight = MenuHighlight;
     typedoc.registerComponent(MenuHighlight, '.menu-highlight');
 })(typedoc || (typedoc = {}));
@@ -285,7 +285,7 @@ var typedoc;
         function MenuSticky(options) {
             _super.call(this, options);
             this.state = '';
-            this.stickyMode = 0 /* None */;
+            this.stickyMode = StickyMode.None;
             this.$current = this.$el.find('> ul.current');
             this.$navigation = this.$el.parents('.menu-sticky-wrap');
             this.$container = this.$el.parents('.row');
@@ -305,7 +305,7 @@ var typedoc;
                 this.$navigation.addClass(this.state);
         };
         MenuSticky.prototype.onResize = function (width, height) {
-            this.stickyMode = 0 /* None */;
+            this.stickyMode = StickyMode.None;
             this.setState('');
             var containerTop = this.$container.offset().top;
             var containerHeight = this.$container.height();
@@ -318,14 +318,14 @@ var typedoc;
                     var currentTop = this.$current.offset().top;
                     this.$navigation.css('top', containerTop - currentTop + 20);
                     if (currentHeight < height) {
-                        this.stickyMode = 2 /* Current */;
+                        this.stickyMode = StickyMode.Current;
                         this.stickyTop = currentTop;
                         this.stickyBottom = bottom - elHeight + (currentTop - elTop) - 20;
                     }
                 }
                 if (elHeight < height) {
                     this.$navigation.css('top', containerTop - elTop + 20);
-                    this.stickyMode = 1 /* Secondary */;
+                    this.stickyMode = StickyMode.Secondary;
                     this.stickyTop = elTop;
                     this.stickyBottom = bottom - elHeight - 20;
                 }
@@ -335,10 +335,10 @@ var typedoc;
                 this.onScroll(typedoc.viewport.scrollTop);
             }
             else {
-                if (this.stickyMode == 2 /* Current */) {
+                if (this.stickyMode == StickyMode.Current) {
                     this.setState('sticky-current');
                 }
-                else if (this.stickyMode == 1 /* Secondary */) {
+                else if (this.stickyMode == StickyMode.Secondary) {
                     this.setState('sticky');
                 }
                 else {
@@ -347,7 +347,7 @@ var typedoc;
             }
         };
         MenuSticky.prototype.onScroll = function (scrollTop) {
-            if (this.stickyMode == 2 /* Current */) {
+            if (this.stickyMode == StickyMode.Current) {
                 if (scrollTop > this.stickyBottom) {
                     this.setState('sticky-bottom');
                 }
@@ -355,7 +355,7 @@ var typedoc;
                     this.setState(scrollTop + 20 > this.stickyTop ? 'sticky-current' : '');
                 }
             }
-            else if (this.stickyMode == 1 /* Secondary */) {
+            else if (this.stickyMode == StickyMode.Secondary) {
                 if (scrollTop > this.stickyBottom) {
                     this.setState('sticky-bottom');
                 }
@@ -365,7 +365,7 @@ var typedoc;
             }
         };
         return MenuSticky;
-    })(Backbone.View);
+    }(Backbone.View));
     typedoc.MenuSticky = MenuSticky;
     typedoc.registerComponent(MenuSticky, '.menu-sticky');
 })(typedoc || (typedoc = {}));
@@ -385,7 +385,7 @@ var typedoc;
         var $results = $('.results');
         var base = $el.attr('data-base') + '/';
         var query = '';
-        var loadingState = 0 /* Idle */;
+        var loadingState = SearchLoadingState.Idle;
         var hasFocus = false;
         var preventPress = false;
         var index;
@@ -403,7 +403,7 @@ var typedoc;
                 while (cycles++ < 100) {
                     index.add(rows[pos]);
                     if (++pos == length) {
-                        return setLoadingState(2 /* Ready */);
+                        return setLoadingState(SearchLoadingState.Ready);
                     }
                 }
                 setTimeout(batch, 10);
@@ -411,27 +411,28 @@ var typedoc;
             batch();
         }
         function loadIndex() {
-            if (loadingState != 0 /* Idle */)
+            if (loadingState != SearchLoadingState.Idle)
                 return;
             setTimeout(function () {
-                if (loadingState == 0 /* Idle */) {
-                    setLoadingState(1 /* Loading */);
+                if (loadingState == SearchLoadingState.Idle) {
+                    setLoadingState(SearchLoadingState.Loading);
                 }
             }, 500);
             if (typeof search.data != 'undefined') {
                 createIndex();
             }
             else {
-                $.get($el.attr('data-index')).done(function (source) {
+                $.get($el.attr('data-index'))
+                    .done(function (source) {
                     eval(source);
                     createIndex();
                 }).fail(function () {
-                    setLoadingState(3 /* Failure */);
+                    setLoadingState(SearchLoadingState.Failure);
                 });
             }
         }
         function updateResults() {
-            if (loadingState != 2 /* Ready */)
+            if (loadingState != SearchLoadingState.Ready)
                 return;
             $results.empty();
             var res = index.search(query);
@@ -449,7 +450,7 @@ var typedoc;
             $el.removeClass(SearchLoadingState[loadingState].toLowerCase());
             loadingState = value;
             $el.addClass(SearchLoadingState[loadingState].toLowerCase());
-            if (value == 2 /* Ready */) {
+            if (value == SearchLoadingState.Ready) {
                 updateResults();
             }
         }
@@ -551,7 +552,7 @@ var typedoc;
             return this;
         };
         return SignatureGroup;
-    })();
+    }());
     var Signature = (function (_super) {
         __extends(Signature, _super);
         function Signature(options) {
@@ -560,7 +561,9 @@ var typedoc;
             this.index = -1;
             this.createGroups();
             if (this.groups) {
-                this.$el.addClass('active').on('touchstart', '.tsd-signature', function (event) { return _this.onClick(event); }).on('click', '.tsd-signature', function (event) { return _this.onClick(event); });
+                this.$el.addClass('active')
+                    .on('touchstart', '.tsd-signature', function (event) { return _this.onClick(event); })
+                    .on('click', '.tsd-signature', function (event) { return _this.onClick(event); });
                 this.$container.addClass('active');
                 this.setIndex(0);
             }
@@ -613,7 +616,7 @@ var typedoc;
             });
         };
         return Signature;
-    })(Backbone.View);
+    }(Backbone.View));
     typedoc.registerComponent(Signature, '.tsd-signatures');
 })(typedoc || (typedoc = {}));
 var typedoc;
@@ -678,7 +681,7 @@ var typedoc;
             }
         };
         return Toggle;
-    })(Backbone.View);
+    }(Backbone.View));
     typedoc.registerComponent(Toggle, 'a[data-toggle]');
 })(typedoc || (typedoc = {}));
 var typedoc;
@@ -709,9 +712,8 @@ var typedoc;
             this.trigger('scroll', this.scrollTop);
         };
         return Viewport;
-    })(typedoc.Events);
+    }(typedoc.Events));
     typedoc.Viewport = Viewport;
-    typedoc.viewport;
     typedoc.registerService(Viewport, 'viewport');
 })(typedoc || (typedoc = {}));
 var typedoc;
@@ -808,8 +810,4 @@ var typedoc;
         }
     }
     typedoc.animateHeight = animateHeight;
-})(typedoc || (typedoc = {}));
-var typedoc;
-(function (typedoc) {
-    typedoc.app = new typedoc.Application();
 })(typedoc || (typedoc = {}));
