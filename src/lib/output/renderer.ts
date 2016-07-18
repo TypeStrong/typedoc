@@ -199,14 +199,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 }
             }
 
-            var filename = Path.join(path, 'theme.js');
-            if (!FS.existsSync(filename)) {
-                this.theme = this.addComponent("theme", new DefaultTheme(this, path));
-            } else {
-                // var themeClass = eval(Renderer.readFile(filename));
-                // this.theme = new themeClass(this, path);
-                this.theme = this.addComponent("theme", new DefaultTheme(this, path));
-            }
+            this.theme = this.addComponent("theme", new DefaultTheme(this, path));
         }
 
         this.theme.resources.activate();

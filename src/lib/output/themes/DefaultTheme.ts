@@ -45,7 +45,7 @@ export interface ITemplateMapping
  * [[BaseTheme]] implementation, this theme class will be used.
  */
 export class DefaultTheme extends Theme
-{    
+{
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
