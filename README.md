@@ -122,6 +122,9 @@ There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten.
 There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:<br>
 [https://www.npmjs.org/package/grunt-typedoc](https://www.npmjs.org/package/grunt-typedoc)
 
+## Plugins
+
+* [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
 
 ## Advanced guides and docs
 
