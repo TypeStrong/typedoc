@@ -67,6 +67,18 @@ export class ContainerReflection extends Reflection
             result['groups'] = groups;
         }
 
+        if (this.sources) {
+          var sources:any[] = [];
+          this.sources.forEach((source) => {
+              sources.push({
+                fileName: source.fileName,
+                line: source.line
+              });
+          });
+
+          result['sources'] = sources;
+        }
+
         return result;
     }
 }
