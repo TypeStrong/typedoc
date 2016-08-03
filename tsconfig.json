@@ -139,6 +139,7 @@
         "src/lib/output/utils/resources/helpers.ts",
         "src/lib/output/utils/resources/stack.ts",
         "src/lib/output/utils/resources/templates.ts",
+        "src/lib/utils/LinkParser.ts",
         "src/lib/utils/component.ts",
         "src/lib/utils/events.ts",
         "src/lib/utils/fs.ts",

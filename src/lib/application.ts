@@ -1,3 +1,8 @@
+import {LinkParser} from "./utils/LinkParser";
+var _ = require("underscore");
+var marked = require("marked");
+var highlight = require("highlight.js");
+
 /**
  * The TypeDoc main module and namespace.
  *
@@ -212,12 +217,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * @param src  A list of source that should be compiled and converted.
      */
-    public generateJson(src:string[], out:string):boolean;
+    public generateJson(src:string[], out:string, linkPrefix?:string):boolean;
 
     /**
      * @param project  The project that should be converted.
      */
-    public generateJson(project:ProjectReflection, out:string):boolean;
+    public generateJson(project:ProjectReflection, out:string, linkPrefix?:string):boolean;
 
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
@@ -225,17 +230,58 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input:any, out:string):boolean {
+    public generateJson(input:any, out:string, linkPrefix?:string):boolean {
         var project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) return false;
 
         out = Path.resolve(out);
-        writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
+        var obj = project.toObject();
+
+        writeFile(out, JSON.stringify(this.prettifyJson(obj.children, project, linkPrefix), null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
     }
 
+    private prettifyJson(obj: any, project:ProjectReflection, linkPrefix?:string){
+        let getHighlighted = function(text, lang) {
+          try {
+            if (lang) {
+              return highlight.highlight(lang, text).value;
+            } else {
+              return highlight.highlightAuto(text).value;
+            }
+          } catch (error) {
+            this.application.logger.warn(error.message);
+            return text;
+          }
+        };
+        marked.setOptions({
+          highlight: function (code, lang) {
+            return getHighlighted(code, lang);
+          }
+        });
+        let linkParser:LinkParser = new LinkParser(project, linkPrefix);
+        let nodeList = [];
+        let visitChildren = function(json, path) {
+            _.each(_.keys(json), function (key) {
+                let str = json[key];
+                if (str != null && str.name != null && str.comment != null) {
+                    let comment = str.comment;
+                    if (comment.shortText != null) {
+                        let markedText = marked(comment.shortText);
+                        nodeList.push({name: path + str.name, comment : linkParser.parseMarkdown(markedText)});
+                    }
+                    if (str.children != null && str.children.length > 0) {
+                        visitChildren(str.children, path + str.name + '.');
+                    }
+                }
+            });
+        };
+        visitChildren(obj, '');
+
+        return nodeList;
+    }
 
     /**
      * Expand a list of input files.
