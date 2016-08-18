@@ -31,6 +31,12 @@
               "flags": {
                 "isExported": true
               },
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 4
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -44,6 +50,12 @@
               "flags": {
                 "isExported": true
               },
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 4
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -59,6 +71,12 @@
                 3
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 4
+            }
           ]
         },
         {
@@ -67,6 +85,12 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {},
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 6
+            }
+          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -82,6 +106,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 9
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IBreakpointRange",
@@ -94,6 +124,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 8
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IBreakpointRange",
@@ -106,6 +142,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 7
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IBreakpointRange",
@@ -118,6 +160,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 10
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IBreakpointRange",
@@ -130,6 +178,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 11
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IBreakpointRange",
@@ -148,6 +202,12 @@
                     10,
                     11
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 6
                 }
               ]
             }
@@ -183,6 +243,12 @@
                       "kind": 32,
                       "kindString": "Variable",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 9
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "name": "IBreakpointRange",
@@ -195,6 +261,12 @@
                       "kind": 32,
                       "kindString": "Variable",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 8
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "name": "IBreakpointRange",
@@ -207,6 +279,12 @@
                       "kind": 32,
                       "kindString": "Variable",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 7
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "name": "IBreakpointRange",
@@ -219,6 +297,12 @@
                       "kind": 32,
                       "kindString": "Variable",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 10
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "name": "IBreakpointRange",
@@ -231,6 +315,12 @@
                       "kind": 32,
                       "kindString": "Variable",
                       "flags": {},
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 11
+                        }
+                      ],
                       "type": {
                         "type": "reference",
                         "name": "IBreakpointRange",
@@ -253,6 +343,12 @@
                   ]
                 }
               }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 14
             }
           ]
         }
@@ -278,6 +374,12 @@
           "children": [
             12
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "implicit-types.ts",
+          "line": 1
         }
       ]
     }

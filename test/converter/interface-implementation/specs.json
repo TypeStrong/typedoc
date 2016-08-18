@@ -57,6 +57,12 @@
                     "isPrivate": true,
                     "isExported": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 59
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "isArray": true,
@@ -147,6 +153,12 @@
                       }
                     }
                   ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 61
+                    }
+                  ],
                   "implementationOf": {
                     "type": "reference",
                     "name": "IEventDispatcher.add",
@@ -177,6 +189,12 @@
                         "name": "IEventDispatcher.clear",
                         "id": 42
                       }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 71
                     }
                   ],
                   "implementationOf": {
@@ -224,6 +242,12 @@
                       }
                     }
                   ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 67
+                    }
+                  ],
                   "implementationOf": {
                     "type": "reference",
                     "name": "IEventDispatcher.dispatch",
@@ -254,6 +278,12 @@
                         "name": "IEventDispatcher.hasListeners",
                         "id": 44
                       }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 73
                     }
                   ],
                   "implementationOf": {
@@ -308,6 +338,12 @@
                       }
                     }
                   ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 65
+                    }
+                  ],
                   "implementationOf": {
                     "type": "reference",
                     "name": "IEventDispatcher.remove",
@@ -333,6 +369,12 @@
                     61,
                     53
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 57
                 }
               ],
               "implementedTypes": [
@@ -444,6 +486,12 @@
                         "id": 14
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 31
+                    }
                   ]
                 },
                 {
@@ -455,6 +503,12 @@
                     "isConstructorProperty": true,
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "EventDispatcher",
@@ -476,6 +530,12 @@
                     "isConstructorProperty": true,
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32
+                    }
+                  ],
                   "type": {
                     "type": "instrinct",
                     "name": "any"
@@ -495,6 +555,12 @@
                     "isConstructorProperty": true,
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IEventListener",
@@ -521,6 +587,12 @@
                     "isConstructorProperty": true,
                     "isPublic": true
                   },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32
+                    }
+                  ],
                   "type": {
                     "type": "instrinct",
                     "name": "number"
@@ -555,6 +627,12 @@
                       }
                     }
                   ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 34
+                    }
+                  ],
                   "implementationOf": {
                     "type": "reference",
                     "name": "ISubscription.unsubscribe",
@@ -586,6 +664,12 @@
                   "children": [
                     26
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 30
                 }
               ],
               "implementedTypes": [
@@ -696,6 +780,12 @@
                         ]
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 45
+                    }
                   ]
                 },
                 {
@@ -717,6 +807,12 @@
                         "type": "instrinct",
                         "name": "void"
                       }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 48
                     }
                   ]
                 },
@@ -753,6 +849,12 @@
                         "name": "boolean"
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 47
+                    }
                   ]
                 },
                 {
@@ -774,6 +876,12 @@
                         "type": "instrinct",
                         "name": "boolean"
                       }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 49
                     }
                   ]
                 },
@@ -817,6 +925,12 @@
                         "name": "void"
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 46
+                    }
                   ]
                 }
               ],
@@ -831,6 +945,12 @@
                     43,
                     35
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 43
                 }
               ],
               "implementedBy": [
@@ -887,6 +1007,12 @@
                     "name": "any"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 8
+                }
               ]
             },
             {
@@ -914,6 +1040,12 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 21
+                    }
+                  ],
                   "type": {
                     "type": "instrinct",
                     "name": "any"
@@ -925,6 +1057,12 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 19
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "IEventListener",
@@ -943,6 +1081,12 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 20
+                    }
+                  ],
                   "type": {
                     "type": "instrinct",
                     "name": "number"
@@ -969,6 +1113,12 @@
                         "name": "void"
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 26
+                    }
                   ]
                 }
               ],
@@ -988,6 +1138,12 @@
                   "children": [
                     12
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 17
                 }
               ],
               "implementedBy": [
@@ -1017,6 +1173,12 @@
                 7
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-implementation.ts",
+              "line": 3
+            }
           ]
         }
       ],
@@ -1027,6 +1189,12 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-implementation.ts",
+          "line": 1
         }
       ]
     }

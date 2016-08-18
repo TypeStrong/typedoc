@@ -75,6 +75,12 @@
                     "id": 2
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 8
+                }
               ]
             },
             {
@@ -89,6 +95,12 @@
               "comment": {
                 "shortText": "X component of the Vector"
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 13
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -106,6 +118,12 @@
               "comment": {
                 "shortText": "Y component of the Vector\n"
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 13
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -127,6 +145,12 @@
                 4,
                 5
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 7
             }
           ],
           "extendedBy": [
@@ -218,6 +242,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 22
+                }
+              ],
               "overwrites": {
                 "type": "reference",
                 "name": "Vector2.__constructor",
@@ -236,6 +266,12 @@
               "comment": {
                 "shortText": "X component of the Vector"
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 13
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -258,6 +294,12 @@
               "comment": {
                 "shortText": "Y component of the Vector"
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 28
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -280,6 +322,12 @@
               "comment": {
                 "shortText": "Z component of the Vector\n"
               },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 28
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -304,6 +352,12 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 21
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -321,6 +375,12 @@
             2,
             9
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-properties.ts",
+          "line": 1
         }
       ]
     }

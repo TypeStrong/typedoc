@@ -12,3 +12,4 @@ var fs_1 = require("./lib/utils/fs");
 exports.normalizePath = fs_1.normalizePath;
 var project_1 = require("./lib/models/reflections/project");
 exports.ProjectReflection = project_1.ProjectReflection;
+//# sourceMappingURL=index.js.map

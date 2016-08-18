@@ -29,6 +29,12 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 6
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -78,6 +84,16 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 9
+                },
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 10
+                }
               ]
             },
             {
@@ -97,6 +113,12 @@
                     "type": "instrinct",
                     "name": "string"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 12
                 }
               ]
             },
@@ -131,6 +153,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 14
+                }
               ]
             }
           ],
@@ -151,6 +179,12 @@
                 10
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "getter-setter.ts",
+              "line": 4
+            }
           ]
         }
       ],
@@ -161,6 +195,12 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "getter-setter.ts",
+          "line": 1
         }
       ]
     }

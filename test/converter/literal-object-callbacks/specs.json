@@ -32,6 +32,12 @@
                 "name": "void"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "literal-object-callbacks.ts",
+              "line": 4
+            }
           ]
         },
         {
@@ -52,6 +58,12 @@
                 "name": "void"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "literal-object-callbacks.ts",
+              "line": 5
+            }
           ]
         },
         {
@@ -71,6 +83,12 @@
                 "type": "instrinct",
                 "name": "void"
               }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "literal-object-callbacks.ts",
+              "line": 3
             }
           ]
         },
@@ -121,6 +139,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "literal-object-callbacks.ts",
+                              "line": 12
+                            }
                           ]
                         }
                       }
@@ -131,6 +155,12 @@
                     "name": "callbackReturn",
                     "id": 8
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-object-callbacks.ts",
+                  "line": 12
                 }
               ]
             },
@@ -174,6 +204,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "literal-object-callbacks.ts",
+                              "line": 16
+                            }
                           ]
                         }
                       }
@@ -184,6 +220,12 @@
                     "name": "callbackReturn",
                     "id": 8
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-object-callbacks.ts",
+                  "line": 16
                 }
               ]
             },
@@ -227,6 +269,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "literal-object-callbacks.ts",
+                              "line": 8
+                            }
                           ]
                         }
                       }
@@ -237,6 +285,12 @@
                     "name": "callbackReturn",
                     "id": 8
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-object-callbacks.ts",
+                  "line": 8
                 }
               ]
             }
@@ -250,6 +304,12 @@
                 19,
                 9
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "literal-object-callbacks.ts",
+              "line": 7
             }
           ],
           "type": {
@@ -274,6 +334,12 @@
           "children": [
             8
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "literal-object-callbacks.ts",
+          "line": 1
         }
       ]
     }

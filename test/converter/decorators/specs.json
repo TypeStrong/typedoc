@@ -79,6 +79,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "decorators.ts",
+                  "line": 17
+                }
               ]
             }
           ],
@@ -89,6 +95,12 @@
               "children": [
                 3
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 10
             }
           ]
         },
@@ -170,6 +182,12 @@
                 "name": "void"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 24
+            }
           ]
         },
         {
@@ -223,6 +241,12 @@
                           "comment": {
                             "text": "A property on the options object of this decorator.\n"
                           },
+                          "sources": [
+                            {
+                              "fileName": "decorators.ts",
+                              "line": 47
+                            }
+                          ],
                           "type": {
                             "type": "instrinct",
                             "name": "string"
@@ -237,6 +261,12 @@
                             17
                           ]
                         }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "decorators.ts",
+                          "line": 47
+                        }
                       ]
                     }
                   }
@@ -246,6 +276,12 @@
                 "type": "reference",
                 "name": "ClassDecorator"
               }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 47
             }
           ]
         },
@@ -293,6 +329,12 @@
                 "name": "MethodDecorator"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "decorators.ts",
+              "line": 34
+            }
           ]
         }
       ],
@@ -312,6 +354,12 @@
             13,
             10
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "decorators.ts",
+          "line": 1
         }
       ]
     }

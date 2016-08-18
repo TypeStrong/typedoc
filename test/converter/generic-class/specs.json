@@ -77,6 +77,12 @@
                     "id": 2
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 16
+                }
               ]
             },
             {
@@ -90,6 +96,12 @@
               "comment": {
                 "shortText": "Generic property."
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 11
+                }
+              ],
               "type": {
                 "type": "typeParameter",
                 "name": "T"
@@ -106,6 +118,12 @@
               "comment": {
                 "shortText": "Generic property array."
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 16
+                }
+              ],
               "type": {
                 "type": "typeParameter",
                 "isArray": true,
@@ -134,6 +152,12 @@
                     "name": "T"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 30
+                }
               ]
             }
           ],
@@ -159,6 +183,12 @@
               "children": [
                 9
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 7
             }
           ],
           "extendedBy": [
@@ -226,6 +256,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 16
+                }
+              ],
               "inheritedFrom": {
                 "type": "reference",
                 "name": "GenericClass.__constructor",
@@ -243,6 +279,12 @@
               "comment": {
                 "shortText": "Generic property."
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 11
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -264,6 +306,12 @@
               "comment": {
                 "shortText": "Generic property array."
               },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 16
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "isArray": true,
@@ -303,6 +351,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 30
+                }
+              ],
               "inheritedFrom": {
                 "type": "reference",
                 "name": "GenericClass.getValue",
@@ -334,6 +388,12 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 39
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -357,6 +417,12 @@
             2,
             11
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-class.ts",
+          "line": 1
         }
       ]
     }

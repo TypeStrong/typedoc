@@ -37,6 +37,12 @@
               "comment": {
                 "shortText": "This is the first enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 34
+                }
+              ],
               "defaultValue": "1"
             },
             {
@@ -50,6 +56,12 @@
               "comment": {
                 "shortText": "This is the second enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 39
+                }
+              ],
               "defaultValue": "2"
             },
             {
@@ -63,6 +75,12 @@
               "comment": {
                 "shortText": "This is the third enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 44
+                }
+              ],
               "defaultValue": "4"
             },
             {
@@ -76,6 +94,12 @@
               "comment": {
                 "shortText": "This is a variable appended to an enumeration."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 56
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -104,6 +128,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 62
+                }
               ]
             }
           ],
@@ -131,6 +161,16 @@
                 11
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 29
+            },
+            {
+              "fileName": "enum.ts",
+              "line": 51
+            }
           ]
         },
         {
@@ -156,6 +196,12 @@
               "comment": {
                 "shortText": "This is the first enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 12
+                }
+              ],
               "defaultValue": "1"
             },
             {
@@ -169,6 +215,12 @@
               "comment": {
                 "shortText": "This is the second enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 17
+                }
+              ],
               "defaultValue": "2"
             },
             {
@@ -182,6 +234,12 @@
               "comment": {
                 "shortText": "This is the third enum member."
               },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 22
+                }
+              ],
               "defaultValue": "4"
             }
           ],
@@ -195,6 +253,12 @@
                 5
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 7
+            }
           ]
         }
       ],
@@ -206,6 +270,12 @@
             6,
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 1
         }
       ]
     }

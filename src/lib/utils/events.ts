@@ -10,7 +10,7 @@
 import * as _ from "lodash";
 
 
-interface IEventCallback extends Function {
+export interface IEventCallback extends Function {
     _callback?:Function;
 }
 

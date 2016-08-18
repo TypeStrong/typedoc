@@ -5,7 +5,9 @@
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "sourceMap": false,
+        "declaration": true,
+        "sourceMap": true,
+        "inlineSources": true,
         "outDir": "./",
         "rootDir": "./src/",
         "experimentalDecorators": true

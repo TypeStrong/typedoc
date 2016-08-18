@@ -30,6 +30,12 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "literal-object.ts",
+                  "line": 14
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -42,6 +48,12 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "literal-object.ts",
+                  "line": 15
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "boolean"
@@ -54,6 +66,12 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "literal-object.ts",
+                  "line": 7
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -78,6 +96,12 @@
                     "name": "string"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-object.ts",
+                  "line": 8
+                }
               ]
             },
             {
@@ -93,6 +117,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal-object.ts",
+                      "line": 12
+                    }
+                  ],
                   "type": {
                     "type": "reference",
                     "name": "Array",
@@ -111,6 +141,12 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal-object.ts",
+                      "line": 10
+                    }
+                  ],
                   "type": {
                     "type": "instrinct",
                     "name": "string"
@@ -158,6 +194,12 @@
                               "kind": 32,
                               "kindString": "Variable",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal-object.ts",
+                                  "line": 11
+                                }
+                              ],
                               "type": {
                                 "type": "instrinct",
                                 "name": "string"
@@ -170,6 +212,12 @@
                               "kind": 32,
                               "kindString": "Variable",
                               "flags": {},
+                              "sources": [
+                                {
+                                  "fileName": "literal-object.ts",
+                                  "line": 11
+                                }
+                              ],
                               "type": {
                                 "type": "instrinct",
                                 "name": "string"
@@ -190,6 +238,12 @@
                         }
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "literal-object.ts",
+                      "line": 11
+                    }
                   ]
                 }
               ],
@@ -208,6 +262,12 @@
                   "children": [
                     8
                   ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-object.ts",
+                  "line": 9
                 }
               ],
               "type": {
@@ -241,6 +301,12 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "literal-object.ts",
+              "line": 6
+            }
+          ],
           "type": {
             "type": "instrinct",
             "name": "object"
@@ -254,6 +320,12 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "literal-object.ts",
+          "line": 1
         }
       ]
     }

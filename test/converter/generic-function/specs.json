@@ -77,6 +77,12 @@
                 "name": "T"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 21
+            }
           ]
         },
         {
@@ -141,6 +147,12 @@
                 }
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 9
+            }
           ]
         }
       ],
@@ -152,6 +164,12 @@
             6,
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-function.ts",
+          "line": 1
         }
       ]
     }

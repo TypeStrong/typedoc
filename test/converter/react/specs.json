@@ -59,6 +59,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 15
+                }
+              ],
               "overwrites": {
                 "type": "reference",
                 "name": "Component.__constructor"
@@ -70,6 +76,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 142
+                }
+              ],
               "type": {
                 "type": "reflection",
                 "declaration": {
@@ -77,7 +89,13 @@
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
-                  "flags": {}
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "react.d.ts",
+                      "line": 142
+                    }
+                  ]
                 }
               },
               "inheritedFrom": {
@@ -93,6 +111,12 @@
               "flags": {
                 "isPrivate": true
               },
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 15
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -104,6 +128,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 140
+                }
+              ],
               "type": {
                 "type": "reference",
                 "name": "DemoProps",
@@ -120,6 +150,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 143
+                }
+              ],
               "type": {
                 "type": "reflection",
                 "declaration": {
@@ -163,6 +199,12 @@
                         ]
                       }
                     }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "react.d.ts",
+                      "line": 143
+                    }
                   ]
                 }
               },
@@ -177,6 +219,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 141
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "any"
@@ -228,6 +276,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 138
+                            }
                           ]
                         }
                       }
@@ -241,6 +295,12 @@
                     "type": "reference",
                     "name": "Component.forceUpdate"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 138
                 }
               ],
               "inheritedFrom": {
@@ -269,6 +329,12 @@
                     "type": "reference",
                     "name": "Component.render"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 24
                 }
               ],
               "overwrites": {
@@ -341,6 +407,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 136
+                            }
                           ]
                         }
                       }
@@ -372,6 +444,12 @@
                                 "type": "instrinct",
                                 "name": "any"
                               }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 136
                             }
                           ]
                         }
@@ -433,6 +511,12 @@
                                 "name": "any"
                               }
                             }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 137
+                            }
                           ]
                         }
                       }
@@ -446,6 +530,16 @@
                     "type": "reference",
                     "name": "Component.setState"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 136
+                },
+                {
+                  "fileName": "react.d.ts",
+                  "line": 137
                 }
               ],
               "inheritedFrom": {
@@ -481,6 +575,12 @@
                 10,
                 12
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 13
             }
           ],
           "extendedTypes": [
@@ -531,6 +631,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 9
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -542,6 +648,12 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 8
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -556,6 +668,12 @@
                 4,
                 3
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 7
             }
           ]
         }
@@ -574,6 +692,12 @@
           "children": [
             2
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 1
         }
       ]
     }

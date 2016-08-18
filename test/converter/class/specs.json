@@ -60,6 +60,12 @@
                     "id": 2
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 25
+                }
               ]
             },
             {
@@ -74,6 +80,12 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 20
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "isArray": true,
@@ -92,6 +104,12 @@
               "comment": {
                 "shortText": "publicProperty short text."
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 15
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -109,6 +127,12 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 25
+                }
+              ],
               "type": {
                 "type": "reference",
                 "name": "TestClass",
@@ -139,6 +163,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 46
+                }
               ]
             },
             {
@@ -164,6 +194,12 @@
                     "type": "instrinct",
                     "name": "void"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 41
                 }
               ]
             },
@@ -191,6 +227,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 36
+                }
               ]
             },
             {
@@ -216,6 +258,12 @@
                     "type": "instrinct",
                     "name": "void"
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 51
                 }
               ]
             }
@@ -246,6 +294,12 @@
                 8,
                 14
               ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 10
             }
           ],
           "extendedBy": [
@@ -356,6 +410,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 65
+                }
+              ],
               "overwrites": {
                 "type": "reference",
                 "name": "TestClass.__constructor",
@@ -375,6 +435,12 @@
               "comment": {
                 "shortText": "Private string property"
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 75
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -393,6 +459,12 @@
               "comment": {
                 "shortText": "Public number property"
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 75
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "number"
@@ -411,6 +483,12 @@
               "comment": {
                 "shortText": "Public implicit any property\n"
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 75
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "any"
@@ -428,6 +506,12 @@
               "comment": {
                 "shortText": "publicProperty short text."
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 15
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -450,6 +534,12 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 25
+                }
+              ],
               "type": {
                 "type": "reference",
                 "name": "TestClass",
@@ -491,6 +581,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 65
+                }
+              ],
               "overwrites": {
                 "type": "reference",
                 "name": "TestClass.protectedMethod",
@@ -525,6 +621,12 @@
                     "name": "TestClass.publicMethod",
                     "id": 8
                   }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 60
                 }
               ],
               "overwrites": {
@@ -563,6 +665,12 @@
                   }
                 }
               ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 51
+                }
+              ],
               "inheritedFrom": {
                 "type": "reference",
                 "name": "TestClass.staticMethod",
@@ -599,6 +707,12 @@
               ]
             }
           ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 55
+            }
+          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -616,6 +730,12 @@
             2,
             16
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "class.ts",
+          "line": 1
         }
       ]
     }

@@ -39,6 +39,12 @@
               "comment": {
                 "shortText": "A variable that is made private via comment."
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 37
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -56,6 +62,12 @@
               "comment": {
                 "shortText": "A variable that is made protected via comment."
               },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 43
+                }
+              ],
               "type": {
                 "type": "instrinct",
                 "name": "string"
@@ -87,6 +99,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 49
+                }
               ]
             },
             {
@@ -115,6 +133,12 @@
                     "name": "void"
                   }
                 }
+              ],
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 55
+                }
               ]
             }
           ],
@@ -135,6 +159,12 @@
                 7
               ]
             }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 31
+            }
           ]
         },
         {
@@ -149,6 +179,12 @@
           "comment": {
             "shortText": "A variable that is made private via comment."
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 7
+            }
+          ],
           "type": {
             "type": "instrinct",
             "name": "string"
@@ -167,6 +203,12 @@
           "comment": {
             "shortText": "A variable that is made protected via comment."
           },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 13
+            }
+          ],
           "type": {
             "type": "instrinct",
             "name": "string"
@@ -199,6 +241,12 @@
                 "name": "void"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 19
+            }
           ]
         },
         {
@@ -227,6 +275,12 @@
                 "name": "void"
               }
             }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 25
+            }
           ]
         }
       ],
@@ -253,6 +307,12 @@
             11,
             13
           ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "access.ts",
+          "line": 1
         }
       ]
     }

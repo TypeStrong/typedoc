@@ -9,7 +9,7 @@ export interface IComponentHost {
     application:Application;
 }
 
-interface IComponent extends AbstractComponent<IComponentHost> {
+export interface IComponent extends AbstractComponent<IComponentHost> {
 
 }
 
@@ -29,7 +29,7 @@ interface IComponentRegistry {
 }
 
 
-interface IComponentOptions {
+export interface IComponentOptions {
     name?:string;
     childClass?:Function;
     internal?:boolean;
