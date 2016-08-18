@@ -35,7 +35,8 @@
               "sources": [
                 {
                   "fileName": "interface-empty.ts",
-                  "line": 14
+                  "line": 14,
+                  "character": 16
                 }
               ],
               "type": {
@@ -67,7 +68,8 @@
               "sources": [
                 {
                   "fileName": "interface-empty.ts",
-                  "line": 15
+                  "line": 15,
+                  "character": 15
                 }
               ]
             }
@@ -91,7 +93,8 @@
           "sources": [
             {
               "fileName": "interface-empty.ts",
-              "line": 13
+              "line": 13,
+              "character": 37
             }
           ],
           "implementedTypes": [
@@ -114,7 +117,8 @@
           "sources": [
             {
               "fileName": "interface-empty.ts",
-              "line": 6
+              "line": 6,
+              "character": 24
             }
           ],
           "implementedBy": [
@@ -145,7 +149,8 @@
       "sources": [
         {
           "fileName": "interface-empty.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

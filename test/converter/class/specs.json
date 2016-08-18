@@ -64,7 +64,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25
+                  "line": 25,
+                  "character": 36
                 }
               ]
             },
@@ -83,7 +84,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 20
+                  "line": 20,
+                  "character": 27
                 }
               ],
               "type": {
@@ -107,7 +109,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 15
+                  "line": 15,
+                  "character": 25
                 }
               ],
               "type": {
@@ -130,7 +133,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25
+                  "line": 25,
+                  "character": 25
                 }
               ],
               "type": {
@@ -167,7 +171,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 46
+                  "line": 46,
+                  "character": 25
                 }
               ]
             },
@@ -199,7 +204,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 41
+                  "line": 41,
+                  "character": 29
                 }
               ]
             },
@@ -231,7 +237,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 36
+                  "line": 36,
+                  "character": 23
                 }
               ]
             },
@@ -263,7 +270,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 51
+                  "line": 51,
+                  "character": 23
                 }
               ]
             }
@@ -299,7 +307,8 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 10
+              "line": 10,
+              "character": 22
             }
           ],
           "extendedBy": [
@@ -413,7 +422,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 65
+                  "line": 65,
+                  "character": 34
                 }
               ],
               "overwrites": {
@@ -438,7 +448,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75
+                  "line": 75,
+                  "character": 30
                 }
               ],
               "type": {
@@ -462,7 +473,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75
+                  "line": 75,
+                  "character": 49
                 }
               ],
               "type": {
@@ -486,7 +498,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75
+                  "line": 75,
+                  "character": 68
                 }
               ],
               "type": {
@@ -509,7 +522,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 15
+                  "line": 15,
+                  "character": 25
                 }
               ],
               "type": {
@@ -537,7 +551,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25
+                  "line": 25,
+                  "character": 25
                 }
               ],
               "type": {
@@ -584,7 +599,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 65
+                  "line": 65,
+                  "character": 29
                 }
               ],
               "overwrites": {
@@ -626,7 +642,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 60
+                  "line": 60,
+                  "character": 23
                 }
               ],
               "overwrites": {
@@ -668,7 +685,8 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 51
+                  "line": 51,
+                  "character": 23
                 }
               ],
               "inheritedFrom": {
@@ -710,7 +728,8 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 55
+              "line": 55,
+              "character": 25
             }
           ],
           "extendedTypes": [
@@ -735,7 +754,8 @@
       "sources": [
         {
           "fileName": "class.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

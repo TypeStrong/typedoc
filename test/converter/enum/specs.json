@@ -40,7 +40,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 34
+                  "line": 34,
+                  "character": 14
                 }
               ],
               "defaultValue": "1"
@@ -59,7 +60,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 39
+                  "line": 39,
+                  "character": 14
                 }
               ],
               "defaultValue": "2"
@@ -78,7 +80,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 44
+                  "line": 44,
+                  "character": 14
                 }
               ],
               "defaultValue": "4"
@@ -97,7 +100,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 56
+                  "line": 56,
+                  "character": 17
                 }
               ],
               "type": {
@@ -132,7 +136,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 62
+                  "line": 62,
+                  "character": 25
                 }
               ]
             }
@@ -165,11 +170,13 @@
           "sources": [
             {
               "fileName": "enum.ts",
-              "line": 29
+              "line": 29,
+              "character": 22
             },
             {
               "fileName": "enum.ts",
-              "line": 51
+              "line": 51,
+              "character": 24
             }
           ]
         },
@@ -199,7 +206,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 12
+                  "line": 12,
+                  "character": 14
                 }
               ],
               "defaultValue": "1"
@@ -218,7 +226,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 17
+                  "line": 17,
+                  "character": 14
                 }
               ],
               "defaultValue": "2"
@@ -237,7 +246,8 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 22
+                  "line": 22,
+                  "character": 14
                 }
               ],
               "defaultValue": "4"
@@ -257,7 +267,8 @@
           "sources": [
             {
               "fileName": "enum.ts",
-              "line": 7
+              "line": 7,
+              "character": 22
             }
           ]
         }
@@ -275,7 +286,8 @@
       "sources": [
         {
           "fileName": "enum.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

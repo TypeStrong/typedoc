@@ -81,7 +81,8 @@
           "sources": [
             {
               "fileName": "generic-function.ts",
-              "line": 21
+              "line": 21,
+              "character": 42
             }
           ]
         },
@@ -151,7 +152,8 @@
           "sources": [
             {
               "fileName": "generic-function.ts",
-              "line": 9
+              "line": 9,
+              "character": 24
             }
           ]
         }
@@ -169,7 +171,8 @@
       "sources": [
         {
           "fileName": "generic-function.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

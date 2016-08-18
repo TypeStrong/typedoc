@@ -62,7 +62,8 @@
               "sources": [
                 {
                   "fileName": "react.tsx",
-                  "line": 15
+                  "line": 15,
+                  "character": 23
                 }
               ],
               "overwrites": {
@@ -79,7 +80,8 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 142
+                  "line": 142,
+                  "character": 15
                 }
               ],
               "type": {
@@ -93,7 +95,8 @@
                   "sources": [
                     {
                       "fileName": "react.d.ts",
-                      "line": 142
+                      "line": 142,
+                      "character": 16
                     }
                   ]
                 }
@@ -114,7 +117,8 @@
               "sources": [
                 {
                   "fileName": "react.tsx",
-                  "line": 15
+                  "line": 15,
+                  "character": 15
                 }
               ],
               "type": {
@@ -131,7 +135,8 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 140
+                  "line": 140,
+                  "character": 13
                 }
               ],
               "type": {
@@ -153,7 +158,8 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 143
+                  "line": 143,
+                  "character": 12
                 }
               ],
               "type": {
@@ -203,7 +209,8 @@
                   "sources": [
                     {
                       "fileName": "react.d.ts",
-                      "line": 143
+                      "line": 143,
+                      "character": 13
                     }
                   ]
                 }
@@ -222,7 +229,8 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 141
+                  "line": 141,
+                  "character": 13
                 }
               ],
               "type": {
@@ -280,7 +288,8 @@
                           "sources": [
                             {
                               "fileName": "react.d.ts",
-                              "line": 138
+                              "line": 138,
+                              "character": 30
                             }
                           ]
                         }
@@ -300,7 +309,8 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 138
+                  "line": 138,
+                  "character": 19
                 }
               ],
               "inheritedFrom": {
@@ -334,7 +344,8 @@
               "sources": [
                 {
                   "fileName": "react.tsx",
-                  "line": 24
+                  "line": 24,
+                  "character": 10
                 }
               ],
               "overwrites": {
@@ -411,7 +422,8 @@
                           "sources": [
                             {
                               "fileName": "react.d.ts",
-                              "line": 136
+                              "line": 136,
+                              "character": 19
                             }
                           ]
                         }
@@ -449,7 +461,8 @@
                           "sources": [
                             {
                               "fileName": "react.d.ts",
-                              "line": 136
+                              "line": 136,
+                              "character": 61
                             }
                           ]
                         }
@@ -515,7 +528,8 @@
                           "sources": [
                             {
                               "fileName": "react.d.ts",
-                              "line": 137
+                              "line": 137,
+                              "character": 37
                             }
                           ]
                         }
@@ -535,11 +549,13 @@
               "sources": [
                 {
                   "fileName": "react.d.ts",
-                  "line": 136
+                  "line": 136,
+                  "character": 16
                 },
                 {
                   "fileName": "react.d.ts",
-                  "line": 137
+                  "line": 137,
+                  "character": 16
                 }
               ],
               "inheritedFrom": {
@@ -580,7 +596,8 @@
           "sources": [
             {
               "fileName": "react.tsx",
-              "line": 13
+              "line": 13,
+              "character": 10
             }
           ],
           "extendedTypes": [
@@ -634,7 +651,8 @@
               "sources": [
                 {
                   "fileName": "react.tsx",
-                  "line": 9
+                  "line": 9,
+                  "character": 7
                 }
               ],
               "type": {
@@ -651,7 +669,8 @@
               "sources": [
                 {
                   "fileName": "react.tsx",
-                  "line": 8
+                  "line": 8,
+                  "character": 8
                 }
               ],
               "type": {
@@ -673,7 +692,8 @@
           "sources": [
             {
               "fileName": "react.tsx",
-              "line": 7
+              "line": 7,
+              "character": 19
             }
           ]
         }
@@ -697,7 +717,8 @@
       "sources": [
         {
           "fileName": "react.tsx",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

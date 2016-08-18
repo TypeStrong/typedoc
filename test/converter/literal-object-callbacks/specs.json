@@ -36,7 +36,8 @@
           "sources": [
             {
               "fileName": "literal-object-callbacks.ts",
-              "line": 4
+              "line": 4,
+              "character": 11
             }
           ]
         },
@@ -62,7 +63,8 @@
           "sources": [
             {
               "fileName": "literal-object-callbacks.ts",
-              "line": 5
+              "line": 5,
+              "character": 13
             }
           ]
         },
@@ -88,7 +90,8 @@
           "sources": [
             {
               "fileName": "literal-object-callbacks.ts",
-              "line": 3
+              "line": 3,
+              "character": 13
             }
           ]
         },
@@ -143,7 +146,8 @@
                           "sources": [
                             {
                               "fileName": "literal-object-callbacks.ts",
-                              "line": 12
+                              "line": 12,
+                              "character": 27
                             }
                           ]
                         }
@@ -160,7 +164,8 @@
               "sources": [
                 {
                   "fileName": "literal-object-callbacks.ts",
-                  "line": 12
+                  "line": 12,
+                  "character": 9
                 }
               ]
             },
@@ -208,7 +213,8 @@
                           "sources": [
                             {
                               "fileName": "literal-object-callbacks.ts",
-                              "line": 16
+                              "line": 16,
+                              "character": 31
                             }
                           ]
                         }
@@ -225,7 +231,8 @@
               "sources": [
                 {
                   "fileName": "literal-object-callbacks.ts",
-                  "line": 16
+                  "line": 16,
+                  "character": 11
                 }
               ]
             },
@@ -273,7 +280,8 @@
                           "sources": [
                             {
                               "fileName": "literal-object-callbacks.ts",
-                              "line": 8
+                              "line": 8,
+                              "character": 31
                             }
                           ]
                         }
@@ -290,7 +298,8 @@
               "sources": [
                 {
                   "fileName": "literal-object-callbacks.ts",
-                  "line": 8
+                  "line": 8,
+                  "character": 11
                 }
               ]
             }
@@ -309,7 +318,8 @@
           "sources": [
             {
               "fileName": "literal-object-callbacks.ts",
-              "line": 7
+              "line": 7,
+              "character": 18
             }
           ],
           "type": {
@@ -339,7 +349,8 @@
       "sources": [
         {
           "fileName": "literal-object-callbacks.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

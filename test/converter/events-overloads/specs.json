@@ -107,7 +107,8 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 17
+                              "line": 17,
+                              "character": 30
                             }
                           ]
                         }
@@ -189,7 +190,8 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 26
+                              "line": 26,
+                              "character": 31
                             }
                           ]
                         }
@@ -271,7 +273,8 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 35
+                              "line": 35,
+                              "character": 34
                             }
                           ]
                         }
@@ -353,7 +356,8 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 44
+                              "line": 44,
+                              "character": 34
                             }
                           ]
                         }
@@ -369,19 +373,23 @@
               "sources": [
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 17
+                  "line": 17,
+                  "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 26
+                  "line": 26,
+                  "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 35
+                  "line": 35,
+                  "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 44
+                  "line": 44,
+                  "character": 6
                 }
               ]
             }
@@ -398,7 +406,8 @@
           "sources": [
             {
               "fileName": "events-overloads.ts",
-              "line": 8
+              "line": 8,
+              "character": 14
             }
           ]
         }
@@ -415,7 +424,8 @@
       "sources": [
         {
           "fileName": "events-overloads.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

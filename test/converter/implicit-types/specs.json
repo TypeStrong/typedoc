@@ -34,7 +34,8 @@
               "sources": [
                 {
                   "fileName": "implicit-types.ts",
-                  "line": 4
+                  "line": 4,
+                  "character": 54
                 }
               ],
               "type": {
@@ -53,7 +54,8 @@
               "sources": [
                 {
                   "fileName": "implicit-types.ts",
-                  "line": 4
+                  "line": 4,
+                  "character": 41
                 }
               ],
               "type": {
@@ -75,7 +77,8 @@
           "sources": [
             {
               "fileName": "implicit-types.ts",
-              "line": 4
+              "line": 4,
+              "character": 33
             }
           ]
         },
@@ -88,7 +91,8 @@
           "sources": [
             {
               "fileName": "implicit-types.ts",
-              "line": 6
+              "line": 6,
+              "character": 16
             }
           ],
           "type": {
@@ -109,7 +113,8 @@
                   "sources": [
                     {
                       "fileName": "implicit-types.ts",
-                      "line": 9
+                      "line": 9,
+                      "character": 9
                     }
                   ],
                   "type": {
@@ -127,7 +132,8 @@
                   "sources": [
                     {
                       "fileName": "implicit-types.ts",
-                      "line": 8
+                      "line": 8,
+                      "character": 10
                     }
                   ],
                   "type": {
@@ -145,7 +151,8 @@
                   "sources": [
                     {
                       "fileName": "implicit-types.ts",
-                      "line": 7
+                      "line": 7,
+                      "character": 9
                     }
                   ],
                   "type": {
@@ -163,7 +170,8 @@
                   "sources": [
                     {
                       "fileName": "implicit-types.ts",
-                      "line": 10
+                      "line": 10,
+                      "character": 10
                     }
                   ],
                   "type": {
@@ -181,7 +189,8 @@
                   "sources": [
                     {
                       "fileName": "implicit-types.ts",
-                      "line": 11
+                      "line": 11,
+                      "character": 11
                     }
                   ],
                   "type": {
@@ -207,7 +216,8 @@
               "sources": [
                 {
                   "fileName": "implicit-types.ts",
-                  "line": 6
+                  "line": 6,
+                  "character": 17
                 }
               ]
             }
@@ -246,7 +256,8 @@
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
-                          "line": 9
+                          "line": 9,
+                          "character": 9
                         }
                       ],
                       "type": {
@@ -264,7 +275,8 @@
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
-                          "line": 8
+                          "line": 8,
+                          "character": 10
                         }
                       ],
                       "type": {
@@ -282,7 +294,8 @@
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
-                          "line": 7
+                          "line": 7,
+                          "character": 9
                         }
                       ],
                       "type": {
@@ -300,7 +313,8 @@
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
-                          "line": 10
+                          "line": 10,
+                          "character": 10
                         }
                       ],
                       "type": {
@@ -318,7 +332,8 @@
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
-                          "line": 11
+                          "line": 11,
+                          "character": 11
                         }
                       ],
                       "type": {
@@ -348,7 +363,8 @@
           "sources": [
             {
               "fileName": "implicit-types.ts",
-              "line": 14
+              "line": 14,
+              "character": 30
             }
           ]
         }
@@ -379,7 +395,8 @@
       "sources": [
         {
           "fileName": "implicit-types.ts",
-          "line": 1
+          "line": 1,
+          "character": 0
         }
       ]
     }

@@ -72,7 +72,8 @@ export class ContainerReflection extends Reflection
           this.sources.forEach((source) => {
               sources.push({
                 fileName: source.fileName,
-                line: source.line
+                line: source.line,
+                character: source.character
               });
           });
 
