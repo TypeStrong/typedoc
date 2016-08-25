@@ -1,0 +1,40 @@
+.container
+    margin: 0 auto
+    padding: 0 40px
+    max-width: 1200px
+
+    &.main
+        padding-top: 100px
+
+.row
+    position: relative
+    margin: 0 -10px
+    padding: 0
+    list-style: none
+    font-size: 0
+
+.col
+    display: inline-block
+    box-sizing: border-box
+    position: relative
+    padding: 0 10px
+    margin: 0
+    font-size: 16px
+    vertical-align: top
+
+    > *:first-child
+        margin-top: 0
+
+    > *:last-child
+        margin-bottom: 0
+
+@for $INDEX from 1 through 12
+    .col-#{$INDEX}
+        @extend .col
+        width: 100% * ($INDEX / 12)
+
+    .offset-#{$INDEX}
+        margin-left: 100% * ($INDEX / 12)
+
+    .col-sm-#{$INDEX}
+        @extend .col

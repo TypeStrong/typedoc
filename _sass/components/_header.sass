@@ -1,0 +1,50 @@
+header
+    position: absolute
+    z-index: 1024
+    top: 0
+    left: 0
+    width: 100%
+    height: 60px
+    background-color: #fff
+    box-shadow: 0 0 4px rgba(#000, 0.5)
+    text-transform: uppercase
+    font-size: 20px
+
+    .logo
+        display: inline-block
+        padding-left: 37px
+        float: left
+        text-decoration: none
+        color: $COLOR_TEXT
+        line-height: 60px
+        background-image: url(../images/logo-32.png)
+        background-repeat: no-repeat
+        background-position: left center
+
+    nav
+        text-align: right
+        font-size: 0
+
+        ul
+            display: inline-block
+            padding: 0
+            margin: 0 -15px 0 0
+            list-style: none
+
+        li
+            display: inline
+
+        a
+            display: inline-block
+            padding: 0 15px
+            color: $COLOR_TEXT
+            text-decoration: none
+            font-size: 20px
+            line-height: 60px
+            transition: opacity 0.2s
+
+            &.current
+                color: #9600ff
+
+            &:hover
+                opacity: 0.75
