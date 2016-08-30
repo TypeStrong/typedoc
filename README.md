@@ -129,7 +129,7 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 ## Advanced guides and docs
 
 Visit our homepage for advanced guides and an extensive API documentation:<br>
-[http://typedoc.io](http://typedoc.io)
+[http://typedoc.org](http://typedoc.org)
 
 
 ## Contributing
