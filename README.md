@@ -115,8 +115,6 @@ in order to change the behaviour of TypeDoc.
 There is a plugin available to run TypeDoc with Webpack created by Microsoft. You can find it on NPM:<br>
 [https://www.npmjs.com/package/typedoc-webpack-plugin](https://www.npmjs.com/package/typedoc-webpack-plugin)
 
-Or find it on Github here:<br>
-[https://github.com/Microsoft/Typedoc-Webpack-Plugin](https://github.com/Microsoft/Typedoc-Webpack-Plugin)
 
 ### Gulp
 
