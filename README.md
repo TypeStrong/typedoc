@@ -110,6 +110,11 @@ in order to change the behaviour of TypeDoc.
 * `--help`<br>
   Display a simple cheat sheet.
 
+### Webpack
+
+There is a plugin available to run TypeDoc with Webpack created by Microsoft. You can find it on NPM:<br>
+[https://www.npmjs.com/package/typedoc-webpack-plugin](https://www.npmjs.com/package/typedoc-webpack-plugin)
+
 
 ### Gulp
 
