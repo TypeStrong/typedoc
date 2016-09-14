@@ -6,7 +6,7 @@ import {Context} from "../context";
 
 
 @Component({name:'type:string-literal'})
-export class StringLiteralConverter extends ConverterTypeComponent implements ITypeConverter<ts.StringLiteralType, ts.StringLiteral>
+export class StringLiteralConverter extends ConverterTypeComponent implements ITypeConverter<ts.LiteralType, ts.StringLiteral>
 {
     /**
      * Test whether this converter can handle the given TypeScript node.
@@ -19,7 +19,7 @@ export class StringLiteralConverter extends ConverterTypeComponent implements IT
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context:Context, type:ts.StringLiteralType):boolean {
+    supportsType(context:Context, type:ts.LiteralType):boolean {
         return !!(type.flags & ts.TypeFlags.StringLiteral);
     }
 
@@ -36,7 +36,7 @@ export class StringLiteralConverter extends ConverterTypeComponent implements IT
      * @param node  The string literal node that should be converted.
      * @returns The type reflection representing the given string literal node.
      */
-    convertNode(context:Context, node:ts.StringLiteral):StringLiteralType {
+    convertNode(context:Context, node:ts.StringLiteral):Type {
         return new StringLiteralType(node.text);
     }
 
@@ -53,7 +53,7 @@ export class StringLiteralConverter extends ConverterTypeComponent implements IT
      * @param type  The intrinsic type that should be converted.
      * @returns The type reflection representing the given string literal type.
      */
-    convertType(context:Context, type:ts.StringLiteralType):StringLiteralType {
+    convertType(context:Context, type:ts.LiteralType):Type {
         return new StringLiteralType(type.text);
     }
 }

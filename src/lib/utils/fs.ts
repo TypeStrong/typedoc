@@ -5,7 +5,7 @@ import * as FS from "fs";
 /**
  * List of known existent directories. Used to speed up [[directoryExists]].
  */
-var existingDirectories:ts.Map<boolean> = {};
+var existingDirectories:ts.MapLike<boolean> = {};
 
 
 /**

@@ -59,7 +59,7 @@ export function Component(options:IComponentOptions):ClassDecorator {
 
         var name = options.name;
         if (name) {
-            proto._componentName = name;
+            proto.componentName = name;
         }
 
         var internal = !!options.internal;
@@ -179,6 +179,10 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
         return this._componentName;
     }
 
+    set componentName(name: string) {
+        this._componentName = name;
+    }
+
 
     /**
      * Return the application / root component instance.
@@ -250,7 +254,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
     }
 
 
-    addComponent<T extends C>(name:string, componentClass:T|IComponentClass<T>):T {
+    addComponent<T extends C & IComponent>(name:string, componentClass:T|IComponentClass<T>):T {
         if (!this._componentChildren) {
             this._componentChildren = {};
         }
