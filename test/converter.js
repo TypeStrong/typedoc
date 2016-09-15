@@ -7,6 +7,7 @@ var Assert  = require("assert");
 function compareReflections(fixture, spec, path) {
     var key;
     path = (path ? path + '/' : '') + spec.name;
+    Assert.deepEqual(fixture, spec);
 
     for (key in spec) {
         if (!spec.hasOwnProperty(key)) continue;
