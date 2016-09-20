@@ -6,6 +6,8 @@ import {Reflection} from "../models/reflections/abstract";
 import {Type} from "../models/types/abstract";
 import {Context} from "./context";
 import {Converter} from "./converter";
+import {ParameterType} from "../utils/options/declaration";
+import {Option} from "../utils/component";
 
 
 export {Component};
