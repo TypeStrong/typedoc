@@ -71,6 +71,9 @@ in order to change the behaviour of TypeDoc.
   Define a pattern for files that should be considered being external.
 * `--excludeExternals`<br>
   Prevent externally resolved TypeScript files from being documented.
+* `--excludePrivate`<br>
+  Prevent private members from being included in the generated documentation.
+  
 
 #### TypeScript compiler
 * `--module <commonjs, amd, system or umd>`<br>
