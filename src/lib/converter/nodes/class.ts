@@ -4,19 +4,10 @@ import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/in
 import {createDeclaration} from "../factories/index";
 import {Context} from "../context";
 import {Component, ConverterNodeComponent} from "../components";
-import {ParameterType} from "../../utils/options/declaration";
-import {Option} from "../../utils/component";
-
 
 @Component({name:'node:class'})
 export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
 {
-    @Option({
-        name: "excludePrivate",
-        help: 'Ignores private variables and methods',
-        type: ParameterType.Boolean
-    })
-    excludePrivate:boolean;
     /**
      * List of supported TypeScript syntax kinds.
      */
@@ -45,7 +36,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
             if (node.members) {
                 node.members.forEach((member) => {
                     const privateMember = (member.flags & ts.NodeFlags.Private) > 0;
-                    const exclude = this.excludePrivate ? privateMember : false;
+                    const exclude = context.converter.excludePrivate ? privateMember : false;
                     
                     if (!exclude) {
                         this.owner.convertNode(context, member);
