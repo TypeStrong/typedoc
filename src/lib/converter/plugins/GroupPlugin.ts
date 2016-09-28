@@ -239,7 +239,7 @@ export class GroupPlugin extends ConverterComponent
 
     private static getMarkupValueExampleForUnionType = function (ref) {
         var ret = [];
-        if (ref && ref.type && ref.types[0] && ref.type.types[0].typeArguments && ref.type.types[0].typeArguments[0]) {
+        if (ref && ref.type && ref.type.types[0] && ref.type.types[0].typeArguments && ref.type.types[0].typeArguments[0]) {
             if (ref.type.types[0].typeArguments[0].constructor.name.toLowerCase() == 'uniontype') {
                 ret = ref.type.types[0].typeArguments[0].types.map(function (type) {
                     return type.value;
