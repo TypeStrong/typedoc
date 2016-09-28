@@ -5,6 +5,8 @@ import {Component, ConverterComponent} from "../components";
 import {Converter} from "../converter";
 import {Context} from "../context";
 
+const camelCaseToHyphenRegex = /([A-Z])|\W+(\w)/g;
+
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
@@ -159,6 +161,19 @@ export class GroupPlugin extends ConverterComponent
             if (group.title == 'Component Options') {
                 if (group.children[0]['children']) {
                     group.children = group.children[0]['children'];
+                    group.children.forEach((child)=> {
+                        if (child.name) {
+                            if (child['type'] && child['type'].name) {
+                                let valuesExamples = GroupPlugin.getMarkupValueExampleFromType(child['type'].name, child);
+                                child.markupExample = valuesExamples.map((example)=> {
+                                    return `data-${child.name.replace(camelCaseToHyphenRegex, '-$1$2')}='${example}'`;
+                                }).join('\n');
+                                if (child.markupExample == '') {
+                                    child.markupExample = null;
+                                }
+                            }
+                        }
+                    })
                 }
             }
             groups.push(group);
@@ -187,6 +202,26 @@ export class GroupPlugin extends ConverterComponent
         });
 
         return groups;
+    }
+
+    private static getMarkupValueExampleFromType(name: string, ref: Reflection): string[] {
+        let ret = [];
+        switch (name.toLowerCase()) {
+            case 'boolean':
+                ret = ['true', 'false'];
+                break;
+            case 'string':
+                ret = ['foo'];
+            case 'IFieldOption' :
+                ret = ['@foo'];
+            case 'number' :
+                ret = ['1'];
+            case 'array':
+                if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
+                    ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].toLowerCase(), ref);
+                }
+        }
+        return ret;
     }
 
 

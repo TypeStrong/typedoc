@@ -303,6 +303,8 @@ export abstract class Reflection
      */
     cssClasses:string;
 
+    markupExample: string;
+
     /**
      * Url safe alias for this reflection.
      *
@@ -311,7 +313,6 @@ export abstract class Reflection
     private _alias:string;
 
     private _aliases:string[];
-
 
 
     /**
