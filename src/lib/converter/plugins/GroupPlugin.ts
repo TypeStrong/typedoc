@@ -206,29 +206,50 @@ export class GroupPlugin extends ConverterComponent
 
     private static getMarkupValueExampleFromType(name: string, ref: Reflection): string[] {
         let ret = [];
-        switch (name.toLowerCase()) {
-            case 'boolean':
-                ret = ['true', 'false'];
-                break;
-            case 'string':
-                ret = ['foo'];
-                break;
-            case 'IFieldOption' :
-                ret = ['@foo'];
-                break;
-            case 'number' :
-                ret = ['1'];
-                break;
-            case 'array':
-                if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
-                    ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].name, ref);
-                    ret = ret.map((example)=>{{
-                        return `${example},${example}2`
-                    }})
-                }
-                break;
+        if (ref && ref['type'] && ref['type'].constructor.name.toLowerCase() == 'uniontype') {
+            ret = GroupPlugin.getMarkupValueExampleForUnionType(ref);
+        } else if (name) {
+            switch (name.toLowerCase()) {
+                case 'boolean':
+                    ret = ['true', 'false'];
+                    break;
+                case 'string':
+                    ret = ['foo'];
+                    break;
+                case 'ifieldoption' :
+                    ret = ['@foo'];
+                    break;
+                case 'number' :
+                    ret = ['10'];
+                    break;
+                case 'array':
+                    if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
+                        ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].name, ref);
+                        ret = ret.map((example)=> {
+                            {
+                                return `${example},${example}2`
+                            }
+                        })
+                    }
+                    break;
+            }
         }
         return ret;
+    }
+
+    private static getMarkupValueExampleForUnionType = function (ref) {
+        var ret = [];
+        if (ref && ref.type && ref.types[0] && ref.type.types[0].typeArguments && ref.type.types[0].typeArguments[0]) {
+            if (ref.type.types[0].typeArguments[0].constructor.name.toLowerCase() == 'uniontype') {
+                ret = ref.type.types[0].typeArguments[0].types.map(function (type) {
+                    return type.value;
+                });
+            } else {
+                ret = GroupPlugin.getMarkupValueExampleFromType(ref.type.types[0].typeArguments[0].name, undefined);
+            }
+        }
+        return ret;
+
     }
 
 
