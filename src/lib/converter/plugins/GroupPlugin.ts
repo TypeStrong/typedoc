@@ -226,9 +226,7 @@ export class GroupPlugin extends ConverterComponent
                     if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
                         ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].name, ref);
                         ret = ret.map((example)=> {
-                            {
-                                return `${example},${example}2`
-                            }
+                            return `${example},${example}2`;
                         })
                     }
                     break;
@@ -244,6 +242,14 @@ export class GroupPlugin extends ConverterComponent
                 ret = ref.type.types[0].typeArguments[0].types.map(function (type) {
                     return type.value;
                 });
+                if (ref.type.types[0].name && ref.type.types[0].name.toLowerCase() == 'array') {
+                    var copy = [];
+                    for (var i = 0; i < ret.length; i++) {
+                        copy[i] = ret.slice(0, i + 1).join(',');
+                    }
+                    ret = copy;
+                }
+                ret = ret.slice(0, 4);
             } else {
                 ret = GroupPlugin.getMarkupValueExampleFromType(ref.type.types[0].typeArguments[0].name, undefined);
             }
