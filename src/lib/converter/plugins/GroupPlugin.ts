@@ -166,7 +166,7 @@ export class GroupPlugin extends ConverterComponent
                             if (child['type'] && child['type'].name) {
                                 let valuesExamples = GroupPlugin.getMarkupValueExampleFromType(child['type'].name, child);
                                 child.markupExample = valuesExamples.map((example)=> {
-                                    return `data-${child.name.replace(camelCaseToHyphenRegex, '-$1$2')}='${example}'`;
+                                    return `data-${child.name.replace(camelCaseToHyphenRegex, '-$1$2').toLowerCase()}='${example}'`;
                                 }).join('\n');
                                 if (child.markupExample == '') {
                                     child.markupExample = null;
@@ -212,14 +212,21 @@ export class GroupPlugin extends ConverterComponent
                 break;
             case 'string':
                 ret = ['foo'];
+                break;
             case 'IFieldOption' :
                 ret = ['@foo'];
+                break;
             case 'number' :
                 ret = ['1'];
+                break;
             case 'array':
                 if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
                     ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].toLowerCase(), ref);
+                    ret = ret.map((example)=>{{
+                        return `${example},${example}2`
+                    }})
                 }
+                break;
         }
         return ret;
     }
