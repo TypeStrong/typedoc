@@ -163,7 +163,7 @@ export class GroupPlugin extends ConverterComponent
                     group.children = group.children[0]['children'];
                     group.children.forEach((child)=> {
                         if (child.name) {
-                            if (child['type'] && child['type'].name) {
+                            if (child['type']) {
                                 let valuesExamples = GroupPlugin.getMarkupValueExampleFromType(child['type'].name, child);
                                 child.markupExample = valuesExamples.map((example)=> {
                                     return `data-${child.name.replace(camelCaseToHyphenRegex, '-$1$2').toLowerCase()}='${example}'`;
