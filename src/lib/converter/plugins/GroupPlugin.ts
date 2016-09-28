@@ -221,7 +221,7 @@ export class GroupPlugin extends ConverterComponent
                 break;
             case 'array':
                 if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
-                    ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].toLowerCase(), ref);
+                    ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].name, ref);
                     ret = ret.map((example)=>{{
                         return `${example},${example}2`
                     }})
