@@ -6,6 +6,7 @@ import {Reflection, ProjectReflection, ContainerReflection, Type} from "../model
 import {createTypeParameter} from "./factories/type-parameter";
 import {Converter} from "./converter";
 
+
 /**
  * The context describes the current state the converter is in.
  */
