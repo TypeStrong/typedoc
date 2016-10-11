@@ -44,13 +44,10 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
                 node.members.forEach((member) => {
-                    let privateMember = (member.flags & 16) > 0;
-                    let include = true;
-                    if (privateMember && this.excludePrivate) {
-                        include = false;
-                    }
-
-                    if (include) {
+                    const privateMember = (member.flags & ts.NodeFlags.Private) > 0;
+                    const exclude = this.excludePrivate ? privateMember : false;
+                    
+                    if (!exclude) {
                         this.owner.convertNode(context, member);
                     }
                 });

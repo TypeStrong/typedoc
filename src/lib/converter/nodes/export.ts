@@ -15,22 +15,25 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
         ts.SyntaxKind.ExportAssignment
     ];
 
-
     convert(context:Context, node:ts.ExportAssignment):Reflection {
-        if (!node.isExportEquals) {
-            return context.scope;
-        }
+        let symbol: ts.Symbol = undefined;
 
-        var type = context.getTypeAtLocation(node.expression);
-        if (type && type.symbol) {
+        // default export
+        if (node.symbol && (node.symbol.flags & ts.SymbolFlags.Alias) === ts.SymbolFlags.Alias) {
+            symbol = context.checker.getAliasedSymbol(node.symbol);
+        } else {
+            let type = context.getTypeAtLocation(node.expression);
+            symbol = type ? type.symbol : undefined;
+        }
+        if (symbol) {
             var project = context.project;
-            type.symbol.declarations.forEach((declaration) => {
+            symbol.declarations.forEach((declaration) => {
                 if (!declaration.symbol) return;
                 var id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
                 if (!id) return;
 
                 var reflection = project.reflections[id];
-                if (reflection instanceof DeclarationReflection) {
+                if (node.isExportEquals && reflection instanceof DeclarationReflection) {
                     (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
                 }
                 markAsExported(reflection);
