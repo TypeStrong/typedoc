@@ -31,7 +31,7 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
         context.withScope(reflection, () => {
             var opt = context.getCompilerOptions();
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
-                (!opt.module || (opt.module as any) === ts.ModuleKind.None)) {
+                (!module || module.valueOf() === ts.ModuleKind.None.valueOf())) {
                 reflection.setFlag(ReflectionFlag.Exported);
             }
 

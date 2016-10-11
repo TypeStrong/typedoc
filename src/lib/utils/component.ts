@@ -130,7 +130,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     /**
      * The name of this component as set by the @Component decorator.
      */
-    private _componentName:string;
+    public componentName:string;
 
     /**
      * A list of options defined by this component.
@@ -173,16 +173,6 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     getOptionDeclarations():IOptionDeclaration[] {
         return this._componentOptions ? this._componentOptions.slice() : [];
     }
-
-
-    get componentName():string {
-        return this._componentName;
-    }
-
-    set componentName(name: string) {
-        this._componentName = name;
-    }
-
 
     /**
      * Return the application / root component instance.
