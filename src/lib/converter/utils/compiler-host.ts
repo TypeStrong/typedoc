@@ -15,6 +15,7 @@ const ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
  */
 export class CompilerHost extends ConverterComponent implements ts.CompilerHost
 {
+
     /**
      * The full path of the current directory. Result cache of [[getCurrentDirectory]].
      */
@@ -57,6 +58,10 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
         var lib = this.owner.getDefaultLib();
         var path = ts.getDirectoryPath(ts.normalizePath(require.resolve('typescript')));
         return Path.join(path, lib);
+    }
+
+    getDirectories(path: string): string[] {
+        return ts.sys.getDirectories(path);
     }
 
 

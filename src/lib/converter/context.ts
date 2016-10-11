@@ -55,7 +55,7 @@ export class Context
     /**
      * The currently set type parameters.
      */
-    typeParameters:ts.Map<Type>;
+    typeParameters:ts.MapLike<Type>;
 
     /**
      * The currently set type arguments.
@@ -360,8 +360,8 @@ export class Context
      * @param preserve  Should the currently set type parameters of the context be preserved?
      * @returns The resulting type mapping.
      */
-    private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.Map<Type> {
-        var typeParameters:ts.Map<Type> = {};
+    private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.MapLike<Type> {
+        var typeParameters:ts.MapLike<Type> = {};
 
         if (preserve) {
             for (var key in this.typeParameters) {
