@@ -70,7 +70,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
 
         var property = createDeclaration(context, parameter, ReflectionKind.Property);
         if (!property) return;
-        
+
         property.setFlag(ReflectionFlag.Static, false);
         property.type = this.owner.convertType(context, parameter.type, context.getTypeAtLocation(parameter));
 
