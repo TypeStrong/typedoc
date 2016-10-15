@@ -17,7 +17,7 @@ export class TypeScriptSource extends OptionsComponent
         'out', 'version', 'help',
         'watch', 'declaration', 'mapRoot',
         'sourceMap', 'inlineSources', 'removeComments'
-        // Ignore new TypeScript 2.0 options until official typedoc can't manage it
+        // FIXME: Ignore new TypeScript 2.0 options until official typedoc can't manage it
         , 'paths', 'lib'
     ];
 
