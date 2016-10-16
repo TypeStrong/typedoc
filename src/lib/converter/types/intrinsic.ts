@@ -4,6 +4,20 @@ import {Type, IntrinsicType} from "../../models/index";
 import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
 import {Context} from "../context";
 
+// Copy typescript's @internal enum set from:
+// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2297-L2298
+const IntrinsicTypeFlags = (
+    ts.TypeFlags.Any |
+    ts.TypeFlags.String |
+    ts.TypeFlags.Number |
+    ts.TypeFlags.Boolean |
+    ts.TypeFlags.BooleanLiteral |
+    ts.TypeFlags.ESSymbol |
+    ts.TypeFlags.Void |
+    ts.TypeFlags.Undefined |
+    ts.TypeFlags.Null |
+    ts.TypeFlags.Never
+);
 
 @Component({name:'type:intrinsic'})
 export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.IntrinsicType>
@@ -12,7 +26,7 @@ export class IntrinsicConverter extends ConverterTypeComponent implements ITypeT
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context:Context, type:ts.IntrinsicType):boolean {
-        return !!(type.flags & ts.TypeFlags.Intrinsic);
+        return !!(type.flags & IntrinsicTypeFlags);
     }
 
 
