@@ -20,7 +20,7 @@ export class TypeScriptSource extends OptionsComponent
         // Ignore new TypeScript 2.0 options until typedoc can't manage it
         , 'baseUrl', 'paths', 'lib', 'strictNullChecks', 'noImplicitThis',
         'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
-        'skipLibCheck', 'declarationDir'
+        'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
     ];
 
 
