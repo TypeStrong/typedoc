@@ -56,7 +56,6 @@
     "bin",
     "lib",
     "tasks",
-    "src",
     "index.js",
     "index.d.ts",
     "index.js.map",
