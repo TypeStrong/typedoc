@@ -12,12 +12,6 @@
         "rootDir": "./src/",
         "experimentalDecorators": true
     },
-    "exclude": [
-    ],
-    "filesGlob": [
-        "./src/lib/**/*.ts",
-        "./src/index.ts"
-    ],
     "files": [
         "src/lib/application.ts",
         "src/lib/cli.ts",
