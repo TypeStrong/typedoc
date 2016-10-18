@@ -16,9 +16,9 @@ export class TypeScriptSource extends OptionsComponent
     static IGNORED:string[] = [
         'out', 'version', 'help',
         'watch', 'declaration', 'mapRoot',
-        'sourceMap', 'inlineSources', 'removeComments'
-        // Ignore new TypeScript 2.0 options until typedoc can't manage it
-        , 'baseUrl', 'paths', 'lib', 'strictNullChecks', 'noImplicitThis',
+        'sourceMap', 'inlineSources', 'removeComments',
+        // Ignore new TypeScript 2.0 options until typedoc can't manage it.
+        'baseUrl', 'paths', 'lib', 'strictNullChecks', 'noImplicitThis',
         'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
         'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
     ];
