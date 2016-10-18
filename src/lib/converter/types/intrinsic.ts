@@ -4,20 +4,10 @@ import {Type, IntrinsicType} from "../../models/index";
 import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
 import {Context} from "../context";
 
-// Copy typescript's @internal enum set from:
+// TypeScript has an @internal enum set for the intrinsic types:
 // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2297-L2298
-const IntrinsicTypeFlags = (
-    ts.TypeFlags.Any |
-    ts.TypeFlags.String |
-    ts.TypeFlags.Number |
-    ts.TypeFlags.Boolean |
-    ts.TypeFlags.BooleanLiteral |
-    ts.TypeFlags.ESSymbol |
-    ts.TypeFlags.Void |
-    ts.TypeFlags.Undefined |
-    ts.TypeFlags.Null |
-    ts.TypeFlags.Never
-);
+// It is not included in the typescript typings, so the enum is cast as `any` to access the `Intrinsic` set.
+const IntrinsicTypeFlags = (ts.TypeFlags as any).Intrinsic;
 
 @Component({name:'type:intrinsic'})
 export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.IntrinsicType>
