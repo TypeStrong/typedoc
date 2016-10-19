@@ -8,6 +8,7 @@ import {Context} from "./context";
 import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITypeTypeConverter, ITypeNodeConverter} from "./components";
 import {CompilerHost} from "./utils/compiler-host";
 import {Component, Option, ChildableComponent, IComponentClass} from "../utils/component"
+import {normalizePath} from "../utils/fs";
 
 
 /**
@@ -330,7 +331,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      */
     convert(fileNames:string[]):IConverterResult {
         for (var i = 0, c = fileNames.length; i < c; i++) {
-            fileNames[i] = ts.normalizePath(ts.normalizeSlashes(fileNames[i]));
+            fileNames[i] = normalizePath(ts.normalizeSlashes(fileNames[i]));
         }
 
         var program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);

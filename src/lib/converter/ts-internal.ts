@@ -26,7 +26,7 @@ declare module "typescript" {
    */
 
   // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L411
-  function hasProperty<T>(map: ts.MapLike<T>, key: string): boolean;
+  // function hasProperty<T>(map: ts.MapLike<T>, key: string): boolean;
 
   // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L655-L656
   export function createCompilerDiagnostic(message: ts.DiagnosticMessage, ...args: any[]): ts.Diagnostic;
@@ -42,7 +42,7 @@ declare module "typescript" {
   function getRootLength(path: string): number;
 
   // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L845
-  function normalizePath(path: string): string;
+  // function normalizePath(path: string): string;
 
   // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L852-L854
   function getDirectoryPath(path: ts.Path): ts.Path;
