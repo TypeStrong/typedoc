@@ -97,9 +97,9 @@ declare module "typescript" {
    * https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2334
    * Duplicating the interface definition :(
    */
-  interface IntrinsicType extends ts.Type {
-    intrinsicName: string;
-  }
+  // interface IntrinsicType extends ts.Type {
+  //   intrinsicName: string;
+  // }
 
   const optionDeclarations: CommandLineOption[];
 
