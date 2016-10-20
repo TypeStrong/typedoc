@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Options} from "./options";
 import {ParameterScope, ParameterHint} from "./declaration";
@@ -20,7 +21,7 @@ export interface IParameterHelp {
 function getParameterHelp(options:Options, scope:ParameterScope):IParameterHelp {
     var parameters = options.getDeclarationsByScope(scope);
     parameters.sort((a, b) => {
-        return <number>ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
+        return _ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
     });
 
     var names:string[] = [];

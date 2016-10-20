@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Reflection, ReflectionKind} from "../../models/index";
 import {Context} from "../context";
@@ -26,7 +27,7 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
     convert(context:Context, node:ts.VariableStatement):Reflection {
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
-                if (ts.isBindingPattern(variableDeclaration.name)) {
+                if (_ts.isBindingPattern(variableDeclaration.name)) {
                     this.convertBindingPattern(context, <ts.BindingPattern>variableDeclaration.name);
                 } else {
                     this.owner.convertNode(context, variableDeclaration);
@@ -48,7 +49,7 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
         node.elements.forEach((element:ts.BindingElement) => {
             this.owner.convertNode(context, <any>element);
 
-            if (ts.isBindingPattern(element.name)) {
+            if (_ts.isBindingPattern(element.name)) {
                 this.convertBindingPattern(context, <ts.BindingPattern>element.name);
             }
         });

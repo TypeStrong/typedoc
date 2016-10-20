@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {ReferenceType} from "../../models/index";
 import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
@@ -37,7 +38,7 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
         if (!symbolName.length) return false;
         if (symbolName[0].substr(0, 1) == '"') symbolName.shift();
 
-        var nodeName = ts.getTextOfNode(node.typeName).split('.');
+        var nodeName = _ts.getTextOfNode(node.typeName).split('.');
         if (!nodeName.length) return false;
 
         var common = Math.min(symbolName.length, nodeName.length);
@@ -65,7 +66,7 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
      * @returns  A type reference pointing to the type alias definition.
      */
     convertNode(context:Context, node:ts.TypeReferenceNode):ReferenceType {
-        var name = ts.getTextOfNode(node.typeName);
+        var name = _ts.getTextOfNode(node.typeName);
         return new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
     }
 }

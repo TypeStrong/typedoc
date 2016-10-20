@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {ReferenceType} from "../../models/types/index";
 import {Reflection, IDecorator} from "../../models/reflections/index";
@@ -40,10 +41,10 @@ export class DecoratorPlugin extends ConverterComponent
         args.forEach((arg:ts.Expression, index:number) => {
             if (index < signature.parameters.length) {
                 var parameter = signature.parameters[index];
-                result[parameter.name] = ts.getTextOfNode(arg);
+                result[parameter.name] = _ts.getTextOfNode(arg);
             } else {
                 if (!result['...']) result['...'] = [];
-                result['...'].push(ts.getTextOfNode(arg));
+                result['...'].push(_ts.getTextOfNode(arg));
             }
         });
 
@@ -87,7 +88,7 @@ export class DecoratorPlugin extends ConverterComponent
             }
 
             var info:IDecorator = {
-                name: ts.getTextOfNode(identifier)
+                name: _ts.getTextOfNode(identifier)
             };
 
             var type = context.checker.getTypeAtLocation(identifier);

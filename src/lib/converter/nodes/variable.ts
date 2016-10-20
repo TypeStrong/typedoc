@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Reflection, ReflectionKind, IntrinsicType} from "../../models/index";
 import {createDeclaration, createComment} from "../factories/index";
@@ -50,9 +51,9 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
         }
 
         var name:string, isBindingPattern:boolean;
-        if (ts.isBindingPattern(node.name)) {
+        if (_ts.isBindingPattern(node.name)) {
             if (node['propertyName']) {
-                name = ts.declarationNameToString(node['propertyName']);
+                name = _ts.declarationNameToString(node['propertyName']);
                 isBindingPattern = true;
             } else {
                 return null;

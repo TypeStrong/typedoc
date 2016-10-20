@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../../ts-internal";
 
 import {Component} from "../../component";
 import {DiscoverEvent, OptionsComponent} from "../options";
@@ -52,10 +53,10 @@ export class ArgumentsReader extends OptionsComponent
         while (index < args.length) {
             var arg = args[index++];
 
-            if (arg.charCodeAt(0) === ts.CharacterCodes.at) {
+            if (arg.charCodeAt(0) === _ts.CharacterCodes.at) {
                 this.parseResponseFile(event, arg.slice(1));
-            } else if (arg.charCodeAt(0) === ts.CharacterCodes.minus) {
-                readArgument(arg.slice(arg.charCodeAt(1) === ts.CharacterCodes.minus ? 2 : 1).toLowerCase());
+            } else if (arg.charCodeAt(0) === _ts.CharacterCodes.minus) {
+                readArgument(arg.slice(arg.charCodeAt(1) === _ts.CharacterCodes.minus ? 2 : 1).toLowerCase());
             } else {
                 event.addInputFile(arg);
             }
@@ -80,13 +81,13 @@ export class ArgumentsReader extends OptionsComponent
         var args:string[] = [];
         var pos = 0;
         while (true) {
-            while (pos < text.length && text.charCodeAt(pos) <= ts.CharacterCodes.space) pos++;
+            while (pos < text.length && text.charCodeAt(pos) <= _ts.CharacterCodes.space) pos++;
             if (pos >= text.length) break;
 
             var start = pos;
-            if (text.charCodeAt(start) === ts.CharacterCodes.doubleQuote) {
+            if (text.charCodeAt(start) === _ts.CharacterCodes.doubleQuote) {
                 pos++;
-                while (pos < text.length && text.charCodeAt(pos) !== ts.CharacterCodes.doubleQuote) pos++;
+                while (pos < text.length && text.charCodeAt(pos) !== _ts.CharacterCodes.doubleQuote) pos++;
                 if (pos < text.length) {
                     args.push(text.substring(start + 1, pos));
                     pos++;
@@ -95,7 +96,7 @@ export class ArgumentsReader extends OptionsComponent
                     return;
                 }
             } else {
-                while (text.charCodeAt(pos) > ts.CharacterCodes.space) pos++;
+                while (text.charCodeAt(pos) > _ts.CharacterCodes.space) pos++;
                 args.push(text.substring(start, pos));
             }
         }

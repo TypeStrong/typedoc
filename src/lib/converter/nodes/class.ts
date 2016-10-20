@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
 import {createDeclaration} from "../factories/index";
@@ -44,7 +45,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                 });
             }
 
-            var baseType = ts.getClassExtendsHeritageClauseElement(node);
+            var baseType = _ts.getClassExtendsHeritageClauseElement(node);
             if (baseType) {
                 var type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
@@ -59,7 +60,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                 }
             }
 
-            var implementedTypes = ts.getClassImplementsHeritageClauseElements(node);
+            var implementedTypes = _ts.getClassImplementsHeritageClauseElements(node);
             if (implementedTypes) {
                 implementedTypes.forEach((implementedType) => {
                     if (!reflection.implementedTypes) {

@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../ts-internal";
 
 
 /**
@@ -29,7 +30,7 @@ export function convertExpression(expression:ts.Expression):string
         case ts.SyntaxKind.FalseKeyword:
             return 'false';
         default:
-            var source = ts.getSourceFileOfNode(<ts.Node>expression);
+            var source = _ts.getSourceFileOfNode(<ts.Node>expression);
             return source.text.substring(expression.pos, expression.end);
     }
 }
