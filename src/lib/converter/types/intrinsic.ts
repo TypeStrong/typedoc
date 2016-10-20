@@ -4,15 +4,22 @@ import {Type, IntrinsicType} from "../../models/index";
 import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
 import {Context} from "../context";
 
+// TypeScript has an @internal enum set for the intrinsic types:
+// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2297-L2298
+// It is not included in the typescript typings, so the enum is cast as `any` to access the `Intrinsic` set.
+const IntrinsicTypeFlags = (ts.TypeFlags as any).Intrinsic;
+if (IntrinsicTypeFlags === undefined) {
+    throw new Error("Internal TypeScript API missing: TypeFlags.Intrinsic");
+}
 
 @Component({name:'type:intrinsic'})
-export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.IntrinsicType>
+export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.Type>
 {
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context:Context, type:ts.IntrinsicType):boolean {
-        return !!(type.flags & ts.TypeFlags.Intrinsic);
+    supportsType(context:Context, type:ts.Type):boolean {
+        return !!(type.flags & IntrinsicTypeFlags);
     }
 
 
@@ -28,7 +35,8 @@ export class IntrinsicConverter extends ConverterTypeComponent implements ITypeT
      * @param type  The intrinsic type that should be converted.
      * @returns The type reflection representing the given intrinsic type.
      */
-    convertType(context:Context, type:ts.IntrinsicType):IntrinsicType {
-        return new IntrinsicType(type.intrinsicName);
+    convertType(context:Context, type:ts.Type):IntrinsicType {
+        let intrinsicName = context.program.getTypeChecker().typeToString(type);
+        return new IntrinsicType(intrinsicName);
     }
 }

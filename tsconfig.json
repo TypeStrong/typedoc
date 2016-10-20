@@ -12,33 +12,14 @@
         "rootDir": "./src/",
         "experimentalDecorators": true
     },
-    "exclude": [
-        "./node_modules/typescript/lib/typescript.d.ts",
-        "./typescript/lib/typescript.d.ts"
-    ],
-    "filesGlob": [
-        "./src/typings/**/*.d.ts",
-        "./src/lib/**/*.ts",
-        "./src/index.ts"
-    ],
     "files": [
-        "src/typings/fs-extra/fs-extra.d.ts",
-        "src/typings/handlebars/handlebars.d.ts",
-        "src/typings/highlightjs/highlightjs.d.ts",
-        "src/typings/lodash/lodash.d.ts",
-        "src/typings/marked/marked.d.ts",
-        "src/typings/minimatch/minimatch.d.ts",
-        "src/typings/node-progress/node-progress.d.ts",
-        "src/typings/node/node.d.ts",
-        "src/typings/shelljs/shelljs.d.ts",
-        "src/typings/tsd.d.ts",
-        "src/typings/typescript/typescript.d.ts",
         "src/lib/application.ts",
         "src/lib/cli.ts",
         "src/lib/converter/components.ts",
         "src/lib/converter/context.ts",
         "src/lib/converter/convert-expression.ts",
         "src/lib/converter/converter.ts",
+        "src/lib/converter/ts-internal.ts",
         "src/lib/converter/factories/comment.ts",
         "src/lib/converter/factories/declaration.ts",
         "src/lib/converter/factories/index.ts",

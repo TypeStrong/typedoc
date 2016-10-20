@@ -230,7 +230,7 @@ export class Context
             return;
         }
 
-        var isDeclaration = ts.isDeclarationFile(node);
+        var isDeclaration = node.isDeclarationFile;
         if (isDeclaration) {
             var lib = this.converter.getDefaultLib();
             var isLib = node.fileName.substr(-lib.length) == lib;

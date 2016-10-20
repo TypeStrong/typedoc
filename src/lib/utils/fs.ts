@@ -15,7 +15,7 @@ var existingDirectories:ts.MapLike<boolean> = {};
  * @returns The normalized path.
  */
 export function normalizePath(path:string) {
-    return ts.normalizePath(path);
+    return path.replace(/\\/g, "/");
 }
 
 
@@ -26,7 +26,7 @@ export function normalizePath(path:string) {
  * @returns TRUE if the given directory exists, FALSE otherwise.
  */
 export function directoryExists(directoryPath: string): boolean {
-    if (ts.hasProperty(existingDirectories, directoryPath)) {
+    if (existingDirectories.hasOwnProperty(directoryPath)) {
         return true;
     }
 
@@ -65,7 +65,7 @@ export function ensureDirectoriesExist(directoryPath: string) {
  */
 export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
     try {
-        ensureDirectoriesExist(ts.getDirectoryPath(ts.normalizePath(fileName)));
+        ensureDirectoriesExist(ts.getDirectoryPath(normalizePath(fileName)));
         ts.sys.writeFile(fileName, data, writeByteOrderMark);
     } catch (e) {
         if (onError) onError(e.message);
