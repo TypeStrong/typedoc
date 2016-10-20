@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 import * as Path from "path";
 
 import {ConverterComponent} from "../components";
@@ -57,7 +58,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      */
     getDefaultLibFileName(options:ts.CompilerOptions):string {
         var lib = this.owner.getDefaultLib();
-        var path = ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
+        var path = _ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
         return Path.join(path, lib);
     }
 

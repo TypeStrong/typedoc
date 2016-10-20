@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Comment, CommentTag} from "../../models/comments/index";
 
@@ -86,8 +87,8 @@ export function getRawComment(node:ts.Node):string {
         }
     }
 
-    var sourceFile = ts.getSourceFileOfNode(node);
-    var comments = ts.getJsDocComments(node, sourceFile);
+    var sourceFile = _ts.getSourceFileOfNode(node);
+    var comments = _ts.getJsDocComments(node, sourceFile);
     if (comments && comments.length) {
         var comment:ts.CommentRange;
         if (node.kind == ts.SyntaxKind.SourceFile) {

@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from "../../models/reflections/index";
 import {Context} from "../context";
@@ -22,7 +23,7 @@ export function createParameter(context:Context, node:ts.ParameterDeclaration):P
     var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
     context.registerReflection(parameter, node);
     context.withScope(parameter, () => {
-        if (ts.isBindingPattern(node.name)) {
+        if (_ts.isBindingPattern(node.name)) {
             parameter.type = context.converter.convertType(context, node.name);
             parameter.name = '__namedParameters'
         } else {

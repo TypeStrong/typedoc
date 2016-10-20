@@ -15,11 +15,11 @@
     "files": [
         "src/lib/application.ts",
         "src/lib/cli.ts",
+        "src/lib/ts-internal.ts",
         "src/lib/converter/components.ts",
         "src/lib/converter/context.ts",
         "src/lib/converter/convert-expression.ts",
         "src/lib/converter/converter.ts",
-        "src/lib/converter/ts-internal.ts",
         "src/lib/converter/factories/comment.ts",
         "src/lib/converter/factories/declaration.ts",
         "src/lib/converter/factories/index.ts",

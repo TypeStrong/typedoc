@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../ts-internal";
 import * as Path from "path";
 
 import {Application} from "../application";
@@ -331,7 +332,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      */
     convert(fileNames:string[]):IConverterResult {
         for (var i = 0, c = fileNames.length; i < c; i++) {
-            fileNames[i] = normalizePath(ts.normalizeSlashes(fileNames[i]));
+            fileNames[i] = normalizePath(_ts.normalizeSlashes(fileNames[i]));
         }
 
         var program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);

@@ -1,5 +1,7 @@
 import * as ts from "typescript";
+import * as _ts from "../ts-internal";
 import * as FS from "fs";
+
 
 
 /**
@@ -45,8 +47,8 @@ export function directoryExists(directoryPath: string): boolean {
  * @param directoryPath  The directory that should be validated.
  */
 export function ensureDirectoriesExist(directoryPath: string) {
-    if (directoryPath.length > ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
-        var parentDirectory = ts.getDirectoryPath(directoryPath);
+    if (directoryPath.length > _ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
+        var parentDirectory = _ts.getDirectoryPath(directoryPath);
         ensureDirectoriesExist(parentDirectory);
         ts.sys.createDirectory(directoryPath);
     }
@@ -65,7 +67,7 @@ export function ensureDirectoriesExist(directoryPath: string) {
  */
 export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
     try {
-        ensureDirectoriesExist(ts.getDirectoryPath(normalizePath(fileName)));
+        ensureDirectoriesExist(_ts.getDirectoryPath(normalizePath(fileName)));
         ts.sys.writeFile(fileName, data, writeByteOrderMark);
     } catch (e) {
         if (onError) onError(e.message);

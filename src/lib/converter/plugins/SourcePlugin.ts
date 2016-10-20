@@ -1,5 +1,6 @@
 import * as Path from "path";
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Reflection, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
 import {SourceDirectory, SourceFile} from "../../models/sources/index";
@@ -92,7 +93,7 @@ export class SourcePlugin extends ConverterComponent
      */
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
-        var sourceFile      = ts.getSourceFileOfNode(node);
+        var sourceFile      = _ts.getSourceFileOfNode(node);
         var fileName        = sourceFile.fileName;
         var file:SourceFile = this.getSourceFile(fileName, context.project);
 

@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
 import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
 import {createDeclaration} from "../factories/index";
@@ -39,7 +40,7 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                 });
             }
 
-            var baseTypes = ts.getInterfaceBaseTypeNodes(node);
+            var baseTypes = _ts.getInterfaceBaseTypeNodes(node);
             if (baseTypes) {
                 baseTypes.forEach((baseType) => {
                     var type = context.getTypeAtLocation(baseType);

@@ -1,4 +1,6 @@
 import * as ts from "typescript";
+import * as _ts from "../../../ts-internal";
+
 
 import {Component} from "../../component";
 import {OptionsComponent} from "../options";
@@ -28,7 +30,7 @@ export class TypeScriptSource extends OptionsComponent
         var ignored = TypeScriptSource.IGNORED;
         this.declarations = [];
 
-        for (var declaration of ts.optionDeclarations) {
+        for (var declaration of _ts.optionDeclarations) {
             if (ignored.indexOf(declaration.name) === -1) {
                 this.addTSOption(declaration);
             }
@@ -44,7 +46,7 @@ export class TypeScriptSource extends OptionsComponent
     }
 
 
-    private addTSOption(option:ts.CommandLineOption) {
+    private addTSOption(option:_ts.CommandLineOption) {
         var param:IOptionDeclaration = {
             name:      option.name,
             short:     option.shortName,
@@ -67,16 +69,16 @@ export class TypeScriptSource extends OptionsComponent
                 param.type = ParameterType.Map;
                 param.map = option.type;
                 if (option['error']) {
-                    var error = ts.createCompilerDiagnostic(option['error']);
+                    var error = _ts.createCompilerDiagnostic(option['error']);
                     param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                 }
         }
 
         switch (option.paramType) {
-            case ts.Diagnostics.FILE:
+            case _ts.Diagnostics.FILE:
                 param.hint = ParameterHint.File;
                 break;
-            case ts.Diagnostics.DIRECTORY:
+            case _ts.Diagnostics.DIRECTORY:
                 param.hint = ParameterHint.Directory;
                 break;
         }
