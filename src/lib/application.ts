@@ -269,7 +269,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                 if (str != null && str.name != null && str.comment != null) {
                     let comment = str.comment;
                     if (comment.shortText != null) {
-                        let markedText = marked(comment.shortText);
+                        let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
                         nodeList.push({name: path + str.name, comment : linkParser.parseMarkdown(markedText)});
                     }
                     if (str.children != null && str.children.length > 0) {
