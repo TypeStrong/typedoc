@@ -25,12 +25,7 @@
   "bugs": {
     "url": "https://github.com/sebastian-lenz/TypeDoc/issues"
   },
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "https://github.com/sebastian-lenz/TypeDoc/blob/master/LICENSE"
-    }
-  ],
+  "license": "Apache-2.0",
   "engines": {
     "node": ">= 4"
   },
