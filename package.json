@@ -39,7 +39,7 @@
     "grunt-contrib-watch": "~1.0.0",
     "grunt-string-replace": "^1.0.0",
     "grunt-ts": "^5.5.1",
-    "typescript": "2.0.8"
+    "typescript": "2.0.9"
   },
   "keywords": [
     "typescript",
