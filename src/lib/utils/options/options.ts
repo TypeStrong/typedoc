@@ -168,7 +168,9 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
     setValues(obj:Object, prefix:string = '', errorCallback?:Function) {
         for (var key in obj) {
             var value = obj[key];
-            if (typeof value === 'object') {
+            var declaration = this.getDeclaration(key);
+            var shouldValueBeAnObject = declaration && declaration.map === 'object';
+            if (typeof value === 'object' && !shouldValueBeAnObject) {
                 this.setValues(value, prefix + key + '.', errorCallback);
             } else {
                 this.setValue(prefix + key, value, errorCallback);
