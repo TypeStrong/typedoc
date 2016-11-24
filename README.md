@@ -22,18 +22,6 @@ $ npm install typedoc --global
 $ typedoc
 ```
 
-
-## Preview
-
-If you want to know what a documentation created with TypeDoc looks like, head over
-to the homepage of the project. We've setup examples demonstrating the two default
-themes shipped with the package:
-
-[http://typedoc.io/themes/default](http://typedoc.io/themes/default)<br>
-[http://typedoc.io/themes/minimal](http://typedoc.io/themes/minimal)
-
-The default themes can be found here: [https://github.com/TypeStrong/typedoc-default-themes](https://github.com/TypeStrong/typedoc-default-themes)
-
 ## Usage
 
 ### Shell
