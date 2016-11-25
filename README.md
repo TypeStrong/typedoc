@@ -8,7 +8,7 @@ Visit http://typedoc.org/ to learn more about TypeDoc.
 
 Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
 an issue or create a pull requests:<br>
-[https://github.com/sebastian-lenz/typedoc](https://github.com/sebastian-lenz/typedoc)
+[https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
 
 
 ## License
