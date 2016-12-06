@@ -9,7 +9,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "clean": "rm -rf bin",
+    "clean": "rimraf bin",
     "grunt": "grunt",
     "build": "npm run clean && npm run grunt",
     "prepublish": "npm run build"
@@ -39,6 +39,7 @@
     "grunt-contrib-watch": "~1.0.0",
     "grunt-string-replace": "^1.0.0",
     "grunt-ts": "^5.5.1",
+    "rimraf": "^2.5.4",
     "typescript": "2.0.10"
   },
   "keywords": [
