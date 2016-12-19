@@ -138,17 +138,21 @@ export class Context
      * @returns The type declaration of the given node.
      */
     getTypeAtLocation(node:ts.Node):ts.Type {
+        var nodeType:ts.Type;
         try {
-            return this.checker.getTypeAtLocation(node);
-        } catch (error) {
-            try {
-                if (node.symbol) {
-                    return this.checker.getDeclaredTypeOfSymbol(node.symbol);
-                }
-            } catch (error) {}
+            nodeType = this.checker.getTypeAtLocation(node);
+        } catch (error) {            
         }
-
-        return null;
+        if (!nodeType) {
+            if (node.symbol) {
+                nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
+            } else if (node.parent && node.parent.symbol) {
+                nodeType = this.checker.getDeclaredTypeOfSymbol(node.parent.symbol);
+            } else if (node.parent && node.parent.parent && node.parent.parent.symbol) {
+                nodeType = this.checker.getDeclaredTypeOfSymbol(node.parent.parent.symbol);
+            }
+        }
+        return nodeType;
     }
 
 
