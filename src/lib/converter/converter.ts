@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import * as _ts from "../ts-internal";
 import * as Path from "path";
+import * as _ from "lodash";
 
 import {Application} from "../application";
 import {ParameterType} from "../utils/options/declaration";
