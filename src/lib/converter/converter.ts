@@ -425,19 +425,19 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         program.getSourceFiles().forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
-        
+
         let diagnostics = program.getOptionsDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         diagnostics = program.getSyntacticDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         diagnostics = program.getGlobalDiagnostics();
         if (diagnostics.length) return diagnostics;
 
         diagnostics = program.getSemanticDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         return [];
     }
 
