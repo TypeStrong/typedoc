@@ -3,6 +3,7 @@
 .tscache
 .baseDir.js
 .baseDir.ts
+.vscode
 
 /src/typings/typescript/typescript.js
 
@@ -16,3 +17,7 @@
 /typescript/
 /coverage/
 /lib/
+/test/renderer/specs
+
+specs.json
+npm-debug.log*
