@@ -97,14 +97,16 @@ export class OptionDeclaration
                 value = value || "";
                 break;
             case ParameterType.Map:
-                var key = value ? (value + "").toLowerCase() : '';
-                if (key in this.map) {
-                    value = this.map[key];
-                } else if (errorCallback) {
-                    if (this.mapError) {
-                        errorCallback(this.mapError);
-                    } else {
-                        errorCallback('Invalid value for option "%s".', this.name);
+                if (this.map !== 'object') {
+                    var key = value ? (value + "").toLowerCase() : '';
+                    if (key in this.map) {
+                        value = this.map[key];
+                    } else if (errorCallback) {
+                        if (this.mapError) {
+                            errorCallback(this.mapError);
+                        } else {
+                            errorCallback('Invalid value for option "%s".', this.name);
+                        }
                     }
                 }
                 break;

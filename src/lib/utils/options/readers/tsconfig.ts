@@ -36,8 +36,9 @@ export class TSConfigReader extends OptionsComponent
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
-            var file = Path.resolve('tsconfig.json');
-            if (FS.existsSync(file)) {
+            let file:string = ts.findConfigFile(".", ts.sys.fileExists);
+            // If file is undefined, we found no file to load.
+            if (file) {
                 this.load(event, file);
             }
         }
@@ -56,7 +57,7 @@ export class TSConfigReader extends OptionsComponent
             return;
         }
 
-        var data = ts.readConfigFile(fileName, (fileName) => ts.sys.readFile(fileName)).config;
+        let data = ts.readConfigFile(fileName, ts.sys.readFile).config;
         if (data === undefined) {
             event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
             return;
@@ -66,19 +67,22 @@ export class TSConfigReader extends OptionsComponent
             return;
         }
 
-        if ("files" in data && _.isArray(data.files)) {
-            event.inputFiles = data.files;
+        data = ts.parseJsonConfigFileContent(
+            data,
+            ts.sys,
+            Path.resolve(Path.dirname(fileName)),
+            {},
+            Path.resolve(fileName));
+
+        event.inputFiles = data.fileNames;
+
+        const ignored = TypeScriptSource.IGNORED;
+        let compilerOptions = _.clone(data.raw.compilerOptions);
+        for (const key of ignored) {
+            delete compilerOptions[key];
         }
 
-        if ("compilerOptions" in data) {
-            var ignored = TypeScriptSource.IGNORED;
-            var compilerOptions = _.clone(data.compilerOptions);
-            for (var key of ignored) {
-                delete compilerOptions[key];
-            }
-
-            _.merge(event.data, compilerOptions);
-        }
+        _.merge(event.data, compilerOptions);
 
         if ("typedocOptions" in data) {
             _.merge(event.data, data.typedocOptions);

@@ -1,6 +1,7 @@
 import * as ts from "typescript";
 import * as _ts from "../ts-internal";
 import * as Path from "path";
+import * as _ from "lodash";
 
 import {Application} from "../application";
 import {ParameterType} from "../utils/options/declaration";
@@ -424,19 +425,19 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         program.getSourceFiles().forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
-        
+
         let diagnostics = program.getOptionsDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         diagnostics = program.getSyntacticDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         diagnostics = program.getGlobalDiagnostics();
         if (diagnostics.length) return diagnostics;
 
         diagnostics = program.getSemanticDiagnostics();
         if (diagnostics.length) return diagnostics;
-        
+
         return [];
     }
 
