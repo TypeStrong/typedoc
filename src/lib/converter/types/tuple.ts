@@ -20,7 +20,7 @@ export class TupleConverter extends ConverterTypeComponent implements ITypeConve
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context:Context, type:ts.TypeReference):boolean {
-        return !!(type.flags & ts.TypeFlags.Tuple);
+        return !!(type.objectFlags & ts.ObjectFlags.Tuple);
     }
 
 

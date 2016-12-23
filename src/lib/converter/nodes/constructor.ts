@@ -62,10 +62,10 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      * @return The resulting reflection or NULL.
      */
     private addParameterProperty(context:Context, parameter:ts.ParameterDeclaration, comment:Comment) {
-        var visibility = parameter.flags & (ts.NodeFlags.Public | ts.NodeFlags.Protected | ts.NodeFlags.Private);
+        var visibility = parameter.flags & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
         if (!visibility) return;
 
-        const privateParameter = parameter.flags & ts.NodeFlags.Private;
+        const privateParameter = parameter.flags & ts.ModifierFlags.Private;
         if (privateParameter && context.converter.excludePrivate) return;
 
         var property = createDeclaration(context, parameter, ReflectionKind.Property);

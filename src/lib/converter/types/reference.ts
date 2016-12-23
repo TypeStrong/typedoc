@@ -23,7 +23,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(context:Context, node:ts.TypeReferenceNode, type:ts.TypeReference):boolean {
-        return !!(type.flags & ts.TypeFlags.ObjectType);
+        return !!(type.flags & ts.TypeFlags.Object);
     }
 
 
@@ -31,7 +31,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context:Context, type:ts.TypeReference):boolean {
-        return !!(type.flags & ts.TypeFlags.ObjectType);
+        return !!(type.flags & ts.TypeFlags.Object);
     }
 
 

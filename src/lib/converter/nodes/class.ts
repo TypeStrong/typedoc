@@ -36,7 +36,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
                 node.members.forEach((member) => {
-                    const privateMember = (member.flags & ts.NodeFlags.Private) > 0;
+                    const privateMember = (member.flags & ts.ModifierFlags.Private) > 0;
                     const exclude = context.converter.excludePrivate ? privateMember : false;
                     
                     if (!exclude) {

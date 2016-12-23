@@ -33,7 +33,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
         context.registerReflection(declaration, null);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
-            node.elements.forEach((element) => {
+            (node.elements as ts.BindingElement[]).forEach((element) => {
                 this.owner.convertNode(context, element);
             });
         });

@@ -54,9 +54,9 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     if (kind == ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
-        isExported = isExported || !!(node.parent.parent.flags & ts.NodeFlags.Export)
+        isExported = isExported || !!(node.parent.parent.flags & ts.ModifierFlags.Export)
     } else {
-        isExported = isExported || !!(node.flags & ts.NodeFlags.Export);
+        isExported = isExported || !!(node.flags & ts.ModifierFlags.Export);
     }
 
     if (!isExported && context.converter.excludeNotExported) {
@@ -64,7 +64,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Test whether the node is private, when inheriting ignore private members
-    var isPrivate = !!(node.flags & ts.NodeFlags.Private);
+    var isPrivate = !!(node.flags & ts.ModifierFlags.Private);
     if (context.isInherit && isPrivate) {
         return null;
     }
@@ -73,7 +73,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     var isConstructorProperty:boolean = false;
     var isStatic = false;
     if (nonStaticKinds.indexOf(kind) == -1) {
-        isStatic = !!(node.flags & ts.NodeFlags.Static);
+        isStatic = !!(node.flags & ts.ModifierFlags.Static);
         if (container.kind == ReflectionKind.Class) {
             if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
@@ -127,8 +127,8 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
  */
 function setupDeclaration(context:Context, reflection:DeclarationReflection, node:ts.Node) {
     reflection.setFlag(ReflectionFlag.External,  context.isExternal);
-    reflection.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.NodeFlags.Protected));
-    reflection.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.NodeFlags.Public));
+    reflection.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.ModifierFlags.Protected));
+    reflection.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.ModifierFlags.Public));
     reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
 
     if (
