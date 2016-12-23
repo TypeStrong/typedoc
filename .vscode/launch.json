@@ -8,10 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/bin/typedoc",
-            "args": [
-                "--out", "tmp"
-            ],
+            "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
             "cwd": "${workspaceRoot}",
             "outFiles": [
                 "${workspaceRoot}/lib/**/*.js"
