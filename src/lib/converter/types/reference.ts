@@ -51,7 +51,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * @returns The type reflection representing the given reference node.
      */
     convertNode(context:Context, node:ts.TypeReferenceNode, type:ts.TypeReference):Type {
-        if (!type.symbol) {
+        if (!type.symbol || !type.symbol.declarations) {
             return new IntrinsicType('Object');
         } else if (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral) {
             return this.convertLiteral(context, type.symbol, node);
@@ -81,7 +81,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * @returns The type reflection representing the given type reference.
      */
     convertType(context:Context, type:ts.TypeReference):Type {
-        if (!type.symbol) {
+        if (!type.symbol || !type.symbol.declarations) {
             return new IntrinsicType('Object');
         } else if (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral) {
             return this.convertLiteral(context, type.symbol);

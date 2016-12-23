@@ -88,7 +88,7 @@ export function getRawComment(node:ts.Node):string {
     }
 
     var sourceFile = _ts.getSourceFileOfNode(node);
-    var comments = _ts.getJsDocComments(node, sourceFile);
+    var comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
     if (comments && comments.length) {
         var comment:ts.CommentRange;
         if (node.kind == ts.SyntaxKind.SourceFile) {

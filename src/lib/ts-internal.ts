@@ -78,9 +78,9 @@ export function declarationNameToString(name: ts.DeclarationName): string {
   return tsany.declarationNameToString.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L598
-export function getJsDocComments(node: ts.Node, sourceFileOfNode: ts.SourceFile) {
-  return tsany.getJsDocComments.apply(this, arguments);
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1423
+export function getJSDocCommentRanges(node: ts.Node, text: string) {
+  return tsany.getJSDocCommentRanges.apply(this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L1487
