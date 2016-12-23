@@ -8,10 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
+            "args": [
+                "--no-timeouts"
+            ],
             "outFiles": [
-                "${workspaceRoot}/lib/**/*.js"
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/test/**/*.js"
             ],
             "sourceMaps": true
         }
