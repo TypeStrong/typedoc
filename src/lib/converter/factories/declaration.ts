@@ -43,6 +43,8 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
         }
     }
 
+    var modifiers = ts.getCombinedModifierFlags(node);
+
     // Test whether the node is exported
     var isExported:boolean;
     if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
@@ -54,9 +56,10 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     if (kind == ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
-        isExported = isExported || !!(node.parent.parent.flags & ts.ModifierFlags.Export)
+        var parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
+        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export)
     } else {
-        isExported = isExported || !!(node.flags & ts.ModifierFlags.Export);
+        isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
     if (!isExported && context.converter.excludeNotExported) {
@@ -64,7 +67,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Test whether the node is private, when inheriting ignore private members
-    var isPrivate = !!(node.flags & ts.ModifierFlags.Private);
+    var isPrivate = !!(modifiers & ts.ModifierFlags.Private);
     if (context.isInherit && isPrivate) {
         return null;
     }
@@ -73,7 +76,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     var isConstructorProperty:boolean = false;
     var isStatic = false;
     if (nonStaticKinds.indexOf(kind) == -1) {
-        isStatic = !!(node.flags & ts.ModifierFlags.Static);
+        isStatic = !!(modifiers & ts.ModifierFlags.Static);
         if (container.kind == ReflectionKind.Class) {
             if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
@@ -126,9 +129,11 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
  * @returns The reflection populated with the values of the given node.
  */
 function setupDeclaration(context:Context, reflection:DeclarationReflection, node:ts.Node) {
+    var modifiers = ts.getCombinedModifierFlags(node);
+
     reflection.setFlag(ReflectionFlag.External,  context.isExternal);
-    reflection.setFlag(ReflectionFlag.Protected, !!(node.flags & ts.ModifierFlags.Protected));
-    reflection.setFlag(ReflectionFlag.Public,    !!(node.flags & ts.ModifierFlags.Public));
+    reflection.setFlag(ReflectionFlag.Protected, !!(modifiers & ts.ModifierFlags.Protected));
+    reflection.setFlag(ReflectionFlag.Public,    !!(modifiers & ts.ModifierFlags.Public));
     reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
 
     if (
