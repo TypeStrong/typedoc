@@ -7,7 +7,6 @@
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": true,
-        "sourceRoot": "src",
         "outDir": "./",
         "rootDir": "./src",
         "experimentalDecorators": true
