@@ -4,7 +4,7 @@ module.exports = function(grunt)
         pkg: grunt.file.readJSON('package.json'),
         ts: {
             typedoc: {
-                tsconfig: true
+                tsconfig: { passThrough: true }
             },
             typescript: {
                 options: {

@@ -23,7 +23,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(context:Context, node:ts.TypeReferenceNode, type:ts.TypeReference):boolean {
-        return !!(type.flags & ts.TypeFlags.ObjectType);
+        return !!(type.flags & ts.TypeFlags.Object);
     }
 
 
@@ -31,7 +31,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context:Context, type:ts.TypeReference):boolean {
-        return !!(type.flags & ts.TypeFlags.ObjectType);
+        return !!(type.flags & ts.TypeFlags.Object);
     }
 
 
@@ -53,7 +53,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
     convertNode(context:Context, node:ts.TypeReferenceNode, type:ts.TypeReference):Type {
         if (!type.symbol) {
             return new IntrinsicType('Object');
-        } else if (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral) {
+        } else if (type.symbol.declarations && (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral)) {
             return this.convertLiteral(context, type.symbol, node);
         }
 
@@ -83,7 +83,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
     convertType(context:Context, type:ts.TypeReference):Type {
         if (!type.symbol) {
             return new IntrinsicType('Object');
-        } else if (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral) {
+        } else if (type.symbol.declarations && (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral)) {
             return this.convertLiteral(context, type.symbol);
         }
 

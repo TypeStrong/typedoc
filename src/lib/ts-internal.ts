@@ -6,18 +6,18 @@ const tsany = ts as any;
  */
 declare module "typescript" {
   interface Symbol {
-    // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2166
+    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L2658
     id?: number;
-    // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2168
+    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L2660
     parent?: ts.Symbol;
   }
 
   interface Node {
-    // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L469
+    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L497
     symbol?: ts.Symbol;
-    // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L472
+    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L500
     localSymbol?: ts.Symbol;
-    // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L471
+    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L499
     nextContainer?: ts.Node;
   }
 }
@@ -25,86 +25,85 @@ declare module "typescript" {
 
 /**
  * These functions are in "core" and are marked as @internal:
- * https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L4-L5
+ * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L9-L10
  */
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L655-L656
-export function createCompilerDiagnostic(message: ts.DiagnosticMessage, ...args: any[]): ts.Diagnostic;
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1133-LL1134
+export function createCompilerDiagnostic(message: ts.DiagnosticMessage, ...args: (string | number)[]): ts.Diagnostic;
 export function createCompilerDiagnostic(message: ts.DiagnosticMessage): ts.Diagnostic;
 export function createCompilerDiagnostic() {
   return tsany.createCompilerDiagnostic.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L701
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1191
 export function compareValues<T>(a: T, b: T): number {
   return tsany.compareValues.apply(this, arguments); // Actually returns a ts.Comparison which is also internal
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L790
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1281
 export function normalizeSlashes(path: string): string {
   return tsany.normalizeSlashes.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L795
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1288
 export function getRootLength(path: string): number {
   return tsany.getRootLength.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/core.ts#L852-L854
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1368-L1370
 export function getDirectoryPath(path: ts.Path): ts.Path;
 export function getDirectoryPath(path: string): string;
-export function getDirectoryPath(path: string): any;
 export function getDirectoryPath() {
   return tsany.getDirectoryPath.apply(this, arguments);
 }
 
 /**
  * These functions are in "utilities" and are marked as @internal:
- * https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L3-L4
+ * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L3-L4
  */
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L188
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L152
 export function getSourceFileOfNode(node: ts.Node): ts.SourceFile {
   return tsany.getSourceFileOfNode.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L333
-export function getTextOfNode(node: ts.Node, includeTrivia?: boolean): string {
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L301
+export function getTextOfNode(node: ts.Node, includeTrivia = false): string {
   return tsany.getTextOfNode.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L438
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L473
 export function declarationNameToString(name: ts.DeclarationName): string {
   return tsany.declarationNameToString.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L598
-export function getJsDocComments(node: ts.Node, sourceFileOfNode: ts.SourceFile) {
-  return tsany.getJsDocComments.apply(this, arguments);
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1423
+export function getJSDocCommentRanges(node: ts.Node, text: string) {
+  return tsany.getJSDocCommentRanges.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L1487
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L3738
 export function isBindingPattern(node: ts.Node): node is ts.BindingPattern {
   return tsany.isBindingPattern.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L1696
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1729
 export function getClassExtendsHeritageClauseElement(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
   return tsany.getClassExtendsHeritageClauseElement.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L1701
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1734
 export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration) {
   return tsany.getClassImplementsHeritageClauseElements.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/utilities.ts#L1706
+// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1739
 export function getInterfaceBaseTypeNodes(node: ts.InterfaceDeclaration) {
   return tsany.getInterfaceBaseTypeNodes.apply(this, arguments);
 }
 
 /**
- * https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2789-L2924
+ * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L3347
  * This is large enum of char codes.
  *
  * Faking the enum as a var (only certain codes are used by TypeDoc)
@@ -117,18 +116,12 @@ export const CharacterCodes: {
   at: number;
 } = tsany.CharacterCodes;
 
-/**
- * https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2334
- * Duplicating the interface definition :(
- */
-// interface IntrinsicType extends ts.Type {
-//   intrinsicName: string;
-// }
-
 export const optionDeclarations: CommandLineOption[] = tsany.optionDeclarations;
 
 /**
  * Command line options
+ * 
+ * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L3344
  */
 export interface CommandLineOption {
   name: string;

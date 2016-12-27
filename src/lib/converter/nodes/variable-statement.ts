@@ -46,8 +46,8 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
      * @param node     The binding pattern node that should be analyzed.
      */
     convertBindingPattern(context:Context, node:ts.BindingPattern) {
-        node.elements.forEach((element:ts.BindingElement) => {
-            this.owner.convertNode(context, <any>element);
+        (node.elements as ts.BindingElement[]).forEach((element:ts.BindingElement) => {
+            this.owner.convertNode(context, element);
 
             if (_ts.isBindingPattern(element.name)) {
                 this.convertBindingPattern(context, <ts.BindingPattern>element.name);
