@@ -30,8 +30,8 @@
             }
           ],
           "type": {
-            "type": "instrinct",
-            "name": "number"
+            "type": "unknown",
+            "name": "5"
           },
           "defaultValue": "5"
         },
