@@ -85,21 +85,8 @@
                 }
               ],
               "type": {
-                "type": "reflection",
-                "declaration": {
-                  "id": 35,
-                  "name": "__type",
-                  "kind": 65536,
-                  "kindString": "Type literal",
-                  "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "react.d.ts",
-                      "line": 142,
-                      "character": 16
-                    }
-                  ]
-                }
+                "type": "reference",
+                "name": "__type"
               },
               "inheritedFrom": {
                 "type": "reference",
@@ -150,7 +137,7 @@
               }
             },
             {
-              "id": 36,
+              "id": 35,
               "name": "refs",
               "kind": 1024,
               "kindString": "Property",
@@ -165,21 +152,21 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 37,
+                  "id": 36,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "indexSignature": [
                     {
-                      "id": 38,
+                      "id": 37,
                       "name": "__index",
                       "kind": 8192,
                       "kindString": "Index signature",
                       "flags": {},
                       "parameters": [
                         {
-                          "id": 39,
+                          "id": 38,
                           "name": "key",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -579,7 +566,7 @@
                 34,
                 6,
                 32,
-                36,
+                35,
                 33
               ]
             },

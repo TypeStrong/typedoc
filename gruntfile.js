@@ -90,7 +90,7 @@ module.exports = function(grunt)
     grunt.registerTask('build-specs', function() {
         var FS = require('fs-extra');
         var Path = require('path');
-        var TypeDoc = require('./index.js');
+        var TypeDoc = require('./');
 
         var base = Path.join(__dirname, 'test', 'converter');
         var app = new TypeDoc.Application({

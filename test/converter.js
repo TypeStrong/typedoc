@@ -1,4 +1,4 @@
-var TypeDoc = require("../index.js");
+var TypeDoc = require("../");
 var FS      = require('fs');
 var Path    = require('path');
 var Assert  = require("assert");

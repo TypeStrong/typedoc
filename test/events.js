@@ -9,7 +9,7 @@
 
 var Assert   = require("assert");
 var _        = require("lodash");
-var EventsNS = require("../lib/utils/events");
+var EventsNS = require("../dist/lib/utils/events");
 var Events   = EventsNS.EventDispatcher;
 var Event    = EventsNS.Event;
 
