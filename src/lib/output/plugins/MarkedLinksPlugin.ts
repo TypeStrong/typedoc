@@ -141,8 +141,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
     onEndRenderer(event:RendererEvent) {
         if (this.listInvalidSymbolLinks) {
             this.application.logger.write('');
-            this.application.logger.warn('[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, \
-                they will not render as links in the generated documentation.');            
+            this.application.logger.warn('[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, ' +
+                'they will not render as links in the generated documentation.');
 
             for (var warning of this.warnings) {
                 this.application.logger.write('  ' + warning);
