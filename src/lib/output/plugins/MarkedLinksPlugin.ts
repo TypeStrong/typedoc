@@ -2,8 +2,9 @@ import * as Util from "util";
 
 import {Reflection} from "../../models/reflections/abstract";
 import {Component, ContextAwareRendererComponent} from "../components";
-import {MarkdownEvent} from "../events";
-
+import {MarkdownEvent, RendererEvent} from "../events";
+import {Option} from "../../utils/component";
+import {ParameterType} from "../../utils/options/declaration";
 
 /**
  * A plugin that builds links in markdown texts.
@@ -26,14 +27,24 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      */
     private urlPrefix:RegExp = /^(http|ftp)s?:\/\//;
 
+    @Option({
+        name: 'listInvalidSymbolLinks',
+        help: 'Emits a list of broken symbol [[navigation]] links after documentation generation',
+        type: ParameterType.Boolean
+    })
+    listInvalidSymbolLinks:boolean;
 
+    private warnings: string[] = [];
 
     /**
      * Create a new MarkedLinksPlugin instance.
      */
     initialize() {
         super.initialize();
-        this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown, 100);
+        this.listenTo(this.owner, {
+            [MarkdownEvent.PARSE]: this.onParseMarkdown,
+            [RendererEvent.END]: this.onEndRenderer
+        }, null, 100);
     }
 
 
@@ -101,6 +112,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
             if (reflection && reflection.url) {
                 target = this.getRelativeUrl(reflection.url);
             } else {
+                reflection = this.reflection || this.project;
+                this.warnings.push(`In ${reflection.getFullName()}: ${original}`);
                 return original;
             }
         }
@@ -122,6 +135,20 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
         event.parsedText = this.replaceInlineTags(this.replaceBrackets(event.parsedText));
     }
 
+    /**
+     * Triggered when [[Renderer]] is finished
+     */
+    onEndRenderer(event:RendererEvent) {
+        if (this.listInvalidSymbolLinks) {
+            this.application.logger.write('');
+            this.application.logger.warn('[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, \
+                they will not render as links in the generated documentation.');            
+
+            for (var warning of this.warnings) {
+                this.application.logger.write('  ' + warning);
+            }
+        }
+    }
 
     /**
      * Split the given link into text and target at first pipe or space.

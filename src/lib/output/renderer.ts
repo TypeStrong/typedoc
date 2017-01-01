@@ -103,7 +103,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
         type: ParameterType.String
     })
-    entryPoint:string;
+    entryPoint:string;    
 
     /**
      * Create a new Renderer instance.
