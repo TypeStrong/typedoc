@@ -85,7 +85,7 @@ export class TSConfigReader extends OptionsComponent
         _.merge(event.data, compilerOptions);
 
         if ("typedocOptions" in data) {
-            _.merge(event.data, data.typedocOptions);
+            _.merge(event.data, data.raw.typedocOptions);
         }
     }
 }
