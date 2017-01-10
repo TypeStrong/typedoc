@@ -5,10 +5,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var typedoc;
 (function (typedoc) {
-    typedoc.app = new typedoc.Application();
-})(typedoc || (typedoc = {}));
-var typedoc;
-(function (typedoc) {
     typedoc.$html = $('html');
     var services = [];
     var components = [];
@@ -48,9 +44,10 @@ var typedoc;
     var Application = (function (_super) {
         __extends(Application, _super);
         function Application() {
-            _super.call(this);
-            this.createServices();
-            this.createComponents(typedoc.$body);
+            var _this = _super.call(this) || this;
+            _this.createServices();
+            _this.createComponents(typedoc.$body);
+            return _this;
         }
         Application.prototype.createServices = function () {
             _(services).forEach(function (c) {
@@ -87,6 +84,10 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
+    typedoc.app = new typedoc.Application();
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
     var FilterItem = (function () {
         function FilterItem(key, value) {
             this.key = key;
@@ -118,7 +119,7 @@ var typedoc;
     var FilterItemCheckbox = (function (_super) {
         __extends(FilterItemCheckbox, _super);
         function FilterItemCheckbox() {
-            _super.apply(this, arguments);
+            return _super.apply(this, arguments) || this;
         }
         FilterItemCheckbox.prototype.initialize = function () {
             var _this = this;
@@ -142,7 +143,7 @@ var typedoc;
     var FilterItemSelect = (function (_super) {
         __extends(FilterItemSelect, _super);
         function FilterItemSelect() {
-            _super.apply(this, arguments);
+            return _super.apply(this, arguments) || this;
         }
         FilterItemSelect.prototype.initialize = function () {
             var _this = this;
@@ -174,11 +175,12 @@ var typedoc;
     var Filter = (function (_super) {
         __extends(Filter, _super);
         function Filter(options) {
-            _super.call(this, options);
-            this.optionVisibility = new FilterItemSelect('visibility', 'private');
-            this.optionInherited = new FilterItemCheckbox('inherited', true);
-            this.optionExternals = new FilterItemCheckbox('externals', true);
-            this.optionOnlyExported = new FilterItemCheckbox('only-exported', false);
+            var _this = _super.call(this, options) || this;
+            _this.optionVisibility = new FilterItemSelect('visibility', 'private');
+            _this.optionInherited = new FilterItemCheckbox('inherited', true);
+            _this.optionExternals = new FilterItemCheckbox('externals', true);
+            _this.optionOnlyExported = new FilterItemCheckbox('only-exported', false);
+            return _this;
         }
         Filter.isSupported = function () {
             try {
@@ -202,11 +204,12 @@ var typedoc;
     var MenuHighlight = (function (_super) {
         __extends(MenuHighlight, _super);
         function MenuHighlight(options) {
-            _super.call(this, options);
-            this.index = 0;
-            this.listenTo(typedoc.viewport, 'resize', this.onResize);
-            this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
-            this.createAnchors();
+            var _this = _super.call(this, options) || this;
+            _this.index = 0;
+            _this.listenTo(typedoc.viewport, 'resize', _this.onResize);
+            _this.listenTo(typedoc.viewport, 'scroll', _this.onScroll);
+            _this.createAnchors();
+            return _this;
         }
         MenuHighlight.prototype.createAnchors = function () {
             var _this = this;
@@ -283,17 +286,18 @@ var typedoc;
     var MenuSticky = (function (_super) {
         __extends(MenuSticky, _super);
         function MenuSticky(options) {
-            _super.call(this, options);
-            this.state = '';
-            this.stickyMode = StickyMode.None;
-            this.$current = this.$el.find('> ul.current');
-            this.$navigation = this.$el.parents('.menu-sticky-wrap');
-            this.$container = this.$el.parents('.row');
-            this.listenTo(typedoc.viewport, 'resize', this.onResize);
+            var _this = _super.call(this, options) || this;
+            _this.state = '';
+            _this.stickyMode = StickyMode.None;
+            _this.$current = _this.$el.find('> ul.current');
+            _this.$navigation = _this.$el.parents('.menu-sticky-wrap');
+            _this.$container = _this.$el.parents('.row');
+            _this.listenTo(typedoc.viewport, 'resize', _this.onResize);
             if (!hasPositionSticky) {
-                this.listenTo(typedoc.viewport, 'scroll', this.onScroll);
+                _this.listenTo(typedoc.viewport, 'scroll', _this.onScroll);
             }
-            this.onResize(typedoc.viewport.width, typedoc.viewport.height);
+            _this.onResize(typedoc.viewport.width, typedoc.viewport.height);
+            return _this;
         }
         MenuSticky.prototype.setState = function (state) {
             if (this.state == state)
@@ -556,17 +560,17 @@ var typedoc;
     var Signature = (function (_super) {
         __extends(Signature, _super);
         function Signature(options) {
-            var _this = this;
-            _super.call(this, options);
-            this.index = -1;
-            this.createGroups();
-            if (this.groups) {
-                this.$el.addClass('active')
+            var _this = _super.call(this, options) || this;
+            _this.index = -1;
+            _this.createGroups();
+            if (_this.groups) {
+                _this.$el.addClass('active')
                     .on('touchstart', '.tsd-signature', function (event) { return _this.onClick(event); })
                     .on('click', '.tsd-signature', function (event) { return _this.onClick(event); });
-                this.$container.addClass('active');
-                this.setIndex(0);
+                _this.$container.addClass('active');
+                _this.setIndex(0);
             }
+            return _this;
         }
         Signature.prototype.setIndex = function (index) {
             if (index < 0)
@@ -624,13 +628,13 @@ var typedoc;
     var Toggle = (function (_super) {
         __extends(Toggle, _super);
         function Toggle(options) {
-            var _this = this;
-            _super.call(this, options);
-            this.className = this.$el.attr('data-toggle');
-            this.$el.on(typedoc.pointerUp, function (e) { return _this.onPointerUp(e); });
-            this.$el.on('click', function (e) { return e.preventDefault(); });
+            var _this = _super.call(this, options) || this;
+            _this.className = _this.$el.attr('data-toggle');
+            _this.$el.on(typedoc.pointerUp, function (e) { return _this.onPointerUp(e); });
+            _this.$el.on('click', function (e) { return e.preventDefault(); });
             typedoc.$document.on(typedoc.pointerDown, function (e) { return _this.onDocumentPointerDown(e); });
             typedoc.$document.on(typedoc.pointerUp, function (e) { return _this.onDocumentPointerUp(e); });
+            return _this;
         }
         Toggle.prototype.setActive = function (value) {
             if (this.active == value)
@@ -689,15 +693,15 @@ var typedoc;
     var Viewport = (function (_super) {
         __extends(Viewport, _super);
         function Viewport() {
-            var _this = this;
-            _super.call(this);
-            this.scrollTop = 0;
-            this.width = 0;
-            this.height = 0;
+            var _this = _super.call(this) || this;
+            _this.scrollTop = 0;
+            _this.width = 0;
+            _this.height = 0;
             typedoc.$window.on('scroll', _(function () { return _this.onScroll(); }).throttle(10));
             typedoc.$window.on('resize', _(function () { return _this.onResize(); }).throttle(10));
-            this.onResize();
-            this.onScroll();
+            _this.onResize();
+            _this.onScroll();
+            return _this;
         }
         Viewport.prototype.triggerResize = function () {
             this.trigger('resize', this.width, this.height);
