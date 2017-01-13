@@ -82,10 +82,6 @@ export class TSConfigReader extends OptionsComponent
             delete compilerOptions[key];
         }
 
-        _.merge(event.data, compilerOptions);
-
-        if ("typedocOptions" in data) {
-            _.merge(event.data, data.raw.typedocOptions);
-        }
+        _.defaults(event.data, data.raw.typedocOptions, compilerOptions);
     }
 }
