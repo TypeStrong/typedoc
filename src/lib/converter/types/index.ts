@@ -6,6 +6,7 @@ export {EnumConverter} from "./enum";
 export {IntrinsicConverter} from "./intrinsic"
 export {StringLiteralConverter} from "./string-literal";
 export {ReferenceConverter} from "./reference";
+export {ThisConverter} from "./this";
 export {TupleConverter} from "./tuple";
 export {TypeParameterConverter} from "./type-parameter";
 export {UnionConverter} from "./union";
