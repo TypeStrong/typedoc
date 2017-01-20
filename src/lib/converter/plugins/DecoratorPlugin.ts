@@ -24,6 +24,7 @@ export class DecoratorPlugin extends ConverterComponent
         this.listenTo(this.owner, {
             [Converter.EVENT_BEGIN]:              this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_CREATE_PARAMETER]:   this.onDeclaration,
             [Converter.EVENT_RESOLVE]:            this.onBeginResolve,
         });
     }
