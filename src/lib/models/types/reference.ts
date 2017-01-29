@@ -113,12 +113,18 @@ export class ReferenceType extends Type
 
     /**
      * Return a string representation of this type.
+     * @example EventEmitter<any>
      */
     toString() {
-        if (this.reflection) {
-            return this.reflection.name + (this.isArray ? '[]' : '');
-        } else {
-            return this.name + (this.isArray ? '[]' : '');
+        var name = this.reflection ? this.reflection.name : this.name;
+        var arraySuffix = this.isArray ? '[]' : '';
+        var typeArgs = '';
+        if (this.typeArguments) {
+            typeArgs += '<';
+            typeArgs += this.typeArguments.map(arg => arg.toString()).join(', ');
+            typeArgs += '>'
         }
+        
+        return name + typeArgs + arraySuffix;
     }
 }
