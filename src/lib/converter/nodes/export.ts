@@ -30,9 +30,16 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
             symbol.declarations.forEach((declaration) => {
                 if (!declaration.symbol) return;
                 var id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
-                if (!id) return;
+                let reflection;
 
-                var reflection = project.reflections[id];
+                if (!id) {
+                    // Add Exported to the declaration's flags value
+                    declaration.flags |= ReflectionFlag.Exported;
+                    reflection = this.owner.convertNode(context, declaration);
+                } else {
+                    reflection = project.reflections[id];
+                }
+
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
                     (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
                 }
