@@ -12,7 +12,8 @@ export enum ParameterType {
     Number,
     Boolean,
     Map,
-    Mixed
+    Mixed,
+    Array
 }
 
 
@@ -95,6 +96,13 @@ export class OptionDeclaration
                 break;
             case ParameterType.String:
                 value = value || "";
+                break;
+            case ParameterType.Array:
+                if (!value) {
+                    value = [];
+                } else if (typeof value === "string") {
+                    value = value.split(",");
+                }
                 break;
             case ParameterType.Map:
                 if (this.map !== 'object') {
