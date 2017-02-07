@@ -163,7 +163,7 @@ export class SourcePlugin extends ConverterComponent
             var path = Path.dirname(file.fileName);
             if (path != '.') {
                 path.split('/').forEach((path) => {
-                    if (!directory.directories[path]) {
+                    if (!Object.prototype.hasOwnProperty.call(directory, path)) {
                         directory.directories[path] = new SourceDirectory(path, directory);
                     }
                     directory = directory.directories[path];
