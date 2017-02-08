@@ -1,6 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
-
 /**
  * This is a simple enumeration.
  */

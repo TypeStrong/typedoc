@@ -70,7 +70,8 @@ module.exports = function(grunt)
             coverage: {
                 src: 'test',
                 options: {
-                    mask: '*.js'
+                    mask: '*.js',
+                    timeout: 4000
                 }
             }
         }
@@ -97,7 +98,6 @@ module.exports = function(grunt)
             mode:   'Modules',
             target: 'ES5',
             module: 'CommonJS',
-            noLib:  true,
             experimentalDecorators: true,
             jsx: 'react'
         });

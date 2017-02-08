@@ -1,5 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
 var onSuccess: any = function () { };
 var onError: any = function () { };
 var onFinally: any = function () { };
