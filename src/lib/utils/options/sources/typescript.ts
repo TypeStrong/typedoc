@@ -20,7 +20,7 @@ export class TypeScriptSource extends OptionsComponent
         'watch', 'declaration', 'mapRoot',
         'sourceMap', 'inlineSources', 'removeComments',
         // Ignore new TypeScript 2.0 options until typedoc can't manage it.
-        'lib', 'strictNullChecks', 'noImplicitThis',
+        'lib', 'noImplicitThis',
         'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
         'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
     ];
