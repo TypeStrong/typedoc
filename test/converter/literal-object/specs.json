@@ -33,7 +33,7 @@
               "sources": [
                 {
                   "fileName": "literal-object.ts",
-                  "line": 14,
+                  "line": 12,
                   "character": 10
                 }
               ],
@@ -52,7 +52,7 @@
               "sources": [
                 {
                   "fileName": "literal-object.ts",
-                  "line": 15,
+                  "line": 13,
                   "character": 10
                 }
               ],
@@ -71,7 +71,7 @@
               "sources": [
                 {
                   "fileName": "literal-object.ts",
-                  "line": 7,
+                  "line": 5,
                   "character": 10
                 }
               ],
@@ -103,7 +103,7 @@
               "sources": [
                 {
                   "fileName": "literal-object.ts",
-                  "line": 8,
+                  "line": 6,
                   "character": 10
                 }
               ]
@@ -124,7 +124,7 @@
                   "sources": [
                     {
                       "fileName": "literal-object.ts",
-                      "line": 12,
+                      "line": 10,
                       "character": 14
                     }
                   ],
@@ -149,7 +149,7 @@
                   "sources": [
                     {
                       "fileName": "literal-object.ts",
-                      "line": 10,
+                      "line": 8,
                       "character": 14
                     }
                   ],
@@ -203,7 +203,7 @@
                               "sources": [
                                 {
                                   "fileName": "literal-object.ts",
-                                  "line": 11,
+                                  "line": 9,
                                   "character": 41
                                 }
                               ],
@@ -222,7 +222,7 @@
                               "sources": [
                                 {
                                   "fileName": "literal-object.ts",
-                                  "line": 11,
+                                  "line": 9,
                                   "character": 51
                                 }
                               ],
@@ -250,7 +250,7 @@
                   "sources": [
                     {
                       "fileName": "literal-object.ts",
-                      "line": 11,
+                      "line": 9,
                       "character": 14
                     }
                   ]
@@ -276,7 +276,7 @@
               "sources": [
                 {
                   "fileName": "literal-object.ts",
-                  "line": 9,
+                  "line": 7,
                   "character": 10
                 }
               ],
@@ -314,7 +314,7 @@
           "sources": [
             {
               "fileName": "literal-object.ts",
-              "line": 6,
+              "line": 4,
               "character": 17
             }
           ],

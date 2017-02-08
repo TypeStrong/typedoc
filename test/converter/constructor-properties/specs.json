@@ -79,7 +79,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 8,
+                  "line": 5,
                   "character": 1
                 }
               ]
@@ -99,7 +99,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 13,
+                  "line": 10,
                   "character": 24
                 }
               ],
@@ -123,7 +123,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 13,
+                  "line": 10,
                   "character": 41
                 }
               ],
@@ -153,7 +153,7 @@
           "sources": [
             {
               "fileName": "constructor-properties.ts",
-              "line": 7,
+              "line": 4,
               "character": 13
             }
           ],
@@ -249,7 +249,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 22,
+                  "line": 19,
                   "character": 1
                 }
               ],
@@ -274,7 +274,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 13,
+                  "line": 10,
                   "character": 24
                 }
               ],
@@ -303,7 +303,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 28,
+                  "line": 25,
                   "character": 34
                 }
               ],
@@ -332,7 +332,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 28,
+                  "line": 25,
                   "character": 51
                 }
               ],
@@ -363,7 +363,7 @@
           "sources": [
             {
               "fileName": "constructor-properties.ts",
-              "line": 21,
+              "line": 18,
               "character": 13
             }
           ],
