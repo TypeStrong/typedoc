@@ -105,6 +105,19 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
 
 
     /**
+     * Check whether the given directory exists.
+     *
+     * Implementation of ts.CompilerHost.directoryExists(directoryName)
+     *
+     * @param directoryName
+     * @returns {boolean}
+     */
+    directoryExists(directoryName:string):boolean {
+        return ts.sys.directoryExists(directoryName);
+    }
+
+
+    /**
      * Return the contents of the given file.
      *
      * Implementation of ts.CompilerHost.readFile(fileName)
