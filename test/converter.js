@@ -67,7 +67,6 @@ describe('Converter', function() {
             logger: 'none',
             target: 'ES5',
             module: 'CommonJS',
-            noLib:  true,
             experimentalDecorators: true,
             jsx: 'react'
         });

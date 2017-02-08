@@ -1,5 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
 module Forms
 {
     /**

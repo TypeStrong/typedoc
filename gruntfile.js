@@ -97,7 +97,6 @@ module.exports = function(grunt)
             mode:   'Modules',
             target: 'ES5',
             module: 'CommonJS',
-            noLib:  true,
             experimentalDecorators: true,
             jsx: 'react'
         });

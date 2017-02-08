@@ -1,4 +1,3 @@
-/// <reference path="../lib.d.ts" />
 /// <reference path="react.d.ts" />
 
 import * as React from "react";

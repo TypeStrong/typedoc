@@ -1,6 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
-
 /**
  * A class with constructor properties.
  */
