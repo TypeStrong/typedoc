@@ -40,7 +40,7 @@
     "grunt-string-replace": "^1.0.0",
     "grunt-ts": "^5.5.1",
     "rimraf": "^2.5.4",
-    "typescript": "2.1.5"
+    "typescript": "2.1.6"
   },
   "keywords": [
     "typescript",
