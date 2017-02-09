@@ -66,7 +66,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -t 4000",
     "build": "grunt build_and_test",
     "prepublish": "npm run build"
   },

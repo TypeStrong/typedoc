@@ -1,6 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
-
 class GetterSetter
 {
     private _name:string;

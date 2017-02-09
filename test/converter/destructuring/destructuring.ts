@@ -1,6 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
-
 /**
  * Destructuring objects.
  */

@@ -65,8 +65,7 @@ describe('Renderer', function() {
             logger: 'console',
             target: 'ES5',
             module: 'CommonJS',
-            gaSite: 'foo.com', // verify theme option without modifying output
-            noLib:  true
+            gaSite: 'foo.com' // verify theme option without modifying output
         });
     });
 

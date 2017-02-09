@@ -1,6 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
-
 export interface IBreakpointRange { start: number; end: number }
 
 var _breakpoints: {

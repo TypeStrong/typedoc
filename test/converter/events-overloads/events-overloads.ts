@@ -1,5 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
 /**
  * Encapsulates some information for background http transfers.
  *
