@@ -272,7 +272,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             file = Path.resolve(file);
             if (FS.statSync(file).isDirectory()) {
                 add(file);
-            } else if (exclude && !exclude.match(file)) {
+            } else if (!exclude || !exclude.match(file)) {
                 files.push(file);
             }
         });
