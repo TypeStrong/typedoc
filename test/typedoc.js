@@ -9,19 +9,32 @@ describe('TypeDoc', function() {
         it('constructs', function() {
             application = new TypeDoc.Application();
         });
-        it('expands input files', function() {
+        it('expands input directory', function() {
             var inputFiles = Path.join(__dirname, 'converter', 'class');
             var expanded = application.expandInputFiles([inputFiles]);
 
             Assert.notEqual(expanded.indexOf(Path.join(inputFiles, 'class.ts')), -1);
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
-        it('honors the exclude argument even on a fixed file list', function() {
+        it('expands input files', function() {
+            var inputFiles = Path.join(__dirname, 'converter', 'class', 'class.ts');
+            var expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.notEqual(expanded.indexOf(inputFiles), -1);
+        });
+        it('honors the exclude argument even on a fixed directory list', function() {
             var inputFiles = Path.join(__dirname, 'converter', 'class');
             application.options.setValue('exclude', '**/class.ts');
             var expanded = application.expandInputFiles([inputFiles]);
 
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'class.ts')), -1);
+            Assert.equal(expanded.indexOf(inputFiles), -1);
+        });
+        it('honors the exclude argument even on a fixed file list', function() {
+            var inputFiles = Path.join(__dirname, 'converter', 'class', 'class.ts');
+            application.options.setValue('exclude', '**/class.ts');
+            var expanded = application.expandInputFiles([inputFiles]);
+
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
         it('supports multiple excludes', function() {
