@@ -64,7 +64,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25,
+                  "line": 23,
                   "character": 36
                 }
               ]
@@ -84,7 +84,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 20,
+                  "line": 18,
                   "character": 27
                 }
               ],
@@ -109,7 +109,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 15,
+                  "line": 13,
                   "character": 25
                 }
               ],
@@ -133,7 +133,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25,
+                  "line": 23,
                   "character": 25
                 }
               ],
@@ -171,7 +171,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 46,
+                  "line": 44,
                   "character": 25
                 }
               ]
@@ -204,7 +204,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 41,
+                  "line": 39,
                   "character": 29
                 }
               ]
@@ -237,7 +237,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 36,
+                  "line": 34,
                   "character": 23
                 }
               ]
@@ -270,7 +270,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 51,
+                  "line": 49,
                   "character": 23
                 }
               ]
@@ -307,7 +307,7 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 10,
+              "line": 8,
               "character": 22
             }
           ],
@@ -422,7 +422,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 65,
+                  "line": 63,
                   "character": 34
                 }
               ],
@@ -448,7 +448,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75,
+                  "line": 73,
                   "character": 30
                 }
               ],
@@ -473,7 +473,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75,
+                  "line": 73,
                   "character": 49
                 }
               ],
@@ -498,7 +498,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 75,
+                  "line": 73,
                   "character": 68
                 }
               ],
@@ -522,7 +522,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 15,
+                  "line": 13,
                   "character": 25
                 }
               ],
@@ -551,7 +551,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 25,
+                  "line": 23,
                   "character": 25
                 }
               ],
@@ -599,7 +599,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 65,
+                  "line": 63,
                   "character": 29
                 }
               ],
@@ -642,7 +642,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 60,
+                  "line": 58,
                   "character": 23
                 }
               ],
@@ -685,7 +685,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 51,
+                  "line": 49,
                   "character": 23
                 }
               ],
@@ -728,7 +728,7 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 55,
+              "line": 53,
               "character": 25
             }
           ],

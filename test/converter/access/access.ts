@@ -1,5 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
 /**
  * A variable that is made private via comment.
  * @private

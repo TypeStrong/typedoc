@@ -40,8 +40,9 @@ export class TocPlugin extends RendererComponent
             model = model.parent;
         }
 
+        var tocRestriction = this.owner.toc;
         page.toc = new NavigationItem();
-        TocPlugin.buildToc(model, trail, page.toc);
+        TocPlugin.buildToc(model, trail, page.toc, tocRestriction);
     }
 
 
@@ -51,8 +52,9 @@ export class TocPlugin extends RendererComponent
      * @param model   The models whose children should be written to the toc.
      * @param trail   Defines the active trail of expanded toc entries.
      * @param parent  The parent [[NavigationItem]] the toc should be appended to.
+     * @param restriction  The restricted table of contents.
      */
-    static buildToc(model:Reflection, trail:Reflection[], parent:NavigationItem) {
+    static buildToc(model:Reflection, trail:Reflection[], parent:NavigationItem, restriction?: string[]) {
         var index = trail.indexOf(model);
         var children = model['children'] || [];
 
@@ -64,6 +66,9 @@ export class TocPlugin extends RendererComponent
             TocPlugin.buildToc(child, trail, item);
         } else {
             children.forEach((child:DeclarationReflection) => {
+
+                if (restriction && restriction.length > 0 && restriction.indexOf(child.name) === -1) return;
+
                 if (child.kindOf(ReflectionKind.SomeModule)) {
                     return;
                 }

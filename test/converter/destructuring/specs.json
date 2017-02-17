@@ -23,7 +23,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 13,
+              "line": 10,
               "character": 19
             }
           ],
@@ -41,7 +41,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 13,
+              "line": 10,
               "character": 35
             }
           ],
@@ -59,7 +59,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 13,
+              "line": 10,
               "character": 51
             }
           ],
@@ -78,7 +78,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 23,
+              "line": 20,
               "character": 30
             }
           ],
@@ -96,7 +96,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 23,
+              "line": 20,
               "character": 65
             }
           ],
@@ -120,7 +120,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 18,
+              "line": 15,
               "character": 77
             }
           ],
@@ -144,7 +144,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 18,
+              "line": 15,
               "character": 27
             }
           ],
@@ -162,7 +162,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 18,
+              "line": 15,
               "character": 51
             }
           ],
@@ -180,7 +180,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 7,
+              "line": 4,
               "character": 20
             }
           ],
@@ -198,7 +198,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 7,
+              "line": 4,
               "character": 37
             }
           ],
@@ -216,7 +216,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 7,
+              "line": 4,
               "character": 54
             }
           ],
@@ -267,7 +267,7 @@
                           "sources": [
                             {
                               "fileName": "destructuring.ts",
-                              "line": 28,
+                              "line": 25,
                               "character": 60
                             }
                           ],
@@ -286,7 +286,7 @@
                           "sources": [
                             {
                               "fileName": "destructuring.ts",
-                              "line": 28,
+                              "line": 25,
                               "character": 45
                             }
                           ],
@@ -314,7 +314,7 @@
                           "sources": [
                             {
                               "fileName": "destructuring.ts",
-                              "line": 28,
+                              "line": 25,
                               "character": 23
                             }
                           ],
@@ -339,7 +339,7 @@
                       "sources": [
                         {
                           "fileName": "destructuring.ts",
-                          "line": 28,
+                          "line": 25,
                           "character": 18
                         }
                       ]
@@ -356,7 +356,7 @@
           "sources": [
             {
               "fileName": "destructuring.ts",
-              "line": 28,
+              "line": 25,
               "character": 17
             }
           ]

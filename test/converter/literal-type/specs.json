@@ -23,7 +23,7 @@
           "sources": [
             {
               "fileName": "literal-type.ts",
-              "line": 3,
+              "line": 1,
               "character": 15
             }
           ],
@@ -47,7 +47,7 @@
                   "sources": [
                     {
                       "fileName": "literal-type.ts",
-                      "line": 11,
+                      "line": 9,
                       "character": 10
                     }
                   ],
@@ -67,7 +67,7 @@
                   "sources": [
                     {
                       "fileName": "literal-type.ts",
-                      "line": 12,
+                      "line": 10,
                       "character": 10
                     }
                   ],
@@ -85,7 +85,7 @@
                   "sources": [
                     {
                       "fileName": "literal-type.ts",
-                      "line": 6,
+                      "line": 4,
                       "character": 10
                     }
                   ],
@@ -107,7 +107,7 @@
                           "sources": [
                             {
                               "fileName": "literal-type.ts",
-                              "line": 9,
+                              "line": 7,
                               "character": 14
                             }
                           ],
@@ -126,7 +126,7 @@
                           "sources": [
                             {
                               "fileName": "literal-type.ts",
-                              "line": 8,
+                              "line": 6,
                               "character": 14
                             }
                           ],
@@ -176,7 +176,7 @@
                                           "sources": [
                                             {
                                               "fileName": "literal-type.ts",
-                                              "line": 8,
+                                              "line": 6,
                                               "character": 29
                                             }
                                           ],
@@ -194,7 +194,7 @@
                                           "sources": [
                                             {
                                               "fileName": "literal-type.ts",
-                                              "line": 8,
+                                              "line": 6,
                                               "character": 39
                                             }
                                           ],
@@ -217,7 +217,7 @@
                                       "sources": [
                                         {
                                           "fileName": "literal-type.ts",
-                                          "line": 8,
+                                          "line": 6,
                                           "character": 27
                                         }
                                       ]
@@ -228,7 +228,7 @@
                               "sources": [
                                 {
                                   "fileName": "literal-type.ts",
-                                  "line": 8,
+                                  "line": 6,
                                   "character": 15
                                 }
                               ]
@@ -244,7 +244,7 @@
                           "sources": [
                             {
                               "fileName": "literal-type.ts",
-                              "line": 7,
+                              "line": 5,
                               "character": 14
                             }
                           ],
@@ -268,7 +268,7 @@
                       "sources": [
                         {
                           "fileName": "literal-type.ts",
-                          "line": 6,
+                          "line": 4,
                           "character": 11
                         }
                       ]
@@ -284,7 +284,7 @@
                   "sources": [
                     {
                       "fileName": "literal-type.ts",
-                      "line": 5,
+                      "line": 3,
                       "character": 10
                     }
                   ],
@@ -312,7 +312,7 @@
                       "sources": [
                         {
                           "fileName": "literal-type.ts",
-                          "line": 5,
+                          "line": 3,
                           "character": 11
                         }
                       ]
@@ -328,7 +328,7 @@
                   "sources": [
                     {
                       "fileName": "literal-type.ts",
-                      "line": 4,
+                      "line": 2,
                       "character": 10
                     }
                   ],
@@ -354,7 +354,7 @@
               "sources": [
                 {
                   "fileName": "literal-type.ts",
-                  "line": 3,
+                  "line": 1,
                   "character": 16
                 }
               ]

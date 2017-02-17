@@ -105,6 +105,13 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
     })
     entryPoint:string;    
 
+    @Option({
+        name: 'toc',
+        help: 'Specifies the top level table of contents.',
+        type: ParameterType.Array
+    })
+    toc:string[];
+
     /**
      * Create a new Renderer instance.
      *
