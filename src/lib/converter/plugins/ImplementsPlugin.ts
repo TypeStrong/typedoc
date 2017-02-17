@@ -38,6 +38,9 @@ export class ImplementsPlugin extends ConverterComponent
             }
 
             var classMember:DeclarationReflection;
+
+            if (!classReflection.children) return;
+
             for (var index = 0, count = classReflection.children.length; index < count; index++) {
                 var child = classReflection.children[index];
                 if (child.name != interfaceMember.name) continue;
