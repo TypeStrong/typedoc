@@ -62,6 +62,11 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
+    // if the node itself has its exported flag set, override isExported to true
+    if (node.flags & ReflectionFlag.Exported) {
+        isExported = true;
+    }
+
     if (!isExported && context.converter.excludeNotExported) {
         return null;
     }
