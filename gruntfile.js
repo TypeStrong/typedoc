@@ -32,7 +32,7 @@ module.exports = function(grunt)
         'string-replace': {
             version: {
                 files: {
-                    'lib/application.js': ['lib/application.js']
+                    'dist/lib/application.js': ['dist/lib/application.js']
                 },
                 options: {
                     replacements: [{
