@@ -107,9 +107,16 @@ export class OptionDeclaration
             case ParameterType.Map:
                 if (this.map !== 'object') {
                     var key = value ? (value + "").toLowerCase() : '';
-                    if (key in this.map) {
+                    let hasKey = false;
+                    if (this.map instanceof Map) {
+                        if (hasKey = this.map.has(key)) {
+                            value = this.map.get(key);
+                        }
+                    } else if (hasKey = key in this.map) {
                         value = this.map[key];
-                    } else if (errorCallback) {
+                    }
+                    
+                    if (!hasKey && errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);
                         } else {
