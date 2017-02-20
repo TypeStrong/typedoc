@@ -27,21 +27,21 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.ConstructorDeclaration):Reflection {
-        var parent = context.scope;
-        var hasBody = !!node.body;
-        var method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
+        const parent = context.scope;
+        const hasBody = !!node.body;
+        const method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
 
         if (node.parameters && node.parameters.length) {
-            var comment = method ? method.comment : createComment(node);
-            for (var parameter of node.parameters) {
+            const comment = method ? method.comment : createComment(node);
+            for (let parameter of node.parameters) {
                 this.addParameterProperty(context, parameter, comment);
             }
         }
 
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {
-                var name = 'new ' + parent.name;
-                var signature = createSignature(context, node, name, ReflectionKind.ConstructorSignature);
+                const name = 'new ' + parent.name;
+                const signature = createSignature(context, node, name, ReflectionKind.ConstructorSignature);
                 signature.type = new ReferenceType(parent.name, ReferenceType.SYMBOL_ID_RESOLVED, parent);
                 method.signatures = method.signatures || [];
                 method.signatures.push(signature);
@@ -62,21 +62,21 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      * @return The resulting reflection or NULL.
      */
     private addParameterProperty(context:Context, parameter:ts.ParameterDeclaration, comment:Comment) {
-        var modifiers = ts.getCombinedModifierFlags(parameter);
-        var visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
+        const modifiers = ts.getCombinedModifierFlags(parameter);
+        const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
         if (!visibility) return;
 
         const privateParameter = modifiers & ts.ModifierFlags.Private;
         if (privateParameter && context.converter.excludePrivate) return;
 
-        var property = createDeclaration(context, parameter, ReflectionKind.Property);
+        const property = createDeclaration(context, parameter, ReflectionKind.Property);
         if (!property) return;
 
         property.setFlag(ReflectionFlag.Static, false);
         property.type = this.owner.convertType(context, parameter.type, context.getTypeAtLocation(parameter));
 
         if (comment) {
-            var tag = comment.getTag('param', property.name);
+            const tag = comment.getTag('param', property.name);
             if (tag && tag.text) {
                 property.comment = new Comment(tag.text);
             }

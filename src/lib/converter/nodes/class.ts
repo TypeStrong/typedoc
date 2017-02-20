@@ -26,7 +26,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.ClassDeclaration):Reflection {
-        var reflection:DeclarationReflection;
+        let reflection:DeclarationReflection;
         if (context.isInherit && context.inheritParent == node) {
             reflection = <DeclarationReflection>context.scope;
         } else {
@@ -46,9 +46,9 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                 });
             }
 
-            var baseType = _ts.getClassExtendsHeritageClauseElement(node);
+            const baseType = _ts.getClassExtendsHeritageClauseElement(node);
             if (baseType) {
-                var type = context.getTypeAtLocation(baseType);
+                const type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
                     if (!reflection.extendedTypes) reflection.extendedTypes = [];
                     reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
@@ -61,7 +61,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                 }
             }
 
-            var implementedTypes = _ts.getClassImplementsHeritageClauseElements(node);
+            const implementedTypes = _ts.getClassImplementsHeritageClauseElements(node);
             if (implementedTypes) {
                 implementedTypes.forEach((implementedType) => {
                     if (!reflection.implementedTypes) {

@@ -28,14 +28,14 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.FunctionDeclaration|ts.MethodDeclaration):Reflection {
-        var scope   = context.scope;
-        var kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
-        var hasBody = !!node.body;
-        var method  = createDeclaration(context, <ts.Node>node, kind);
+        const scope   = context.scope;
+        const kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+        const hasBody = !!node.body;
+        const method  = createDeclaration(context, <ts.Node>node, kind);
 
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {
-                var signature = createSignature(context, <ts.SignatureDeclaration>node, method.name, ReflectionKind.CallSignature);
+                const signature = createSignature(context, <ts.SignatureDeclaration>node, method.name, ReflectionKind.CallSignature);
                 if (!method.signatures) method.signatures = [];
                 method.signatures.push(signature);
             } else {

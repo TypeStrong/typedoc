@@ -67,9 +67,9 @@ export class SourceDirectory
      * @returns A string representing this directory and all of its children.
      */
     toString(indent:string = '') {
-        var res = indent + this.name;
+        let res = indent + this.name;
 
-        for (var key in this.directories) {
+        for (let key in this.directories) {
             if (!this.directories.hasOwnProperty(key)) continue;
             res += '\n' + this.directories[key].toString(indent + '  ');
         }
@@ -89,7 +89,7 @@ export class SourceDirectory
      * files of this directory.
      */
     getAllReflections():Reflection[] {
-        var reflections:Reflection[] = [];
+        const reflections:Reflection[] = [];
         this.files.forEach((file) => {
             reflections.push.apply(reflections, file.reflections);
         });

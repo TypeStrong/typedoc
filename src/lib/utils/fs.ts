@@ -7,7 +7,7 @@ import * as FS from "fs";
 /**
  * List of known existent directories. Used to speed up [[directoryExists]].
  */
-var existingDirectories:ts.MapLike<boolean> = {};
+const existingDirectories:ts.MapLike<boolean> = {};
 
 
 /**
@@ -48,7 +48,7 @@ export function directoryExists(directoryPath: string): boolean {
  */
 export function ensureDirectoriesExist(directoryPath: string) {
     if (directoryPath.length > _ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
-        var parentDirectory = _ts.getDirectoryPath(directoryPath);
+        const parentDirectory = _ts.getDirectoryPath(directoryPath);
         ensureDirectoriesExist(parentDirectory);
         ts.sys.createDirectory(directoryPath);
     }
@@ -83,13 +83,13 @@ export function writeFile(fileName:string, data:string, writeByteOrderMark:boole
  */
 export function readFile(file:string):string
 {
-    var buffer = FS.readFileSync(file);
+    const buffer = FS.readFileSync(file);
     switch (buffer[0]) {
         case 0xFE:
             if (buffer[1] === 0xFF) {
-                var i = 0;
+                let i = 0;
                 while ((i + 1) < buffer.length) {
-                    var temp = buffer[i];
+                    const temp = buffer[i];
                     buffer[i] = buffer[i + 1];
                     buffer[i + 1] = temp;
                     i += 2;

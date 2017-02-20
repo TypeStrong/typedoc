@@ -25,7 +25,7 @@ export class IndexSignatureConverter extends ConverterNodeComponent<ts.Signature
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var scope = <DeclarationReflection>context.scope;
+        const scope = <DeclarationReflection>context.scope;
         if (scope instanceof DeclarationReflection) {
             scope.indexSignature = createSignature(context, node, '__index', ReflectionKind.IndexSignature);
         }

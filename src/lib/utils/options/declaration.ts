@@ -66,7 +66,7 @@ export class OptionDeclaration
 
 
     constructor(data:IOptionDeclaration) {
-        for (var key in data) {
+        for (let key in data) {
             this[key] = data[key];
         }
 
@@ -76,7 +76,7 @@ export class OptionDeclaration
 
 
     getNames():string[] {
-        var result = [this.name.toLowerCase()];
+        const result = [this.name.toLowerCase()];
 
         if (this.short) {
             result.push(this.short.toLowerCase());
@@ -106,7 +106,7 @@ export class OptionDeclaration
                 break;
             case ParameterType.Map:
                 if (this.map !== 'object') {
-                    var key = value ? (value + "").toLowerCase() : '';
+                    const key = value ? (value + "").toLowerCase() : '';
                     if (key in this.map) {
                         value = this.map[key];
                     } else if (errorCallback) {

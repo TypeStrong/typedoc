@@ -25,10 +25,10 @@ export class DeepCommentPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context:Context) {
-        var project = context.project;
-        var name:string;
-        for (var key in project.reflections) {
-            var reflection = project.reflections[key];
+        const project = context.project;
+        let name:string;
+        for (let key in project.reflections) {
+            const reflection = project.reflections[key];
             if (!reflection.comment) {
                 findDeepComment(reflection);
             }
@@ -36,7 +36,7 @@ export class DeepCommentPlugin extends ConverterComponent
 
 
         function push(parent:Reflection) {
-            var part = parent.originalName;
+            let part = parent.originalName;
             if (!part || part.substr(0, 2) == '__' || parent instanceof SignatureReflection) {
                 part = '';
             }
@@ -50,12 +50,12 @@ export class DeepCommentPlugin extends ConverterComponent
         function findDeepComment(reflection:Reflection) {
             name = '';
             push(reflection);
-            var target = reflection.parent;
+            let target = reflection.parent;
 
             while (target && !(target instanceof ProjectReflection)) {
                 push(target);
                 if (target.comment) {
-                    var tag:CommentTag;
+                    let tag:CommentTag;
                     if (reflection instanceof TypeParameterReflection) {
                         tag = target.comment.getTag('typeparam', reflection.name);
                         if (!tag) tag = target.comment.getTag('param', '<' + reflection.name + '>');

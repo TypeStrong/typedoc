@@ -59,7 +59,7 @@ export class RendererEvent extends Event
      * @returns A newly created [[PageEvent]] instance.
      */
     public createPageEvent(mapping:UrlMapping):PageEvent {
-        var event = new PageEvent(PageEvent.BEGIN);
+        const event = new PageEvent(PageEvent.BEGIN);
         event.project      = this.project;
         event.settings     = this.settings;
         event.url          = mapping.url;

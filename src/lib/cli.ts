@@ -55,7 +55,7 @@ export class CliApplication extends Application
      * Run TypeDoc from the command line.
      */
     protected bootstrap(options?:Object):IOptionsReadResult {
-        var result = super.bootstrap(options);
+        const result = super.bootstrap(options);
         if (result.hasErrors) {
             process.exit(ExitCode.OptionError);
             return;
@@ -72,8 +72,8 @@ export class CliApplication extends Application
             this.logger.error("You must either specify the 'out' or 'json' option.");
             process.exit(ExitCode.NoOutput);
         } else {
-            var src = this.expandInputFiles(result.inputFiles);
-            var project = this.convert(src);
+            const src = this.expandInputFiles(result.inputFiles);
+            const project = this.convert(src);
             if (project) {
                 if (this.out) this.generateDocs(project, this.out);
                 if (this.json) this.generateJson(project, this.json);

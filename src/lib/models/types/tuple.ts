@@ -5,7 +5,7 @@ import {Type} from "./abstract";
  * Represents a tuple type.
  *
  * ~~~
- * var value:[string,boolean];
+ * let value:[string,boolean];
  * ~~~
  */
 export class TupleType extends Type
@@ -33,7 +33,7 @@ export class TupleType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new TupleType(this.elements);
+        const clone = new TupleType(this.elements);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -56,7 +56,7 @@ export class TupleType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'tuple';
 
         if (this.elements && this.elements.length) {
@@ -71,7 +71,7 @@ export class TupleType extends Type
      * Return a string representation of this type.
      */
     toString() {
-        var names:string[] = [];
+        const names:string[] = [];
         this.elements.forEach((element) => {
             names.push(element.toString())
         });

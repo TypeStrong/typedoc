@@ -30,7 +30,7 @@ export function convertExpression(expression:ts.Expression):string
         case ts.SyntaxKind.FalseKeyword:
             return 'false';
         default:
-            var source = _ts.getSourceFileOfNode(<ts.Node>expression);
+            const source = _ts.getSourceFileOfNode(<ts.Node>expression);
             return source.text.substring(expression.pos, expression.end);
     }
 }

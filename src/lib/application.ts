@@ -113,7 +113,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     protected bootstrap(options?:Object):IOptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
-        var logger = this.loggerType;
+        const logger = this.loggerType;
         if (typeof logger == 'function') {
             this.logger = new CallbackLogger(<any>logger);
         } else if (logger == 'none') {
@@ -147,8 +147,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
 
     public getTypeScriptVersion():string {
-        var tsPath = this.getTypeScriptPath();
-        var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
+        const tsPath = this.getTypeScriptPath();
+        const json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
         return json.version;
     }
 
@@ -162,7 +162,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     public convert(src:string[]):ProjectReflection {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
-        var result = this.converter.convert(src);
+        const result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
             this.logger.diagnostics(result.errors);
             if (this.ignoreCompilerErrors) {
@@ -194,7 +194,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
     public generateDocs(input:any, out:string):boolean {
-        var project = input instanceof ProjectReflection ? input : this.convert(input);
+        const project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) return false;
 
         out = Path.resolve(out);
@@ -226,7 +226,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
     public generateJson(input:any, out:string):boolean {
-        var project = input instanceof ProjectReflection ? input : this.convert(input);
+        const project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) return false;
 
         out = Path.resolve(out);
@@ -248,14 +248,14 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles?:string[]):string[] {
-        var exclude:IMinimatch, files:string[] = [];
+        let exclude:IMinimatch, files:string[] = [];
         if (this.exclude) {
             exclude = new Minimatch(this.exclude);
         }
 
         function add(dirname:string) {
             FS.readdirSync(dirname).forEach((file) => {
-                var realpath = Path.join(dirname, file);
+                const realpath = Path.join(dirname, file);
                 if (FS.statSync(realpath).isDirectory()) {
                     add(realpath);
                 } else if (/\.tsx?$/.test(realpath)) {

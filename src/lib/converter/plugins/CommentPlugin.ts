@@ -68,10 +68,10 @@ export class CommentPlugin extends ConverterComponent
 
 
     private storeModuleComment(comment:string, reflection:Reflection) {
-        var isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
+        const isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
 
         if (this.comments[reflection.id]) {
-            var info = this.comments[reflection.id];
+            const info = this.comments[reflection.id];
             if (!isPreferred && (info.isPreferred || info.fullText.length > comment.length)) {
                 return;
             }
@@ -141,9 +141,9 @@ export class CommentPlugin extends ConverterComponent
      * @param node  The node that is currently processed if available.
      */
     private onCreateTypeParameter(context:Context, reflection:TypeParameterReflection, node?:ts.Node) {
-        var comment = reflection.parent.comment;
+        const comment = reflection.parent.comment;
         if (comment) {
-            var tag = comment.getTag('typeparam', reflection.name);
+            let tag = comment.getTag('typeparam', reflection.name);
             if (!tag) tag = comment.getTag('param', '<' + reflection.name + '>');
             if (!tag) tag = comment.getTag('param', reflection.name);
 
@@ -166,16 +166,16 @@ export class CommentPlugin extends ConverterComponent
      */
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
-        var rawComment = getRawComment(node);
+        const rawComment = getRawComment(node);
         if (!rawComment) return;
 
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
-            var comment = parseComment(rawComment, reflection.comment);
+            const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
-            var comment = parseComment(rawComment, reflection.comment);
+            const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             reflection.comment = comment;
         }
@@ -192,7 +192,7 @@ export class CommentPlugin extends ConverterComponent
     private onFunctionImplementation(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
 
-        var comment = getRawComment(node);
+        const comment = getRawComment(node);
         if (comment) {
             reflection.comment = parseComment(comment, reflection.comment);
         }
@@ -205,11 +205,11 @@ export class CommentPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context:Context) {
-        for (var id in this.comments) {
+        for (let id in this.comments) {
             if (!this.comments.hasOwnProperty(id)) continue;
 
-            var info    = this.comments[id];
-            var comment = parseComment(info.fullText);
+            const info    = this.comments[id];
+            const comment = parseComment(info.fullText);
             CommentPlugin.removeTags(comment, 'preferred');
 
             this.applyModifiers(info.reflection, comment);
@@ -217,7 +217,7 @@ export class CommentPlugin extends ConverterComponent
         }
 
         if (this.hidden) {
-            var project = context.project;
+            const project = context.project;
             this.hidden.forEach((reflection) => {
                 CommentPlugin.removeReflection(project, reflection);
             });
@@ -240,16 +240,16 @@ export class CommentPlugin extends ConverterComponent
     private onResolve(context:Context, reflection:DeclarationReflection) {
         if (!(reflection instanceof DeclarationReflection)) return;
 
-        var signatures = reflection.getAllSignatures();
+        const signatures = reflection.getAllSignatures();
         if (signatures.length) {
-            var comment = reflection.comment;
+            const comment = reflection.comment;
             if (comment && comment.hasTag('returns')) {
                 comment.returns = comment.getTag('returns').text;
                 CommentPlugin.removeTags(comment, 'returns');
             }
 
             signatures.forEach((signature) => {
-                var childComment = signature.comment;
+                let childComment = signature.comment;
                 if (childComment && childComment.hasTag('returns')) {
                     childComment.returns = childComment.getTag('returns').text;
                     CommentPlugin.removeTags(childComment, 'returns');
@@ -267,7 +267,7 @@ export class CommentPlugin extends ConverterComponent
 
                 if (signature.parameters) {
                     signature.parameters.forEach((parameter) => {
-                        var tag:CommentTag;
+                        let tag:CommentTag;
                         if (childComment)    tag = childComment.getTag('param', parameter.name);
                         if (comment && !tag) tag = comment.getTag('param', parameter.name);
                         if (tag) {
@@ -293,7 +293,7 @@ export class CommentPlugin extends ConverterComponent
     static removeTags(comment:Comment, tagName:string) {
         if (!comment || !comment.tags) return;
 
-        var i = 0, c = comment.tags.length;
+        let i = 0, c = comment.tags.length;
         while (i < c) {
             if (comment.tags[i].tagName == tagName) {
                 comment.tags.splice(i, 1);
@@ -311,13 +311,13 @@ export class CommentPlugin extends ConverterComponent
     static removeReflection(project:ProjectReflection, reflection:Reflection) {
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
 
-        var parent = <DeclarationReflection>reflection.parent;
+        const parent = <DeclarationReflection>reflection.parent;
         parent.traverse((child:Reflection, property:TraverseProperty) => {
             if (child == reflection) {
                 switch (property) {
                     case TraverseProperty.Children:
                         if (parent.children) {
-                            var index = parent.children.indexOf(<DeclarationReflection>reflection);
+                            const index = parent.children.indexOf(<DeclarationReflection>reflection);
                             if (index != -1) parent.children.splice(index, 1);
                         }
                         break;
@@ -329,7 +329,7 @@ export class CommentPlugin extends ConverterComponent
                         break;
                     case TraverseProperty.Parameters:
                         if ((<SignatureReflection>reflection.parent).parameters) {
-                            var index = (<SignatureReflection>reflection.parent).parameters.indexOf(<ParameterReflection>reflection);
+                            const index = (<SignatureReflection>reflection.parent).parameters.indexOf(<ParameterReflection>reflection);
                             if (index != -1) (<SignatureReflection>reflection.parent).parameters.splice(index, 1);
                         }
                         break;
@@ -338,7 +338,7 @@ export class CommentPlugin extends ConverterComponent
                         break;
                     case TraverseProperty.Signatures:
                         if (parent.signatures) {
-                            var index = parent.signatures.indexOf(<SignatureReflection>reflection);
+                            const index = parent.signatures.indexOf(<SignatureReflection>reflection);
                             if (index != -1) parent.signatures.splice(index, 1);
                         }
                         break;
@@ -347,7 +347,7 @@ export class CommentPlugin extends ConverterComponent
                         break;
                     case TraverseProperty.TypeParameter:
                         if (parent.typeParameters) {
-                            var index = parent.typeParameters.indexOf(<TypeParameterReflection>reflection);
+                            const index = parent.typeParameters.indexOf(<TypeParameterReflection>reflection);
                             if (index != -1) parent.typeParameters.splice(index, 1);
                         }
                         break;
@@ -355,10 +355,10 @@ export class CommentPlugin extends ConverterComponent
             }
         });
 
-        var id = reflection.id;
+        let id = reflection.id;
         delete project.reflections[id];
 
-        for (var key in project.symbolMapping) {
+        for (let key in project.symbolMapping) {
             if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] == id) {
                 delete project.symbolMapping[key];
             }

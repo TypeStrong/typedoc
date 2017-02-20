@@ -24,9 +24,9 @@ export class ContainerReflection extends Reflection
      * @returns     An array containing all children with the desired kind.
      */
     getChildrenByKind(kind:ReflectionKind):DeclarationReflection[] {
-        var values:DeclarationReflection[] = [];
-        for (var key in this.children) {
-            var child = this.children[key];
+        const values:DeclarationReflection[] = [];
+        for (let key in this.children) {
+            const child = this.children[key];
             if (child.kindOf(kind)) {
                 values.push(child);
             }
@@ -56,10 +56,10 @@ export class ContainerReflection extends Reflection
      * Return a raw object representation of this reflection.
      */
     toObject():any {
-        var result = super.toObject();
+        const result = super.toObject();
 
         if (this.groups) {
-            var groups:any[] = [];
+            const groups:any[] = [];
             this.groups.forEach((group) => {
                 groups.push(group.toObject())
             });
@@ -68,7 +68,7 @@ export class ContainerReflection extends Reflection
         }
 
         if (this.sources) {
-          var sources:any[] = [];
+          const sources:any[] = [];
           this.sources.forEach((source) => {
               sources.push({
                 fileName: source.fileName,

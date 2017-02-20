@@ -24,7 +24,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 10,
-              "character": 19
+              "character": 21
             }
           ],
           "type": {
@@ -42,7 +42,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 10,
-              "character": 35
+              "character": 37
             }
           ],
           "type": {
@@ -60,12 +60,21 @@
             {
               "fileName": "destructuring.ts",
               "line": 10,
-              "character": 51
+              "character": 53
             }
           ],
           "type": {
-            "type": "instrinct",
-            "name": "number"
+            "type": "union",
+            "types": [
+              {
+                "type": "unknown",
+                "name": "0"
+              },
+              {
+                "type": "unknown",
+                "name": "10"
+              }
+            ]
           },
           "defaultValue": "10"
         },
@@ -79,7 +88,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 20,
-              "character": 30
+              "character": 32
             }
           ],
           "type": {
@@ -97,7 +106,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 20,
-              "character": 65
+              "character": 67
             }
           ],
           "type": {
@@ -121,7 +130,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 15,
-              "character": 77
+              "character": 79
             }
           ],
           "type": {
@@ -145,7 +154,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 15,
-              "character": 27
+              "character": 29
             }
           ],
           "type": {
@@ -163,7 +172,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 15,
-              "character": 51
+              "character": 53
             }
           ],
           "type": {
@@ -181,7 +190,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 20
+              "character": 22
             }
           ],
           "type": {
@@ -199,7 +208,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 37
+              "character": 39
             }
           ],
           "type": {
@@ -217,7 +226,7 @@
             {
               "fileName": "destructuring.ts",
               "line": 4,
-              "character": 54
+              "character": 56
             }
           ],
           "type": {

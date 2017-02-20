@@ -10,7 +10,7 @@
 import * as Path from "path";
 import * as FS from "fs-extra";
 import * as Handlebars from "handlebars";
-var ProgressBar = require("progress");
+const ProgressBar = require("progress");
 
 import {Application} from "../application";
 import {Theme} from "./theme";
@@ -132,13 +132,13 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             return;
         }
 
-        var output = new RendererEvent(RendererEvent.BEGIN);
+        const output = new RendererEvent(RendererEvent.BEGIN);
         output.outputDirectory = outputDirectory;
         output.project = project;
         output.settings = this.application.options.getRawValues();
         output.urls = this.theme.getUrls(project);
 
-        var bar = new ProgressBar('Rendering [:bar] :percent', {
+        const bar = new ProgressBar('Rendering [:bar] :percent', {
             total: output.urls.length,
             width: 40
         });
@@ -196,8 +196,8 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      */
     private prepareTheme():boolean {
         if (!this.theme) {
-            var themeName = this.themeName;
-            var path = Path.resolve(themeName);
+            const themeName = this.themeName;
+            let path = Path.resolve(themeName);
             if (!FS.existsSync(path)) {
                 path = Path.join(Renderer.getThemeDirectory(), themeName);
                 if (!FS.existsSync(path)) {

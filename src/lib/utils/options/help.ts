@@ -19,20 +19,20 @@ export interface IParameterHelp {
  * @returns The columns and lines for the help of the requested parameters.
  */
 function getParameterHelp(options:Options, scope:ParameterScope):IParameterHelp {
-    var parameters = options.getDeclarationsByScope(scope);
+    const parameters = options.getDeclarationsByScope(scope);
     parameters.sort((a, b) => {
         return _ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
     });
 
-    var names:string[] = [];
-    var helps:string[] = [];
-    var margin = 0;
+    const names:string[] = [];
+    const helps:string[] = [];
+    let margin = 0;
 
-    for (var i = 0; i < parameters.length; i++) {
-        var parameter = parameters[i];
+    for (let i = 0; i < parameters.length; i++) {
+        const parameter = parameters[i];
         if (!parameter.help) continue;
 
-        var name = " ";
+        let name = " ";
         if (parameter.short) {
             name += "-" + parameter.short;
             if (typeof parameter.hint != 'undefined') {
@@ -59,11 +59,11 @@ function getParameterHelp(options:Options, scope:ParameterScope):IParameterHelp 
  * Taken from TypeScript (src/compiler/tsc.ts)
  */
 export function getOptionsHelp(options:Options):string {
-    var typeDoc = getParameterHelp(options, ParameterScope.TypeDoc);
-    var typeScript = getParameterHelp(options, ParameterScope.TypeScript);
-    var margin = Math.max(typeDoc.margin, typeScript.margin);
+    const typeDoc = getParameterHelp(options, ParameterScope.TypeDoc);
+    const typeScript = getParameterHelp(options, ParameterScope.TypeScript);
+    const margin = Math.max(typeDoc.margin, typeScript.margin);
 
-    var output:string[] = [];
+    const output:string[] = [];
     output.push('Usage:');
     output.push(' typedoc --mode modules --out path/to/documentation path/to/sourcefiles');
 
@@ -77,9 +77,9 @@ export function getOptionsHelp(options:Options):string {
     return output.join(ts.sys.newLine);
 
     function pushHelp(columns:IParameterHelp) {
-        for (var i = 0; i < columns.names.length; i++) {
-            var usage = columns.names[i];
-            var description = columns.helps[i];
+        for (let i = 0; i < columns.names.length; i++) {
+            const usage = columns.names[i];
+            const description = columns.helps[i];
             output.push(usage + padding(margin - usage.length + 2) + description);
         }
     }

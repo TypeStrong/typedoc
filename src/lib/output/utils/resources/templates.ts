@@ -11,7 +11,7 @@ export class Template extends Resource
 
     getTemplate():HandlebarsTemplateDelegate {
         if (!this.template) {
-            var raw = readFile(this.fileName);
+            const raw = readFile(this.fileName);
             this.template = Handlebars.compile(raw, {
                 preventIndent: true
             });
@@ -22,7 +22,7 @@ export class Template extends Resource
 
 
     render(context:any, options?:any):string {
-        var template = this.getTemplate();
+        const template = this.getTemplate();
         return template(context, options);
     }
 }
@@ -43,14 +43,14 @@ export class PartialStack extends TemplateStack
 
     activate():boolean {
         if (!super.activate()) return false;
-        var resources = this.getAllResources();
+        const resources = this.getAllResources();
 
-        for (var name in resources) {
+        for (let name in resources) {
             if (this.registeredNames.indexOf(name) !== -1) continue;
             this.registeredNames.push(name);
 
-            var partial = resources[name];
-            var template = partial.getTemplate();
+            const partial = resources[name];
+            const template = partial.getTemplate();
             Handlebars.registerPartial(name, template);
         }
 
@@ -61,7 +61,7 @@ export class PartialStack extends TemplateStack
     deactivate():boolean {
         if (!super.deactivate()) return false;
 
-        for (var name of this.registeredNames) {
+        for (let name of this.registeredNames) {
             Handlebars.unregisterPartial(name);
         }
 

@@ -13,14 +13,14 @@ import {Converter} from "../converter";
  * @returns The newly created type parameter reflection.
  */
 export function createTypeParameter(context:Context, node:ts.TypeParameterDeclaration):TypeParameterType {
-    var typeParameter = new TypeParameterType();
+    const typeParameter = new TypeParameterType();
     typeParameter.name = node.symbol.name;
     if (node.constraint) {
         typeParameter.constraint = context.converter.convertType(context, node.constraint);
     }
 
-    var reflection = <ITypeParameterContainer>context.scope;
-    var typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
+    const reflection = <ITypeParameterContainer>context.scope;
+    const typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
 
     if (!reflection.typeParameters) reflection.typeParameters = [];
     reflection.typeParameters.push(typeParameterReflection);

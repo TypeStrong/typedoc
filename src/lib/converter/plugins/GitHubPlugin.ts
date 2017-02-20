@@ -58,11 +58,11 @@ class Repository
         this.path = path;
         ShellJS.pushd(path);
 
-        var out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-remote --get-url', {silent:true});
+        let out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-remote --get-url', {silent:true});
         if (out.code == 0) {
-            var url:RegExpExecArray;
-            var remotes = out.stdout.split('\n');
-            for (var i = 0, c = remotes.length; i < c; i++) {
+            let url:RegExpExecArray;
+            const remotes = out.stdout.split('\n');
+            for (let i = 0, c = remotes.length; i < c; i++) {
                 url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
                 if (url) {
                     this.gitHubUser = url[1];
@@ -137,7 +137,7 @@ class Repository
      */
     static tryCreateRepository(path:string):Repository {
         ShellJS.pushd(path);
-        var out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --show-toplevel', {silent:true});
+        const out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --show-toplevel', {silent:true});
         ShellJS.popd();
 
         if (out.code != 0) return null;
@@ -185,15 +185,15 @@ export class GitHubPlugin extends ConverterComponent
      */
     private getRepository(fileName:string):Repository {
         // Check for known non-repositories
-        var dirName = Path.dirname(fileName);
-        for (var i = 0, c = this.ignoredPaths.length; i < c; i++) {
+        const dirName = Path.dirname(fileName);
+        for (let i = 0, c = this.ignoredPaths.length; i < c; i++) {
             if (this.ignoredPaths[i] == dirName) {
                 return null;
             }
         }
 
         // Check for known repositories
-        for (var path in this.repositories) {
+        for (let path in this.repositories) {
             if (!this.repositories.hasOwnProperty(path)) continue;
             if (fileName.substr(0, path.length) == path) {
                 return this.repositories[path];
@@ -201,15 +201,15 @@ export class GitHubPlugin extends ConverterComponent
         }
 
         // Try to create a new repository
-        var repository = Repository.tryCreateRepository(dirName);
+        const repository = Repository.tryCreateRepository(dirName);
         if (repository) {
             this.repositories[repository.path] = repository;
             return repository;
         }
 
         // No repository found, add path to ignored paths
-        var segments = dirName.split('/');
-        for (var i:number = segments.length; i > 0; i--) {
+        const segments = dirName.split('/');
+        for (let i:number = segments.length; i > 0; i--) {
             this.ignoredPaths.push(segments.slice(0, i).join('/'));
         }
 
@@ -223,16 +223,16 @@ export class GitHubPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context:Context) {
-        var project = context.project;
+        const project = context.project;
         project.files.forEach((sourceFile) => {
-            var repository = this.getRepository(sourceFile.fullFileName);
+            const repository = this.getRepository(sourceFile.fullFileName);
             if (repository) {
                 sourceFile.url = repository.getGitHubURL(sourceFile.fullFileName);
             }
         });
 
-        for (var key in project.reflections) {
-            var reflection = project.reflections[key];
+        for (let key in project.reflections) {
+            const reflection = project.reflections[key];
             if (reflection.sources) reflection.sources.forEach((source:ISourceReference) => {
                 if (source.file && source.file.url) {
                     source.url = source.file.url + '#L' + source.line;

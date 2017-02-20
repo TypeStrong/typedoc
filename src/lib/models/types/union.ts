@@ -5,7 +5,7 @@ import {Type} from "./abstract";
  * Represents an union type.
  *
  * ~~~
- * var value:string | string[];
+ * let value:string | string[];
  * ~~~
  */
 export class UnionType extends Type
@@ -33,7 +33,7 @@ export class UnionType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new UnionType(this.types);
+        const clone = new UnionType(this.types);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -56,7 +56,7 @@ export class UnionType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'union';
 
         if (this.types && this.types.length) {
@@ -71,7 +71,7 @@ export class UnionType extends Type
      * Return a string representation of this type.
      */
     toString() {
-        var names:string[] = [];
+        const names:string[] = [];
         this.types.forEach((element) => {
             names.push(element.toString())
         });

@@ -21,13 +21,13 @@ export class BasePath
      * @param fileName  The absolute filename that should be added to the base path.
      */
     add(fileName:string) {
-        var fileDir  = Path.dirname(BasePath.normalize(fileName));
-        var filePath = fileDir.split('/');
+        const fileDir  = Path.dirname(BasePath.normalize(fileName));
+        const filePath = fileDir.split('/');
 
-        basePaths: for (var n = 0, c = this.basePaths.length; n < c; n++) {
-            var basePath = this.basePaths[n].split('/');
-            var mMax     = Math.min(basePath.length, filePath.length);
-            for (var m = 0; m < mMax; m++) {
+        basePaths: for (let n = 0, c = this.basePaths.length; n < c; n++) {
+            const basePath = this.basePaths[n].split('/');
+            const mMax     = Math.min(basePath.length, filePath.length);
+            for (let m = 0; m < mMax; m++) {
                 if (basePath[m] == filePath[m]) {
                     continue;
                 }
@@ -62,8 +62,8 @@ export class BasePath
      */
     trim(fileName:string):string {
         fileName = BasePath.normalize(fileName);
-        for (var n = 0, c = this.basePaths.length; n < c; n++) {
-            var basePath = this.basePaths[n];
+        for (let n = 0, c = this.basePaths.length; n < c; n++) {
+            const basePath = this.basePaths[n];
             if (fileName.substr(0, basePath.length) == basePath) {
                 return fileName.substr(basePath.length + 1);
             }

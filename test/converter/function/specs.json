@@ -431,7 +431,7 @@
                   "kindString": "Parameter",
                   "flags": {},
                   "comment": {
-                    "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  var value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
+                    "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
                   },
                   "type": {
                     "type": "reference",
@@ -721,7 +721,7 @@
             {
               "fileName": "function.ts",
               "line": 41,
-              "character": 27
+              "character": 29
             }
           ]
         }

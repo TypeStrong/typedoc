@@ -5,7 +5,7 @@ import {Type} from "./abstract";
  * Represents an intrinsic type like `string` or `boolean`.
  *
  * ~~~
- * var value:number;
+ * let value:number;
  * ~~~
  */
 export class IntrinsicType extends Type
@@ -34,7 +34,7 @@ export class IntrinsicType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new IntrinsicType(this.name);
+        const clone = new IntrinsicType(this.name);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -57,7 +57,7 @@ export class IntrinsicType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'instrinct';
         result.name = this.name;
         return result;

@@ -1,6 +1,6 @@
 export interface IBreakpointRange { start: number; end: number }
 
-var _breakpoints: {
+let _breakpoints: {
     small: IBreakpointRange;
     medium: IBreakpointRange;
     large: IBreakpointRange;
@@ -10,11 +10,11 @@ var _breakpoints: {
 
 export function getBreakpoints() {
     if (!_breakpoints) {
-        var small = 64;
-        var medium = 128;
-        var large = 256;
-        var xlarge = 512;
-        var xxlarge = 1024;
+        const small = 64;
+        const medium = 128;
+        const large = 256;
+        const xlarge = 512;
+        const xxlarge = 1024;
 
         _breakpoints = {
             small: { start: small, end: medium },

@@ -34,7 +34,7 @@ export class TypedocReader extends OptionsComponent
         if (TypedocReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TypedocReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
-            var file = Path.resolve('typedoc.js');
+            const file = Path.resolve('typedoc.js');
             if (FS.existsSync(file)) {
                 this.load(event, file);
             }
@@ -56,7 +56,7 @@ export class TypedocReader extends OptionsComponent
             return;
         }
 
-        var data = require(optionFile);
+        let data = require(optionFile);
         if (typeof data == 'function') {
             data = data(this.application);
         }

@@ -11,7 +11,7 @@ export class Helper extends Resource
 
     getHelpers():any {
         if (!this.helpers) {
-            var file = require(this.fileName);
+            const file = require(this.fileName);
 
             if (typeof file === 'object') {
                 this.helpers = file;
@@ -40,12 +40,12 @@ export class HelperStack extends ResourceStack<Helper>
 
     activate():boolean {
         if (!super.activate()) return false;
-        var resources = this.getAllResources();
+        const resources = this.getAllResources();
 
-        for (var resourceName in resources) {
-            var helpers = resources[resourceName].getHelpers();
+        for (let resourceName in resources) {
+            const helpers = resources[resourceName].getHelpers();
 
-            for (var name in helpers) {
+            for (let name in helpers) {
                 if (this.registeredNames.indexOf(name) !== -1) continue;
                 this.registeredNames.push(name);
 
@@ -60,7 +60,7 @@ export class HelperStack extends ResourceStack<Helper>
     deactivate():boolean {
         if (!super.activate()) return false;
 
-        for (var name of this.registeredNames) {
+        for (let name of this.registeredNames) {
             Handlebars.unregisterHelper(name);
         }
 

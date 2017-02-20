@@ -47,7 +47,7 @@ export class NavigationPlugin extends RendererComponent
      * @param page  An event object describing the current render operation.
      */
     private onBeginPage(page:PageEvent) {
-        var currentItems:NavigationItem[] = [];
+        const currentItems:NavigationItem[] = [];
         (function updateItem(item:NavigationItem) {
             item.isCurrent = false;
             item.isInPath  = false;
@@ -65,8 +65,8 @@ export class NavigationPlugin extends RendererComponent
         currentItems.forEach((item:NavigationItem) => {
             item.isCurrent = true;
 
-            var depth = item.isGlobals ? -1 : 0;
-            var count = 1;
+            let depth = item.isGlobals ? -1 : 0;
+            let count = 1;
             while (item) {
                 item.isInPath  = true;
                 item.isVisible = true;

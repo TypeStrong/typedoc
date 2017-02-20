@@ -42,7 +42,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      *
      * ```
      * class SomeClass { }
-     * var someValue:SomeClass;
+     * let someValue:SomeClass;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -57,7 +57,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
             return this.convertLiteral(context, type.symbol, node);
         }
 
-        var result = createReferenceType(context, type.symbol);
+        const result = createReferenceType(context, type.symbol);
         if (node.typeArguments) {
             result.typeArguments = node.typeArguments.map((n) => this.owner.convertType(context, n));
         }
@@ -73,7 +73,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      *
      * ```
      * class SomeClass { }
-     * var someValue:SomeClass;
+     * let someValue:SomeClass;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -87,7 +87,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
             return this.convertLiteral(context, type.symbol);
         }
 
-        var result = createReferenceType(context, type.symbol);
+        const result = createReferenceType(context, type.symbol);
         if (type.typeArguments) {
             result.typeArguments = type.typeArguments.map((t) => this.owner.convertType(context, null, t));
         }
@@ -104,7 +104,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
      *
      * A type literal is explicitly set:
      * ```
-     * var someValue:{a:string; b:number;};
+     * let someValue:{a:string; b:number;};
      * ```
      *
      * An object literal types are usually reflected by the TypeScript compiler:
@@ -130,7 +130,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
             }
         }
 
-        var declaration = new DeclarationReflection();
+        const declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
         declaration.parent = context.scope;

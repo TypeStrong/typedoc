@@ -27,11 +27,11 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.EnumDeclaration):Reflection {
-        var enumeration = createDeclaration(context, node, ReflectionKind.Enum);
+        const enumeration = createDeclaration(context, node, ReflectionKind.Enum);
 
         context.withScope(enumeration, () => {
             if (node.members) {
-                for (var member of node.members) {
+                for (let member of node.members) {
                     this.convertMember(context, member);
                 }
             }
@@ -49,7 +49,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
      * @return The resulting reflection or NULL.
      */
     private convertMember(context:Context, node:ts.EnumMember):Reflection {
-        var member = createDeclaration(context, node, ReflectionKind.EnumMember);
+        const member = createDeclaration(context, node, ReflectionKind.EnumMember);
         if (member) {
             member.defaultValue = convertDefaultValue(node);
         }

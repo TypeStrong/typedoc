@@ -55,7 +55,7 @@ export abstract class ContextAwareRendererComponent extends RendererComponent
      * @returns A path relative to the document currently processed.
      */
     public getRelativeUrl(absolute:string):string {
-        var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
+        const relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
         return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
     }
 

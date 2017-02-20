@@ -143,7 +143,7 @@ export class Logger
      * @param diagnostic  The TypeScript message that should be logged.
      */
     public diagnostic(diagnostic:ts.Diagnostic) {
-        var output:string;
+        let output:string;
         if (diagnostic.file) {
             output = diagnostic.file.fileName;
             output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
@@ -184,7 +184,7 @@ export class ConsoleLogger extends Logger
             this.errorCount += 1;
         }
 
-        var output = '';
+        let output = '';
         if (level == LogLevel.Error) output += 'Error: ';
         if (level == LogLevel.Warn) output += 'Warning: ';
         output += message;

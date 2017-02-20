@@ -72,9 +72,9 @@ export class ProjectReflection extends ContainerReflection
      * @returns     An array containing all reflections with the desired kind.
      */
     getReflectionsByKind(kind:ReflectionKind):Reflection[] {
-        var values:Reflection[] = [];
-        for (var id in this.reflections) {
-            var reflection = this.reflections[id];
+        const values:Reflection[] = [];
+        for (let id in this.reflections) {
+            const reflection = this.reflections[id];
             if (reflection.kindOf(kind)) {
                 values.push(reflection);
             }
@@ -100,15 +100,15 @@ export class ProjectReflection extends ContainerReflection
      * @return The found reflection or null.
      */
     findReflectionByName(arg:any):Reflection {
-        var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
-        var name = names.pop();
+        const names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const name = names.pop();
 
-        search: for (var key in this.reflections) {
-            var reflection = this.reflections[key];
+        search: for (let key in this.reflections) {
+            const reflection = this.reflections[key];
             if (reflection.name != name) continue;
 
-            var depth = names.length - 1;
-            var target = reflection;
+            let depth = names.length - 1;
+            let target = reflection;
             while (target && depth >= 0) {
                 target = target.parent;
                 if (target.name != names[depth]) continue search;

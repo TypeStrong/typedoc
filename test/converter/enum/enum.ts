@@ -50,7 +50,7 @@ export module ModuleEnum
     /**
      * This is a variable appended to an enumeration.
      */
-    var enumValue:string;
+    let enumValue:string;
 
 
     /**

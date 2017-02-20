@@ -69,7 +69,7 @@ export class PackagePlugin extends ConverterComponent
         this.packageFile = null;
         this.visited     = [];
 
-        var readme = this.readme;
+        let readme = this.readme;
         this.noReadmeFile = (readme == 'none');
         if (!this.noReadmeFile && readme) {
             readme = Path.resolve(readme);
@@ -93,8 +93,8 @@ export class PackagePlugin extends ConverterComponent
             return;
         }
 
-        var fileName = node.fileName;
-        var dirName:string, parentDir = Path.resolve(Path.dirname(fileName));
+        const fileName = node.fileName;
+        let dirName:string, parentDir = Path.resolve(Path.dirname(fileName));
         do {
             dirName = parentDir;
             if (this.visited.indexOf(dirName) != -1) {
@@ -102,7 +102,7 @@ export class PackagePlugin extends ConverterComponent
             }
 
             FS.readdirSync(dirName).forEach((file) => {
-                var lfile = file.toLowerCase();
+                const lfile = file.toLowerCase();
                 if (!this.noReadmeFile && !this.readmeFile && lfile == 'readme.md') {
                     this.readmeFile = Path.join(dirName, file);
                 }
@@ -124,7 +124,7 @@ export class PackagePlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context:Context) {
-        var project = context.project;
+        const project = context.project;
         if (this.readmeFile) {
             project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
         }

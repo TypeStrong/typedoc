@@ -37,14 +37,14 @@ export class ImplementsPlugin extends ConverterComponent
                 return;
             }
 
-            var classMember:DeclarationReflection;
+            let classMember:DeclarationReflection;
 
             if (!classReflection.children) {
                 return;
             }
 
-            for (var index = 0, count = classReflection.children.length; index < count; index++) {
-                var child = classReflection.children[index];
+            for (let index = 0, count = classReflection.children.length; index < count; index++) {
+                const child = classReflection.children[index];
                 if (child.name != interfaceMember.name) continue;
                 if (child.flags.isStatic != interfaceMember.flags.isStatic) continue;
 
@@ -56,13 +56,13 @@ export class ImplementsPlugin extends ConverterComponent
                 return;
             }
 
-            var interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
+            const interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
             classMember.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
             this.copyComment(classMember, interfaceMember);
 
             if (interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
                 interfaceMember.signatures.forEach((interfaceSignature:SignatureReflection) => {
-                    var interfaceParameters = interfaceSignature.getParameterTypes();
+                    const interfaceParameters = interfaceSignature.getParameterTypes();
                     classMember.signatures.forEach((classSignature:SignatureReflection) => {
                         if (Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
                             classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
@@ -87,7 +87,7 @@ export class ImplementsPlugin extends ConverterComponent
 
             if (target instanceof SignatureReflection && target.parameters &&
                 source instanceof SignatureReflection && source.parameters) {
-                for (var index = 0, count = target.parameters.length; index < count; index++) {
+                for (let index = 0, count = target.parameters.length; index < count; index++) {
                     if (target.parameters[index].comment) {
                         target.parameters[index].comment.copyFrom(source.parameters[index].comment);
                     }
@@ -110,7 +110,7 @@ export class ImplementsPlugin extends ConverterComponent
                     return;
                 }
 
-                var source = <DeclarationReflection>(<ReferenceType>type).reflection;
+                const source = <DeclarationReflection>(<ReferenceType>type).reflection;
                 if (source && source.kindOf(ReflectionKind.Interface)) {
                     this.analyzeClass(context, reflection, source);
                 }

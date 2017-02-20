@@ -1,4 +1,4 @@
-var typeLiteral:{
+let typeLiteral:{
     valueZ:string;
     valueY:{():string;};
     valueX:{

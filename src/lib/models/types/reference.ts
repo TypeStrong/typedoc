@@ -6,7 +6,7 @@ import {Type} from "./abstract";
  * Represents a type that refers to another reflection like a class, interface or enum.
  *
  * ~~~
- * var value:MyClass;
+ * let value:MyClass;
  * ~~~
  */
 export class ReferenceType extends Type
@@ -71,7 +71,7 @@ export class ReferenceType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new ReferenceType(this.name, this.symbolID, this.reflection);
+        const clone = new ReferenceType(this.name, this.symbolID, this.reflection);
         clone.isArray = this.isArray;
         clone.typeArguments = this.typeArguments;
         return clone;
@@ -95,7 +95,7 @@ export class ReferenceType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'reference';
         result.name = this.name;
 
@@ -116,9 +116,9 @@ export class ReferenceType extends Type
      * @example EventEmitter<any>
      */
     toString() {
-        var name = this.reflection ? this.reflection.name : this.name;
-        var arraySuffix = this.isArray ? '[]' : '';
-        var typeArgs = '';
+        const name = this.reflection ? this.reflection.name : this.name;
+        const arraySuffix = this.isArray ? '[]' : '';
+        let typeArgs = '';
         if (this.typeArguments) {
             typeArgs += '<';
             typeArgs += this.typeArguments.map(arg => arg.toString()).join(', ');

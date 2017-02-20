@@ -59,7 +59,7 @@ export class Comment
      */
     hasTag(tagName:string):boolean {
         if (!this.tags) return false;
-        for (var i = 0, c = this.tags.length; i < c; i++) {
+        for (let i = 0, c = this.tags.length; i < c; i++) {
             if (this.tags[i].tagName == tagName) {
                 return true;
             }
@@ -79,8 +79,8 @@ export class Comment
      */
     getTag(tagName:string, paramName?:string):CommentTag {
         if (!this.tags) return null;
-        for (var i = 0, c = this.tags.length; i < c; i++) {
-            var tag = this.tags[i];
+        for (let i = 0, c = this.tags.length; i < c; i++) {
+            const tag = this.tags[i];
             if (tag.tagName == tagName && (paramName == void 0 || tag.paramName == paramName)) {
                 return this.tags[i];
             }
@@ -106,7 +106,7 @@ export class Comment
      * Return a raw object representation of this comment.
      */
     toObject():any {
-        var result:any = {};
+        const result:any = {};
         if (this.shortText) result.shortText = this.shortText;
         if (this.text)      result.text      = this.text;
         if (this.returns)   result.returns   = this.returns;

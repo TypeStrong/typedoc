@@ -5,7 +5,7 @@ import {Type} from "./abstract";
  * Represents a string literal type.
  *
  * ~~~
- * var value:"DIV";
+ * let value:"DIV";
  * ~~~
  */
 export class StringLiteralType extends Type
@@ -33,7 +33,7 @@ export class StringLiteralType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new StringLiteralType(this.value);
+        const clone = new StringLiteralType(this.value);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -56,7 +56,7 @@ export class StringLiteralType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'stringLiteral';
         result.value = this.value;
         return result;

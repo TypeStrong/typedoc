@@ -76,7 +76,7 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
      * Return a raw object representation of this reflection.
      */
     toObject():any {
-        var result = super.toObject();
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();
@@ -102,10 +102,10 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
      * Return a string representation of this reflection.
      */
     toString():string {
-        var result = super.toString();
+        let result = super.toString();
 
         if (this.typeParameters) {
-            var parameters:string[] = [];
+            const parameters:string[] = [];
             this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
             result += '<' + parameters.join(', ') + '>';
         }

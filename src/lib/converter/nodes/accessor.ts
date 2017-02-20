@@ -26,7 +26,7 @@ export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclar
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var accessor = createDeclaration(context, node, ReflectionKind.Accessor);
+        const accessor = createDeclaration(context, node, ReflectionKind.Accessor);
 
         context.withScope(accessor, () => {
             if (node.kind == ts.SyntaxKind.GetAccessor) {

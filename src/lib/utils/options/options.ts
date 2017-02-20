@@ -76,7 +76,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     read(data:any = {}, mode:OptionsReadMode = OptionsReadMode.Fetch):IOptionsReadResult {
-        var event  = new DiscoverEvent(DiscoverEvent.DISCOVER);
+        const event  = new DiscoverEvent(DiscoverEvent.DISCOVER);
         event.data = data;
         event.mode = mode;
 
@@ -84,8 +84,8 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         this.setValues(event.data, '', event.addError.bind(event));
 
         if (mode == OptionsReadMode.Fetch) {
-            var logger = this.application.logger;
-            for (var error of event.errors) {
+            const logger = this.application.logger;
+            for (let error of event.errors) {
                 logger.error(error);
             }
         }
@@ -98,7 +98,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     getValue(name:string):any {
-        var declaration = this.getDeclaration(name);
+        const declaration = this.getDeclaration(name);
         if (!declaration) {
             throw new Error(Util.format("Unknown option `%s`.", name));
         }
@@ -130,9 +130,9 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     getDeclarationsByScope(scope:ParameterScope):OptionDeclaration[] {
-        var result:OptionDeclaration[] = [];
-        for (var name in this.declarations) {
-            var declaration = this.declarations[name];
+        const result:OptionDeclaration[] = [];
+        for (let name in this.declarations) {
+            const declaration = this.declarations[name];
             if (declaration.scope == scope) {
                 result.push(declaration);
             }
@@ -148,7 +148,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     setValue(name:string|OptionDeclaration, value:any, errorCallback?:Function) {
-        var declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string>name);
+        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string>name);
         if (!declaration) {
             if (errorCallback) {
                 errorCallback('Unknown option `%s`.', name.toString());
@@ -156,7 +156,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
             return;
         }
 
-        var key = declaration.name;
+        const key = declaration.name;
         if (declaration.scope == ParameterScope.TypeScript) {
             this.compilerOptions[key] = declaration.convert(value, errorCallback);
         } else {
@@ -166,10 +166,10 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     setValues(obj:Object, prefix:string = '', errorCallback?:Function) {
-        for (var key in obj) {
-            var value = obj[key];
-            var declaration = this.getDeclaration(key);
-            var shouldValueBeAnObject = declaration && declaration.map === 'object';
+        for (let key in obj) {
+            const value = obj[key];
+            const declaration = this.getDeclaration(key);
+            const shouldValueBeAnObject = declaration && declaration.map === 'object';
             if (typeof value === 'object' && !shouldValueBeAnObject) {
                 this.setValues(value, prefix + key + '.', errorCallback);
             } else {
@@ -180,14 +180,14 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     addDeclaration(declaration:OptionDeclaration|IOptionDeclaration) {
-        var decl:OptionDeclaration;
+        let decl:OptionDeclaration;
         if (!(declaration instanceof OptionDeclaration)) {
             decl = new OptionDeclaration(<IOptionDeclaration>declaration)
         } else {
             decl = <OptionDeclaration>declaration;
         }
 
-        for (var name of decl.getNames()) {
+        for (let name of decl.getNames()) {
             if (name in this.declarations) {
                 this.application.logger.error('The option "%s" has already been registered by the "%s" component.', name, this.declarations[name].component);
             } else {
@@ -198,15 +198,16 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     addDeclarations(declarations:(OptionDeclaration|IOptionDeclaration)[]) {
-        for (var declaration of declarations) {
+        for (let declaration of declarations) {
             this.addDeclaration(declaration);
         }
     }
 
 
     removeDeclaration(declaration:OptionDeclaration) {
-        var names = _.keys(this.declarations);
-        for (var name in names) {
+        const names = _.keys(this.declarations);
+        let name: string;
+        for (name in names) {
             if (this.declarations[name] === declaration) {
                 delete this.declarations[name];
             }
@@ -220,7 +221,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
 
     removeDeclarationByName(name:string) {
-        var declaration = this.getDeclaration(name);
+        const declaration = this.getDeclaration(name);
         if (declaration) {
             this.removeDeclaration(declaration);
         }

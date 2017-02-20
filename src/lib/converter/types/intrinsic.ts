@@ -29,7 +29,7 @@ export class IntrinsicConverter extends ConverterTypeComponent implements ITypeT
      * This is a type based converter with no node based equivalent.
      *
      * ```
-     * var someValue:string;
+     * let someValue:string;
      * ```
      *
      * @param type  The intrinsic type that should be converted.

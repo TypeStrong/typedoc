@@ -29,11 +29,11 @@ export class JavascriptIndexPlugin extends RendererComponent
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event:RendererEvent) {
-        var rows:any[] = [];
-        var kinds = {};
+        const rows:any[] = [];
+        const kinds = {};
 
-        for (var key in event.project.reflections) {
-            var reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
+        for (let key in event.project.reflections) {
+            const reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
             if (!(reflection instanceof DeclarationReflection)) continue;
 
             if (!reflection.url ||
@@ -42,12 +42,12 @@ export class JavascriptIndexPlugin extends RendererComponent
                 reflection.name == '')
                 continue;
 
-            var parent = reflection.parent;
+            let parent = reflection.parent;
             if (parent instanceof ProjectReflection) {
                 parent = null;
             }
 
-            var row:any = {
+            const row:any = {
                 id: rows.length,
                 kind:    reflection.kind,
                 name:    reflection.name,
@@ -66,8 +66,8 @@ export class JavascriptIndexPlugin extends RendererComponent
             rows.push(row);
         }
 
-        var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-        var data =
+        const fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
+        const data =
             'var typedoc = typedoc || {};' +
             'typedoc.search = typedoc.search || {};' +
             'typedoc.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';

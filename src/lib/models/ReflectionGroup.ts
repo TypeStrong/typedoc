@@ -84,7 +84,7 @@ export class ReflectionGroup
      * Do all children of this group have a separate document?
      */
     private getAllChildrenHaveOwnDocument():boolean {
-        var onlyOwnDocuments = true;
+        let onlyOwnDocuments = true;
         this.children.forEach((child) => {
             onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
         });
@@ -97,13 +97,13 @@ export class ReflectionGroup
      * Return a raw object representation of this reflection group.
      */
     toObject():any {
-        var result = {
+        const result = {
             title: this.title,
             kind:  this.kind
         };
 
         if (this.children) {
-            var children:any[] = [];
+            const children:any[] = [];
             this.children.forEach((child) => {
                 children.push(child.id)
             });

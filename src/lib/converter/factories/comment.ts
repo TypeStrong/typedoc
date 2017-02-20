@@ -12,7 +12,7 @@ import {Comment, CommentTag} from "../../models/comments/index";
  *     no comment is present.
  */
 export function createComment(node:ts.Node):Comment {
-    var comment = getRawComment(node);
+    const comment = getRawComment(node);
     if (comment == null) {
         return null;
     }
@@ -87,10 +87,10 @@ export function getRawComment(node:ts.Node):string {
         }
     }
 
-    var sourceFile = _ts.getSourceFileOfNode(node);
-    var comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
+    const sourceFile = _ts.getSourceFileOfNode(node);
+    const comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
     if (comments && comments.length) {
-        var comment:ts.CommentRange;
+        let comment:ts.CommentRange;
         if (node.kind == ts.SyntaxKind.SourceFile) {
             if (comments.length == 1) return null;
             comment = comments[0];
@@ -113,8 +113,8 @@ export function getRawComment(node:ts.Node):string {
  * @returns        A populated [[Models.Comment]] instance.
  */
 export function parseComment(text:string, comment:Comment = new Comment()):Comment {
-    var currentTag:CommentTag;
-    var shortText:number = 0;
+    let currentTag:CommentTag;
+    let shortText:number = 0;
 
     function consumeTypeData(line:string):string {
         line = line.replace(/^\{[^\}]*\}+/, '');
@@ -140,15 +140,16 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
     }
 
     function readTagLine(line:string, tag:RegExpExecArray) {
-        var tagName = tag[1].toLowerCase();
+        let tagName = tag[1].toLowerCase();
+        let paramName: string;
         line = line.substr(tagName.length + 1).trim();
 
         if (tagName == 'return') tagName = 'returns';
         if (tagName == 'param' || tagName == 'typeparam') {
             line = consumeTypeData(line);
-            var param = /[^\s]+/.exec(line);
+            const param = /[^\s]+/.exec(line);
             if (param) {
-                var paramName = param[0];
+                paramName = param[0];
                 line = line.substr(paramName.length + 1).trim();
             }
             line = consumeTypeData(line);
@@ -166,7 +167,7 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
-        var tag = /^@(\w+)/.exec(line);
+        const tag = /^@(\w+)/.exec(line);
         if (tag) {
             readTagLine(line, tag);
         } else {

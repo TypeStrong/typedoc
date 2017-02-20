@@ -13,9 +13,9 @@ import {Context} from "../context";
  * @returns A new reference type instance pointing to the given symbol.
  */
 export function createReferenceType(context:Context, symbol:ts.Symbol, includeParent?:boolean):ReferenceType {
-    var checker = context.checker;
-    var id      = context.getSymbolID(symbol);
-    var name    = checker.symbolToString(symbol);
+    const checker = context.checker;
+    const id      = context.getSymbolID(symbol);
+    let name    = checker.symbolToString(symbol);
 
     if (includeParent && symbol.parent) {
         name = checker.symbolToString(symbol.parent) + '.' + name;

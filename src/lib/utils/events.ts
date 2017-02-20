@@ -60,7 +60,7 @@ interface IOffApiOptions {
 
 
 // Regular expression used to split event strings.
-var eventSplitter = /\s+/;
+const eventSplitter = /\s+/;
 
 
 /**
@@ -69,7 +69,7 @@ var eventSplitter = /\s+/;
  * maps `{event: callback}`).
  */
 function eventsApi<T, U>(iteratee:IEventIteratee<T, U>, events:U, name:IEventMap|string, callback:IEventCallback, options:T):U {
-    var i = 0, names:string[];
+    let i = 0, names:string[];
 
     if (name && typeof name === 'object') {
         // Handle event maps.
@@ -99,8 +99,8 @@ function eventsApi<T, U>(iteratee:IEventIteratee<T, U>, events:U, name:IEventMap
  */
 function onApi(events:IEventHandlers, name:string, callback:IEventCallback, options:IOnApiOptions):IEventHandlers {
     if (callback) {
-        var handlers = events[name] || (events[name] = []);
-        var context = options.context, ctx = options.ctx, listening = options.listening, priority = options.priority;
+        const handlers = events[name] || (events[name] = []);
+        const context = options.context, ctx = options.ctx, listening = options.listening, priority = options.priority;
         if (listening) listening.count++;
 
         handlers.push({
@@ -124,12 +124,12 @@ function onApi(events:IEventHandlers, name:string, callback:IEventCallback, opti
 function offApi(events:IEventHandlers, name:string, callback:IEventCallback, options:IOffApiOptions):IEventHandlers {
     if (!events) return;
 
-    var i = 0, listening:IEventListener;
-    var context = options.context, listeners = options.listeners;
+    let i = 0, listening:IEventListener;
+    const context = options.context, listeners = options.listeners;
 
     // Delete all events listeners and "drop" events.
     if (!name && !callback && !context) {
-        var ids = _.keys(listeners);
+        const ids = _.keys(listeners);
         for (; i < ids.length; i++) {
             listening = listeners[ids[i]];
             delete listeners[listening.id];
@@ -138,18 +138,18 @@ function offApi(events:IEventHandlers, name:string, callback:IEventCallback, opt
         return;
     }
 
-    var names = name ? [name] : _.keys(events);
+    const names = name ? [name] : _.keys(events);
     for (; i < names.length; i++) {
         name = names[i];
-        var handlers = events[name];
+        const handlers = events[name];
 
         // Bail out if there are no events stored.
         if (!handlers) break;
 
         // Replace events if there are any remaining.  Otherwise, clean up.
-        var remaining:IEventHandler[] = [];
-        for (var j = 0; j < handlers.length; j++) {
-            var handler = handlers[j];
+        const remaining:IEventHandler[] = [];
+        for (let j = 0; j < handlers.length; j++) {
+            const handler = handlers[j];
             if (
                 callback && callback !== handler.callback &&
                 callback !== handler.callback._callback ||
@@ -185,7 +185,7 @@ function offApi(events:IEventHandlers, name:string, callback:IEventCallback, opt
  */
 function onceMap(map:IEventMap, name:string, callback:IEventCallback, offer:Function):IEventMap {
     if (callback) {
-        var once = map[name] = <IEventCallback>_.once(function() {
+        const once = map[name] = <IEventCallback>_.once(function() {
             offer(name, once);
             callback.apply(this, arguments);
         });
@@ -202,8 +202,8 @@ function onceMap(map:IEventMap, name:string, callback:IEventCallback, offer:Func
  */
 function triggerApi(objEvents:IEventHandlers, name:string, callback:Function, args:any[], triggerer:{(events:IEventHandler[], args:any[]):void} = triggerEvents):IEventHandlers {
     if (objEvents) {
-        var events = objEvents[name];
-        var allEvents = objEvents['all'];
+        const events = objEvents[name];
+        let allEvents = objEvents['all'];
         if (events && allEvents) allEvents = allEvents.slice();
         if (events) triggerer(events, args);
         if (allEvents) triggerer(allEvents, [name].concat(args));
@@ -219,7 +219,7 @@ function triggerApi(objEvents:IEventHandlers, name:string, callback:Function, ar
  * Backbone events have 3 arguments).
  */
 function triggerEvents(events:IEventHandler[], args:any[]) {
-    var ev:IEventHandler, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    let ev:IEventHandler, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
     switch (args.length) {
         case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
         case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
@@ -355,7 +355,7 @@ export class EventDispatcher
         });
 
         if (listening) {
-            var listeners = this._listeners || (this._listeners = {});
+            const listeners = this._listeners || (this._listeners = {});
             listeners[listening.id] = listening;
         }
     }
@@ -369,7 +369,7 @@ export class EventDispatcher
      */
     once(name:IEventMap|string, callback:IEventCallback, context?:any, priority?:number) {
         // Map the event into a `{event: once}` object.
-        var events = eventsApi(onceMap, <IEventMap>{}, name, callback, _.bind(this.off, this));
+        const events = eventsApi(onceMap, <IEventMap>{}, name, callback, _.bind(this.off, this));
         return this.on(events, void 0, context, priority);
     }
 
@@ -399,14 +399,14 @@ export class EventDispatcher
      */
     listenTo(obj:EventDispatcher, name:IEventMap|string, callback?:IEventCallback, priority?:number) {
         if (!obj) return this;
-        var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
-        var listeningTo = this._listeningTo || (this._listeningTo = {});
-        var listening = listeningTo[id];
+        const id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+        const listeningTo = this._listeningTo || (this._listeningTo = {});
+        let listening = listeningTo[id];
 
         // This object is not listening to any other events on `obj` yet.
         // Setup the necessary references to track the listening callbacks.
         if (!listening) {
-            var thisId = this._listenId || (this._listenId = _.uniqueId('l'));
+            const thisId = this._listenId || (this._listenId = _.uniqueId('l'));
             listening = listeningTo[id] = {
                 obj: obj,
                 objId: id,
@@ -427,7 +427,7 @@ export class EventDispatcher
      */
     listenToOnce(obj:EventDispatcher, name:IEventMap|string, callback:IEventCallback, priority?:number) {
         // Map the event into a `{event: once}` object.
-        var events = eventsApi(onceMap, <IEventMap>{}, name, callback, _.bind(this.stopListening, this, obj));
+        const events = eventsApi(onceMap, <IEventMap>{}, name, callback, _.bind(this.stopListening, this, obj));
         return this.listenTo(obj, events, void 0, priority);
     }
 
@@ -437,12 +437,12 @@ export class EventDispatcher
      * to every object it's currently listening to.
      */
     stopListening(obj?:EventDispatcher, name?:IEventMap|string, callback?:IEventCallback) {
-        var listeningTo = this._listeningTo;
+        const listeningTo = this._listeningTo;
         if (!listeningTo) return this;
 
-        var ids = obj ? [obj._listenId] : _.keys(listeningTo);
-        for (var i = 0; i < ids.length; i++) {
-            var listening = listeningTo[ids[i]];
+        const ids = obj ? [obj._listenId] : _.keys(listeningTo);
+        for (let i = 0; i < ids.length; i++) {
+            const listening = listeningTo[ids[i]];
 
             // If listening doesn't exist, this object is not currently
             // listening to obj. Break out early.
@@ -468,7 +468,7 @@ export class EventDispatcher
 
         if (name instanceof Event) {
             triggerApi(this._events, name.name, void 0, [name], (events:IEventHandler[], args:any[]) => {
-                var ev:IEventHandler, i = -1, l = events.length;
+                let ev:IEventHandler, i = -1, l = events.length;
                 while (++i < l) {
                     if (name.isPropagationStopped) return;
                     ev = events[i];

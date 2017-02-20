@@ -29,7 +29,7 @@ export class UnknownType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new UnknownType(this.name);
+        const clone = new UnknownType(this.name);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -52,7 +52,7 @@ export class UnknownType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'unknown';
         result.name = this.name;
         return result;

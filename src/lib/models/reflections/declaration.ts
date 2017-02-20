@@ -132,7 +132,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
 
 
     getAllSignatures():SignatureReflection[] {
-        var result:SignatureReflection[] = [];
+        let result:SignatureReflection[] = [];
 
         if (this.signatures) result = result.concat(this.signatures);
         if (this.indexSignature) result.push(this.indexSignature);
@@ -184,7 +184,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      * Return a raw object representation of this reflection.
      */
     toObject():any {
-        var result = super.toObject();
+        let result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();
@@ -230,10 +230,10 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      * Return a string representation of this reflection.
      */
     toString():string {
-        var result = super.toString();
+        let result = super.toString();
 
         if (this.typeParameters) {
-            var parameters:string[] = [];
+            const parameters:string[] = [];
             this.typeParameters.forEach((parameter) => {
                 parameters.push(parameter.name)
             });

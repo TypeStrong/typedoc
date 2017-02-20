@@ -29,18 +29,18 @@ export class TocPlugin extends RendererComponent
      * @param page  An event object describing the current render operation.
      */
     private onRendererBeginPage(page:PageEvent) {
-        var model = page.model;
+        let model = page.model;
         if (!(model instanceof Reflection)) {
             return;
         }
 
-        var trail:Reflection[] = [];
+        const trail:Reflection[] = [];
         while (!(model instanceof ProjectReflection) && !model.kindOf(ReflectionKind.SomeModule)) {
             trail.unshift(model);
             model = model.parent;
         }
 
-        var tocRestriction = this.owner.toc;
+        const tocRestriction = this.owner.toc;
         page.toc = new NavigationItem();
         TocPlugin.buildToc(model, trail, page.toc, tocRestriction);
     }
@@ -55,12 +55,12 @@ export class TocPlugin extends RendererComponent
      * @param restriction  The restricted table of contents.
      */
     static buildToc(model:Reflection, trail:Reflection[], parent:NavigationItem, restriction?: string[]) {
-        var index = trail.indexOf(model);
-        var children = model['children'] || [];
+        const index = trail.indexOf(model);
+        const children = model['children'] || [];
 
         if (index < trail.length - 1 && children.length > 40) {
-            var child = trail[index + 1];
-            var item = NavigationItem.create(child, parent, true);
+            const child = trail[index + 1];
+            const item = NavigationItem.create(child, parent, true);
             item.isInPath  = true;
             item.isCurrent = false;
             TocPlugin.buildToc(child, trail, item);
@@ -73,7 +73,7 @@ export class TocPlugin extends RendererComponent
                     return;
                 }
 
-                var item = NavigationItem.create(child, parent, true);
+                const item = NavigationItem.create(child, parent, true);
                 if (trail.indexOf(child) != -1) {
                     item.isInPath  = true;
                     item.isCurrent = (trail[trail.length - 1] == child);

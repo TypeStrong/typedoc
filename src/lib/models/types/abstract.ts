@@ -35,7 +35,7 @@ export abstract class Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = {};
+        let result:any = {};
         result.type = 'void';
 
         if (this.isArray) {
@@ -62,9 +62,9 @@ export abstract class Type
      */
     static isTypeListSimiliar(a:Type[], b:Type[]):boolean {
         if (a.length != b.length) return false;
-        outerLoop: for (var an = 0, count = a.length; an < count; an++) {
-            var at = a[an];
-            for (var bn = 0; bn < count; bn++) {
+        outerLoop: for (let an = 0, count = a.length; an < count; an++) {
+            const at = a[an];
+            for (let bn = 0; bn < count; bn++) {
                 if (b[bn].equals(at)) continue outerLoop;
             }
 
@@ -83,7 +83,7 @@ export abstract class Type
      */
     static isTypeListEqual(a:Type[], b:Type[]):boolean {
         if (a.length != b.length) return false;
-        for (var index = 0, count = a.length; index < count; index++) {
+        for (let index = 0, count = a.length; index < count; index++) {
             if (!a[index].equals(b[index])) {
                 return false;
             }

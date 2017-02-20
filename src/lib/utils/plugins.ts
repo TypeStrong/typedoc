@@ -27,12 +27,12 @@ export class PluginHost extends AbstractComponent<Application>
      * @returns TRUE on success, otherwise FALSE.
      */
     load():boolean {
-        var logger = this.application.logger;
-        var plugins = this.plugins || this.discoverNpmPlugins();
+        const logger = this.application.logger;
+        const plugins = this.plugins || this.discoverNpmPlugins();
 
-        var i:number, c:number = plugins.length;
+        let i:number, c:number = plugins.length;
         for (i = 0; i < c; i++) {
-            var plugin = plugins[i];
+            const plugin = plugins[i];
             if (typeof plugin != 'string') {
                 logger.error('Unknown plugin %s', plugin);
                 return false;
@@ -42,9 +42,9 @@ export class PluginHost extends AbstractComponent<Application>
         }
 
         for (i = 0; i < c; i++) {
-            var plugin = plugins[i];
+            const plugin = plugins[i];
             try {
-                var instance = require(plugin);
+                const instance = require(plugin);
                 if (typeof instance == 'function') {
                     instance(this);
                     logger.write('Loaded plugin %s', plugin);
@@ -65,8 +65,8 @@ export class PluginHost extends AbstractComponent<Application>
      * @returns A list of all npm module names that are qualified TypeDoc plugins.
      */
     private discoverNpmPlugins():string[] {
-        var result:string[] = [];
-        var logger = this.application.logger;
+        const result:string[] = [];
+        const logger = this.application.logger;
         discover();
         return result;
 
@@ -74,9 +74,9 @@ export class PluginHost extends AbstractComponent<Application>
          * Find all parent folders containing a `node_modules` subdirectory.
          */
         function discover() {
-            var path = process.cwd(), previous:string;
+            let path = process.cwd(), previous:string;
             do {
-                var modules = Path.join(path, 'node_modules');
+                const modules = Path.join(path, 'node_modules');
                 if (FS.existsSync(modules) && FS.lstatSync(modules).isDirectory()) {
                     discoverModules(modules);
                 }
@@ -91,13 +91,13 @@ export class PluginHost extends AbstractComponent<Application>
          */
         function discoverModules(basePath:string) {
             FS.readdirSync(basePath).forEach((name) => {
-                var dir = Path.join(basePath, name);
-                var infoFile = Path.join(dir, 'package.json');
+                const dir = Path.join(basePath, name);
+                const infoFile = Path.join(dir, 'package.json');
                 if (!FS.existsSync(infoFile)) {
                     return;
                 }
 
-                var info = loadPackageInfo(infoFile);
+                const info = loadPackageInfo(infoFile);
                 if (isPlugin(info)) {
                     result.push(name);
                 }
@@ -120,13 +120,13 @@ export class PluginHost extends AbstractComponent<Application>
          * Test whether the given package info describes a TypeDoc plugin.
          */
         function isPlugin(info:any):boolean {
-            var keywords:string[] = info.keywords;
+            const keywords:string[] = info.keywords;
             if (!keywords || !Util.isArray(keywords)) {
                 return false;
             }
 
-            for (var i = 0, c = keywords.length; i < c; i++) {
-                var keyword = keywords[i];
+            for (let i = 0, c = keywords.length; i < c; i++) {
+                const keyword = keywords[i];
                 if (typeof keyword == 'string' && keyword.toLowerCase() == 'typedocplugin') {
                     return true;
                 }

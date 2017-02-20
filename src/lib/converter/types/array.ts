@@ -22,7 +22,7 @@ export class ArrayConverter extends ConverterTypeComponent implements ITypeNodeC
      * This is a node based converter with no type equivalent.
      *
      * ```
-     * var someValue:number[];
+     * let someValue:number[];
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -30,7 +30,7 @@ export class ArrayConverter extends ConverterTypeComponent implements ITypeNodeC
      * @returns The type reflection representing the given array type node.
      */
     convertNode(context:Context, node:ts.ArrayTypeNode):Type {
-        var result = this.owner.convertType(context, node.elementType);
+        let result = this.owner.convertType(context, node.elementType);
 
         if (result) {
             result.isArray = true;

@@ -50,7 +50,7 @@ export class MinimalTheme extends DefaultTheme
      *                 should be rendered to which files.
      */
     getUrls(project:ProjectReflection):UrlMapping[] {
-        var urls:UrlMapping[] = [];
+        const urls:UrlMapping[] = [];
         urls.push(new UrlMapping('index.html', project, 'index.hbs'));
 
         project.url = 'index.html';
@@ -71,7 +71,7 @@ export class MinimalTheme extends DefaultTheme
      * @param page  An event object describing the current render operation.
      */
     private onRendererBeginPage(page:PageEvent) {
-        var model = page.model;
+        const model = page.model;
         if (!(model instanceof Reflection)) {
             return;
         }
@@ -88,9 +88,9 @@ export class MinimalTheme extends DefaultTheme
      * @param parent  The parent [[Models.NavigationItem]] the toc should be appended to.
      */
     static buildToc(model:DeclarationReflection, parent:NavigationItem) {
-        var children = model.children || [];
+        const children = model.children || [];
         children.forEach((child:DeclarationReflection) => {
-            var item = NavigationItem.create(child, parent, true);
+            const item = NavigationItem.create(child, parent, true);
             MinimalTheme.buildToc(child, item);
         });
     }

@@ -100,7 +100,7 @@ export class NavigationItem
      * @param useShortNames  Force this function to always use short names.
      */
     static create(reflection:Reflection, parent?:NavigationItem, useShortNames?:boolean) {
-        var name:string;
+        let name:string;
         if (useShortNames || (parent && parent.parent)) {
             name = reflection.name;
         } else {

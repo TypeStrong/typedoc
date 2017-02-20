@@ -32,7 +32,7 @@ export class TypePlugin extends ConverterComponent
      * @param reflection  The reflection that is currently resolved.
      */
     private onResolve(context:Context, reflection:DeclarationReflection) {
-        var project = context.project;
+        const project = context.project;
 
         resolveType(reflection, <ReferenceType>reflection.type);
         resolveType(reflection, <ReferenceType>reflection.inheritedFrom);
@@ -74,14 +74,14 @@ export class TypePlugin extends ConverterComponent
 
         function resolveTypes(reflection:Reflection, types:Type[]) {
             if (!types) return;
-            for (var i = 0, c = types.length; i < c; i++) {
+            for (let i = 0, c = types.length; i < c; i++) {
                 resolveType(reflection, <ReferenceType>types[i]);
             }
         }
 
         function resolveType(reflection:Reflection, type:Type) {
             if (type instanceof ReferenceType) {
-                var referenceType:ReferenceType = <ReferenceType>type;
+                const referenceType:ReferenceType = <ReferenceType>type;
                 if (referenceType.symbolID == ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
                     referenceType.reflection = reflection.findReflectionByName(referenceType.name);
                 } else if (!referenceType.reflection && referenceType.symbolID != ReferenceType.SYMBOL_ID_RESOLVED) {
@@ -94,13 +94,13 @@ export class TypePlugin extends ConverterComponent
                     });
                 }
             } else if (type instanceof TupleType) {
-                var tupleType:TupleType = <TupleType>type;
-                for (var index = 0, count = tupleType.elements.length; index < count; index++) {
+                const tupleType:TupleType = <TupleType>type;
+                for (let index = 0, count = tupleType.elements.length; index < count; index++) {
                     resolveType(reflection, tupleType.elements[index]);
                 }
             } else if (type instanceof UnionType) {
-                var unionType:UnionType = <UnionType>type;
-                for (var index = 0, count = unionType.types.length; index < count; index++) {
+                const unionType:UnionType = <UnionType>type;
+                for (let index = 0, count = unionType.types.length; index < count; index++) {
                     resolveType(reflection, unionType.types[index]);
                 }
             }
@@ -129,10 +129,10 @@ export class TypePlugin extends ConverterComponent
                 });
             }
 
-            var root:IDeclarationHierarchy;
-            var hierarchy:IDeclarationHierarchy;
+            let root:IDeclarationHierarchy;
+            let hierarchy:IDeclarationHierarchy;
             function push(types:Type[]) {
-                var level:IDeclarationHierarchy = {types:types};
+                const level:IDeclarationHierarchy = {types:types};
                 if (hierarchy) {
                     hierarchy.next = level;
                     hierarchy = level;
