@@ -42,12 +42,12 @@ export class TypeParameterConverter extends ConverterTypeComponent implements IT
      */
     convertNode(context:Context, node:ts.TypeReferenceNode):Type {
         if (node.typeName) {
-            var name = _ts.getTextOfNode(node.typeName);
+            const name = _ts.getTextOfNode(node.typeName);
             if (context.typeParameters && context.typeParameters[name]) {
                 return context.typeParameters[name].clone();
             }
 
-            var result = new TypeParameterType();
+            const result = new TypeParameterType();
             result.name = name;
             return result;
         }

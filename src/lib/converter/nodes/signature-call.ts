@@ -28,10 +28,10 @@ export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpres
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression):Reflection {
-        var scope = <DeclarationReflection>context.scope;
+        const scope = <DeclarationReflection>context.scope;
         if (scope instanceof DeclarationReflection) {
-            var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-            var signature = createSignature(context, <ts.SignatureDeclaration>node, name, ReflectionKind.CallSignature);
+            const name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+            const signature = createSignature(context, <ts.SignatureDeclaration>node, name, ReflectionKind.CallSignature);
             if (!scope.signatures) scope.signatures = [];
             scope.signatures.push(signature);
         }

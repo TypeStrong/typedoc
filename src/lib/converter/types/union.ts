@@ -30,7 +30,7 @@ export class UnionConverter extends ConverterTypeComponent implements ITypeConve
      * This is a node based converter, see [[convertUnionType]] for the type equivalent.
      *
      * ```
-     * var someValue:string|number;
+     * let someValue:string|number;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -38,7 +38,7 @@ export class UnionConverter extends ConverterTypeComponent implements ITypeConve
      * @returns The type reflection representing the given union type node.
      */
     convertNode(context:Context, node:ts.UnionTypeNode):UnionType {
-        var types:Type[] = [];
+        let types:Type[] = [];
         if (node.types) {
             types = node.types.map((n) => this.owner.convertType(context, n));
         } else {
@@ -55,7 +55,7 @@ export class UnionConverter extends ConverterTypeComponent implements ITypeConve
      * This is a type based converter, see [[convertUnionTypeNode]] for the node equivalent.
      *
      * ```
-     * var someValue:string|number;
+     * let someValue:string|number;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -63,7 +63,7 @@ export class UnionConverter extends ConverterTypeComponent implements ITypeConve
      * @returns The type reflection representing the given union type.
      */
     convertType(context:Context, type:ts.UnionType):UnionType {
-        var types:Type[];
+        let types:Type[];
         if (type && type.types) {
             types = type.types.map((t) => this.owner.convertType(context, null, t));
         } else {

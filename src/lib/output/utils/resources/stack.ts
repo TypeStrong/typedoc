@@ -66,8 +66,8 @@ export class ResourceOrigin<T extends Resource>
 
 
     mergeResources(target:IResourceMap<T>) {
-        var resources = this.resources;
-        for (var name in resources) {
+        const resources = this.resources;
+        for (let name in resources) {
             if (name in target) continue;
             target[name] = resources[name];
         }
@@ -94,18 +94,18 @@ export class ResourceOrigin<T extends Resource>
 
 
     private findResources(dir?:string) {
-        var resourceClass   = this.stack.getResourceClass();
-        var ressourceRegExp = this.stack.getRessourceRegExp();
-        var path = this.path;
+        const resourceClass   = this.stack.getResourceClass();
+        const ressourceRegExp = this.stack.getRessourceRegExp();
+        let path = this.path;
         if (dir) path = Path.join(path, dir);
 
-        for (var fileName of FS.readdirSync(path)) {
-            var fullName = Path.join(path, fileName);
+        for (let fileName of FS.readdirSync(path)) {
+            const fullName = Path.join(path, fileName);
 
             if (FS.statSync(fullName).isDirectory()) {
                 this.findResources(dir ? Path.join(dir, fileName) : fileName);
             } else if (ressourceRegExp.test(fileName)) {
-                var name:string = normalizeName(dir ? Path.join(dir, fileName) : fileName);
+                const name:string = normalizeName(dir ? Path.join(dir, fileName) : fileName);
                 this.resources[name] = new resourceClass(this, name, fullName);
             }
         }
@@ -151,11 +151,11 @@ export abstract class ResourceStack<T extends Resource>
      * Return a resource by its name.
      */
     getResource(name:string):T {
-        var normalizedName = normalizeName(name);
-        var index = this.origins.length - 1;
+        const normalizedName = normalizeName(name);
+        let index = this.origins.length - 1;
 
         while (index >= 0) {
-            var origin = this.origins[index--];
+            const origin = this.origins[index--];
             if (origin.hasResource(normalizedName)) {
                 return origin.getResource(normalizedName);
             }
@@ -166,8 +166,8 @@ export abstract class ResourceStack<T extends Resource>
 
 
     getAllResources():IResourceMap<T> {
-        var resources:IResourceMap<T> = {};
-        var index = this.origins.length - 1;
+        const resources:IResourceMap<T> = {};
+        let index = this.origins.length - 1;
 
         while (index >= 0) {
             this.origins[index--].mergeResources(resources);
@@ -188,7 +188,7 @@ export abstract class ResourceStack<T extends Resource>
 
 
     getOrigin(name:string):ResourceOrigin<T> {
-        for (var origin of this.origins) {
+        for (let origin of this.origins) {
             if (origin.getName() == name) {
                 return origin;
             }
@@ -239,9 +239,9 @@ export abstract class ResourceStack<T extends Resource>
             throw new Error("Cannot remove origins while the resource is active.");
         }
 
-        var index = 0, count = this.origins.length;
+        let index = 0, count = this.origins.length;
         while (index < count) {
-            var origin = this.origins[index];
+            const origin = this.origins[index];
             if (origin.getName() === name) {
                 this.origins.splice(index, 1);
                 count -= 1;

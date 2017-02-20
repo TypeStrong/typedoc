@@ -5,7 +5,7 @@ import {Type} from "./abstract";
  * Represents a type parameter type.
  *
  * ~~~
- * var value:T;
+ * let value:T;
  * ~~~
  */
 export class TypeParameterType extends Type
@@ -25,7 +25,7 @@ export class TypeParameterType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new TypeParameterType();
+        const clone = new TypeParameterType();
         clone.isArray = this.isArray;
         clone.name = this.name;
         clone.constraint = this.constraint;
@@ -44,7 +44,7 @@ export class TypeParameterType extends Type
             return false;
         }
 
-        var constraintEquals:boolean;
+        let constraintEquals:boolean;
         if (this.constraint && type.constraint) {
             constraintEquals = type.constraint.equals(this.constraint);
         } else if (!this.constraint && !type.constraint) {
@@ -62,7 +62,7 @@ export class TypeParameterType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'typeParameter';
         result.name = this.name;
 

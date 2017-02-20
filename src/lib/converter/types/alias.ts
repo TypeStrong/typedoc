@@ -33,15 +33,15 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
         if (!type || !node || !node.typeName) return false;
         if (!type.symbol) return true;
 
-        var checker = context.checker;
-        var symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
+        const checker = context.checker;
+        let symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
         if (!symbolName.length) return false;
         if (symbolName[0].substr(0, 1) == '"') symbolName.shift();
 
-        var nodeName = _ts.getTextOfNode(node.typeName).split('.');
+        let nodeName = _ts.getTextOfNode(node.typeName).split('.');
         if (!nodeName.length) return false;
 
-        var common = Math.min(symbolName.length, nodeName.length);
+        let common = Math.min(symbolName.length, nodeName.length);
         symbolName = symbolName.slice(-common);
         nodeName = nodeName.slice(-common);
 
@@ -59,14 +59,14 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
      *
      * ```
      * type MyNumber = number;
-     * var someValue:MyNumber;
+     * let someValue:MyNumber;
      * ```
      *
      * @param node  The node whose type should be reflected.
      * @returns  A type reference pointing to the type alias definition.
      */
     convertNode(context:Context, node:ts.TypeReferenceNode):ReferenceType {
-        var name = _ts.getTextOfNode(node.typeName);
+        const name = _ts.getTextOfNode(node.typeName);
         return new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
     }
 }

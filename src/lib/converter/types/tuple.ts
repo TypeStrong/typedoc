@@ -30,7 +30,7 @@ export class TupleConverter extends ConverterTypeComponent implements ITypeConve
      * This is a node based converter, see [[convertTupleType]] for the type equivalent.
      *
      * ```
-     * var someValue:[string,number];
+     * let someValue:[string,number];
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -38,7 +38,7 @@ export class TupleConverter extends ConverterTypeComponent implements ITypeConve
      * @returns The type reflection representing the given tuple type node.
      */
     convertNode(context:Context, node:ts.TupleTypeNode):TupleType {
-        var elements:Type[];
+        let elements:Type[];
         if (node.elementTypes) {
             elements = node.elementTypes.map((n) => this.owner.convertType(context, n));
         } else {
@@ -55,7 +55,7 @@ export class TupleConverter extends ConverterTypeComponent implements ITypeConve
      * This is a type based converter, see [[convertTupleTypeNode]] for the node equivalent.
      *
      * ```
-     * var someValue:[string,number];
+     * let someValue:[string,number];
      * ```
      *
      * @param context  The context object describing the current state the converter is in.
@@ -63,7 +63,7 @@ export class TupleConverter extends ConverterTypeComponent implements ITypeConve
      * @returns The type reflection representing the given tuple type.
      */
     convertType(context:Context, type:ts.TypeReference):TupleType {
-        var elements:Type[];
+        let elements:Type[];
         if (type.typeArguments) {
             elements = type.typeArguments.map((t) => this.owner.convertType(context, null, t));
         } else {

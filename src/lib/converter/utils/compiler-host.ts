@@ -36,8 +36,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @returns An instance of ts.SourceFile representing the given file.
      */
     getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
+        let text:string;
         try {
-            var text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
+            text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
         } catch (e) {
             if (onError) {
                 onError(e.number === ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
@@ -57,8 +58,8 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @returns The full path of the default library.
      */
     getDefaultLibFileName(options:ts.CompilerOptions):string {
-        var lib = this.owner.getDefaultLib();
-        var path = _ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
+        const lib = this.owner.getDefaultLib();
+        const path = _ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
         return Path.join(path, lib);
     }
 

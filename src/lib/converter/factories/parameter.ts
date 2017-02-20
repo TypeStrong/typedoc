@@ -15,12 +15,12 @@ import {convertDefaultValue} from "../convert-expression";
  * @returns The newly created parameter reflection.
  */
 export function createParameter(context:Context, node:ts.ParameterDeclaration):ParameterReflection {
-    var signature = <SignatureReflection>context.scope;
+    const signature = <SignatureReflection>context.scope;
     if (!(signature instanceof SignatureReflection)) {
         throw new Error('Expected signature reflection.');
     }
 
-    var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
+    const parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
     context.registerReflection(parameter, node);
     context.withScope(parameter, () => {
         if (_ts.isBindingPattern(node.name)) {

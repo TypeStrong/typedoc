@@ -31,12 +31,12 @@ export class ArgumentsReader extends OptionsComponent
      * @returns TRUE on success, otherwise FALSE.
      */
     private parseArguments(event:DiscoverEvent, args?:string[]) {
-        var index = 0;
-        var owner = this.owner;
+        let index = 0;
+        const owner = this.owner;
         args = args || process.argv.slice(2);
 
         function readArgument(arg:string) {
-            var declaration = owner.getDeclaration(arg);
+            const declaration = owner.getDeclaration(arg);
             if (!declaration) {
                 event.addError('Unknown option: %s', arg);
             } else if (declaration.type !== ParameterType.Boolean) {
@@ -51,7 +51,7 @@ export class ArgumentsReader extends OptionsComponent
         }
 
         while (index < args.length) {
-            var arg = args[index++];
+            const arg = args[index++];
 
             if (arg.charCodeAt(0) === _ts.CharacterCodes.at) {
                 this.parseResponseFile(event, arg.slice(1));
@@ -72,19 +72,19 @@ export class ArgumentsReader extends OptionsComponent
      * @returns TRUE on success, otherwise FALSE.
      */
     private parseResponseFile(event:DiscoverEvent, filename:string) {
-        var text = ts.sys.readFile(filename);
+        const text = ts.sys.readFile(filename);
         if (!text) {
             event.addError('File not found: "%s"', filename);
             return;
         }
 
-        var args:string[] = [];
-        var pos = 0;
+        const args:string[] = [];
+        let pos = 0;
         while (true) {
             while (pos < text.length && text.charCodeAt(pos) <= _ts.CharacterCodes.space) pos++;
             if (pos >= text.length) break;
 
-            var start = pos;
+            const start = pos;
             if (text.charCodeAt(start) === _ts.CharacterCodes.doubleQuote) {
                 pos++;
                 while (pos < text.length && text.charCodeAt(pos) !== _ts.CharacterCodes.doubleQuote) pos++;

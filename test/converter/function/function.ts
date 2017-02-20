@@ -21,7 +21,7 @@ export function exportedFunction():void { }
  *   This is a **parameter** pointing to an interface.
  *
  *   ~~~
- *   var value:BaseClass = new BaseClass('test');
+ *   const value:BaseClass = new BaseClass('test');
  *   functionWithArguments('arg', 0, value);
  *   ~~~
  *
@@ -38,7 +38,7 @@ export function functionWithParameters(paramZ:string, paramG:any, paramA:Object)
  * @param someParam  This is some numeric parameter.
  * @return This is the return value of the function.
  */
-export var variableFunction = function(someParam:number):number {
+export const variableFunction = function(someParam:number):number {
     return 0;
 };
 
@@ -134,7 +134,7 @@ export module moduleFunction
     /**
      * This variable is appended to a function.
      */
-    var functionVariable:string;
+    let functionVariable:string;
 
 
     /**

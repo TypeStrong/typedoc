@@ -35,7 +35,7 @@ export class CommentTag
      * Return a raw object representation of this tag.
      */
     toObject():any {
-        var result:any = {
+        const result:any = {
             tag:  this.tagName,
             text: this.text
         };

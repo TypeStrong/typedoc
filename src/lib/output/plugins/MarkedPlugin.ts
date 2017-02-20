@@ -86,7 +86,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         super.initialize();
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
-        var that = this;
+        const that = this;
         Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
         Handlebars.registerHelper('relativeURL', (url:string) => url ? this.getRelativeUrl(url) : url);
 
@@ -129,9 +129,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent
             text = text.replace(this.includePattern, (match:string, path:string) => {
                 path = Path.join(this.includes, path.trim());
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
-                    var contents = FS.readFileSync(path, 'utf-8');
+                    const contents = FS.readFileSync(path, 'utf-8');
                     if (path.substr(-4).toLocaleLowerCase() == '.hbs') {
-                        var template = Handlebars.compile(contents);
+                        const template = Handlebars.compile(contents);
                         return template(context);
                     } else {
                         return contents;
@@ -152,7 +152,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
             });
         }
 
-        var event = new MarkdownEvent(MarkdownEvent.PARSE);
+        const event = new MarkdownEvent(MarkdownEvent.PARSE);
         event.originalText = text;
         event.parsedText = text;
 
@@ -171,7 +171,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
 
         delete this.includes;
         if (this.includeSource) {
-            var includes = Path.resolve(this.includeSource);
+            const includes = Path.resolve(this.includeSource);
             if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
                 this.includes = includes;
             } else {
@@ -180,7 +180,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         }
 
         if (this.mediaSource) {
-            var media = Path.resolve(this.mediaSource);
+            const media = Path.resolve(this.mediaSource);
             if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
                 this.mediaDirectory = Path.join(event.outputDirectory, 'media');
                 FS.copySync(media, this.mediaDirectory);

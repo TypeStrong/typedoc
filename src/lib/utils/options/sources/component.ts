@@ -20,7 +20,7 @@ export class ComponentSource extends OptionsComponent
 
 
     private addComponent(component:AbstractComponent<any>) {
-        var name = component.componentName;
+        const name = component.componentName;
         if (!name) {
             this.application.logger.error("Component without name found.");
             return;
@@ -32,7 +32,7 @@ export class ComponentSource extends OptionsComponent
         }
 
         if (component instanceof ChildableComponent) {
-            for (var child of component.getComponents()) {
+            for (let child of component.getComponents()) {
                 this.addComponent(child);
             }
         }
@@ -40,17 +40,17 @@ export class ComponentSource extends OptionsComponent
 
 
     private removeComponent(component:AbstractComponent<any>) {
-        var name = component.componentName;
-        var index = this.knownComponents.indexOf(name);
+        const name = component.componentName;
+        let index = this.knownComponents.indexOf(name);
         if (index != -1) {
             this.knownComponents.slice(index, 1);
-            for (var declaration of component.getOptionDeclarations()) {
+            for (let declaration of component.getOptionDeclarations()) {
                 this.owner.removeDeclarationByName(declaration.name);
             }
         }
 
         if (component instanceof ChildableComponent) {
-            for (var child of component.getComponents()) {
+            for (let child of component.getComponents()) {
                 this.removeComponent(child);
             }
         }
@@ -63,8 +63,8 @@ export class ComponentSource extends OptionsComponent
 
 
     private onComponentRemoved(e:ComponentEvent) {
-        var declarations = e.component.getOptionDeclarations();
-        for (var declaration of declarations) {
+        const declarations = e.component.getOptionDeclarations();
+        for (let declaration of declarations) {
             this.owner.removeDeclarationByName(declaration.name);
         }
     }

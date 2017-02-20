@@ -24,7 +24,7 @@ export class BindingArrayConverter extends ConverterTypeComponent implements ITy
      * @returns The type reflection representing the given binding pattern.
      */
     convertNode(context:Context, node:ts.BindingPattern):Type {
-        var types:Type[] = [];
+        const types:Type[] = [];
 
         (node.elements as ts.BindingElement[]).forEach((element) => {
             types.push(this.owner.convertType(context, element));

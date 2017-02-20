@@ -61,7 +61,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      */
     private replaceBrackets(text:string):string {
         return text.replace(this.brackets, (match:string, content:string):string => {
-            var split = MarkedLinksPlugin.splitLinkText(content);
+            const split = MarkedLinksPlugin.splitLinkText(content);
             return this.buildLink(match, split.target, split.caption);
         });
     }
@@ -75,11 +75,11 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      */
     private replaceInlineTags(text:string):string {
         return text.replace(this.inlineTag, (match:string, leading:string, tagName:string, content:string):string => {
-            var split   = MarkedLinksPlugin.splitLinkText(content);
-            var target  = split.target;
-            var caption = leading || split.caption;
+            const split   = MarkedLinksPlugin.splitLinkText(content);
+            const target  = split.target;
+            const caption = leading || split.caption;
 
-            var monospace:boolean;
+            let monospace:boolean;
             if (tagName == 'linkcode') monospace = true;
             if (tagName == 'linkplain') monospace = false;
 
@@ -98,11 +98,11 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @returns A html link tag.
      */
     private buildLink(original:string, target:string, caption:string, monospace?:boolean):string {
-        var attributes = '';
+        let attributes = '';
         if (this.urlPrefix.test(target)) {
             attributes = ' class="external"';
         } else {
-            var reflection:Reflection;
+            let reflection:Reflection;
             if (this.reflection) {
                 reflection = this.reflection.findReflectionByName(target);
             } else if (this.project) {
@@ -144,7 +144,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
             this.application.logger.warn('[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, ' +
                 'they will not render as links in the generated documentation.');
 
-            for (var warning of this.warnings) {
+            for (let warning of this.warnings) {
                 this.application.logger.write('  ' + warning);
             }
         }
@@ -157,7 +157,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @returns An object containing the link text and target.
      */
     static splitLinkText(text:string):{caption:string;target:string;} {
-        var splitIndex = text.indexOf('|');
+        let splitIndex = text.indexOf('|');
         if (splitIndex === -1) {
             splitIndex = text.search(/\s/);
         }

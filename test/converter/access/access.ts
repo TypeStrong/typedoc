@@ -2,13 +2,13 @@
  * A variable that is made private via comment.
  * @private
  */
-export var fakePrivateVariable = 'test';
+export const fakePrivateVariable = 'test';
 
 /**
  * A variable that is made protected via comment.
  * @protected
  */
-export var fakeProtectedVariable = 'test';
+export const fakeProtectedVariable = 'test';
 
 /**
  * A function that is made private via comment.

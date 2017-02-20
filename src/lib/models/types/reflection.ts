@@ -6,7 +6,7 @@ import {Type} from "./abstract";
  * Represents a type which has it's own reflection like literal types.
  *
  * ~~~
- * var value:{subValueA;subValueB;subValueC;};
+ * let value:{subValueA;subValueB;subValueC;};
  * ~~~
  */
 export class ReflectionType extends Type
@@ -35,7 +35,7 @@ export class ReflectionType extends Type
      * @return A clone of this type.
      */
     clone():Type {
-        var clone = new ReflectionType(this.declaration);
+        const clone = new ReflectionType(this.declaration);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -56,7 +56,7 @@ export class ReflectionType extends Type
      * Return a raw object representation of this type.
      */
     toObject():any {
-        var result:any = super.toObject();
+        const result:any = super.toObject();
         result.type = 'reflection';
 
         if (this.declaration) {

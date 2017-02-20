@@ -113,7 +113,7 @@ export class Context
         this.program = program;
         this.visitStack = [];
 
-        var project = new ProjectReflection(converter.name);
+        const project = new ProjectReflection(converter.name);
         this.project = project;
         this.scope = project;
 
@@ -138,7 +138,7 @@ export class Context
      * @returns The type declaration of the given node.
      */
     getTypeAtLocation(node:ts.Node):ts.Type {
-        var nodeType:ts.Type;
+        let nodeType:ts.Type;
         try {
             nodeType = this.checker.getTypeAtLocation(node);
         } catch (error) {            
@@ -195,7 +195,7 @@ export class Context
     registerReflection(reflection:Reflection, node:ts.Node, symbol?:ts.Symbol) {
         this.project.reflections[reflection.id] = reflection;
 
-        var id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : null));
+        const id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : null));
         if (!this.isInherit && id && !this.project.symbolMapping[id]) {
             this.project.symbolMapping[id] = reflection.id;
         }
@@ -223,9 +223,9 @@ export class Context
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node:ts.SourceFile, callback:Function) {
-        var options = this.converter.application.options;
-        var externalPattern = this.externalPattern;
-        var isExternal = this.fileNames.indexOf(node.fileName) == -1;
+        const options = this.converter.application.options;
+        const externalPattern = this.externalPattern;
+        let isExternal = this.fileNames.indexOf(node.fileName) == -1;
         if (externalPattern) {
             isExternal = isExternal || externalPattern.match(node.fileName);
         }
@@ -234,10 +234,10 @@ export class Context
             return;
         }
 
-        var isDeclaration = node.isDeclarationFile;
+        let isDeclaration = node.isDeclarationFile;
         if (isDeclaration) {
-            var lib = this.converter.getDefaultLib();
-            var isLib = node.fileName.substr(-lib.length) == lib;
+            const lib = this.converter.getDefaultLib();
+            const isLib = node.fileName.substr(-lib.length) == lib;
             if (!this.converter.includeDeclarations || isLib) {
                 return;
             }
@@ -279,12 +279,12 @@ export class Context
      */
     public withScope(scope:Reflection, ...args:any[]):void {
         if (!scope || !args.length) return;
-        var callback = args.pop();
-        var parameters = args.shift();
+        const callback = args.pop();
+        const parameters = args.shift();
 
-        var oldScope = this.scope;
-        var oldTypeArguments = this.typeArguments;
-        var oldTypeParameters = this.typeParameters;
+        const oldScope = this.scope;
+        const oldTypeArguments = this.typeArguments;
+        const oldTypeParameters = this.typeParameters;
 
         this.scope = scope;
         this.typeParameters = parameters ? this.extractTypeParameters(parameters, args.length > 0) : this.typeParameters;
@@ -306,22 +306,22 @@ export class Context
      * @return The resulting reflection / the current scope.
      */
     inherit(baseNode:ts.Node, typeArguments?:ts.NodeArray<ts.TypeNode>):Reflection {
-        var wasInherit = this.isInherit;
-        var oldInherited = this.inherited;
-        var oldInheritParent = this.inheritParent;
-        var oldTypeArguments = this.typeArguments;
+        const wasInherit = this.isInherit;
+        const oldInherited = this.inherited;
+        const oldInheritParent = this.inheritParent;
+        const oldTypeArguments = this.typeArguments;
 
         this.isInherit = true;
         this.inheritParent = baseNode;
         this.inherited = [];
 
-        var target = <ContainerReflection>this.scope;
+        const target = <ContainerReflection>this.scope;
         if (!(target instanceof ContainerReflection)) {
             throw new Error('Expected container reflection');
         }
 
         if (baseNode.symbol) {
-            var id = this.getSymbolID(baseNode.symbol);
+            const id = this.getSymbolID(baseNode.symbol);
             if (this.inheritedChildren && this.inheritedChildren.indexOf(id) != -1) {
                 return target;
             } else {
@@ -365,17 +365,17 @@ export class Context
      * @returns The resulting type mapping.
      */
     private extractTypeParameters(parameters:ts.NodeArray<ts.TypeParameterDeclaration>, preserve?:boolean):ts.MapLike<Type> {
-        var typeParameters:ts.MapLike<Type> = {};
+        const typeParameters:ts.MapLike<Type> = {};
 
         if (preserve) {
-            for (var key in this.typeParameters) {
+            for (let key in this.typeParameters) {
                 if (!this.typeParameters.hasOwnProperty(key)) continue;
                 typeParameters[key] = this.typeParameters[key];
             }
         }
 
         parameters.forEach((declaration:ts.TypeParameterDeclaration, index:number) => {
-            var name = declaration.symbol.name;
+            const name = declaration.symbol.name;
             if (this.typeArguments && this.typeArguments[index]) {
                 typeParameters[name] = this.typeArguments[index];
             } else {

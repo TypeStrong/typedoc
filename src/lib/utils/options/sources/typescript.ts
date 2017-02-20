@@ -27,10 +27,10 @@ export class TypeScriptSource extends OptionsComponent
 
 
     initialize() {
-        var ignored = TypeScriptSource.IGNORED;
+        const ignored = TypeScriptSource.IGNORED;
         this.declarations = [];
 
-        for (var declaration of _ts.optionDeclarations) {
+        for (let declaration of _ts.optionDeclarations) {
             if (ignored.indexOf(declaration.name) === -1) {
                 this.addTSOption(declaration);
             }
@@ -47,7 +47,7 @@ export class TypeScriptSource extends OptionsComponent
 
 
     private addTSOption(option:_ts.CommandLineOption) {
-        var param:IOptionDeclaration = {
+        const param:IOptionDeclaration = {
             name:      option.name,
             short:     option.shortName,
             help:      option.description ? option.description.key : null,
@@ -69,7 +69,7 @@ export class TypeScriptSource extends OptionsComponent
                 param.type = ParameterType.Map;
                 param.map = option.type;
                 if (option['error']) {
-                    var error = _ts.createCompilerDiagnostic(option['error']);
+                    const error = _ts.createCompilerDiagnostic(option['error']);
                     param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                 }
         }

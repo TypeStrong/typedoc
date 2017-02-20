@@ -38,7 +38,7 @@ export class UnknownConverter extends ConverterTypeComponent implements ITypeTyp
      * @returns The type reflection representing the given type.
      */
     convertType(context:Context, type:ts.Type):Type {
-        var name = context.checker.typeToString(type);
+        const name = context.checker.typeToString(type);
         return new UnknownType(name);
     }
 }

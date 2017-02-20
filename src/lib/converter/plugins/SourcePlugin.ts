@@ -45,7 +45,7 @@ export class SourcePlugin extends ConverterComponent
 
     private getSourceFile(fileName:string, project:ProjectReflection):SourceFile {
         if (!this.fileMappings[fileName]) {
-            var file = new SourceFile(fileName);
+            const file = new SourceFile(fileName);
             this.fileMappings[fileName] = file;
             project.files.push(file);
         }
@@ -76,7 +76,7 @@ export class SourcePlugin extends ConverterComponent
      */
     private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
         if (!node) return;
-        var fileName = node.fileName;
+        const fileName = node.fileName;
         this.basePath.add(fileName);
         this.getSourceFile(fileName, context.project);
     }
@@ -93,11 +93,11 @@ export class SourcePlugin extends ConverterComponent
      */
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node) return;
-        var sourceFile      = _ts.getSourceFileOfNode(node);
-        var fileName        = sourceFile.fileName;
-        var file:SourceFile = this.getSourceFile(fileName, context.project);
+        const sourceFile      = _ts.getSourceFileOfNode(node);
+        const fileName        = sourceFile.fileName;
+        const file:SourceFile = this.getSourceFile(fileName, context.project);
 
-        var position:ts.LineAndCharacter;
+        let position:ts.LineAndCharacter;
         if (node['name'] && node['name'].end) {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node['name'].end);
         } else {
@@ -125,7 +125,7 @@ export class SourcePlugin extends ConverterComponent
      */
     private onBeginResolve(context:Context) {
         context.project.files.forEach((file) => {
-            var fileName = file.fileName = this.basePath.trim(file.fileName);
+            const fileName = file.fileName = this.basePath.trim(file.fileName);
             this.fileMappings[fileName] = file;
         });
     }
@@ -151,16 +151,16 @@ export class SourcePlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context:Context) {
-        var project = context.project;
-        var home = project.directory;
+        const project = context.project;
+        const home = project.directory;
         project.files.forEach((file) => {
-            var reflections:Reflection[] = [];
+            const reflections:Reflection[] = [];
             file.reflections.forEach((reflection) => {
                 reflections.push(reflection);
             });
 
-            var directory = home;
-            var path = Path.dirname(file.fileName);
+            let directory = home;
+            const path = Path.dirname(file.fileName);
             if (path != '.') {
                 path.split('/').forEach((path) => {
                     if (!Object.prototype.hasOwnProperty.call(directory, path)) {

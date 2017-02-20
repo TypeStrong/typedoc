@@ -1,8 +1,8 @@
-var onSuccess: any = function () { };
-var onError: any = function () { };
-var onFinally: any = function () { };
+let onSuccess: any = function () { };
+let onError: any = function () { };
+let onFinally: any = function () { };
 
-var callbackReturn = {
+const callbackReturn = {
     success: (success_callback: () => any) => {
         onSuccess = success_callback;
         return callbackReturn;

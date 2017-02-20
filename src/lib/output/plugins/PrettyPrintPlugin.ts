@@ -82,22 +82,22 @@ export class PrettyPrintPlugin extends RendererComponent
      * @param event
      */
     onRendererEndPage(event:PageEvent) {
-        var match:RegExpMatchArray;
-        var line:string;
-        var lineState:PrettyPrintState;
-        var lineDepth:number;
-        var tagName:string;
-        var preName:string;
+        let match:RegExpMatchArray;
+        let line:string;
+        let lineState:PrettyPrintState;
+        let lineDepth:number;
+        let tagName:string;
+        let preName:string;
 
-        var tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
-        var emptyLineExp = /^[\s]*$/;
-        var minLineDepth = 1;
-        var state        = PrettyPrintState.Default;
-        var stack:string[] = [];
+        let tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
+        let emptyLineExp = /^[\s]*$/;
+        let minLineDepth = 1;
+        let state        = PrettyPrintState.Default;
+        const stack:string[] = [];
 
-        var lines        = event.contents.split(/\r\n?|\n/);
-        var index        = 0;
-        var count        = lines.length;
+        const lines        = event.contents.split(/\r\n?|\n/);
+        let index        = 0;
+        let count        = lines.length;
 
         while (index < count) {
             line = lines[index];
@@ -137,7 +137,7 @@ export class PrettyPrintPlugin extends RendererComponent
                             tagName = match[2].toLowerCase();
                             if (tagName in PrettyPrintPlugin.IGNORED_TAGS) continue;
 
-                            var n = stack.lastIndexOf(tagName);
+                            const n = stack.lastIndexOf(tagName);
                             if (n != -1) {
                                 stack.length = n;
                             }

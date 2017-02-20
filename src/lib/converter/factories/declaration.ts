@@ -9,7 +9,7 @@ import {createReferenceType} from "./reference";
 /**
  * List of reflection kinds that never should be static.
  */
-var nonStaticKinds = [
+const nonStaticKinds = [
     ReflectionKind.Class,
     ReflectionKind.Interface,
     ReflectionKind.Module
@@ -27,7 +27,7 @@ var nonStaticKinds = [
  * @returns The resulting reflection.
  */
 export function createDeclaration(context:Context, node:ts.Node, kind:ReflectionKind, name?:string):DeclarationReflection {
-    var container = <ContainerReflection>context.scope;
+    const container = <ContainerReflection>context.scope;
     if (!(container instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
     }
@@ -43,10 +43,10 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
         }
     }
 
-    var modifiers = ts.getCombinedModifierFlags(node);
+    const modifiers = ts.getCombinedModifierFlags(node);
 
     // Test whether the node is exported
-    var isExported:boolean;
+    let isExported:boolean;
     if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         isExported = false; // Don't inherit exported state in modules and namespaces
     } else {
@@ -56,7 +56,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     if (kind == ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
-        var parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
+        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
         isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export)
     } else {
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
@@ -67,14 +67,14 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Test whether the node is private, when inheriting ignore private members
-    var isPrivate = !!(modifiers & ts.ModifierFlags.Private);
+    const isPrivate = !!(modifiers & ts.ModifierFlags.Private);
     if (context.isInherit && isPrivate) {
         return null;
     }
 
     // Test whether the node is static, when merging a module to a class make the node static
-    var isConstructorProperty:boolean = false;
-    var isStatic = false;
+    let isConstructorProperty:boolean = false;
+    let isStatic = false;
     if (nonStaticKinds.indexOf(kind) == -1) {
         isStatic = !!(modifiers & ts.ModifierFlags.Static);
         if (container.kind == ReflectionKind.Class) {
@@ -87,8 +87,8 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Check if we already have a child with the same name and static flag
-    var child:DeclarationReflection;
-    var children = container.children = container.children || [];
+    let child:DeclarationReflection;
+    const children = container.children = container.children || [];
     children.forEach((n:DeclarationReflection) => {
         if (n.name == name && n.flags.isStatic == isStatic) child = n;
     });
@@ -129,7 +129,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
  * @returns The reflection populated with the values of the given node.
  */
 function setupDeclaration(context:Context, reflection:DeclarationReflection, node:ts.Node) {
-    var modifiers = ts.getCombinedModifierFlags(node);
+    const modifiers = ts.getCombinedModifierFlags(node);
 
     reflection.setFlag(ReflectionFlag.External,  context.isExternal);
     reflection.setFlag(ReflectionFlag.Protected, !!(modifiers & ts.ModifierFlags.Protected));
@@ -163,9 +163,9 @@ function setupDeclaration(context:Context, reflection:DeclarationReflection, nod
  */
 function mergeDeclarations(context:Context, reflection:DeclarationReflection, node:ts.Node, kind:ReflectionKind) {
     if (reflection.kind != kind) {
-        var weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
-        var kindWeight = weights.indexOf(kind);
-        var childKindWeight = weights.indexOf(reflection.kind);
+        const weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
+        const kindWeight = weights.indexOf(kind);
+        const childKindWeight = weights.indexOf(reflection.kind);
         if (kindWeight > childKindWeight) {
             reflection.kind = kind;
         }

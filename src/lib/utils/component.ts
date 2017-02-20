@@ -36,12 +36,12 @@ export interface IComponentOptions {
 }
 
 
-var childMappings:{host:any, child:Function}[] = [];
+const childMappings:{host:any, child:Function}[] = [];
 
 
 export function Component(options:IComponentOptions):ClassDecorator {
     return (target:IComponentClass<IComponent>) => {
-        var proto = target.prototype;
+        const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error('The `Component` decorator can only be used with a subclass of `AbstractComponent`.');
         }
@@ -57,18 +57,18 @@ export function Component(options:IComponentOptions):ClassDecorator {
             });
         }
 
-        var name = options.name;
+        const name = options.name;
         if (name) {
             proto.componentName = name;
         }
 
-        var internal = !!options.internal;
+        const internal = !!options.internal;
         if (name && !internal) {
-            for (var childMapping of childMappings) {
+            for (let childMapping of childMappings) {
                 if (!(proto instanceof childMapping.child)) continue;
 
-                var host = childMapping.host;
-                var defaults = host._defaultComponents || (host._defaultComponents = {});
+                const host = childMapping.host;
+                const defaults = host._defaultComponents || (host._defaultComponents = {});
                 defaults[name] = target;
                 break;
             }
@@ -83,7 +83,7 @@ export function Option(options:IOptionDeclaration):PropertyDecorator {
             throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
         }
 
-        var list = target['_componentOptions'] || (target['_componentOptions'] = []);
+        const list = target['_componentOptions'] || (target['_componentOptions'] = []);
         options.component = target['_componentName'];
         list.push(options);
 
@@ -158,7 +158,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     protected bubble(name:Event|IEventMap|string, ...args:any[]) {
         super.trigger.apply(this, arguments);
 
-        var owner = <any>this.owner;
+        const owner = <any>this.owner;
         if (owner instanceof AbstractComponent) {
             owner.bubble.apply(this._componentOwner, arguments);
         }
@@ -214,7 +214,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
     constructor(owner:O) {
         super(owner);
 
-        for (var name in this._defaultComponents) {
+        for (let name in this._defaultComponents) {
             this.addComponent(name, this._defaultComponents[name]);
         }
     }
@@ -252,8 +252,8 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         if (this._componentChildren[name]) {
             throw new Error('The component `%s` has already been added.');
         } else {
-            var component:T = typeof componentClass == "function" ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
-            var event = new ComponentEvent(ComponentEvent.ADDED, this, component);
+            const component:T = typeof componentClass == "function" ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
+            const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);
             this._componentChildren[name] = component;
@@ -265,7 +265,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
 
     removeComponent(name:string):C {
         if (!this._componentChildren) return null;
-        var component = this._componentChildren[name];
+        const component = this._componentChildren[name];
         if (component) {
             delete this._componentChildren[name];
             component.stopListening();
@@ -279,7 +279,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
 
     removeAllComponents() {
         if (!this._componentChildren) return;
-        for (var name in this._componentChildren) {
+        for (let name in this._componentChildren) {
             this._componentChildren[name].stopListening();
         }
 

@@ -17,12 +17,12 @@ import {createReferenceType} from "./reference";
  * @returns The newly created signature reflection describing the given node.
  */
 export function createSignature(context:Context, node:ts.SignatureDeclaration, name:string, kind:ReflectionKind):SignatureReflection {
-    var container = <DeclarationReflection>context.scope;
+    const container = <DeclarationReflection>context.scope;
     if (!(container instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
     }
 
-    var signature = new SignatureReflection(container, name, kind);
+    const signature = new SignatureReflection(container, name, kind);
     context.registerReflection(signature, node);
     context.withScope(signature, node.typeParameters, true, () => {
         node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
@@ -51,10 +51,10 @@ export function createSignature(context:Context, node:ts.SignatureDeclaration, n
  * @returns The return type reflection of the given signature.
  */
 function extractSignatureType(context:Context, node:ts.SignatureDeclaration):Type {
-    var checker = context.checker;
+    const checker = context.checker;
     if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
         try {
-            var signature = checker.getSignatureFromDeclaration(node);
+            const signature = checker.getSignatureFromDeclaration(node);
             return context.converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
         } catch (error) {}
     }

@@ -20,7 +20,7 @@ import {ProjectReflection} from "./project";
 /**
  * Current reflection id.
  */
-var REFLECTION_ID:number = 0;
+let REFLECTION_ID:number = 0;
 
 /**
  * Reset the reflection id.
@@ -85,7 +85,7 @@ export enum ReflectionFlag
 }
 
 
-var relevantFlags:ReflectionFlag[] = [
+const relevantFlags:ReflectionFlag[] = [
     ReflectionFlag.Private,
     ReflectionFlag.Protected,
     ReflectionFlag.Static,
@@ -337,7 +337,7 @@ export abstract class Reflection
      */
     kindOf(kind:any):boolean {
         if (Array.isArray(kind)) {
-            for (var i = 0, c = kind.length; i < c; i++) {
+            for (let i = 0, c = kind.length; i < c; i++) {
                 if ((this.kind & kind[i]) !== 0) {
                     return true;
                 }
@@ -370,7 +370,7 @@ export abstract class Reflection
      * Set a flag on this reflection.
      */
     setFlag(flag:ReflectionFlag, value:boolean = true) {
-        var name:string, index:number;
+        let name:string, index:number;
         if (relevantFlags.indexOf(flag) != -1) {
             name = ReflectionFlag[flag];
             name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
@@ -441,18 +441,18 @@ export abstract class Reflection
      */
     getAlias():string {
         if (!this._alias) {
-            var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            let alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
             if (alias == '') {
                 alias = 'reflection-' + this.id;
             }
 
-            var target = <Reflection>this;
+            let target = <Reflection>this;
             while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
                 target = target.parent;
             }
 
             if (!target._aliases) target._aliases = [];
-            var suffix = '', index = 0;
+            let suffix = '', index = 0;
             while (target._aliases.indexOf(alias + suffix) != -1) {
                 suffix = '-' + (++index).toString();
             }
@@ -497,9 +497,9 @@ export abstract class Reflection
      * @returns The found child or NULL.
      */
     getChildByName(arg:any):Reflection {
-        var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
-        var name = names[0];
-        var result:Reflection = null;
+        const names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const name = names[0];
+        let result:Reflection = null;
 
         this.traverse((child) => {
             if (child.name == name) {
@@ -539,9 +539,9 @@ export abstract class Reflection
      * @return The found reflection or null.
      */
     findReflectionByName(arg:any):Reflection {
-        var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names:string[] = Array.isArray(arg) ? arg : arg.split('.');
 
-        var reflection = this.getChildByName(names);
+        const reflection = this.getChildByName(names);
         if (reflection) {
             return reflection;
         } else {
@@ -565,7 +565,7 @@ export abstract class Reflection
      * Return a raw object representation of this reflection.
      */
     toObject():any {
-        var result:any = {
+        const result:any = {
             id:         this.id,
             name:       this.name,
             kind:       this.kind,
@@ -581,7 +581,7 @@ export abstract class Reflection
             result.comment = this.comment.toObject();
         }
 
-        for (var key in this.flags) {
+        for (let key in this.flags) {
             if (parseInt(key) == <any>key || key == 'flags') continue;
             if (this.flags[key]) result.flags[key] = true;
         }
@@ -592,7 +592,7 @@ export abstract class Reflection
 
         if (this.decorators) {
             result.decorators = this.decorators.map((decorator) => {
-                var result:any = { name:decorator.name };
+                const result:any = { name:decorator.name };
                 if (decorator.type) result.type = decorator.type.toObject();
                 if (decorator.arguments) result.arguments = decorator.arguments;
                 return result;
@@ -601,7 +601,7 @@ export abstract class Reflection
 
         this.traverse((child, property) => {
             if (property == TraverseProperty.TypeLiteral) return;
-            var name = TraverseProperty[property];
+            let name = TraverseProperty[property];
             name = name.substr(0, 1).toLowerCase() + name.substr(1);
             if (!result[name]) result[name] = [];
             result[name].push(child.toObject());
@@ -625,7 +625,7 @@ export abstract class Reflection
      * @param indent  Used internally to indent child reflections.
      */
     toStringHierarchy(indent:string = '') {
-        var lines = [indent + this.toString()];
+        const lines = [indent + this.toString()];
 
         indent += '  ';
         this.traverse((child, property) => {

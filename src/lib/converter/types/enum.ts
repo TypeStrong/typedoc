@@ -24,7 +24,7 @@ export class EnumConverter extends ConverterTypeComponent implements ITypeTypeCo
      *
      * ```
      * enum MyEnum { One, Two, Three }
-     * var someValue:MyEnum;
+     * let someValue:MyEnum;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.

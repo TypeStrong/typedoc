@@ -1,7 +1,7 @@
 /**
  * An object literal.
  */
-var objectLiteral = {
+const objectLiteral = {
     valueZ: 'foo',
     valueY: function() { return 'foo'; },
     valueX: {

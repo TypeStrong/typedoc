@@ -8,7 +8,7 @@ import {Option} from "../../utils/component";
 import {ParameterType} from "../../utils/options/declaration";
 
 
-var prefered:ts.SyntaxKind[] = [
+const prefered:ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.InterfaceDeclaration,
     ts.SyntaxKind.EnumDeclaration
@@ -71,7 +71,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @return The resulting reflection or NULL.
      */
     private convertSourceFile(context:Context, node:ts.SourceFile):Reflection {
-        var result = context.scope;
+        let result = context.scope;
 
         context.withSourceFile(node, () => {
             if (this.mode == SourceFileMode.Modules) {
@@ -91,7 +91,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
 
     private convertStatements(context:Context, node:ts.SourceFile|ts.Block|ts.ModuleBlock) {
         if (node.statements) {
-            var statements:ts.Statement[] = [];
+            const statements:ts.Statement[] = [];
 
             node.statements.forEach((statement) => {
                 if (prefered.indexOf(statement.kind) != -1) {

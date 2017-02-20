@@ -38,10 +38,10 @@ export class DecoratorPlugin extends ConverterComponent
      * @returns An object describing the decorator parameters,
      */
     private extractArguments(args:ts.NodeArray<ts.Expression>, signature:ts.Signature):any {
-        var result = {};
+        const result = {};
         args.forEach((arg:ts.Expression, index:number) => {
             if (index < signature.parameters.length) {
-                var parameter = signature.parameters[index];
+                const parameter = signature.parameters[index];
                 result[parameter.name] = _ts.getTextOfNode(arg);
             } else {
                 if (!result['...']) result['...'] = [];
@@ -73,8 +73,8 @@ export class DecoratorPlugin extends ConverterComponent
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (!node || !node.decorators) return;
         node.decorators.forEach((decorator:ts.Decorator) => {
-            var callExpression:ts.CallExpression;
-            var identifier:ts.Expression;
+            let callExpression:ts.CallExpression;
+            let identifier:ts.Expression;
 
             switch (decorator.expression.kind) {
                 case ts.SyntaxKind.Identifier:
@@ -88,17 +88,17 @@ export class DecoratorPlugin extends ConverterComponent
                     return;
             }
 
-            var info:IDecorator = {
+            const info:IDecorator = {
                 name: _ts.getTextOfNode(identifier)
             };
 
-            var type = context.checker.getTypeAtLocation(identifier);
+            const type = context.checker.getTypeAtLocation(identifier);
             if (type && type.symbol) {
-                var symbolID = context.getSymbolID(type.symbol);
+                const symbolID = context.getSymbolID(type.symbol);
                 info.type = new ReferenceType(info.name, symbolID);
 
                 if (callExpression && callExpression.arguments) {
-                    var signature = context.checker.getResolvedSignature(callExpression);
+                    const signature = context.checker.getResolvedSignature(callExpression);
                     if (signature) {
                         info.arguments = this.extractArguments(callExpression.arguments, signature);
                     }
@@ -121,13 +121,13 @@ export class DecoratorPlugin extends ConverterComponent
      * @param reflection  The reflection that is currently resolved.
      */
     private onBeginResolve(context:Context) {
-        for (var symbolID in this.usages) {
+        for (let symbolID in this.usages) {
             if (!this.usages.hasOwnProperty(symbolID)) continue;
 
-            var id = context.project.symbolMapping[symbolID];
+            const id = context.project.symbolMapping[symbolID];
             if (!id) continue;
 
-            var reflection = context.project.reflections[id];
+            const reflection = context.project.reflections[id];
             if (reflection) {
                 reflection.decorates = this.usages[symbolID];
             }

@@ -58,7 +58,7 @@ export class DynamicModulePlugin extends ConverterComponent
      */
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
-            var name = reflection.name;
+            let name = reflection.name;
             if (name.indexOf('/') == -1) {
                 return;
             }
@@ -77,7 +77,7 @@ export class DynamicModulePlugin extends ConverterComponent
      */
     private onBeginResolve(context:Context) {
         this.reflections.forEach((reflection) => {
-            var name = reflection.name.replace(/"/g, '');
+            let name = reflection.name.replace(/"/g, '');
             name = name.substr(0, name.length - Path.extname(name).length);
             reflection.name = '"' + this.basePath.trim(name) + '"';
         });

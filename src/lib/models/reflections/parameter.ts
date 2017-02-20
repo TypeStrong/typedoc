@@ -34,7 +34,7 @@ export class ParameterReflection extends Reflection implements IDefaultValueCont
      * Return a raw object representation of this reflection.
      */
     toObject():any {
-        var result = super.toObject();
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();

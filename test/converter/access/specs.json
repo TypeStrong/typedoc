@@ -188,12 +188,12 @@
             {
               "fileName": "access.ts",
               "line": 5,
-              "character": 30
+              "character": 32
             }
           ],
           "type": {
-            "type": "instrinct",
-            "name": "string"
+            "type": "stringLiteral",
+            "value": "test"
           },
           "defaultValue": "\"test\""
         },
@@ -213,12 +213,12 @@
             {
               "fileName": "access.ts",
               "line": 11,
-              "character": 32
+              "character": 34
             }
           ],
           "type": {
-            "type": "instrinct",
-            "name": "string"
+            "type": "stringLiteral",
+            "value": "test"
           },
           "defaultValue": "\"test\""
         },

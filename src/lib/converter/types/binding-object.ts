@@ -25,7 +25,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
      * @returns The type reflection representing the given binding pattern.
      */
     convertNode(context:Context, node:ts.BindingPattern):Type {
-        var declaration = new DeclarationReflection();
+        const declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
         declaration.parent = context.scope;

@@ -38,11 +38,11 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.VariableDeclaration):Reflection {
-        var comment = createComment(node);
+        const comment = createComment(node);
         if (comment && comment.hasTag("resolve")) {
-            var resolveType = context.getTypeAtLocation(node);
+            const resolveType = context.getTypeAtLocation(node);
             if (resolveType && resolveType.symbol) {
-                var resolved = this.owner.convertNode(context, resolveType.symbol.declarations[0]);
+                const resolved = this.owner.convertNode(context, resolveType.symbol.declarations[0]);
                 if (resolved) {
                     resolved.name = node.symbol.name;
                 }
@@ -50,7 +50,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
             }
         }
 
-        var name:string, isBindingPattern:boolean;
+        let name:string, isBindingPattern:boolean;
         if (_ts.isBindingPattern(node.name)) {
             if (node['propertyName']) {
                 name = _ts.declarationNameToString(node['propertyName']);
@@ -60,9 +60,9 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
             }
         }
 
-        var scope = context.scope;
-        var kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
-        var variable = createDeclaration(context, node, kind, name);
+        const scope = context.scope;
+        const kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
+        const variable = createDeclaration(context, node, kind, name);
         context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {

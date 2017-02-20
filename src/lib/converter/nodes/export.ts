@@ -26,13 +26,13 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
             symbol = type ? type.symbol : undefined;
         }
         if (symbol) {
-            var project = context.project;
+            const project = context.project;
             symbol.declarations.forEach((declaration) => {
                 if (!declaration.symbol) return;
-                var id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
+                const id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
                 if (!id) return;
 
-                var reflection = project.reflections[id];
+                const reflection = project.reflections[id];
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
                     (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
                 }
