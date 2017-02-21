@@ -92,7 +92,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isProtected": true
               },
               "comment": {
@@ -116,7 +115,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isProtected": true
               },
               "comment": {
@@ -282,7 +280,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isProtected": true
               },
               "comment": {
@@ -311,7 +308,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isProtected": true
               },
               "comment": {

@@ -27,7 +27,6 @@
               "kind": 8388608,
               "kindString": "Event",
               "flags": {
-                "0": true,
                 "isStatic": true
               },
               "comment": {

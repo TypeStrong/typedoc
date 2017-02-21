@@ -20,7 +20,6 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "0": true,
             "isPrivate": true,
             "isExported": true
           },
@@ -34,7 +33,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isPrivate": true,
                 "isExported": true
               },
@@ -59,7 +57,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isExported": true,
                 "isProtected": true
               },
@@ -84,7 +81,6 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "0": true,
                 "isPrivate": true,
                 "isExported": true
               },
@@ -95,7 +91,6 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {
-                    "0": true,
                     "isPrivate": true
                   },
                   "comment": {
@@ -121,7 +116,6 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "0": true,
                 "isExported": true,
                 "isProtected": true
               },
@@ -132,7 +126,6 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {
-                    "0": true,
                     "isProtected": true
                   },
                   "comment": {
@@ -185,7 +178,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "0": true,
             "isPrivate": true,
             "isExported": true
           },
@@ -211,7 +203,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "0": true,
             "isExported": true,
             "isProtected": true
           },
@@ -237,7 +228,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "0": true,
             "isPrivate": true,
             "isExported": true
           },
@@ -248,7 +238,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {
-                "0": true,
                 "isPrivate": true
               },
               "comment": {
@@ -274,7 +263,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "0": true,
             "isExported": true,
             "isProtected": true
           },
@@ -285,7 +273,6 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {
-                "0": true,
                 "isProtected": true
               },
               "comment": {

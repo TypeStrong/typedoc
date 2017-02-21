@@ -20,7 +20,6 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "0": true,
             "isExported": true,
             "hasExportAssignment": true
           },

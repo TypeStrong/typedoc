@@ -27,7 +27,6 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "0": true,
                 "isPrivate": true
               },
               "sources": [

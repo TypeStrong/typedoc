@@ -227,9 +227,7 @@
                   "name": "valueA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "0": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default string value."
                   },
@@ -244,9 +242,7 @@
                   "name": "valueB",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "0": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default numeric value."
                   },
@@ -261,9 +257,7 @@
                   "name": "valueC",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "0": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default NaN value."
                   },
@@ -278,9 +272,7 @@
                   "name": "valueD",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "0": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default boolean value."
                   },
@@ -295,9 +287,7 @@
                   "name": "valueE",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "0": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default null value."
                   },
@@ -361,7 +351,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {
-                    "0": true,
                     "isOptional": true
                   },
                   "comment": {
@@ -488,7 +477,6 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {
-                    "0": true,
                     "isRest": true
                   },
                   "comment": {

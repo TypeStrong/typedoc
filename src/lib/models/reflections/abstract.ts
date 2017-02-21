@@ -581,7 +581,8 @@ export abstract class Reflection
         }
 
         for (let key in this.flags) {
-            if (parseInt(key, 10) === <any>key || key === 'flags') continue;
+            // tslint:disable-next-line:triple-equals
+            if (parseInt(key, 10) == <any>key || key === 'flags') continue;
             if (this.flags[key]) result.flags[key] = true;
         }
 

@@ -42,7 +42,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {
-                    "0": true,
                     "isOptional": true
                   },
                   "sources": [
@@ -63,7 +62,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {
-                    "0": true,
                     "isOptional": true
                   },
                   "sources": [
