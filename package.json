@@ -57,7 +57,7 @@
     "grunt-string-replace": "^1.2.0",
     "grunt-ts": "^5.5.1",
     "istanbul": "^0.4.1",
-    "mocha": "^3.0.2"
+    "mocha": "^3.2.0"
   },
   "files": [
     "bin",
