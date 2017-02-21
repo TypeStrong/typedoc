@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind} from '../../models/index';
+import {Reflection} from '../../models/index';
 import {Context} from '../context';
 import {Component, ConverterNodeComponent} from '../components';
 

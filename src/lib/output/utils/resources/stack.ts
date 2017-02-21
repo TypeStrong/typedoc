@@ -2,9 +2,6 @@ import * as FS from 'fs';
 import * as Path from 'path';
 import * as Util from 'util';
 
-import {normalizePath} from '../../../utils/fs';
-
-
 export interface IResourceClass<T extends Resource> extends Function {
     new (origin:ResourceOrigin<T>, name:string, fileName:string):T;
 }

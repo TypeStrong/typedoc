@@ -9,7 +9,6 @@
 
 import * as Path from 'path';
 import * as FS from 'fs-extra';
-import * as Handlebars from 'handlebars';
 // tslint:disable-next-line:variable-name
 const ProgressBar = require('progress');
 

@@ -1,6 +1,5 @@
 import * as ts from 'typescript';
 
-import {Application} from '../application';
 import {Component, AbstractComponent} from '../utils/component';
 import {Reflection} from '../models/reflections/abstract';
 import {Type} from '../models/types/abstract';

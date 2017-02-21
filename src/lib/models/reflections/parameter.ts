@@ -1,4 +1,3 @@
-import {SourceFile} from '../sources/file';
 import {Type, ReflectionType} from '../types/index';
 import {Reflection, IDefaultValueContainer, ITypeContainer, ITraverseCallback, TraverseProperty} from './abstract';
 import {SignatureReflection} from './signature';

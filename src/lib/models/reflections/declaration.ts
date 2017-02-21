@@ -1,4 +1,3 @@
-import {SourceFile} from '../sources/file';
 import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from './abstract';
 import {Type, ReflectionType} from '../types/index';
 import {ContainerReflection} from './container';

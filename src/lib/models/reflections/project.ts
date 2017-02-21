@@ -1,6 +1,5 @@
 import {SourceFile, SourceDirectory} from '../sources/index';
 import {Reflection, ReflectionKind} from './abstract';
-import {DeclarationReflection} from './declaration';
 import {ContainerReflection} from './container';
 
 

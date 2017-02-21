@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import {Type, IntrinsicType} from '../../models/index';
+import {IntrinsicType} from '../../models/index';
 import {Component, ConverterTypeComponent, ITypeTypeConverter} from '../components';
 import {Context} from '../context';
 

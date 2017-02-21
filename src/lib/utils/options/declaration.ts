@@ -1,7 +1,3 @@
-import * as ts from 'typescript';
-import * as Util from 'util';
-
-
 export enum ParameterHint {
     File,
     Directory

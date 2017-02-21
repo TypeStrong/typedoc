@@ -3,9 +3,8 @@ import {ProjectReflection} from '../models/reflections/project';
 import {UrlMapping} from './models/UrlMapping';
 import {NavigationItem} from './models/NavigationItem';
 import {RendererComponent} from './components';
-import {Component, Option} from '../utils/component';
+import {Component} from '../utils/component';
 import {Resources} from './utils/resources';
-import {ParameterType} from '../utils/options/declaration';
 
 /**
  * Base class of all themes.

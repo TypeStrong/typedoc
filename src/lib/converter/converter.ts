@@ -1,6 +1,5 @@
 import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
-import * as Path from 'path';
 import * as _ from 'lodash';
 
 import {Application} from '../application';
@@ -27,59 +26,6 @@ export interface IConverterResult
      * The resulting project reflection.
      */
     project:ProjectReflection;
-}
-
-
-/**
- * Event callback definition for generic converter events.
- *
- * @see [[Converter.EVENT_BEGIN]]
- * @see [[Converter.EVENT_END]]
- * @see [[Converter.EVENT_RESOLVE_BEGIN]]
- * @see [[Converter.EVENT_RESOLVE_END]]
- */
-interface IConverterCallback
-{
-    /**
-     * @param context  The context object describing the current state the converter is in.
-     */
-    (context:Context):void;
-}
-
-
-/**
- * Event callback definition for events triggered by factories.
- *
- * @see [[Converter.EVENT_FILE_BEGIN]]
- * @see [[Converter.EVENT_CREATE_DECLARATION]]
- * @see [[Converter.EVENT_CREATE_SIGNATURE]]
- * @see [[Converter.EVENT_CREATE_PARAMETER]]
- * @see [[Converter.EVENT_CREATE_TYPE_PARAMETER]]
- * @see [[Converter.EVENT_FUNCTION_IMPLEMENTATION]]
- */
-interface IConverterNodeCallback
-{
-    /**
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently processed.
-     * @param node  The node that is currently processed if available.
-     */
-    (context:Context, reflection:Reflection, node?:ts.Node):void;
-}
-
-
-/**
- * Event callback definition for events during the resolving phase.
- *
- * @see [[Converter.EVENT_RESOLVE]]
- */
-interface IConverterResolveCallback
-{
-    /**
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
-    (context:Context, reflection:Reflection):void;
 }
 
 

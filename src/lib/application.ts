@@ -8,7 +8,6 @@
 
 import * as Path from 'path';
 import * as FS from 'fs';
-import * as Util from 'util';
 import * as typescript from 'typescript';
 import {Minimatch, IMinimatch} from 'minimatch';
 

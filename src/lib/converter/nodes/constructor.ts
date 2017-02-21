@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, DeclarationReflection, ReferenceType, Comment} from '../../models/index';
+import {Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment} from '../../models/index';
 import {createDeclaration, createSignature, createComment} from '../factories/index';
 import {Context} from '../context';
 import {Converter} from '../converter';

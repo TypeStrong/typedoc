@@ -1,8 +1,7 @@
-import {SourceFile, ISourceReference} from '../sources/file';
+import {ISourceReference} from '../sources/file';
 import {Type} from '../types/index';
 import {Comment} from '../comments/comment';
 import {TypeParameterReflection} from './type-parameter';
-import {ProjectReflection} from './project';
 
 
 /**

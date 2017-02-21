@@ -8,7 +8,6 @@ import {ReflectionGroup} from '../../models/ReflectionGroup';
 import {UrlMapping} from '../models/UrlMapping';
 import {NavigationItem} from '../models/NavigationItem';
 import {RendererEvent} from '../events';
-import {Component} from '../../utils/component';
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.

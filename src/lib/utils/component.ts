@@ -19,16 +19,6 @@ export interface IComponentClass<T extends IComponent> extends Function {
 }
 
 
-interface IComponentList {
-    [name:string]:IComponentClass<IComponent>;
-}
-
-
-interface IComponentRegistry {
-    [scope:string]:IComponentList;
-}
-
-
 export interface IComponentOptions {
     name?:string;
     childClass?:Function;
