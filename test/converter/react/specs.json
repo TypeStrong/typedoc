@@ -99,6 +99,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "0": true,
                 "isPrivate": true
               },
               "sources": [
@@ -249,6 +250,7 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
+                        "0": true,
                         "isOptional": true
                       },
                       "type": {
@@ -422,6 +424,7 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
+                        "0": true,
                         "isOptional": true
                       },
                       "type": {
@@ -489,6 +492,7 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
+                        "0": true,
                         "isOptional": true
                       },
                       "type": {

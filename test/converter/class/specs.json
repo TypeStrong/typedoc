@@ -75,6 +75,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "0": true,
                 "isPrivate": true,
                 "isExported": true
               },
@@ -124,6 +125,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "0": true,
                 "isStatic": true,
                 "isExported": true
               },
@@ -149,6 +151,7 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
+                "0": true,
                 "isPrivate": true,
                 "isExported": true
               },
@@ -182,6 +185,7 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
+                "0": true,
                 "isExported": true,
                 "isProtected": true
               },
@@ -248,6 +252,7 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
+                "0": true,
                 "isStatic": true,
                 "isExported": true
               },
@@ -438,6 +443,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "0": true,
                 "isPrivate": true,
                 "isConstructorProperty": true,
                 "isExported": true
@@ -542,6 +548,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
+                "0": true,
                 "isStatic": true,
                 "isExported": true
               },
@@ -572,6 +579,7 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
+                "0": true,
                 "isExported": true,
                 "isProtected": true
               },
@@ -658,6 +666,7 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
+                "0": true,
                 "isStatic": true,
                 "isExported": true
               },

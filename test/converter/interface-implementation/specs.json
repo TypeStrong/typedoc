@@ -54,6 +54,7 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
+                    "0": true,
                     "isPrivate": true,
                     "isExported": true
                   },
@@ -116,7 +117,9 @@
                           "name": "filter",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "0": true
+                          },
                           "type": {
                             "type": "instrinct",
                             "name": "any"
@@ -128,7 +131,9 @@
                           "name": "priority",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "0": true
+                          },
                           "type": {
                             "type": "instrinct",
                             "name": "number"
@@ -761,6 +766,7 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
+                            "0": true,
                             "isOptional": true
                           },
                           "type": {
@@ -774,6 +780,7 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
+                            "0": true,
                             "isOptional": true
                           },
                           "type": {
