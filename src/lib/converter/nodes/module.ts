@@ -1,9 +1,9 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, ProjectReflection} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import {Reflection, ReflectionKind, ReflectionFlag, ProjectReflection} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 
 @Component({name:'node:module'})
@@ -29,7 +29,6 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
         const reflection = createDeclaration(context, node, ReflectionKind.Module);
 
         context.withScope(reflection, () => {
-            const opt = context.getCompilerOptions();
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
                 (!module || module.valueOf() === ts.ModuleKind.None.valueOf())) {
                 reflection.setFlag(ReflectionFlag.Exported);

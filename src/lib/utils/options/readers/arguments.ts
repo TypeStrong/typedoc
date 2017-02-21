@@ -1,12 +1,12 @@
-import * as ts from "typescript";
-import * as _ts from "../../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../../ts-internal';
 
-import {Component} from "../../component";
-import {DiscoverEvent, OptionsComponent} from "../options";
-import {ParameterType} from "../declaration";
+import {Component} from '../../component';
+import {DiscoverEvent, OptionsComponent} from '../options';
+import {ParameterType} from '../declaration';
 
 
-@Component({name:"options:arguments"})
+@Component({name:'options:arguments'})
 export class ArgumentsReader extends OptionsComponent
 {
     initialize() {

@@ -1,8 +1,8 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import {Application} from "../application";
-import {EventDispatcher, Event, IEventMap} from "./events";
-import {IOptionDeclaration} from "./options/declaration";
+import {Application} from '../application';
+import {EventDispatcher, Event, IEventMap} from './events';
+import {IOptionDeclaration} from './options/declaration';
 
 
 export interface IComponentHost {
@@ -89,12 +89,12 @@ export function Option(options:IOptionDeclaration):PropertyDecorator {
 
         Object.defineProperty(target, propertyKey, {
             get: function () {
-                return this.application.options.getValue(options.name)
+                return this.application.options.getValue(options.name);
             },
             enumerable: true,
             configurable: true
         });
-    }
+    };
 }
 
 
@@ -104,9 +104,9 @@ export class ComponentEvent extends Event
 
     component:AbstractComponent<IComponentHost>;
 
-    static ADDED:string = 'componentAdded';
+    static ADDED = 'componentAdded';
 
-    static REMOVED:string = 'componentRemoved';
+    static REMOVED = 'componentRemoved';
 
 
     constructor(name:string, owner:IComponentHost, component:AbstractComponent<IComponentHost>) {
@@ -252,7 +252,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         if (this._componentChildren[name]) {
             throw new Error('The component `%s` has already been added.');
         } else {
-            const component:T = typeof componentClass == "function" ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
+            const component:T = typeof componentClass === 'function' ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
             const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);

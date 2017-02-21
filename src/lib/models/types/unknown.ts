@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -43,8 +43,8 @@ export class UnknownType extends Type
      */
     equals(type:UnknownType):boolean {
         return type instanceof UnknownType &&
-            type.isArray == this.isArray &&
-            type.name == this.name;
+            type.isArray === this.isArray &&
+            type.name === this.name;
     }
 
 

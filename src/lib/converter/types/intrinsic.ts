@@ -1,15 +1,16 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, IntrinsicType} from "../../models/index";
-import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
-import {Context} from "../context";
+import {Type, IntrinsicType} from '../../models/index';
+import {Component, ConverterTypeComponent, ITypeTypeConverter} from '../components';
+import {Context} from '../context';
 
 // TypeScript has an @internal enum set for the intrinsic types:
 // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2297-L2298
 // It is not included in the typescript typings, so the enum is cast as `any` to access the `Intrinsic` set.
+// tslint:disable-next-line:variable-name
 const IntrinsicTypeFlags = (ts.TypeFlags as any).Intrinsic;
 if (IntrinsicTypeFlags === undefined) {
-    throw new Error("Internal TypeScript API missing: TypeFlags.Intrinsic");
+    throw new Error('Internal TypeScript API missing: TypeFlags.Intrinsic');
 }
 
 @Component({name:'type:intrinsic'})

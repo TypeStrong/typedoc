@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -48,8 +48,8 @@ export class IntrinsicType extends Type
      */
     equals(type:IntrinsicType):boolean {
         return type instanceof IntrinsicType &&
-            type.isArray == this.isArray &&
-            type.name == this.name;
+            type.isArray === this.isArray &&
+            type.name === this.name;
     }
 
 

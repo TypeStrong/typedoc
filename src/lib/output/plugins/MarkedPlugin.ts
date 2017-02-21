@@ -1,13 +1,13 @@
-import * as FS from "fs-extra";
-import * as Path from "path";
-import * as Marked from "marked";
-import * as HighlightJS from "highlight.js";
-import * as Handlebars from "handlebars";
+import * as FS from 'fs-extra';
+import * as Path from 'path';
+import * as Marked from 'marked';
+import * as HighlightJS from 'highlight.js';
+import * as Handlebars from 'handlebars';
 
-import {Component, ContextAwareRendererComponent} from "../components";
-import {RendererEvent, MarkdownEvent} from "../events";
-import {Option} from "../../utils/component";
-import {ParameterHint} from "../../utils/options/declaration";
+import {Component, ContextAwareRendererComponent} from '../components';
+import {RendererEvent, MarkdownEvent} from '../events';
+import {Option} from '../../utils/component';
+import {ParameterHint} from '../../utils/options/declaration';
 
 
 /**
@@ -40,7 +40,7 @@ import {ParameterHint} from "../../utils/options/declaration";
  * {{#relativeURL url}}
  * ```
  */
-@Component({name:"marked"})
+@Component({name:'marked'})
 export class MarkedPlugin extends ContextAwareRendererComponent
 {
     @Option({
@@ -130,7 +130,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
                 path = Path.join(this.includes, path.trim());
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
                     const contents = FS.readFileSync(path, 'utf-8');
-                    if (path.substr(-4).toLocaleLowerCase() == '.hbs') {
+                    if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
                         const template = Handlebars.compile(contents);
                         return template(context);
                     } else {

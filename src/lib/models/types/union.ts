@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -47,7 +47,7 @@ export class UnionType extends Type
      */
     equals(type:UnionType):boolean {
         if (!(type instanceof UnionType)) return false;
-        if (type.isArray != this.isArray) return false;
+        if (type.isArray !== this.isArray) return false;
         return Type.isTypeListSimiliar(type.types, this.types);
     }
 
@@ -73,7 +73,7 @@ export class UnionType extends Type
     toString() {
         const names:string[] = [];
         this.types.forEach((element) => {
-            names.push(element.toString())
+            names.push(element.toString());
         });
 
         return names.join(' | ');

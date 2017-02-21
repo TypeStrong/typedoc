@@ -1,8 +1,8 @@
-import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from "../../models/reflections/index";
-import {Type, ReferenceType, TupleType, UnionType} from "../../models/types/index";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from '../../models/reflections/index';
+import {Type, ReferenceType, TupleType, UnionType} from '../../models/types/index';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -82,9 +82,9 @@ export class TypePlugin extends ConverterComponent
         function resolveType(reflection:Reflection, type:Type) {
             if (type instanceof ReferenceType) {
                 const referenceType:ReferenceType = <ReferenceType>type;
-                if (referenceType.symbolID == ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                if (referenceType.symbolID === ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
                     referenceType.reflection = reflection.findReflectionByName(referenceType.name);
-                } else if (!referenceType.reflection && referenceType.symbolID != ReferenceType.SYMBOL_ID_RESOLVED) {
+                } else if (!referenceType.reflection && referenceType.symbolID !== ReferenceType.SYMBOL_ID_RESOLVED) {
                     referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
                 }
 
@@ -109,7 +109,7 @@ export class TypePlugin extends ConverterComponent
 
 
     private postpone(reflection:DeclarationReflection) {
-        if (this.reflections.indexOf(reflection) == -1) {
+        if (this.reflections.indexOf(reflection) === -1) {
             this.reflections.push(reflection);
         }
     }
@@ -124,7 +124,7 @@ export class TypePlugin extends ConverterComponent
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
                 reflection.implementedBy.sort((a:Type, b:Type):number => {
-                    if (a['name'] == b['name']) return 0;
+                    if (a['name'] === b['name']) return 0;
                     return a['name'] > b['name'] ? 1 : -1;
                 });
             }

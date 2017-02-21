@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -47,8 +47,8 @@ export class StringLiteralType extends Type
      */
     equals(type:StringLiteralType):boolean {
         return type instanceof StringLiteralType &&
-            type.isArray == this.isArray &&
-            type.value == this.value;
+            type.isArray === this.isArray &&
+            type.value === this.value;
     }
 
 

@@ -1,20 +1,21 @@
-import * as ShellJS from "shelljs";
-import * as Path from "path";
+import * as ShellJS from 'shelljs';
+import * as Path from 'path';
 
-import {ISourceReference} from "../../models/sources/file";
-import {Component, ConverterComponent} from "../components";
-import {BasePath} from "../utils/base-path";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {ISourceReference} from '../../models/sources/file';
+import {Component, ConverterComponent} from '../components';
+import {BasePath} from '../utils/base-path';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 // This should be removed when @typings/shelljs typings are updated to the shelljs version being used
-declare module "shelljs" {
+declare module 'shelljs' {
     // `stdout` was added in:
     // https://github.com/shelljs/shelljs/commit/8a7f7ceec4d3a77a9309d935755675ac368b1eda#diff-c3bfabb5e6987aa21bc75ffd95a162d6
     // As of 2016-10-16, DefinitelyTyped's defs are for shelljs v0.3.0, but we're on 0.7.0
+    // tslint:disable-next-line:interface-name
     interface ExecOutputReturnValue {
-        stdout: string;
-        stderr: string;
+        stdout:string;
+        stderr:string;
     }
 }
 
@@ -31,7 +32,7 @@ class Repository
     /**
      * The name of the branch this repository is on right now.
      */
-    branch:string = 'master';
+    branch = 'master';
 
     /**
      * A list of all files tracked by the repository.
@@ -59,7 +60,7 @@ class Repository
         ShellJS.pushd(path);
 
         let out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-remote --get-url', {silent:true});
-        if (out.code == 0) {
+        if (out.code === 0) {
             let url:RegExpExecArray;
             const remotes = out.stdout.split('\n');
             for (let i = 0, c = remotes.length; i < c; i++) {
@@ -67,7 +68,7 @@ class Repository
                 if (url) {
                     this.gitHubUser = url[1];
                     this.gitHubProject = url[2];
-                    if (this.gitHubProject.substr(-4) == '.git') {
+                    if (this.gitHubProject.substr(-4) === '.git') {
                         this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
                     }
                     break;
@@ -76,16 +77,16 @@ class Repository
         }
 
         out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git ls-files', {silent:true});
-        if (out.code == 0) {
+        if (out.code === 0) {
             out.stdout.split('\n').forEach((file) => {
-                if (file != '') {
+                if (file !== '') {
                     this.files.push(BasePath.normalize(path + '/' + file));
                 }
             });
         }
 
         out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --short HEAD', {silent:true});
-        if (out.code == 0) {
+        if (out.code === 0) {
             this.branch = out.stdout.replace('\n', '');
         }
 
@@ -100,7 +101,7 @@ class Repository
      * @returns TRUE when the file is part of the repository, otherwise FALSE.
      */
     contains(fileName:string):boolean {
-        return this.files.indexOf(fileName) != -1;
+        return this.files.indexOf(fileName) !== -1;
     }
 
 
@@ -140,8 +141,8 @@ class Repository
         const out = <ShellJS.ExecOutputReturnValue>ShellJS.exec('git rev-parse --show-toplevel', {silent:true});
         ShellJS.popd();
 
-        if (out.code != 0) return null;
-        return new Repository(BasePath.normalize(out.stdout.replace("\n", '')));
+        if (out.code !== 0) return null;
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')));
     }
 }
 
@@ -187,7 +188,7 @@ export class GitHubPlugin extends ConverterComponent
         // Check for known non-repositories
         const dirName = Path.dirname(fileName);
         for (let i = 0, c = this.ignoredPaths.length; i < c; i++) {
-            if (this.ignoredPaths[i] == dirName) {
+            if (this.ignoredPaths[i] === dirName) {
                 return null;
             }
         }
@@ -195,7 +196,7 @@ export class GitHubPlugin extends ConverterComponent
         // Check for known repositories
         for (let path in this.repositories) {
             if (!this.repositories.hasOwnProperty(path)) continue;
-            if (fileName.substr(0, path.length) == path) {
+            if (fileName.substr(0, path.length) === path) {
                 return this.repositories[path];
             }
         }

@@ -8,7 +8,7 @@ export abstract class Type
     /**
      * Is this an array type?
      */
-    isArray:boolean = false;
+    isArray = false;
 
 
 
@@ -61,7 +61,7 @@ export abstract class Type
      * @param b
      */
     static isTypeListSimiliar(a:Type[], b:Type[]):boolean {
-        if (a.length != b.length) return false;
+        if (a.length !== b.length) return false;
         outerLoop: for (let an = 0, count = a.length; an < count; an++) {
             const at = a[an];
             for (let bn = 0; bn < count; bn++) {
@@ -82,7 +82,7 @@ export abstract class Type
      * @param b
      */
     static isTypeListEqual(a:Type[], b:Type[]):boolean {
-        if (a.length != b.length) return false;
+        if (a.length !== b.length) return false;
         for (let index = 0, count = a.length; index < count; index++) {
             if (!a[index].equals(b[index])) {
                 return false;

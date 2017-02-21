@@ -7,7 +7,7 @@
 // The Events object is a typesafe conversion of Backbones Events object:
 // https://github.com/jashkenas/backbone/blob/05fde9e201f7e2137796663081105cd6dad12a98/backbone.js#L119-L374
 
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 
 export interface IEventCallback extends Function {
@@ -43,7 +43,7 @@ export interface IEventMap {
 }
 
 interface IEventIteratee<T, U> {
-    (events:U, name:string, callback:Function, options:T):U
+    (events:U, name:string, callback:Function, options:T):U;
 }
 
 interface IOnApiOptions {

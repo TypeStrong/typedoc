@@ -1,6 +1,6 @@
-import {Reflection, ReflectionKind, ITraverseCallback, TraverseProperty} from "./abstract";
-import {ReflectionGroup} from "../ReflectionGroup";
-import {DeclarationReflection} from "./declaration";
+import {Reflection, ReflectionKind, ITraverseCallback, TraverseProperty} from './abstract';
+import {ReflectionGroup} from '../ReflectionGroup';
+import {DeclarationReflection} from './declaration';
 
 
 export class ContainerReflection extends Reflection
@@ -61,7 +61,7 @@ export class ContainerReflection extends Reflection
         if (this.groups) {
             const groups:any[] = [];
             this.groups.forEach((group) => {
-                groups.push(group.toObject())
+                groups.push(group.toObject());
             });
 
             result['groups'] = groups;

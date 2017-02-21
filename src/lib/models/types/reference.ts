@@ -1,5 +1,5 @@
-import {Reflection} from "../reflections/abstract";
-import {Type} from "./abstract";
+import {Reflection} from '../reflections/abstract';
+import {Type} from './abstract';
 
 
 /**
@@ -86,8 +86,8 @@ export class ReferenceType extends Type
      */
     equals(type:ReferenceType):boolean {
         return type instanceof ReferenceType &&
-            type.isArray == this.isArray &&
-            (type.symbolID == this.symbolID || type.reflection == this.reflection);
+            type.isArray === this.isArray &&
+            (type.symbolID === this.symbolID || type.reflection === this.reflection);
     }
 
 
@@ -122,9 +122,9 @@ export class ReferenceType extends Type
         if (this.typeArguments) {
             typeArgs += '<';
             typeArgs += this.typeArguments.map(arg => arg.toString()).join(', ');
-            typeArgs += '>'
+            typeArgs += '>';
         }
-        
+
         return name + typeArgs + arraySuffix;
     }
 }

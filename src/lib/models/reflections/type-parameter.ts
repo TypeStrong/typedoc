@@ -1,6 +1,6 @@
-import {Type, TypeParameterType} from "../types/index";
-import {Reflection, ReflectionKind, ITypeContainer} from "./abstract";
-import {DeclarationReflection} from "./declaration";
+import {Type, TypeParameterType} from '../types/index';
+import {Reflection, ReflectionKind, ITypeContainer} from './abstract';
+import {DeclarationReflection} from './declaration';
 
 
 export class TypeParameterReflection extends Reflection implements ITypeContainer

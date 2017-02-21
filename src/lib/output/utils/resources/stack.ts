@@ -1,17 +1,17 @@
-import * as FS from "fs";
-import * as Path from "path";
-import * as Util from "util";
+import * as FS from 'fs';
+import * as Path from 'path';
+import * as Util from 'util';
 
-import {normalizePath} from "../../../utils/fs";
+import {normalizePath} from '../../../utils/fs';
 
 
 export interface IResourceClass<T extends Resource> extends Function {
-    new (origin:ResourceOrigin<T>, name:string, fileName:string):T
+    new (origin:ResourceOrigin<T>, name:string, fileName:string):T;
 }
 
 
 export interface IResourceMap<T extends Resource> {
-    [name:string]:T
+    [name:string]:T;
 }
 
 
@@ -161,7 +161,7 @@ export abstract class ResourceStack<T extends Resource>
             }
         }
 
-        throw new Error(Util.format("Cannot find resource `%s`.", name));
+        throw new Error(Util.format('Cannot find resource `%s`.', name));
     }
 
 
@@ -189,7 +189,7 @@ export abstract class ResourceStack<T extends Resource>
 
     getOrigin(name:string):ResourceOrigin<T> {
         for (let origin of this.origins) {
-            if (origin.getName() == name) {
+            if (origin.getName() === name) {
                 return origin;
             }
         }
@@ -208,24 +208,24 @@ export abstract class ResourceStack<T extends Resource>
      */
     addOrigin(name:string, path:string, ignoreErrors?:boolean) {
         if (this.isActive) {
-            throw new Error("Cannot add origins while the resource is active.");
+            throw new Error('Cannot add origins while the resource is active.');
         }
 
         if (this.hasOrigin(name)) {
-            throw new Error(Util.format("The origin `%s` is already registered.", name));
+            throw new Error(Util.format('The origin `%s` is already registered.', name));
         }
 
         path = Path.resolve(path);
         if (!FS.existsSync(path)) {
             if (!ignoreErrors) {
-                throw new Error(Util.format("The resource path `%s` does not exist.", path));
+                throw new Error(Util.format('The resource path `%s` does not exist.', path));
             }
             return;
         }
 
         if (!FS.statSync(path).isDirectory()) {
             if (!ignoreErrors) {
-                throw new Error(Util.format("The resource path `%s` is not a directory.", path));
+                throw new Error(Util.format('The resource path `%s` is not a directory.', path));
             }
             return;
         }
@@ -236,7 +236,7 @@ export abstract class ResourceStack<T extends Resource>
 
     removeOrigin(name:string) {
         if (this.isActive) {
-            throw new Error("Cannot remove origins while the resource is active.");
+            throw new Error('Cannot remove origins while the resource is active.');
         }
 
         let index = 0, count = this.origins.length;
@@ -254,7 +254,7 @@ export abstract class ResourceStack<T extends Resource>
 
     removeAllOrigins() {
         if (this.isActive) {
-            throw new Error("Cannot remove origins while the resource is active.");
+            throw new Error('Cannot remove origins while the resource is active.');
         }
 
         this.origins = [];

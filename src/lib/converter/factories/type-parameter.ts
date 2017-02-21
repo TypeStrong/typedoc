@@ -1,8 +1,8 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {ITypeParameterContainer, TypeParameterReflection, TypeParameterType} from "../../models/index";
-import {Context} from "../context";
-import {Converter} from "../converter";
+import {ITypeParameterContainer, TypeParameterReflection, TypeParameterType} from '../../models/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
 
 
 /**

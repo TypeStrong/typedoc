@@ -1,10 +1,10 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 
 @Component({name:'node:interface'})
@@ -27,7 +27,7 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
      */
     convert(context:Context, node:ts.InterfaceDeclaration):Reflection {
         let reflection:DeclarationReflection;
-        if (context.isInherit && context.inheritParent == node) {
+        if (context.isInherit && context.inheritParent === node) {
             reflection = <DeclarationReflection>context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Interface);

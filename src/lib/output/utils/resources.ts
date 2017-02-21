@@ -1,11 +1,11 @@
-import * as FS from "fs";
-import * as Path from "path";
-import * as Util from "util";
+import * as FS from 'fs';
+import * as Path from 'path';
+import * as Util from 'util';
 
-import {Theme} from "../theme";
-import {HelperStack} from "./resources/helpers";
-import {TemplateStack, PartialStack} from "./resources/templates";
-import {Renderer} from "../renderer";
+import {Theme} from '../theme';
+import {HelperStack} from './resources/helpers';
+import {TemplateStack, PartialStack} from './resources/templates';
+import {Renderer} from '../renderer';
 
 
 export class Resources
@@ -62,16 +62,16 @@ export class Resources
 
     addDirectory(name:string, path:string) {
         if (this.isActive) {
-            throw new Error("Cannot add directories while the resource is active.");
+            throw new Error('Cannot add directories while the resource is active.');
         }
 
         path = Path.resolve(path);
         if (!FS.existsSync(path)) {
-            throw new Error(Util.format("The theme path `%s` does not exist.", path));
+            throw new Error(Util.format('The theme path `%s` does not exist.', path));
         }
 
         if (!FS.statSync(path).isDirectory()) {
-            throw new Error(Util.format("The theme path `%s` is not a directory.", path));
+            throw new Error(Util.format('The theme path `%s` is not a directory.', path));
         }
 
         this.templates.addOrigin(name, Path.join(path, 'templates'), true);
@@ -83,7 +83,7 @@ export class Resources
 
     removeDirectory(name:string) {
         if (this.isActive) {
-            throw new Error("Cannot remove directories while the resource is active.");
+            throw new Error('Cannot remove directories while the resource is active.');
         }
 
         this.templates.removeOrigin(name);
@@ -95,7 +95,7 @@ export class Resources
 
     removeAllDirectories() {
         if (this.isActive) {
-            throw new Error("Cannot remove directories while the resource is active.");
+            throw new Error('Cannot remove directories while the resource is active.');
         }
 
         this.templates.removeAllOrigins();

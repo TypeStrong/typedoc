@@ -1,9 +1,9 @@
-import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
-import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {SourceDirectory} from "../../models/sources/directory";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
+import {ReflectionGroup} from '../../models/ReflectionGroup';
+import {SourceDirectory} from '../../models/sources/directory';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -43,7 +43,7 @@ export class GroupPlugin extends ConverterComponent
         ReflectionKind.ConstructorSignature,
         ReflectionKind.IndexSignature,
         ReflectionKind.GetSignature,
-        ReflectionKind.SetSignature,
+        ReflectionKind.SetSignature
     ];
 
     /**
@@ -142,7 +142,7 @@ export class GroupPlugin extends ConverterComponent
         reflections.forEach((child) => {
             for (let i = 0; i < groups.length; i++) {
                 const group = groups[i];
-                if (group.kind != child.kind) {
+                if (group.kind !== child.kind) {
                     continue;
                 }
 
@@ -234,10 +234,10 @@ export class GroupPlugin extends ConverterComponent
     static sortCallback(a:Reflection, b:Reflection):number {
         const aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
         const bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
-        if (aWeight == bWeight) {
+        if (aWeight === bWeight) {
             if (a.flags.isStatic && !b.flags.isStatic) return 1;
             if (!a.flags.isStatic && b.flags.isStatic) return -1;
-            if (a.name == b.name) return 0;
+            if (a.name === b.name) return 0;
             return a.name > b.name ? 1 : -1;
         } else return aWeight - bWeight;
     }

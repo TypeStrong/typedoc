@@ -1,11 +1,11 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, IntrinsicType} from "../../models/index";
-import {createDeclaration, createComment} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {convertDefaultValue} from "../index";
+import {Reflection, ReflectionKind, IntrinsicType} from '../../models/index';
+import {createDeclaration, createComment} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
+import {convertDefaultValue} from '../index';
 
 
 @Component({name:'node:variable'})
@@ -26,7 +26,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
 
     isSimpleObjectLiteral(objectLiteral:ts.ObjectLiteralExpression):boolean {
         if (!objectLiteral.properties) return true;
-        return objectLiteral.properties.length == 0;
+        return objectLiteral.properties.length === 0;
     }
 
 
@@ -39,7 +39,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
      */
     convert(context:Context, node:ts.VariableDeclaration):Reflection {
         const comment = createComment(node);
-        if (comment && comment.hasTag("resolve")) {
+        if (comment && comment.hasTag('resolve')) {
             const resolveType = context.getTypeAtLocation(node);
             if (resolveType && resolveType.symbol) {
                 const resolved = this.owner.convertNode(context, resolveType.symbol.declarations[0]);
@@ -83,7 +83,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
                 }
             }
 
-            if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
+            if (variable.kind === kind || variable.kind === ReflectionKind.Event) {
                 if (isBindingPattern) {
                     variable.type = this.owner.convertType(context, node.name);
                 } else {

@@ -1,9 +1,9 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
-import * as Path from "path";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
+import * as Path from 'path';
 
-import {ConverterComponent} from "../components";
-import {normalizePath} from "../../utils/fs";
+import {ConverterComponent} from '../components';
+import {normalizePath} from '../../utils/fs';
 
 
 /**
@@ -35,7 +35,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param onError  A callback that will be invoked if an error occurs.
      * @returns An instance of ts.SourceFile representing the given file.
      */
-    getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
+    getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?:(message:string) => void):ts.SourceFile {
         let text:string;
         try {
             text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
@@ -43,7 +43,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
             if (onError) {
                 onError(e.number === ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
             }
-            text = "";
+            text = '';
         }
 
         return text !== undefined ? ts.createSourceFile(filename, text, languageVersion) : undefined;
@@ -63,7 +63,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
         return Path.join(path, lib);
     }
 
-    getDirectories(path: string): string[] {
+    getDirectories(path:string):string[] {
         return ts.sys.getDirectories(path);
     }
 
@@ -168,5 +168,5 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
      * @param onError  A callback that will be invoked if an error occurs.
      */
-    writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) { }
+    writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) { }
 }

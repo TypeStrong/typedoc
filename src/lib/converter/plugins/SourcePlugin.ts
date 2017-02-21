@@ -1,13 +1,13 @@
-import * as Path from "path";
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as Path from 'path';
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ProjectReflection, DeclarationReflection} from "../../models/reflections/index";
-import {SourceDirectory, SourceFile} from "../../models/sources/index";
-import {Component, ConverterComponent} from "../components";
-import {BasePath} from "../utils/base-path";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, ProjectReflection, DeclarationReflection} from '../../models/reflections/index';
+import {SourceDirectory, SourceFile} from '../../models/sources/index';
+import {Component, ConverterComponent} from '../components';
+import {BasePath} from '../utils/base-path';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -161,7 +161,7 @@ export class SourcePlugin extends ConverterComponent
 
             let directory = home;
             const path = Path.dirname(file.fileName);
-            if (path != '.') {
+            if (path !== '.') {
                 path.split('/').forEach((path) => {
                     if (!Object.prototype.hasOwnProperty.call(directory, path)) {
                         directory.directories[path] = new SourceDirectory(path, directory);

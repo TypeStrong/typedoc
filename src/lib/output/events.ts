@@ -1,9 +1,9 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {Event} from "../utils/events";
-import {ProjectReflection} from "../models/reflections/project";
-import {UrlMapping} from "./models/UrlMapping";
-import {NavigationItem} from "./models/NavigationItem";
+import {Event} from '../utils/events';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {NavigationItem} from './models/NavigationItem';
 
 
 /**
@@ -41,13 +41,13 @@ export class RendererEvent extends Event
      * Triggered before the renderer starts rendering a project.
      * @event
      */
-    static BEGIN:string = 'beginRender';
+    static BEGIN = 'beginRender';
 
     /**
      * Triggered after the renderer has written all documents.
      * @event
      */
-    static END:string = 'endRender';
+    static END = 'endRender';
 
 
 
@@ -138,13 +138,13 @@ export class PageEvent extends Event
      * Triggered before a document will be rendered.
      * @event
      */
-    static BEGIN:string = 'beginPage';
+    static BEGIN = 'beginPage';
 
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      * @event
      */
-    static END:string = 'endPage';
+    static END = 'endPage';
 }
 
 
@@ -170,5 +170,5 @@ export class MarkdownEvent extends Event
      * Triggered on the renderer when this plugin parses a markdown string.
      * @event
      */
-    static PARSE:string = 'parseMarkdown';
+    static PARSE = 'parseMarkdown';
 }

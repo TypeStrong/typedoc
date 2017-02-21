@@ -1,16 +1,16 @@
-import * as ts from "typescript";
-import * as _ts from "../ts-internal";
-import * as Path from "path";
-import * as _ from "lodash";
+import * as ts from 'typescript';
+import * as _ts from '../ts-internal';
+import * as Path from 'path';
+import * as _ from 'lodash';
 
-import {Application} from "../application";
-import {ParameterType} from "../utils/options/declaration";
-import {Reflection, Type, ProjectReflection} from "../models/index";
-import {Context} from "./context";
-import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITypeTypeConverter, ITypeNodeConverter} from "./components";
-import {CompilerHost} from "./utils/compiler-host";
-import {Component, Option, ChildableComponent, IComponentClass} from "../utils/component"
-import {normalizePath} from "../utils/fs";
+import {Application} from '../application';
+import {ParameterType} from '../utils/options/declaration';
+import {Reflection, Type, ProjectReflection} from '../models/index';
+import {Context} from './context';
+import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITypeTypeConverter, ITypeNodeConverter} from './components';
+import {CompilerHost} from './utils/compiler-host';
+import {Component, Option, ChildableComponent, IComponentClass} from '../utils/component';
+import {normalizePath} from '../utils/fs';
 
 
 /**
@@ -86,47 +86,47 @@ interface IConverterResolveCallback
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-@Component({name:"converter", internal:true, childClass:ConverterComponent})
+@Component({name:'converter', internal:true, childClass:ConverterComponent})
 export class Converter extends ChildableComponent<Application, ConverterComponent>
 {
     /**
      * The human readable name of the project. Used within the templates to set the title of the document.
      */
     @Option({
-        name: "name",
-        help: "Set the name of the project that will be used in the header of the template."
+        name: 'name',
+        help: 'Set the name of the project that will be used in the header of the template.'
     })
     name:string;
 
     @Option({
-        name: "externalPattern",
+        name: 'externalPattern',
         help: 'Define a pattern for files that should be considered being external.'
     })
     externalPattern:string;
 
     @Option({
-        name: "includeDeclarations",
+        name: 'includeDeclarations',
         help: 'Turn on parsing of .d.ts declaration files.',
         type: ParameterType.Boolean
     })
     includeDeclarations:boolean;
 
     @Option({
-        name: "excludeExternals",
+        name: 'excludeExternals',
         help: 'Prevent externally resolved TypeScript files from being documented.',
         type: ParameterType.Boolean
     })
     excludeExternals:boolean;
 
     @Option({
-        name: "excludeNotExported",
+        name: 'excludeNotExported',
         help: 'Prevent symbols that are not exported from being documented.',
         type: ParameterType.Boolean
     })
     excludeNotExported:boolean;
 
     @Option({
-        name: "excludePrivate",
+        name: 'excludePrivate',
         help: 'Ignores private variables and methods',
         type: ParameterType.Boolean
     })
@@ -150,14 +150,14 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_BEGIN:string = 'begin';
+    static EVENT_BEGIN = 'begin';
 
     /**
      * Triggered when the converter has finished converting a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_END:string = 'end';
+    static EVENT_END = 'end';
 
 
     /**
@@ -169,42 +169,42 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FILE_BEGIN:string = 'fileBegin';
+    static EVENT_FILE_BEGIN = 'fileBegin';
 
     /**
      * Triggered when the converter has created a declaration reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_DECLARATION:string = 'createDeclaration';
+    static EVENT_CREATE_DECLARATION = 'createDeclaration';
 
     /**
      * Triggered when the converter has created a signature reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_SIGNATURE:string = 'createSignature';
+    static EVENT_CREATE_SIGNATURE = 'createSignature';
 
     /**
      * Triggered when the converter has created a parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_PARAMETER:string = 'createParameter';
+    static EVENT_CREATE_PARAMETER = 'createParameter';
 
     /**
      * Triggered when the converter has created a type parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_TYPE_PARAMETER:string = 'createTypeParameter';
+    static EVENT_CREATE_TYPE_PARAMETER = 'createTypeParameter';
 
     /**
      * Triggered when the converter has found a function implementation.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FUNCTION_IMPLEMENTATION:string = 'functionImplementation';
+    static EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
 
 
     /**
@@ -216,21 +216,21 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_BEGIN:string = 'resolveBegin';
+    static EVENT_RESOLVE_BEGIN = 'resolveBegin';
 
     /**
      * Triggered when the converter resolves a reflection.
      * The listener should implement [[IConverterResolveCallback]].
      * @event
      */
-    static EVENT_RESOLVE:string = 'resolveReflection';
+    static EVENT_RESOLVE = 'resolveReflection';
 
     /**
      * Triggered when the converter has finished resolving a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_END:string = 'resolveEnd';
+    static EVENT_RESOLVE_END = 'resolveEnd';
 
 
 
@@ -268,12 +268,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
 
     private addTypeConverter(converter:ITypeTypeConverter<any>|ITypeNodeConverter<any, any>) {
-        if ("supportsNode" in converter && "convertNode" in converter) {
+        if ('supportsNode' in converter && 'convertNode' in converter) {
             this.typeNodeConverters.push(<ITypeNodeConverter<any, any>>converter);
             this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
         }
 
-        if ("supportsType" in converter && "convertType" in converter) {
+        if ('supportsType' in converter && 'convertType' in converter) {
             this.typeTypeConverters.push(<ITypeTypeConverter<any>>converter);
             this.typeTypeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
         }
@@ -305,12 +305,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
     private removeTypeConverter(converter:ConverterTypeComponent) {
         let index = this.typeNodeConverters.indexOf(<any>converter);
-        if (index != -1) {
+        if (index !== -1) {
             this.typeTypeConverters.splice(index, 1);
         }
 
         index = this.typeNodeConverters.indexOf(<any>converter);
-        if (index != -1) {
+        if (index !== -1) {
             this.typeNodeConverters.splice(index, 1);
         }
     }
@@ -350,7 +350,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         return {
             errors: errors,
             project: project
-        }
+        };
     }
 
 
@@ -364,7 +364,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @return The resulting reflection or NULL.
      */
     convertNode(context:Context, node:ts.Node):Reflection {
-        if (context.visitStack.indexOf(node) != -1) {
+        if (context.visitStack.indexOf(node) !== -1) {
             return null;
         }
 

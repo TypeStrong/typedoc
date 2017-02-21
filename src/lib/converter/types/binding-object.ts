@@ -1,9 +1,9 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, ReflectionKind, DeclarationReflection, ReflectionType} from "../../models/index";
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
-import {Context} from "../context";
-import {Converter} from "../converter";
+import {Type, ReflectionKind, DeclarationReflection, ReflectionType} from '../../models/index';
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Context} from '../context';
+import {Converter} from '../converter';
 
 
 @Component({name:'type:binding-object'})
@@ -13,7 +13,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(context:Context, node:ts.BindingPattern):boolean {
-        return node.kind == ts.SyntaxKind.ObjectBindingPattern;
+        return node.kind === ts.SyntaxKind.ObjectBindingPattern;
     }
 
 

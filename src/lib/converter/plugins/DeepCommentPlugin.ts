@@ -1,8 +1,8 @@
-import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from "../../models/reflections/index";
-import {Comment, CommentTag} from "../../models/comments/index";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from '../../models/reflections/index';
+import {Comment, CommentTag} from '../../models/comments/index';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -37,12 +37,12 @@ export class DeepCommentPlugin extends ConverterComponent
 
         function push(parent:Reflection) {
             let part = parent.originalName;
-            if (!part || part.substr(0, 2) == '__' || parent instanceof SignatureReflection) {
+            if (!part || part.substr(0, 2) === '__' || parent instanceof SignatureReflection) {
                 part = '';
             }
 
-            if (part && part != '') {
-                name = (name == '' ? part : part + '.' + name);
+            if (part && part !== '') {
+                name = (name === '' ? part : part + '.' + name);
             }
         }
 

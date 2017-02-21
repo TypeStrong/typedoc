@@ -1,5 +1,5 @@
-import {Component, RendererComponent} from "../components";
-import {PageEvent} from "../events";
+import {Component, RendererComponent} from '../components';
+import {PageEvent} from '../events';
 
 
 /**
@@ -8,7 +8,7 @@ import {PageEvent} from "../events";
  * Currently only a default layout is supported. The layout must be stored
  * as ´layouts/default.hbs´ in the theme directory.
  */
-@Component({name:"layout"})
+@Component({name:'layout'})
 export class LayoutPlugin extends RendererComponent
 {
     /**

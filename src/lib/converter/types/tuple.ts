@@ -1,8 +1,8 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, TupleType} from "../../models/types/index";
-import {Component, ConverterTypeComponent, ITypeConverter} from "../components";
-import {Context} from "../context";
+import {Type, TupleType} from '../../models/types/index';
+import {Component, ConverterTypeComponent, ITypeConverter} from '../components';
+import {Context} from '../context';
 
 
 @Component({name:'type:tuple'})

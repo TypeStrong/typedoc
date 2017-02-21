@@ -1,5 +1,5 @@
-import * as ts from "typescript";
-import * as Util from "util";
+import * as ts from 'typescript';
+import * as Util from 'util';
 
 
 /**
@@ -25,7 +25,7 @@ export class Logger
     /**
      * How many error messages have been logged?
      */
-    errorCount:number = 0;
+    errorCount = 0;
 
 
 
@@ -119,7 +119,7 @@ export class Logger
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message:string, level:LogLevel = LogLevel.Info, newLine?:boolean) {
-        if (level == LogLevel.Error) {
+        if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
     }
@@ -180,18 +180,18 @@ export class ConsoleLogger extends Logger
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message:string, level:LogLevel = LogLevel.Info, newLine?:boolean) {
-        if (level == LogLevel.Error) {
+        if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
 
         let output = '';
-        if (level == LogLevel.Error) output += 'Error: ';
-        if (level == LogLevel.Warn) output += 'Warning: ';
+        if (level === LogLevel.Error) output += 'Error: ';
+        if (level === LogLevel.Warn) output += 'Warning: ';
         output += message;
 
-        if (newLine || level == LogLevel.Success) ts.sys.write(ts.sys.newLine);
+        if (newLine || level === LogLevel.Success) ts.sys.write(ts.sys.newLine);
         ts.sys.write(output + ts.sys.newLine);
-        if (level == LogLevel.Success) ts.sys.write(ts.sys.newLine);
+        if (level === LogLevel.Success) ts.sys.write(ts.sys.newLine);
     }
 }
 
@@ -227,7 +227,7 @@ export class CallbackLogger extends Logger
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message:string, level:LogLevel = LogLevel.Info, newLine?:boolean) {
-        if (level == LogLevel.Error) {
+        if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
 

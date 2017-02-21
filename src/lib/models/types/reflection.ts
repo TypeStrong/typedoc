@@ -1,5 +1,5 @@
-import {DeclarationReflection} from "../reflections/declaration";
-import {Type} from "./abstract";
+import {DeclarationReflection} from '../reflections/declaration';
+import {Type} from './abstract';
 
 
 /**
@@ -48,7 +48,7 @@ export class ReflectionType extends Type
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
     equals(type:ReflectionType):boolean {
-        return type == this;
+        return type === this;
     }
 
 

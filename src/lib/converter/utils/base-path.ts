@@ -1,4 +1,4 @@
-import * as Path from "path";
+import * as Path from 'path';
 
 
 /**
@@ -28,7 +28,7 @@ export class BasePath
             const basePath = this.basePaths[n].split('/');
             const mMax     = Math.min(basePath.length, filePath.length);
             for (let m = 0; m < mMax; m++) {
-                if (basePath[m] == filePath[m]) {
+                if (basePath[m] === filePath[m]) {
                     continue;
                 }
 
@@ -64,7 +64,7 @@ export class BasePath
         fileName = BasePath.normalize(fileName);
         for (let n = 0, c = this.basePaths.length; n < c; n++) {
             const basePath = this.basePaths[n];
-            if (fileName.substr(0, basePath.length) == basePath) {
+            if (fileName.substr(0, basePath.length) === basePath) {
                 return fileName.substr(basePath.length + 1);
             }
         }

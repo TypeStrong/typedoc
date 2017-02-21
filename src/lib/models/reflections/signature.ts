@@ -1,8 +1,8 @@
-import {Type, ReflectionType} from "../types/index";
-import {Reflection, ITypeContainer, ITypeParameterContainer, TraverseProperty, ITraverseCallback} from "./abstract";
-import {ContainerReflection} from "./container";
-import {ParameterReflection} from "./parameter";
-import {TypeParameterReflection} from "./type-parameter";
+import {Type, ReflectionType} from '../types/index';
+import {Reflection, ITypeContainer, ITypeParameterContainer, TraverseProperty, ITraverseCallback} from './abstract';
+import {ContainerReflection} from './container';
+import {ParameterReflection} from './parameter';
+import {TypeParameterReflection} from './type-parameter';
 
 
 export class SignatureReflection extends Reflection implements ITypeContainer, ITypeParameterContainer

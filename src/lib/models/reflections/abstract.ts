@@ -1,8 +1,8 @@
-import {SourceFile, ISourceReference} from "../sources/file";
-import {Type} from "../types/index";
-import {Comment} from "../comments/comment";
-import {TypeParameterReflection} from "./type-parameter";
-import {ProjectReflection} from "./project";
+import {SourceFile, ISourceReference} from '../sources/file';
+import {Type} from '../types/index';
+import {Comment} from '../comments/comment';
+import {TypeParameterReflection} from './type-parameter';
+import {ProjectReflection} from './project';
 
 
 /**
@@ -20,7 +20,7 @@ import {ProjectReflection} from "./project";
 /**
  * Current reflection id.
  */
-let REFLECTION_ID:number = 0;
+let REFLECTION_ID = 0;
 
 /**
  * Reset the reflection id.
@@ -141,7 +141,7 @@ export interface IReflectionFlags extends Array<string>
     /**
      * Whether it's a rest parameter, like `foo(...params);`.
      */
-    isRest?: boolean;
+    isRest?:boolean;
 
     /**
      *
@@ -232,7 +232,7 @@ export abstract class Reflection
     /**
      * The symbol name of this reflection.
      */
-    name:string = '';
+    name = '';
 
     /**
      * The original name of the TypeScript declaration.
@@ -371,7 +371,7 @@ export abstract class Reflection
      */
     setFlag(flag:ReflectionFlag, value:boolean = true) {
         let name:string, index:number;
-        if (relevantFlags.indexOf(flag) != -1) {
+        if (relevantFlags.indexOf(flag) !== -1) {
             name = ReflectionFlag[flag];
             name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
             index = this.flags.indexOf(name);
@@ -379,12 +379,12 @@ export abstract class Reflection
 
         if (value) {
             this.flags.flags |= flag;
-            if (name && index == -1) {
+            if (name && index === -1) {
                 this.flags.push(name);
             }
         } else {
             this.flags.flags &= ~flag;
-            if (name && index != -1) {
+            if (name && index !== -1) {
                 this.flags.splice(index, 1);
             }
         }
@@ -442,7 +442,7 @@ export abstract class Reflection
     getAlias():string {
         if (!this._alias) {
             let alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            if (alias == '') {
+            if (alias === '') {
                 alias = 'reflection-' + this.id;
             }
 
@@ -453,7 +453,7 @@ export abstract class Reflection
 
             if (!target._aliases) target._aliases = [];
             let suffix = '', index = 0;
-            while (target._aliases.indexOf(alias + suffix) != -1) {
+            while (target._aliases.indexOf(alias + suffix) !== -1) {
                 suffix = '-' + (++index).toString();
             }
 
@@ -502,7 +502,7 @@ export abstract class Reflection
         let result:Reflection = null;
 
         this.traverse((child) => {
-            if (child.name == name) {
+            if (child.name === name) {
                 if (names.length <= 1) {
                     result = child;
                 } else if (child) {
@@ -518,7 +518,7 @@ export abstract class Reflection
     /**
      * Return whether this reflection is the root / project reflection.
      */
-    isProject():boolean { //:this is ProjectReflection
+    isProject():boolean { // this is ProjectReflection
         return false;
     }
 
@@ -573,7 +573,7 @@ export abstract class Reflection
             flags:      {}
         };
 
-        if (this.originalName != this.name) {
+        if (this.originalName !== this.name) {
             result.originalName = this.originalName;
         }
 
@@ -582,7 +582,7 @@ export abstract class Reflection
         }
 
         for (let key in this.flags) {
-            if (parseInt(key) == <any>key || key == 'flags') continue;
+            if (parseInt(key, 10) === <any>key || key === 'flags') continue;
             if (this.flags[key]) result.flags[key] = true;
         }
 
@@ -600,7 +600,7 @@ export abstract class Reflection
         }
 
         this.traverse((child, property) => {
-            if (property == TraverseProperty.TypeLiteral) return;
+            if (property === TraverseProperty.TypeLiteral) return;
             let name = TraverseProperty[property];
             name = name.substr(0, 1).toLowerCase() + name.substr(1);
             if (!result[name]) result[name] = [];

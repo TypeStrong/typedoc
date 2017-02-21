@@ -1,7 +1,7 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Comment, CommentTag} from "../../models/comments/index";
+import {Comment, CommentTag} from '../../models/comments/index';
 
 
 /**
@@ -35,9 +35,9 @@ export function createComment(node:ts.Node):Comment {
  * @return TRUE if the given node is the topmost module declaration, FALSE otherwise.
  */
 function isTopmostModuleDeclaration(node:ts.ModuleDeclaration):boolean {
-    if (node.nextContainer && node.nextContainer.kind == ts.SyntaxKind.ModuleDeclaration) {
+    if (node.nextContainer && node.nextContainer.kind === ts.SyntaxKind.ModuleDeclaration) {
         let next = <ts.ModuleDeclaration>node.nextContainer;
-        if (node.name.end + 1 == next.name.pos) {
+        if (node.name.end + 1 === next.name.pos) {
             return false;
         }
     }
@@ -57,9 +57,9 @@ function isTopmostModuleDeclaration(node:ts.ModuleDeclaration):boolean {
  */
 function getRootModuleDeclaration(node:ts.ModuleDeclaration):ts.Node
 {
-    while (node.parent && node.parent.kind == ts.SyntaxKind.ModuleDeclaration) {
+    while (node.parent && node.parent.kind === ts.SyntaxKind.ModuleDeclaration) {
         let parent = <ts.ModuleDeclaration>node.parent;
-        if (node.name.pos == parent.name.end + 1) {
+        if (node.name.pos === parent.name.end + 1) {
             node = parent;
         } else {
             break;
@@ -91,8 +91,8 @@ export function getRawComment(node:ts.Node):string {
     const comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
     if (comments && comments.length) {
         let comment:ts.CommentRange;
-        if (node.kind == ts.SyntaxKind.SourceFile) {
-            if (comments.length == 1) return null;
+        if (node.kind === ts.SyntaxKind.SourceFile) {
+            if (comments.length === 1) return null;
             comment = comments[0];
         } else {
             comment = comments[comments.length - 1];
@@ -114,7 +114,7 @@ export function getRawComment(node:ts.Node):string {
  */
 export function parseComment(text:string, comment:Comment = new Comment()):Comment {
     let currentTag:CommentTag;
-    let shortText:number = 0;
+    let shortText = 0;
 
     function consumeTypeData(line:string):string {
         line = line.replace(/^\{[^\}]*\}+/, '');
@@ -125,15 +125,15 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
     function readBareLine(line:string) {
         if (currentTag) {
             currentTag.text += '\n' + line;
-        } else if (line == '' && shortText == 0) {
+        } else if (line === '' && shortText === 0) {
             // Ignore
-        } else if (line == '' && shortText == 1) {
+        } else if (line === '' && shortText === 1) {
             shortText = 2;
         } else {
-            if (shortText == 2) {
-                comment.text += (comment.text == '' ? '' : '\n') + line;
+            if (shortText === 2) {
+                comment.text += (comment.text === '' ? '' : '\n') + line;
             } else {
-                comment.shortText += (comment.shortText == '' ? '' : '\n') + line;
+                comment.shortText += (comment.shortText === '' ? '' : '\n') + line;
                 shortText = 1;
             }
         }
@@ -141,11 +141,11 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
 
     function readTagLine(line:string, tag:RegExpExecArray) {
         let tagName = tag[1].toLowerCase();
-        let paramName: string;
+        let paramName:string;
         line = line.substr(tagName.length + 1).trim();
 
-        if (tagName == 'return') tagName = 'returns';
-        if (tagName == 'param' || tagName == 'typeparam') {
+        if (tagName === 'return') tagName = 'returns';
+        if (tagName === 'param' || tagName === 'typeparam') {
             line = consumeTypeData(line);
             const param = /[^\s]+/.exec(line);
             if (param) {
@@ -154,7 +154,7 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
             }
             line = consumeTypeData(line);
             line = line.replace(/^\-\s+/, '');
-        } else if (tagName == 'returns') {
+        } else if (tagName === 'returns') {
             line = consumeTypeData(line);
         }
 

@@ -1,8 +1,8 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, DeclarationReflection} from "../../models/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import {Reflection, ReflectionKind, ReflectionFlag, DeclarationReflection} from '../../models/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 
 @Component({name:'node:export'})
@@ -16,7 +16,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
     ];
 
     convert(context:Context, node:ts.ExportAssignment):Reflection {
-        let symbol: ts.Symbol = undefined;
+        let symbol:ts.Symbol = undefined;
 
         // default export
         if (node.symbol && (node.symbol.flags & ts.SymbolFlags.Alias) === ts.SymbolFlags.Alias) {

@@ -1,9 +1,9 @@
-import {SourceFile} from "../sources/file";
-import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from "./abstract";
-import {Type, ReflectionType} from "../types/index";
-import {ContainerReflection} from "./container";
-import {SignatureReflection} from "./signature";
-import {TypeParameterReflection} from "./type-parameter";
+import {SourceFile} from '../sources/file';
+import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from './abstract';
+import {Type, ReflectionType} from '../types/index';
+import {ContainerReflection} from './container';
+import {SignatureReflection} from './signature';
+import {TypeParameterReflection} from './type-parameter';
 
 
 /**
@@ -235,7 +235,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
         if (this.typeParameters) {
             const parameters:string[] = [];
             this.typeParameters.forEach((parameter) => {
-                parameters.push(parameter.name)
+                parameters.push(parameter.name);
             });
             result += '<' + parameters.join(', ') + '>';
         }

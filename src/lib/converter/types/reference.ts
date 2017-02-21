@@ -1,11 +1,11 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, IntrinsicType, ReflectionType} from "../../models/types/index";
-import {ReflectionKind, DeclarationReflection} from "../../models/reflections/index";
-import {createReferenceType} from "../factories/index";
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
-import {Context} from "../context";
-import {Converter} from "../converter";
+import {Type, IntrinsicType, ReflectionType} from '../../models/types/index';
+import {ReflectionKind, DeclarationReflection} from '../../models/reflections/index';
+import {createReferenceType} from '../factories/index';
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Context} from '../context';
+import {Converter} from '../converter';
 
 
 @Component({name:'type:reference'})
@@ -121,8 +121,8 @@ export class ReferenceConverter extends ConverterTypeComponent implements ITypeN
     private convertLiteral(context:Context, symbol:ts.Symbol, node?:ts.Node):Type {
         for (let declaration of symbol.declarations) {
             if (context.visitStack.indexOf(declaration) !== -1) {
-                if (declaration.kind == ts.SyntaxKind.TypeLiteral ||
-                        declaration.kind == ts.SyntaxKind.ObjectLiteralExpression) {
+                if (declaration.kind === ts.SyntaxKind.TypeLiteral ||
+                        declaration.kind === ts.SyntaxKind.ObjectLiteralExpression) {
                     return createReferenceType(context, declaration.parent.symbol);
                 } else {
                     return createReferenceType(context, declaration.symbol);

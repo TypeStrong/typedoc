@@ -1,11 +1,11 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {ReferenceType} from "../../models/types/index";
-import {Reflection, IDecorator} from "../../models/reflections/index";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {ReferenceType} from '../../models/types/index';
+import {Reflection, IDecorator} from '../../models/reflections/index';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -25,7 +25,7 @@ export class DecoratorPlugin extends ConverterComponent
             [Converter.EVENT_BEGIN]:              this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_PARAMETER]:   this.onDeclaration,
-            [Converter.EVENT_RESOLVE]:            this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]:            this.onBeginResolve
         });
     }
 

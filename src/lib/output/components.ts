@@ -1,10 +1,10 @@
-import * as Path from "path";
-import * as ts from "typescript";
+import * as Path from 'path';
+import * as ts from 'typescript';
 
-import {Component, AbstractComponent, ChildableComponent} from "../utils/component";
-import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
-import {Renderer} from "./renderer";
-import {RendererEvent, PageEvent} from "./events";
+import {Component, AbstractComponent, ChildableComponent} from '../utils/component';
+import {ProjectReflection, DeclarationReflection} from '../models/reflections/index';
+import {Renderer} from './renderer';
+import {RendererEvent, PageEvent} from './events';
 
 
 export {Component};

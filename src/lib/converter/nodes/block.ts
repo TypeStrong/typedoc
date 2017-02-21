@@ -1,11 +1,11 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {Option} from "../../utils/component";
-import {ParameterType} from "../../utils/options/declaration";
+import {Reflection, ReflectionKind, ReflectionFlag} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
+import {Option} from '../../utils/component';
+import {ParameterType} from '../../utils/options/declaration';
 
 
 const prefered:ts.SyntaxKind[] = [
@@ -24,7 +24,7 @@ export enum SourceFileMode {
 export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock>
 {
     @Option({
-        name: "mode",
+        name: 'mode',
         help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
         type: ParameterType.Map,
         map: {
@@ -53,7 +53,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @return The resulting reflection or NULL.
      */
     convert(context:Context, node:ts.SourceFile|ts.Block|ts.ModuleBlock):Reflection {
-        if (node.kind == ts.SyntaxKind.SourceFile) {
+        if (node.kind === ts.SyntaxKind.SourceFile) {
             this.convertSourceFile(context, <ts.SourceFile>node);
         } else {
             this.convertStatements(context, node);
@@ -74,7 +74,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         let result = context.scope;
 
         context.withSourceFile(node, () => {
-            if (this.mode == SourceFileMode.Modules) {
+            if (this.mode === SourceFileMode.Modules) {
                 result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
@@ -94,7 +94,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             const statements:ts.Statement[] = [];
 
             node.statements.forEach((statement) => {
-                if (prefered.indexOf(statement.kind) != -1) {
+                if (prefered.indexOf(statement.kind) !== -1) {
                     this.owner.convertNode(context, statement);
                 } else {
                     statements.push(statement);

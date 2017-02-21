@@ -1,5 +1,5 @@
-import {Reflection, ReflectionKind} from "./reflections/abstract";
-import {DeclarationReflection} from "./reflections/declaration";
+import {Reflection, ReflectionKind} from './reflections/abstract';
+import {DeclarationReflection} from './reflections/declaration';
 
 
 /**
@@ -105,7 +105,7 @@ export class ReflectionGroup
         if (this.children) {
             const children:any[] = [];
             this.children.forEach((child) => {
-                children.push(child.id)
+                children.push(child.id);
             });
 
             result['children'] = children;

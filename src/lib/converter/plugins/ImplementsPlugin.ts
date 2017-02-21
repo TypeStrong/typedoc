@@ -1,8 +1,8 @@
-import {Reflection, ReflectionKind, DeclarationReflection, SignatureReflection} from "../../models/reflections/index";
-import {Type, ReferenceType} from "../../models/types/index";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, ReflectionKind, DeclarationReflection, SignatureReflection} from '../../models/reflections/index';
+import {Type, ReferenceType} from '../../models/types/index';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -45,8 +45,8 @@ export class ImplementsPlugin extends ConverterComponent
 
             for (let index = 0, count = classReflection.children.length; index < count; index++) {
                 const child = classReflection.children[index];
-                if (child.name != interfaceMember.name) continue;
-                if (child.flags.isStatic != interfaceMember.flags.isStatic) continue;
+                if (child.name !== interfaceMember.name) continue;
+                if (child.flags.isStatic !== interfaceMember.flags.isStatic) continue;
 
                 classMember = child;
                 break;

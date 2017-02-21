@@ -1,8 +1,8 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Options} from "./options";
-import {ParameterScope, ParameterHint} from "./declaration";
+import {Options} from './options';
+import {ParameterScope, ParameterHint} from './declaration';
 
 
 export interface IParameterHelp {
@@ -21,7 +21,7 @@ export interface IParameterHelp {
 function getParameterHelp(options:Options, scope:ParameterScope):IParameterHelp {
     const parameters = options.getDeclarationsByScope(scope);
     parameters.sort((a, b) => {
-        return _ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase())
+        return _ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase());
     });
 
     const names:string[] = [];
@@ -32,16 +32,16 @@ function getParameterHelp(options:Options, scope:ParameterScope):IParameterHelp 
         const parameter = parameters[i];
         if (!parameter.help) continue;
 
-        let name = " ";
+        let name = ' ';
         if (parameter.short) {
-            name += "-" + parameter.short;
-            if (typeof parameter.hint != 'undefined') {
+            name += '-' + parameter.short;
+            if (typeof parameter.hint !== 'undefined') {
                 name += ' ' + ParameterHint[parameter.hint].toUpperCase();
             }
-            name += ", ";
+            name += ', ';
         }
 
-        name += "--" + parameter.name;
+        name += '--' + parameter.name;
         if (parameter.hint) name += ' ' + ParameterHint[parameter.hint].toUpperCase();
 
         names.push(name);
@@ -84,7 +84,7 @@ export function getOptionsHelp(options:Options):string {
         }
     }
 
-    function padding(length: number): string {
-        return Array(length + 1).join(" ");
+    function padding(length:number):string {
+        return Array(length + 1).join(' ');
     }
 }

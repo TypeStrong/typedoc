@@ -1,8 +1,8 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, IntrinsicType} from "../../models/index";
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
-import {Context} from "../context";
+import {Type, IntrinsicType} from '../../models/index';
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Context} from '../context';
 
 
 @Component({name:'type:array'})

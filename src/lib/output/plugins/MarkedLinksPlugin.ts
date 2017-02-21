@@ -1,15 +1,15 @@
-import * as Util from "util";
+import * as Util from 'util';
 
-import {Reflection} from "../../models/reflections/abstract";
-import {Component, ContextAwareRendererComponent} from "../components";
-import {MarkdownEvent, RendererEvent} from "../events";
-import {Option} from "../../utils/component";
-import {ParameterType} from "../../utils/options/declaration";
+import {Reflection} from '../../models/reflections/abstract';
+import {Component, ContextAwareRendererComponent} from '../components';
+import {MarkdownEvent, RendererEvent} from '../events';
+import {Option} from '../../utils/component';
+import {ParameterType} from '../../utils/options/declaration';
 
 /**
  * A plugin that builds links in markdown texts.
  */
-@Component({name:"marked-links"})
+@Component({name:'marked-links'})
 export class MarkedLinksPlugin extends ContextAwareRendererComponent
 {
     /**
@@ -34,7 +34,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
     })
     listInvalidSymbolLinks:boolean;
 
-    private warnings: string[] = [];
+    private warnings:string[] = [];
 
     /**
      * Create a new MarkedLinksPlugin instance.
@@ -80,8 +80,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
             const caption = leading || split.caption;
 
             let monospace:boolean;
-            if (tagName == 'linkcode') monospace = true;
-            if (tagName == 'linkplain') monospace = false;
+            if (tagName === 'linkcode') monospace = true;
+            if (tagName === 'linkplain') monospace = false;
 
             return this.buildLink(match, target, caption, monospace);
         });
@@ -156,7 +156,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @param text  The source string that should be checked for a split character.
      * @returns An object containing the link text and target.
      */
-    static splitLinkText(text:string):{caption:string;target:string;} {
+    static splitLinkText(text:string):{ caption:string; target:string; } {
         let splitIndex = text.indexOf('|');
         if (splitIndex === -1) {
             splitIndex = text.search(/\s/);

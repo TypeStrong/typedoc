@@ -1,14 +1,14 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Comment, CommentTag} from "../../models/comments/index";
-import {IntrinsicType} from "../../models/types/index";
+import {Comment, CommentTag} from '../../models/comments/index';
+import {IntrinsicType} from '../../models/types/index';
 import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
-    SignatureReflection, ParameterReflection} from "../../models/reflections/index";
-import {Component, ConverterComponent} from "../components";
-import {parseComment, getRawComment} from "../factories/comment";
-import {Converter} from "../converter";
-import {Context} from "../context";
+    SignatureReflection, ParameterReflection} from '../../models/reflections/index';
+import {Component, ConverterComponent} from '../components';
+import {parseComment, getRawComment} from '../factories/comment';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -68,7 +68,7 @@ export class CommentPlugin extends ConverterComponent
 
 
     private storeModuleComment(comment:string, reflection:Reflection) {
-        const isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
+        const isPreferred = (comment.toLowerCase().indexOf('@preferred') !== -1);
 
         if (this.comments[reflection.id]) {
             const info = this.comments[reflection.id];
@@ -144,7 +144,7 @@ export class CommentPlugin extends ConverterComponent
         const comment = reflection.parent.comment;
         if (comment) {
             let tag = comment.getTag('typeparam', reflection.name);
-            if (!tag) tag = comment.getTag('param', '<' + reflection.name + '>');
+            if (!tag) tag = comment.getTag('param', `<${reflection.name}>`);
             if (!tag) tag = comment.getTag('param', reflection.name);
 
             if (tag) {
@@ -295,7 +295,7 @@ export class CommentPlugin extends ConverterComponent
 
         let i = 0, c = comment.tags.length;
         while (i < c) {
-            if (comment.tags[i].tagName == tagName) {
+            if (comment.tags[i].tagName === tagName) {
                 comment.tags.splice(i, 1);
                 c--;
             } else {
@@ -313,12 +313,12 @@ export class CommentPlugin extends ConverterComponent
 
         const parent = <DeclarationReflection>reflection.parent;
         parent.traverse((child:Reflection, property:TraverseProperty) => {
-            if (child == reflection) {
+            if (child === reflection) {
                 switch (property) {
                     case TraverseProperty.Children:
                         if (parent.children) {
                             const index = parent.children.indexOf(<DeclarationReflection>reflection);
-                            if (index != -1) parent.children.splice(index, 1);
+                            if (index !== -1) parent.children.splice(index, 1);
                         }
                         break;
                     case TraverseProperty.GetSignature:
@@ -330,7 +330,7 @@ export class CommentPlugin extends ConverterComponent
                     case TraverseProperty.Parameters:
                         if ((<SignatureReflection>reflection.parent).parameters) {
                             const index = (<SignatureReflection>reflection.parent).parameters.indexOf(<ParameterReflection>reflection);
-                            if (index != -1) (<SignatureReflection>reflection.parent).parameters.splice(index, 1);
+                            if (index !== -1) (<SignatureReflection>reflection.parent).parameters.splice(index, 1);
                         }
                         break;
                     case TraverseProperty.SetSignature:
@@ -339,7 +339,7 @@ export class CommentPlugin extends ConverterComponent
                     case TraverseProperty.Signatures:
                         if (parent.signatures) {
                             const index = parent.signatures.indexOf(<SignatureReflection>reflection);
-                            if (index != -1) parent.signatures.splice(index, 1);
+                            if (index !== -1) parent.signatures.splice(index, 1);
                         }
                         break;
                     case TraverseProperty.TypeLiteral:
@@ -348,7 +348,7 @@ export class CommentPlugin extends ConverterComponent
                     case TraverseProperty.TypeParameter:
                         if (parent.typeParameters) {
                             const index = parent.typeParameters.indexOf(<TypeParameterReflection>reflection);
-                            if (index != -1) parent.typeParameters.splice(index, 1);
+                            if (index !== -1) parent.typeParameters.splice(index, 1);
                         }
                         break;
                 }
@@ -359,7 +359,7 @@ export class CommentPlugin extends ConverterComponent
         delete project.reflections[id];
 
         for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] == id) {
+            if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
                 delete project.symbolMapping[key];
             }
         }

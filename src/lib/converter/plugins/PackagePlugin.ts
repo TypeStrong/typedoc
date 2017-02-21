@@ -1,12 +1,12 @@
-import * as Path from "path";
-import * as FS from "fs";
-import * as ts from "typescript";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as ts from 'typescript';
 
-import {Reflection} from "../../models/reflections/abstract";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
-import {Option} from "../../utils/component";
+import {Reflection} from '../../models/reflections/abstract';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
+import {Option} from '../../utils/component';
 
 
 /**
@@ -70,7 +70,7 @@ export class PackagePlugin extends ConverterComponent
         this.visited     = [];
 
         let readme = this.readme;
-        this.noReadmeFile = (readme == 'none');
+        this.noReadmeFile = (readme === 'none');
         if (!this.noReadmeFile && readme) {
             readme = Path.resolve(readme);
             if (FS.existsSync(readme)) {
@@ -97,24 +97,24 @@ export class PackagePlugin extends ConverterComponent
         let dirName:string, parentDir = Path.resolve(Path.dirname(fileName));
         do {
             dirName = parentDir;
-            if (this.visited.indexOf(dirName) != -1) {
+            if (this.visited.indexOf(dirName) !== -1) {
                 break;
             }
 
             FS.readdirSync(dirName).forEach((file) => {
                 const lfile = file.toLowerCase();
-                if (!this.noReadmeFile && !this.readmeFile && lfile == 'readme.md') {
+                if (!this.noReadmeFile && !this.readmeFile && lfile === 'readme.md') {
                     this.readmeFile = Path.join(dirName, file);
                 }
 
-                if (!this.packageFile && lfile == 'package.json') {
+                if (!this.packageFile && lfile === 'package.json') {
                     this.packageFile = Path.join(dirName, file);
                 }
             });
 
             this.visited.push(dirName);
             parentDir = Path.resolve(Path.join(dirName, '..'));
-        } while (dirName != parentDir);
+        } while (dirName !== parentDir);
     }
 
 

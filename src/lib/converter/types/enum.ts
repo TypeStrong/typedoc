@@ -1,9 +1,9 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type} from "../../models/index";
-import {createReferenceType} from "../factories/index";
-import {Component, ConverterTypeComponent, ITypeTypeConverter} from "../components";
-import {Context} from "../context";
+import {Type} from '../../models/index';
+import {createReferenceType} from '../factories/index';
+import {Component, ConverterTypeComponent, ITypeTypeConverter} from '../components';
+import {Context} from '../context';
 
 
 @Component({name:'type:enum'})

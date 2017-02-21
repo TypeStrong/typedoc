@@ -6,20 +6,20 @@
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
 
-import * as Path from "path";
-import * as FS from "fs";
-import * as Util from "util";
-import * as typescript from "typescript";
-import {Minimatch, IMinimatch} from "minimatch";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as Util from 'util';
+import * as typescript from 'typescript';
+import {Minimatch, IMinimatch} from 'minimatch';
 
-import {Converter} from "./converter/index";
-import {Renderer} from "./output/renderer";
-import {ProjectReflection} from "./models/index";
-import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from "./utils/index";
+import {Converter} from './converter/index';
+import {Renderer} from './output/renderer';
+import {ProjectReflection} from './models/index';
+import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
 
-import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
-import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
-import {ParameterType} from "./utils/options/declaration";
+import {AbstractComponent, ChildableComponent, Component, Option} from './utils/component';
+import {Options, OptionsReadMode, IOptionsReadResult} from './utils/options/index';
+import {ParameterType} from './utils/options/declaration';
 
 
 /**
@@ -36,7 +36,7 @@ import {ParameterType} from "./utils/options/declaration";
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({name:"application", internal:true})
+@Component({name:'application', internal:true})
 export class Application extends ChildableComponent<Application, AbstractComponent<Application>>
 {
     options:Options;
@@ -62,7 +62,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         name: 'logger',
         help: 'Specify the logger that should be used, \'none\' or \'console\'',
         defaultValue: 'console',
-        type: ParameterType.Mixed,
+        type: ParameterType.Mixed
     })
     loggerType:string|Function;
 
@@ -83,7 +83,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * The version number of TypeDoc.
      */
-    static VERSION:string = '{{ VERSION }}';
+    static VERSION = '{{ VERSION }}';
 
 
 
@@ -114,9 +114,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         this.options.read(options, OptionsReadMode.Prefetch);
 
         const logger = this.loggerType;
-        if (typeof logger == 'function') {
+        if (typeof logger === 'function') {
             this.logger = new CallbackLogger(<any>logger);
-        } else if (logger == 'none') {
+        } else if (logger === 'none') {
             this.logger = new Logger();
         }
 
@@ -129,7 +129,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * Return the application / root component instance.
      */
     get application():Application {
-        return this
+        return this;
     }
 
 

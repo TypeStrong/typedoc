@@ -1,6 +1,6 @@
-import * as ts from "typescript";
-import * as _ts from "../ts-internal";
-import * as FS from "fs";
+import * as ts from 'typescript';
+import * as _ts from '../ts-internal';
+import * as FS from 'fs';
 
 
 
@@ -17,7 +17,7 @@ const existingDirectories:ts.MapLike<boolean> = {};
  * @returns The normalized path.
  */
 export function normalizePath(path:string) {
-    return path.replace(/\\/g, "/");
+    return path.replace(/\\/g, '/');
 }
 
 
@@ -27,7 +27,7 @@ export function normalizePath(path:string) {
  * @param directoryPath  The directory that should be tested.
  * @returns TRUE if the given directory exists, FALSE otherwise.
  */
-export function directoryExists(directoryPath: string): boolean {
+export function directoryExists(directoryPath:string):boolean {
     if (existingDirectories.hasOwnProperty(directoryPath)) {
         return true;
     }
@@ -46,7 +46,7 @@ export function directoryExists(directoryPath: string): boolean {
  *
  * @param directoryPath  The directory that should be validated.
  */
-export function ensureDirectoriesExist(directoryPath: string) {
+export function ensureDirectoriesExist(directoryPath:string) {
     if (directoryPath.length > _ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
         const parentDirectory = _ts.getDirectoryPath(directoryPath);
         ensureDirectoriesExist(parentDirectory);
@@ -94,19 +94,19 @@ export function readFile(file:string):string
                     buffer[i + 1] = temp;
                     i += 2;
                 }
-                return buffer.toString("ucs2", 2);
+                return buffer.toString('ucs2', 2);
             }
             break;
         case 0xFF:
             if (buffer[1] === 0xFE) {
-                return buffer.toString("ucs2", 2);
+                return buffer.toString('ucs2', 2);
             }
             break;
         case 0xEF:
             if (buffer[1] === 0xBB) {
-                return buffer.toString("utf8", 3);
+                return buffer.toString('utf8', 3);
             }
     }
 
-    return buffer.toString("utf8", 0);
+    return buffer.toString('utf8', 0);
 }

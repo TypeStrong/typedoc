@@ -1,9 +1,9 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection} from "../../models/index";
-import {Context} from "../context";
-import {Converter} from "../converter";
-import {createReferenceType} from "./reference";
+import {ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection} from '../../models/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {createReferenceType} from './reference';
 
 
 /**
@@ -53,11 +53,11 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
         isExported = container.flags.isExported;
     }
 
-    if (kind == ReflectionKind.ExternalModule) {
+    if (kind === ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
-    } else if (node.parent && node.parent.kind == ts.SyntaxKind.VariableDeclarationList) {
+    } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
-        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export)
+        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
     } else {
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
@@ -73,14 +73,14 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Test whether the node is static, when merging a module to a class make the node static
-    let isConstructorProperty:boolean = false;
+    let isConstructorProperty = false;
     let isStatic = false;
-    if (nonStaticKinds.indexOf(kind) == -1) {
+    if (nonStaticKinds.indexOf(kind) === -1) {
         isStatic = !!(modifiers & ts.ModifierFlags.Static);
-        if (container.kind == ReflectionKind.Class) {
-            if (node.parent && node.parent.kind == ts.SyntaxKind.Constructor) {
+        if (container.kind === ReflectionKind.Class) {
+            if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
-            } else if (!node.parent || node.parent.kind != ts.SyntaxKind.ClassDeclaration) {
+            } else if (!node.parent || node.parent.kind !== ts.SyntaxKind.ClassDeclaration) {
                 isStatic = true;
             }
         }
@@ -90,7 +90,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     let child:DeclarationReflection;
     const children = container.children = container.children || [];
     children.forEach((n:DeclarationReflection) => {
-        if (n.name == name && n.flags.isStatic == isStatic) child = n;
+        if (n.name === name && n.flags.isStatic === isStatic) child = n;
     });
 
     if (!child) {
@@ -138,7 +138,7 @@ function setupDeclaration(context:Context, reflection:DeclarationReflection, nod
 
     if (
         context.isInherit &&
-        (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)
+        (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.inheritedFrom) {
             reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
@@ -162,7 +162,7 @@ function setupDeclaration(context:Context, reflection:DeclarationReflection, nod
  * @returns The reflection merged with the values of the given node or NULL if the merge is invalid.
  */
 function mergeDeclarations(context:Context, reflection:DeclarationReflection, node:ts.Node, kind:ReflectionKind) {
-    if (reflection.kind != kind) {
+    if (reflection.kind !== kind) {
         const weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
         const kindWeight = weights.indexOf(kind);
         const childKindWeight = weights.indexOf(reflection.kind);
@@ -173,8 +173,8 @@ function mergeDeclarations(context:Context, reflection:DeclarationReflection, no
 
     if (
         context.isInherit &&
-        context.inherited.indexOf(reflection.name) != -1 &&
-        (node.parent == context.inheritParent || reflection.flags.isConstructorProperty)
+        context.inherited.indexOf(reflection.name) !== -1 &&
+        (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.overwrites) {
             reflection.overwrites = createReferenceType(context, node.symbol, true);

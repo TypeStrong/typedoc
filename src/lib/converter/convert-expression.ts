@@ -1,5 +1,5 @@
-import * as ts from "typescript";
-import * as _ts from "../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../ts-internal';
 
 
 /**

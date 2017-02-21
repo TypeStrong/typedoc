@@ -1,10 +1,10 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
-import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
-import {Component, RendererComponent} from "../components";
-import {writeFile} from "../../utils/fs";
-import {RendererEvent} from "../events";
+import {DeclarationReflection, ProjectReflection} from '../../models/reflections/index';
+import {GroupPlugin} from '../../converter/plugins/GroupPlugin';
+import {Component, RendererComponent} from '../components';
+import {writeFile} from '../../utils/fs';
+import {RendererEvent} from '../events';
 
 
 /**
@@ -12,7 +12,7 @@ import {RendererEvent} from "../events";
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-@Component({name:"javascript-index"})
+@Component({name:'javascript-index'})
 export class JavascriptIndexPlugin extends RendererComponent
 {
     /**
@@ -39,7 +39,7 @@ export class JavascriptIndexPlugin extends RendererComponent
             if (!reflection.url ||
                 !reflection.name ||
                 reflection.flags.isExternal ||
-                reflection.name == '')
+                reflection.name === '')
                 continue;
 
             let parent = reflection.parent;
@@ -68,9 +68,9 @@ export class JavascriptIndexPlugin extends RendererComponent
 
         const fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
         const data =
-            'var typedoc = typedoc || {};' +
-            'typedoc.search = typedoc.search || {};' +
-            'typedoc.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
+            `var typedoc = typedoc || {};
+            typedoc.search = typedoc.search || {};
+            typedoc.search.data = ${JSON.stringify({kinds:kinds, rows:rows})};`;
 
         writeFile(fileName, data, true);
     }

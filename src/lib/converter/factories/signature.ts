@@ -1,10 +1,10 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {ReflectionKind, SignatureReflection, ContainerReflection, DeclarationReflection, Type} from "../../models/index";
-import {Context} from "../context";
-import {Converter} from "../converter";
-import {createParameter} from "./parameter";
-import {createReferenceType} from "./reference";
+import {ReflectionKind, SignatureReflection, ContainerReflection, DeclarationReflection, Type} from '../../models/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {createParameter} from './parameter';
+import {createReferenceType} from './reference';
 
 
 /**

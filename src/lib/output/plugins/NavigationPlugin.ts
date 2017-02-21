@@ -1,6 +1,6 @@
-import {Component, RendererComponent} from "../components";
-import {NavigationItem} from "../models/NavigationItem";
-import {RendererEvent, PageEvent} from "../events";
+import {Component, RendererComponent} from '../components';
+import {NavigationItem} from '../models/NavigationItem';
+import {RendererEvent, PageEvent} from '../events';
 
 
 /**
@@ -11,7 +11,7 @@ import {RendererEvent, PageEvent} from "../events";
  * [[BaseTheme.getNavigation]] function. This plugins takes care that the navigation
  * is updated and passed to the render context.
  */
-@Component({name:"navigation"})
+@Component({name:'navigation'})
 export class NavigationPlugin extends RendererComponent
 {
     /**
@@ -53,7 +53,7 @@ export class NavigationPlugin extends RendererComponent
             item.isInPath  = false;
             item.isVisible = item.isGlobals;
 
-            if (item.url == page.url || (item.dedicatedUrls && item.dedicatedUrls.indexOf(page.url) != -1)) {
+            if (item.url === page.url || (item.dedicatedUrls && item.dedicatedUrls.indexOf(page.url) !== -1)) {
                 currentItems.push(item);
             }
 
@@ -73,11 +73,11 @@ export class NavigationPlugin extends RendererComponent
 
                 count += 1;
                 depth += 1;
-                if (item.children){
+                if (item.children) {
                     count += item.children.length;
                     if (depth < 2 || count < 30) {
                         item.children.forEach((child) => {
-                            child.isVisible = true
+                            child.isVisible = true;
                         });
                     }
                 }

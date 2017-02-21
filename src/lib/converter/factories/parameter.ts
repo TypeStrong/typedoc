@@ -1,10 +1,10 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from "../../models/reflections/index";
-import {Context} from "../context";
-import {Converter} from "../converter";
-import {convertDefaultValue} from "../convert-expression";
+import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from '../../models/reflections/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {convertDefaultValue} from '../convert-expression';
 
 
 /**
@@ -25,7 +25,7 @@ export function createParameter(context:Context, node:ts.ParameterDeclaration):P
     context.withScope(parameter, () => {
         if (_ts.isBindingPattern(node.name)) {
             parameter.type = context.converter.convertType(context, node.name);
-            parameter.name = '__namedParameters'
+            parameter.name = '__namedParameters';
         } else {
             parameter.type = context.converter.convertType(context, node.type, context.getTypeAtLocation(node));
         }

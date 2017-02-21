@@ -1,11 +1,11 @@
-import * as _ from "lodash";
-import * as Util from "util";
-import * as ts from "typescript";
+import * as _ from 'lodash';
+import * as Util from 'util';
+import * as ts from 'typescript';
 
-import {Event} from "../events";
-import {Component, AbstractComponent, ChildableComponent} from "../component";
-import {Application} from "../../application";
-import {OptionDeclaration, IOptionDeclaration, ParameterScope} from "./declaration";
+import {Event} from '../events';
+import {Component, AbstractComponent, ChildableComponent} from '../component';
+import {Application} from '../../application';
+import {OptionDeclaration, IOptionDeclaration, ParameterScope} from './declaration';
 
 
 export class OptionsComponent extends AbstractComponent<Options> { }
@@ -33,7 +33,7 @@ export class DiscoverEvent extends Event
 
     errors:string[] = [];
 
-    static DISCOVER:string = 'optionsDiscover';
+    static DISCOVER = 'optionsDiscover';
 
 
     /**
@@ -55,7 +55,7 @@ export class DiscoverEvent extends Event
 }
 
 
-@Component({name:"options", internal:true, childClass:OptionsComponent})
+@Component({name:'options', internal:true, childClass:OptionsComponent})
 export class Options extends ChildableComponent<Application, OptionsComponent>
 {
     private declarations:{[name:string]:OptionDeclaration};
@@ -83,7 +83,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         this.trigger(event);
         this.setValues(event.data, '', event.addError.bind(event));
 
-        if (mode == OptionsReadMode.Fetch) {
+        if (mode === OptionsReadMode.Fetch) {
             const logger = this.application.logger;
             for (let error of event.errors) {
                 logger.error(error);
@@ -100,11 +100,11 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
     getValue(name:string):any {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
-            throw new Error(Util.format("Unknown option `%s`.", name));
+            throw new Error(Util.format('Unknown option `%s`.', name));
         }
 
-        if (declaration.scope == ParameterScope.TypeScript) {
-            throw new Error("TypeScript options cannot be fetched using `getValue`, use `getCompilerOptions` instead.");
+        if (declaration.scope === ParameterScope.TypeScript) {
+            throw new Error('TypeScript options cannot be fetched using `getValue`, use `getCompilerOptions` instead.');
         }
 
         if (name in this.values) {
@@ -133,7 +133,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         const result:OptionDeclaration[] = [];
         for (let name in this.declarations) {
             const declaration = this.declarations[name];
-            if (declaration.scope == scope) {
+            if (declaration.scope === scope) {
                 result.push(declaration);
             }
         }
@@ -157,7 +157,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
 
         const key = declaration.name;
-        if (declaration.scope == ParameterScope.TypeScript) {
+        if (declaration.scope === ParameterScope.TypeScript) {
             this.compilerOptions[key] = declaration.convert(value, errorCallback);
         } else {
             this.values[key] = declaration.convert(value, errorCallback);
@@ -182,7 +182,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
     addDeclaration(declaration:OptionDeclaration|IOptionDeclaration) {
         let decl:OptionDeclaration;
         if (!(declaration instanceof OptionDeclaration)) {
-            decl = new OptionDeclaration(<IOptionDeclaration>declaration)
+            decl = new OptionDeclaration(<IOptionDeclaration>declaration);
         } else {
             decl = <OptionDeclaration>declaration;
         }
@@ -206,7 +206,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
 
     removeDeclaration(declaration:OptionDeclaration) {
         const names = _.keys(this.declarations);
-        let name: string;
+        let name:string;
         for (name in names) {
             if (this.declarations[name] === declaration) {
                 delete this.declarations[name];

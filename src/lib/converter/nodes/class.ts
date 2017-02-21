@@ -1,10 +1,10 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name:'node:class'})
 export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
@@ -27,7 +27,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
      */
     convert(context:Context, node:ts.ClassDeclaration):Reflection {
         let reflection:DeclarationReflection;
-        if (context.isInherit && context.inheritParent == node) {
+        if (context.isInherit && context.inheritParent === node) {
             reflection = <DeclarationReflection>context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Class);
@@ -39,7 +39,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                     const modifiers = ts.getCombinedModifierFlags(member);
                     const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
                     const exclude = context.converter.excludePrivate ? privateMember : false;
-                    
+
                     if (!exclude) {
                         this.owner.convertNode(context, member);
                     }

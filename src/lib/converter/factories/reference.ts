@@ -1,7 +1,7 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {ReferenceType} from "../../models/types/index";
-import {Context} from "../context";
+import {ReferenceType} from '../../models/types/index';
+import {Context} from '../context';
 
 
 /**

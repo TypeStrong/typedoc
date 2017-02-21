@@ -1,10 +1,10 @@
-import * as ts from "typescript";
-import {Minimatch, IMinimatch} from "minimatch";
+import * as ts from 'typescript';
+import {Minimatch, IMinimatch} from 'minimatch';
 
-import {Logger} from "../utils/loggers";
-import {Reflection, ProjectReflection, ContainerReflection, Type} from "../models/index";
-import {createTypeParameter} from "./factories/type-parameter";
-import {Converter} from "./converter";
+import {Logger} from '../utils/loggers';
+import {Reflection, ProjectReflection, ContainerReflection, Type} from '../models/index';
+import {createTypeParameter} from './factories/type-parameter';
+import {Converter} from './converter';
 
 
 /**
@@ -141,7 +141,7 @@ export class Context
         let nodeType:ts.Type;
         try {
             nodeType = this.checker.getTypeAtLocation(node);
-        } catch (error) {            
+        } catch (error) {
         }
         if (!nodeType) {
             if (node.symbol) {
@@ -223,9 +223,8 @@ export class Context
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node:ts.SourceFile, callback:Function) {
-        const options = this.converter.application.options;
         const externalPattern = this.externalPattern;
-        let isExternal = this.fileNames.indexOf(node.fileName) == -1;
+        let isExternal = this.fileNames.indexOf(node.fileName) === -1;
         if (externalPattern) {
             isExternal = isExternal || externalPattern.match(node.fileName);
         }
@@ -237,7 +236,7 @@ export class Context
         let isDeclaration = node.isDeclarationFile;
         if (isDeclaration) {
             const lib = this.converter.getDefaultLib();
-            const isLib = node.fileName.substr(-lib.length) == lib;
+            const isLib = node.fileName.substr(-lib.length) === lib;
             if (!this.converter.includeDeclarations || isLib) {
                 return;
             }
@@ -322,7 +321,7 @@ export class Context
 
         if (baseNode.symbol) {
             const id = this.getSymbolID(baseNode.symbol);
-            if (this.inheritedChildren && this.inheritedChildren.indexOf(id) != -1) {
+            if (this.inheritedChildren && this.inheritedChildren.indexOf(id) !== -1) {
                 return target;
             } else {
                 this.inheritedChildren = this.inheritedChildren || [];

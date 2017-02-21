@@ -1,4 +1,4 @@
-import {Reflection} from "../../models/reflections/abstract";
+import {Reflection} from '../../models/reflections/abstract';
 
 
 /**
@@ -108,8 +108,8 @@ export class NavigationItem
         }
 
         name = name.trim();
-        if (name == '') {
-            name = '<em>' + reflection.kindString + '</em>';
+        if (name === '') {
+            name = `<em>${reflection.kindString}</em>`;
         }
 
         return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);

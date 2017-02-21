@@ -1,13 +1,13 @@
-import * as Path from "path";
-import * as FS from "fs";
-import * as _ from "lodash";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as _ from 'lodash';
 
-import {Component, Option} from "../../component";
-import {OptionsComponent, DiscoverEvent} from "../options";
-import {ParameterType, ParameterHint} from "../declaration";
+import {Component, Option} from '../../component';
+import {OptionsComponent, DiscoverEvent} from '../options';
+import {ParameterType, ParameterHint} from '../declaration';
 
 
-@Component({name:"options:typedoc"})
+@Component({name:'options:typedoc'})
 export class TypedocReader extends OptionsComponent
 {
     @Option({
@@ -21,7 +21,7 @@ export class TypedocReader extends OptionsComponent
     /**
      * The name of the parameter that specifies the options file.
      */
-    private static OPTIONS_KEY:string = 'options';
+    private static OPTIONS_KEY = 'options';
 
 
 
@@ -57,15 +57,15 @@ export class TypedocReader extends OptionsComponent
         }
 
         let data = require(optionFile);
-        if (typeof data == 'function') {
+        if (typeof data === 'function') {
             data = data(this.application);
         }
 
-        if (!(typeof data == 'object')) {
+        if (!(typeof data === 'object')) {
             event.addError('The option file %s could not be read, it must either export a function or an object.', optionFile);
         } else {
             if (data.src) {
-                if (typeof data.src == 'string') {
+                if (typeof data.src === 'string') {
                     event.inputFiles = [data.src];
                 } else if (_.isArray(data.src)) {
                     event.inputFiles = data.src;

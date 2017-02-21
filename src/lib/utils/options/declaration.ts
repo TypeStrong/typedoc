@@ -1,5 +1,5 @@
-import * as ts from "typescript";
-import * as Util from "util";
+import * as ts from 'typescript';
+import * as Util from 'util';
 
 
 export enum ParameterHint {
@@ -89,24 +89,24 @@ export class OptionDeclaration
     convert(value:any, errorCallback?:Function):any {
         switch (this.type) {
             case ParameterType.Number:
-                value = parseInt(value);
+                value = parseInt(value, 10);
                 break;
             case ParameterType.Boolean:
                 value = (typeof value === void 0 ? true : !!value);
                 break;
             case ParameterType.String:
-                value = value || "";
+                value = value || '';
                 break;
             case ParameterType.Array:
                 if (!value) {
                     value = [];
-                } else if (typeof value === "string") {
-                    value = value.split(",");
+                } else if (typeof value === 'string') {
+                    value = value.split(',');
                 }
                 break;
             case ParameterType.Map:
                 if (this.map !== 'object') {
-                    const key = value ? (value + "").toLowerCase() : '';
+                    const key = value ? (value + '').toLowerCase() : '';
                     if (key in this.map) {
                         value = this.map[key];
                     } else if (errorCallback) {

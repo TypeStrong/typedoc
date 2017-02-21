@@ -1,8 +1,8 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {Reflection} from "../reflections/abstract";
-import {ReflectionGroup} from "../ReflectionGroup";
-import {SourceDirectory} from "./directory";
+import {Reflection} from '../reflections/abstract';
+import {ReflectionGroup} from '../ReflectionGroup';
+import {SourceDirectory} from './directory';
 
 
 /**

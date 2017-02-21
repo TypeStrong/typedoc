@@ -1,13 +1,13 @@
-import * as ts from "typescript";
-import * as _ts from "../../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../../ts-internal';
 
 
-import {Component} from "../../component";
-import {OptionsComponent} from "../options";
-import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from "../declaration";
+import {Component} from '../../component';
+import {OptionsComponent} from '../options';
+import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from '../declaration';
 
 
-@Component({name:"options:typescript"})
+@Component({name:'options:typescript'})
 export class TypeScriptSource extends OptionsComponent
 {
     private declarations:IOptionDeclaration[];
@@ -56,13 +56,13 @@ export class TypeScriptSource extends OptionsComponent
         };
 
         switch (option.type) {
-            case "number":
+            case 'number':
                 param.type = ParameterType.Number;
                 break;
-            case "boolean":
+            case 'boolean':
                 param.type = ParameterType.Boolean;
                 break;
-            case "string":
+            case 'string':
                 param.type = ParameterType.String;
                 break;
             default:

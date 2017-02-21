@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -54,7 +54,7 @@ export class TypeParameterType extends Type
         }
 
         return constraintEquals &&
-            type.isArray == this.isArray;
+            type.isArray === this.isArray;
     }
 
 

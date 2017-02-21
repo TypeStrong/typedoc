@@ -1,14 +1,14 @@
-import * as Path from "path";
-import * as FS from "fs";
+import * as Path from 'path';
+import * as FS from 'fs';
 
-import {Theme} from "../theme";
-import {Renderer} from "../renderer";
-import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
-import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {UrlMapping} from "../models/UrlMapping";
-import {NavigationItem} from "../models/NavigationItem";
-import {RendererEvent} from "../events";
-import {Component} from "../../utils/component";
+import {Theme} from '../theme';
+import {Renderer} from '../renderer';
+import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
+import {ReflectionGroup} from '../../models/ReflectionGroup';
+import {UrlMapping} from '../models/UrlMapping';
+import {NavigationItem} from '../models/NavigationItem';
+import {RendererEvent} from '../events';
+import {Component} from '../../utils/component';
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -54,17 +54,17 @@ export class DefaultTheme extends Theme
         isLeaf:    false,
         directory: 'classes',
         template:  'reflection.hbs'
-    },{
+    }, {
         kind:      [ReflectionKind.Interface],
         isLeaf:    false,
         directory: 'interfaces',
         template:  'reflection.hbs'
-    },{
+    }, {
         kind:      [ReflectionKind.Enum],
         isLeaf:    false,
         directory: 'enums',
         template:  'reflection.hbs'
-    },{
+    }, {
         kind:      [ReflectionKind.Module, ReflectionKind.ExternalModule],
         isLeaf:    false,
         directory: 'modules',
@@ -113,7 +113,7 @@ export class DefaultTheme extends Theme
         const urls:UrlMapping[] = [];
         const entryPoint = this.getEntryPoint(project);
 
-        if (this.application.options.getValue('readme') == 'none') {
+        if (this.application.options.getValue('readme') === 'none') {
             entryPoint.url = 'index.html';
             urls.push(new UrlMapping('index.html', entryPoint, 'reflection.hbs'));
         } else {
@@ -249,11 +249,11 @@ export class DefaultTheme extends Theme
             sortReflections(reflections);
 
             reflections.forEach((reflection) => {
-                if (hasExternals && !reflection.flags.isExternal && state != 1) {
-                    new NavigationItem('Internals', null, parent, "tsd-is-external");
+                if (hasExternals && !reflection.flags.isExternal && state !== 1) {
+                    new NavigationItem('Internals', null, parent, 'tsd-is-external');
                     state = 1;
-                } else if (hasExternals && reflection.flags.isExternal && state != 2) {
-                    new NavigationItem('Externals', null, parent, "tsd-is-external");
+                } else if (hasExternals && reflection.flags.isExternal && state !== 2) {
+                    new NavigationItem('Externals', null, parent, 'tsd-is-external');
                     state = 2;
                 }
 
@@ -273,7 +273,7 @@ export class DefaultTheme extends Theme
         function build(hasSeparateGlobals:boolean):NavigationItem {
             const root = new NavigationItem('Index', 'index.html');
 
-            if (entryPoint == project) {
+            if (entryPoint === project) {
                 const globals = new NavigationItem('Globals', hasSeparateGlobals ? 'globals.html' : 'index.html', root);
                 globals.isGlobals = true;
             }
@@ -281,10 +281,10 @@ export class DefaultTheme extends Theme
             const modules:DeclarationReflection[] = [];
             project.getReflectionsByKind(ReflectionKind.SomeModule).forEach((someModule) => {
                 let target = someModule.parent;
-                let inScope = (someModule == entryPoint);
+                let inScope = (someModule === entryPoint);
                 while (target) {
                     if (target.kindOf(ReflectionKind.ExternalModule)) return;
-                    if (entryPoint == target) inScope = true;
+                    if (entryPoint === target) inScope = true;
                     target = target.parent;
                 }
 
@@ -303,7 +303,7 @@ export class DefaultTheme extends Theme
         }
 
         const entryPoint = this.getEntryPoint(project);
-        return build(this.application.options.getValue('readme') != 'none');
+        return build(this.application.options.getValue('readme') !== 'none');
     }
 
 
@@ -341,7 +341,7 @@ export class DefaultTheme extends Theme
     static getUrl(reflection:Reflection, relative?:Reflection, separator:string = '.'):string {
         let url = reflection.getAlias();
 
-        if (reflection.parent && reflection.parent != relative &&
+        if (reflection.parent && reflection.parent !== relative &&
             !(reflection.parent instanceof ProjectReflection))
             url = DefaultTheme.getUrl(reflection.parent, relative, separator) + separator + url;
 
@@ -432,7 +432,7 @@ export class DefaultTheme extends Theme
         const classes:string[] = [];
         let kind:string;
 
-        if (reflection.kind == ReflectionKind.Accessor) {
+        if (reflection.kind === ReflectionKind.Accessor) {
             if (!reflection.getSignature) {
                 classes.push('tsd-kind-set-signature');
             } else if (!reflection.setSignature) {
@@ -447,7 +447,7 @@ export class DefaultTheme extends Theme
 
         if (reflection.parent && reflection.parent instanceof DeclarationReflection) {
             kind = ReflectionKind[reflection.parent.kind];
-            classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
+            classes.push(DefaultTheme.toStyleClass(`tsd-parent-kind-${kind}`));
         }
 
         let hasTypeParameters = !!reflection.typeParameters;

@@ -1,9 +1,9 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {ReferenceType} from "../../models/index";
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
-import {Context} from "../context";
+import {ReferenceType} from '../../models/index';
+import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Context} from '../context';
 
 
 @Component({name:'type:alias'})
@@ -13,7 +13,7 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority:number = 100;
+    priority = 100;
 
 
 
@@ -36,7 +36,7 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
         const checker = context.checker;
         let symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
         if (!symbolName.length) return false;
-        if (symbolName[0].substr(0, 1) == '"') symbolName.shift();
+        if (symbolName[0].substr(0, 1) === '"') symbolName.shift();
 
         let nodeName = _ts.getTextOfNode(node.typeName).split('.');
         if (!nodeName.length) return false;
@@ -45,7 +45,7 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
         symbolName = symbolName.slice(-common);
         nodeName = nodeName.slice(-common);
 
-        return nodeName.join('.') != symbolName.join('.');
+        return nodeName.join('.') !== symbolName.join('.');
     }
 
 

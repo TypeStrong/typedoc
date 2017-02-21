@@ -1,11 +1,11 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Application} from "../application";
-import {Component, AbstractComponent} from "../utils/component";
-import {Reflection} from "../models/reflections/abstract";
-import {Type} from "../models/types/abstract";
-import {Context} from "./context";
-import {Converter} from "./converter";
+import {Application} from '../application';
+import {Component, AbstractComponent} from '../utils/component';
+import {Reflection} from '../models/reflections/abstract';
+import {Type} from '../models/types/abstract';
+import {Context} from './context';
+import {Converter} from './converter';
 
 
 export {Component};
@@ -32,7 +32,7 @@ export abstract class ConverterTypeComponent extends ConverterComponent
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority:number = 0;
+    priority = 0;
 }
 
 

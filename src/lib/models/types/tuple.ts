@@ -1,4 +1,4 @@
-import {Type} from "./abstract";
+import {Type} from './abstract';
 
 
 /**
@@ -47,7 +47,7 @@ export class TupleType extends Type
      */
     equals(type:TupleType):boolean {
         if (!(type instanceof TupleType)) return false;
-        if (type.isArray != this.isArray) return false;
+        if (type.isArray !== this.isArray) return false;
         return Type.isTypeListEqual(type.elements, this.elements);
     }
 
@@ -73,7 +73,7 @@ export class TupleType extends Type
     toString() {
         const names:string[] = [];
         this.elements.forEach((element) => {
-            names.push(element.toString())
+            names.push(element.toString());
         });
 
         return '[' + names.join(', ') + ']';

@@ -1,11 +1,11 @@
-import * as ts from "typescript";
-import * as Path from "path";
+import * as ts from 'typescript';
+import * as Path from 'path';
 
-import {Reflection, ReflectionKind} from "../../models/reflections/abstract";
-import {Component, ConverterComponent} from "../components";
-import {BasePath} from "../utils/base-path";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import {Reflection, ReflectionKind} from '../../models/reflections/abstract';
+import {Component, ConverterComponent} from '../components';
+import {BasePath} from '../utils/base-path';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 
 /**
@@ -59,7 +59,7 @@ export class DynamicModulePlugin extends ConverterComponent
     private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
             let name = reflection.name;
-            if (name.indexOf('/') == -1) {
+            if (name.indexOf('/') === -1) {
                 return;
             }
 

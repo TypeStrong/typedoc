@@ -7,21 +7,22 @@
  * alter the generated output.
  */
 
-import * as Path from "path";
-import * as FS from "fs-extra";
-import * as Handlebars from "handlebars";
-const ProgressBar = require("progress");
+import * as Path from 'path';
+import * as FS from 'fs-extra';
+import * as Handlebars from 'handlebars';
+// tslint:disable-next-line:variable-name
+const ProgressBar = require('progress');
 
-import {Application} from "../application";
-import {Theme} from "./theme";
-import {RendererEvent, PageEvent} from "./events";
-import {ProjectReflection} from "../models/reflections/project";
-import {UrlMapping} from "./models/UrlMapping";
-import {writeFile} from "../utils/fs";
-import {DefaultTheme} from "./themes/DefaultTheme";
-import {RendererComponent} from "./components";
-import {Component, ChildableComponent, Option} from "../utils/component";
-import {ParameterType} from "../utils/options/declaration";
+import {Application} from '../application';
+import {Theme} from './theme';
+import {RendererEvent, PageEvent} from './events';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {writeFile} from '../utils/fs';
+import {DefaultTheme} from './themes/DefaultTheme';
+import {RendererComponent} from './components';
+import {Component, ChildableComponent, Option} from '../utils/component';
+import {ParameterType} from '../utils/options/declaration';
 
 
 /**
@@ -55,7 +56,7 @@ import {ParameterType} from "../utils/options/declaration";
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[RendererEvent]].
  */
-@Component({name:"renderer", internal:true, childClass:RendererComponent})
+@Component({name:'renderer', internal:true, childClass:RendererComponent})
 export class Renderer extends ChildableComponent<Application, RendererComponent>
 {
     /**
@@ -103,7 +104,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
         type: ParameterType.String
     })
-    entryPoint:string;    
+    entryPoint:string;
 
     @Option({
         name: 'toc',
@@ -206,7 +207,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 }
             }
 
-            this.theme = this.addComponent("theme", new DefaultTheme(this, path));
+            this.theme = this.addComponent('theme', new DefaultTheme(this, path));
         }
 
         this.theme.resources.activate();
@@ -234,7 +235,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 return true;
             }
 
-            if (FS.readdirSync(directory).length == 0) {
+            if (FS.readdirSync(directory).length === 0) {
                 return true;
             }
 
@@ -287,4 +288,4 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
 }
 
 
-import "./plugins";
+import './plugins';

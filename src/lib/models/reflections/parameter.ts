@@ -1,7 +1,7 @@
-import {SourceFile} from "../sources/file";
-import {Type, ReflectionType} from "../types/index";
-import {Reflection, IDefaultValueContainer, ITypeContainer, ITraverseCallback, TraverseProperty} from "./abstract";
-import {SignatureReflection} from "./signature";
+import {SourceFile} from '../sources/file';
+import {Type, ReflectionType} from '../types/index';
+import {Reflection, IDefaultValueContainer, ITypeContainer, ITraverseCallback, TraverseProperty} from './abstract';
+import {SignatureReflection} from './signature';
 
 
 export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer

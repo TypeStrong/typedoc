@@ -1,10 +1,10 @@
-import * as FS from "fs";
-import * as Path from "path";
-import * as Util from "util";
+import * as FS from 'fs';
+import * as Path from 'path';
+import * as Util from 'util';
 
-import {Application} from "../application";
-import {AbstractComponent, Component, Option} from "./component";
-import {ParameterType} from "./options/declaration";
+import {Application} from '../application';
+import {AbstractComponent, Component, Option} from './component';
+import {ParameterType} from './options/declaration';
 
 
 @Component({name:'plugin-host', internal:true})
@@ -33,10 +33,10 @@ export class PluginHost extends AbstractComponent<Application>
         let i:number, c:number = plugins.length;
         for (i = 0; i < c; i++) {
             const plugin = plugins[i];
-            if (typeof plugin != 'string') {
+            if (typeof plugin !== 'string') {
                 logger.error('Unknown plugin %s', plugin);
                 return false;
-            } else if (plugin.toLowerCase() == 'none') {
+            } else if (plugin.toLowerCase() === 'none') {
                 return true;
             }
         }
@@ -45,7 +45,7 @@ export class PluginHost extends AbstractComponent<Application>
             const plugin = plugins[i];
             try {
                 const instance = require(plugin);
-                if (typeof instance == 'function') {
+                if (typeof instance === 'function') {
                     instance(this);
                     logger.write('Loaded plugin %s', plugin);
                 } else {
@@ -83,7 +83,7 @@ export class PluginHost extends AbstractComponent<Application>
 
                 previous = path;
                 path = Path.resolve(Path.join(previous, '..'));
-            } while (previous != path);
+            } while (previous !== path);
         }
 
         /**
@@ -127,7 +127,7 @@ export class PluginHost extends AbstractComponent<Application>
 
             for (let i = 0, c = keywords.length; i < c; i++) {
                 const keyword = keywords[i];
-                if (typeof keyword == 'string' && keyword.toLowerCase() == 'typedocplugin') {
+                if (typeof keyword === 'string' && keyword.toLowerCase() === 'typedocplugin') {
                     return true;
                 }
             }

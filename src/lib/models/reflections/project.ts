@@ -1,7 +1,7 @@
-import {SourceFile, SourceDirectory} from "../sources/index";
-import {Reflection, ReflectionKind} from "./abstract";
-import {DeclarationReflection} from "./declaration";
-import {ContainerReflection} from "./container";
+import {SourceFile, SourceDirectory} from '../sources/index';
+import {Reflection, ReflectionKind} from './abstract';
+import {DeclarationReflection} from './declaration';
+import {ContainerReflection} from './container';
 
 
 /**
@@ -105,13 +105,13 @@ export class ProjectReflection extends ContainerReflection
 
         search: for (let key in this.reflections) {
             const reflection = this.reflections[key];
-            if (reflection.name != name) continue;
+            if (reflection.name !== name) continue;
 
             let depth = names.length - 1;
             let target = reflection;
             while (target && depth >= 0) {
                 target = target.parent;
-                if (target.name != names[depth]) continue search;
+                if (target.name !== names[depth]) continue search;
                 depth -= 1;
             }
 

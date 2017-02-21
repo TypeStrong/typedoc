@@ -1,4 +1,4 @@
-import {CommentTag} from "./tag";
+import {CommentTag} from './tag';
 
 
 /**
@@ -60,7 +60,7 @@ export class Comment
     hasTag(tagName:string):boolean {
         if (!this.tags) return false;
         for (let i = 0, c = this.tags.length; i < c; i++) {
-            if (this.tags[i].tagName == tagName) {
+            if (this.tags[i].tagName === tagName) {
                 return true;
             }
         }
@@ -81,7 +81,7 @@ export class Comment
         if (!this.tags) return null;
         for (let i = 0, c = this.tags.length; i < c; i++) {
             const tag = this.tags[i];
-            if (tag.tagName == tagName && (paramName == void 0 || tag.paramName == paramName)) {
+            if (tag.tagName === tagName && (paramName === void 0 || tag.paramName === paramName)) {
                 return this.tags[i];
             }
         }

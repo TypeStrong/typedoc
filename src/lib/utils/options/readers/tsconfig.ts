@@ -1,15 +1,15 @@
-import * as Path from "path";
-import * as FS from "fs";
-import * as _ from "lodash";
-import * as ts from "typescript";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as _ from 'lodash';
+import * as ts from 'typescript';
 
-import {Component, Option} from "../../component";
-import {OptionsComponent, DiscoverEvent} from "../options";
-import {ParameterType, ParameterHint} from "../declaration";
-import {TypeScriptSource} from "../sources/typescript";
+import {Component, Option} from '../../component';
+import {OptionsComponent, DiscoverEvent} from '../options';
+import {ParameterType, ParameterHint} from '../declaration';
+import {TypeScriptSource} from '../sources/typescript';
 
 
-@Component({name:"options:tsconfig"})
+@Component({name:'options:tsconfig'})
 export class TSConfigReader extends OptionsComponent
 {
     @Option({
@@ -23,7 +23,7 @@ export class TSConfigReader extends OptionsComponent
     /**
      * The name of the parameter that specifies the tsconfig file.
      */
-    private static OPTIONS_KEY:string = 'tsconfig';
+    private static OPTIONS_KEY = 'tsconfig';
 
 
 
@@ -36,7 +36,7 @@ export class TSConfigReader extends OptionsComponent
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
-            let file:string = ts.findConfigFile(".", ts.sys.fileExists);
+            let file:string = ts.findConfigFile('.', ts.sys.fileExists);
             // If file is undefined, we found no file to load.
             if (file) {
                 this.load(event, file);
