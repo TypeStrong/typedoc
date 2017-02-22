@@ -2,13 +2,10 @@ import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
 import * as FS from 'fs';
 
-
-
 /**
  * List of known existent directories. Used to speed up [[directoryExists]].
  */
-const existingDirectories:ts.MapLike<boolean> = {};
-
+const existingDirectories: ts.MapLike<boolean> = {};
 
 /**
  * Normalize the given path.
@@ -16,10 +13,9 @@ const existingDirectories:ts.MapLike<boolean> = {};
  * @param path  The path that should be normalized.
  * @returns The normalized path.
  */
-export function normalizePath(path:string) {
+export function normalizePath(path: string) {
     return path.replace(/\\/g, '/');
 }
-
 
 /**
  * Test whether the given directory exists.
@@ -27,7 +23,7 @@ export function normalizePath(path:string) {
  * @param directoryPath  The directory that should be tested.
  * @returns TRUE if the given directory exists, FALSE otherwise.
  */
-export function directoryExists(directoryPath:string):boolean {
+export function directoryExists(directoryPath: string): boolean {
     if (existingDirectories.hasOwnProperty(directoryPath)) {
         return true;
     }
@@ -40,20 +36,18 @@ export function directoryExists(directoryPath:string):boolean {
     return false;
 }
 
-
 /**
  * Make sure that the given directory exists.
  *
  * @param directoryPath  The directory that should be validated.
  */
-export function ensureDirectoriesExist(directoryPath:string) {
+export function ensureDirectoriesExist(directoryPath: string) {
     if (directoryPath.length > _ts.getRootLength(directoryPath) && !directoryExists(directoryPath)) {
         const parentDirectory = _ts.getDirectoryPath(directoryPath);
         ensureDirectoriesExist(parentDirectory);
         ts.sys.createDirectory(directoryPath);
     }
 }
-
 
 /**
  * Write a file to disc.
@@ -65,15 +59,16 @@ export function ensureDirectoriesExist(directoryPath:string) {
  * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
  * @param onError  A callback that will be invoked if an error occurs.
  */
-export function writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message:string) => void) {
+export function writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void) {
     try {
         ensureDirectoriesExist(_ts.getDirectoryPath(normalizePath(fileName)));
         ts.sys.writeFile(fileName, data, writeByteOrderMark);
     } catch (e) {
-        if (onError) onError(e.message);
+        if (onError) {
+            onError(e.message);
+        }
     }
 }
-
 
 /**
  * Load the given file and return its contents.
@@ -81,8 +76,7 @@ export function writeFile(fileName:string, data:string, writeByteOrderMark:boole
  * @param file  The path of the file to read.
  * @returns The files contents.
  */
-export function readFile(file:string):string
-{
+export function readFile(file: string): string {
     const buffer = FS.readFileSync(file);
     switch (buffer[0]) {
         case 0xFE:

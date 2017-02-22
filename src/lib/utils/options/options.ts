@@ -7,34 +7,28 @@ import {Component, AbstractComponent, ChildableComponent} from '../component';
 import {Application} from '../../application';
 import {OptionDeclaration, IOptionDeclaration, ParameterScope} from './declaration';
 
-
 export class OptionsComponent extends AbstractComponent<Options> { }
-
 
 export enum OptionsReadMode {
     Prefetch,
     Fetch
 }
 
-
 export interface IOptionsReadResult {
-    hasErrors:boolean;
-    inputFiles:string[];
+    hasErrors: boolean;
+    inputFiles: string[];
 }
 
+export class DiscoverEvent extends Event {
+    data: any;
 
-export class DiscoverEvent extends Event
-{
-    data:any;
+    mode: OptionsReadMode;
 
-    mode:OptionsReadMode;
+    inputFiles: string[] = [];
 
-    inputFiles:string[] = [];
-
-    errors:string[] = [];
+    errors: string[] = [];
 
     static DISCOVER = 'optionsDiscover';
-
 
     /**
      * Add an input/source file.
@@ -44,26 +38,22 @@ export class DiscoverEvent extends Event
      *
      * @param fileName The path and filename of the input file.
      */
-    addInputFile(fileName:string) {
+    addInputFile(fileName: string) {
         this.inputFiles.push(fileName);
     }
 
-
-    addError(message:string, ...args:string[]) {
+    addError(message: string, ...args: string[]) {
         this.errors.push(Util.format.apply(this, arguments));
     }
 }
 
+@Component({name: 'options', internal: true, childClass: OptionsComponent})
+export class Options extends ChildableComponent<Application, OptionsComponent> {
+    private declarations: {[name: string]: OptionDeclaration};
 
-@Component({name:'options', internal:true, childClass:OptionsComponent})
-export class Options extends ChildableComponent<Application, OptionsComponent>
-{
-    private declarations:{[name:string]:OptionDeclaration};
+    private values: {[name: string]: any};
 
-    private values:{[name:string]:any};
-
-    private compilerOptions:ts.CompilerOptions;
-
+    private compilerOptions: ts.CompilerOptions;
 
     initialize() {
         this.declarations = {};
@@ -74,8 +64,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         };
     }
 
-
-    read(data:any = {}, mode:OptionsReadMode = OptionsReadMode.Fetch):IOptionsReadResult {
+    read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): IOptionsReadResult {
         const event  = new DiscoverEvent(DiscoverEvent.DISCOVER);
         event.data = data;
         event.mode = mode;
@@ -96,8 +85,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         };
     }
 
-
-    getValue(name:string):any {
+    getValue(name: string): any {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
             throw new Error(Util.format('Unknown option `%s`.', name));
@@ -114,13 +102,11 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    getRawValues():any {
+    getRawValues(): any {
         return _.clone(this.values);
     }
 
-
-    getDeclaration(name:string):OptionDeclaration {
+    getDeclaration(name: string): OptionDeclaration {
         name = name.toLowerCase();
 
         if (name in this.declarations) {
@@ -128,9 +114,8 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    getDeclarationsByScope(scope:ParameterScope):OptionDeclaration[] {
-        const result:OptionDeclaration[] = [];
+    getDeclarationsByScope(scope: ParameterScope): OptionDeclaration[] {
+        const result: OptionDeclaration[] = [];
         for (let name in this.declarations) {
             const declaration = this.declarations[name];
             if (declaration.scope === scope) {
@@ -141,14 +126,12 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         return _.uniq(result);
     }
 
-
-    getCompilerOptions():ts.CompilerOptions {
+    getCompilerOptions(): ts.CompilerOptions {
         return this.compilerOptions;
     }
 
-
-    setValue(name:string|OptionDeclaration, value:any, errorCallback?:Function) {
-        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string>name);
+    setValue(name: string|OptionDeclaration, value: any, errorCallback?: Function) {
+        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string> name);
         if (!declaration) {
             if (errorCallback) {
                 errorCallback('Unknown option `%s`.', name.toString());
@@ -164,8 +147,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    setValues(obj:Object, prefix:string = '', errorCallback?:Function) {
+    setValues(obj: Object, prefix: string = '', errorCallback?: Function) {
         for (let key in obj) {
             const value = obj[key];
             const declaration = this.getDeclaration(key);
@@ -178,13 +160,12 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    addDeclaration(declaration:OptionDeclaration|IOptionDeclaration) {
-        let decl:OptionDeclaration;
+    addDeclaration(declaration: OptionDeclaration|IOptionDeclaration) {
+        let decl: OptionDeclaration;
         if (!(declaration instanceof OptionDeclaration)) {
-            decl = new OptionDeclaration(<IOptionDeclaration>declaration);
+            decl = new OptionDeclaration(<IOptionDeclaration> declaration);
         } else {
-            decl = <OptionDeclaration>declaration;
+            decl = <OptionDeclaration> declaration;
         }
 
         for (let name of decl.getNames()) {
@@ -196,17 +177,15 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    addDeclarations(declarations:(OptionDeclaration|IOptionDeclaration)[]) {
+    addDeclarations(declarations: (OptionDeclaration|IOptionDeclaration)[]) {
         for (let declaration of declarations) {
             this.addDeclaration(declaration);
         }
     }
 
-
-    removeDeclaration(declaration:OptionDeclaration) {
+    removeDeclaration(declaration: OptionDeclaration) {
         const names = _.keys(this.declarations);
-        let name:string;
+        let name: string;
         for (name in names) {
             if (this.declarations[name] === declaration) {
                 delete this.declarations[name];
@@ -219,8 +198,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         }
     }
 
-
-    removeDeclarationByName(name:string) {
+    removeDeclarationByName(name: string) {
         const declaration = this.getDeclaration(name);
         if (declaration) {
             this.removeDeclaration(declaration);

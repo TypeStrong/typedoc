@@ -5,17 +5,13 @@ import {ReferenceType} from '../../models/index';
 import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
 import {Context} from '../context';
 
-
-@Component({name:'type:alias'})
-export class AliasConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.TypeReferenceNode>
-{
+@Component({name: 'type:alias'})
+export class AliasConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
     priority = 100;
-
-
 
     /**
      * Test whether the given node and type definitions represent a type alias.
@@ -29,17 +25,27 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
      * @param type  The type of the node that should be tested.
      * @returns TRUE when the given node and type look like a type alias, otherwise FALSE.
      */
-    supportsNode(context:Context, node:ts.TypeReferenceNode, type:ts.Type):boolean {
-        if (!type || !node || !node.typeName) return false;
-        if (!type.symbol) return true;
+    supportsNode(context: Context, node: ts.TypeReferenceNode, type: ts.Type): boolean {
+        if (!type || !node || !node.typeName) {
+            return false;
+        }
+        if (!type.symbol) {
+            return true;
+        }
 
         const checker = context.checker;
         let symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
-        if (!symbolName.length) return false;
-        if (symbolName[0].substr(0, 1) === '"') symbolName.shift();
+        if (!symbolName.length) {
+            return false;
+        }
+        if (symbolName[0].substr(0, 1) === '"') {
+            symbolName.shift();
+        }
 
         let nodeName = _ts.getTextOfNode(node.typeName).split('.');
-        if (!nodeName.length) return false;
+        if (!nodeName.length) {
+            return false;
+        }
 
         let common = Math.min(symbolName.length, nodeName.length);
         symbolName = symbolName.slice(-common);
@@ -47,7 +53,6 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
 
         return nodeName.join('.') !== symbolName.join('.');
     }
-
 
     /**
      * Create a reflection for the given type alias node.
@@ -59,13 +64,13 @@ export class AliasConverter extends ConverterTypeComponent implements ITypeNodeC
      *
      * ```
      * type MyNumber = number;
-     * let someValue:MyNumber;
+     * let someValue: MyNumber;
      * ```
      *
      * @param node  The node whose type should be reflected.
      * @returns  A type reference pointing to the type alias definition.
      */
-    convertNode(context:Context, node:ts.TypeReferenceNode):ReferenceType {
+    convertNode(context: Context, node: ts.TypeReferenceNode): ReferenceType {
         const name = _ts.getTextOfNode(node.typeName);
         return new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
     }

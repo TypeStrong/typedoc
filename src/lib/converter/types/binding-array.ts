@@ -4,17 +4,14 @@ import {Type, TupleType} from '../../models/index';
 import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
 import {Context} from '../context';
 
-
-@Component({name:'type:binding-array'})
-export class BindingArrayConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern>
-{
+@Component({name: 'type:binding-array'})
+export class BindingArrayConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context:Context, node:ts.BindingPattern):boolean {
+    supportsNode(context: Context, node: ts.BindingPattern): boolean {
         return node.kind === ts.SyntaxKind.ArrayBindingPattern;
     }
-
 
     /**
      * Convert the given binding pattern to its type reflection.
@@ -23,8 +20,8 @@ export class BindingArrayConverter extends ConverterTypeComponent implements ITy
      * @param node  The binding pattern that should be converted.
      * @returns The type reflection representing the given binding pattern.
      */
-    convertNode(context:Context, node:ts.BindingPattern):Type {
-        const types:Type[] = [];
+    convertNode(context: Context, node: ts.BindingPattern): Type {
+        const types: Type[] = [];
 
         (node.elements as ts.BindingElement[]).forEach((element) => {
             types.push(this.owner.convertType(context, element));

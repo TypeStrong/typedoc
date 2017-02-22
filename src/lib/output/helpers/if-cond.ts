@@ -8,7 +8,7 @@
  * @param this   The current handlebars this.
  * @returns {*}
  */
-export function ifCond(v1:any, operator:any, v2:any, options:any) {
+export function ifCond(v1: any, operator: any, v2: any, options: any) {
     switch (operator) {
         case '==':
             // tslint:disable-next-line:triple-equals

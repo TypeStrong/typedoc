@@ -4,7 +4,7 @@
 		"ban": [],
 		"class-name": true,
 		"comment-format": [ true, "check-space" ],
-		"curly": false,
+		"curly": true,
 		"eofline": true,
 		"forin": false,
 		"indent": [ true, "spaces" ],
@@ -17,7 +17,7 @@
 		"no-any": false,
 		"no-arg": true,
 		"no-bitwise": false,
-		"no-consecutive-blank-lines": false,
+		"no-consecutive-blank-lines": true,
 		"no-console": false,
 		"no-construct": false,
 		"no-debugger": true,
@@ -34,7 +34,7 @@
 		"no-var-keyword": true,
 		"no-var-requires": false,
 		"object-literal-sort-keys": false,
-		"one-line": [ true, "check-whitespace", "check-else", "check-catch" ],
+		"one-line": [ true, "check-open-brace", "check-whitespace", "check-else", "check-catch" ],
 		"quotemark": [ true, "single", "avoid-escape" ],
 		"radix": true,
 		"semicolon": [ true, "always" ],
@@ -51,13 +51,13 @@
 			"property-declaration": "nospace",
 			"variable-declaration": "nospace"
 		}, {
-			"call-signature": "nospace",
-			"index-signature": "nospace",
-			"parameter": "nospace",
-			"property-declaration": "nospace",
-			"variable-declaration": "nospace"
+			"call-signature": "onespace",
+			"index-signature": "onespace",
+			"parameter": "onespace",
+			"property-declaration": "onespace",
+			"variable-declaration": "onespace"
 		} ],
 		"variable-name": [ true, "check-format", "allow-leading-underscore", "ban-keywords" ],
-		"whitespace": [ true, "check-branch", "check-decl", "check-operator", "check-module", "check-separator" ]
+		"whitespace": [ true, "check-branch", "check-decl", "check-operator", "check-module", "check-separator", "check-type", "check-typecast" ]
 	}
 }

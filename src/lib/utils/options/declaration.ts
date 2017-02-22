@@ -12,56 +12,49 @@ export enum ParameterType {
     Array
 }
 
-
 export enum ParameterScope {
     TypeDoc, TypeScript
 }
 
-
-export interface IOptionDeclaration
-{
-    name:string;
-    component?:string;
-    short?:string;
-    help:string;
-    type?:ParameterType;
-    hint?:ParameterHint;
-    scope?:ParameterScope;
-    map?:{};
-    mapError?:string;
-    isArray?:boolean;
-    defaultValue?:any;
-    convert?:(param:OptionDeclaration, value?:any) => any;
+export interface IOptionDeclaration {
+    name: string;
+    component?: string;
+    short?: string;
+    help: string;
+    type?: ParameterType;
+    hint?: ParameterHint;
+    scope?: ParameterScope;
+    map?: {};
+    mapError?: string;
+    isArray?: boolean;
+    defaultValue?: any;
+    convert?: (param: OptionDeclaration, value?: any) => any;
 }
 
+export class OptionDeclaration {
+    name: string;
 
-export class OptionDeclaration
-{
-    name:string;
+    short: string;
 
-    short:string;
+    component: string;
 
-    component:string;
+    help: string;
 
-    help:string;
+    type: ParameterType;
 
-    type:ParameterType;
+    hint: ParameterHint;
 
-    hint:ParameterHint;
+    scope: ParameterScope;
 
-    scope:ParameterScope;
+    map: Object;
 
-    map:Object;
+    mapError: string;
 
-    mapError:string;
+    isArray: boolean;
 
-    isArray:boolean;
+    defaultValue: any;
 
-    defaultValue:any;
-
-
-
-    constructor(data:IOptionDeclaration) {
+    constructor(data: IOptionDeclaration) {
         for (let key in data) {
             this[key] = data[key];
         }
@@ -70,8 +63,7 @@ export class OptionDeclaration
         this.scope = this.scope || ParameterScope.TypeDoc;
     }
 
-
-    getNames():string[] {
+    getNames(): string[] {
         const result = [this.name.toLowerCase()];
 
         if (this.short) {
@@ -81,8 +73,7 @@ export class OptionDeclaration
         return result;
     }
 
-
-    convert(value:any, errorCallback?:Function):any {
+    convert(value: any, errorCallback?: Function): any {
         switch (this.type) {
             case ParameterType.Number:
                 value = parseInt(value, 10);

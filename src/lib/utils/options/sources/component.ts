@@ -1,12 +1,9 @@
 import {Component, ComponentEvent, AbstractComponent, ChildableComponent} from '../../component';
 import {OptionsComponent} from '../options';
 
-
-@Component({name:'options:component'})
-export class ComponentSource extends OptionsComponent
-{
-    private knownComponents:string[];
-
+@Component({name: 'options:component'})
+export class ComponentSource extends OptionsComponent {
+    private knownComponents: string[];
 
     protected initialize() {
         this.knownComponents = [];
@@ -18,8 +15,7 @@ export class ComponentSource extends OptionsComponent
         });
     }
 
-
-    private addComponent(component:AbstractComponent<any>) {
+    private addComponent(component: AbstractComponent<any>) {
         const name = component.componentName;
         if (!name) {
             this.application.logger.error('Component without name found.');
@@ -38,8 +34,7 @@ export class ComponentSource extends OptionsComponent
         }
     }
 
-
-    private removeComponent(component:AbstractComponent<any>) {
+    private removeComponent(component: AbstractComponent<any>) {
         const name = component.componentName;
         let index = this.knownComponents.indexOf(name);
         if (index !== -1) {
@@ -56,13 +51,11 @@ export class ComponentSource extends OptionsComponent
         }
     }
 
-
-    private onComponentAdded(e:ComponentEvent) {
+    private onComponentAdded(e: ComponentEvent) {
         this.addComponent(e.component);
     }
 
-
-    private onComponentRemoved(e:ComponentEvent) {
+    private onComponentRemoved(e: ComponentEvent) {
         const declarations = e.component.getOptionDeclarations();
         for (let declaration of declarations) {
             this.owner.removeDeclarationByName(declaration.name);

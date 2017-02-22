@@ -7,15 +7,12 @@ import {Component, ConverterComponent} from '../components';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
-
 /**
  * A plugin that detects decorators.
  */
-@Component({name:'decorator'})
-export class DecoratorPlugin extends ConverterComponent
-{
-    private usages:{[symbolID:number]:ReferenceType[]};
-
+@Component({name: 'decorator'})
+export class DecoratorPlugin extends ConverterComponent {
+    private usages: {[symbolID: number]: ReferenceType[]};
 
     /**
      * Create a new ImplementsPlugin instance.
@@ -29,7 +26,6 @@ export class DecoratorPlugin extends ConverterComponent
         });
     }
 
-
     /**
      * Create an object describing the arguments a decorator is set with.
      *
@@ -37,14 +33,16 @@ export class DecoratorPlugin extends ConverterComponent
      * @param signature  The signature definition of the decorator being used.
      * @returns An object describing the decorator parameters,
      */
-    private extractArguments(args:ts.NodeArray<ts.Expression>, signature:ts.Signature):any {
+    private extractArguments(args: ts.NodeArray<ts.Expression>, signature: ts.Signature): any {
         const result = {};
-        args.forEach((arg:ts.Expression, index:number) => {
+        args.forEach((arg: ts.Expression, index: number) => {
             if (index < signature.parameters.length) {
                 const parameter = signature.parameters[index];
                 result[parameter.name] = _ts.getTextOfNode(arg);
             } else {
-                if (!result['...']) result['...'] = [];
+                if (!result['...']) {
+                    result['...'] = [];
+                }
                 result['...'].push(_ts.getTextOfNode(arg));
             }
         });
@@ -52,16 +50,14 @@ export class DecoratorPlugin extends ConverterComponent
         return result;
     }
 
-
     /**
      * Triggered when the converter begins converting a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context:Context) {
+    private onBegin(context: Context) {
         this.usages = {};
     }
-
 
     /**
      * Triggered when the converter has created a declaration or signature reflection.
@@ -70,25 +66,27 @@ export class DecoratorPlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
-        if (!node || !node.decorators) return;
-        node.decorators.forEach((decorator:ts.Decorator) => {
-            let callExpression:ts.CallExpression;
-            let identifier:ts.Expression;
+    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+        if (!node || !node.decorators) {
+            return;
+        }
+        node.decorators.forEach((decorator: ts.Decorator) => {
+            let callExpression: ts.CallExpression;
+            let identifier: ts.Expression;
 
             switch (decorator.expression.kind) {
                 case ts.SyntaxKind.Identifier:
                     identifier = decorator.expression;
                     break;
                 case ts.SyntaxKind.CallExpression:
-                    callExpression = <ts.CallExpression>decorator.expression;
+                    callExpression = <ts.CallExpression> decorator.expression;
                     identifier = callExpression.expression;
                     break;
                 default:
                     return;
             }
 
-            const info:IDecorator = {
+            const info: IDecorator = {
                 name: _ts.getTextOfNode(identifier)
             };
 
@@ -104,15 +102,18 @@ export class DecoratorPlugin extends ConverterComponent
                     }
                 }
 
-                if (!this.usages[symbolID]) this.usages[symbolID] = [];
+                if (!this.usages[symbolID]) {
+                    this.usages[symbolID] = [];
+                }
                 this.usages[symbolID].push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
             }
 
-            if (!reflection.decorators) reflection.decorators = [];
+            if (!reflection.decorators) {
+                reflection.decorators = [];
+            }
             reflection.decorators.push(info);
         });
     }
-
 
     /**
      * Triggered when the converter resolves a reflection.
@@ -120,12 +121,16 @@ export class DecoratorPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onBeginResolve(context:Context) {
+    private onBeginResolve(context: Context) {
         for (let symbolID in this.usages) {
-            if (!this.usages.hasOwnProperty(symbolID)) continue;
+            if (!this.usages.hasOwnProperty(symbolID)) {
+                continue;
+            }
 
             const id = context.project.symbolMapping[symbolID];
-            if (!id) continue;
+            if (!id) {
+                continue;
+            }
 
             const reflection = context.project.reflections[id];
             if (reflection) {

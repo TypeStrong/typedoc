@@ -4,7 +4,6 @@ import {ITypeParameterContainer, TypeParameterReflection, TypeParameterType} fro
 import {Context} from '../context';
 import {Converter} from '../converter';
 
-
 /**
  * Create a type parameter reflection for the given node.
  *
@@ -12,17 +11,19 @@ import {Converter} from '../converter';
  * @param node  The type parameter node that should be reflected.
  * @returns The newly created type parameter reflection.
  */
-export function createTypeParameter(context:Context, node:ts.TypeParameterDeclaration):TypeParameterType {
+export function createTypeParameter(context: Context, node: ts.TypeParameterDeclaration): TypeParameterType {
     const typeParameter = new TypeParameterType();
     typeParameter.name = node.symbol.name;
     if (node.constraint) {
         typeParameter.constraint = context.converter.convertType(context, node.constraint);
     }
 
-    const reflection = <ITypeParameterContainer>context.scope;
+    const reflection = <ITypeParameterContainer> context.scope;
     const typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
 
-    if (!reflection.typeParameters) reflection.typeParameters = [];
+    if (!reflection.typeParameters) {
+        reflection.typeParameters = [];
+    }
     reflection.typeParameters.push(typeParameterReflection);
 
     context.registerReflection(typeParameterReflection, node);

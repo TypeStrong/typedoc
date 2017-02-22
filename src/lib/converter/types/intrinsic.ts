@@ -13,16 +13,14 @@ if (IntrinsicTypeFlags === undefined) {
     throw new Error('Internal TypeScript API missing: TypeFlags.Intrinsic');
 }
 
-@Component({name:'type:intrinsic'})
-export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.Type>
-{
+@Component({name: 'type:intrinsic'})
+export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.Type> {
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context:Context, type:ts.Type):boolean {
+    supportsType(context: Context, type: ts.Type): boolean {
         return !!(type.flags & IntrinsicTypeFlags);
     }
-
 
     /**
      * Convert the given intrinsic type to its type reflection.
@@ -30,13 +28,13 @@ export class IntrinsicConverter extends ConverterTypeComponent implements ITypeT
      * This is a type based converter with no node based equivalent.
      *
      * ```
-     * let someValue:string;
+     * let someValue: string;
      * ```
      *
      * @param type  The intrinsic type that should be converted.
      * @returns The type reflection representing the given intrinsic type.
      */
-    convertType(context:Context, type:ts.Type):IntrinsicType {
+    convertType(context: Context, type: ts.Type): IntrinsicType {
         let intrinsicName = context.program.getTypeChecker().typeToString(type);
         return new IntrinsicType(intrinsicName);
     }

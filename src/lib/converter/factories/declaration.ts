@@ -5,7 +5,6 @@ import {Context} from '../context';
 import {Converter} from '../converter';
 import {createReferenceType} from './reference';
 
-
 /**
  * List of reflection kinds that never should be static.
  */
@@ -14,7 +13,6 @@ const nonStaticKinds = [
     ReflectionKind.Interface,
     ReflectionKind.Module
 ];
-
 
 /**
  * Create a declaration reflection from the given TypeScript node.
@@ -26,8 +24,8 @@ const nonStaticKinds = [
  * @param name  The desired name of the reflection.
  * @returns The resulting reflection.
  */
-export function createDeclaration(context:Context, node:ts.Node, kind:ReflectionKind, name?:string):DeclarationReflection {
-    const container = <ContainerReflection>context.scope;
+export function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection {
+    const container = <ContainerReflection> context.scope;
     if (!(container instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
     }
@@ -46,7 +44,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     const modifiers = ts.getCombinedModifierFlags(node);
 
     // Test whether the node is exported
-    let isExported:boolean;
+    let isExported: boolean;
     if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         isExported = false; // Don't inherit exported state in modules and namespaces
     } else {
@@ -87,10 +85,12 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     }
 
     // Check if we already have a child with the same name and static flag
-    let child:DeclarationReflection;
+    let child: DeclarationReflection;
     const children = container.children = container.children || [];
-    children.forEach((n:DeclarationReflection) => {
-        if (n.name === name && n.flags.isStatic === isStatic) child = n;
+    children.forEach((n: DeclarationReflection) => {
+        if (n.name === name && n.flags.isStatic === isStatic) {
+            child = n;
+        }
     });
 
     if (!child) {
@@ -119,7 +119,6 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
     return child;
 }
 
-
 /**
  * Setup a newly created declaration reflection.
  *
@@ -128,7 +127,7 @@ export function createDeclaration(context:Context, node:ts.Node, kind:Reflection
  * @param node  The TypeScript node whose properties should be applies to the given reflection.
  * @returns The reflection populated with the values of the given node.
  */
-function setupDeclaration(context:Context, reflection:DeclarationReflection, node:ts.Node) {
+function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Node) {
     const modifiers = ts.getCombinedModifierFlags(node);
 
     reflection.setFlag(ReflectionFlag.External,  context.isExternal);
@@ -151,7 +150,6 @@ function setupDeclaration(context:Context, reflection:DeclarationReflection, nod
     return reflection;
 }
 
-
 /**
  * Merge the properties of the given TypeScript node with the pre existent reflection.
  *
@@ -161,7 +159,7 @@ function setupDeclaration(context:Context, reflection:DeclarationReflection, nod
  * @param kind  The desired kind of the reflection.
  * @returns The reflection merged with the values of the given node or NULL if the merge is invalid.
  */
-function mergeDeclarations(context:Context, reflection:DeclarationReflection, node:ts.Node, kind:ReflectionKind) {
+function mergeDeclarations(context: Context, reflection: DeclarationReflection, node: ts.Node, kind: ReflectionKind) {
     if (reflection.kind !== kind) {
         const weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
         const kindWeight = weights.indexOf(kind);

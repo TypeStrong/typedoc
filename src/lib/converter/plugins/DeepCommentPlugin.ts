@@ -4,13 +4,11 @@ import {Component, ConverterComponent} from '../components';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
-
 /**
  * A handler that moves comments with dot syntax to their target.
  */
-@Component({name:'deep-comment'})
-export class DeepCommentPlugin extends ConverterComponent
-{
+@Component({name: 'deep-comment'})
+export class DeepCommentPlugin extends ConverterComponent {
     /**
      * Create a new CommentHandler instance.
      */
@@ -18,15 +16,14 @@ export class DeepCommentPlugin extends ConverterComponent
         this.listenTo(this.owner, Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, 512);
     }
 
-
     /**
      * Triggered when the converter begins resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context:Context) {
+    private onBeginResolve(context: Context) {
         const project = context.project;
-        let name:string;
+        let name: string;
         for (let key in project.reflections) {
             const reflection = project.reflections[key];
             if (!reflection.comment) {
@@ -34,8 +31,7 @@ export class DeepCommentPlugin extends ConverterComponent
             }
         }
 
-
-        function push(parent:Reflection) {
+        function push(parent: Reflection) {
             let part = parent.originalName;
             if (!part || part.substr(0, 2) === '__' || parent instanceof SignatureReflection) {
                 part = '';
@@ -46,8 +42,7 @@ export class DeepCommentPlugin extends ConverterComponent
             }
         }
 
-
-        function findDeepComment(reflection:Reflection) {
+        function findDeepComment(reflection: Reflection) {
             name = '';
             push(reflection);
             let target = reflection.parent;
@@ -55,13 +50,17 @@ export class DeepCommentPlugin extends ConverterComponent
             while (target && !(target instanceof ProjectReflection)) {
                 push(target);
                 if (target.comment) {
-                    let tag:CommentTag;
+                    let tag: CommentTag;
                     if (reflection instanceof TypeParameterReflection) {
                         tag = target.comment.getTag('typeparam', reflection.name);
-                        if (!tag) tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                        if (!tag) {
+                            tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                        }
                     }
 
-                    if (!tag) tag = target.comment.getTag('param', name);
+                    if (!tag) {
+                        tag = target.comment.getTag('param', name);
+                    }
 
                     if (tag) {
                         target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);

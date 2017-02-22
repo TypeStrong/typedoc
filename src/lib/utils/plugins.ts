@@ -6,18 +6,15 @@ import {Application} from '../application';
 import {AbstractComponent, Component, Option} from './component';
 import {ParameterType} from './options/declaration';
 
-
-@Component({name:'plugin-host', internal:true})
-export class PluginHost extends AbstractComponent<Application>
-{
+@Component({name: 'plugin-host', internal: true})
+export class PluginHost extends AbstractComponent<Application> {
     @Option({
         name: 'plugin',
         help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
         type: ParameterType.String,
         isArray: true
     })
-    plugins:string[];
-
+    plugins: string[];
 
     /**
      * Load the given list of npm plugins.
@@ -26,11 +23,11 @@ export class PluginHost extends AbstractComponent<Application>
      *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
      * @returns TRUE on success, otherwise FALSE.
      */
-    load():boolean {
+    load(): boolean {
         const logger = this.application.logger;
         const plugins = this.plugins || this.discoverNpmPlugins();
 
-        let i:number, c:number = plugins.length;
+        let i: number, c: number = plugins.length;
         for (i = 0; i < c; i++) {
             const plugin = plugins[i];
             if (typeof plugin !== 'string') {
@@ -58,14 +55,13 @@ export class PluginHost extends AbstractComponent<Application>
         }
     }
 
-
     /**
      * Discover all installed TypeDoc plugins.
      *
      * @returns A list of all npm module names that are qualified TypeDoc plugins.
      */
-    private discoverNpmPlugins():string[] {
-        const result:string[] = [];
+    private discoverNpmPlugins(): string[] {
+        const result: string[] = [];
         const logger = this.application.logger;
         discover();
         return result;
@@ -74,7 +70,7 @@ export class PluginHost extends AbstractComponent<Application>
          * Find all parent folders containing a `node_modules` subdirectory.
          */
         function discover() {
-            let path = process.cwd(), previous:string;
+            let path = process.cwd(), previous: string;
             do {
                 const modules = Path.join(path, 'node_modules');
                 if (FS.existsSync(modules) && FS.lstatSync(modules).isDirectory()) {
@@ -89,7 +85,7 @@ export class PluginHost extends AbstractComponent<Application>
         /**
          * Scan the given `node_modules` directory for TypeDoc plugins.
          */
-        function discoverModules(basePath:string) {
+        function discoverModules(basePath: string) {
             FS.readdirSync(basePath).forEach((name) => {
                 const dir = Path.join(basePath, name);
                 const infoFile = Path.join(dir, 'package.json');
@@ -107,7 +103,7 @@ export class PluginHost extends AbstractComponent<Application>
         /**
          * Load and parse the given `package.json`.
          */
-        function loadPackageInfo(fileName:string):any {
+        function loadPackageInfo(fileName: string): any {
             try {
                 return JSON.parse(FS.readFileSync(fileName, {encoding: 'utf-8'}));
             } catch (error) {
@@ -119,8 +115,8 @@ export class PluginHost extends AbstractComponent<Application>
         /**
          * Test whether the given package info describes a TypeDoc plugin.
          */
-        function isPlugin(info:any):boolean {
-            const keywords:string[] = info.keywords;
+        function isPlugin(info: any): boolean {
+            const keywords: string[] = info.keywords;
             if (!keywords || !Util.isArray(keywords)) {
                 return false;
             }

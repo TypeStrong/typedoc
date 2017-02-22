@@ -2,15 +2,12 @@ import {Type, ReflectionType} from '../types/index';
 import {Reflection, IDefaultValueContainer, ITypeContainer, ITraverseCallback, TraverseProperty} from './abstract';
 import {SignatureReflection} from './signature';
 
+export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer {
+    parent: SignatureReflection;
 
-export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer
-{
-    parent:SignatureReflection;
+    defaultValue: string;
 
-    defaultValue:string;
-
-    type:Type;
-
+    type: Type;
 
     /**
      * Traverse all potential child reflections of this reflection.
@@ -20,19 +17,18 @@ export class ParameterReflection extends Reflection implements IDefaultValueCont
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback:ITraverseCallback) {
+    traverse(callback: ITraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
         }
 
         super.traverse(callback);
     }
 
-
     /**
      * Return a raw object representation of this reflection.
      */
-    toObject():any {
+    toObject(): any {
         const result = super.toObject();
 
         if (this.type) {
@@ -45,7 +41,6 @@ export class ParameterReflection extends Reflection implements IDefaultValueCont
 
         return result;
     }
-
 
     /**
      * Return a string representation of this reflection.

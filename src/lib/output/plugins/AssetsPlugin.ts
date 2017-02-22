@@ -5,19 +5,16 @@ import {Component, RendererComponent} from '../components';
 import {RendererEvent} from '../events';
 import {Renderer} from '../renderer';
 
-
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
  * source folder to the output directory.
  */
-@Component({name:'assets'})
-export class AssetsPlugin extends RendererComponent
-{
+@Component({name: 'assets'})
+export class AssetsPlugin extends RendererComponent {
     /**
      * Should the default assets always be copied to the output directory?
      */
     copyDefaultAssets = true;
-
 
     /**
      * Create a new AssetsPlugin instance.
@@ -28,13 +25,12 @@ export class AssetsPlugin extends RendererComponent
         });
     }
 
-
     /**
      * Triggered before the renderer starts rendering a project.
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:RendererEvent) {
+    private onRendererBegin(event: RendererEvent) {
         let fromDefault = Path.join(Renderer.getDefaultTheme(), 'assets');
         const to = Path.join(event.outputDirectory, 'assets');
 

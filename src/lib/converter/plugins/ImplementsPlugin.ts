@@ -4,21 +4,18 @@ import {Component, ConverterComponent} from '../components';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
-
 /**
  * A plugin that detects interface implementations of functions and
  * properties on classes and links them.
  */
-@Component({name:'implements'})
-export class ImplementsPlugin extends ConverterComponent
-{
+@Component({name: 'implements'})
+export class ImplementsPlugin extends ConverterComponent {
     /**
      * Create a new ImplementsPlugin instance.
      */
     initialize() {
         this.listenTo(this.owner, Converter.EVENT_RESOLVE, this.onResolve, -10);
     }
-
 
     /**
      * Mark all members of the given class to be the implementation of the matching interface member.
@@ -27,17 +24,17 @@ export class ImplementsPlugin extends ConverterComponent
      * @param classReflection  The reflection of the classReflection class.
      * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
-    private analyzeClass(context:Context, classReflection:DeclarationReflection, interfaceReflection:DeclarationReflection) {
+    private analyzeClass(context: Context, classReflection: DeclarationReflection, interfaceReflection: DeclarationReflection) {
         if (!interfaceReflection.children) {
             return;
         }
 
-        interfaceReflection.children.forEach((interfaceMember:DeclarationReflection) => {
+        interfaceReflection.children.forEach((interfaceMember: DeclarationReflection) => {
             if (!(interfaceMember instanceof DeclarationReflection)) {
                 return;
             }
 
-            let classMember:DeclarationReflection;
+            let classMember: DeclarationReflection;
 
             if (!classReflection.children) {
                 return;
@@ -45,8 +42,12 @@ export class ImplementsPlugin extends ConverterComponent
 
             for (let index = 0, count = classReflection.children.length; index < count; index++) {
                 const child = classReflection.children[index];
-                if (child.name !== interfaceMember.name) continue;
-                if (child.flags.isStatic !== interfaceMember.flags.isStatic) continue;
+                if (child.name !== interfaceMember.name) {
+                    continue;
+                }
+                if (child.flags.isStatic !== interfaceMember.flags.isStatic) {
+                    continue;
+                }
 
                 classMember = child;
                 break;
@@ -61,9 +62,9 @@ export class ImplementsPlugin extends ConverterComponent
             this.copyComment(classMember, interfaceMember);
 
             if (interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
-                interfaceMember.signatures.forEach((interfaceSignature:SignatureReflection) => {
+                interfaceMember.signatures.forEach((interfaceSignature: SignatureReflection) => {
                     const interfaceParameters = interfaceSignature.getParameterTypes();
-                    classMember.signatures.forEach((classSignature:SignatureReflection) => {
+                    classMember.signatures.forEach((classSignature: SignatureReflection) => {
                         if (Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
                             classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
                             this.copyComment(classSignature, interfaceSignature);
@@ -74,14 +75,13 @@ export class ImplementsPlugin extends ConverterComponent
         });
     }
 
-
     /**
      * Copy the comment of the source reflection to the target reflection.
      *
      * @param target
      * @param source
      */
-    private copyComment(target:Reflection, source:Reflection) {
+    private copyComment(target: Reflection, source: Reflection) {
         if (target.comment && source.comment && target.comment.hasTag('inheritdoc')) {
             target.comment.copyFrom(source.comment);
 
@@ -96,21 +96,20 @@ export class ImplementsPlugin extends ConverterComponent
         }
     }
 
-
     /**
      * Triggered when the converter resolves a reflection.
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context:Context, reflection:DeclarationReflection) {
+    private onResolve(context: Context, reflection: DeclarationReflection) {
         if (reflection.kindOf(ReflectionKind.Class) && reflection.implementedTypes) {
-            reflection.implementedTypes.forEach((type:Type) => {
+            reflection.implementedTypes.forEach((type: Type) => {
                 if (!(type instanceof ReferenceType)) {
                     return;
                 }
 
-                const source = <DeclarationReflection>(<ReferenceType>type).reflection;
+                const source = <DeclarationReflection> (<ReferenceType> type).reflection;
                 if (source && source.kindOf(ReflectionKind.Interface)) {
                     this.analyzeClass(context, reflection, source);
                 }

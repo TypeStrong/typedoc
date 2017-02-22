@@ -4,19 +4,17 @@ import {Reflection, ReflectionFlag, DeclarationReflection} from '../../models/in
 import {Context} from '../context';
 import {Component, ConverterNodeComponent} from '../components';
 
-
-@Component({name:'node:export'})
-export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
-{
+@Component({name: 'node:export'})
+export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.ExportAssignment
     ];
 
-    convert(context:Context, node:ts.ExportAssignment):Reflection {
-        let symbol:ts.Symbol = undefined;
+    convert(context: Context, node: ts.ExportAssignment): Reflection {
+        let symbol: ts.Symbol = undefined;
 
         // default export
         if (node.symbol && (node.symbol.flags & ts.SymbolFlags.Alias) === ts.SymbolFlags.Alias) {
@@ -28,21 +26,25 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
         if (symbol) {
             const project = context.project;
             symbol.declarations.forEach((declaration) => {
-                if (!declaration.symbol) return;
+                if (!declaration.symbol) {
+                    return;
+                }
                 const id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
-                if (!id) return;
+                if (!id) {
+                    return;
+                }
 
                 const reflection = project.reflections[id];
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
-                    (<DeclarationReflection>reflection).setFlag(ReflectionFlag.ExportAssignment, true);
+                    (<DeclarationReflection> reflection).setFlag(ReflectionFlag.ExportAssignment, true);
                 }
                 markAsExported(reflection);
             });
         }
 
-        function markAsExported(reflection:Reflection) {
+        function markAsExported(reflection: Reflection) {
             if (reflection instanceof DeclarationReflection) {
-                (<DeclarationReflection>reflection).setFlag(ReflectionFlag.Exported, true);
+                (<DeclarationReflection> reflection).setFlag(ReflectionFlag.Exported, true);
             }
 
             reflection.traverse(markAsExported);

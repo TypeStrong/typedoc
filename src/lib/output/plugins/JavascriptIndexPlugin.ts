@@ -6,15 +6,13 @@ import {Component, RendererComponent} from '../components';
 import {writeFile} from '../../utils/fs';
 import {RendererEvent} from '../events';
 
-
 /**
  * A plugin that exports an index of the project to a javascript file.
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-@Component({name:'javascript-index'})
-export class JavascriptIndexPlugin extends RendererComponent
-{
+@Component({name: 'javascript-index'})
+export class JavascriptIndexPlugin extends RendererComponent {
     /**
      * Create a new JavascriptIndexPlugin instance.
      */
@@ -22,32 +20,34 @@ export class JavascriptIndexPlugin extends RendererComponent
         this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
     }
 
-
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:RendererEvent) {
-        const rows:any[] = [];
+    private onRendererBegin(event: RendererEvent) {
+        const rows: any[] = [];
         const kinds = {};
 
         for (let key in event.project.reflections) {
-            const reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
-            if (!(reflection instanceof DeclarationReflection)) continue;
+            const reflection: DeclarationReflection = <DeclarationReflection> event.project.reflections[key];
+            if (!(reflection instanceof DeclarationReflection)) {
+                continue;
+            }
 
             if (!reflection.url ||
                 !reflection.name ||
                 reflection.flags.isExternal ||
-                reflection.name === '')
+                reflection.name === '') {
                 continue;
+            }
 
             let parent = reflection.parent;
             if (parent instanceof ProjectReflection) {
                 parent = null;
             }
 
-            const row:any = {
+            const row: any = {
                 id: rows.length,
                 kind:    reflection.kind,
                 name:    reflection.name,
@@ -70,7 +70,7 @@ export class JavascriptIndexPlugin extends RendererComponent
         const data =
             `var typedoc = typedoc || {};
             typedoc.search = typedoc.search || {};
-            typedoc.search.data = ${JSON.stringify({kinds:kinds, rows:rows})};`;
+            typedoc.search.data = ${JSON.stringify({kinds: kinds, rows: rows})};`;
 
         writeFile(fileName, data, true);
     }

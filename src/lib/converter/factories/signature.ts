@@ -6,7 +6,6 @@ import {Converter} from '../converter';
 import {createParameter} from './parameter';
 import {createReferenceType} from './reference';
 
-
 /**
  * Create a new signature reflection from the given node.
  *
@@ -16,8 +15,8 @@ import {createReferenceType} from './reference';
  * @param kind  The desired kind of the reflection.
  * @returns The newly created signature reflection describing the given node.
  */
-export function createSignature(context:Context, node:ts.SignatureDeclaration, name:string, kind:ReflectionKind):SignatureReflection {
-    const container = <DeclarationReflection>context.scope;
+export function createSignature(context: Context, node: ts.SignatureDeclaration, name: string, kind: ReflectionKind): SignatureReflection {
+    const container = <DeclarationReflection> context.scope;
     if (!(container instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
     }
@@ -25,7 +24,7 @@ export function createSignature(context:Context, node:ts.SignatureDeclaration, n
     const signature = new SignatureReflection(container, name, kind);
     context.registerReflection(signature, node);
     context.withScope(signature, node.typeParameters, true, () => {
-        node.parameters.forEach((parameter:ts.ParameterDeclaration) => {
+        node.parameters.forEach((parameter: ts.ParameterDeclaration) => {
             createParameter(context, parameter);
         });
 
@@ -40,9 +39,6 @@ export function createSignature(context:Context, node:ts.SignatureDeclaration, n
     return signature;
 }
 
-
-
-
 /**
  * Extract the return type of the given signature declaration.
  *
@@ -50,7 +46,7 @@ export function createSignature(context:Context, node:ts.SignatureDeclaration, n
  * @param node  The signature declaration whose return type should be determined.
  * @returns The return type reflection of the given signature.
  */
-function extractSignatureType(context:Context, node:ts.SignatureDeclaration):Type {
+function extractSignatureType(context: Context, node: ts.SignatureDeclaration): Type {
     const checker = context.checker;
     if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
         try {

@@ -6,31 +6,26 @@ import {Component, Option} from '../../component';
 import {OptionsComponent, DiscoverEvent} from '../options';
 import {ParameterType, ParameterHint} from '../declaration';
 
-
-@Component({name:'options:typedoc'})
-export class TypedocReader extends OptionsComponent
-{
+@Component({name: 'options:typedoc'})
+export class TypedocReader extends OptionsComponent {
     @Option({
         name: TypedocReader.OPTIONS_KEY,
         help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options:string;
+    options: string;
 
     /**
      * The name of the parameter that specifies the options file.
      */
     private static OPTIONS_KEY = 'options';
 
-
-
     initialize() {
         this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -100);
     }
 
-
-    onDiscover(event:DiscoverEvent) {
+    onDiscover(event: DiscoverEvent) {
         if (TypedocReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TypedocReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
@@ -41,7 +36,6 @@ export class TypedocReader extends OptionsComponent
         }
     }
 
-
     /**
      * Load the specified option file.
      *
@@ -50,7 +44,7 @@ export class TypedocReader extends OptionsComponent
      *   will simply skip all unknown arguments.
      * @returns TRUE on success, otherwise FALSE.
      */
-    load(event:DiscoverEvent, optionFile:string) {
+    load(event: DiscoverEvent, optionFile: string) {
         if (!FS.existsSync(optionFile)) {
             event.addError('The option file %s does not exist.', optionFile);
             return;

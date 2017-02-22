@@ -5,18 +5,15 @@ import {createDeclaration, createSignature} from '../factories/index';
 import {Context} from '../context';
 import {Component, ConverterNodeComponent} from '../components';
 
-
-@Component({name:'node:accessor'})
-export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclaration>
-{
+@Component({name: 'node:accessor'})
+export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.GetAccessor,
         ts.SyntaxKind.SetAccessor
     ];
-
 
     /**
      * Analyze the given getter declaration node and create a suitable reflection.
@@ -25,7 +22,7 @@ export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclar
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.SignatureDeclaration):Reflection {
+    convert(context: Context, node: ts.SignatureDeclaration): Reflection {
         const accessor = createDeclaration(context, node, ReflectionKind.Accessor);
 
         context.withScope(accessor, () => {

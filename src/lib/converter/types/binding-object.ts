@@ -5,17 +5,14 @@ import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../componen
 import {Context} from '../context';
 import {Converter} from '../converter';
 
-
-@Component({name:'type:binding-object'})
-export class BindingObjectConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern>
-{
+@Component({name: 'type:binding-object'})
+export class BindingObjectConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context:Context, node:ts.BindingPattern):boolean {
+    supportsNode(context: Context, node: ts.BindingPattern): boolean {
         return node.kind === ts.SyntaxKind.ObjectBindingPattern;
     }
-
 
     /**
      * Convert the given binding pattern to its type reflection.
@@ -24,7 +21,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
      * @param node  The binding pattern that should be converted.
      * @returns The type reflection representing the given binding pattern.
      */
-    convertNode(context:Context, node:ts.BindingPattern):Type {
+    convertNode(context: Context, node: ts.BindingPattern): Type {
         const declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';

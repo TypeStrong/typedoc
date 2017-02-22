@@ -6,18 +6,15 @@ import {Context} from '../context';
 import {Converter} from '../converter';
 import {Component, ConverterNodeComponent} from '../components';
 
-
-@Component({name:'node:constructor'})
-export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration>
-{
+@Component({name: 'node:constructor'})
+export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.Constructor,
         ts.SyntaxKind.ConstructSignature
     ];
-
 
     /**
      * Analyze the given constructor declaration node and create a suitable reflection.
@@ -26,7 +23,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      * @param node     The constructor declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.ConstructorDeclaration):Reflection {
+    convert(context: Context, node: ts.ConstructorDeclaration): Reflection {
         const parent = context.scope;
         const hasBody = !!node.body;
         const method = createDeclaration(context, node, ReflectionKind.Constructor, 'constructor');
@@ -53,7 +50,6 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
         return method;
     }
 
-
     /**
      * Analyze parameters in given constructor declaration node and create a suitable reflection.
      *
@@ -61,16 +57,22 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      * @param node     The constructor declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    private addParameterProperty(context:Context, parameter:ts.ParameterDeclaration, comment:Comment) {
+    private addParameterProperty(context: Context, parameter: ts.ParameterDeclaration, comment: Comment) {
         const modifiers = ts.getCombinedModifierFlags(parameter);
         const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
-        if (!visibility) return;
+        if (!visibility) {
+            return;
+        }
 
         const privateParameter = modifiers & ts.ModifierFlags.Private;
-        if (privateParameter && context.converter.excludePrivate) return;
+        if (privateParameter && context.converter.excludePrivate) {
+            return;
+        }
 
         const property = createDeclaration(context, parameter, ReflectionKind.Property);
-        if (!property) return;
+        if (!property) {
+            return;
+        }
 
         property.setFlag(ReflectionFlag.Static, false);
         property.type = this.owner.convertType(context, parameter.type, context.getTypeAtLocation(parameter));

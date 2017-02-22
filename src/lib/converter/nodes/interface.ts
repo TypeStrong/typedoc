@@ -6,17 +6,14 @@ import {createDeclaration} from '../factories/index';
 import {Context} from '../context';
 import {Component, ConverterNodeComponent} from '../components';
 
-
-@Component({name:'node:interface'})
-export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDeclaration>
-{
+@Component({name: 'node:interface'})
+export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.InterfaceDeclaration
     ];
-
 
     /**
      * Analyze the given interface declaration node and create a suitable reflection.
@@ -25,10 +22,10 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
      * @param node     The interface declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.InterfaceDeclaration):Reflection {
-        let reflection:DeclarationReflection;
+    convert(context: Context, node: ts.InterfaceDeclaration): Reflection {
+        let reflection: DeclarationReflection;
         if (context.isInherit && context.inheritParent === node) {
-            reflection = <DeclarationReflection>context.scope;
+            reflection = <DeclarationReflection> context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Interface);
         }
@@ -45,7 +42,9 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                 baseTypes.forEach((baseType) => {
                     const type = context.getTypeAtLocation(baseType);
                     if (!context.isInherit) {
-                        if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                        if (!reflection.extendedTypes) {
+                            reflection.extendedTypes = [];
+                        }
                         reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
                     }
 

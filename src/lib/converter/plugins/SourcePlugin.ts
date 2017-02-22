@@ -9,13 +9,11 @@ import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
-
 /**
  * A handler that attaches source file information to reflections.
  */
-@Component({name:'source'})
-export class SourcePlugin extends ConverterComponent
-{
+@Component({name: 'source'})
+export class SourcePlugin extends ConverterComponent {
     /**
      * Helper for resolving the base path of all source files.
      */
@@ -24,8 +22,7 @@ export class SourcePlugin extends ConverterComponent
     /**
      * A map of all generated [[SourceFile]] instances.
      */
-    private fileMappings:{[name:string]:SourceFile} = {};
-
+    private fileMappings: {[name: string]: SourceFile} = {};
 
     /**
      * Create a new SourceHandler instance.
@@ -42,8 +39,7 @@ export class SourcePlugin extends ConverterComponent
         });
     }
 
-
-    private getSourceFile(fileName:string, project:ProjectReflection):SourceFile {
+    private getSourceFile(fileName: string, project: ProjectReflection): SourceFile {
         if (!this.fileMappings[fileName]) {
             const file = new SourceFile(fileName);
             this.fileMappings[fileName] = file;
@@ -52,7 +48,6 @@ export class SourcePlugin extends ConverterComponent
 
         return this.fileMappings[fileName];
     }
-
 
     /**
      * Triggered once per project before the dispatcher invokes the compiler.
@@ -64,7 +59,6 @@ export class SourcePlugin extends ConverterComponent
         this.fileMappings = {};
     }
 
-
     /**
      * Triggered when the converter begins converting a source file.
      *
@@ -74,13 +68,14 @@ export class SourcePlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onBeginDocument(context:Context, reflection:Reflection, node?:ts.SourceFile) {
-        if (!node) return;
+    private onBeginDocument(context: Context, reflection: Reflection, node?: ts.SourceFile) {
+        if (!node) {
+            return;
+        }
         const fileName = node.fileName;
         this.basePath.add(fileName);
         this.getSourceFile(fileName, context.project);
     }
-
 
     /**
      * Triggered when the converter has created a declaration reflection.
@@ -91,20 +86,24 @@ export class SourcePlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
-        if (!node) return;
+    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+        if (!node) {
+            return;
+        }
         const sourceFile      = _ts.getSourceFileOfNode(node);
         const fileName        = sourceFile.fileName;
-        const file:SourceFile = this.getSourceFile(fileName, context.project);
+        const file: SourceFile = this.getSourceFile(fileName, context.project);
 
-        let position:ts.LineAndCharacter;
+        let position: ts.LineAndCharacter;
         if (node['name'] && node['name'].end) {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node['name'].end);
         } else {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
         }
 
-        if (!reflection.sources) reflection.sources = [];
+        if (!reflection.sources) {
+            reflection.sources = [];
+        }
         if (reflection instanceof DeclarationReflection) {
             file.reflections.push(reflection);
         }
@@ -117,19 +116,17 @@ export class SourcePlugin extends ConverterComponent
         });
     }
 
-
     /**
      * Triggered when the converter begins resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context:Context) {
+    private onBeginResolve(context: Context) {
         context.project.files.forEach((file) => {
             const fileName = file.fileName = this.basePath.trim(file.fileName);
             this.fileMappings[fileName] = file;
         });
     }
-
 
     /**
      * Triggered when the converter resolves a reflection.
@@ -137,24 +134,25 @@ export class SourcePlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context:Context, reflection:Reflection) {
-        if (!reflection.sources) return;
+    private onResolve(context: Context, reflection: Reflection) {
+        if (!reflection.sources) {
+            return;
+        }
         reflection.sources.forEach((source) => {
             source.fileName = this.basePath.trim(source.fileName);
         });
     }
-
 
     /**
      * Triggered when the converter has finished resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onEndResolve(context:Context) {
+    private onEndResolve(context: Context) {
         const project = context.project;
         const home = project.directory;
         project.files.forEach((file) => {
-            const reflections:Reflection[] = [];
+            const reflections: Reflection[] = [];
             file.reflections.forEach((reflection) => {
                 reflections.push(reflection);
             });

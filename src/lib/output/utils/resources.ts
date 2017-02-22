@@ -7,23 +7,20 @@ import {HelperStack} from './resources/helpers';
 import {TemplateStack, PartialStack} from './resources/templates';
 import {Renderer} from '../renderer';
 
+export class Resources {
+    templates: TemplateStack;
 
-export class Resources
-{
-    templates:TemplateStack;
+    layouts: TemplateStack;
 
-    layouts:TemplateStack;
+    partials: PartialStack;
 
-    partials:PartialStack;
+    helpers: HelperStack;
 
-    helpers:HelperStack;
+    private theme: Theme;
 
-    private theme:Theme;
+    private isActive: boolean;
 
-    private isActive:boolean;
-
-
-    constructor(theme:Theme) {
+    constructor(theme: Theme) {
         this.theme     = theme;
         this.templates = new TemplateStack();
         this.layouts   = new TemplateStack();
@@ -34,9 +31,10 @@ export class Resources
         this.addDirectory('theme', theme.basePath);
     }
 
-
-    activate():boolean {
-        if (this.isActive) return false;
+    activate(): boolean {
+        if (this.isActive) {
+            return false;
+        }
         this.isActive = true;
 
         this.partials.activate();
@@ -44,9 +42,10 @@ export class Resources
         return true;
     }
 
-
-    deactivate():boolean {
-        if (!this.isActive) return false;
+    deactivate(): boolean {
+        if (!this.isActive) {
+            return false;
+        }
         this.isActive = false;
 
         this.partials.deactivate();
@@ -54,13 +53,11 @@ export class Resources
         return true;
     }
 
-
-    getTheme():Theme {
+    getTheme(): Theme {
         return this.theme;
     }
 
-
-    addDirectory(name:string, path:string) {
+    addDirectory(name: string, path: string) {
         if (this.isActive) {
             throw new Error('Cannot add directories while the resource is active.');
         }
@@ -80,8 +77,7 @@ export class Resources
         this.helpers.addOrigin(name,   Path.join(path, 'helpers'),   true);
     }
 
-
-    removeDirectory(name:string) {
+    removeDirectory(name: string) {
         if (this.isActive) {
             throw new Error('Cannot remove directories while the resource is active.');
         }
@@ -91,7 +87,6 @@ export class Resources
         this.partials.removeOrigin(name);
         this.helpers.removeOrigin(name);
     }
-
 
     removeAllDirectories() {
         if (this.isActive) {

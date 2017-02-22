@@ -1,21 +1,18 @@
 import * as ts from 'typescript';
 import * as _ts from '../../../ts-internal';
 
-
 import {Component} from '../../component';
 import {OptionsComponent} from '../options';
 import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from '../declaration';
 
-
-@Component({name:'options:typescript'})
-export class TypeScriptSource extends OptionsComponent
-{
-    private declarations:IOptionDeclaration[];
+@Component({name: 'options:typescript'})
+export class TypeScriptSource extends OptionsComponent {
+    private declarations: IOptionDeclaration[];
 
     /**
      * A list of all TypeScript parameters that should be ignored.
      */
-    static IGNORED:string[] = [
+    static IGNORED: string[] = [
         'out', 'version', 'help',
         'watch', 'declaration', 'mapRoot',
         'sourceMap', 'inlineSources', 'removeComments',
@@ -24,7 +21,6 @@ export class TypeScriptSource extends OptionsComponent
         'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
         'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
     ];
-
 
     initialize() {
         const ignored = TypeScriptSource.IGNORED;
@@ -37,17 +33,15 @@ export class TypeScriptSource extends OptionsComponent
         }
     }
 
-
     /**
      * Return all option declarations emitted by this component.
      */
-    getOptionDeclarations():IOptionDeclaration[] {
+    getOptionDeclarations(): IOptionDeclaration[] {
         return this.declarations;
     }
 
-
-    private addTSOption(option:_ts.CommandLineOption) {
-        const param:IOptionDeclaration = {
+    private addTSOption(option: _ts.CommandLineOption) {
+        const param: IOptionDeclaration = {
             name:      option.name,
             short:     option.shortName,
             help:      option.description ? option.description.key : null,

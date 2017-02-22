@@ -3,7 +3,6 @@ import * as _ts from '../../ts-internal';
 
 import {Comment, CommentTag} from '../../models/comments/index';
 
-
 /**
  * Return the parsed comment of the given TypeScript node.
  *
@@ -11,7 +10,7 @@ import {Comment, CommentTag} from '../../models/comments/index';
  * @return The parsed comment as a [[Comment]] instance or NULL if
  *     no comment is present.
  */
-export function createComment(node:ts.Node):Comment {
+export function createComment(node: ts.Node): Comment {
     const comment = getRawComment(node);
     if (comment == null) {
         return null;
@@ -19,7 +18,6 @@ export function createComment(node:ts.Node):Comment {
 
     return parseComment(comment);
 }
-
 
 /**
  * Check whether the given module declaration is the topmost.
@@ -34,9 +32,9 @@ export function createComment(node:ts.Node):Comment {
  * @param node  The module definition that should be tested.
  * @return TRUE if the given node is the topmost module declaration, FALSE otherwise.
  */
-function isTopmostModuleDeclaration(node:ts.ModuleDeclaration):boolean {
+function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
     if (node.nextContainer && node.nextContainer.kind === ts.SyntaxKind.ModuleDeclaration) {
-        let next = <ts.ModuleDeclaration>node.nextContainer;
+        let next = <ts.ModuleDeclaration> node.nextContainer;
         if (node.name.end + 1 === next.name.pos) {
             return false;
         }
@@ -55,10 +53,9 @@ function isTopmostModuleDeclaration(node:ts.ModuleDeclaration):boolean {
  * module A.B.C { }
  * ```
  */
-function getRootModuleDeclaration(node:ts.ModuleDeclaration):ts.Node
-{
+function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
     while (node.parent && node.parent.kind === ts.SyntaxKind.ModuleDeclaration) {
-        let parent = <ts.ModuleDeclaration>node.parent;
+        let parent = <ts.ModuleDeclaration> node.parent;
         if (node.name.pos === parent.name.end + 1) {
             node = parent;
         } else {
@@ -69,30 +66,31 @@ function getRootModuleDeclaration(node:ts.ModuleDeclaration):ts.Node
     return node;
 }
 
-
 /**
  * Return the raw comment string for the given node.
  *
  * @param node  The node whose comment should be resolved.
  * @returns     The raw comment string or NULL if no comment could be found.
  */
-export function getRawComment(node:ts.Node):string {
+export function getRawComment(node: ts.Node): string {
     if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         node = node.parent.parent;
     } else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
-        if (!isTopmostModuleDeclaration(<ts.ModuleDeclaration>node)) {
+        if (!isTopmostModuleDeclaration(<ts.ModuleDeclaration> node)) {
             return null;
         } else {
-            node = getRootModuleDeclaration(<ts.ModuleDeclaration>node);
+            node = getRootModuleDeclaration(<ts.ModuleDeclaration> node);
         }
     }
 
     const sourceFile = _ts.getSourceFileOfNode(node);
     const comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
     if (comments && comments.length) {
-        let comment:ts.CommentRange;
+        let comment: ts.CommentRange;
         if (node.kind === ts.SyntaxKind.SourceFile) {
-            if (comments.length === 1) return null;
+            if (comments.length === 1) {
+                return null;
+            }
             comment = comments[0];
         } else {
             comment = comments[comments.length - 1];
@@ -104,7 +102,6 @@ export function getRawComment(node:ts.Node):string {
     }
 }
 
-
 /**
  * Parse the given doc comment string.
  *
@@ -112,17 +109,17 @@ export function getRawComment(node:ts.Node):string {
  * @param comment  The [[Models.Comment]] instance the parsed results should be stored into.
  * @returns        A populated [[Models.Comment]] instance.
  */
-export function parseComment(text:string, comment:Comment = new Comment()):Comment {
-    let currentTag:CommentTag;
+export function parseComment(text: string, comment: Comment = new Comment()): Comment {
+    let currentTag: CommentTag;
     let shortText = 0;
 
-    function consumeTypeData(line:string):string {
+    function consumeTypeData(line: string): string {
         line = line.replace(/^\{[^\}]*\}+/, '');
         line = line.replace(/^\[[^\[][^\]]*\]+/, '');
         return line.trim();
     }
 
-    function readBareLine(line:string) {
+    function readBareLine(line: string) {
         if (currentTag) {
             currentTag.text += '\n' + line;
         } else if (line === '' && shortText === 0) {
@@ -139,12 +136,12 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
         }
     }
 
-    function readTagLine(line:string, tag:RegExpExecArray) {
+    function readTagLine(line: string, tag: RegExpExecArray) {
         let tagName = tag[1].toLowerCase();
-        let paramName:string;
+        let paramName: string;
         line = line.substr(tagName.length + 1).trim();
 
-        if (tagName === 'return') tagName = 'returns';
+        if (tagName === 'return') { tagName = 'returns'; }
         if (tagName === 'param' || tagName === 'typeparam') {
             line = consumeTypeData(line);
             const param = /[^\s]+/.exec(line);
@@ -159,11 +156,11 @@ export function parseComment(text:string, comment:Comment = new Comment()):Comme
         }
 
         currentTag = new CommentTag(tagName, paramName, line);
-        if (!comment.tags) comment.tags = [];
+        if (!comment.tags) { comment.tags = []; }
         comment.tags.push(currentTag);
     }
 
-    function readLine(line:string) {
+    function readLine(line: string) {
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
