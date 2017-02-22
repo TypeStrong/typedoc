@@ -46,7 +46,7 @@
     "progress": "^1.1.8",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.4.2",
-    "typescript": "2.1.6"
+    "typescript": "2.2.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
