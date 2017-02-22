@@ -60,10 +60,6 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
-    if (!isExported && context.converter.excludeNotExported) {
-        return null;
-    }
-
     // Test whether the node is private, when inheriting ignore private members
     const isPrivate = !!(modifiers & ts.ModifierFlags.Private);
     if (context.isInherit && isPrivate) {

@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 import {Application} from '../application';
 import {ParameterType} from '../utils/options/declaration';
-import {Reflection, Type, ProjectReflection} from '../models/index';
+import {Reflection, Type, ProjectReflection, DeclarationReflection} from '../models/index';
 import {Context} from './context';
 import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter} from './components';
 import {CompilerHost} from './utils/compiler-host';
@@ -375,6 +375,33 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     /**
+     * prune non-exported reflections from the project
+     *
+     * This method is called by the resolve method if excludeNotExported
+     * is true, and it removes all reflections from the project whose flags.isExported
+     * is false.
+     */
+    private removeNonExported(project: ProjectReflection): void {
+        function checkNodes(reflections: DeclarationReflection[]) {
+            for (let i = reflections.length - 1; i >= 0; --i) {
+                const node = reflections[i];
+                if (!node.flags.isExported) {
+                    reflections.splice(i, 1);
+                    delete project.reflections[node.id];
+                }
+
+                if (Array.isArray(node.children)) {
+                    checkNodes(node.children);
+                }
+            }
+        }
+
+        if (Array.isArray(project.children)) {
+            checkNodes(project.children);
+        }
+    }
+
+    /**
      * Resolve the project within the given context.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -383,6 +410,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private resolve(context: Context): ProjectReflection {
         this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         const project = context.project;
+
+        if (this.excludeNotExported) {
+            this.removeNonExported(context.project);
+        }
 
         for (let id in project.reflections) {
             if (!project.reflections.hasOwnProperty(id)) {
