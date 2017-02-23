@@ -1,8 +1,6 @@
 import * as ts from 'typescript';
 const tsany = ts as any;
 
-/*tslint:disable:interface-name*/
-
 /**
  * Expose the internal TypeScript APIs that are used by TypeDoc
  */
