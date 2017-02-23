@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 import {IntrinsicType} from '../../models/index';
-import {Component, ConverterTypeComponent, ITypeTypeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeTypeConverter} from '../components';
 import {Context} from '../context';
 
 // TypeScript has an @internal enum set for the intrinsic types:
@@ -14,7 +14,7 @@ if (IntrinsicTypeFlags === undefined) {
 }
 
 @Component({name: 'type:intrinsic'})
-export class IntrinsicConverter extends ConverterTypeComponent implements ITypeTypeConverter<ts.Type> {
+export class IntrinsicConverter extends ConverterTypeComponent implements TypeTypeConverter<ts.Type> {
     /**
      * Test whether this converter can handle the given TypeScript type.
      */

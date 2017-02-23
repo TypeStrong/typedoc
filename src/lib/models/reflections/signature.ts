@@ -1,10 +1,10 @@
 import {Type, ReflectionType} from '../types/index';
-import {Reflection, ITypeContainer, ITypeParameterContainer, TraverseProperty, ITraverseCallback} from './abstract';
+import {Reflection, TypeContainer, TypeParameterContainer, TraverseProperty, TraverseCallback} from './abstract';
 import {ContainerReflection} from './container';
 import {ParameterReflection} from './parameter';
 import {TypeParameterReflection} from './type-parameter';
 
-export class SignatureReflection extends Reflection implements ITypeContainer, ITypeParameterContainer {
+export class SignatureReflection extends Reflection implements TypeContainer, TypeParameterContainer {
     parent: ContainerReflection;
 
     parameters: ParameterReflection[];
@@ -52,7 +52,7 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
             callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
         }

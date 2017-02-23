@@ -17,7 +17,7 @@ import {ProjectReflection} from './models/index';
 import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
 
 import {AbstractComponent, ChildableComponent, Component, Option} from './utils/component';
-import {Options, OptionsReadMode, IOptionsReadResult} from './utils/options/index';
+import {Options, OptionsReadMode, OptionsReadResult} from './utils/options/index';
 import {ParameterType} from './utils/options/declaration';
 
 /**
@@ -104,7 +104,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?: Object): IOptionsReadResult {
+    protected bootstrap(options?: Object): OptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
         const logger = this.loggerType;

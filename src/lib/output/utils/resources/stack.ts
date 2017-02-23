@@ -2,11 +2,11 @@ import * as FS from 'fs';
 import * as Path from 'path';
 import * as Util from 'util';
 
-export interface IResourceClass<T extends Resource> extends Function {
+export interface ResourceClass<T extends Resource> extends Function {
     new (origin: ResourceOrigin<T>, name: string, fileName: string): T;
 }
 
-export interface IResourceMap<T extends Resource> {
+export interface ResourceMap<T extends Resource> {
     [name: string]: T;
 }
 
@@ -42,7 +42,7 @@ export class ResourceOrigin<T extends Resource> {
 
     private path: string;
 
-    private resources: IResourceMap<T> = {};
+    private resources: ResourceMap<T> = {};
 
     constructor(stack: ResourceStack<T>, name: string, path: string) {
         this.stack = stack;
@@ -52,7 +52,7 @@ export class ResourceOrigin<T extends Resource> {
         this.findResources();
     }
 
-    mergeResources(target: IResourceMap<T>) {
+    mergeResources(target: ResourceMap<T>) {
         const resources = this.resources;
         for (let name in resources) {
             if (name in target) {
@@ -102,7 +102,7 @@ export class ResourceOrigin<T extends Resource> {
 export abstract class ResourceStack<T extends Resource> {
     private isActive: boolean;
 
-    private ressourceClass: IResourceClass<T>;
+    private ressourceClass: ResourceClass<T>;
 
     private ressourceRegExp: RegExp;
 
@@ -111,7 +111,7 @@ export abstract class ResourceStack<T extends Resource> {
      */
     private origins: ResourceOrigin<T>[] = [];
 
-    constructor(ressourceClass: IResourceClass<T>, ressourceRegExp?: RegExp) {
+    constructor(ressourceClass: ResourceClass<T>, ressourceRegExp?: RegExp) {
         this.ressourceClass  = ressourceClass;
         this.ressourceRegExp = ressourceRegExp || /.*/;
     }
@@ -149,8 +149,8 @@ export abstract class ResourceStack<T extends Resource> {
         throw new Error(Util.format('Cannot find resource `%s`.', name));
     }
 
-    getAllResources(): IResourceMap<T> {
-        const resources: IResourceMap<T> = {};
+    getAllResources(): ResourceMap<T> {
+        const resources: ResourceMap<T> = {};
         let index = this.origins.length - 1;
 
         while (index >= 0) {
@@ -160,7 +160,7 @@ export abstract class ResourceStack<T extends Resource> {
         return resources;
     }
 
-    getResourceClass(): IResourceClass<T> {
+    getResourceClass(): ResourceClass<T> {
         return this.ressourceClass;
     }
 

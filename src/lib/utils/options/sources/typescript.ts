@@ -3,11 +3,11 @@ import * as _ts from '../../../ts-internal';
 
 import {Component} from '../../component';
 import {OptionsComponent} from '../options';
-import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from '../declaration';
+import {DeclarationOption, ParameterScope, ParameterType, ParameterHint} from '../declaration';
 
 @Component({name: 'options:typescript'})
 export class TypeScriptSource extends OptionsComponent {
-    private declarations: IOptionDeclaration[];
+    private declarations: DeclarationOption[];
 
     /**
      * A list of all TypeScript parameters that should be ignored.
@@ -36,12 +36,12 @@ export class TypeScriptSource extends OptionsComponent {
     /**
      * Return all option declarations emitted by this component.
      */
-    getOptionDeclarations(): IOptionDeclaration[] {
+    getOptionDeclarations(): DeclarationOption[] {
         return this.declarations;
     }
 
     private addTSOption(option: _ts.CommandLineOption) {
-        const param: IOptionDeclaration = {
+        const param: DeclarationOption = {
             name:      option.name,
             short:     option.shortName,
             help:      option.description ? option.description.key : null,

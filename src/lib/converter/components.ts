@@ -27,10 +27,10 @@ export abstract class ConverterTypeComponent extends ConverterComponent {
     priority = 0;
 }
 
-export interface ITypeConverter<T extends ts.Type, N extends ts.Node>
-        extends ConverterTypeComponent, ITypeTypeConverter<T>, ITypeNodeConverter<T, N> {}
+export interface TypeConverter<T extends ts.Type, N extends ts.Node>
+        extends ConverterTypeComponent, TypeTypeConverter<T>, TypeNodeConverter<T, N> {}
 
-export interface ITypeTypeConverter<T extends ts.Type> extends ConverterTypeComponent {
+export interface TypeTypeConverter<T extends ts.Type> extends ConverterTypeComponent {
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
@@ -42,7 +42,7 @@ export interface ITypeTypeConverter<T extends ts.Type> extends ConverterTypeComp
     convertType(context: Context, type: T): Type;
 }
 
-export interface ITypeNodeConverter<T extends ts.Type, N extends ts.Node> extends ConverterTypeComponent {
+export interface TypeNodeConverter<T extends ts.Type, N extends ts.Node> extends ConverterTypeComponent {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */

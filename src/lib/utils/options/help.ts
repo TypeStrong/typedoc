@@ -4,7 +4,7 @@ import * as _ts from '../../ts-internal';
 import {Options} from './options';
 import {ParameterScope, ParameterHint} from './declaration';
 
-export interface IParameterHelp {
+export interface ParameterHelp {
     names: string[];
     helps: string[];
     margin: number;
@@ -16,7 +16,7 @@ export interface IParameterHelp {
  * @param scope  The scope of the parameters whose help should be returned.
  * @returns The columns and lines for the help of the requested parameters.
  */
-function getParameterHelp(options: Options, scope: ParameterScope): IParameterHelp {
+function getParameterHelp(options: Options, scope: ParameterScope): ParameterHelp {
     const parameters = options.getDeclarationsByScope(scope);
     parameters.sort((a, b) => {
         return _ts.compareValues<string>(a.name.toLowerCase(), b.name.toLowerCase());
@@ -77,7 +77,7 @@ export function getOptionsHelp(options: Options): string {
     output.push('');
     return output.join(ts.sys.newLine);
 
-    function pushHelp(columns: IParameterHelp) {
+    function pushHelp(columns: ParameterHelp) {
         for (let i = 0; i < columns.names.length; i++) {
             const usage = columns.names[i];
             const description = columns.helps[i];

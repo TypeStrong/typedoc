@@ -1,7 +1,7 @@
 import * as ShellJS from 'shelljs';
 import * as Path from 'path';
 
-import {ISourceReference} from '../../models/sources/file';
+import {SourceReference} from '../../models/sources/file';
 import {Component, ConverterComponent} from '../components';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
@@ -229,7 +229,7 @@ export class GitHubPlugin extends ConverterComponent {
         for (let key in project.reflections) {
             const reflection = project.reflections[key];
             if (reflection.sources) {
-                reflection.sources.forEach((source: ISourceReference) => {
+                reflection.sources.forEach((source: SourceReference) => {
                     if (source.file && source.file.url) {
                         source.url = source.file.url + '#L' + source.line;
                     }

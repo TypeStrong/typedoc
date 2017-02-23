@@ -2,7 +2,7 @@ import * as typescript from 'typescript';
 
 import {Application} from './application';
 import {Option} from './utils/component';
-import {IOptionsReadResult} from './utils/options/options';
+import {OptionsReadResult} from './utils/options/options';
 import {ParameterHint, ParameterType} from './utils/options/declaration';
 import {getOptionsHelp} from './utils/options/help';
 
@@ -48,7 +48,7 @@ export class CliApplication extends Application {
     /**
      * Run TypeDoc from the command line.
      */
-    protected bootstrap(options?: Object): IOptionsReadResult {
+    protected bootstrap(options?: Object): OptionsReadResult {
         const result = super.bootstrap(options);
         if (result.hasErrors) {
             process.exit(ExitCode.OptionError);

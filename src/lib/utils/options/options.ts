@@ -5,7 +5,7 @@ import * as ts from 'typescript';
 import {Event} from '../events';
 import {Component, AbstractComponent, ChildableComponent} from '../component';
 import {Application} from '../../application';
-import {OptionDeclaration, IOptionDeclaration, ParameterScope} from './declaration';
+import {OptionDeclaration, DeclarationOption, ParameterScope} from './declaration';
 
 export class OptionsComponent extends AbstractComponent<Options> { }
 
@@ -14,7 +14,7 @@ export enum OptionsReadMode {
     Fetch
 }
 
-export interface IOptionsReadResult {
+export interface OptionsReadResult {
     hasErrors: boolean;
     inputFiles: string[];
 }
@@ -64,7 +64,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
         };
     }
 
-    read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): IOptionsReadResult {
+    read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): OptionsReadResult {
         const event  = new DiscoverEvent(DiscoverEvent.DISCOVER);
         event.data = data;
         event.mode = mode;
@@ -160,10 +160,10 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
         }
     }
 
-    addDeclaration(declaration: OptionDeclaration|IOptionDeclaration) {
+    addDeclaration(declaration: OptionDeclaration|DeclarationOption) {
         let decl: OptionDeclaration;
         if (!(declaration instanceof OptionDeclaration)) {
-            decl = new OptionDeclaration(<IOptionDeclaration> declaration);
+            decl = new OptionDeclaration(<DeclarationOption> declaration);
         } else {
             decl = <OptionDeclaration> declaration;
         }
@@ -177,7 +177,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
         }
     }
 
-    addDeclarations(declarations: (OptionDeclaration|IOptionDeclaration)[]) {
+    addDeclarations(declarations: (OptionDeclaration|DeclarationOption)[]) {
         for (let declaration of declarations) {
             this.addDeclaration(declaration);
         }

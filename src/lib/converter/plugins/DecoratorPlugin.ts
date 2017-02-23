@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
 import {ReferenceType} from '../../models/types/index';
-import {Reflection, IDecorator} from '../../models/reflections/index';
+import {Reflection, Decorator} from '../../models/reflections/index';
 import {Component, ConverterComponent} from '../components';
 import {Converter} from '../converter';
 import {Context} from '../context';
@@ -86,7 +86,7 @@ export class DecoratorPlugin extends ConverterComponent {
                     return;
             }
 
-            const info: IDecorator = {
+            const info: Decorator = {
                 name: _ts.getTextOfNode(identifier)
             };
 

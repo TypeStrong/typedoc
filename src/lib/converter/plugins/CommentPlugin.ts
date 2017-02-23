@@ -13,7 +13,7 @@ import {Context} from '../context';
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
  */
-interface IModuleComment {
+interface ModuleComment {
     /**
      * The module reflection this comment is targeting.
      */
@@ -39,7 +39,7 @@ export class CommentPlugin extends ConverterComponent {
     /**
      * List of discovered module comments.
      */
-    private comments: {[id: number]: IModuleComment};
+    private comments: {[id: number]: ModuleComment};
 
     /**
      * List of hidden reflections.

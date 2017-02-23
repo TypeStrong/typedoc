@@ -1,4 +1,4 @@
-import {ISourceReference} from '../sources/file';
+import {SourceReference} from '../sources/file';
 import {Type} from '../types/index';
 import {Comment} from '../comments/comment';
 import {TypeParameterReflection} from './type-parameter';
@@ -89,7 +89,7 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Rest
 ];
 
-export interface IReflectionFlags extends Array<string> {
+export interface ReflectionFlags extends Array<string> {
     flags?: ReflectionFlag;
 
     /**
@@ -142,15 +142,15 @@ export interface IReflectionFlags extends Array<string> {
     isConstructorProperty?: boolean;
 }
 
-export interface IDefaultValueContainer extends Reflection {
+export interface DefaultValueContainer extends Reflection {
     defaultValue: string;
 }
 
-export interface ITypeContainer extends Reflection {
+export interface TypeContainer extends Reflection {
     type: Type;
 }
 
-export interface ITypeParameterContainer extends Reflection {
+export interface TypeParameterContainer extends Reflection {
     typeParameters: TypeParameterReflection[];
 }
 
@@ -165,14 +165,14 @@ export enum TraverseProperty {
     SetSignature
 }
 
-export interface ITraverseCallback {
+export interface TraverseCallback {
     (reflection: Reflection, property: TraverseProperty): void;
 }
 
 /**
  * Defines the usage of a decorator.
  */
-export interface IDecorator {
+export interface Decorator {
     /**
      * The name of the decorator being applied.
      */
@@ -227,7 +227,7 @@ export abstract class Reflection {
      */
     kindString: string;
 
-    flags: IReflectionFlags = [];
+    flags: ReflectionFlags = [];
 
     /**
      * The reflection this reflection is a child of.
@@ -242,12 +242,12 @@ export abstract class Reflection {
     /**
      * A list of all source files that contributed to this reflection.
      */
-    sources: ISourceReference[];
+    sources: SourceReference[];
 
     /**
      * A list of all decorators attached to this reflection.
      */
-    decorators: IDecorator[];
+    decorators: Decorator[];
 
     /**
      * A list of all types that are decorated by this reflection.
@@ -526,7 +526,7 @@ export abstract class Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: ITraverseCallback) { }
+    traverse(callback: TraverseCallback) { }
 
     /**
      * Return a raw object representation of this reflection.

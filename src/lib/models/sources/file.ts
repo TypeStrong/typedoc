@@ -9,7 +9,7 @@ import {SourceDirectory} from './directory';
  *
  * @see [[DeclarationReflection.sources]]
  */
-export interface ISourceReference {
+export interface SourceReference {
     /**
      * A reference to the corresponding file instance.
      */

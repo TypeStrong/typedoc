@@ -1,12 +1,12 @@
 import * as ts from 'typescript';
 
 import {Type, ReflectionKind, DeclarationReflection, ReflectionType} from '../../models/index';
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
 import {Context} from '../context';
 import {Converter} from '../converter';
 
 @Component({name: 'type:binding-object'})
-export class BindingObjectConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern> {
+export class BindingObjectConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.BindingPattern> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */

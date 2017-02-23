@@ -8,7 +8,7 @@
 		"eofline": true,
 		"forin": false,
 		"indent": [ true, "spaces" ],
-		"interface-name": [ true, "always-prefix" ],
+		"interface-name": [ true, "never-prefix" ],
 		"jsdoc-format": true,
 		"label-position": true,
 		"max-line-length": 120,

@@ -1,22 +1,22 @@
 import * as _ from 'lodash';
 
 import {Application} from '../application';
-import {EventDispatcher, Event, IEventMap} from './events';
-import {IOptionDeclaration} from './options/declaration';
+import {EventDispatcher, Event, EventMap} from './events';
+import {DeclarationOption} from './options/declaration';
 
-export interface IComponentHost {
+export interface ComponentHost {
     application: Application;
 }
 
-export interface IComponent extends AbstractComponent<IComponentHost> {
+export interface Component extends AbstractComponent<ComponentHost> {
 
 }
 
-export interface IComponentClass<T extends IComponent> extends Function {
-    new(owner: IComponentHost): T;
+export interface ComponentClass<T extends Component> extends Function {
+    new(owner: ComponentHost): T;
 }
 
-export interface IComponentOptions {
+export interface ComponentOptions {
     name?: string;
     childClass?: Function;
     internal?: boolean;
@@ -24,8 +24,8 @@ export interface IComponentOptions {
 
 const childMappings: {host: any, child: Function}[] = [];
 
-export function Component(options: IComponentOptions): ClassDecorator {
-    return (target: IComponentClass<IComponent>) => {
+export function Component(options: ComponentOptions): ClassDecorator {
+    return (target: ComponentClass<Component>) => {
         const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error('The `Component` decorator can only be used with a subclass of `AbstractComponent`.');
@@ -63,7 +63,7 @@ export function Component(options: IComponentOptions): ClassDecorator {
     };
 }
 
-export function Option(options: IOptionDeclaration): PropertyDecorator {
+export function Option(options: DeclarationOption): PropertyDecorator {
     return function(target: AbstractComponent<any>, propertyKey: string) {
         if (!(target instanceof AbstractComponent)) {
             throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
@@ -84,15 +84,15 @@ export function Option(options: IOptionDeclaration): PropertyDecorator {
 }
 
 export class ComponentEvent extends Event {
-    owner: IComponentHost;
+    owner: ComponentHost;
 
-    component: AbstractComponent<IComponentHost>;
+    component: AbstractComponent<ComponentHost>;
 
     static ADDED = 'componentAdded';
 
     static REMOVED = 'componentRemoved';
 
-    constructor(name: string, owner: IComponentHost, component: AbstractComponent<IComponentHost>) {
+    constructor(name: string, owner: ComponentHost, component: AbstractComponent<ComponentHost>) {
         super(name);
         this.owner = owner;
         this.component = component;
@@ -102,7 +102,7 @@ export class ComponentEvent extends Event {
 /**
  * Component base class.
  */
-export abstract class AbstractComponent<O extends IComponentHost> extends EventDispatcher implements IComponentHost {
+export abstract class AbstractComponent<O extends ComponentHost> extends EventDispatcher implements ComponentHost {
     /**
      * The owner of this component instance.
      */
@@ -116,7 +116,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     /**
      * A list of options defined by this component.
      */
-    private _componentOptions: IOptionDeclaration[];
+    private _componentOptions: DeclarationOption[];
 
     /**
      * Create new Component instance.
@@ -132,7 +132,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
      */
     protected initialize() {}
 
-    protected bubble(name: Event|IEventMap|string, ...args: any[]) {
+    protected bubble(name: Event|EventMap|string, ...args: any[]) {
         super.trigger.apply(this, arguments);
 
         const owner = <any> this.owner;
@@ -146,7 +146,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     /**
      * Return all option declarations emitted by this component.
      */
-    getOptionDeclarations(): IOptionDeclaration[] {
+    getOptionDeclarations(): DeclarationOption[] {
         return this._componentOptions ? this._componentOptions.slice() : [];
     }
 
@@ -172,13 +172,13 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
 /**
  * Component base class.
  */
-export abstract class ChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O> {
+export abstract class ChildableComponent<O extends ComponentHost, C extends Component> extends AbstractComponent<O> {
     /**
      *
      */
     private _componentChildren: {[name: string]: C};
 
-    private _defaultComponents: {[name: string]: IComponentClass<C>};
+    private _defaultComponents: {[name: string]: ComponentClass<C>};
 
     /**
      * Create new Component instance.
@@ -212,7 +212,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         return !!(this._componentChildren && this._componentChildren[name]);
     }
 
-    addComponent<T extends C & IComponent>(name: string, componentClass: T|IComponentClass<T>): T {
+    addComponent<T extends C & Component>(name: string, componentClass: T|ComponentClass<T>): T {
         if (!this._componentChildren) {
             this._componentChildren = {};
         }
@@ -220,7 +220,7 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         if (this._componentChildren[name]) {
             throw new Error('The component `%s` has already been added.');
         } else {
-            const component: T = typeof componentClass === 'function' ? new (<IComponentClass<T>> componentClass)(this) : <T> componentClass;
+            const component: T = typeof componentClass === 'function' ? new (<ComponentClass<T>> componentClass)(this) : <T> componentClass;
             const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);

@@ -1,4 +1,4 @@
-import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from './abstract';
+import {DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty} from './abstract';
 import {Type, ReflectionType} from '../types/index';
 import {ContainerReflection} from './container';
 import {SignatureReflection} from './signature';
@@ -9,7 +9,7 @@ import {TypeParameterReflection} from './type-parameter';
  *
  * @see [[DeclarationReflection.typeHierarchy]]
  */
-export interface IDeclarationHierarchy {
+export interface DeclarationHierarchy {
     /**
      * The types represented by this node in the hierarchy.
      */
@@ -18,7 +18,7 @@ export interface IDeclarationHierarchy {
     /**
      * The next hierarchy level.
      */
-    next?: IDeclarationHierarchy;
+    next?: DeclarationHierarchy;
 
     /**
      * Is this the entry containing the target type?
@@ -32,7 +32,7 @@ export interface IDeclarationHierarchy {
  * All parts of a project are represented by DeclarationReflection instances. The actual
  * kind of a reflection is stored in its ´kind´ member.
  */
-export class DeclarationReflection extends ContainerReflection implements IDefaultValueContainer, ITypeContainer, ITypeParameterContainer {
+export class DeclarationReflection extends ContainerReflection implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
     /**
      * The type of the reflection.
      *
@@ -118,7 +118,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      * Contains a simplified representation of the type hierarchy suitable for being
      * rendered in templates.
      */
-    typeHierarchy: IDeclarationHierarchy;
+    typeHierarchy: DeclarationHierarchy;
 
     hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;
@@ -151,7 +151,7 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.typeParameters) {
             this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
         }

@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
 import {Type, IntrinsicType} from '../../models/index';
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
 import {Context} from '../context';
 
 @Component({name: 'type:array'})
-export class ArrayConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.ArrayTypeNode> {
+export class ArrayConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.ArrayTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */

@@ -1,8 +1,8 @@
 import {Type, TypeParameterType} from '../types/index';
-import {Reflection, ReflectionKind, ITypeContainer} from './abstract';
+import {Reflection, ReflectionKind, TypeContainer} from './abstract';
 import {DeclarationReflection} from './declaration';
 
-export class TypeParameterReflection extends Reflection implements ITypeContainer {
+export class TypeParameterReflection extends Reflection implements TypeContainer {
     parent: DeclarationReflection;
 
     type: Type;

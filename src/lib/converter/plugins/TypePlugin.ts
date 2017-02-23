@@ -1,4 +1,4 @@
-import {Reflection, ReflectionKind, IDecorator, DeclarationReflection, IDeclarationHierarchy} from '../../models/reflections/index';
+import {Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy} from '../../models/reflections/index';
 import {Type, ReferenceType, TupleType, UnionType} from '../../models/types/index';
 import {Component, ConverterComponent} from '../components';
 import {Converter} from '../converter';
@@ -38,7 +38,7 @@ export class TypePlugin extends ConverterComponent {
         resolveTypes(reflection, reflection.implementedTypes);
 
         if (reflection.decorators) {
-            reflection.decorators.forEach((decorator: IDecorator) => {
+            reflection.decorators.forEach((decorator: Decorator) => {
                 if (decorator.type) {
                     resolveType(reflection, decorator.type);
                 }
@@ -139,10 +139,10 @@ export class TypePlugin extends ConverterComponent {
                 });
             }
 
-            let root: IDeclarationHierarchy;
-            let hierarchy: IDeclarationHierarchy;
+            let root: DeclarationHierarchy;
+            let hierarchy: DeclarationHierarchy;
             function push(types: Type[]) {
-                const level: IDeclarationHierarchy = {types: types};
+                const level: DeclarationHierarchy = {types: types};
                 if (hierarchy) {
                     hierarchy.next = level;
                     hierarchy = level;

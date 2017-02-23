@@ -1,4 +1,4 @@
-import {Reflection, ReflectionKind, ITraverseCallback, TraverseProperty} from './abstract';
+import {Reflection, ReflectionKind, TraverseCallback, TraverseProperty} from './abstract';
 import {ReflectionGroup} from '../ReflectionGroup';
 import {DeclarationReflection} from './declaration';
 
@@ -38,7 +38,7 @@ export class ContainerReflection extends Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.children) {
             this.children.forEach((child: DeclarationReflection) => {
                 callback(child, TraverseProperty.Children);

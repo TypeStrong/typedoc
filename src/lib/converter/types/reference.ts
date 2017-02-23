@@ -3,12 +3,12 @@ import * as ts from 'typescript';
 import {Type, IntrinsicType, ReflectionType} from '../../models/types/index';
 import {ReflectionKind, DeclarationReflection} from '../../models/reflections/index';
 import {createReferenceType} from '../factories/index';
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
 import {Context} from '../context';
 import {Converter} from '../converter';
 
 @Component({name: 'type:reference'})
-export class ReferenceConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode> {
+export class ReferenceConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode> {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.

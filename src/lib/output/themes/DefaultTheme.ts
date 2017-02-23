@@ -14,7 +14,7 @@ import {RendererEvent} from '../events';
  *
  * Used by [[DefaultTheme]] to map reflections to output files.
  */
-export interface ITemplateMapping {
+export interface TemplateMapping {
     /**
      * [[DeclarationReflection.kind]] this rule applies to.
      */
@@ -45,7 +45,7 @@ export class DefaultTheme extends Theme {
     /**
      * Mappings of reflections kinds to templates used by this theme.
      */
-    static MAPPINGS: ITemplateMapping[] = [{
+    static MAPPINGS: TemplateMapping[] = [{
         kind:      [ReflectionKind.Class],
         isLeaf:    false,
         directory: 'classes',
@@ -361,7 +361,7 @@ export class DefaultTheme extends Theme {
      * @param reflection  The reflection whose mapping should be resolved.
      * @returns           The found mapping or NULL if no mapping could be found.
      */
-    static getMapping(reflection: DeclarationReflection): ITemplateMapping {
+    static getMapping(reflection: DeclarationReflection): TemplateMapping {
         for (let i = 0, c = DefaultTheme.MAPPINGS.length; i < c; i++) {
             const mapping = DefaultTheme.MAPPINGS[i];
             if (reflection.kindOf(mapping.kind)) {

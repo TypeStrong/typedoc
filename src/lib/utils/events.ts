@@ -9,50 +9,50 @@
 
 import * as _ from 'lodash';
 
-export interface IEventCallback extends Function {
+export interface EventCallback extends Function {
     _callback?: Function;
 }
 
-interface IEventListener {
+interface EventListener {
     obj: any;
     objId: number;
     id: number;
-    listeningTo: IEventListeners;
+    listeningTo: EventListeners;
     count: number;
 }
 
-interface IEventListeners {
-    [id: number]: IEventListener;
+interface EventListeners {
+    [id: number]: EventListener;
 }
 
-interface IEventHandler {
-    callback: IEventCallback;
+interface EventHandler {
+    callback: EventCallback;
     context: any;
     ctx: any;
-    listening: IEventListener;
+    listening: EventListener;
     priority: number;
 }
 
-interface IEventHandlers {
-    [name: string]: IEventHandler[];
+interface EventHandlers {
+    [name: string]: EventHandler[];
 }
 
-export interface IEventMap {
-    [name: string]: IEventCallback;
+export interface EventMap {
+    [name: string]: EventCallback;
 }
 
-interface IEventIteratee<T, U> {
+interface EventIteratee<T, U> {
     (events: U, name: string, callback: Function, options: T): U;
 }
 
-interface IOnApiOptions {
+interface OnApiOptions {
     context: any;
     ctx: any;
     listening: any;
     priority: number;
 }
 
-interface IOffApiOptions {
+interface OffApiOptions {
     context: any;
     listeners: any;
 }
@@ -65,7 +65,7 @@ const eventSplitter = /\s+/;
  * space-separated events `"change blur", callback` and jQuery-style event
  * maps `{event: callback}`).
  */
-function eventsApi<T, U>(iteratee: IEventIteratee<T, U>, events: U, name: IEventMap|string, callback: IEventCallback, options: T): U {
+function eventsApi<T, U>(iteratee: EventIteratee<T, U>, events: U, name: EventMap|string, callback: EventCallback, options: T): U {
     let i = 0, names: string[];
 
     if (name && typeof name === 'object') {
@@ -93,7 +93,7 @@ function eventsApi<T, U>(iteratee: IEventIteratee<T, U>, events: U, name: IEvent
 /**
  * The reducing API that adds a callback to the `events` object.
  */
-function onApi(events: IEventHandlers, name: string, callback: IEventCallback, options: IOnApiOptions): IEventHandlers {
+function onApi(events: EventHandlers, name: string, callback: EventCallback, options: OnApiOptions): EventHandlers {
     if (callback) {
         const handlers = events[name] || (events[name] = []);
         const context = options.context, ctx = options.ctx, listening = options.listening, priority = options.priority;
@@ -118,12 +118,12 @@ function onApi(events: IEventHandlers, name: string, callback: IEventCallback, o
 /**
  * The reducing API that removes a callback from the `events` object.
  */
-function offApi(events: IEventHandlers, name: string, callback: IEventCallback, options: IOffApiOptions): IEventHandlers {
+function offApi(events: EventHandlers, name: string, callback: EventCallback, options: OffApiOptions): EventHandlers {
     if (!events) {
         return;
     }
 
-    let i = 0, listening: IEventListener;
+    let i = 0, listening: EventListener;
     const context = options.context, listeners = options.listeners;
 
     // Delete all events listeners and "drop" events.
@@ -148,7 +148,7 @@ function offApi(events: IEventHandlers, name: string, callback: IEventCallback, 
         }
 
         // Replace events if there are any remaining.  Otherwise, clean up.
-        const remaining: IEventHandler[] = [];
+        const remaining: EventHandler[] = [];
         for (let j = 0; j < handlers.length; j++) {
             const handler = handlers[j];
             if (
@@ -183,9 +183,9 @@ function offApi(events: IEventHandlers, name: string, callback: IEventCallback, 
  * Reduces the event callbacks into a map of `{event: onceWrapper`.}
  * `offer` unbinds the `onceWrapper` after it has been called.
  */
-function onceMap(map: IEventMap, name: string, callback: IEventCallback, offer: Function): IEventMap {
+function onceMap(map: EventMap, name: string, callback: EventCallback, offer: Function): EventMap {
     if (callback) {
-        const once = map[name] = <IEventCallback> _.once(function() {
+        const once = map[name] = <EventCallback> _.once(function() {
             offer(name, once);
             callback.apply(this, arguments);
         });
@@ -199,7 +199,7 @@ function onceMap(map: IEventMap, name: string, callback: IEventCallback, offer: 
 /**
  * Handles triggering the appropriate event callbacks.
  */
-function triggerApi(objEvents: IEventHandlers, name: string, callback: Function, args: any[], triggerer: {(events: IEventHandler[], args: any[]): void} = triggerEvents): IEventHandlers {
+function triggerApi(objEvents: EventHandlers, name: string, callback: Function, args: any[], triggerer: {(events: EventHandler[], args: any[]): void} = triggerEvents): EventHandlers {
     if (objEvents) {
         const events = objEvents[name];
         let allEvents = objEvents['all'];
@@ -222,8 +222,8 @@ function triggerApi(objEvents: IEventHandlers, name: string, callback: Function,
  * triggering events. Tries to keep the usual cases speedy (most internal
  * Backbone events have 3 arguments).
  */
-function triggerEvents(events: IEventHandler[], args: any[]) {
-    let ev: IEventHandler, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+function triggerEvents(events: EventHandler[], args: any[]) {
+    let ev: EventHandler, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
     switch (args.length) {
         case 0: while (++i < l) { (ev = events[i]).callback.call(ev.ctx); } return;
         case 1: while (++i < l) { (ev = events[i]).callback.call(ev.ctx, a1); } return;
@@ -305,17 +305,17 @@ export class EventDispatcher {
     /**
      * Map of all handlers registered with the "on" function.
      */
-    private _events: IEventHandlers;
+    private _events: EventHandlers;
 
     /**
      * Map of all objects this instance is listening to.
      */
-    private _listeningTo: IEventListeners;
+    private _listeningTo: EventListeners;
 
     /**
      * Map of all objects that are listening to this instance.
      */
-    private _listeners: IEventListeners;
+    private _listeners: EventListeners;
 
     /**
      * A unique id that identifies this instance.
@@ -326,7 +326,7 @@ export class EventDispatcher {
      * Bind an event to a `callback` function. Passing `"all"` will bind
      * the callback to all events fired.
      */
-    on(name: IEventMap|string, callback: IEventCallback, context?: any, priority?: number) {
+    on(name: EventMap|string, callback: EventCallback, context?: any, priority?: number) {
         this.internalOn(name, callback, context, priority);
         return this;
     }
@@ -334,8 +334,8 @@ export class EventDispatcher {
     /**
      * Guard the `listening` argument from the public API.
      */
-    private internalOn(name: IEventMap|string, callback: IEventCallback, context?: any, priority: number = 0, listening?: IEventListener) {
-        this._events = eventsApi(onApi, this._events || <IEventHandlers> {}, name, callback, {
+    private internalOn(name: EventMap|string, callback: EventCallback, context?: any, priority: number = 0, listening?: EventListener) {
+        this._events = eventsApi(onApi, this._events || <EventHandlers> {}, name, callback, {
             context: context,
             ctx: this,
             listening: listening,
@@ -354,9 +354,9 @@ export class EventDispatcher {
      * are passed in using the space-separated syntax, the handler will fire
      * once for each event, not once for a combination of all events.
      */
-    once(name: IEventMap|string, callback: IEventCallback, context?: any, priority?: number) {
+    once(name: EventMap|string, callback: EventCallback, context?: any, priority?: number) {
         // Map the event into a `{event: once}` object.
-        const events = eventsApi(onceMap, <IEventMap> {}, name, callback, _.bind(this.off, this));
+        const events = eventsApi(onceMap, <EventMap> {}, name, callback, _.bind(this.off, this));
         return this.on(events, void 0, context, priority);
     }
 
@@ -366,7 +366,7 @@ export class EventDispatcher {
      * callbacks for the event. If `name` is null, removes all bound
      * callbacks for all events.
      */
-    off(name: IEventMap|string, callback: IEventCallback, context?: any) {
+    off(name: EventMap|string, callback: EventCallback, context?: any) {
         if (!this._events) {
             return this;
         }
@@ -384,7 +384,7 @@ export class EventDispatcher {
      * an event in another object... keeping track of what it's listening to
      * for easier unbinding later.
      */
-    listenTo(obj: EventDispatcher, name: IEventMap|string, callback?: IEventCallback, priority?: number) {
+    listenTo(obj: EventDispatcher, name: EventMap|string, callback?: EventCallback, priority?: number) {
         if (!obj) {
             return this;
         }
@@ -413,9 +413,9 @@ export class EventDispatcher {
     /**
      * Inversion-of-control versions of `once`.
      */
-    listenToOnce(obj: EventDispatcher, name: IEventMap|string, callback: IEventCallback, priority?: number) {
+    listenToOnce(obj: EventDispatcher, name: EventMap|string, callback: EventCallback, priority?: number) {
         // Map the event into a `{event: once}` object.
-        const events = eventsApi(onceMap, <IEventMap> {}, name, callback, _.bind(this.stopListening, this, obj));
+        const events = eventsApi(onceMap, <EventMap> {}, name, callback, _.bind(this.stopListening, this, obj));
         return this.listenTo(obj, events, void 0, priority);
     }
 
@@ -423,7 +423,7 @@ export class EventDispatcher {
      * Tell this object to stop listening to either specific events ... or
      * to every object it's currently listening to.
      */
-    stopListening(obj?: EventDispatcher, name?: IEventMap|string, callback?: IEventCallback) {
+    stopListening(obj?: EventDispatcher, name?: EventMap|string, callback?: EventCallback) {
         const listeningTo = this._listeningTo;
         if (!listeningTo) {
             return this;
@@ -455,14 +455,14 @@ export class EventDispatcher {
      * (unless you're listening on `"all"`, which will cause your callback to
      * receive the true name of the event as the first argument).
      */
-    trigger(name: Event|IEventMap|string, ...args: any[]) {
+    trigger(name: Event|EventMap|string, ...args: any[]) {
         if (!this._events) {
             return this;
         }
 
         if (name instanceof Event) {
-            triggerApi(this._events, name.name, void 0, [name], (events: IEventHandler[], args: any[]) => {
-                let ev: IEventHandler, i = -1, l = events.length;
+            triggerApi(this._events, name.name, void 0, [name], (events: EventHandler[], args: any[]) => {
+                let ev: EventHandler, i = -1, l = events.length;
                 while (++i < l) {
                     if (name.isPropagationStopped) {
                         return;
@@ -472,7 +472,7 @@ export class EventDispatcher {
                 }
             });
         } else {
-            eventsApi(triggerApi, this._events, <IEventMap|string> name, void 0, args);
+            eventsApi(triggerApi, this._events, <EventMap|string> name, void 0, args);
         }
 
         return this;

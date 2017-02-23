@@ -16,7 +16,7 @@ export enum ParameterScope {
     TypeDoc, TypeScript
 }
 
-export interface IOptionDeclaration {
+export interface DeclarationOption {
     name: string;
     component?: string;
     short?: string;
@@ -54,7 +54,7 @@ export class OptionDeclaration {
 
     defaultValue: any;
 
-    constructor(data: IOptionDeclaration) {
+    constructor(data: DeclarationOption) {
         for (let key in data) {
             this[key] = data[key];
         }

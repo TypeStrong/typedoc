@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import {ITypeParameterContainer, TypeParameterReflection, TypeParameterType} from '../../models/index';
+import {TypeParameterContainer, TypeParameterReflection, TypeParameterType} from '../../models/index';
 import {Context} from '../context';
 import {Converter} from '../converter';
 
@@ -18,7 +18,7 @@ export function createTypeParameter(context: Context, node: ts.TypeParameterDecl
         typeParameter.constraint = context.converter.convertType(context, node.constraint);
     }
 
-    const reflection = <ITypeParameterContainer> context.scope;
+    const reflection = <TypeParameterContainer> context.scope;
     const typeParameterReflection = new TypeParameterReflection(reflection, typeParameter);
 
     if (!reflection.typeParameters) {

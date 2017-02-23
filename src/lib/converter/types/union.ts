@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
 import {Type, UnionType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, ITypeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeConverter} from '../components';
 import {Context} from '../context';
 
 @Component({name: 'type:union'})
-export class UnionConverter extends ConverterTypeComponent implements ITypeConverter<ts.UnionType, ts.UnionTypeNode> {
+export class UnionConverter extends ConverterTypeComponent implements TypeConverter<ts.UnionType, ts.UnionTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */

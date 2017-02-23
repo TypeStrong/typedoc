@@ -1,8 +1,8 @@
 import {Type, ReflectionType} from '../types/index';
-import {Reflection, IDefaultValueContainer, ITypeContainer, ITraverseCallback, TraverseProperty} from './abstract';
+import {Reflection, DefaultValueContainer, TypeContainer, TraverseCallback, TraverseProperty} from './abstract';
 import {SignatureReflection} from './signature';
 
-export class ParameterReflection extends Reflection implements IDefaultValueContainer, ITypeContainer {
+export class ParameterReflection extends Reflection implements DefaultValueContainer, TypeContainer {
     parent: SignatureReflection;
 
     defaultValue: string;
@@ -17,7 +17,7 @@ export class ParameterReflection extends Reflection implements IDefaultValueCont
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
             callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
         }

@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
 import {Type, TupleType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, ITypeConverter} from '../components';
+import {Component, ConverterTypeComponent, TypeConverter} from '../components';
 import {Context} from '../context';
 
 @Component({name: 'type:tuple'})
-export class TupleConverter extends ConverterTypeComponent implements ITypeConverter<ts.TypeReference, ts.TupleTypeNode> {
+export class TupleConverter extends ConverterTypeComponent implements TypeConverter<ts.TypeReference, ts.TupleTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
