@@ -6,15 +6,19 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "preserveConstEnums": true,
-    "declaration": true,
+    "declaration": false,
     "sourceMap": true,
     "inlineSources": true, // Required for debugging NPM published package.
     "outDir": "dist/",
-    "rootDir": "src/",
+    "rootDir": ".",
     "experimentalDecorators": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
-  "exclude": []
+  "exclude": [
+    "test/converter/**/*.ts",
+	"dist/**/*.ts"
+  ]
 }

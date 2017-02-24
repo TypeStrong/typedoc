@@ -34,13 +34,13 @@ module.exports = function(grunt)
                 configuration: 'tslint.json'
             },
             files: {
-                src: [ 'src/**/*.ts' ]
+                src: [ 'src/**/*.ts', 'test/*.ts' ]
             }
         },
         'string-replace': {
             version: {
                 files: {
-                    'dist/lib/application.js': ['dist/lib/application.js']
+                    'dist/src/lib/application.js': ['dist/src/lib/application.js']
                 },
                 options: {
                     replacements: [{
@@ -64,6 +64,17 @@ module.exports = function(grunt)
                 }
             }
         },
+        copy:  {
+            staticTestFiles: {
+                expand: true,
+                cwd: '.',
+                src: [
+                    'test/converter/**/*',
+                    'test/renderer/**/*'
+                ],
+                dest: 'dist/'
+            }
+        },
         clean: {
             specsBefore: ['test/renderer/specs'],
             specsAfter: ['test/renderer/specs/assets']
@@ -76,7 +87,7 @@ module.exports = function(grunt)
         },
         mocha_istanbul: {
             coverage: {
-                src: 'test',
+                src: 'dist/test',
                 options: {
                     mask: '*.js',
                     timeout: 4000
@@ -89,12 +100,13 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
     grunt.registerTask('default', ['tslint', 'ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('build_and_test', ['default', 'specs', 'mocha_istanbul:coverage']);
+    grunt.registerTask('build_and_test', ['default', 'specs', 'copy', 'mocha_istanbul:coverage']);
     grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
     grunt.registerTask('build-specs', function() {
