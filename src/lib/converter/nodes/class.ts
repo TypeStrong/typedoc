@@ -1,22 +1,20 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
-@Component({name:'node:class'})
-export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
-{
+@Component({name: 'node:class'})
+export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.ClassExpression,
         ts.SyntaxKind.ClassDeclaration
     ];
-
 
     /**
      * Analyze the given class declaration node and create a suitable reflection.
@@ -25,10 +23,10 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
      * @param node     The class declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.ClassDeclaration):Reflection {
-        let reflection:DeclarationReflection;
-        if (context.isInherit && context.inheritParent == node) {
-            reflection = <DeclarationReflection>context.scope;
+    convert(context: Context, node: ts.ClassDeclaration): Reflection {
+        let reflection: DeclarationReflection;
+        if (context.isInherit && context.inheritParent === node) {
+            reflection = <DeclarationReflection> context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Class);
         }
@@ -39,7 +37,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
                     const modifiers = ts.getCombinedModifierFlags(member);
                     const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
                     const exclude = context.converter.excludePrivate ? privateMember : false;
-                    
+
                     if (!exclude) {
                         this.owner.convertNode(context, member);
                     }
@@ -50,7 +48,9 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration>
             if (baseType) {
                 const type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
-                    if (!reflection.extendedTypes) reflection.extendedTypes = [];
+                    if (!reflection.extendedTypes) {
+                        reflection.extendedTypes = [];
+                    }
                     reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
                 }
 

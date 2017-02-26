@@ -1,23 +1,19 @@
+import * as ts from 'typescript';
 
-import * as ts from "typescript";
+import {Reflection, ReflectionKind} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
+import {convertDefaultValue} from '../index';
 
-import {Reflection, ReflectionKind} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {convertDefaultValue} from "../index";
-
-
-@Component({name:'node:enum'})
-export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
-{
+@Component({name: 'node:enum'})
+export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.EnumDeclaration
     ];
-
 
     /**
      * Analyze the given enumeration declaration node and create a suitable reflection.
@@ -26,7 +22,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
      * @param node     The enumeration declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.EnumDeclaration):Reflection {
+    convert(context: Context, node: ts.EnumDeclaration): Reflection {
         const enumeration = createDeclaration(context, node, ReflectionKind.Enum);
 
         context.withScope(enumeration, () => {
@@ -40,7 +36,6 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
         return enumeration;
     }
 
-
     /**
      * Analyze the given enumeration member node and create a suitable reflection.
      *
@@ -48,7 +43,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration>
      * @param node     The enumeration member node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    private convertMember(context:Context, node:ts.EnumMember):Reflection {
+    private convertMember(context: Context, node: ts.EnumMember): Reflection {
         const member = createDeclaration(context, node, ReflectionKind.EnumMember);
         if (member) {
             member.defaultValue = convertDefaultValue(node);

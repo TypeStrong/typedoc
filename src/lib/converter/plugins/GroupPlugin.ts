@@ -1,19 +1,17 @@
-import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
-import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {SourceDirectory} from "../../models/sources/directory";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
-
+import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
+import {ReflectionGroup} from '../../models/ReflectionGroup';
+import {SourceDirectory} from '../../models/sources/directory';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.
  *
  * The handler sets the ´groups´ property of all reflections.
  */
-@Component({name:'group'})
-export class GroupPlugin extends ConverterComponent
-{
+@Component({name: 'group'})
+export class GroupPlugin extends ConverterComponent {
     /**
      * Define the sort order of reflections.
      */
@@ -43,7 +41,7 @@ export class GroupPlugin extends ConverterComponent
         ReflectionKind.ConstructorSignature,
         ReflectionKind.IndexSignature,
         ReflectionKind.GetSignature,
-        ReflectionKind.SetSignature,
+        ReflectionKind.SetSignature
     ];
 
     /**
@@ -69,8 +67,6 @@ export class GroupPlugin extends ConverterComponent
         return plurals;
     })();
 
-
-
     /**
      * Create a new GroupPlugin instance.
      */
@@ -81,18 +77,17 @@ export class GroupPlugin extends ConverterComponent
         });
     }
 
-
     /**
      * Triggered when the converter resolves a reflection.
      *
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context:Context, reflection:Reflection) {
+    private onResolve(context: Context, reflection: Reflection) {
         reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
         if (reflection instanceof ContainerReflection) {
-            const container = <ContainerReflection>reflection;
+            const container = <ContainerReflection> reflection;
             if (container.children && container.children.length > 0) {
                 container.children.sort(GroupPlugin.sortCallback);
                 container.groups = GroupPlugin.getReflectionGroups(container.children);
@@ -100,18 +95,19 @@ export class GroupPlugin extends ConverterComponent
         }
     }
 
-
     /**
      * Triggered when the converter has finished resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onEndResolve(context:Context) {
-        function walkDirectory(directory:SourceDirectory) {
+    private onEndResolve(context: Context) {
+        function walkDirectory(directory: SourceDirectory) {
             directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
             for (let key in directory.directories) {
-                if (!directory.directories.hasOwnProperty(key)) continue;
+                if (!directory.directories.hasOwnProperty(key)) {
+                    continue;
+                }
                 walkDirectory(directory.directories[key]);
             }
         }
@@ -128,7 +124,6 @@ export class GroupPlugin extends ConverterComponent
         });
     }
 
-
     /**
      * Create a grouped representation of the given list of reflections.
      *
@@ -137,12 +132,12 @@ export class GroupPlugin extends ConverterComponent
      * @param reflections  The reflections that should be grouped.
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
-    static getReflectionGroups(reflections:Reflection[]):ReflectionGroup[] {
-        const groups:ReflectionGroup[] = [];
+    static getReflectionGroups(reflections: Reflection[]): ReflectionGroup[] {
+        const groups: ReflectionGroup[] = [];
         reflections.forEach((child) => {
             for (let i = 0; i < groups.length; i++) {
                 const group = groups[i];
-                if (group.kind != child.kind) {
+                if (group.kind !== child.kind) {
                     continue;
                 }
 
@@ -180,19 +175,17 @@ export class GroupPlugin extends ConverterComponent
         return groups;
     }
 
-
     /**
      * Transform the internal typescript kind identifier into a human readable version.
      *
      * @param kind  The original typescript kind identifier.
      * @returns A human readable version of the given typescript kind identifier.
      */
-    private static getKindString(kind:ReflectionKind):string {
+    private static getKindString(kind: ReflectionKind): string {
         let str = ReflectionKind[kind];
         str = str.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         return str;
     }
-
 
     /**
      * Return the singular name of a internal typescript kind identifier.
@@ -200,7 +193,7 @@ export class GroupPlugin extends ConverterComponent
      * @param kind The original internal typescript kind identifier.
      * @returns The singular name of the given internal typescript kind identifier
      */
-    static getKindSingular(kind:ReflectionKind):string {
+    static getKindSingular(kind: ReflectionKind): string {
         if (GroupPlugin.SINGULARS[kind]) {
             return GroupPlugin.SINGULARS[kind];
         } else {
@@ -208,21 +201,19 @@ export class GroupPlugin extends ConverterComponent
         }
     }
 
-
     /**
      * Return the plural name of a internal typescript kind identifier.
      *
      * @param kind The original internal typescript kind identifier.
      * @returns The plural name of the given internal typescript kind identifier
      */
-    static getKindPlural(kind:ReflectionKind):string {
+    static getKindPlural(kind: ReflectionKind): string {
         if (GroupPlugin.PLURALS[kind]) {
             return GroupPlugin.PLURALS[kind];
         } else {
             return this.getKindString(kind) + 's';
         }
     }
-
 
     /**
      * Callback used to sort reflections by weight defined by ´GroupPlugin.WEIGHTS´ and name.
@@ -231,14 +222,22 @@ export class GroupPlugin extends ConverterComponent
      * @param b The right reflection to sort.
      * @returns The sorting weight.
      */
-    static sortCallback(a:Reflection, b:Reflection):number {
+    static sortCallback(a: Reflection, b: Reflection): number {
         const aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
         const bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
-        if (aWeight == bWeight) {
-            if (a.flags.isStatic && !b.flags.isStatic) return 1;
-            if (!a.flags.isStatic && b.flags.isStatic) return -1;
-            if (a.name == b.name) return 0;
+        if (aWeight === bWeight) {
+            if (a.flags.isStatic && !b.flags.isStatic) {
+                return 1;
+            }
+            if (!a.flags.isStatic && b.flags.isStatic) {
+                return -1;
+            }
+            if (a.name === b.name) {
+                return 0;
+            }
             return a.name > b.name ? 1 : -1;
-        } else return aWeight - bWeight;
+        } else {
+            return aWeight - bWeight;
+        }
     }
 }

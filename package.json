@@ -56,8 +56,10 @@
     "grunt-mocha-istanbul": "^5.0.1",
     "grunt-string-replace": "^1.2.0",
     "grunt-ts": "^5.5.1",
+    "grunt-tslint": "^4.0.1",
     "istanbul": "^0.4.1",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "tslint": "^4.4.2"
   },
   "files": [
     "bin",
