@@ -65,7 +65,7 @@
   },
   "files": [
     "bin",
-    "dist",
+    "dist/src",
     "tasks",
     "LICENSE"
   ],
