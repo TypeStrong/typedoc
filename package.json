@@ -35,7 +35,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "^2.1.0",
+    "grunt-contrib-uglify": "^2.2.0",
     "grunt-contrib-watch": "~1.0.0",
     "grunt-string-replace": "^1.0.0",
     "grunt-ts": "^5.5.1",
