@@ -11,7 +11,12 @@
     "inlineSources": true, // Required for debugging NPM published package.
     "outDir": "dist/",
     "rootDir": "src/",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es2015.collection"
+    ]
   },
   "include": [
     "src/**/*.ts"

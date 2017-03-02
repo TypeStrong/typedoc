@@ -1,15 +1,17 @@
 import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
-import * as _ from 'lodash';
 
 import {Application} from '../application';
 import {ParameterType} from '../utils/options/declaration';
 import {Reflection, Type, ProjectReflection} from '../models/index';
 import {Context} from './context';
-import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter} from './components';
+import {ConverterComponent} from './components';
 import {CompilerHost} from './utils/compiler-host';
-import {Component, Option, ChildableComponent, ComponentClass} from '../utils/component';
+import {Component, Option, ChildableComponent} from '../utils/component';
 import {normalizePath} from '../utils/fs';
+
+import * as nodes from './nodes';
+import * as types from './types';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -24,6 +26,10 @@ export interface ConverterResult {
      * The resulting project reflection.
      */
     project: ProjectReflection;
+}
+
+export enum SourceFileMode {
+    File, Modules
 }
 
 /**
@@ -74,13 +80,23 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     })
     excludePrivate: boolean;
 
+    @Option({
+        name: 'mode',
+        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        type: ParameterType.Map,
+        map: {
+            'file': SourceFileMode.File,
+            'modules': SourceFileMode.Modules
+        },
+        defaultValue: SourceFileMode.Modules
+    })
+    mode: SourceFileMode;
+
     private compilerHost: CompilerHost;
 
-    private nodeConverters: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
-
-    private typeNodeConverters: TypeNodeConverter<ts.Type, ts.Node>[];
-
-    private typeTypeConverters: TypeTypeConverter<ts.Type>[];
+    private nodeConverters: Map<ts.SyntaxKind, nodes.NodeConverter>;
+    private typeNodeConverters: types.NodeTypeConverter[];
+    private typeTypeConverters: types.TypeTypeConverter[];
 
     /**
      * General events
@@ -171,6 +187,40 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      */
     static EVENT_RESOLVE_END = 'resolveEnd';
 
+    static nodeConverterClasses: nodes.NodeConverterConstructor[] = [
+        nodes.AccessorConverter,
+        nodes.AliasConverter,
+        nodes.BlockConverter,
+        nodes.ClassConverter,
+        nodes.ConstructorConverter,
+        nodes.EnumConverter,
+        nodes.ExportConverter,
+        nodes.FunctionConverter,
+        nodes.IndexSignatureConverter,
+        nodes.InterfaceConverter,
+        nodes.ModuleConverter,
+        nodes.ObjectLiteralConverter,
+        nodes.SignatureConverter,
+        nodes.TypeLiteralConverter,
+        nodes.VariableStatementConverter,
+        nodes.VariableConverter
+    ];
+
+    static typeConverterClasses: types.TypeConverterConstructor[] = [
+        types.AliasConverter,
+        types.ArrayConverter,
+        types.BindingArrayConverter,
+        types.BindingObjectConverter,
+        types.EnumConverter,
+        types.IntrinsicConverter,
+        types.ReferenceConverter,
+        types.StringLiteralConverter,
+        types.TupleConverter,
+        types.TypeParameterConverter,
+        types.UnionConverter,
+        types.UnknownConverter
+    ];
+
     /**
      * Create a new Converter instance.
      *
@@ -179,79 +229,38 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      */
     initialize() {
         this.compilerHost = new CompilerHost(this);
-        this.nodeConverters = {};
+
+        this.nodeConverters = new Map();
+        for (let ctor of Converter.nodeConverterClasses) {
+            this.addNodeConverter(ctor);
+        }
+
         this.typeTypeConverters = [];
         this.typeNodeConverters = [];
-    }
-
-    addComponent(name: string, componentClass: ComponentClass<ConverterComponent>): ConverterComponent {
-        const component = super.addComponent(name, componentClass);
-        if (component instanceof ConverterNodeComponent) {
-            this.addNodeConverter(component);
-        } else if (component instanceof ConverterTypeComponent) {
-            this.addTypeConverter(<TypeTypeConverter<any>|TypeNodeConverter<any, any>> component);
+        for (let ctor of Converter.typeConverterClasses) {
+            this.addTypeConverter(ctor);
         }
-
-        return component;
+        this.typeNodeConverters.sort((a, b) => b.priority - a.priority);
+        this.typeTypeConverters.sort((a, b) => b.priority - a.priority);
     }
 
-    private addNodeConverter(converter: ConverterNodeComponent<any>) {
-        for (let supports of converter.supports) {
-            this.nodeConverters[supports] = converter;
+    private addNodeConverter(componentClass: nodes.NodeConverterConstructor) {
+        const converter = new componentClass(this);
+        for (let kind of componentClass.supports) {
+            this.nodeConverters.set(kind, converter);
         }
     }
 
-    private addTypeConverter(converter: TypeTypeConverter<any>|TypeNodeConverter<any, any>) {
-        if ('supportsNode' in converter && 'convertNode' in converter) {
-            this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
-            this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+    private addTypeConverter(converterClass: types.TypeConverterConstructor) {
+        const converter = new converterClass(this);
+
+        if (types.isNodeTypeConverter(converter)) {
+            this.typeNodeConverters.push(converter);
         }
 
-        if ('supportsType' in converter && 'convertType' in converter) {
-            this.typeTypeConverters.push(<TypeTypeConverter<any>> converter);
-            this.typeTypeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+        if (types.isTypeTypeConverter(converter)) {
+            this.typeTypeConverters.push(converter);
         }
-    }
-
-    removeComponent(name: string): ConverterComponent {
-        const component = super.removeComponent(name);
-        if (component instanceof ConverterNodeComponent) {
-            this.removeNodeConverter(component);
-        } else if (component instanceof ConverterTypeComponent) {
-            this.removeTypeConverter(component);
-        }
-
-        return component;
-    }
-
-    private removeNodeConverter(converter: ConverterNodeComponent<any>) {
-        const converters = this.nodeConverters;
-        const keys = _.keys(this.nodeConverters);
-        for (let key of keys) {
-            if (converters[key] === converter) {
-                delete converters[key];
-            }
-        }
-    }
-
-    private removeTypeConverter(converter: ConverterTypeComponent) {
-        let index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeTypeConverters.splice(index, 1);
-        }
-
-        index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeNodeConverters.splice(index, 1);
-        }
-    }
-
-    removeAllComponents() {
-        super.removeAllComponents();
-
-        this.nodeConverters = {};
-        this.typeTypeConverters = [];
-        this.typeNodeConverters = [];
     }
 
     /**
@@ -300,8 +309,8 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         context.visitStack.push(node);
 
         let result: Reflection;
-        if (node.kind in this.nodeConverters) {
-            result = this.nodeConverters[node.kind].convert(context, node);
+        if (this.nodeConverters.has(node.kind)) {
+            result = this.nodeConverters.get(node.kind).convert(context, node);
         }
 
         context.visitStack = oldVisitStack;

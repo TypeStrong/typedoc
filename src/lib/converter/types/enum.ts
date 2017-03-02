@@ -2,11 +2,10 @@ import * as ts from 'typescript';
 
 import {Type} from '../../models/index';
 import {createReferenceType} from '../factories/index';
-import {Component, ConverterTypeComponent, TypeTypeConverter} from '../components';
+import {TypeConverter, TypeTypeConverter} from './type';
 import {Context} from '../context';
 
-@Component({name: 'type:enum'})
-export class EnumConverter extends ConverterTypeComponent implements TypeTypeConverter<ts.Type> {
+export class EnumConverter extends TypeConverter implements TypeTypeConverter {
     /**
      * Test whether this converter can handle the given TypeScript type.
      */

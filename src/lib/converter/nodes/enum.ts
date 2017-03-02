@@ -3,15 +3,14 @@ import * as ts from 'typescript';
 import {Reflection, ReflectionKind} from '../../models/index';
 import {createDeclaration} from '../factories/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 import {convertDefaultValue} from '../index';
 
-@Component({name: 'node:enum'})
-export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
+export class EnumConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.EnumDeclaration
     ];
 

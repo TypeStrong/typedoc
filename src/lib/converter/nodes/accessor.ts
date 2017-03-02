@@ -3,14 +3,13 @@ import * as ts from 'typescript';
 import {Reflection, ReflectionKind} from '../../models/index';
 import {createDeclaration, createSignature} from '../factories/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:accessor'})
-export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {
+export class AccessorConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.GetAccessor,
         ts.SyntaxKind.SetAccessor
     ];

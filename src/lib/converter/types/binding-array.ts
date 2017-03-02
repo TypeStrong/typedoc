@@ -1,11 +1,10 @@
 import * as ts from 'typescript';
 
 import {Type, TupleType} from '../../models/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
+import {TypeConverter, NodeTypeConverter} from './type';
 import {Context} from '../context';
 
-@Component({name: 'type:binding-array'})
-export class BindingArrayConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.BindingPattern> {
+export class BindingArrayConverter extends TypeConverter implements NodeTypeConverter {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
@@ -24,7 +23,7 @@ export class BindingArrayConverter extends ConverterTypeComponent implements Typ
         const types: Type[] = [];
 
         (node.elements as ts.BindingElement[]).forEach((element) => {
-            types.push(this.owner.convertType(context, element));
+            types.push(this.converter.convertType(context, element));
         });
 
         return new TupleType(types);

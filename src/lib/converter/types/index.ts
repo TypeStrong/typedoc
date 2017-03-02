@@ -1,3 +1,5 @@
+export * from './type';
+
 export {AliasConverter} from './alias';
 export {ArrayConverter} from './array';
 export {BindingArrayConverter} from './binding-array';

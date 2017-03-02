@@ -1,11 +1,10 @@
 import * as ts from 'typescript';
 
 import {Type, UnionType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, TypeConverter} from '../components';
+import {TypeConverter, NodeTypeConverter, TypeTypeConverter} from './type';
 import {Context} from '../context';
 
-@Component({name: 'type:union'})
-export class UnionConverter extends ConverterTypeComponent implements TypeConverter<ts.UnionType, ts.UnionTypeNode> {
+export class UnionConverter extends TypeConverter implements NodeTypeConverter, TypeTypeConverter {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
@@ -36,7 +35,7 @@ export class UnionConverter extends ConverterTypeComponent implements TypeConver
     convertNode(context: Context, node: ts.UnionTypeNode): UnionType {
         let types: Type[] = [];
         if (node.types) {
-            types = node.types.map((n) => this.owner.convertType(context, n));
+            types = node.types.map((n) => this.converter.convertType(context, n));
         } else {
             types = [];
         }
@@ -60,7 +59,7 @@ export class UnionConverter extends ConverterTypeComponent implements TypeConver
     convertType(context: Context, type: ts.UnionType): UnionType {
         let types: Type[];
         if (type && type.types) {
-            types = type.types.map((t) => this.owner.convertType(context, null, t));
+            types = type.types.map((t) => this.converter.convertType(context, null, t));
         } else {
             types = [];
         }

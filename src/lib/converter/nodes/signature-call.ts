@@ -2,15 +2,14 @@ import * as ts from 'typescript';
 
 import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 import {createSignature} from '../factories/index';
 
-@Component({name: 'node:signature-call'})
-export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression> {
+export class SignatureConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.CallSignature,
         ts.SyntaxKind.FunctionType,
         ts.SyntaxKind.FunctionExpression,

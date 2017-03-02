@@ -2,11 +2,10 @@ import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
 import {ReferenceType} from '../../models/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
+import {TypeConverter, NodeTypeConverter} from './type';
 import {Context} from '../context';
 
-@Component({name: 'type:alias'})
-export class AliasConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
+export class AliasConverter extends TypeConverter implements NodeTypeConverter {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.

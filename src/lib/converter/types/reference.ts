@@ -3,12 +3,11 @@ import * as ts from 'typescript';
 import {Type, IntrinsicType, ReflectionType} from '../../models/types/index';
 import {ReflectionKind, DeclarationReflection} from '../../models/reflections/index';
 import {createReferenceType} from '../factories/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
+import {TypeConverter, NodeTypeConverter, TypeTypeConverter} from './type';
 import {Context} from '../context';
 import {Converter} from '../converter';
 
-@Component({name: 'type:reference'})
-export class ReferenceConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode> {
+export class ReferenceConverter extends TypeConverter implements NodeTypeConverter, TypeTypeConverter {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
@@ -53,7 +52,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
 
         const result = createReferenceType(context, type.symbol);
         if (node.typeArguments) {
-            result.typeArguments = node.typeArguments.map((n) => this.owner.convertType(context, n));
+            result.typeArguments = node.typeArguments.map((n) => this.converter.convertType(context, n));
         }
 
         return result;
@@ -82,7 +81,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
 
         const result = createReferenceType(context, type.symbol);
         if (type.typeArguments) {
-            result.typeArguments = type.typeArguments.map((t) => this.owner.convertType(context, null, t));
+            result.typeArguments = type.typeArguments.map((t) => this.converter.convertType(context, null, t));
         }
 
         return result;
@@ -131,7 +130,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
             symbol.declarations.forEach((node) => {
-                this.owner.convertNode(context, node);
+                this.converter.convertNode(context, node);
             });
         });
 

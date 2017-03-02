@@ -1,3 +1,5 @@
+export * from './node';
+
 export {AccessorConverter} from './accessor';
 export {AliasConverter} from './alias';
 export {BlockConverter} from './block';

@@ -2,14 +2,13 @@ import * as ts from 'typescript';
 
 import {Reflection} from '../../models/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:literal-type'})
-export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralNode> {
+export class TypeLiteralConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.TypeLiteral
     ];
 
@@ -23,7 +22,7 @@ export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralN
     convert(context: Context, node: ts.TypeLiteralNode): Reflection {
         if (node.members) {
             node.members.forEach((node) => {
-                this.owner.convertNode(context, node);
+                this.converter.convertNode(context, node);
             });
         }
 

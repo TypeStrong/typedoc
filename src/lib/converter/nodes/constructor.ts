@@ -4,14 +4,13 @@ import {Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment} from
 import {createDeclaration, createSignature, createComment} from '../factories/index';
 import {Context} from '../context';
 import {Converter} from '../converter';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:constructor'})
-export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration> {
+export class ConstructorConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.Constructor,
         ts.SyntaxKind.ConstructSignature
     ];
@@ -75,7 +74,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
         }
 
         property.setFlag(ReflectionFlag.Static, false);
-        property.type = this.owner.convertType(context, parameter.type, context.getTypeAtLocation(parameter));
+        property.type = this.converter.convertType(context, parameter.type, context.getTypeAtLocation(parameter));
 
         if (comment) {
             const tag = comment.getTag('param', property.name);

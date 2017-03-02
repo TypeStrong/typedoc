@@ -2,14 +2,13 @@ import * as ts from 'typescript';
 
 import {Reflection, ReflectionFlag, DeclarationReflection} from '../../models/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:export'})
-export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
+export class ExportConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.ExportAssignment
     ];
 

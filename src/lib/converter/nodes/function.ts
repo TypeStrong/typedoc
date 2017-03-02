@@ -4,14 +4,13 @@ import {Reflection, ReflectionKind} from '../../models/index';
 import {createDeclaration, createSignature} from '../factories/index';
 import {Context} from '../context';
 import {Converter} from '../converter';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:function'})
-export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclaration|ts.MethodDeclaration> {
+export class FunctionConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.MethodSignature,
         ts.SyntaxKind.MethodDeclaration,
         ts.SyntaxKind.FunctionDeclaration

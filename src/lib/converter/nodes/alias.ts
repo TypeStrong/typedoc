@@ -3,14 +3,13 @@ import * as ts from 'typescript';
 import {Reflection, ReflectionKind} from '../../models/index';
 import {createDeclaration} from '../factories/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:alias'})
-export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclaration> {
+export class AliasConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.TypeAliasDeclaration
     ];
 
@@ -25,7 +24,7 @@ export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclarati
         const alias = createDeclaration(context, node, ReflectionKind.TypeAlias);
 
         context.withScope(alias, () => {
-            alias.type = this.owner.convertType(context, node.type, context.getTypeAtLocation(node.type));
+            alias.type = this.converter.convertType(context, node.type, context.getTypeAtLocation(node.type));
         });
 
         return alias;

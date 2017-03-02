@@ -4,14 +4,13 @@ import * as _ts from '../../ts-internal';
 import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
 import {createDeclaration} from '../factories/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:class'})
-export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> {
+export class ClassConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.ClassExpression,
         ts.SyntaxKind.ClassDeclaration
     ];
@@ -39,7 +38,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     const exclude = context.converter.excludePrivate ? privateMember : false;
 
                     if (!exclude) {
-                        this.owner.convertNode(context, member);
+                        this.converter.convertNode(context, member);
                     }
                 });
             }
@@ -51,7 +50,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     if (!reflection.extendedTypes) {
                         reflection.extendedTypes = [];
                     }
-                    reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
+                    reflection.extendedTypes.push(this.converter.convertType(context, baseType, type));
                 }
 
                 if (type && type.symbol) {
@@ -68,7 +67,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                         reflection.implementedTypes = [];
                     }
 
-                    reflection.implementedTypes.push(this.owner.convertType(context, implementedType));
+                    reflection.implementedTypes.push(this.converter.convertType(context, implementedType));
                 });
             }
         });

@@ -4,14 +4,13 @@ import * as _ts from '../../ts-internal';
 import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
 import {createDeclaration} from '../factories/index';
 import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import {NodeConverter} from './node';
 
-@Component({name: 'node:interface'})
-export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDeclaration> {
+export class InterfaceConverter extends NodeConverter {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
+    static supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.InterfaceDeclaration
     ];
 
@@ -33,7 +32,7 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
                 node.members.forEach((member, isInherit) => {
-                    this.owner.convertNode(context, member);
+                    this.converter.convertNode(context, member);
                 });
             }
 
@@ -45,7 +44,7 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                         if (!reflection.extendedTypes) {
                             reflection.extendedTypes = [];
                         }
-                        reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
+                        reflection.extendedTypes.push(this.converter.convertType(context, baseType, type));
                     }
 
                     if (type && type.symbol) {
