@@ -9,7 +9,7 @@
 
 import Assert = require('assert');
 import * as _ from 'lodash';
-import { EventDispatcher, Event } from '../src/lib/utils/events';
+import { EventDispatcher, Event } from '../lib/utils/events';
 
 class Events extends EventDispatcher {
     counter?: number;

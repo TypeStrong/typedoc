@@ -34,13 +34,13 @@ module.exports = function(grunt)
                 configuration: 'tslint.json'
             },
             files: {
-                src: [ 'src/**/*.ts', 'test/*.ts' ]
+                src: [ 'src/lib/**/*.ts', 'src/test/*.ts' ]
             }
         },
         'string-replace': {
             version: {
                 files: {
-                    'dist/src/lib/application.js': ['dist/src/lib/application.js']
+                    'dist/lib/application.js': ['dist/lib/application.js']
                 },
                 options: {
                     replacements: [{
@@ -67,7 +67,7 @@ module.exports = function(grunt)
         copy:  {
             staticTestFiles: {
                 expand: true,
-                cwd: '.',
+                cwd: 'src',
                 src: [
                     'test/converter/**/*',
                     'test/renderer/**/*'
@@ -76,8 +76,8 @@ module.exports = function(grunt)
             }
         },
         clean: {
-            specsBefore: ['test/renderer/specs'],
-            specsAfter: ['test/renderer/specs/assets']
+            specsBefore: ['src/test/renderer/specs'],
+            specsAfter: ['src/test/renderer/specs/assets']
         },
         watch: {
             source: {
@@ -114,7 +114,7 @@ module.exports = function(grunt)
         var Path = require('path');
         var TypeDoc = require('./');
 
-        var base = Path.join(__dirname, 'test', 'converter');
+        var base = Path.join(__dirname, 'src', 'test', 'converter');
         var app = new TypeDoc.Application({
             mode:   'Modules',
             target: 'ES5',
@@ -139,7 +139,7 @@ module.exports = function(grunt)
         });
 
         var src = Path.join(__dirname, 'examples', 'basic', 'src');
-        var out = Path.join(__dirname, 'test', 'renderer', 'specs');
+        var out = Path.join(__dirname, 'src', 'test', 'renderer', 'specs');
 
         FS.removeSync(out);
         app.generateDocs(app.expandInputFiles([src]), out);

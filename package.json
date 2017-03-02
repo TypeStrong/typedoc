@@ -3,8 +3,8 @@
   "description": "Create api documentations for typescript projects.",
   "version": "0.5.7",
   "homepage": "http://typedoc.org",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "bin": {
     "typedoc": "bin/typedoc"
   },
@@ -65,7 +65,10 @@
   },
   "files": [
     "bin",
-    "dist/src",
+    "dist/lib",
+	"dist/index.d.ts",
+	"dist/index.js",
+	"dist/index.js.map",
     "tasks",
     "LICENSE"
   ],
