@@ -64,7 +64,7 @@ export class ConstructorConverter extends NodeConverter {
         }
 
         const privateParameter = modifiers & ts.ModifierFlags.Private;
-        if (privateParameter && context.converter.excludePrivate) {
+        if (privateParameter && context.converter.options.excludePrivate) {
             return;
         }
 

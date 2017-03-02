@@ -3,10 +3,9 @@ import * as FS from 'fs';
 import * as ts from 'typescript';
 
 import {Reflection} from '../../models/reflections/abstract';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {Converter} from '../converter';
 import {Context} from '../context';
-import {Option} from '../../utils/component';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -16,14 +15,7 @@ import {Option} from '../../utils/component';
  * and records the nearest package info files it can find. Within the resolve files, the
  * contents of the found files will be read and appended to the ProjectReflection.
  */
-@Component({name: 'package'})
-export class PackagePlugin extends ConverterComponent {
-    @Option({
-        name: 'readme',
-        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
-    })
-    readme: string;
-
+export class PackagePlugin extends Plugin {
     /**
      * The file name of the found readme.md file.
      */
@@ -48,7 +40,7 @@ export class PackagePlugin extends ConverterComponent {
      * Create a new PackageHandler instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_BEGIN]:         this.onBegin,
             [Converter.EVENT_FILE_BEGIN]:    this.onBeginDocument,
             [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve
@@ -65,7 +57,7 @@ export class PackagePlugin extends ConverterComponent {
         this.packageFile = null;
         this.visited     = [];
 
-        let readme = this.readme;
+        let readme = this.converter.options.readme;
         this.noReadmeFile = (readme === 'none');
         if (!this.noReadmeFile && readme) {
             readme = Path.resolve(readme);

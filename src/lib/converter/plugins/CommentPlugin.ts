@@ -5,7 +5,7 @@ import {IntrinsicType} from '../../models/types/index';
 import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
     SignatureReflection, ParameterReflection} from '../../models/reflections/index';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {parseComment, getRawComment} from '../factories/comment';
 import {Converter} from '../converter';
 import {Context} from '../context';
@@ -34,8 +34,7 @@ interface ModuleComment {
  * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
  * the generated reflections.
  */
-@Component({name: 'comment'})
-export class CommentPlugin extends ConverterComponent {
+export class CommentPlugin extends Plugin {
     /**
      * List of discovered module comments.
      */
@@ -50,7 +49,7 @@ export class CommentPlugin extends ConverterComponent {
      * Create a new CommentPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_BEGIN]:                   this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]:      this.onDeclaration,
             [Converter.EVENT_CREATE_SIGNATURE]:        this.onDeclaration,

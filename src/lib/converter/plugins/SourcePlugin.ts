@@ -4,7 +4,7 @@ import * as _ts from '../../ts-internal';
 
 import {Reflection, ProjectReflection, DeclarationReflection} from '../../models/reflections/index';
 import {SourceDirectory, SourceFile} from '../../models/sources/index';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
@@ -12,8 +12,7 @@ import {Context} from '../context';
 /**
  * A handler that attaches source file information to reflections.
  */
-@Component({name: 'source'})
-export class SourcePlugin extends ConverterComponent {
+export class SourcePlugin extends Plugin {
     /**
      * Helper for resolving the base path of all source files.
      */
@@ -28,7 +27,7 @@ export class SourcePlugin extends ConverterComponent {
      * Create a new SourceHandler instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_BEGIN]:              this.onBegin,
             [Converter.EVENT_FILE_BEGIN]:         this.onBeginDocument,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,

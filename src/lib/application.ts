@@ -11,7 +11,7 @@ import * as FS from 'fs';
 import * as typescript from 'typescript';
 import {Minimatch, IMinimatch} from 'minimatch';
 
-import {Converter} from './converter/index';
+import {Converter, SourceFileMode} from './converter/index';
 import {Renderer} from './output/renderer';
 import {ProjectReflection} from './models/index';
 import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
@@ -78,6 +78,67 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     exclude: string;
 
     /**
+     * The human readable name of the project. Used within the templates to set the title of the document.
+     */
+    @Option({
+        name: 'name',
+        help: 'Set the name of the project that will be used in the header of the template.'
+    })
+    name: string;
+
+    @Option({
+        name: 'externalPattern',
+        help: 'Define a pattern for files that should be considered being external.'
+    })
+    externalPattern: string;
+
+    @Option({
+        name: 'includeDeclarations',
+        help: 'Turn on parsing of .d.ts declaration files.',
+        type: ParameterType.Boolean
+    })
+    includeDeclarations: boolean;
+
+    @Option({
+        name: 'excludeExternals',
+        help: 'Prevent externally resolved TypeScript files from being documented.',
+        type: ParameterType.Boolean
+    })
+    excludeExternals: boolean;
+
+    @Option({
+        name: 'excludeNotExported',
+        help: 'Prevent symbols that are not exported from being documented.',
+        type: ParameterType.Boolean
+    })
+    excludeNotExported: boolean;
+
+    @Option({
+        name: 'excludePrivate',
+        help: 'Ignores private variables and methods',
+        type: ParameterType.Boolean
+    })
+    excludePrivate: boolean;
+
+    @Option({
+        name: 'mode',
+        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        type: ParameterType.Map,
+        map: {
+            'file': SourceFileMode.File,
+            'modules': SourceFileMode.Modules
+        },
+        defaultValue: SourceFileMode.Modules
+    })
+    mode: SourceFileMode;
+
+    @Option({
+        name: 'readme',
+        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+    })
+    readme: string;
+
+    /**
      * The version number of TypeDoc.
      */
     static VERSION = '{{ VERSION }}';
@@ -91,7 +152,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         super(null);
 
         this.logger    = new ConsoleLogger();
-        this.converter = this.addComponent('converter', Converter);
         this.renderer  = this.addComponent('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
@@ -115,7 +175,22 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         this.plugins.load();
-        return this.options.read(options, OptionsReadMode.Fetch);
+
+        const readResult = this.options.read(options, OptionsReadMode.Fetch);
+
+        this.converter = new Converter({
+            compilerOptions: this.options.getCompilerOptions(),
+            name: this.name,
+            excludeExternals: this.excludeExternals,
+            excludeNotExported: this.excludeNotExported,
+            excludePrivate: this.excludePrivate,
+            externalPattern: this.externalPattern,
+            includeDeclarations: this.includeDeclarations,
+            mode: this.mode,
+            readme: this.readme
+        });
+
+        return readResult;
     }
 
     /**

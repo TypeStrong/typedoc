@@ -1,6 +1,6 @@
 import {Reflection, ReflectionKind, DeclarationReflection, SignatureReflection} from '../../models/reflections/index';
 import {Type, ReferenceType} from '../../models/types/index';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
@@ -8,13 +8,12 @@ import {Context} from '../context';
  * A plugin that detects interface implementations of functions and
  * properties on classes and links them.
  */
-@Component({name: 'implements'})
-export class ImplementsPlugin extends ConverterComponent {
+export class ImplementsPlugin extends Plugin {
     /**
      * Create a new ImplementsPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, Converter.EVENT_RESOLVE, this.onResolve, -10);
+        this.listenTo(this.converter, Converter.EVENT_RESOLVE, this.onResolve, -10);
     }
 
     /**

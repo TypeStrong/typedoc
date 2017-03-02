@@ -3,22 +3,21 @@ import * as _ts from '../../ts-internal';
 
 import {ReferenceType} from '../../models/types/index';
 import {Reflection, Decorator} from '../../models/reflections/index';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
 /**
  * A plugin that detects decorators.
  */
-@Component({name: 'decorator'})
-export class DecoratorPlugin extends ConverterComponent {
+export class DecoratorPlugin extends Plugin {
     private usages: {[symbolID: number]: ReferenceType[]};
 
     /**
      * Create a new ImplementsPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_BEGIN]:              this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_PARAMETER]:   this.onDeclaration,

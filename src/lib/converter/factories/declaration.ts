@@ -60,7 +60,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
-    if (!isExported && context.converter.excludeNotExported) {
+    if (!isExported && context.converter.options.excludeNotExported) {
         return null;
     }
 

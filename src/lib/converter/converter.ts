@@ -1,17 +1,15 @@
 import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
+import * as path from 'path';
 
-import {Application} from '../application';
-import {ParameterType} from '../utils/options/declaration';
+import {EventDispatcher} from '../utils/events';
 import {Reflection, Type, ProjectReflection} from '../models/index';
 import {Context} from './context';
-import {ConverterComponent} from './components';
-import {CompilerHost} from './utils/compiler-host';
-import {Component, Option, ChildableComponent} from '../utils/component';
 import {normalizePath} from '../utils/fs';
 
 import * as nodes from './nodes';
 import * as types from './types';
+import * as plugins from './plugins';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -32,71 +30,80 @@ export enum SourceFileMode {
     File, Modules
 }
 
+export interface ConverterOptions {
+    compilerOptions: ts.CompilerOptions;
+
+    name?: string;
+    externalPattern?: string;
+    includeDeclarations?: boolean;
+    excludeExternals?: boolean;
+    excludeNotExported?: boolean;
+    excludePrivate?: boolean;
+    mode?: SourceFileMode;
+    readme?: string;
+}
+
+function createCompilerHost(converter: Converter): ts.CompilerHost {
+    return {
+        getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile {
+            let text: string;
+            try {
+                text = ts.sys.readFile(filename, converter.options.compilerOptions.charset);
+            } catch (e) {
+                if (onError) {
+                    onError(e.number === ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
+                }
+                text = '';
+            }
+
+            return text !== undefined ? ts.createSourceFile(filename, text, languageVersion) : undefined;
+        },
+
+        getDefaultLibFileName(options: ts.CompilerOptions): string {
+            const lib = converter.getDefaultLib();
+            const dir = _ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
+            return path.join(dir, lib);
+        },
+
+        getCurrentDirectory(this: ts.CompilerHost): string {
+            const currentDirectory = ts.sys.getCurrentDirectory();
+            this.getCurrentDirectory = () => currentDirectory;
+            return currentDirectory;
+        },
+
+        useCaseSensitiveFileNames: () => ts.sys.useCaseSensitiveFileNames,
+
+        getDirectories: ts.sys.getDirectories,
+        fileExists: ts.sys.fileExists,
+        directoryExists: ts.sys.directoryExists,
+        readFile: ts.sys.readFile,
+        getCanonicalFileName: ts.sys.useCaseSensitiveFileNames ?
+            (fileName: string) => fileName :
+            (fileName: string) => fileName.toLowerCase()
+        ,
+        getNewLine: () => ts.sys.newLine,
+
+        writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void) { }
+    };
+}
+
+/**
+ * Return code of ts.sys.readFile when the file encoding is unsupported.
+ */
+const ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
+
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-@Component({name: 'converter', internal: true, childClass: ConverterComponent})
-export class Converter extends ChildableComponent<Application, ConverterComponent> {
-    /**
-     * The human readable name of the project. Used within the templates to set the title of the document.
-     */
-    @Option({
-        name: 'name',
-        help: 'Set the name of the project that will be used in the header of the template.'
-    })
-    name: string;
+export class Converter extends EventDispatcher {
+    options: ConverterOptions;
 
-    @Option({
-        name: 'externalPattern',
-        help: 'Define a pattern for files that should be considered being external.'
-    })
-    externalPattern: string;
-
-    @Option({
-        name: 'includeDeclarations',
-        help: 'Turn on parsing of .d.ts declaration files.',
-        type: ParameterType.Boolean
-    })
-    includeDeclarations: boolean;
-
-    @Option({
-        name: 'excludeExternals',
-        help: 'Prevent externally resolved TypeScript files from being documented.',
-        type: ParameterType.Boolean
-    })
-    excludeExternals: boolean;
-
-    @Option({
-        name: 'excludeNotExported',
-        help: 'Prevent symbols that are not exported from being documented.',
-        type: ParameterType.Boolean
-    })
-    excludeNotExported: boolean;
-
-    @Option({
-        name: 'excludePrivate',
-        help: 'Ignores private variables and methods',
-        type: ParameterType.Boolean
-    })
-    excludePrivate: boolean;
-
-    @Option({
-        name: 'mode',
-        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-        type: ParameterType.Map,
-        map: {
-            'file': SourceFileMode.File,
-            'modules': SourceFileMode.Modules
-        },
-        defaultValue: SourceFileMode.Modules
-    })
-    mode: SourceFileMode;
-
-    private compilerHost: CompilerHost;
+    private compilerHost: ts.CompilerHost;
 
     private nodeConverters: Map<ts.SyntaxKind, nodes.NodeConverter>;
     private typeNodeConverters: types.NodeTypeConverter[];
     private typeTypeConverters: types.TypeTypeConverter[];
+    private plugins: plugins.Plugin[];
 
     /**
      * General events
@@ -221,14 +228,24 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         types.UnknownConverter
     ];
 
-    /**
-     * Create a new Converter instance.
-     *
-     * @param application  The application instance this converter relies on. The application
-     *   must expose the settings that should be used and serves as a global logging endpoint.
-     */
-    initialize() {
-        this.compilerHost = new CompilerHost(this);
+    static pluginClasses: plugins.PluginConstructor[] = [
+        plugins.CommentPlugin,
+        plugins.DecoratorPlugin,
+        plugins.DeepCommentPlugin,
+        plugins.DynamicModulePlugin,
+        plugins.GitHubPlugin,
+        plugins.GroupPlugin,
+        plugins.ImplementsPlugin,
+        plugins.PackagePlugin,
+        plugins.SourcePlugin,
+        plugins.TypePlugin
+    ];
+
+    constructor(options: ConverterOptions) {
+        super();
+
+        this.options = options;
+        this.compilerHost = createCompilerHost(this);
 
         this.nodeConverters = new Map();
         for (let ctor of Converter.nodeConverterClasses) {
@@ -242,6 +259,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
         this.typeNodeConverters.sort((a, b) => b.priority - a.priority);
         this.typeTypeConverters.sort((a, b) => b.priority - a.priority);
+
+        this.plugins = [];
+        for (let ctor of Converter.pluginClasses) {
+            this.plugins.push(new ctor(this));
+        }
     }
 
     private addNodeConverter(componentClass: nodes.NodeConverterConstructor) {
@@ -273,7 +295,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             fileNames[i] = normalizePath(_ts.normalizeSlashes(fileNames[i]));
         }
 
-        const program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);
+        const program = ts.createProgram(fileNames, this.options.compilerOptions, this.compilerHost);
         const checker = program.getTypeChecker();
         const context = new Context(this, fileNames, checker, program);
 
@@ -410,6 +432,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @returns The basename of the default library.
      */
     getDefaultLib(): string {
-        return ts.getDefaultLibFileName(this.application.options.getCompilerOptions());
+        return ts.getDefaultLibFileName(this.options.compilerOptions);
     }
 }

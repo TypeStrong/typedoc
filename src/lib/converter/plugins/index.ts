@@ -1,3 +1,5 @@
+export * from './Plugin';
+
 export {CommentPlugin} from './CommentPlugin';
 export {DecoratorPlugin} from './DecoratorPlugin';
 export {DeepCommentPlugin} from './DeepCommentPlugin';

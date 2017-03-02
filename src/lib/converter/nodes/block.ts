@@ -51,7 +51,7 @@ export class BlockConverter extends NodeConverter {
         let result = context.scope;
 
         context.withSourceFile(node, () => {
-            if (this.converter.mode === SourceFileMode.Modules) {
+            if (this.converter.options.mode === SourceFileMode.Modules) {
                 result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);

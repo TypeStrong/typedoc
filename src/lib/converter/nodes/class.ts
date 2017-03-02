@@ -35,7 +35,7 @@ export class ClassConverter extends NodeConverter {
                 node.members.forEach((member) => {
                     const modifiers = ts.getCombinedModifierFlags(member);
                     const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
-                    const exclude = context.converter.excludePrivate ? privateMember : false;
+                    const exclude = context.converter.options.excludePrivate ? privateMember : false;
 
                     if (!exclude) {
                         this.converter.convertNode(context, member);

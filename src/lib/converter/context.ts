@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import {Minimatch, IMinimatch} from 'minimatch';
 
-import {Logger} from '../utils/loggers';
+// import {Logger} from '../utils/loggers';
 import {Reflection, ProjectReflection, ContainerReflection, Type} from '../models/index';
 import {createTypeParameter} from './factories/type-parameter';
 import {Converter} from './converter';
@@ -109,12 +109,12 @@ export class Context {
         this.program = program;
         this.visitStack = [];
 
-        const project = new ProjectReflection(converter.name);
+        const project = new ProjectReflection(converter.options.name);
         this.project = project;
         this.scope = project;
 
-        if (converter.externalPattern) {
-            this.externalPattern = new Minimatch(converter.externalPattern);
+        if (converter.options.externalPattern) {
+            this.externalPattern = new Minimatch(converter.options.externalPattern);
         }
     }
 
@@ -122,7 +122,7 @@ export class Context {
      * Return the compiler options.
      */
     getCompilerOptions(): ts.CompilerOptions {
-        return this.converter.application.options.getCompilerOptions();
+        return this.converter.options.compilerOptions;
     }
 
     /**
@@ -154,9 +154,9 @@ export class Context {
      *
      * @returns The current logger instance.
      */
-    getLogger(): Logger {
+    /*getLogger(): Logger {
         return this.converter.application.logger;
-    }
+    }*/
 
     /**
      * Return the symbol id of the given symbol.
@@ -222,7 +222,7 @@ export class Context {
             isExternal = isExternal || externalPattern.match(node.fileName);
         }
 
-        if (isExternal && this.converter.excludeExternals) {
+        if (isExternal && this.converter.options.excludeExternals) {
             return;
         }
 
@@ -230,7 +230,7 @@ export class Context {
         if (isDeclaration) {
             const lib = this.converter.getDefaultLib();
             const isLib = node.fileName.substr(-lib.length) === lib;
-            if (!this.converter.includeDeclarations || isLib) {
+            if (!this.converter.options.includeDeclarations || isLib) {
                 return;
             }
         }

@@ -2,7 +2,7 @@ import * as ShellJS from 'shelljs';
 import * as Path from 'path';
 
 import {SourceReference} from '../../models/sources/file';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
@@ -146,8 +146,7 @@ class Repository {
  * A handler that watches for repositories with GitHub origin and links
  * their source files to the related GitHub pages.
  */
-@Component({name: 'git-hub'})
-export class GitHubPlugin extends ConverterComponent {
+export class GitHubPlugin extends Plugin {
     /**
      * List of known repositories.
      */
@@ -166,7 +165,7 @@ export class GitHubPlugin extends ConverterComponent {
     initialize() {
         ShellJS.config.silent = true;
         if (ShellJS.which('git')) {
-            this.listenTo(this.owner, Converter.EVENT_RESOLVE_END, this.onEndResolve);
+            this.listenTo(this.converter, Converter.EVENT_RESOLVE_END, this.onEndResolve);
         }
     }
 

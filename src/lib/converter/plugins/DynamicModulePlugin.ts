@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import * as Path from 'path';
 
 import {Reflection, ReflectionKind} from '../../models/reflections/abstract';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
@@ -11,8 +11,7 @@ import {Context} from '../context';
  * A handler that truncates the names of dynamic modules to not include the
  * project's base path.
  */
-@Component({name: 'dynamic-module'})
-export class DynamicModulePlugin extends ConverterComponent {
+export class DynamicModulePlugin extends Plugin {
     /**
      * Helper class for determining the base path.
      */
@@ -27,7 +26,7 @@ export class DynamicModulePlugin extends ConverterComponent {
      * Create a new DynamicModuleHandler instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_BEGIN]:              this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_RESOLVE_BEGIN]:      this.onBeginResolve

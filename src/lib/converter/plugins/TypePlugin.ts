@@ -1,21 +1,20 @@
 import {Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy} from '../../models/reflections/index';
 import {Type, ReferenceType, TupleType, UnionType} from '../../models/types/index';
-import {Component, ConverterComponent} from '../components';
+import {Plugin} from './Plugin';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
 /**
  * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
  */
-@Component({name: 'type'})
-export class TypePlugin extends ConverterComponent {
+export class TypePlugin extends Plugin {
     reflections: DeclarationReflection[] = [];
 
     /**
      * Create a new TypeHandler instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
+        this.listenTo(this.converter, {
             [Converter.EVENT_RESOLVE]:     this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onResolveEnd
         });
