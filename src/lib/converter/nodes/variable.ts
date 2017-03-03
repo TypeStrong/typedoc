@@ -1,20 +1,18 @@
-import * as ts from "typescript";
-import * as _ts from "../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, IntrinsicType} from "../../models/index";
-import {createDeclaration, createComment} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {convertDefaultValue} from "../index";
+import {Reflection, ReflectionKind, IntrinsicType} from '../../models/index';
+import {createDeclaration, createComment} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
+import {convertDefaultValue} from '../index';
 
-
-@Component({name:'node:variable'})
-export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclaration>
-{
+@Component({name: 'node:variable'})
+export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.PropertySignature,
         ts.SyntaxKind.PropertyDeclaration,
         ts.SyntaxKind.PropertyAssignment,
@@ -23,12 +21,12 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
         ts.SyntaxKind.BindingElement
     ];
 
-
-    isSimpleObjectLiteral(objectLiteral:ts.ObjectLiteralExpression):boolean {
-        if (!objectLiteral.properties) return true;
-        return objectLiteral.properties.length == 0;
+    isSimpleObjectLiteral(objectLiteral: ts.ObjectLiteralExpression): boolean {
+        if (!objectLiteral.properties) {
+            return true;
+        }
+        return objectLiteral.properties.length === 0;
     }
-
 
     /**
      * Analyze the given variable declaration node and create a suitable reflection.
@@ -37,9 +35,9 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
      * @param node     The variable declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.VariableDeclaration):Reflection {
+    convert(context: Context, node: ts.VariableDeclaration): Reflection {
         const comment = createComment(node);
-        if (comment && comment.hasTag("resolve")) {
+        if (comment && comment.hasTag('resolve')) {
             const resolveType = context.getTypeAtLocation(node);
             if (resolveType && resolveType.symbol) {
                 const resolved = this.owner.convertNode(context, resolveType.symbol.declarations[0]);
@@ -50,7 +48,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
             }
         }
 
-        let name:string, isBindingPattern:boolean;
+        let name: string, isBindingPattern: boolean;
         if (_ts.isBindingPattern(node.name)) {
             if (node['propertyName']) {
                 name = _ts.declarationNameToString(node['propertyName']);
@@ -72,7 +70,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
                         this.owner.convertNode(context, node.initializer);
                         break;
                     case ts.SyntaxKind.ObjectLiteralExpression:
-                        if (!this.isSimpleObjectLiteral(<ts.ObjectLiteralExpression>node.initializer)) {
+                        if (!this.isSimpleObjectLiteral(<ts.ObjectLiteralExpression> node.initializer)) {
                             variable.kind = ReflectionKind.ObjectLiteral;
                             variable.type = new IntrinsicType('object');
                             this.owner.convertNode(context, node.initializer);
@@ -83,7 +81,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
                 }
             }
 
-            if (variable.kind == kind || variable.kind == ReflectionKind.Event) {
+            if (variable.kind === kind || variable.kind === ReflectionKind.Event) {
                 if (isBindingPattern) {
                     variable.type = this.owner.convertType(context, node.name);
                 } else {

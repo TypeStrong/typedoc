@@ -6,21 +6,19 @@
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
 
-import * as Path from "path";
-import * as FS from "fs";
-import * as Util from "util";
-import * as typescript from "typescript";
-import {Minimatch, IMinimatch} from "minimatch";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as typescript from 'typescript';
+import {Minimatch, IMinimatch} from 'minimatch';
 
-import {Converter} from "./converter/index";
-import {Renderer} from "./output/renderer";
-import {ProjectReflection} from "./models/index";
-import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from "./utils/index";
+import {Converter} from './converter/index';
+import {Renderer} from './output/renderer';
+import {ProjectReflection} from './models/index';
+import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
 
-import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
-import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
-import {ParameterType} from "./utils/options/declaration";
-
+import {AbstractComponent, ChildableComponent, Component, Option} from './utils/component';
+import {Options, OptionsReadMode, OptionsReadResult} from './utils/options/index';
+import {ParameterType} from './utils/options/declaration';
 
 /**
  * The default TypeDoc main application class.
@@ -36,63 +34,60 @@ import {ParameterType} from "./utils/options/declaration";
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({name:"application", internal:true})
-export class Application extends ChildableComponent<Application, AbstractComponent<Application>>
-{
-    options:Options;
+@Component({name: 'application', internal: true})
+export class Application extends ChildableComponent<Application, AbstractComponent<Application>> {
+    options: Options;
 
     /**
      * The converter used to create the declaration reflections.
      */
-    converter:Converter;
+    converter: Converter;
 
     /**
      * The renderer used to generate the documentation output.
      */
-    renderer:Renderer;
+    renderer: Renderer;
 
     /**
      * The logger that should be used to output messages.
      */
-    logger:Logger;
+    logger: Logger;
 
-    plugins:PluginHost;
+    plugins: PluginHost;
 
     @Option({
         name: 'logger',
         help: 'Specify the logger that should be used, \'none\' or \'console\'',
         defaultValue: 'console',
-        type: ParameterType.Mixed,
+        type: ParameterType.Mixed
     })
-    loggerType:string|Function;
+    loggerType: string|Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
         help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
         type: ParameterType.Boolean
     })
-    ignoreCompilerErrors:boolean;
+    ignoreCompilerErrors: boolean;
 
     @Option({
         name: 'exclude',
         help: 'Define a pattern for excluded files when specifying paths.',
         type: ParameterType.String
     })
-    exclude:string;
+    exclude: string;
 
     /**
      * The version number of TypeDoc.
      */
-    static VERSION:string = '{{ VERSION }}';
-
-
+    static VERSION = '{{ VERSION }}';
 
     /**
      * Create a new TypeDoc application instance.
      *
      * @param options An object containing the options that should be used.
      */
-    constructor(options?:Object) {
+    constructor(options?: Object) {
         super(null);
 
         this.logger    = new ConsoleLogger();
@@ -104,19 +99,18 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         this.bootstrap(options);
     }
 
-
     /**
      * Initialize TypeDoc with the given options object.
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?:Object):IOptionsReadResult {
+    protected bootstrap(options?: Object): OptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
         const logger = this.loggerType;
-        if (typeof logger == 'function') {
-            this.logger = new CallbackLogger(<any>logger);
-        } else if (logger == 'none') {
+        if (typeof logger === 'function') {
+            this.logger = new CallbackLogger(<any> logger);
+        } else if (logger === 'none') {
             this.logger = new Logger();
         }
 
@@ -124,34 +118,29 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return this.options.read(options, OptionsReadMode.Fetch);
     }
 
-
     /**
      * Return the application / root component instance.
      */
-    get application():Application {
-        return this
+    get application(): Application {
+        return this;
     }
 
-
-    get isCLI():boolean {
+    get isCLI(): boolean {
         return false;
     }
-
 
     /**
      * Return the path to the TypeScript compiler.
      */
-    public getTypeScriptPath():string {
+    public getTypeScriptPath(): string {
         return Path.dirname(require.resolve('typescript'));
     }
 
-
-    public getTypeScriptVersion():string {
+    public getTypeScriptVersion(): string {
         const tsPath = this.getTypeScriptPath();
         const json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
         return json.version;
     }
-
 
     /**
      * Run the converter for the given set of files and return the generated reflections.
@@ -159,7 +148,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param src  A list of source that should be compiled and converted.
      * @returns An instance of ProjectReflection on success, NULL otherwise.
      */
-    public convert(src:string[]):ProjectReflection {
+    public convert(src: string[]): ProjectReflection {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
         const result = this.converter.convert(src);
@@ -176,16 +165,15 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
     }
 
-
     /**
      * @param src  A list of source files whose documentation should be generated.
      */
-    public generateDocs(src:string[], out:string):boolean;
+    public generateDocs(src: string[], out: string): boolean;
 
     /**
      * @param project  The project the documentation should be generated for.
      */
-    public generateDocs(project:ProjectReflection, out:string):boolean;
+    public generateDocs(project: ProjectReflection, out: string): boolean;
 
     /**
      * Run the documentation generator for the given set of files.
@@ -193,9 +181,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path the documentation should be written to.
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
-    public generateDocs(input:any, out:string):boolean {
+    public generateDocs(input: any, out: string): boolean {
         const project = input instanceof ProjectReflection ? input : this.convert(input);
-        if (!project) return false;
+        if (!project) {
+            return false;
+        }
 
         out = Path.resolve(out);
         this.renderer.render(project, out);
@@ -208,16 +198,15 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return true;
     }
 
-
     /**
      * @param src  A list of source that should be compiled and converted.
      */
-    public generateJson(src:string[], out:string):boolean;
+    public generateJson(src: string[], out: string): boolean;
 
     /**
      * @param project  The project that should be converted.
      */
-    public generateJson(project:ProjectReflection, out:string):boolean;
+    public generateJson(project: ProjectReflection, out: string): boolean;
 
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
@@ -225,9 +214,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input:any, out:string):boolean {
+    public generateJson(input: any, out: string): boolean {
         const project = input instanceof ProjectReflection ? input : this.convert(input);
-        if (!project) return false;
+        if (!project) {
+            return false;
+        }
 
         out = Path.resolve(out);
         writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
@@ -235,7 +226,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
         return true;
     }
-
 
     /**
      * Expand a list of input files.
@@ -247,13 +237,13 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param inputFiles  The list of files that should be expanded.
      * @returns  The list of input files with expanded directories.
      */
-    public expandInputFiles(inputFiles?:string[]):string[] {
-        let exclude:IMinimatch, files:string[] = [];
+    public expandInputFiles(inputFiles?: string[]): string[] {
+        let exclude: IMinimatch, files: string[] = [];
         if (this.exclude) {
             exclude = new Minimatch(this.exclude);
         }
 
-        function add(dirname:string) {
+        function add(dirname: string) {
             FS.readdirSync(dirname).forEach((file) => {
                 const realpath = Path.join(dirname, file);
                 if (FS.statSync(realpath).isDirectory()) {
@@ -279,7 +269,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
         return files;
     }
-
 
     /**
      * Print the version number.

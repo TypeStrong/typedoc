@@ -1,21 +1,17 @@
-import {Reflection, ReflectionKind, ITraverseCallback, TraverseProperty} from "./abstract";
-import {ReflectionGroup} from "../ReflectionGroup";
-import {DeclarationReflection} from "./declaration";
+import {Reflection, ReflectionKind, TraverseCallback, TraverseProperty} from './abstract';
+import {ReflectionGroup} from '../ReflectionGroup';
+import {DeclarationReflection} from './declaration';
 
-
-export class ContainerReflection extends Reflection
-{
+export class ContainerReflection extends Reflection {
     /**
      * The children of this reflection.
      */
-    children:DeclarationReflection[];
+    children: DeclarationReflection[];
 
     /**
      * All children grouped by their kind.
      */
-    groups:ReflectionGroup[];
-
-
+    groups: ReflectionGroup[];
 
     /**
      * Return a list of all children of a certain kind.
@@ -23,8 +19,8 @@ export class ContainerReflection extends Reflection
      * @param kind  The desired kind of children.
      * @returns     An array containing all children with the desired kind.
      */
-    getChildrenByKind(kind:ReflectionKind):DeclarationReflection[] {
-        const values:DeclarationReflection[] = [];
+    getChildrenByKind(kind: ReflectionKind): DeclarationReflection[] {
+        const values: DeclarationReflection[] = [];
         for (let key in this.children) {
             const child = this.children[key];
             if (child.kindOf(kind)) {
@@ -34,7 +30,6 @@ export class ContainerReflection extends Reflection
         return values;
     }
 
-
     /**
      * Traverse all potential child reflections of this reflection.
      *
@@ -43,32 +38,31 @@ export class ContainerReflection extends Reflection
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback:ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.children) {
-            this.children.forEach((child:DeclarationReflection) => {
+            this.children.forEach((child: DeclarationReflection) => {
                 callback(child, TraverseProperty.Children);
             });
         }
     }
 
-
     /**
      * Return a raw object representation of this reflection.
      */
-    toObject():any {
+    toObject(): any {
         const result = super.toObject();
 
         if (this.groups) {
-            const groups:any[] = [];
+            const groups: any[] = [];
             this.groups.forEach((group) => {
-                groups.push(group.toObject())
+                groups.push(group.toObject());
             });
 
             result['groups'] = groups;
         }
 
         if (this.sources) {
-          const sources:any[] = [];
+          const sources: any[] = [];
           this.sources.forEach((source) => {
               sources.push({
                 fileName: source.fileName,
