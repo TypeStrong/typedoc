@@ -34,7 +34,7 @@ module.exports = function(grunt)
                 configuration: 'tslint.json'
             },
             files: {
-                src: [ 'src/lib/**/*.ts', 'src/test/*.ts' ]
+                src: [ 'src/**/*.ts', '!src/test/converter/**/*.ts' ]
             }
         },
         'string-replace': {

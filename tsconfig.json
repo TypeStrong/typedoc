@@ -14,8 +14,7 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src/lib/**/*.ts",
-    "src/test/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "src/test/converter/**/*.ts"

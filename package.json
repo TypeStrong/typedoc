@@ -65,10 +65,8 @@
   },
   "files": [
     "bin",
-    "dist/lib",
-	"dist/index.d.ts",
-	"dist/index.js",
-	"dist/index.js.map",
+    "dist",
+    "!dist/test",
     "tasks",
     "LICENSE"
   ],
