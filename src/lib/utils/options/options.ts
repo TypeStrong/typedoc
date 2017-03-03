@@ -31,6 +31,8 @@ export class DiscoverEvent extends Event
 
     inputFiles:string[] = [];
 
+    compilerOptions?: CompileOptions;
+
     errors:string[] = [];
 
     static DISCOVER:string = 'optionsDiscover';
@@ -83,6 +85,10 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         this.trigger(event);
         this.setValues(event.data, '', event.addError.bind(event));
 
+        if (event.compilerOptions) {
+            _.assign(this.compilerOptions, event.compilerOptions);
+        }
+        
         if (mode == OptionsReadMode.Fetch) {
             const logger = this.application.logger;
             for (let error of event.errors) {
