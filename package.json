@@ -62,6 +62,7 @@
     "tslint": "^4.4.2"
   },
   "files": [
+    "src",
     "bin",
     "dist",
     "tasks",
