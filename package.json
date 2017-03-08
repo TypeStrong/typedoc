@@ -49,9 +49,11 @@
     "typescript": "2.1.6"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.39",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha-istanbul": "^5.0.1",
     "grunt-string-replace": "^1.2.0",
@@ -64,11 +66,12 @@
   "files": [
     "bin",
     "dist",
+    "!dist/test",
     "tasks",
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha -t 4000",
+    "test": "mocha -t 4000 dist/test",
     "build": "grunt build_and_test",
     "prepublish": "npm run build"
   },

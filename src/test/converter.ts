@@ -1,25 +1,27 @@
-var TypeDoc = require("../");
-var FS      = require('fs');
-var Path    = require('path');
-var Assert  = require("assert");
+import { Application, resetReflectionID, normalizePath, ProjectReflection } from '..';
+import * as FS from 'fs';
+import * as Path from 'path';
+import Assert = require('assert');
 
-
-function compareReflections(fixture, spec, path) {
-    var key;
+function compareReflections(fixture, spec, path?: string) {
     path = (path ? path + '/' : '') + spec.name;
     Assert.deepEqual(fixture, spec);
 
-    for (key in spec) {
-        if (!spec.hasOwnProperty(key)) continue;
+    for (let key in spec) {
+        if (!spec.hasOwnProperty(key)) {
+            continue;
+        }
         Assert(fixture.hasOwnProperty(key), path + ': Missing property "' + key + '"');
     }
 
-    for (key in fixture) {
-        if (!fixture.hasOwnProperty(key) || typeof fixture[key] == 'undefined') continue;
+    for (let key in fixture) {
+        if (!fixture.hasOwnProperty(key) || typeof fixture[key] === 'undefined') {
+            continue;
+        }
         Assert(spec.hasOwnProperty(key), path + ': Unknown property "' + key + '"');
 
-        var a = fixture[key];
-        var b = spec[key];
+        const a = fixture[key];
+        const b = spec[key];
         Assert(a instanceof Object === b instanceof Object, path + ': Property "' + key + '" type mismatch');
 
         if (a instanceof Object) {
@@ -43,12 +45,11 @@ function compareReflections(fixture, spec, path) {
     }
 }
 
-
 function compareChildren(fixture, spec, path) {
-    var a = fixture.map(function(child) { return child.id; });
-    var b = spec.map(function(child) { return child.id; });
+    const a = fixture.map(function(child) { return child.id; });
+    const b = spec.map(function(child) { return child.id; });
 
-    Assert(a.length == b.length, path + ': Number of children differs');
+    Assert(a.length === b.length, path + ': Number of children differs');
     Assert(a.every(function(u, i) { return u === b[i]; }), path + ': Children are different');
 
     fixture.forEach(function(a, index) {
@@ -56,13 +57,12 @@ function compareChildren(fixture, spec, path) {
     });
 }
 
-
 describe('Converter', function() {
-    var base = Path.join(__dirname, 'converter');
-    var app;
+    const base = Path.join(__dirname, 'converter');
+    let app: Application;
 
     it('constructs', function() {
-        app = new TypeDoc.Application({
+        app = new Application({
             mode:   'Modules',
             logger: 'none',
             target: 'ES5',
@@ -73,22 +73,24 @@ describe('Converter', function() {
     });
 
     FS.readdirSync(base).forEach(function (directory) {
-        var path = Path.join(base, directory);
-        if (!FS.lstatSync(path).isDirectory()) return;
+        const path = Path.join(base, directory);
+        if (!FS.lstatSync(path).isDirectory()) {
+            return;
+        }
 
         describe(directory, function() {
-            var result;
+            let result: ProjectReflection;
 
             it('converts fixtures', function() {
-                TypeDoc.resetReflectionID();
+                resetReflectionID();
                 result = app.convert(app.expandInputFiles([path]));
-                Assert(result instanceof TypeDoc.ProjectReflection, 'No reflection returned');
+                Assert(result instanceof ProjectReflection, 'No reflection returned');
             });
 
             it('matches specs', function() {
-                var specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs.json')));
-                var data = JSON.stringify(result.toObject(), null, '  ');
-                data = data.split(TypeDoc.normalizePath(base)).join('%BASE%');
+                const specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs.json')).toString());
+                let data = JSON.stringify(result.toObject(), null, '  ');
+                data = data.split(normalizePath(base)).join('%BASE%');
 
                 compareReflections(JSON.parse(data), specs);
             });

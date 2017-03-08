@@ -326,8 +326,11 @@ export class EventDispatcher {
      * Bind an event to a `callback` function. Passing `"all"` will bind
      * the callback to all events fired.
      */
-    on(name: EventMap|string, callback: EventCallback, context?: any, priority?: number) {
-        this.internalOn(name, callback, context, priority);
+    on(eventMap: EventMap, context?: any);
+    on(eventMap: EventMap, callback?: EventCallback, context?: any, priority?: number);
+    on(name: string, callback: EventCallback, context?: any, priority?: number);
+    on(nameOrMap: EventMap|string, callback: EventCallback, context?: any, priority?: number) {
+        this.internalOn(nameOrMap, callback, context, priority);
         return this;
     }
 
@@ -354,7 +357,9 @@ export class EventDispatcher {
      * are passed in using the space-separated syntax, the handler will fire
      * once for each event, not once for a combination of all events.
      */
-    once(name: EventMap|string, callback: EventCallback, context?: any, priority?: number) {
+    once(eventMap: EventMap, context?: any);
+    once(name: string, callback: EventCallback, context?: any, priority?: any);
+    once(name: EventMap|string, callback?: EventCallback, context?: any, priority?: number) {
         // Map the event into a `{event: once}` object.
         const events = eventsApi(onceMap, <EventMap> {}, name, callback, _.bind(this.off, this));
         return this.on(events, void 0, context, priority);
@@ -366,7 +371,10 @@ export class EventDispatcher {
      * callbacks for the event. If `name` is null, removes all bound
      * callbacks for all events.
      */
-    off(name: EventMap|string, callback: EventCallback, context?: any) {
+    off();
+    off(eventMap: EventMap, context?: any);
+    off(name: string, callback?: EventCallback, context?: any);
+    off(name?: EventMap|string, callback?: EventCallback, context?: any) {
         if (!this._events) {
             return this;
         }
@@ -413,7 +421,9 @@ export class EventDispatcher {
     /**
      * Inversion-of-control versions of `once`.
      */
-    listenToOnce(obj: EventDispatcher, name: EventMap|string, callback: EventCallback, priority?: number) {
+    listenToOnce(obj: EventDispatcher, eventMap: EventMap);
+    listenToOnce(obj: EventDispatcher, name: string, callback: EventCallback, priority?: number);
+    listenToOnce(obj: EventDispatcher, name: EventMap|string, callback?: EventCallback, priority?: number) {
         // Map the event into a `{event: once}` object.
         const events = eventsApi(onceMap, <EventMap> {}, name, callback, _.bind(this.stopListening, this, obj));
         return this.listenTo(obj, events, void 0, priority);

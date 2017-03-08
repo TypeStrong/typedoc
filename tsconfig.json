@@ -16,5 +16,7 @@
   "include": [
     "src/**/*.ts"
   ],
-  "exclude": []
+  "exclude": [
+    "src/test/converter/**/*.ts"
+  ]
 }
