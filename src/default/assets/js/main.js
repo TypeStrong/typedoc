@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var typedoc;
 (function (typedoc) {
     typedoc.$html = $('html');
@@ -119,7 +124,7 @@ var typedoc;
     var FilterItemCheckbox = (function (_super) {
         __extends(FilterItemCheckbox, _super);
         function FilterItemCheckbox() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         FilterItemCheckbox.prototype.initialize = function () {
             var _this = this;
@@ -143,7 +148,7 @@ var typedoc;
     var FilterItemSelect = (function (_super) {
         __extends(FilterItemSelect, _super);
         function FilterItemSelect() {
-            return _super.apply(this, arguments) || this;
+            return _super !== null && _super.apply(this, arguments) || this;
         }
         FilterItemSelect.prototype.initialize = function () {
             var _this = this;

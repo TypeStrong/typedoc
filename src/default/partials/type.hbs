@@ -19,11 +19,18 @@
         {{/compact}}
     {{else}}
         {{#if types}}
+            {{#if isArray}}
+            <span class="tsd-signature-symbol">(</span>
+            {{/if}}
             {{#each types}}
                 {{#if @index}}
                     <span class="tsd-signature-symbol"> | </span>
                 {{/if}}{{> type}}
             {{/each}}
+            {{#if isArray}}
+            <span class="tsd-signature-symbol">)</span>
+            <span class="tsd-signature-symbol">[]</span>
+            {{/if}}
         {{else}}
             {{#if elements}}
                 {{#compact}}
