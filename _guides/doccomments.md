@@ -12,7 +12,7 @@ like classes, enumerations or property types and access modifiers will be automa
 
 All comments are parsed as markdown. TypeDoc uses the Marked (https://github.com/chjj/marked) markdown parser
 and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight code blocks within markdown sections.
-Additionally you can link to other classes, members or functions using double angle brackets.
+Additionally you can link to other classes, members or functions using double square brackets.
 
 
 ## JavaDoc tags
