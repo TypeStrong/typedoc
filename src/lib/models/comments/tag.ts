@@ -3,39 +3,36 @@
  *
  * Tags are stored in the [[Comment.tags]] property.
  */
-export class CommentTag
-{
+export class CommentTag {
     /**
      * The name of this tag.
      */
-    tagName:string;
+    tagName: string;
 
     /**
      * The name of the related parameter when this is a ```@param``` tag.
      */
-    paramName:string;
+    paramName: string;
 
     /**
      * The actual body text of this tag.
      */
-    text:string;
-
+    text: string;
 
     /**
      * Create a new CommentTag instance.
      */
-    constructor(tagName:string, paramName?:string, text?:string) {
+    constructor(tagName: string, paramName?: string, text?: string) {
         this.tagName = tagName;
         this.paramName = paramName || '';
         this.text = text || '';
     }
 
-
     /**
      * Return a raw object representation of this tag.
      */
-    toObject():any {
-        var result:any = {
+    toObject(): any {
+        const result: any = {
             tag:  this.tagName,
             text: this.text
         };

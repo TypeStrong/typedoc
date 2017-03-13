@@ -1,10 +1,10 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 const tsany = ts as any;
 
 /**
  * Expose the internal TypeScript APIs that are used by TypeDoc
  */
-declare module "typescript" {
+declare module 'typescript' {
   interface Symbol {
     // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L2658
     id?: number;
@@ -21,7 +21,6 @@ declare module "typescript" {
     nextContainer?: ts.Node;
   }
 }
-
 
 /**
  * These functions are in "core" and are marked as @internal:
@@ -120,7 +119,7 @@ export const optionDeclarations: CommandLineOption[] = tsany.optionDeclarations;
 
 /**
  * Command line options
- * 
+ *
  * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L3344
  */
 export interface CommandLineOption {

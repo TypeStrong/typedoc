@@ -1,9 +1,7 @@
-import {SourceFile, ISourceReference} from "../sources/file";
-import {Type} from "../types/index";
-import {Comment} from "../comments/comment";
-import {TypeParameterReflection} from "./type-parameter";
-import {ProjectReflection} from "./project";
-
+import {SourceReference} from '../sources/file';
+import {Type} from '../types/index';
+import {Comment} from '../comments/comment';
+import {TypeParameterReflection} from './type-parameter';
 
 /**
  * Holds all data models used by TypeDoc.
@@ -20,7 +18,7 @@ import {ProjectReflection} from "./project";
 /**
  * Current reflection id.
  */
-var REFLECTION_ID:number = 0;
+let REFLECTION_ID = 0;
 
 /**
  * Reset the reflection id.
@@ -34,8 +32,7 @@ export function resetReflectionID() {
 /**
  * Defines the available reflection kinds.
  */
-export enum ReflectionKind
-{
+export enum ReflectionKind {
     Global = 0,
     ExternalModule = 1,
     Module = 2,
@@ -68,9 +65,7 @@ export enum ReflectionKind
     SomeModule = Module | ExternalModule
 }
 
-
-export enum ReflectionFlag
-{
+export enum ReflectionFlag {
     Private = 1,
     Protected = 2,
     Public = 4,
@@ -84,8 +79,7 @@ export enum ReflectionFlag
     ConstructorProperty = 1024
 }
 
-
-var relevantFlags:ReflectionFlag[] = [
+const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Private,
     ReflectionFlag.Protected,
     ReflectionFlag.Static,
@@ -95,48 +89,45 @@ var relevantFlags:ReflectionFlag[] = [
     ReflectionFlag.Rest
 ];
 
-
-export interface IReflectionFlags extends Array<string>
-{
-    flags?:ReflectionFlag;
+export interface ReflectionFlags extends Array<string> {
+    flags?: ReflectionFlag;
 
     /**
      * Is this a private member?
      */
-    isPrivate?:boolean;
+    isPrivate?: boolean;
 
     /**
      * Is this a protected member?
      */
-    isProtected?:boolean;
+    isProtected?: boolean;
 
     /**
      * Is this a public member?
      */
-    isPublic?:boolean;
+    isPublic?: boolean;
 
     /**
      * Is this a static member?
      */
-    isStatic?:boolean;
+    isStatic?: boolean;
 
     /**
      * Is this member exported?
      */
-    isExported?:boolean;
+    isExported?: boolean;
 
     /**
      * Is this a declaration from an external document?
      */
-    isExternal?:boolean;
+    isExternal?: boolean;
 
     /**
      * Whether this reflection is an optional component or not.
      *
      * Applies to function parameters and object members.
      */
-    isOptional?:boolean;
-
+    isOptional?: boolean;
 
     /**
      * Whether it's a rest parameter, like `foo(...params);`.
@@ -146,29 +137,22 @@ export interface IReflectionFlags extends Array<string>
     /**
      *
      */
-    hasExportAssignment?:boolean;
+    hasExportAssignment?: boolean;
 
-    isConstructorProperty?:boolean;
+    isConstructorProperty?: boolean;
 }
 
-
-export interface IDefaultValueContainer extends Reflection
-{
-    defaultValue:string;
+export interface DefaultValueContainer extends Reflection {
+    defaultValue: string;
 }
 
-
-export interface ITypeContainer extends Reflection
-{
-    type:Type;
+export interface TypeContainer extends Reflection {
+    type: Type;
 }
 
-
-export interface ITypeParameterContainer extends Reflection
-{
-    typeParameters:TypeParameterReflection[];
+export interface TypeParameterContainer extends Reflection {
+    typeParameters: TypeParameterReflection[];
 }
-
 
 export enum TraverseProperty {
     Children,
@@ -181,35 +165,30 @@ export enum TraverseProperty {
     SetSignature
 }
 
-
-export interface ITraverseCallback
-{
-    (reflection:Reflection, property:TraverseProperty):void;
+export interface TraverseCallback {
+    (reflection: Reflection, property: TraverseProperty): void;
 }
-
 
 /**
  * Defines the usage of a decorator.
  */
-export interface IDecorator
-{
+export interface Decorator {
     /**
      * The name of the decorator being applied.
      */
-    name:string;
+    name: string;
 
     /**
      * The type declaring the decorator.
      * Usually a ReferenceType instance pointing to the decorator function.
      */
-    type?:Type;
+    type?: Type;
 
     /**
      * A named map of arguments the decorator is applied with.
      */
-    arguments?:any;
+    arguments?: any;
 }
-
 
 /**
  * Base class for all reflection classes.
@@ -222,98 +201,95 @@ export interface IDecorator
  * You can use the [[children]] and [[parent]] properties to walk the tree. The [[groups]] property
  * contains a list of all children grouped and sorted for being rendered.
  */
-export abstract class Reflection
-{
+export abstract class Reflection {
     /**
      * Unique id of this reflection.
      */
-    id:number;
+    id: number;
 
     /**
      * The symbol name of this reflection.
      */
-    name:string = '';
+    name = '';
 
     /**
      * The original name of the TypeScript declaration.
      */
-    originalName:string;
+    originalName: string;
 
     /**
      * The kind of this reflection.
      */
-    kind:ReflectionKind;
+    kind: ReflectionKind;
 
     /**
      * The human readable string representation of the kind of this reflection.
      */
-    kindString:string;
+    kindString: string;
 
-    flags:IReflectionFlags = [];
+    flags: ReflectionFlags = [];
 
     /**
      * The reflection this reflection is a child of.
      */
-    parent:Reflection;
+    parent: Reflection;
 
     /**
      * The parsed documentation comment attached to this reflection.
      */
-    comment:Comment;
+    comment: Comment;
 
     /**
      * A list of all source files that contributed to this reflection.
      */
-    sources:ISourceReference[];
+    sources: SourceReference[];
 
     /**
      * A list of all decorators attached to this reflection.
      */
-    decorators:IDecorator[];
+    decorators: Decorator[];
 
     /**
      * A list of all types that are decorated by this reflection.
      */
-    decorates:Type[];
+    decorates: Type[];
 
     /**
      * The url of this reflection in the generated documentation.
      */
-    url:string;
+    url: string;
 
     /**
      * The name of the anchor of this child.
      */
-    anchor:string;
+    anchor: string;
 
     /**
      * Is the url pointing to an individual document?
      *
      * When FALSE, the url points to an anchor tag on a page of a different reflection.
      */
-    hasOwnDocument:boolean;
+    hasOwnDocument: boolean;
 
     /**
      * A list of generated css classes that should be applied to representations of this
      * reflection in the generated markup.
      */
-    cssClasses:string;
+    cssClasses: string;
 
     /**
      * Url safe alias for this reflection.
      *
      * @see [[BaseReflection.getAlias]]
      */
-    private _alias:string;
+    private _alias: string;
 
-    private _aliases:string[];
-
-
+    private _aliases: string[];
 
     /**
      * Create a new BaseReflection instance.
      */
-    constructor(parent?:Reflection, name?:string, kind?:ReflectionKind) {
+    constructor(parent?: Reflection, name?: string, kind?: ReflectionKind) {
         this.id     = REFLECTION_ID++;
         this.parent = parent;
         this.name   = name;
@@ -321,23 +297,22 @@ export abstract class Reflection
         this.kind   = kind;
     }
 
-
     /**
      * @param kind  The kind to test for.
      */
-    kindOf(kind:ReflectionKind):boolean;
+    kindOf(kind: ReflectionKind): boolean;
 
     /**
      * @param kind  An array of kinds to test for.
      */
-    kindOf(kind:ReflectionKind[]):boolean;
+    kindOf(kind: ReflectionKind[]): boolean;
 
     /**
      * Test whether this reflection is of the given kind.
      */
-    kindOf(kind:any):boolean {
+    kindOf(kind: any): boolean {
         if (Array.isArray(kind)) {
-            for (var i = 0, c = kind.length; i < c; i++) {
+            for (let i = 0, c = kind.length; i < c; i++) {
                 if ((this.kind & kind[i]) !== 0) {
                     return true;
                 }
@@ -348,7 +323,6 @@ export abstract class Reflection
         }
     }
 
-
     /**
      * Return the full name of this reflection.
      *
@@ -357,7 +331,7 @@ export abstract class Reflection
      * @param separator  Separator used to join the names of the reflections.
      * @returns The full name of this reflection.
      */
-    getFullName(separator:string = '.'):string {
+    getFullName(separator: string = '.'): string {
         if (this.parent && !this.parent.isProject()) {
             return this.parent.getFullName(separator) + separator + this.name;
         } else {
@@ -365,13 +339,12 @@ export abstract class Reflection
         }
     }
 
-
     /**
      * Set a flag on this reflection.
      */
-    setFlag(flag:ReflectionFlag, value:boolean = true) {
-        var name:string, index:number;
-        if (relevantFlags.indexOf(flag) != -1) {
+    setFlag(flag: ReflectionFlag, value: boolean = true) {
+        let name: string, index: number;
+        if (relevantFlags.indexOf(flag) !== -1) {
             name = ReflectionFlag[flag];
             name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
             index = this.flags.indexOf(name);
@@ -379,12 +352,12 @@ export abstract class Reflection
 
         if (value) {
             this.flags.flags |= flag;
-            if (name && index == -1) {
+            if (name && index === -1) {
                 this.flags.push(name);
             }
         } else {
             this.flags.flags &= ~flag;
-            if (name && index != -1) {
+            if (name && index !== -1) {
                 this.flags.splice(index, 1);
             }
         }
@@ -435,25 +408,26 @@ export abstract class Reflection
         }
     }
 
-
     /**
      * Return an url safe alias for this reflection.
      */
-    getAlias():string {
+    getAlias(): string {
         if (!this._alias) {
-            var alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            if (alias == '') {
+            let alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            if (alias === '') {
                 alias = 'reflection-' + this.id;
             }
 
-            var target = <Reflection>this;
+            let target = <Reflection> this;
             while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
                 target = target.parent;
             }
 
-            if (!target._aliases) target._aliases = [];
-            var suffix = '', index = 0;
-            while (target._aliases.indexOf(alias + suffix) != -1) {
+            if (!target._aliases) {
+                target._aliases = [];
+            }
+            let suffix = '', index = 0;
+            while (target._aliases.indexOf(alias + suffix) !== -1) {
                 suffix = '-' + (++index).toString();
             }
 
@@ -465,44 +439,41 @@ export abstract class Reflection
         return this._alias;
     }
 
-
     /**
      * Has this reflection a visible comment?
      *
      * @returns TRUE when this reflection has a visible comment.
      */
-    hasComment():boolean {
-        return <boolean>(this.comment && this.comment.hasVisibleComponent());
+    hasComment(): boolean {
+        return <boolean> (this.comment && this.comment.hasVisibleComponent());
     }
 
-
-    hasGetterOrSetter():boolean {
+    hasGetterOrSetter(): boolean {
         return false;
     }
-
 
     /**
      * @param name  The name of the child to look for. Might contain a hierarchy.
      */
-    getChildByName(name:string):Reflection;
+    getChildByName(name: string): Reflection;
 
     /**
      * @param names  The name hierarchy of the child to look for.
      */
-    getChildByName(names:string[]):Reflection;
+    getChildByName(names: string[]): Reflection;
 
     /**
      * Return a child by its name.
      *
      * @returns The found child or NULL.
      */
-    getChildByName(arg:any):Reflection {
-        var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
-        var name = names[0];
-        var result:Reflection = null;
+    getChildByName(arg: any): Reflection {
+        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const name = names[0];
+        let result: Reflection = null;
 
         this.traverse((child) => {
-            if (child.name == name) {
+            if (child.name === name) {
                 if (names.length <= 1) {
                     result = child;
                 } else if (child) {
@@ -514,41 +485,38 @@ export abstract class Reflection
         return result;
     }
 
-
     /**
      * Return whether this reflection is the root / project reflection.
      */
-    isProject():boolean { //:this is ProjectReflection
+    isProject(): boolean { // this is ProjectReflection
         return false;
     }
-
 
     /**
      * @param name  The name to look for. Might contain a hierarchy.
      */
-    findReflectionByName(name:string):Reflection;
+    findReflectionByName(name: string): Reflection;
 
     /**
      * @param names  The name hierarchy to look for.
      */
-    findReflectionByName(names:string[]):Reflection;
+    findReflectionByName(names: string[]): Reflection;
 
     /**
      * Try to find a reflection by its name.
      *
      * @return The found reflection or null.
      */
-    findReflectionByName(arg:any):Reflection {
-        var names:string[] = Array.isArray(arg) ? arg : arg.split('.');
+    findReflectionByName(arg: any): Reflection {
+        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
 
-        var reflection = this.getChildByName(names);
+        const reflection = this.getChildByName(names);
         if (reflection) {
             return reflection;
         } else {
             return this.parent.findReflectionByName(names);
         }
     }
-
 
     /**
      * Traverse all potential child reflections of this reflection.
@@ -558,14 +526,13 @@ export abstract class Reflection
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback:ITraverseCallback) { }
-
+    traverse(callback: TraverseCallback) { }
 
     /**
      * Return a raw object representation of this reflection.
      */
-    toObject():any {
-        var result:any = {
+    toObject(): any {
+        const result: any = {
             id:         this.id,
             name:       this.name,
             kind:       this.kind,
@@ -573,7 +540,7 @@ export abstract class Reflection
             flags:      {}
         };
 
-        if (this.originalName != this.name) {
+        if (this.originalName !== this.name) {
             result.originalName = this.originalName;
         }
 
@@ -581,9 +548,14 @@ export abstract class Reflection
             result.comment = this.comment.toObject();
         }
 
-        for (var key in this.flags) {
-            if (parseInt(key) == <any>key || key == 'flags') continue;
-            if (this.flags[key]) result.flags[key] = true;
+        for (let key in this.flags) {
+            // tslint:disable-next-line:triple-equals
+            if (parseInt(key, 10) == <any> key || key === 'flags') {
+                continue;
+            }
+            if (this.flags[key]) {
+                result.flags[key] = true;
+            }
         }
 
         if (this.decorates) {
@@ -592,40 +564,46 @@ export abstract class Reflection
 
         if (this.decorators) {
             result.decorators = this.decorators.map((decorator) => {
-                var result:any = { name:decorator.name };
-                if (decorator.type) result.type = decorator.type.toObject();
-                if (decorator.arguments) result.arguments = decorator.arguments;
+                const result: any = { name: decorator.name };
+                if (decorator.type) {
+                    result.type = decorator.type.toObject();
+                }
+                if (decorator.arguments) {
+                    result.arguments = decorator.arguments;
+                }
                 return result;
             });
         }
 
         this.traverse((child, property) => {
-            if (property == TraverseProperty.TypeLiteral) return;
-            var name = TraverseProperty[property];
+            if (property === TraverseProperty.TypeLiteral) {
+                return;
+            }
+            let name = TraverseProperty[property];
             name = name.substr(0, 1).toLowerCase() + name.substr(1);
-            if (!result[name]) result[name] = [];
+            if (!result[name]) {
+                result[name] = [];
+            }
             result[name].push(child.toObject());
         });
 
         return result;
     }
 
-
     /**
      * Return a string representation of this reflection.
      */
-    toString():string {
+    toString(): string {
         return ReflectionKind[this.kind] + ' ' + this.name;
     }
-
 
     /**
      * Return a string representation of this reflection and all of its children.
      *
      * @param indent  Used internally to indent child reflections.
      */
-    toStringHierarchy(indent:string = '') {
-        var lines = [indent + this.toString()];
+    toStringHierarchy(indent: string = '') {
+        const lines = [indent + this.toString()];
 
         indent += '  ';
         this.traverse((child, property) => {

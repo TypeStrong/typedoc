@@ -1,25 +1,21 @@
-import * as ts from "typescript";
-import * as _ts from "../../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../../ts-internal';
 
-import {Component} from "../../component";
-import {DiscoverEvent, OptionsComponent} from "../options";
-import {ParameterType} from "../declaration";
+import {Component} from '../../component';
+import {DiscoverEvent, OptionsComponent} from '../options';
+import {ParameterType} from '../declaration';
 
-
-@Component({name:"options:arguments"})
-export class ArgumentsReader extends OptionsComponent
-{
+@Component({name: 'options:arguments'})
+export class ArgumentsReader extends OptionsComponent {
     initialize() {
         this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover);
     }
 
-
-    onDiscover(event:DiscoverEvent) {
+    onDiscover(event: DiscoverEvent) {
         if (this.application.isCLI) {
             this.parseArguments(event);
         }
     }
-
 
     /**
      * Read and store the given list of arguments.
@@ -30,13 +26,13 @@ export class ArgumentsReader extends OptionsComponent
      *   will simply skip all unknown arguments.
      * @returns TRUE on success, otherwise FALSE.
      */
-    private parseArguments(event:DiscoverEvent, args?:string[]) {
-        var index = 0;
-        var owner = this.owner;
+    private parseArguments(event: DiscoverEvent, args?: string[]) {
+        let index = 0;
+        const owner = this.owner;
         args = args || process.argv.slice(2);
 
-        function readArgument(arg:string) {
-            var declaration = owner.getDeclaration(arg);
+        function readArgument(arg: string) {
+            const declaration = owner.getDeclaration(arg);
             if (!declaration) {
                 event.addError('Unknown option: %s', arg);
             } else if (declaration.type !== ParameterType.Boolean) {
@@ -51,7 +47,7 @@ export class ArgumentsReader extends OptionsComponent
         }
 
         while (index < args.length) {
-            var arg = args[index++];
+            const arg = args[index++];
 
             if (arg.charCodeAt(0) === _ts.CharacterCodes.at) {
                 this.parseResponseFile(event, arg.slice(1));
@@ -63,7 +59,6 @@ export class ArgumentsReader extends OptionsComponent
         }
     }
 
-
     /**
      * Read the arguments stored in the given file.
      *
@@ -71,23 +66,29 @@ export class ArgumentsReader extends OptionsComponent
      * @param ignoreUnknownArgs  Should unknown arguments be ignored?
      * @returns TRUE on success, otherwise FALSE.
      */
-    private parseResponseFile(event:DiscoverEvent, filename:string) {
-        var text = ts.sys.readFile(filename);
+    private parseResponseFile(event: DiscoverEvent, filename: string) {
+        const text = ts.sys.readFile(filename);
         if (!text) {
             event.addError('File not found: "%s"', filename);
             return;
         }
 
-        var args:string[] = [];
-        var pos = 0;
+        const args: string[] = [];
+        let pos = 0;
         while (true) {
-            while (pos < text.length && text.charCodeAt(pos) <= _ts.CharacterCodes.space) pos++;
-            if (pos >= text.length) break;
+            while (pos < text.length && text.charCodeAt(pos) <= _ts.CharacterCodes.space) {
+                pos++;
+            }
+            if (pos >= text.length) {
+                break;
+            }
 
-            var start = pos;
+            const start = pos;
             if (text.charCodeAt(start) === _ts.CharacterCodes.doubleQuote) {
                 pos++;
-                while (pos < text.length && text.charCodeAt(pos) !== _ts.CharacterCodes.doubleQuote) pos++;
+                while (pos < text.length && text.charCodeAt(pos) !== _ts.CharacterCodes.doubleQuote) {
+                    pos++;
+                }
                 if (pos < text.length) {
                     args.push(text.substring(start + 1, pos));
                     pos++;
@@ -96,7 +97,9 @@ export class ArgumentsReader extends OptionsComponent
                     return;
                 }
             } else {
-                while (text.charCodeAt(pos) > _ts.CharacterCodes.space) pos++;
+                while (text.charCodeAt(pos) > _ts.CharacterCodes.space) {
+                    pos++;
+                }
                 args.push(text.substring(start, pos));
             }
         }
