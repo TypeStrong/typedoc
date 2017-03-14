@@ -4,7 +4,6 @@
     "lib": [
       "DOM",
       "ES5",
-      "ScriptHost",
       "ES2015.Collection"
     ],
     "target": "ES5",
