@@ -20,7 +20,7 @@ function getFileIndex(base, dir: string = '', results: string[] = []) {
 function compareDirectories(a, b) {
     const aFiles = getFileIndex(a);
     const bFiles = getFileIndex(b);
-    Assert.deepEqual(aFiles, bFiles, 'Generated files differ.');
+    Assert.deepEqual(aFiles, bFiles, `Generated files differ. between "${ a }" and "${ b }"`);
 
     const gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9\-]+\/typedoc\/blob\/[^\/]*\/examples/g;
     aFiles.forEach(function (file) {

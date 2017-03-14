@@ -46,7 +46,7 @@ export class OptionDeclaration {
 
     scope: ParameterScope;
 
-    map: Object;
+    protected map: Object | Map<string, string> | 'object';
 
     mapError: string;
 
@@ -92,11 +92,11 @@ export class OptionDeclaration {
                 }
                 break;
             case ParameterType.Map:
-                if (this.map !== 'object') {
-                    const key = value ? (value + '').toLowerCase() : '';
-                    if (key in this.map) {
-                        value = this.map[key];
-                    } else if (errorCallback) {
+                const key = value ? (value + '').toLowerCase() : '';
+                try {
+                    this.getMapValue(key);
+                } catch (error) {
+                    if (errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);
                         } else {
@@ -108,5 +108,21 @@ export class OptionDeclaration {
         }
 
         return value;
+    }
+
+    protected getMapValue(key: string): any {
+        const map = this.map;
+
+        if (map === 'object') {
+            return undefined;
+        } else if (map instanceof Map) {
+            if (map.has(key)) {
+                return map.get(key);
+            }
+        } else if (key in map) {
+            return map[key];
+        }
+
+        throw new Error('Invalid value for option');
     }
 }
