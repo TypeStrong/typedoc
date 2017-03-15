@@ -101,8 +101,11 @@ export class OptionDeclaration {
                     } else if (key in map) {
                         value = map[key];
                     } else if (errorCallback) {
-                        const message = this.mapError ? [this.mapError] : ['Invalid value for option "%s".', this.name];
-                        errorCallback(... message);
+                        if (this.mapError) {
+                            errorCallback(this.mapError);
+                        } else {
+                            errorCallback('Invalid value for option "%s".', this.name);
+                        }
                     }
                 }
                 break;
