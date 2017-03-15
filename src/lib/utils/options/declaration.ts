@@ -46,7 +46,7 @@ export class OptionDeclaration {
 
     scope: ParameterScope;
 
-    map: Object;
+    protected map: Object | Map<string, any> | 'object';
 
     mapError: string;
 
@@ -92,10 +92,14 @@ export class OptionDeclaration {
                 }
                 break;
             case ParameterType.Map:
-                if (this.map !== 'object') {
+                const map = this.map;
+                if (map !== 'object') {
                     const key = value ? (value + '').toLowerCase() : '';
-                    if (key in this.map) {
-                        value = this.map[key];
+
+                    if (map instanceof Map && map.has(key)) {
+                        value = map.get(key);
+                    } else if (key in map) {
+                        value = map[key];
                     } else if (errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);

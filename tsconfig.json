@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": [
+      "DOM",
+      "ES5",
+      "ES2015.Collection"
+    ],
     "target": "ES5",
     "noImplicitAny": false,
     "removeComments": true,
