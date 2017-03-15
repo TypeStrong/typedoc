@@ -15,11 +15,7 @@ export class TypeScriptSource extends OptionsComponent {
     static IGNORED: string[] = [
         'out', 'version', 'help',
         'watch', 'declaration', 'mapRoot',
-        'sourceMap', 'inlineSources', 'removeComments',
-        // Ignore new TypeScript 2.0 options until typedoc can't manage it.
-        'lib', 'noImplicitThis',
-        'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
-        'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
+        'sourceMap', 'inlineSources', 'removeComments'
     ];
 
     initialize() {
@@ -58,6 +54,9 @@ export class TypeScriptSource extends OptionsComponent {
                 break;
             case 'string':
                 param.type = ParameterType.String;
+                break;
+            case 'list':
+                param.type = ParameterType.Array;
                 break;
             default:
                 param.type = ParameterType.Map;

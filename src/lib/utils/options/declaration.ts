@@ -95,12 +95,13 @@ export class OptionDeclaration {
                 const map = this.map;
                 if (map !== 'object') {
                     const key = value ? (value + '').toLowerCase() : '';
+                    const values = Object.keys(map).map(key => map[key]);
 
                     if (map instanceof Map && map.has(key)) {
                         value = map.get(key);
                     } else if (key in map) {
                         value = map[key];
-                    } else if (errorCallback) {
+                    } else if (!~values.indexOf(value) && errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);
                         } else {
