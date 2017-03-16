@@ -101,7 +101,7 @@ export class OptionDeclaration {
                         value = map.get(key);
                     } else if (key in map) {
                         value = map[key];
-                    } else if (!~values.indexOf(value) && errorCallback) {
+                    } else if (values.indexOf(value) === -1 && errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);
                         } else {
