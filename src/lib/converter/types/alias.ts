@@ -72,6 +72,12 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
      */
     convertNode(context: Context, node: ts.TypeReferenceNode): ReferenceType {
         const name = _ts.getTextOfNode(node.typeName);
-        return new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
+
+        const result = new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
+        if (node.typeArguments) {
+            result.typeArguments = node.typeArguments.map(n => this.owner.convertType(context, n));
+        }
+
+        return result;
     }
 }
