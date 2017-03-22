@@ -39,7 +39,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
             if (!hasBody || !method.signatures) {
                 const name = 'new ' + parent.name;
                 const signature = createSignature(context, node, name, ReflectionKind.ConstructorSignature);
-                 // If no return type defined, then use the parent one.
+                // If no return type defined, use the parent one.
                 if (!node.type) {
                     signature.type = new ReferenceType(parent.name, ReferenceType.SYMBOL_ID_RESOLVED, parent);
                 }
