@@ -5,7 +5,7 @@
       "DOM",
       "ES5",
       "ES2015.Collection",
-	  "ES2015.Iterable"
+      "ES2015.Iterable"
     ],
     "target": "ES5",
     "noImplicitAny": false,
