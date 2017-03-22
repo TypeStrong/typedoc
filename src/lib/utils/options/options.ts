@@ -133,9 +133,6 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     setValue(name: string|OptionDeclaration, value: any, errorCallback?: Function) {
         const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string> name);
         if (!declaration) {
-            if (errorCallback) {
-                errorCallback('Unknown option `%s`.', name.toString());
-            }
             return;
         }
 
@@ -155,7 +152,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
             if (!Array.isArray(value) && typeof value === 'object' && !shouldValueBeAnObject) {
                 this.setValues(value, prefix + key + '.', errorCallback);
             } else {
-                this.setValue(prefix + key, value);
+                this.setValue(prefix + key, value, errorCallback);
             }
         }
     }
