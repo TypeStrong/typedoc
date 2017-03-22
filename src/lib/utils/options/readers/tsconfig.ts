@@ -51,7 +51,7 @@ export class TSConfigReader extends OptionsComponent {
             return;
         }
 
-        let { config } = ts.readConfigFile(fileName, ts.sys.readFile);
+        const { config } = ts.readConfigFile(fileName, ts.sys.readFile);
         if (config === undefined) {
             event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
             return;
