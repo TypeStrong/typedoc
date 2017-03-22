@@ -24,6 +24,8 @@ export class DiscoverEvent extends Event {
 
     mode: OptionsReadMode;
 
+    compilerOptions?: CompileOptions;
+
     inputFiles: string[] = [];
 
     errors: string[] = [];
@@ -71,6 +73,10 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
 
         this.trigger(event);
         this.setValues(event.data, '', event.addError.bind(event));
+
+        if (event.compilerOptions) {
+            _.assign(this.compilerOptions, event.compilerOptions);
+        }
 
         if (mode === OptionsReadMode.Fetch) {
             const logger = this.application.logger;

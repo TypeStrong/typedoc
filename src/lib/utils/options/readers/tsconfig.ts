@@ -51,31 +51,45 @@ export class TSConfigReader extends OptionsComponent {
             return;
         }
 
-        let data = ts.readConfigFile(fileName, ts.sys.readFile).config;
+        const data = ts.readConfigFile(fileName, ts.sys.readFile).config;
+
         if (data === undefined) {
             event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
             return;
         }
+
         if (!_.isPlainObject(data)) {
             event.addError('The tsconfig file %s does not contain a JSON object.', fileName);
             return;
         }
 
-        data = ts.parseJsonConfigFileContent(
+        let {options, fileNames} = ts.parseJsonConfigFileContent(
             data,
             ts.sys,
             Path.resolve(Path.dirname(fileName)),
             {},
             Path.resolve(fileName));
 
-        event.inputFiles = data.fileNames;
+        event.inputFiles = fileNames;
+        options = _.clone(options);
 
-        const ignored = TypeScriptSource.IGNORED;
-        let compilerOptions = _.clone(data.raw.compilerOptions);
-        for (const key of ignored) {
-            delete compilerOptions[key];
+        if (!data.typedocOptions) {
+            data.typedocOptions = Object.create(null);
         }
 
-        _.defaults(event.data, data.raw.typedocOptions, compilerOptions);
+        for (const key of TypeScriptSource.IGNORED) {
+            delete options[key];
+            delete data.typedocOptions[key];
+        }
+
+        _.defaults(event.data, data.typedocOptions);
+
+        for (const key in options) {
+            if (!_.isUndefined(event.data[key])) {
+                delete options[key];
+            }
+        }
+
+        event.compilerOptions = options;
     }
 }
