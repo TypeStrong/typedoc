@@ -98,7 +98,7 @@ export class OptionDeclaration {
                     const values = Object.keys(map).map(key => map[key]);
 
                     if (map instanceof Map) {
-                        value = map.has(key) ? map.get(key) : key;
+                        value = map.has(key) ? map.get(key) : value;
                     } else if (key in map) {
                         value = map[key];
                     } else if (values.indexOf(value) === -1 && errorCallback) {
