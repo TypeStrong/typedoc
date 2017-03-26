@@ -1,5 +1,3 @@
-/// <reference path="../lib.core.d.ts" />
-
 /**
  * ChainClass comment short text.
  *

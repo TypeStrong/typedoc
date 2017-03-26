@@ -1,19 +1,16 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import { Type, IntrinsicType } from "../../models/types/index";
-import { createReferenceType } from "../factories/index";
-import { Component, ConverterTypeComponent, ITypeNodeConverter } from "../components";
-import { Context } from "../context";
-
+import { Type, IntrinsicType } from '../../models/types/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({ name: 'type:this' })
-export class ThisConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.ThisTypeNode>
-{
+export class ThisConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.ThisTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
     public supportsNode(context: Context, node: ts.ThisTypeNode, type: ts.Type): boolean {
-        return node.kind == ts.SyntaxKind.ThisType;
+        return node.kind === ts.SyntaxKind.ThisType;
     }
 
     /**
