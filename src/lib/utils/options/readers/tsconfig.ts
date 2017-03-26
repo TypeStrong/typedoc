@@ -1,42 +1,37 @@
-import * as Path from "path";
-import * as FS from "fs";
-import * as _ from "lodash";
-import * as ts from "typescript";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as _ from 'lodash';
+import * as ts from 'typescript';
 
-import {Component, Option} from "../../component";
-import {OptionsComponent, DiscoverEvent} from "../options";
-import {ParameterType, ParameterHint} from "../declaration";
-import {TypeScriptSource} from "../sources/typescript";
+import {Component, Option} from '../../component';
+import {OptionsComponent, DiscoverEvent} from '../options';
+import {ParameterType, ParameterHint} from '../declaration';
+import {TypeScriptSource} from '../sources/typescript';
 
-
-@Component({name:"options:tsconfig"})
-export class TSConfigReader extends OptionsComponent
-{
+@Component({name: 'options:tsconfig'})
+export class TSConfigReader extends OptionsComponent {
     @Option({
         name: TSConfigReader.OPTIONS_KEY,
         help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options:string;
+    options: string;
 
     /**
      * The name of the parameter that specifies the tsconfig file.
      */
-    private static OPTIONS_KEY:string = 'tsconfig';
-
-
+    private static OPTIONS_KEY = 'tsconfig';
 
     initialize() {
         this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -100);
     }
 
-
-    onDiscover(event:DiscoverEvent) {
+    onDiscover(event: DiscoverEvent) {
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
-            let file:string = ts.findConfigFile(".", ts.sys.fileExists);
+            let file: string = ts.findConfigFile('.', ts.sys.fileExists);
             // If file is undefined, we found no file to load.
             if (file) {
                 this.load(event, file);
@@ -44,44 +39,42 @@ export class TSConfigReader extends OptionsComponent
         }
     }
 
-
     /**
      * Load the specified tsconfig file.
      *
      * @param event  The event that triggered the loading. Used to store error messages.
      * @param fileName  The absolute path and file name of the tsconfig file.
      */
-    load(event:DiscoverEvent, fileName:string) {
+    load(event: DiscoverEvent, fileName: string) {
         if (!FS.existsSync(fileName)) {
             event.addError('The tsconfig file %s does not exist.', fileName);
             return;
         }
 
-        let data = ts.readConfigFile(fileName, ts.sys.readFile).config;
-        if (data === undefined) {
+        const { config } = ts.readConfigFile(fileName, ts.sys.readFile);
+        if (config === undefined) {
             event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
             return;
         }
-        if (!_.isPlainObject(data)) {
+        if (!_.isPlainObject(config)) {
             event.addError('The tsconfig file %s does not contain a JSON object.', fileName);
             return;
         }
 
-        data = ts.parseJsonConfigFileContent(
-            data,
+        const { fileNames, options, raw: { typedocOptions }} = ts.parseJsonConfigFileContent(
+            config,
             ts.sys,
             Path.resolve(Path.dirname(fileName)),
             {},
             Path.resolve(fileName));
 
-        event.inputFiles = data.fileNames;
+        event.inputFiles = fileNames;
 
         const ignored = TypeScriptSource.IGNORED;
-        let compilerOptions = _.clone(data.raw.compilerOptions);
         for (const key of ignored) {
-            delete compilerOptions[key];
+            delete options[key];
         }
 
-        _.defaults(event.data, data.raw.typedocOptions, compilerOptions);
+        _.defaults(event.data, typedocOptions, options);
     }
 }

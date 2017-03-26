@@ -29,10 +29,18 @@ module.exports = function(grunt)
                 out: 'src/typings/typescript/typescript.js'
             }
         },
+        tslint: {
+            options: {
+                configuration: 'tslint.json'
+            },
+            files: {
+                src: [ 'src/**/*.ts', '!src/test/converter/**/*.ts' ]
+            }
+        },
         'string-replace': {
             version: {
                 files: {
-                    'lib/application.js': ['lib/application.js']
+                    'dist/lib/application.js': ['dist/lib/application.js']
                 },
                 options: {
                     replacements: [{
@@ -56,9 +64,20 @@ module.exports = function(grunt)
                 }
             }
         },
+        copy:  {
+            staticTestFiles: {
+                expand: true,
+                cwd: 'src',
+                src: [
+                    'test/converter/**/*',
+                    'test/renderer/**/*'
+                ],
+                dest: 'dist/'
+            }
+        },
         clean: {
-            specsBefore: ['test/renderer/specs'],
-            specsAfter: ['test/renderer/specs/assets']
+            specsBefore: ['src/test/renderer/specs'],
+            specsAfter: ['src/test/renderer/specs/assets']
         },
         watch: {
             source: {
@@ -68,9 +87,10 @@ module.exports = function(grunt)
         },
         mocha_istanbul: {
             coverage: {
-                src: 'test',
+                src: 'dist/test',
                 options: {
-                    mask: '*.js'
+                    mask: '*.js',
+                    timeout: 4000
                 }
             }
         }
@@ -80,11 +100,13 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-ts');
+    grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
-    grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('build_and_test', ['default', 'specs', 'mocha_istanbul:coverage']);
+    grunt.registerTask('default', ['tslint', 'ts:typedoc', 'string-replace:version']);
+    grunt.registerTask('build_and_test', ['default', 'specs', 'copy', 'mocha_istanbul:coverage']);
     grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
     grunt.registerTask('build-specs', function() {
@@ -92,12 +114,11 @@ module.exports = function(grunt)
         var Path = require('path');
         var TypeDoc = require('./');
 
-        var base = Path.join(__dirname, 'test', 'converter');
+        var base = Path.join(__dirname, 'src', 'test', 'converter');
         var app = new TypeDoc.Application({
             mode:   'Modules',
             target: 'ES5',
             module: 'CommonJS',
-            noLib:  true,
             experimentalDecorators: true,
             jsx: 'react'
         });
@@ -118,7 +139,7 @@ module.exports = function(grunt)
         });
 
         var src = Path.join(__dirname, 'examples', 'basic', 'src');
-        var out = Path.join(__dirname, 'test', 'renderer', 'specs');
+        var out = Path.join(__dirname, 'src', 'test', 'renderer', 'specs');
 
         FS.removeSync(out);
         app.generateDocs(app.expandInputFiles([src]), out);

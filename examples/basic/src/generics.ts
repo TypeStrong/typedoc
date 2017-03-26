@@ -5,7 +5,7 @@
  * @param value  A generic parameter.
  * @returns A generic return value.
  */
-function test<T>(value:T):T {
+function testFunction<T>(value:T):T {
     return value;
 }
 
