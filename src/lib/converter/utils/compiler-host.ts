@@ -1,9 +1,7 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
-import * as Path from 'path';
 
 import {ConverterComponent} from '../components';
-import {normalizePath} from '../../utils/fs';
 
 /**
  * Return code of ts.sys.readFile when the file encoding is unsupported.
@@ -52,9 +50,8 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost 
      * @returns The full path of the default library.
      */
     getDefaultLibFileName(options: ts.CompilerOptions): string {
-        const lib = this.owner.getDefaultLib();
-        const path = _ts.getDirectoryPath(normalizePath(require.resolve('typescript')));
-        return Path.join(path, lib);
+        const libLocation = _ts.getDirectoryPath(_ts.normalizePath(ts.sys.getExecutingFilePath()));
+        return _ts.combinePaths(libLocation, ts.getDefaultLibFileName(options));
     }
 
     getDirectories(path: string): string[] {
