@@ -14,7 +14,7 @@ export class TypeScriptSource extends OptionsComponent {
      */
     static IGNORED: string[] = [
         'out', 'version', 'help',
-        'watch', 'declaration', 'mapRoot',
+        'watch', 'declaration', 'declarationDir', 'mapRoot',
         'sourceMap', 'inlineSources', 'removeComments'
     ];
 
