@@ -160,11 +160,11 @@ export class SourcePlugin extends ConverterComponent {
             let directory = home;
             const path = Path.dirname(file.fileName);
             if (path !== '.') {
-                path.split('/').forEach((path) => {
-                    if (!Object.prototype.hasOwnProperty.call(directory, path)) {
-                        directory.directories[path] = new SourceDirectory(path, directory);
+                path.split('/').forEach((pathPiece) => {
+                    if (!Object.prototype.hasOwnProperty.call(directory.directories, pathPiece)) {
+                        directory.directories[pathPiece] = new SourceDirectory(pathPiece, directory);
                     }
-                    directory = directory.directories[path];
+                    directory = directory.directories[pathPiece];
                 });
             }
 
