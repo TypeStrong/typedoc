@@ -39,7 +39,7 @@
     "@types/shelljs": "^0.3.32",
     "fs-extra": "^2.0.0",
     "handlebars": "4.0.5",
-    "highlight.js": "^9.0.0",
+    "highlight.js": "^9.9.0",
     "lodash": "^4.13.1",
     "marked": "^0.3.5",
     "minimatch": "^3.0.0",
