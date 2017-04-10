@@ -72,7 +72,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     @Option({
         name: 'exclude',
-        help: 'Define a pattern for excluded files when specifying paths.',
+        help: 'Define a Regular Expression pattern for excluded files/folders when specifying paths.',
         type: ParameterType.String
     })
     exclude: string;
@@ -238,9 +238,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles?: string[]): string[] {
-        let exclude: IMinimatch, files: string[] = [];
+        let excludePattern: string, files: string[] = [];
         if (this.exclude) {
-            exclude = new Minimatch(this.exclude);
+            excludePattern = this.exclude;
         }
 
         function add(dirname: string) {
@@ -249,7 +249,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                 if (FS.statSync(realpath).isDirectory()) {
                     add(realpath);
                 } else if (/\.tsx?$/.test(realpath)) {
-                    if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                    if (excludePattern && realpath.replace(/\\/g, '/').match(excludePattern)) {
                         return;
                     }
 
@@ -262,7 +262,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             file = Path.resolve(file);
             if (FS.statSync(file).isDirectory()) {
                 add(file);
-            } else if (!exclude || !exclude.match(file)) {
+            } else if (!excludePattern || !file.match(excludePattern)) {
                 files.push(file);
             }
         });
