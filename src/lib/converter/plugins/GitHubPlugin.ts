@@ -6,6 +6,8 @@ import {Component, ConverterComponent} from '../components';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
+import {Option} from '../../utils/component';
+import {ParameterType} from '../../utils/options/declaration';
 
 // This should be removed when @typings/shelljs typings are updated to the shelljs version being used
 declare module 'shelljs' {
@@ -48,12 +50,18 @@ class Repository {
     gitHubProject: string;
 
     /**
+     * Whether to use revisions or not.
+     */
+    noRevision: boolean;
+
+    /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string) {
+    constructor(path: string, noRevision: boolean) {
         this.path = path;
+        this.noRevision = noRevision;
         ShellJS.pushd(path);
 
         let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
@@ -82,9 +90,11 @@ class Repository {
             });
         }
 
-        out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
-        if (out.code === 0) {
-            this.branch = out.stdout.replace('\n', '');
+        if (!this.noRevision) {
+            out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
+            if (out.code === 0) {
+                this.branch = out.stdout.replace('\n', '');
+            }
         }
 
         ShellJS.popd();
@@ -130,7 +140,7 @@ class Repository {
      * @param path  The potential repository root.
      * @returns A new instance of [[Repository]] or NULL.
      */
-    static tryCreateRepository(path: string): Repository {
+    static tryCreateRepository(path: string, noRevision: boolean): Repository {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
@@ -138,7 +148,7 @@ class Repository {
         if (out.code !== 0) {
             return null;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')));
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), noRevision);
     }
 }
 
@@ -157,6 +167,13 @@ export class GitHubPlugin extends ConverterComponent {
      * List of paths known to be not under git control.
      */
     private ignoredPaths: string[] = [];
+
+    @Option({
+        name: 'noRevision',
+        help: 'Do not use the last revision for linking to GitHub source files. Will use the master branch instead.',
+        type: ParameterType.Boolean
+    })
+    noRevision: boolean;
 
     /**
      * Create a new GitHubHandler instance.
@@ -196,7 +213,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(dirName);
+        const repository = Repository.tryCreateRepository(dirName, this.noRevision);
         if (repository) {
             this.repositories[repository.path] = repository;
             return repository;

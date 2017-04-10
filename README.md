@@ -2,7 +2,7 @@
 
 > Documentation generator for TypeScript projects.
 
-[![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc) 
+[![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
 [![NPM Version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
 [![Chat on Gitter](https://badges.gitter.im/TypeStrong/typedoc.svg)](https://gitter.im/TypeStrong/typedoc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -62,7 +62,6 @@ in order to change the behaviour of TypeDoc.
   Prevent externally resolved TypeScript files from being documented.
 * `--excludePrivate`<br>
   Prevent private members from being included in the generated documentation.
-  
 
 #### TypeScript compiler
 * `--module <commonjs, amd, system or umd>`<br>
@@ -86,6 +85,8 @@ in order to change the behaviour of TypeDoc.
   Set the site name for Google Analytics. Defaults to `auto`
 * `--entryPoint <fully.qualified.name>`<br>
   Specifies the fully qualified name of the root symbol. Defaults to global namespace.
+* `--noRevision`<br>
+  Do not use the last revision for linking to GitHub source files. Will use the `master` branch instead.
 
 #### Content
 * `--includes <path/to/includes>`<br>
