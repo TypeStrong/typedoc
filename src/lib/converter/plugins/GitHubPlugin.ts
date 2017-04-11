@@ -52,16 +52,16 @@ class Repository {
     /**
      * Whether to use revisions or not.
      */
-    noRevision: boolean;
+    revision: string;
 
     /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, noRevision: boolean) {
+    constructor(path: string, revision: string) {
         this.path = path;
-        this.noRevision = noRevision;
+        this.revision = revision;
         ShellJS.pushd(path);
 
         let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
@@ -90,11 +90,13 @@ class Repository {
             });
         }
 
-        if (!this.noRevision) {
+        if (!this.revision) {
             out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
             if (out.code === 0) {
                 this.branch = out.stdout.replace('\n', '');
             }
+        } else if (this.revision) {
+            this.branch = this.revision;
         }
 
         ShellJS.popd();
@@ -140,7 +142,7 @@ class Repository {
      * @param path  The potential repository root.
      * @returns A new instance of [[Repository]] or NULL.
      */
-    static tryCreateRepository(path: string, noRevision: boolean): Repository {
+    static tryCreateRepository(path: string, revision: string): Repository {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
@@ -148,7 +150,7 @@ class Repository {
         if (out.code !== 0) {
             return null;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), noRevision);
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), revision);
     }
 }
 
@@ -169,11 +171,11 @@ export class GitHubPlugin extends ConverterComponent {
     private ignoredPaths: string[] = [];
 
     @Option({
-        name: 'noRevision',
-        help: 'Do not use the last revision for linking to GitHub source files. Will use the master branch instead.',
-        type: ParameterType.Boolean
+        name: 'revision',
+        help: 'Use specified revision instead of the last revision for linking to GitHub source files.',
+        type: ParameterType.String
     })
-    noRevision: boolean;
+    revision: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -213,7 +215,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(dirName, this.noRevision);
+        const repository = Repository.tryCreateRepository(dirName, this.revision);
         if (repository) {
             this.repositories[repository.path] = repository;
             return repository;
