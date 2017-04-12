@@ -49,7 +49,7 @@
     "@types/marked": "0.0.28",
     "@types/minimatch": "^2.0.29",
     "@types/mocha": "^2.2.39",
-    "@types/shelljs": "^0.3.32",
+    "@types/shelljs": "^0.7.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
