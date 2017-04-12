@@ -85,8 +85,8 @@ in order to change the behaviour of TypeDoc.
   Set the site name for Google Analytics. Defaults to `auto`
 * `--entryPoint <fully.qualified.name>`<br>
   Specifies the fully qualified name of the root symbol. Defaults to global namespace.
-* `--revision <revision>`<br>
-  Use specified revision instead of the last revision for linking to GitHub source files.
+* `--gitRevision <revision|branch>`<br>
+  Use specified revision or branch instead of the last revision for linking to GitHub source files.
 
 #### Content
 * `--includes <path/to/includes>`<br>
