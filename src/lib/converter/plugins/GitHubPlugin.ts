@@ -32,7 +32,7 @@ class Repository {
     /**
      * The name of the branch this repository is on right now.
      */
-    branch = 'master';
+    branch: string;
 
     /**
      * A list of all files tracked by the repository.
@@ -50,18 +50,13 @@ class Repository {
     gitHubProject: string;
 
     /**
-     * Whether to use revisions or not.
-     */
-    revision: string;
-
-    /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, revision: string) {
+    constructor(path: string, gitRevision: string) {
         this.path = path;
-        this.revision = revision;
+        this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
         let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
@@ -90,13 +85,11 @@ class Repository {
             });
         }
 
-        if (!this.revision) {
+        if (!gitRevision) {
             out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
             if (out.code === 0) {
                 this.branch = out.stdout.replace('\n', '');
             }
-        } else if (this.revision) {
-            this.branch = this.revision;
         }
 
         ShellJS.popd();
@@ -142,7 +135,7 @@ class Repository {
      * @param path  The potential repository root.
      * @returns A new instance of [[Repository]] or NULL.
      */
-    static tryCreateRepository(path: string, revision: string): Repository {
+    static tryCreateRepository(path: string, gitRevision: string): Repository {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
@@ -150,7 +143,7 @@ class Repository {
         if (out.code !== 0) {
             return null;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), revision);
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
     }
 }
 
@@ -171,11 +164,11 @@ export class GitHubPlugin extends ConverterComponent {
     private ignoredPaths: string[] = [];
 
     @Option({
-        name: 'revision',
+        name: 'gitRevision',
         help: 'Use specified revision instead of the last revision for linking to GitHub source files.',
         type: ParameterType.String
     })
-    revision: string;
+    gitRevision: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -215,7 +208,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(dirName, this.revision);
+        const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
         if (repository) {
             this.repositories[repository.path] = repository;
             return repository;
