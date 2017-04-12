@@ -139,5 +139,5 @@ an issue or create a pull requests:<br>
 
 ## License
 
-Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2015-2017 [Sebastian Lenz](http://typedoc.org).<br>
 Licensed under the Apache License 2.0.
