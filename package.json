@@ -30,20 +30,20 @@
     "node": ">= 4.2.0"
   },
   "dependencies": {
-    "@types/fs-extra": "0.0.33",
+    "@types/fs-extra": "^2.0.0",
     "@types/handlebars": "^4.0.31",
     "@types/highlight.js": "^9.1.8",
     "@types/lodash": "^4.14.37",
     "@types/marked": "0.0.28",
     "@types/minimatch": "^2.0.29",
-    "@types/shelljs": "^0.3.32",
+    "@types/shelljs": "^0.7.0",
     "fs-extra": "^2.0.0",
-    "handlebars": "4.0.5",
+    "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
     "lodash": "^4.13.1",
     "marked": "^0.3.5",
     "minimatch": "^3.0.0",
-    "progress": "^1.1.8",
+    "progress": "^2.0.0",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.4.2",
     "typescript": "2.2.2"
@@ -58,10 +58,10 @@
     "grunt-mocha-istanbul": "^5.0.1",
     "grunt-string-replace": "^1.2.0",
     "grunt-ts": "^5.5.1",
-    "grunt-tslint": "^4.0.1",
+    "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.1",
     "mocha": "^3.0.2",
-    "tslint": "^4.4.2"
+    "tslint": "^5.1.0"
   },
   "files": [
     "bin",

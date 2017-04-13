@@ -9,17 +9,6 @@ import {Context} from '../context';
 import {Option} from '../../utils/component';
 import {ParameterType} from '../../utils/options/declaration';
 
-// This should be removed when @typings/shelljs typings are updated to the shelljs version being used
-declare module 'shelljs' {
-    // `stdout` was added in:
-    // https://github.com/shelljs/shelljs/commit/8a7f7ceec4d3a77a9309d935755675ac368b1eda#diff-c3bfabb5e6987aa21bc75ffd95a162d6
-    // As of 2016-10-16, DefinitelyTyped's defs are for shelljs v0.3.0, but we're on 0.7.0
-    interface ExecOutputReturnValue {
-        stdout: string;
-        stderr: string;
-    }
-}
-
 /**
  * Stores data of a repository.
  */
