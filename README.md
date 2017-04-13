@@ -139,5 +139,6 @@ an issue or create a pull requests:<br>
 
 ## License
 
-Copyright (c) 2015-2017 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2016-2017 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.
