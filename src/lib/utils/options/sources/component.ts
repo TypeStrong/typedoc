@@ -1,12 +1,9 @@
-import {Component, ComponentEvent, AbstractComponent, ChildableComponent} from "../../component";
-import {OptionsComponent} from "../options";
+import {Component, ComponentEvent, AbstractComponent, ChildableComponent} from '../../component';
+import {OptionsComponent} from '../options';
 
-
-@Component({name:"options:component"})
-export class ComponentSource extends OptionsComponent
-{
-    private knownComponents:string[];
-
+@Component({name: 'options:component'})
+export class ComponentSource extends OptionsComponent {
+    private knownComponents: string[];
 
     protected initialize() {
         this.knownComponents = [];
@@ -14,15 +11,14 @@ export class ComponentSource extends OptionsComponent
 
         this.listenTo(this.application, {
             [ComponentEvent.ADDED]:   this.onComponentAdded,
-            [ComponentEvent.REMOVED]: this.onComponentRemoved,
+            [ComponentEvent.REMOVED]: this.onComponentRemoved
         });
     }
 
-
-    private addComponent(component:AbstractComponent<any>) {
-        var name = component.componentName;
+    private addComponent(component: AbstractComponent<any>) {
+        const name = component.componentName;
         if (!name) {
-            this.application.logger.error("Component without name found.");
+            this.application.logger.error('Component without name found.');
             return;
         }
 
@@ -32,39 +28,36 @@ export class ComponentSource extends OptionsComponent
         }
 
         if (component instanceof ChildableComponent) {
-            for (var child of component.getComponents()) {
+            for (let child of component.getComponents()) {
                 this.addComponent(child);
             }
         }
     }
 
-
-    private removeComponent(component:AbstractComponent<any>) {
-        var name = component.componentName;
-        var index = this.knownComponents.indexOf(name);
-        if (index != -1) {
+    private removeComponent(component: AbstractComponent<any>) {
+        const name = component.componentName;
+        let index = this.knownComponents.indexOf(name);
+        if (index !== -1) {
             this.knownComponents.slice(index, 1);
-            for (var declaration of component.getOptionDeclarations()) {
+            for (let declaration of component.getOptionDeclarations()) {
                 this.owner.removeDeclarationByName(declaration.name);
             }
         }
 
         if (component instanceof ChildableComponent) {
-            for (var child of component.getComponents()) {
+            for (let child of component.getComponents()) {
                 this.removeComponent(child);
             }
         }
     }
 
-
-    private onComponentAdded(e:ComponentEvent) {
+    private onComponentAdded(e: ComponentEvent) {
         this.addComponent(e.component);
     }
 
-
-    private onComponentRemoved(e:ComponentEvent) {
-        var declarations = e.component.getOptionDeclarations();
-        for (var declaration of declarations) {
+    private onComponentRemoved(e: ComponentEvent) {
+        const declarations = e.component.getOptionDeclarations();
+        for (let declaration of declarations) {
             this.owner.removeDeclarationByName(declaration.name);
         }
     }

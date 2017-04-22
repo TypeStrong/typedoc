@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": [
+      "DOM",
+      "ES5",
+      "ES2015.Collection",
+      "ES2015.Iterable"
+    ],
     "target": "ES5",
     "noImplicitAny": false,
     "removeComments": true,
+    "noUnusedLocals": true,
     "preserveConstEnums": true,
     "declaration": true,
     "sourceMap": true,
@@ -15,5 +22,7 @@
   "include": [
     "src/**/*.ts"
   ],
-  "exclude": []
+  "exclude": [
+    "src/test/converter/**/*.ts"
+  ]
 }

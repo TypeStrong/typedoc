@@ -1,5 +1,4 @@
-import * as Path from "path";
-
+import * as Path from 'path';
 
 /**
  * Helper class that determines the common base path of a set of files.
@@ -7,28 +6,26 @@ import * as Path from "path";
  * In the first step all files must be passed to [[add]]. Afterwards [[trim]]
  * can be used to retrieve the shortest path relative to the determined base path.
  */
-export class BasePath
-{
+export class BasePath {
     /**
      * List of known base paths.
      */
-    private basePaths:string[] = [];
-
+    private basePaths: string[] = [];
 
     /**
      * Add the given file path to this set of base paths.
      *
      * @param fileName  The absolute filename that should be added to the base path.
      */
-    add(fileName:string) {
-        var fileDir  = Path.dirname(BasePath.normalize(fileName));
-        var filePath = fileDir.split('/');
+    add(fileName: string) {
+        const fileDir  = Path.dirname(BasePath.normalize(fileName));
+        const filePath = fileDir.split('/');
 
-        basePaths: for (var n = 0, c = this.basePaths.length; n < c; n++) {
-            var basePath = this.basePaths[n].split('/');
-            var mMax     = Math.min(basePath.length, filePath.length);
-            for (var m = 0; m < mMax; m++) {
-                if (basePath[m] == filePath[m]) {
+        basePaths: for (let n = 0, c = this.basePaths.length; n < c; n++) {
+            const basePath = this.basePaths[n].split('/');
+            const mMax     = Math.min(basePath.length, filePath.length);
+            for (let m = 0; m < mMax; m++) {
+                if (basePath[m] === filePath[m]) {
                     continue;
                 }
 
@@ -53,25 +50,23 @@ export class BasePath
         this.basePaths.push(fileDir);
     }
 
-
     /**
      * Trim the given filename by the determined base paths.
      *
      * @param fileName  The absolute filename that should be trimmed.
      * @returns The trimmed version of the filename.
      */
-    trim(fileName:string):string {
+    trim(fileName: string): string {
         fileName = BasePath.normalize(fileName);
-        for (var n = 0, c = this.basePaths.length; n < c; n++) {
-            var basePath = this.basePaths[n];
-            if (fileName.substr(0, basePath.length) == basePath) {
+        for (let n = 0, c = this.basePaths.length; n < c; n++) {
+            const basePath = this.basePaths[n];
+            if (fileName.substr(0, basePath.length) === basePath) {
                 return fileName.substr(basePath.length + 1);
             }
         }
 
         return fileName;
     }
-
 
     /**
      * Reset this instance, ignore all paths already passed to [[add]].
@@ -80,14 +75,13 @@ export class BasePath
         this.basePaths = [];
     }
 
-
     /**
      * Normalize the given path.
      *
      * @param path  The path that should be normalized.
      * @returns Normalized version of the given path.
      */
-    static normalize(path:string):string {
+    static normalize(path: string): string {
         // Ensure forward slashes
         path = path.replace(/\\/g, '/');
 

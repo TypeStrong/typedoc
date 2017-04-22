@@ -7,22 +7,21 @@
  * alter the generated output.
  */
 
-import * as Path from "path";
-import * as FS from "fs-extra";
-import * as Handlebars from "handlebars";
-var ProgressBar = require("progress");
+import * as Path from 'path';
+import * as FS from 'fs-extra';
+// tslint:disable-next-line:variable-name
+const ProgressBar = require('progress');
 
-import {Application} from "../application";
-import {Theme} from "./theme";
-import {RendererEvent, PageEvent} from "./events";
-import {ProjectReflection} from "../models/reflections/project";
-import {UrlMapping} from "./models/UrlMapping";
-import {writeFile} from "../utils/fs";
-import {DefaultTheme} from "./themes/DefaultTheme";
-import {RendererComponent} from "./components";
-import {Component, ChildableComponent, Option} from "../utils/component";
-import {ParameterType} from "../utils/options/declaration";
-
+import {Application} from '../application';
+import {Theme} from './theme';
+import {RendererEvent, PageEvent} from './events';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {writeFile} from '../utils/fs';
+import {DefaultTheme} from './themes/DefaultTheme';
+import {RendererComponent} from './components';
+import {Component, ChildableComponent, Option} from '../utils/component';
+import {ParameterType} from '../utils/options/declaration';
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -55,13 +54,12 @@ import {ParameterType} from "../utils/options/declaration";
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[RendererEvent]].
  */
-@Component({name:"renderer", internal:true, childClass:RendererComponent})
-export class Renderer extends ChildableComponent<Application, RendererComponent>
-{
+@Component({name: 'renderer', internal: true, childClass: RendererComponent})
+export class Renderer extends ChildableComponent<Application, RendererComponent> {
     /**
      * The theme that is used to render the documentation.
      */
-    theme:Theme;
+    theme: Theme;
 
     @Option({
         name: 'theme',
@@ -69,41 +67,48 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         type: ParameterType.String,
         defaultValue: 'default'
     })
-    themeName:string;
+    themeName: string;
 
     @Option({
         name: 'disableOutputCheck',
         help: 'Should TypeDoc disable the testing and cleaning of the output directory?',
         type: ParameterType.Boolean
     })
-    disableOutputCheck:boolean;
+    disableOutputCheck: boolean;
 
     @Option({
         name: 'gaID',
         help: 'Set the Google Analytics tracking ID and activate tracking code.'
     })
-    gaID:string;
+    gaID: string;
 
     @Option({
         name: 'gaSite',
         help: 'Set the site name for Google Analytics. Defaults to `auto`.',
         defaultValue: 'auto'
     })
-    gaSite:string;
+    gaSite: string;
 
     @Option({
         name: 'hideGenerator',
         help: 'Do not print the TypeDoc link at the end of the page.',
         type: ParameterType.Boolean
     })
-    hideGenerator:boolean;
+    hideGenerator: boolean;
 
     @Option({
         name: 'entryPoint',
         help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
         type: ParameterType.String
     })
-    entryPoint:string;    
+    entryPoint: string;
+
+    @Option({
+        name: 'toc',
+        help: 'Specifies the top level table of contents.',
+        type: ParameterType.Array
+    })
+    toc: string[];
 
     /**
      * Create a new Renderer instance.
@@ -113,32 +118,31 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
     initialize() {
     }
 
-
     /**
      * Render the given project reflection to the specified output directory.
      *
      * @param project  The project that should be rendered.
      * @param outputDirectory  The path of the directory the documentation should be rendered to.
      */
-    render(project:ProjectReflection, outputDirectory:string) {
+    render(project: ProjectReflection, outputDirectory: string) {
         if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
             return;
         }
 
-        var output = new RendererEvent(RendererEvent.BEGIN);
+        const output = new RendererEvent(RendererEvent.BEGIN);
         output.outputDirectory = outputDirectory;
         output.project = project;
         output.settings = this.application.options.getRawValues();
         output.urls = this.theme.getUrls(project);
 
-        var bar = new ProgressBar('Rendering [:bar] :percent', {
+        const bar = new ProgressBar('Rendering [:bar] :percent', {
             total: output.urls.length,
             width: 40
         });
 
         this.trigger(output);
         if (!output.isDefaultPrevented) {
-            output.urls.forEach((mapping:UrlMapping) => {
+            output.urls.forEach((mapping: UrlMapping) => {
                 this.renderDocument(output.createPageEvent(mapping));
                 bar.tick();
             });
@@ -147,14 +151,13 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         }
     }
 
-
     /**
      * Render a single page.
      *
      * @param page An event describing the current page.
      * @return TRUE if the page has been saved to disc, otherwise FALSE.
      */
-    private renderDocument(page:PageEvent):boolean {
+    private renderDocument(page: PageEvent): boolean {
         this.trigger(PageEvent.BEGIN, page);
         if (page.isDefaultPrevented) {
             return false;
@@ -178,7 +181,6 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         return true;
     }
 
-
     /**
      * Ensure that a theme has been setup.
      *
@@ -187,10 +189,10 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      *
      * @returns TRUE if a theme has been setup, otherwise FALSE.
      */
-    private prepareTheme():boolean {
+    private prepareTheme(): boolean {
         if (!this.theme) {
-            var themeName = this.themeName;
-            var path = Path.resolve(themeName);
+            const themeName = this.themeName;
+            let path = Path.resolve(themeName);
             if (!FS.existsSync(path)) {
                 path = Path.join(Renderer.getThemeDirectory(), themeName);
                 if (!FS.existsSync(path)) {
@@ -199,13 +201,12 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 }
             }
 
-            this.theme = this.addComponent("theme", new DefaultTheme(this, path));
+            this.theme = this.addComponent('theme', new DefaultTheme(this, path));
         }
 
         this.theme.resources.activate();
         return true;
     }
-
 
     /**
      * Prepare the output directory. If the directory does not exist, it will be
@@ -214,7 +215,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @param directory  The path to the directory that should be prepared.
      * @returns TRUE if the directory could be prepared, otherwise FALSE.
      */
-    private prepareOutputDirectory(directory:string):boolean {
+    private prepareOutputDirectory(directory: string): boolean {
         if (FS.existsSync(directory)) {
             if (!FS.statSync(directory).isDirectory()) {
                 this.application.logger.error(
@@ -227,7 +228,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 return true;
             }
 
-            if (FS.readdirSync(directory).length == 0) {
+            if (FS.readdirSync(directory).length === 0) {
                 return true;
             }
 
@@ -258,26 +259,23 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         return true;
     }
 
-
     /**
      * Return the path containing the themes shipped with TypeDoc.
      *
      * @returns The path to the theme directory.
      */
-    static getThemeDirectory():string {
+    static getThemeDirectory(): string {
         return Path.dirname(require.resolve('typedoc-default-themes'));
     }
-
 
     /**
      * Return the path to the default theme.
      *
      * @returns The path to the default theme.
      */
-    static getDefaultTheme():string {
+    static getDefaultTheme(): string {
         return Path.join(Renderer.getThemeDirectory(), 'default');
     }
 }
 
-
-import "./plugins";
+import './plugins';

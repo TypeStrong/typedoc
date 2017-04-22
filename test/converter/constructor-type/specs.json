@@ -1,0 +1,219 @@
+{
+	"id": 0,
+	"name": "typedoc",
+	"kind": 0,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "\"constructor-type\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "%BASE%/constructor-type/constructor-type.ts",
+			"children": [
+				{
+					"id": 2,
+					"name": "IConstructor",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"children": [
+						{
+							"id": 3,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 4,
+									"name": "new IConstructor",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 5,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										},
+										{
+											"id": 6,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "IConstructor",
+										"id": 2
+									}
+								},
+								{
+									"id": 7,
+									"name": "new IConstructor",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 8,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										},
+										{
+											"id": 9,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "IConstructor",
+										"id": 2
+									}
+								},
+								{
+									"id": 10,
+									"name": "new IConstructor",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 11,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										},
+										{
+											"id": 12,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "String"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "IInstance",
+										"id": 13
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "constructor-type.ts",
+									"line": 3,
+									"character": 24
+								},
+								{
+									"fileName": "constructor-type.ts",
+									"line": 6,
+									"character": 28
+								},
+								{
+									"fileName": "constructor-type.ts",
+									"line": 9,
+									"character": 43
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								3
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "constructor-type.ts",
+							"line": 3,
+							"character": 22
+						}
+					]
+				},
+				{
+					"id": 13,
+					"name": "IInstance",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "constructor-type.ts",
+							"line": 15,
+							"character": 19
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Interfaces",
+					"kind": 256,
+					"children": [
+						2,
+						13
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "constructor-type.ts",
+					"line": 1,
+					"character": 0
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "External modules",
+			"kind": 1,
+			"children": [
+				1
+			]
+		}
+	]
+}

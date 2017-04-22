@@ -1,53 +1,43 @@
-import * as ts from "typescript";
-import * as _ts from "../../../ts-internal";
+import * as ts from 'typescript';
+import * as _ts from '../../../ts-internal';
 
+import {Component} from '../../component';
+import {OptionsComponent} from '../options';
+import {DeclarationOption, ParameterScope, ParameterType, ParameterHint} from '../declaration';
 
-import {Component} from "../../component";
-import {OptionsComponent} from "../options";
-import {IOptionDeclaration, ParameterScope, ParameterType, ParameterHint} from "../declaration";
-
-
-@Component({name:"options:typescript"})
-export class TypeScriptSource extends OptionsComponent
-{
-    private declarations:IOptionDeclaration[];
+@Component({name: 'options:typescript'})
+export class TypeScriptSource extends OptionsComponent {
+    private declarations: DeclarationOption[];
 
     /**
      * A list of all TypeScript parameters that should be ignored.
      */
-    static IGNORED:string[] = [
+    static IGNORED: string[] = [
         'out', 'version', 'help',
         'watch', 'declaration', 'mapRoot',
-        'sourceMap', 'inlineSources', 'removeComments',
-        // Ignore new TypeScript 2.0 options until typedoc can't manage it.
-        'lib', 'strictNullChecks', 'noImplicitThis',
-        'traceResolution', 'noUnusedParameters', 'noUnusedLocals',
-        'skipLibCheck', 'declarationDir', 'types', 'typeRoots'
+        'sourceMap', 'inlineSources', 'removeComments'
     ];
 
-
     initialize() {
-        var ignored = TypeScriptSource.IGNORED;
+        const ignored = TypeScriptSource.IGNORED;
         this.declarations = [];
 
-        for (var declaration of _ts.optionDeclarations) {
+        for (let declaration of _ts.optionDeclarations) {
             if (ignored.indexOf(declaration.name) === -1) {
                 this.addTSOption(declaration);
             }
         }
     }
 
-
     /**
      * Return all option declarations emitted by this component.
      */
-    getOptionDeclarations():IOptionDeclaration[] {
+    getOptionDeclarations(): DeclarationOption[] {
         return this.declarations;
     }
 
-
-    private addTSOption(option:_ts.CommandLineOption) {
-        var param:IOptionDeclaration = {
+    private addTSOption(option: _ts.CommandLineOption) {
+        const param: DeclarationOption = {
             name:      option.name,
             short:     option.shortName,
             help:      option.description ? option.description.key : null,
@@ -56,20 +46,23 @@ export class TypeScriptSource extends OptionsComponent
         };
 
         switch (option.type) {
-            case "number":
+            case 'number':
                 param.type = ParameterType.Number;
                 break;
-            case "boolean":
+            case 'boolean':
                 param.type = ParameterType.Boolean;
                 break;
-            case "string":
+            case 'string':
                 param.type = ParameterType.String;
+                break;
+            case 'list':
+                param.type = ParameterType.Array;
                 break;
             default:
                 param.type = ParameterType.Map;
                 param.map = option.type;
                 if (option['error']) {
-                    var error = _ts.createCompilerDiagnostic(option['error']);
+                    const error = _ts.createCompilerDiagnostic(option['error']);
                     param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                 }
         }
