@@ -56,6 +56,16 @@ export function getDirectoryPath() {
   return tsany.getDirectoryPath.apply(this, arguments);
 }
 
+// https://github.com/Microsoft/TypeScript/blob/v2.2.1/src/compiler/core.ts#L1418
+export function normalizePath(path: string): string {
+  return tsany.normalizePath(path);
+}
+
+// https://github.com/Microsoft/TypeScript/blob/v2.2.1/src/compiler/core.ts#L1628
+export function combinePaths(path1: string, path2: string): string {
+  return tsany.combinePaths(path1, path2);
+}
+
 /**
  * These functions are in "utilities" and are marked as @internal:
  * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L3-L4

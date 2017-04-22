@@ -3,6 +3,7 @@
 .tscache
 .baseDir.js
 .baseDir.ts
+yarn.lock
 
 /src/typings/typescript/typescript.js
 

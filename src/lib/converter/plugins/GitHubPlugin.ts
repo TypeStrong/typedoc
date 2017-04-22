@@ -6,17 +6,8 @@ import {Component, ConverterComponent} from '../components';
 import {BasePath} from '../utils/base-path';
 import {Converter} from '../converter';
 import {Context} from '../context';
-
-// This should be removed when @typings/shelljs typings are updated to the shelljs version being used
-declare module 'shelljs' {
-    // `stdout` was added in:
-    // https://github.com/shelljs/shelljs/commit/8a7f7ceec4d3a77a9309d935755675ac368b1eda#diff-c3bfabb5e6987aa21bc75ffd95a162d6
-    // As of 2016-10-16, DefinitelyTyped's defs are for shelljs v0.3.0, but we're on 0.7.0
-    interface ExecOutputReturnValue {
-        stdout: string;
-        stderr: string;
-    }
-}
+import {Option} from '../../utils/component';
+import {ParameterType} from '../../utils/options/declaration';
 
 /**
  * Stores data of a repository.
@@ -30,7 +21,7 @@ class Repository {
     /**
      * The name of the branch this repository is on right now.
      */
-    branch = 'master';
+    branch: string;
 
     /**
      * A list of all files tracked by the repository.
@@ -52,8 +43,9 @@ class Repository {
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string) {
+    constructor(path: string, gitRevision: string) {
         this.path = path;
+        this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
         let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
@@ -82,9 +74,11 @@ class Repository {
             });
         }
 
-        out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
-        if (out.code === 0) {
-            this.branch = out.stdout.replace('\n', '');
+        if (!gitRevision) {
+            out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --short HEAD', {silent: true});
+            if (out.code === 0) {
+                this.branch = out.stdout.replace('\n', '');
+            }
         }
 
         ShellJS.popd();
@@ -130,7 +124,7 @@ class Repository {
      * @param path  The potential repository root.
      * @returns A new instance of [[Repository]] or NULL.
      */
-    static tryCreateRepository(path: string): Repository {
+    static tryCreateRepository(path: string, gitRevision: string): Repository {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
@@ -138,7 +132,7 @@ class Repository {
         if (out.code !== 0) {
             return null;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')));
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
     }
 }
 
@@ -157,6 +151,13 @@ export class GitHubPlugin extends ConverterComponent {
      * List of paths known to be not under git control.
      */
     private ignoredPaths: string[] = [];
+
+    @Option({
+        name: 'gitRevision',
+        help: 'Use specified revision instead of the last revision for linking to GitHub source files.',
+        type: ParameterType.String
+    })
+    gitRevision: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -196,7 +197,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(dirName);
+        const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
         if (repository) {
             this.repositories[repository.path] = repository;
             return repository;
