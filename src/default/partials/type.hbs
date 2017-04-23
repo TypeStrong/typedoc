@@ -24,7 +24,7 @@
             {{/if}}
             {{#each types}}
                 {{#if @index}}
-                    <span class="tsd-signature-symbol"> | </span>
+                    <span class="tsd-signature-symbol"> {{#ifCond ../type '==' 'intersection'}}&amp;{{else}}|{{/ifCond}} </span>
                 {{/if}}{{> type}}
             {{/each}}
             {{#if isArray}}
