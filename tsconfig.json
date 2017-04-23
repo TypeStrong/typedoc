@@ -2,10 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "lib": [
-      "DOM",
-      "ES5",
-      "ES2015.Collection",
-      "ES2015.Iterable"
+      "dom",
+      "es5",
+      "es2015.collection",
+      "es2015.iterable"
     ],
     "target": "ES5",
     "noImplicitAny": false,

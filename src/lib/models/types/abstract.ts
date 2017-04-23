@@ -10,6 +10,11 @@ export abstract class Type {
     isArray = false;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'void';
+
+    /**
      * Clone this type.
      *
      * @return A clone of this type.
@@ -31,7 +36,7 @@ export abstract class Type {
      */
     toObject(): any {
         let result: any = {};
-        result.type = 'void';
+        result.type = this.type;
 
         if (this.isArray) {
             result.isArray = this.isArray;

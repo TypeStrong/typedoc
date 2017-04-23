@@ -9,5 +9,5 @@ export {ReferenceConverter} from './reference';
 export {ThisConverter} from './this';
 export {TupleConverter} from './tuple';
 export {TypeParameterConverter} from './type-parameter';
-export {UnionConverter} from './union';
+export {UnionOrIntersectionConverter} from './union-or-intersection';
 export {UnknownConverter} from './unknown';

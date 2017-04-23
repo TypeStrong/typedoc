@@ -10,6 +10,11 @@ export class UnknownType extends Type {
     name: string;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'unknown';
+
+    /**
      * Create a new instance of UnknownType.
      *
      * @param name  A string representation of the type as returned from TypeScript compiler.
@@ -47,7 +52,6 @@ export class UnknownType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'unknown';
         result.name = this.name;
         return result;
     }

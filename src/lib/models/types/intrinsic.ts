@@ -14,6 +14,11 @@ export class IntrinsicType extends Type {
     name: string;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'instrinct'; // TODO: Is there any change to correct this typo?
+
+    /**
      * Create a new instance of IntrinsicType.
      *
      * @param name  The name of the intrinsic type like `string` or `boolean`.
@@ -51,7 +56,6 @@ export class IntrinsicType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'instrinct';
         result.name = this.name;
         return result;
     }
