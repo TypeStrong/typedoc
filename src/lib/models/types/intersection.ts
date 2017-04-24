@@ -1,31 +1,31 @@
 import {Type} from './abstract';
 
 /**
- * Represents a tuple type.
+ * Represents an intersection type.
  *
  * ~~~
- * let value: [string,boolean];
+ * let value: A & B;
  * ~~~
  */
-export class TupleType extends Type {
+export class IntersectionType extends Type {
     /**
-     * The ordered type elements of the tuple type.
+     * The types this union consists of.
      */
-    elements: Type[];
+    types: Type[];
 
     /**
      * The type name identifier.
      */
-    readonly type: string = 'tuple';
+    readonly type: string = 'intersection';
 
     /**
      * Create a new TupleType instance.
      *
-     * @param elements  The ordered type elements of the tuple type.
+     * @param types  The types this union consists of.
      */
-    constructor(elements: Type[]) {
+    constructor(types: Type[]) {
         super();
-        this.elements = elements;
+        this.types = types;
     }
 
     /**
@@ -34,7 +34,7 @@ export class TupleType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new TupleType(this.elements);
+        const clone = new IntersectionType(this.types);
         clone.isArray = this.isArray;
         return clone;
     }
@@ -45,14 +45,14 @@ export class TupleType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TupleType): boolean {
-        if (!(type instanceof TupleType)) {
+    equals(type: IntersectionType): boolean {
+        if (!(type instanceof IntersectionType)) {
             return false;
         }
         if (type.isArray !== this.isArray) {
             return false;
         }
-        return Type.isTypeListEqual(type.elements, this.elements);
+        return Type.isTypeListSimiliar(type.types, this.types);
     }
 
     /**
@@ -61,8 +61,8 @@ export class TupleType extends Type {
     toObject(): any {
         const result: any = super.toObject();
 
-        if (this.elements && this.elements.length) {
-            result.elements = this.elements.map((e) => e.toObject());
+        if (this.types && this.types.length) {
+            result.types = this.types.map((e) => e.toObject());
         }
 
         return result;
@@ -73,10 +73,10 @@ export class TupleType extends Type {
      */
     toString() {
         const names: string[] = [];
-        this.elements.forEach((element) => {
+        this.types.forEach((element) => {
             names.push(element.toString());
         });
 
-        return '[' + names.join(', ') + ']';
+        return names.join(' & ');
     }
 }

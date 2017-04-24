@@ -15,6 +15,11 @@ export class ReflectionType extends Type {
     declaration: DeclarationReflection;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'reflection';
+
+    /**
      * Create a new instance of ReflectionType.
      *
      * @param declaration  The reflection of the type.
@@ -50,7 +55,6 @@ export class ReflectionType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'reflection';
 
         if (this.declaration) {
             result.declaration = this.declaration.toObject();
