@@ -89,7 +89,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "isArray": true,
                 "name": "number"
               }
@@ -114,7 +114,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -163,7 +163,7 @@
                     "shortText": "privateMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -196,7 +196,7 @@
                     "shortText": "protectedMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -229,7 +229,7 @@
                     "shortText": "publicMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -262,7 +262,7 @@
                     "shortText": "staticMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -360,7 +360,7 @@
                         "shortText": "Constructor param"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "any"
                       }
                     },
@@ -374,7 +374,7 @@
                         "shortText": "Private string property"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     },
@@ -388,7 +388,7 @@
                         "shortText": "Public number property"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     },
@@ -402,7 +402,7 @@
                         "shortText": "Public implicit any property\n"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "any"
                       }
                     }
@@ -453,7 +453,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -478,7 +478,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             },
@@ -503,7 +503,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "any"
               }
             },
@@ -527,7 +527,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               },
               "inheritedFrom": {
@@ -586,7 +586,7 @@
                     "shortText": "protectedMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "overwrites": {
@@ -629,7 +629,7 @@
                     "shortText": "publicMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "overwrites": {
@@ -672,7 +672,7 @@
                     "shortText": "staticMethod short text."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {

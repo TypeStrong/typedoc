@@ -244,7 +244,7 @@
                         "shortText": "Constructor parameter.\n"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     }
@@ -293,7 +293,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               },
               "inheritedFrom": {
@@ -321,7 +321,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "isArray": true,
                 "name": "string"
               },
@@ -349,7 +349,7 @@
                     "returns": "Return value comment.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   },
                   "inheritedFrom": {
@@ -411,7 +411,7 @@
               "id": 2,
               "typeArguments": [
                 {
-                  "type": "instrinct",
+                  "type": "intrinsic",
                   "name": "string"
                 }
               ]

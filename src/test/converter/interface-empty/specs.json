@@ -40,7 +40,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -60,7 +60,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }

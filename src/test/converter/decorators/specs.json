@@ -32,7 +32,7 @@
                 "id": 13
               },
               "arguments": {
-                "options": "{\n    name: 'Name of class'\n}"
+                "options": "{\r\n    name: 'Name of class'\r\n}"
               }
             }
           ],
@@ -75,7 +75,7 @@
                     "shortText": "A decorated method."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -151,11 +151,11 @@
                     "type": "union",
                     "types": [
                       {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       },
                       {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "symbol"
                       }
                     ]
@@ -172,7 +172,7 @@
                     "name": "TypedPropertyDescriptor",
                     "typeArguments": [
                       {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "any"
                       }
                     ]
@@ -180,7 +180,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -252,7 +252,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -325,7 +325,7 @@
                     "text": "The parameter of this decorator.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "boolean"
                   }
                 }

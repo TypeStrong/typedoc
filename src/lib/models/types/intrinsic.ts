@@ -16,7 +16,7 @@ export class IntrinsicType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'instrinct'; // TODO: Is there any change to correct this typo?
+    readonly type: string = 'intrinsic';
 
     /**
      * Create a new instance of IntrinsicType.

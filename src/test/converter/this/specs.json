@@ -47,7 +47,7 @@
                     "shortText": "Chain method that returns this."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "this"
                   }
                 }

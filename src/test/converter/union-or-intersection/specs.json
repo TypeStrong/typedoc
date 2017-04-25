@@ -45,7 +45,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }
@@ -98,7 +98,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             }
@@ -155,7 +155,7 @@
                 "isArray": true,
                 "types": [
                   {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   },
                   {

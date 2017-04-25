@@ -46,13 +46,13 @@
                     "text": "An argument.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }
@@ -75,7 +75,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -96,7 +96,7 @@
                     "shortText": "This function is appended to another function."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -126,7 +126,7 @@
                     "shortText": "This function is appended to another function."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -189,7 +189,7 @@
                 "shortText": "This is a simple exported function."
               },
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -232,7 +232,7 @@
                     "text": "A parameter with a default string value."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   },
                   "defaultValue": "\"defaultValue\""
@@ -247,7 +247,7 @@
                     "text": "A parameter with a default numeric value."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   },
                   "defaultValue": "100"
@@ -262,7 +262,7 @@
                     "text": "A parameter with a default NaN value."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   },
                   "defaultValue": " Number.NaN"
@@ -277,7 +277,7 @@
                     "text": "A parameter with a default boolean value."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "boolean"
                   },
                   "defaultValue": "true"
@@ -292,14 +292,14 @@
                     "text": "A parameter with a default null value."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "boolean"
                   },
                   "defaultValue": " null"
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }
@@ -341,7 +341,7 @@
                     "text": "A normal parameter."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 },
@@ -357,13 +357,13 @@
                     "text": "An optional parameter.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -406,7 +406,7 @@
                     "text": "This is a string parameter."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 },
@@ -420,7 +420,7 @@
                     "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "any"
                   }
                 },
@@ -440,7 +440,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             }
@@ -483,14 +483,14 @@
                     "text": "The rest parameter."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "isArray": true,
                     "name": "string"
                   }
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }
@@ -520,7 +520,7 @@
                 "shortText": "This is an internal function."
               },
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -567,13 +567,13 @@
                     "text": "The name value.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -623,7 +623,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -649,7 +649,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }
@@ -706,13 +706,13 @@
                     "shortText": "This is some numeric parameter."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   }
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             }

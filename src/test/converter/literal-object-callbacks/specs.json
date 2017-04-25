@@ -28,7 +28,7 @@
               "kindString": "Call signature",
               "flags": {},
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -55,7 +55,7 @@
               "kindString": "Call signature",
               "flags": {},
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -82,7 +82,7 @@
               "kindString": "Call signature",
               "flags": {},
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -138,7 +138,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -205,7 +205,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -272,7 +272,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -323,7 +323,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "object"
           }
         }
