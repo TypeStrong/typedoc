@@ -123,6 +123,7 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 ## Plugins
 
 * [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
+* [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
 
 ## Advanced guides and docs
 
