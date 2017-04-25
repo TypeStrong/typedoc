@@ -50,7 +50,7 @@
                         "shortText": "X component of the Vector"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     },
@@ -64,7 +64,7 @@
                         "shortText": "Y component of the Vector\n"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     }
@@ -104,7 +104,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             },
@@ -128,7 +128,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             }
@@ -201,7 +201,7 @@
                         "shortText": "X component of the Vector"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     },
@@ -215,7 +215,7 @@
                         "shortText": "Y component of the Vector"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     },
@@ -229,7 +229,7 @@
                         "shortText": "Z component of the Vector\n"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "number"
                       }
                     }
@@ -279,7 +279,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               },
               "inheritedFrom": {
@@ -308,7 +308,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               },
               "overwrites": {
@@ -337,7 +337,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             }

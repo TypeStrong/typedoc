@@ -40,7 +40,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               },
               "defaultValue": "\"click\""

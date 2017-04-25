@@ -52,7 +52,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   }
                 },
@@ -72,7 +72,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "boolean"
                   }
                 },
@@ -112,7 +112,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "isArray": true,
                             "name": "number"
                           }
@@ -153,7 +153,7 @@
                                       "kindString": "Parameter",
                                       "flags": {},
                                       "type": {
-                                        "type": "instrinct",
+                                        "type": "intrinsic",
                                         "name": "string"
                                       }
                                     }
@@ -181,7 +181,7 @@
                                             }
                                           ],
                                           "type": {
-                                            "type": "instrinct",
+                                            "type": "intrinsic",
                                             "name": "string"
                                           }
                                         },
@@ -199,7 +199,7 @@
                                             }
                                           ],
                                           "type": {
-                                            "type": "instrinct",
+                                            "type": "intrinsic",
                                             "name": "string"
                                           }
                                         }
@@ -249,7 +249,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -304,7 +304,7 @@
                           "kindString": "Call signature",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -333,7 +333,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }

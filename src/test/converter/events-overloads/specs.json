@@ -57,7 +57,7 @@
                         "text": "The name of the event to subscribe for."
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     },
@@ -93,13 +93,13 @@
                                   "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
-                                    "type": "instrinct",
+                                    "type": "intrinsic",
                                     "name": "any"
                                   }
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "void"
                               }
                             }
@@ -116,7 +116,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 },
@@ -176,13 +176,13 @@
                                   "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
-                                    "type": "instrinct",
+                                    "type": "intrinsic",
                                     "name": "any"
                                   }
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "void"
                               }
                             }
@@ -199,7 +199,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 },
@@ -259,13 +259,13 @@
                                   "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
-                                    "type": "instrinct",
+                                    "type": "intrinsic",
                                     "name": "any"
                                   }
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "void"
                               }
                             }
@@ -282,7 +282,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 },
@@ -342,13 +342,13 @@
                                   "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
-                                    "type": "instrinct",
+                                    "type": "intrinsic",
                                     "name": "any"
                                   }
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "void"
                               }
                             }
@@ -365,7 +365,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
