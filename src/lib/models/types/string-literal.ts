@@ -14,6 +14,11 @@ export class StringLiteralType extends Type {
     value: string;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'stringLiteral';
+
+    /**
      * Create a new instance of StringLiteralType.
      *
      * @param value The string literal value.
@@ -51,7 +56,6 @@ export class StringLiteralType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'stringLiteral';
         result.value = this.value;
         return result;
     }

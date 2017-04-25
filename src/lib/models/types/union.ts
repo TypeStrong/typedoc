@@ -14,6 +14,11 @@ export class UnionType extends Type {
     types: Type[];
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'union';
+
+    /**
      * Create a new TupleType instance.
      *
      * @param types  The types this union consists of.
@@ -55,7 +60,6 @@ export class UnionType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'union';
 
         if (this.types && this.types.length) {
             result.types = this.types.map((e) => e.toObject());

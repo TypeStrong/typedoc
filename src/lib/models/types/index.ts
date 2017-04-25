@@ -1,5 +1,6 @@
 export {Type} from './abstract';
 export {IntrinsicType} from './intrinsic';
+export {IntersectionType} from './intersection';
 export {ReferenceType} from './reference';
 export {ReflectionType} from './reflection';
 export {StringLiteralType} from './string-literal';

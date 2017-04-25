@@ -10,6 +10,11 @@ import {Type} from './abstract';
  */
 export class ReferenceType extends Type {
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'reference';
+
+    /**
      * The name of the referenced type.
      *
      * If the symbol cannot be found cause it's not part of the documentation this
@@ -90,7 +95,6 @@ export class ReferenceType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'reference';
         result.name = this.name;
 
         if (this.reflection) {

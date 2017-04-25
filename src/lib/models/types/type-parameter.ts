@@ -16,6 +16,11 @@ export class TypeParameterType extends Type {
     constraint: Type;
 
     /**
+     * The type name identifier.
+     */
+    readonly type: string = 'typeParameter';
+
+    /**
      * Clone this type.
      *
      * @return A clone of this type.
@@ -57,7 +62,6 @@ export class TypeParameterType extends Type {
      */
     toObject(): any {
         const result: any = super.toObject();
-        result.type = 'typeParameter';
         result.name = this.name;
 
         if (this.constraint) {
