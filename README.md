@@ -1,5 +1,7 @@
 # TypeDoc
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/TypeStrong/typedoc.svg)](https://greenkeeper.io/)
+
 > Documentation generator for TypeScript projects.
 
 [![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
