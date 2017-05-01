@@ -73,7 +73,6 @@ export class ReferenceType extends Type {
      */
     clone(): Type {
         const clone = new ReferenceType(this.name, this.symbolID, this.reflection);
-        clone.isArray = this.isArray;
         clone.typeArguments = this.typeArguments;
         return clone;
     }
@@ -86,7 +85,6 @@ export class ReferenceType extends Type {
      */
     equals(type: ReferenceType): boolean {
         return type instanceof ReferenceType &&
-            type.isArray === this.isArray &&
             (type.symbolID === this.symbolID || type.reflection === this.reflection);
     }
 
@@ -114,7 +112,6 @@ export class ReferenceType extends Type {
      */
     toString() {
         const name = this.reflection ? this.reflection.name : this.name;
-        const arraySuffix = this.isArray ? '[]' : '';
         let typeArgs = '';
         if (this.typeArguments) {
             typeArgs += '<';
@@ -122,6 +119,6 @@ export class ReferenceType extends Type {
             typeArgs += '>';
         }
 
-        return name + typeArgs + arraySuffix;
+        return name + typeArgs;
     }
 }

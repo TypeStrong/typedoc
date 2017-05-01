@@ -483,9 +483,11 @@
                     "text": "The rest parameter."
                   },
                   "type": {
-                    "type": "intrinsic",
-                    "isArray": true,
-                    "name": "string"
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "string"
+                    }
                   }
                 }
               ],

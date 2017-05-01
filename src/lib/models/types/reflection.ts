@@ -35,9 +35,7 @@ export class ReflectionType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new ReflectionType(this.declaration);
-        clone.isArray = this.isArray;
-        return clone;
+        return new ReflectionType(this.declaration);
     }
 
     /**

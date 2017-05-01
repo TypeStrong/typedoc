@@ -34,9 +34,7 @@ export class TupleType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new TupleType(this.elements);
-        clone.isArray = this.isArray;
-        return clone;
+        return new TupleType(this.elements);
     }
 
     /**
@@ -47,9 +45,6 @@ export class TupleType extends Type {
      */
     equals(type: TupleType): boolean {
         if (!(type instanceof TupleType)) {
-            return false;
-        }
-        if (type.isArray !== this.isArray) {
             return false;
         }
         return Type.isTypeListEqual(type.elements, this.elements);
