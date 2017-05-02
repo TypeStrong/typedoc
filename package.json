@@ -64,6 +64,7 @@
     "tslint": "^5.1.0"
   },
   "files": [
+    "src",
     "bin",
     "dist",
     "!dist/test",
