@@ -249,6 +249,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     public expandInputFiles(inputFiles?:string[]):string[] {
         var exclude:IMinimatch, files:string[] = [];
+
+        // exclude can be set in the constructor options. CLI has preferencece, though.
+        this.exclude = this.exclude || this.options.getValue('exclude');
         if (this.exclude) {
             exclude = new Minimatch(this.exclude);
         }
