@@ -17,13 +17,4 @@ describe('TypeDoc', function() {
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
     });
-
-    describe('Application', function() {
-        it('constructs', function() {
-            application = new TypeDoc.Application({exclude: '**/*.*'});
-        });
-        it('exclude is set in constructor', function() {
-            Assert.equal(application.exclude, '**/*.*');
-        });
-    });
 });
