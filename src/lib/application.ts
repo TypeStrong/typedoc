@@ -248,12 +248,15 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles?:string[]):string[] {
-        var exclude:IMinimatch, files:string[] = [];
+        var exclude:IMinimatch, 
+            files:string[] = [], 
+            excludeInConstructor:string  = this.options.getValue('exclude');
 
         // exclude can be set in the constructor options. CLI has preferencece, though.
-        this.exclude = this.exclude || this.options.getValue('exclude');
         if (this.exclude) {
             exclude = new Minimatch(this.exclude);
+        } else if (excludeInConstructor) {
+            exclude = new Minimatch(excludeInConstructor);
         }
 
         function add(dirname:string) {
