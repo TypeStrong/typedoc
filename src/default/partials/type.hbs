@@ -15,61 +15,66 @@
 
                 <span class="tsd-signature-symbol">&gt;</span>
             {{/if}}
-            {{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
         {{/compact}}
     {{else}}
-        {{#if types}}
-            {{#if isArray}}
-            <span class="tsd-signature-symbol">(</span>
-            {{/if}}
-            {{#each types}}
-                {{#if @index}}
-                    <span class="tsd-signature-symbol"> {{#ifCond ../type '==' 'intersection'}}&amp;{{else}}|{{/ifCond}} </span>
-                {{/if}}{{> type}}
-            {{/each}}
-            {{#if isArray}}
-            <span class="tsd-signature-symbol">)</span>
-            <span class="tsd-signature-symbol">[]</span>
-            {{/if}}
-        {{else}}
-            {{#if elements}}
+        {{#if elementType}}
+            {{#with elementType}}
                 {{#compact}}
-                    <span class="tsd-signature-symbol">[</span>
-
-                    {{#each elements}}
-                        {{#if @index}}
-                            <span class="tsd-signature-symbol">, </span>
-                        {{/if}}{{> type}}
-                    {{/each}}
-
-                    <span class="tsd-signature-symbol">]</span>
+                    {{#if types}}
+                        <span class="tsd-signature-symbol">(</span>
+                    {{/if}}
+                    {{> type}}
+                    {{#if types}}
+                        <span class="tsd-signature-symbol">)</span>
+                    {{/if}}<span class="tsd-signature-symbol">[]</span>
                 {{/compact}}
+            {{/with}}
+        {{else}}
+            {{#if types}}
+                {{#each types}}
+                    {{#if @index}}
+                        <span class="tsd-signature-symbol"> {{#ifCond ../type '==' 'intersection'}}&amp;{{else}}|{{/ifCond}} </span>
+                    {{/if}}{{> type}}
+                {{/each}}
             {{else}}
-                {{#compact}}
-                    <span class="tsd-signature-type">
-                        {{#if name}}
-                            {{name}}
-                        {{else}}
-                            {{#if value}}
-                                "{{value}}"
-                            {{else}}
-                                {{this}}
-                            {{/if}}
-                        {{/if}}
-                    </span>
-                    {{#if typeArguments}}
-                        <span class="tsd-signature-symbol">&lt;</span>
+                {{#if elements}}
+                    {{#compact}}
+                        <span class="tsd-signature-symbol">[</span>
 
-                        {{#each typeArguments}}
+                        {{#each elements}}
                             {{#if @index}}
                                 <span class="tsd-signature-symbol">, </span>
                             {{/if}}{{> type}}
                         {{/each}}
 
-                        <span class="tsd-signature-symbol">&gt;</span>
-                    {{/if}}
-                    {{#if isArray}}<span class="tsd-signature-symbol">[]</span>{{/if}}
-                {{/compact}}
+                        <span class="tsd-signature-symbol">]</span>
+                    {{/compact}}
+                {{else}}
+                    {{#compact}}
+                        <span class="tsd-signature-type">
+                            {{#if name}}
+                                {{name}}
+                            {{else}}
+                                {{#if value}}
+                                    "{{value}}"
+                                {{else}}
+                                    {{this}}
+                                {{/if}}
+                            {{/if}}
+                        </span>
+                        {{#if typeArguments}}
+                            <span class="tsd-signature-symbol">&lt;</span>
+
+                            {{#each typeArguments}}
+                                {{#if @index}}
+                                    <span class="tsd-signature-symbol">, </span>
+                                {{/if}}{{> type}}
+                            {{/each}}
+
+                            <span class="tsd-signature-symbol">&gt;</span>
+                        {{/if}}
+                    {{/compact}}
+                {{/if}}
             {{/if}}
         {{/if}}
     {{/if}}
