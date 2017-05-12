@@ -89,9 +89,11 @@
                 }
               ],
               "type": {
-                "type": "intrinsic",
-                "isArray": true,
-                "name": "number"
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "number"
+                }
               }
             },
             {

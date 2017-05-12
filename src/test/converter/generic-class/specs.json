@@ -128,9 +128,11 @@
                 }
               ],
               "type": {
-                "type": "typeParameter",
-                "isArray": true,
-                "name": "T"
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
               }
             },
             {
@@ -321,9 +323,11 @@
                 }
               ],
               "type": {
-                "type": "intrinsic",
-                "isArray": true,
-                "name": "string"
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
               },
               "inheritedFrom": {
                 "type": "reference",

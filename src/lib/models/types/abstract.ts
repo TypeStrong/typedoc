@@ -4,10 +4,6 @@
  * Instances of this class are also used to represent the type `void`.
  */
 export abstract class Type {
-    /**
-     * Is this an array type?
-     */
-    isArray = false;
 
     /**
      * The type name identifier.
@@ -37,10 +33,6 @@ export abstract class Type {
     toObject(): any {
         let result: any = {};
         result.type = this.type;
-
-        if (this.isArray) {
-            result.isArray = this.isArray;
-        }
 
         return result;
     }

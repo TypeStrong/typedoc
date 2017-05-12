@@ -151,18 +151,17 @@
                 }
               ],
               "type": {
-                "type": "union",
-                "isArray": true,
-                "types": [
-                  {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  {
-                    "type": "reference",
-                    "name": "Array",
-                    "typeArguments": [
-                      {
+                "type": "array",
+                "elementType": {
+                  "type": "union",
+                  "types": [
+                    {
+                      "type": "intrinsic",
+                      "name": "string"
+                    },
+                    {
+                      "type": "array",
+                      "elementType": {
                         "type": "intersection",
                         "types": [
                           {
@@ -177,9 +176,9 @@
                           }
                         ]
                       }
-                    ]
-                  }
-                ]
+                    }
+                  ]
+                }
               }
             },
             {

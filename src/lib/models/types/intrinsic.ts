@@ -34,9 +34,7 @@ export class IntrinsicType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new IntrinsicType(this.name);
-        clone.isArray = this.isArray;
-        return clone;
+        return new IntrinsicType(this.name);
     }
 
     /**
@@ -47,7 +45,6 @@ export class IntrinsicType extends Type {
      */
     equals(type: IntrinsicType): boolean {
         return type instanceof IntrinsicType &&
-            type.isArray === this.isArray &&
             type.name === this.name;
     }
 
@@ -64,6 +61,6 @@ export class IntrinsicType extends Type {
      * Return a string representation of this type.
      */
     toString() {
-        return this.name + (this.isArray ? '[]' : '');
+        return this.name;
     }
 }

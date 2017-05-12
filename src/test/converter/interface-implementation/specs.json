@@ -65,16 +65,18 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "isArray": true,
-                    "name": "ISubscription",
-                    "id": 7,
-                    "typeArguments": [
-                      {
-                        "type": "typeParameter",
-                        "name": "T"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "ISubscription",
+                      "id": 7,
+                      "typeArguments": [
+                        {
+                          "type": "typeParameter",
+                          "name": "T"
+                        }
+                      ]
+                    }
                   }
                 },
                 {
