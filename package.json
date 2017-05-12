@@ -45,7 +45,7 @@
     "minimatch": "^3.0.0",
     "progress": "^2.0.0",
     "shelljs": "^0.7.0",
-    "typedoc-default-themes": "^0.4.2",
+    "typedoc-default-themes": "^0.5.0",
     "typescript": "2.3.2"
   },
   "devDependencies": {
