@@ -89,10 +89,6 @@ var typedoc;
 })(typedoc || (typedoc = {}));
 var typedoc;
 (function (typedoc) {
-    typedoc.app = new typedoc.Application();
-})(typedoc || (typedoc = {}));
-var typedoc;
-(function (typedoc) {
     var FilterItem = (function () {
         function FilterItem(key, value) {
             this.key = key;
@@ -819,4 +815,8 @@ var typedoc;
         }
     }
     typedoc.animateHeight = animateHeight;
+})(typedoc || (typedoc = {}));
+var typedoc;
+(function (typedoc) {
+    typedoc.app = new typedoc.Application();
 })(typedoc || (typedoc = {}));

@@ -10,7 +10,14 @@ module.exports = function(grunt)
                     basePath: 'themes',
                     declaration: false
                 },
-                src: ['src/default/assets/js/src/**/*.ts'],
+                src: [
+                    'src/default/assets/js/src/lib/**/*.ts',
+                    'src/default/assets/js/src/typedoc/Application.ts',
+                    'src/default/assets/js/src/typedoc/components/**/*.ts',
+                    'src/default/assets/js/src/typedoc/services/**/*.ts',
+                    'src/default/assets/js/src/typedoc/utils/**/*.ts',
+                    'src/default/assets/js/src/~bootstrap.ts'
+                ],
                 out: 'src/default/assets/js/main.js'
             }
         },
