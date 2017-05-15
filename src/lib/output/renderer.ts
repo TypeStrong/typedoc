@@ -201,7 +201,24 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 }
             }
 
-            this.theme = this.addComponent('theme', new DefaultTheme(this, path));
+            let filename = Path.join(path, 'theme.js');
+            if (!FS.existsSync(filename)) {
+                this.theme = this.addComponent('theme', new DefaultTheme(this, path));
+            } else {
+                try {
+                    const plugin = require(filename);
+                    if(typeof plugin === 'function') {
+                        plugin(this.application);
+                    } else if (plugin.default) {
+                        this.theme = this.addComponent('theme', new (plugin.default)(this, path));
+                    } else {
+                        this.application.logger.error('Failed to load theme.js from theme directory, theme.js ' +
+                            'must either export a default class or a function accepting an application reference.');
+                    }
+                } catch (e) {
+                    throw new Error(`Exception while evaluating ${filename}:\n${e}`);
+                }
+            }
         }
 
         this.theme.resources.activate();
