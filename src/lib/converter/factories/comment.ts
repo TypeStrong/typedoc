@@ -164,7 +164,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
-        const tag = /^@(\w+)/.exec(line);
+        const tag = /^@(\S+)/.exec(line);
         if (tag) {
             readTagLine(line, tag);
         } else {
