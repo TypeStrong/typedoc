@@ -1,4 +1,5 @@
 export {Type} from './abstract';
+export {ArrayType} from './array';
 export {IntrinsicType} from './intrinsic';
 export {IntersectionType} from './intersection';
 export {ReferenceType} from './reference';

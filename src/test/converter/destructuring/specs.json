@@ -110,14 +110,11 @@
             }
           ],
           "type": {
-            "type": "reference",
-            "name": "Array",
-            "typeArguments": [
-              {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            ]
+            "type": "array",
+            "elementType": {
+              "type": "intrinsic",
+              "name": "number"
+            }
           }
         },
         {
@@ -134,14 +131,11 @@
             }
           ],
           "type": {
-            "type": "reference",
-            "name": "Array",
-            "typeArguments": [
-              {
-                "type": "intrinsic",
-                "name": "number"
-              }
-            ]
+            "type": "array",
+            "elementType": {
+              "type": "intrinsic",
+              "name": "number"
+            }
           }
         },
         {

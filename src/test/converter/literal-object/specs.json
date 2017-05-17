@@ -129,14 +129,11 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "name": "Array",
-                    "typeArguments": [
-                      {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "number"
+                    }
                   },
                   "defaultValue": " [100, 200, 300]"
                 },
