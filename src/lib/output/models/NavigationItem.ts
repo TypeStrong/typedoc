@@ -64,18 +64,25 @@ export class NavigationItem {
     isInPath: boolean;
 
     /**
+     * The source [Reflection] this item is built from
+     */
+    reflection: Reflection;
+
+    /**
      * Create a new NavigationItem instance.
      *
      * @param title       The visible title of the navigation node.
      * @param url         The url this navigation node points to.
      * @param parent      The parent navigation node.
      * @param cssClasses  A string containing the css classes of this node.
+     * @param reflection  The source [Reflection] for this [NavigationItem]
      */
-    constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string) {
+    constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string, reflection?: Reflection) {
         this.title      = title  || '';
         this.url        = url    || '';
         this.parent     = parent || null;
         this.cssClasses = cssClasses || '';
+        this.reflection = reflection;
 
         if (!url) {
             this.isLabel = true;
@@ -109,6 +116,6 @@ export class NavigationItem {
             name = `<em>${reflection.kindString}</em>`;
         }
 
-        return new NavigationItem(name, reflection.url, parent, reflection.cssClasses);
+        return new NavigationItem(name, reflection.url, parent, reflection.cssClasses, reflection);
     }
 }
