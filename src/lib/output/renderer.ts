@@ -206,18 +206,13 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 this.theme = this.addComponent('theme', new DefaultTheme(this, path));
             } else {
                 try {
-                    const plugin = require(filename);
-                    const themeClass = plugin(this.application);
+                    const themeClass = typeof require(filename) === 'function' ? require(filename) : require(filename).default;
 
                     this.theme = this.addComponent('theme', new (themeClass)(this, path));
-                } catch (e) {
+                } catch (err) {
                     throw new Error(
-                        `Exception while loading ${filename}.\n` +
-                        '\n' +
-                        'Your theme.js must export a function accepting an application reference.\n' +
-                        'Your function should return your Theme based class.\n' +
-                        '\n' +
-                        e
+                        `Exception while loading ${filename}. You must export a \`new Theme(renderer, basePath)\` compatible class.\n' +
+                        err
                     );
                 }
             }
