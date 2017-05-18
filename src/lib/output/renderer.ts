@@ -211,7 +211,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                     this.theme = this.addComponent('theme', new (themeClass)(this, path));
                 } catch (err) {
                     throw new Error(
-                        `Exception while loading ${filename}. You must export a \`new Theme(renderer, basePath)\` compatible class.\n' +
+                        `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n` +
                         err
                     );
                 }
