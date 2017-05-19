@@ -206,14 +206,12 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 this.theme = this.addComponent('theme', new DefaultTheme(this, path));
             } else {
                 try {
-                    const themeClass = typeof require(filename) === 'function' ? require(filename) : require(filename).default;
+                    const themeClass = typeof require(filename) === 'function' ? require(filename)() : require(filename).default;
 
                     this.theme = this.addComponent('theme', new (themeClass)(this, path));
                 } catch (err) {
-                    throw new Error(
-                        `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n` +
-                        err
-                    );
+                    err.stack = `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n\n` + err.stack;
+                    throw err;
                 }
             }
         }
