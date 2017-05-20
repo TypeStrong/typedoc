@@ -214,10 +214,8 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
 
                     // Using instanceof does not work because the external theme.js has its own 'copy' of Theme,
                     // checking that it has the resources that the base Theme class creates at construction
-                    if (!theme.resources) {
-                        this.application.logger.error('You must export a `new Theme(renderer, basePath)` compatible class in your theme.js.  Using default theme instead.');
-                        theme = new DefaultTheme(this, path);
-                    }
+                    if (!theme.resources)
+                        this.application.logger.error('You must export a `new Theme(renderer, basePath)` compatible class in your theme.js.');
 
                     this.theme = this.addComponent('theme', theme);
                 } catch (err) {
