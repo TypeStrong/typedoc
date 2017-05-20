@@ -206,11 +206,22 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
                 this.theme = this.addComponent('theme', new DefaultTheme(this, path));
             } else {
                 try {
-                    const themeClass = typeof require(filename) === 'function' ? require(filename)() : require(filename).default;
+                    const themeClass = typeof require(filename) === 'function'
+                        ? require(filename)             // module.exports = class ... extends DefaultTheme
+                        : require(filename).default;    // export default class ... extends DefaultTheme
 
-                    this.theme = this.addComponent('theme', new (themeClass)(this, path));
+                    let theme = new themeClass(this, path);
+
+                    // Using instanceof does not work because the external theme.js has its own 'copy' of Theme,
+                    // checking that it has the resources that the base Theme class creates at construction
+                    if (!theme.resources) {
+                        this.application.logger.error('You must export a `new Theme(renderer, basePath)` compatible class in your theme.js.  Using default theme instead.');
+                        theme = new DefaultTheme(this, path);
+                    }
+
+                    this.theme = this.addComponent('theme', theme);
                 } catch (err) {
-                    err.stack = `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n\n` + err.stack;
+                    this.application.logger.error(`Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n\n`);
                     throw err;
                 }
             }
