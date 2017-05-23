@@ -410,9 +410,6 @@ export class DefaultTheme extends Theme {
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
         let anchor = DefaultTheme.getUrl(reflection, container, '.');
-        if (reflection['isStatic']) {
-            anchor = 'static-' + anchor;
-        }
 
         reflection.url = container.url + '#' + anchor;
         reflection.anchor = anchor;
