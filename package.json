@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "homepage": "http://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -46,7 +46,7 @@
     "progress": "^2.0.0",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.5.0",
-    "typescript": "2.3.2"
+    "typescript": "2.3.3"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.39",
