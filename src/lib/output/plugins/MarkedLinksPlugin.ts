@@ -73,8 +73,21 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     private replaceInlineTags(text: string): string {
         return text.replace(this.inlineTag, (match: string, leading: string, tagName: string, content: string): string => {
             const split   = MarkedLinksPlugin.splitLinkText(content);
-            const target  = split.target;
-            const caption = leading || split.caption;
+            let target  = split.target;
+            let caption = leading || split.caption;
+
+            // Convert any JSDoc-style @link syntax, replacing #s
+            if (caption === target) {
+                caption = caption.replace(/#\./, '.').replace(/#/, '.');
+                // Remove leading ., if there is one
+                if (caption.charAt(0) === '.') {
+                    caption = caption.slice(1);
+                }
+            }
+            target = target.replace(/#\./, '.@static-').replace(/#/, '.');
+            if (target.charAt(0) === '.') {
+                target = target.slice(1);
+            }
 
             let monospace: boolean;
             if (tagName === 'linkcode') {

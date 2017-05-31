@@ -94,11 +94,17 @@ export class ProjectReflection extends ContainerReflection {
      */
     findReflectionByName(arg: any): Reflection {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
-        const name = names.pop();
+        let name = names.pop();
+        // Did the @link tag use static syntax?
+        let staticLink = false;
+        if (name.indexOf('@static-') === 0) {
+            staticLink = true;
+            name = name.slice(8);
+        }
 
         search: for (let key in this.reflections) {
             const reflection = this.reflections[key];
-            if (reflection.name !== name) {
+            if (reflection.name !== name || (staticLink && !reflection.flags.isStatic)) {
                 continue;
             }
 
