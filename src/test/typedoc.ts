@@ -24,7 +24,7 @@ describe('TypeDoc', function() {
         });
         it('honors the exclude argument even on a fixed directory list', function() {
             const inputFiles = Path.join(__dirname, 'converter', 'class');
-            application.options.setValue('exclude', '**/class.ts');
+            application.options.setValue('exclude', '.*class\\.ts$');
             const expanded = application.expandInputFiles([inputFiles]);
 
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'class.ts')), -1);
@@ -32,14 +32,14 @@ describe('TypeDoc', function() {
         });
         it('honors the exclude argument even on a fixed file list', function() {
             const inputFiles = Path.join(__dirname, 'converter', 'class', 'class.ts');
-            application.options.setValue('exclude', '**/class.ts');
+            application.options.setValue('exclude', '.*class\\.ts$');
             const expanded = application.expandInputFiles([inputFiles]);
 
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
         it('supports multiple excludes', function() {
             const inputFiles = Path.join(__dirname, 'converter');
-            application.options.setValue('exclude', '**/+(class|access).ts');
+            application.options.setValue('exclude', '.*(class|access)\\.ts$');
             const expanded = application.expandInputFiles([inputFiles]);
 
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'class', 'class.ts')), -1);
