@@ -4,6 +4,8 @@ import * as Path from 'path';
 import {Reflection, ReflectionKind} from '../../models/reflections/abstract';
 import {Component, ConverterComponent} from '../components';
 import {BasePath} from '../utils/base-path';
+import {Option} from '../../utils/component';
+import {ParameterType} from '../../utils/options/declaration';
 import {Converter} from '../converter';
 import {Context} from '../context';
 
@@ -22,6 +24,13 @@ export class DynamicModulePlugin extends ConverterComponent {
      * List of reflections whose name must be trimmed.
      */
     private reflections: Reflection[];
+
+    @Option({
+        name: 'externalModulesOnly',
+        help: 'Assume no internal modules (namespaces) in the output and exclude "" surrounding modules in the table of contents',
+        type: ParameterType.Boolean
+    })
+    externalModulesOnly: boolean;
 
     /**
      * Create a new DynamicModuleHandler instance.
@@ -73,7 +82,8 @@ export class DynamicModulePlugin extends ConverterComponent {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, '');
             name = name.substr(0, name.length - Path.extname(name).length);
-            reflection.name = '"' + this.basePath.trim(name) + '"';
+            name = this.basePath.trim(name);
+            reflection.name = this.externalModulesOnly ? name : `"${name}"`;
         });
     }
 }
