@@ -129,7 +129,7 @@ class Repository {
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
 
-        if (out.code !== 0) {
+        if (!out || out.code !== 0) {
             return null;
         }
         return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
