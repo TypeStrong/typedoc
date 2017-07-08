@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents all unknown types.

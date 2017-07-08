@@ -1,13 +1,13 @@
 import * as ShellJS from 'shelljs';
 import * as Path from 'path';
 
-import {SourceReference} from '../../models/sources/file';
-import {Component, ConverterComponent} from '../components';
-import {BasePath} from '../utils/base-path';
-import {Converter} from '../converter';
-import {Context} from '../context';
-import {Option} from '../../utils/component';
-import {ParameterType} from '../../utils/options/declaration';
+import { SourceReference } from '../../models/sources/file';
+import { Component, ConverterComponent } from '../components';
+import { BasePath } from '../utils/base-path';
+import { Converter } from '../converter';
+import { Context } from '../context';
+import { Option } from '../../utils/component';
+import { ParameterType } from '../../utils/options/declaration';
 
 /**
  * Stores data of a repository.

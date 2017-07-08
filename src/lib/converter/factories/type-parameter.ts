@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {TypeParameterContainer, TypeParameterReflection, TypeParameterType} from '../../models/index';
-import {Context} from '../context';
-import {Converter} from '../converter';
+import { TypeParameterContainer, TypeParameterReflection, TypeParameterType } from '../../models/index';
+import { Context } from '../context';
+import { Converter } from '../converter';
 
 /**
  * Create a type parameter reflection for the given node.

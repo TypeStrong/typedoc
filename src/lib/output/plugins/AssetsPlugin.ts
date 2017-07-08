@@ -1,9 +1,9 @@
 import * as Path from 'path';
 import * as FS from 'fs-extra';
 
-import {Component, RendererComponent} from '../components';
-import {RendererEvent} from '../events';
-import {Renderer} from '../renderer';
+import { Component, RendererComponent } from '../components';
+import { RendererEvent } from '../events';
+import { Renderer } from '../renderer';
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes

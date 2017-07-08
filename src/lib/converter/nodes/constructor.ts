@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment} from '../../models/index';
-import {createDeclaration, createSignature, createComment} from '../factories/index';
-import {Context} from '../context';
-import {Converter} from '../converter';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment } from '../../models/index';
+import { createDeclaration, createSignature, createComment } from '../factories/index';
+import { Context } from '../context';
+import { Converter } from '../converter';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:constructor'})
 export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration> {
