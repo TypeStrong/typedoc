@@ -603,23 +603,6 @@
                 }
               ]
             }
-          ],
-          "implementedTypes": [
-            {
-              "type": "reference",
-              "name": "ComponentLifecycle",
-              "typeArguments": [
-                {
-                  "type": "reference",
-                  "name": "DemoProps",
-                  "id": 2
-                },
-                {
-                  "type": "intrinsic",
-                  "name": "any"
-                }
-              ]
-            }
           ]
         },
         {

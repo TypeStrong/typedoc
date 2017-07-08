@@ -43,6 +43,6 @@ function decoratorWithParam(value:boolean):MethodDecorator {
  */
 function decoratorWithOptions(options:{name:string}):ClassDecorator {
     return function (target) {
-        target.options = options;
+        target.arguments = target;
     }
 }

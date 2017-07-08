@@ -120,7 +120,11 @@ module.exports = function(grunt)
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
-            jsx: 'react'
+            jsx: 'react',
+            lib: [
+                "lib.es6.d.ts"
+            ],
+            noStrictGenericChecks: true
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
