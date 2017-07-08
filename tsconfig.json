@@ -16,7 +16,10 @@
     "outDir": "dist/",
     "rootDir": "src/",
     "experimentalDecorators": true,
-    "noStrictGenericChecks": true
+    "noStrictGenericChecks": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "include": [
     "src/**/*.ts"
