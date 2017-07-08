@@ -122,9 +122,15 @@ module.exports = function(grunt)
             experimentalDecorators: true,
             jsx: 'react',
             lib: [
-                "lib.es6.d.ts"
+                "lib.dom.d.ts",
+                "lib.es5.d.ts",
+                "lib.es2015.iterable.d.ts",
+                "lib.es2015.collection.d.ts"
             ],
-            noStrictGenericChecks: true
+            noStrictGenericChecks: true,
+            typeRoots: [
+                "node_modules/@types"
+            ]
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {

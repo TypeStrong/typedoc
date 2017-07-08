@@ -3,9 +3,9 @@
     "module": "commonjs",
     "lib": [
       "dom",
-      "es6"
+      "es2016"
     ],
-    "target": "ES5",
+    "target": "es5",
     "noImplicitAny": false,
     "removeComments": true,
     "noUnusedLocals": true,

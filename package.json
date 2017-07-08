@@ -30,7 +30,6 @@
     "node": ">= 4.2.0"
   },
   "dependencies": {
-    "@types/core-js": "^0.9.42",
     "@types/fs-extra": "^3.0.0",
     "@types/handlebars": "^4.0.31",
     "@types/highlight.js": "^9.1.8",
