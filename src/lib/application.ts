@@ -263,8 +263,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         });
         let linkParser: LinkParser = new LinkParser(project, linkPrefix);
         let nodeList = [];
-        let visitChildren = function (json, path) {
-            _.each(_.keys(json), function (key) {
+        let visitChildren = (json, path) => {
+            _.each(_.keys(json), (key) => {
                 let str = json[key];
                 if (str != null && str.name != null && str.comment != null) {
                     let comment = str.comment;
@@ -288,7 +288,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return nodeList;
     }
 
-    public generateConstrainedValues(str: any) {
+    private generateConstrainedValues(str: any) {
         let constrainedValues = [];
         if (str && str['type'] && str['type'].type == 'union') {
             if (str.type.types[0] && str.type.types[0].typeArguments && str.type.types[0].typeArguments[0]) {
