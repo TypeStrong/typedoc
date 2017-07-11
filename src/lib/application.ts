@@ -1,4 +1,4 @@
-import {LinkParser} from "./utils/LinkParser";
+import { LinkParser } from "./utils/LinkParser";
 var _ = require("underscore");
 var marked = require("marked");
 var highlight = require("highlight.js");
@@ -15,16 +15,16 @@ import * as Path from "path";
 import * as FS from "fs";
 import * as Util from "util";
 import * as typescript from "typescript";
-import {Minimatch, IMinimatch} from "minimatch";
+import { Minimatch, IMinimatch } from "minimatch";
 
-import {Converter} from "./converter/index";
-import {Renderer} from "./output/renderer";
-import {ProjectReflection} from "./models/index";
-import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from "./utils/index";
+import { Converter } from "./converter/index";
+import { Renderer } from "./output/renderer";
+import { ProjectReflection } from "./models/index";
+import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from "./utils/index";
 
-import {AbstractComponent, ChildableComponent, Component, Option} from "./utils/component";
-import {Options, OptionsReadMode, IOptionsReadResult} from "./utils/options/index"
-import {ParameterType} from "./utils/options/declaration";
+import { AbstractComponent, ChildableComponent, Component, Option } from "./utils/component";
+import { Options, OptionsReadMode, IOptionsReadResult } from "./utils/options/index"
+import { ParameterType } from "./utils/options/declaration";
 
 
 /**
@@ -41,27 +41,27 @@ import {ParameterType} from "./utils/options/declaration";
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({name:"application", internal:true})
+@Component({ name: "application", internal: true })
 export class Application extends ChildableComponent<Application, AbstractComponent<Application>>
 {
-    options:Options;
+    options: Options;
 
     /**
      * The converter used to create the declaration reflections.
      */
-    converter:Converter;
+    converter: Converter;
 
     /**
      * The renderer used to generate the documentation output.
      */
-    renderer:Renderer;
+    renderer: Renderer;
 
     /**
      * The logger that should be used to output messages.
      */
-    logger:Logger;
+    logger: Logger;
 
-    plugins:PluginHost;
+    plugins: PluginHost;
 
     @Option({
         name: 'logger',
@@ -69,26 +69,26 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         defaultValue: 'console',
         type: ParameterType.Mixed,
     })
-    loggerType:string|Function;
+    loggerType: string | Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
         help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
         type: ParameterType.Boolean
     })
-    ignoreCompilerErrors:boolean;
+    ignoreCompilerErrors: boolean;
 
     @Option({
         name: 'exclude',
         help: 'Define a pattern for excluded files when specifying paths.',
         type: ParameterType.String
     })
-    exclude:string;
+    exclude: string;
 
     /**
      * The version number of TypeDoc.
      */
-    static VERSION:string = '{{ VERSION }}';
+    static VERSION: string = '{{ VERSION }}';
 
 
 
@@ -97,14 +97,14 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options An object containing the options that should be used.
      */
-    constructor(options?:Object) {
+    constructor(options?: Object) {
         super(null);
 
-        this.logger    = new ConsoleLogger();
+        this.logger = new ConsoleLogger();
         this.converter = this.addComponent('converter', Converter);
-        this.renderer  = this.addComponent('renderer', Renderer);
-        this.plugins   = this.addComponent('plugins', PluginHost);
-        this.options   = this.addComponent('options', Options);
+        this.renderer = this.addComponent('renderer', Renderer);
+        this.plugins = this.addComponent('plugins', PluginHost);
+        this.options = this.addComponent('options', Options);
 
         this.bootstrap(options);
     }
@@ -115,7 +115,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?:Object):IOptionsReadResult {
+    protected bootstrap(options?: Object): IOptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
         var logger = this.loggerType;
@@ -133,12 +133,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * Return the application / root component instance.
      */
-    get application():Application {
+    get application(): Application {
         return this
     }
 
 
-    get isCLI():boolean {
+    get isCLI(): boolean {
         return false;
     }
 
@@ -146,12 +146,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * Return the path to the TypeScript compiler.
      */
-    public getTypeScriptPath():string {
+    public getTypeScriptPath(): string {
         return Path.dirname(require.resolve('typescript'));
     }
 
 
-    public getTypeScriptVersion():string {
+    public getTypeScriptVersion(): string {
         var tsPath = this.getTypeScriptPath();
         var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
         return json.version;
@@ -164,7 +164,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param src  A list of source that should be compiled and converted.
      * @returns An instance of ProjectReflection on success, NULL otherwise.
      */
-    public convert(src:string[]):ProjectReflection {
+    public convert(src: string[]): ProjectReflection {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
         var result = this.converter.convert(src);
@@ -185,12 +185,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * @param src  A list of source files whose documentation should be generated.
      */
-    public generateDocs(src:string[], out:string):boolean;
+    public generateDocs(src: string[], out: string): boolean;
 
     /**
      * @param project  The project the documentation should be generated for.
      */
-    public generateDocs(project:ProjectReflection, out:string):boolean;
+    public generateDocs(project: ProjectReflection, out: string): boolean;
 
     /**
      * Run the documentation generator for the given set of files.
@@ -198,7 +198,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path the documentation should be written to.
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
-    public generateDocs(input:any, out:string):boolean {
+    public generateDocs(input: any, out: string): boolean {
         var project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) return false;
 
@@ -217,12 +217,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * @param src  A list of source that should be compiled and converted.
      */
-    public generateJson(src:string[], out:string, linkPrefix?:string):boolean;
+    public generateJson(src: string[], out: string, linkPrefix?: string): boolean;
 
     /**
      * @param project  The project that should be converted.
      */
-    public generateJson(project:ProjectReflection, out:string, linkPrefix?:string):boolean;
+    public generateJson(project: ProjectReflection, out: string, linkPrefix?: string): boolean;
 
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
@@ -230,7 +230,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input:any, out:string, linkPrefix?:string):boolean {
+    public generateJson(input: any, out: string, linkPrefix?: string): boolean {
         var project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) return false;
 
@@ -243,34 +243,39 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return true;
     }
 
-    private prettifyJson(obj: any, project:ProjectReflection, linkPrefix?:string){
-        let getHighlighted = function(text, lang) {
-          try {
-            if (lang) {
-              return highlight.highlight(lang, text).value;
-            } else {
-              return highlight.highlightAuto(text).value;
+    private prettifyJson(obj: any, project: ProjectReflection, linkPrefix?: string) {
+        let getHighlighted = function (text, lang) {
+            try {
+                if (lang) {
+                    return highlight.highlight(lang, text).value;
+                } else {
+                    return highlight.highlightAuto(text).value;
+                }
+            } catch (error) {
+                this.application.logger.warn(error.message);
+                return text;
             }
-          } catch (error) {
-            this.application.logger.warn(error.message);
-            return text;
-          }
         };
         marked.setOptions({
-          highlight: function (code, lang) {
-            return getHighlighted(code, lang);
-          }
+            highlight: function (code, lang) {
+                return getHighlighted(code, lang);
+            }
         });
-        let linkParser:LinkParser = new LinkParser(project, linkPrefix);
+        let linkParser: LinkParser = new LinkParser(project, linkPrefix);
         let nodeList = [];
-        let visitChildren = function(json, path) {
+        let visitChildren = function (json, path) {
             _.each(_.keys(json), function (key) {
                 let str = json[key];
                 if (str != null && str.name != null && str.comment != null) {
                     let comment = str.comment;
                     if (comment.shortText != null) {
                         let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
-                        nodeList.push({name: path + str.name, comment : linkParser.parseMarkdown(markedText), type : str.type ? str.type.name : ''});
+                        let type = '';
+                        let constrainedValues = this.generateConstrainedValues(str);
+                        if (str.type && str.type.name) {
+                            type = str.type.name;
+                        }
+                        nodeList.push({ name: path + str.name, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues });
                     }
                     if (str.children != null && str.children.length > 0) {
                         visitChildren(str.children, path + str.name + '.');
@@ -283,6 +288,25 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return nodeList;
     }
 
+    public generateConstrainedValues(str: any) {
+        let constrainedValues = [];
+        if (str && str['type'] && str['type'].type == 'union') {
+            if (str.type.types[0] && str.type.types[0].typeArguments && str.type.types[0].typeArguments[0]) {
+                constrainedValues = str.type.types[0].typeArguments[0].types.map(function (type) {
+                    return type.value;
+                });
+                if (str.type.types[0].name && str.type.types[0].name.toLowerCase() == 'array') {
+                    var copy = [];
+                    for (var i = 0; i < constrainedValues.length; i++) {
+                        copy[i] = constrainedValues.slice(0, i + 1).join(',');
+                    }
+                    constrainedValues = copy;
+                }
+                constrainedValues = constrainedValues.slice(0, 4);
+            }
+        }
+    }
+
     /**
      * Expand a list of input files.
      *
@@ -293,13 +317,13 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param inputFiles  The list of files that should be expanded.
      * @returns  The list of input files with expanded directories.
      */
-    public expandInputFiles(inputFiles?:string[]):string[] {
-        var exclude:IMinimatch, files:string[] = [];
+    public expandInputFiles(inputFiles?: string[]): string[] {
+        var exclude: IMinimatch, files: string[] = [];
         if (this.exclude) {
             exclude = new Minimatch(this.exclude);
         }
 
-        function add(dirname:string) {
+        function add(dirname: string) {
             FS.readdirSync(dirname).forEach((file) => {
                 var realpath = Path.join(dirname, file);
                 if (FS.statSync(realpath).isDirectory()) {
