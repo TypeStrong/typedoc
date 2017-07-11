@@ -305,6 +305,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                 constrainedValues = constrainedValues.slice(0, 4);
             }
         }
+        return constrainedValues;
     }
 
     /**
