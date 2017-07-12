@@ -272,10 +272,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                         let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
                         let type = '';
                         let constrainedValues = this.generateConstrainedValues(str);
+                        let miscAttributes = this.generateMiscAttributes(str);
                         if (str.type && str.type.name) {
                             type = str.type.name;
                         }
-                        nodeList.push({ name: path + str.name, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues });
+                        nodeList.push({ name: path + str.name, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
                     }
                     if (str.children != null && str.children.length > 0) {
                         visitChildren(str.children, path + str.name + '.');
@@ -306,6 +307,25 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             }
         }
         return constrainedValues;
+    }
+
+    private generateMiscAttributes(str: any) {
+        var otherMiscAttributes = {};
+        if (str.defaultValue) {
+            var required = str.defaultValue.match(/required\s*:\s([a-zA-Z]+)\s*/);
+            if (required) {
+                otherMiscAttributes['required'] = required[1];
+            }
+            var defaultOptionValue = str.defaultValue.match(/defaultValue\s*:\s([a-zA-Z0-9()'"]+)\s*/);
+            if (defaultOptionValue) {
+                defaultOptionValue[1] = defaultOptionValue[1].replace('l(', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(')', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(')', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(/'/g, '');
+                otherMiscAttributes['defaultValue'] = defaultOptionValue[1];
+            }
+        }
+        return otherMiscAttributes;
     }
 
     /**
