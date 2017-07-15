@@ -9,16 +9,16 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 import * as typescript from 'typescript';
-import {Minimatch, IMinimatch} from 'minimatch';
+import { Minimatch, IMinimatch } from 'minimatch';
 
-import {Converter} from './converter/index';
-import {Renderer} from './output/renderer';
-import {ProjectReflection} from './models/index';
-import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
+import { Converter } from './converter/index';
+import { Renderer } from './output/renderer';
+import { ProjectReflection } from './models/index';
+import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
-import {AbstractComponent, ChildableComponent, Component, Option} from './utils/component';
-import {Options, OptionsReadMode, OptionsReadResult} from './utils/options/index';
-import {ParameterType} from './utils/options/declaration';
+import { AbstractComponent, ChildableComponent, Component, Option } from './utils/component';
+import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
+import { ParameterType } from './utils/options/declaration';
 
 /**
  * The default TypeDoc main application class.

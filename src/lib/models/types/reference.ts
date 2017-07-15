@@ -1,5 +1,5 @@
-import {Reflection} from '../reflections/abstract';
-import {Type} from './abstract';
+import { Reflection } from '../reflections/abstract';
+import { Type } from './abstract';
 
 /**
  * Represents a type that refers to another reflection like a class, interface or enum.

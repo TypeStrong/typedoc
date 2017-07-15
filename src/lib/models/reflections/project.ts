@@ -1,6 +1,6 @@
-import {SourceFile, SourceDirectory} from '../sources/index';
-import {Reflection, ReflectionKind} from './abstract';
-import {ContainerReflection} from './container';
+import { SourceFile, SourceDirectory } from '../sources/index';
+import { Reflection, ReflectionKind } from './abstract';
+import { ContainerReflection } from './container';
 
 /**
  * A reflection that represents the root of the project.

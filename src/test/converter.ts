@@ -1,4 +1,4 @@
-import { Application, resetReflectionID, normalizePath, ProjectReflection } from '..';
+import {  Application, resetReflectionID, normalizePath, ProjectReflection  } from '..';
 import * as FS from 'fs';
 import * as Path from 'path';
 import Assert = require('assert');

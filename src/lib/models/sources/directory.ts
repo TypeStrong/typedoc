@@ -1,6 +1,6 @@
-import {Reflection} from '../reflections/abstract';
-import {ReflectionGroup} from '../ReflectionGroup';
-import {SourceFile} from './file';
+import { Reflection } from '../reflections/abstract';
+import { ReflectionGroup } from '../ReflectionGroup';
+import { SourceFile } from './file';
 
 /**
  * Exposes information about a directory containing source files.

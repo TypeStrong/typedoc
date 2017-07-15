@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Options} from './options';
-import {ParameterScope, ParameterHint} from './declaration';
+import { Options } from './options';
+import { ParameterScope, ParameterHint } from './declaration';
 
 export interface ParameterHelp {
     names: string[];
