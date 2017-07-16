@@ -90,7 +90,7 @@ module.exports = function(grunt)
                 src: 'dist/test',
                 options: {
                     mask: '*.js',
-                    timeout: 4000
+                    timeout: 10000
                 }
             }
         }
@@ -127,10 +127,6 @@ module.exports = function(grunt)
                 "lib.es2015.iterable.d.ts",
                 "lib.es2015.collection.d.ts"
             ],
-            noStrictGenericChecks: true,
-            typeRoots: [
-                "node_modules/@types"
-            ]
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {
