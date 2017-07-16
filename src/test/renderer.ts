@@ -1,4 +1,4 @@
-import {  Application, ProjectReflection  } from '..';
+import { Application, ProjectReflection } from '..';
 import * as FS from 'fs-extra';
 import * as Path from 'path';
 import Assert = require('assert');
