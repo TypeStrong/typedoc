@@ -12,16 +12,16 @@ import * as FS from 'fs-extra';
 // tslint:disable-next-line:variable-name
 const ProgressBar = require('progress');
 
-import { Application } from '../application';
-import { Theme } from './theme';
-import { RendererEvent, PageEvent } from './events';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { writeFile } from '../utils/fs';
-import { DefaultTheme } from './themes/DefaultTheme';
-import { RendererComponent } from './components';
-import { Component, ChildableComponent, Option } from '../utils/component';
-import { ParameterType } from '../utils/options/declaration';
+import {Application} from '../application';
+import {Theme} from './theme';
+import {RendererEvent, PageEvent} from './events';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {writeFile} from '../utils/fs';
+import {DefaultTheme} from './themes/DefaultTheme';
+import {RendererComponent} from './components';
+import {Component, ChildableComponent, Option} from '../utils/component';
+import {ParameterType} from '../utils/options/declaration';
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes

@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind } from '../../models/index';
-import { createDeclaration } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection, ReflectionKind} from '../../models/index';
+import {createDeclaration} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:alias'})
 export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclaration> {

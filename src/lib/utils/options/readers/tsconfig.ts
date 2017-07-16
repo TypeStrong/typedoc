@@ -3,10 +3,10 @@ import * as FS from 'fs';
 import * as _ from 'lodash';
 import * as ts from 'typescript';
 
-import { Component, Option } from '../../component';
-import { OptionsComponent, DiscoverEvent } from '../options';
-import { ParameterType, ParameterHint } from '../declaration';
-import { TypeScriptSource } from '../sources/typescript';
+import {Component, Option} from '../../component';
+import {OptionsComponent, DiscoverEvent} from '../options';
+import {ParameterType, ParameterHint} from '../declaration';
+import {TypeScriptSource} from '../sources/typescript';
 
 @Component({name: 'options:tsconfig'})
 export class TSConfigReader extends OptionsComponent {

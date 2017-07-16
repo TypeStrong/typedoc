@@ -1,4 +1,4 @@
-import { Reflection, ReflectionKind } from './reflections/abstract';
+import {Reflection, ReflectionKind} from './reflections/abstract';
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.

@@ -1,13 +1,13 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 
-import { Theme } from '../theme';
-import { Renderer } from '../renderer';
-import { Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection } from '../../models/reflections/index';
-import { ReflectionGroup } from '../../models/ReflectionGroup';
-import { UrlMapping } from '../models/UrlMapping';
-import { NavigationItem } from '../models/NavigationItem';
-import { RendererEvent } from '../events';
+import {Theme} from '../theme';
+import {Renderer} from '../renderer';
+import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
+import {ReflectionGroup} from '../../models/ReflectionGroup';
+import {UrlMapping} from '../models/UrlMapping';
+import {NavigationItem} from '../models/NavigationItem';
+import {RendererEvent} from '../events';
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.

@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
-import { Minimatch, IMinimatch } from 'minimatch';
+import {Minimatch, IMinimatch} from 'minimatch';
 
-import { Logger } from '../utils/loggers';
-import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
-import { createTypeParameter } from './factories/type-parameter';
-import { Converter } from './converter';
+import {Logger} from '../utils/loggers';
+import {Reflection, ProjectReflection, ContainerReflection, Type} from '../models/index';
+import {createTypeParameter} from './factories/type-parameter';
+import {Converter} from './converter';
 
 /**
  * The context describes the current state the converter is in.

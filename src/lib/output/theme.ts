@@ -1,10 +1,10 @@
-import { Renderer } from './renderer';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { NavigationItem } from './models/NavigationItem';
-import { RendererComponent } from './components';
-import { Component } from '../utils/component';
-import { Resources } from './utils/resources';
+import {Renderer} from './renderer';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {NavigationItem} from './models/NavigationItem';
+import {RendererComponent} from './components';
+import {Component} from '../utils/component';
+import {Resources} from './utils/resources';
 
 /**
  * Base class of all themes.

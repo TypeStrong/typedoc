@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { Type, TupleType } from '../../models/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
+import {Type, TupleType} from '../../models/index';
+import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
+import {Context} from '../context';
 
 @Component({name: 'type:binding-array'})
 export class BindingArrayConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.BindingPattern> {

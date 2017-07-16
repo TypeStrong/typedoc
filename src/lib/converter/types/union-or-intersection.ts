@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { Type, UnionType, IntersectionType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeConverter } from '../components';
-import { Context } from '../context';
+import {Type, UnionType, IntersectionType} from '../../models/types/index';
+import {Component, ConverterTypeComponent, TypeConverter} from '../components';
+import {Context} from '../context';
 
 @Component({name: 'type:union-or-intersection'})
 export class UnionOrIntersectionConverter extends ConverterTypeComponent implements TypeConverter<ts.UnionOrIntersectionType, ts.UnionOrIntersectionTypeNode> {

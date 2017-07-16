@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { Type, UnknownType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeTypeConverter } from '../components';
-import { Context } from '../context';
+import {Type, UnknownType} from '../../models/types/index';
+import {Component, ConverterTypeComponent, TypeTypeConverter} from '../components';
+import {Context} from '../context';
 
 @Component({name: 'type:unknown'})
 export class UnknownConverter extends ConverterTypeComponent implements TypeTypeConverter<ts.Type> {

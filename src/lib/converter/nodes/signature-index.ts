@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
-import { createSignature } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
+import {createSignature} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:signature-index'})
 export class IndexSignatureConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {

@@ -1,10 +1,10 @@
 import * as typescript from 'typescript';
 
-import { Application } from './application';
-import { Option } from './utils/component';
-import { OptionsReadResult } from './utils/options/options';
-import { ParameterHint, ParameterType } from './utils/options/declaration';
-import { getOptionsHelp } from './utils/options/help';
+import {Application} from './application';
+import {Option} from './utils/component';
+import {OptionsReadResult} from './utils/options/options';
+import {ParameterHint, ParameterType} from './utils/options/declaration';
+import {getOptionsHelp} from './utils/options/help';
 
 export const enum ExitCode {
     OptionError  = 1,

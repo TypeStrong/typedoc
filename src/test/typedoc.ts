@@ -1,4 +1,4 @@
-import {  Application  } from '..';
+import { Application } from '..';
 import * as Path from 'path';
 import Assert = require('assert');
 

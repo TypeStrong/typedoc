@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import { ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection } from '../../models/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { createReferenceType } from './reference';
+import {ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection} from '../../models/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {createReferenceType} from './reference';
 
 /**
  * List of reflection kinds that never should be static.

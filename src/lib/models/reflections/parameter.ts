@@ -1,6 +1,6 @@
-import { Type, ReflectionType } from '../types/index';
-import { Reflection, DefaultValueContainer, TypeContainer, TraverseCallback, TraverseProperty } from './abstract';
-import { SignatureReflection } from './signature';
+import {Type, ReflectionType} from '../types/index';
+import {Reflection, DefaultValueContainer, TypeContainer, TraverseCallback, TraverseProperty} from './abstract';
+import {SignatureReflection} from './signature';
 
 export class ParameterReflection extends Reflection implements DefaultValueContainer, TypeContainer {
     parent: SignatureReflection;

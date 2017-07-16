@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
-import { Application } from '../application';
-import { EventDispatcher, Event, EventMap } from './events';
-import { DeclarationOption } from './options/declaration';
+import {Application} from '../application';
+import {EventDispatcher, Event, EventMap} from './events';
+import {DeclarationOption} from './options/declaration';
 
 export interface ComponentHost {
     application: Application;

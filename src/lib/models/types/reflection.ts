@@ -1,5 +1,5 @@
-import { DeclarationReflection } from '../reflections/declaration';
-import { Type } from './abstract';
+import {DeclarationReflection} from '../reflections/declaration';
+import {Type} from './abstract';
 
 /**
  * Represents a type which has it's own reflection like literal types.

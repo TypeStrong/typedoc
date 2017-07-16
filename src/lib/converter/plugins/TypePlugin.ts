@@ -1,8 +1,8 @@
-import { Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy } from '../../models/reflections/index';
-import { Type, ReferenceType, TupleType, UnionType, IntersectionType, ArrayType } from '../../models/types/index';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
+import {Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy} from '../../models/reflections/index';
+import {Type, ReferenceType, TupleType, UnionType, IntersectionType, ArrayType} from '../../models/types/index';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 /**
  * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.

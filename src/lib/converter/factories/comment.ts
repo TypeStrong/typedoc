@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { Comment, CommentTag } from '../../models/comments/index';
+import {Comment, CommentTag} from '../../models/comments/index';
 
 /**
  * Return the parsed comment of the given TypeScript node.

@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind } from '../../models/index';
-import { createDeclaration, createSignature } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection, ReflectionKind} from '../../models/index';
+import {createDeclaration, createSignature} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:accessor'})
 export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {

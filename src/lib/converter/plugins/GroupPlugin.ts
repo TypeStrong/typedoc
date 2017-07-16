@@ -1,9 +1,9 @@
-import { Reflection, ReflectionKind, ContainerReflection, DeclarationReflection } from '../../models/reflections/index';
-import { ReflectionGroup } from '../../models/ReflectionGroup';
-import { SourceDirectory } from '../../models/sources/directory';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
+import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
+import {ReflectionGroup} from '../../models/ReflectionGroup';
+import {SourceDirectory} from '../../models/sources/directory';
+import {Component, ConverterComponent} from '../components';
+import {Converter} from '../converter';
+import {Context} from '../context';
 
 /**
  * A handler that sorts and groups the found reflections in the resolving phase.

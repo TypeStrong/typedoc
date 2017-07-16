@@ -2,10 +2,10 @@ import * as _ from 'lodash';
 import * as Util from 'util';
 import * as ts from 'typescript';
 
-import { Event } from '../events';
-import { Component, AbstractComponent, ChildableComponent } from '../component';
-import { Application } from '../../application';
-import { OptionDeclaration, DeclarationOption, ParameterScope } from './declaration';
+import {Event} from '../events';
+import {Component, AbstractComponent, ChildableComponent} from '../component';
+import {Application} from '../../application';
+import {OptionDeclaration, DeclarationOption, ParameterScope} from './declaration';
 
 export class OptionsComponent extends AbstractComponent<Options> { }
 

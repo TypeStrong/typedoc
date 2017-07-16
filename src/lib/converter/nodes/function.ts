@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind } from '../../models/index';
-import { createDeclaration, createSignature } from '../factories/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection, ReflectionKind} from '../../models/index';
+import {createDeclaration, createSignature} from '../factories/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:function'})
 export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclaration|ts.MethodDeclaration> {

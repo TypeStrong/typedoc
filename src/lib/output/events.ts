@@ -1,9 +1,9 @@
 import * as Path from 'path';
 
-import { Event } from '../utils/events';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { NavigationItem } from './models/NavigationItem';
+import {Event} from '../utils/events';
+import {ProjectReflection} from '../models/reflections/project';
+import {UrlMapping} from './models/UrlMapping';
+import {NavigationItem} from './models/NavigationItem';
 
 /**
  * An event emitted by the [[Renderer]] class at the very beginning and

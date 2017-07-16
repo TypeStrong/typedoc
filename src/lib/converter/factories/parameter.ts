@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection } from '../../models/reflections/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { convertDefaultValue } from '../convert-expression';
+import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from '../../models/reflections/index';
+import {Context} from '../context';
+import {Converter} from '../converter';
+import {convertDefaultValue} from '../convert-expression';
 
 /**
  * Create a parameter reflection for the given node.

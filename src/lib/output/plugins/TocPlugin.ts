@@ -1,7 +1,7 @@
-import { Reflection, ReflectionKind, ProjectReflection, DeclarationReflection } from '../../models/reflections/index';
-import { Component, RendererComponent } from '../components';
-import { PageEvent } from '../events';
-import { NavigationItem } from '../models/NavigationItem';
+import {Reflection, ReflectionKind, ProjectReflection, DeclarationReflection} from '../../models/reflections/index';
+import {Component, RendererComponent} from '../components';
+import {PageEvent} from '../events';
+import {NavigationItem} from '../models/NavigationItem';
 
 /**
  * A plugin that generates a table of contents for the current page.

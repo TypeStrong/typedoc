@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { Reflection } from '../../models/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection} from '../../models/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:variable-statement'})
 export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement> {

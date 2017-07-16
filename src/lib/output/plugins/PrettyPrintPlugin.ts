@@ -1,5 +1,5 @@
-import { Component, RendererComponent } from '../components';
-import { PageEvent } from '../events';
+import {Component, RendererComponent} from '../components';
+import {PageEvent} from '../events';
 
 /**
  * List of states the parser of [[PrettyPrintPlugin]] can be in.

@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { IntrinsicType } from '../../models/index';
-import { Component, ConverterTypeComponent, TypeTypeConverter } from '../components';
-import { Context } from '../context';
+import {IntrinsicType} from '../../models/index';
+import {Component, ConverterTypeComponent, TypeTypeConverter} from '../components';
+import {Context} from '../context';
 
 // TypeScript has an @internal enum set for the intrinsic types:
 // https://github.com/Microsoft/TypeScript/blob/v2.0.5/src/compiler/types.ts#L2297-L2298

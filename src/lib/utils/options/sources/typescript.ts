@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../../ts-internal';
 
-import { Component } from '../../component';
-import { OptionsComponent } from '../options';
-import { DeclarationOption, ParameterScope, ParameterType, ParameterHint } from '../declaration';
+import {Component} from '../../component';
+import {OptionsComponent} from '../options';
+import {DeclarationOption, ParameterScope, ParameterType, ParameterHint} from '../declaration';
 
 @Component({name: 'options:typescript'})
 export class TypeScriptSource extends OptionsComponent {

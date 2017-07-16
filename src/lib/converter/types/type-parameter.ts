@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { Type, TypeParameterType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
+import {Type, TypeParameterType} from '../../models/types/index';
+import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
+import {Context} from '../context';
 
 @Component({name: 'type:type-parameter'})
 export class TypeParameterConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {

@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { Reflection, ReflectionKind, IntrinsicType } from '../../models/index';
-import { createDeclaration, createComment } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
-import { convertDefaultValue } from '../index';
+import {Reflection, ReflectionKind, IntrinsicType} from '../../models/index';
+import {createDeclaration, createComment} from '../factories/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
+import {convertDefaultValue} from '../index';
 
 @Component({name: 'node:variable'})
 export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclaration> {

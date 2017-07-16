@@ -1,4 +1,4 @@
-import { Type, UnionType, IntersectionType } from './index';
+import {Type, UnionType, IntersectionType} from './index';
 
 /**
  * Represents an array type.

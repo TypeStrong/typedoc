@@ -2,14 +2,14 @@ import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
 import * as _ from 'lodash';
 
-import { Application } from '../application';
-import { ParameterType } from '../utils/options/declaration';
-import { Reflection, Type, ProjectReflection } from '../models/index';
-import { Context } from './context';
-import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { CompilerHost } from './utils/compiler-host';
-import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
-import { normalizePath } from '../utils/fs';
+import {Application} from '../application';
+import {ParameterType} from '../utils/options/declaration';
+import {Reflection, Type, ProjectReflection} from '../models/index';
+import {Context} from './context';
+import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter} from './components';
+import {CompilerHost} from './utils/compiler-host';
+import {Component, Option, ChildableComponent, ComponentClass} from '../utils/component';
+import {normalizePath} from '../utils/fs';
 
 /**
  * Result structure of the [[Converter.convert]] method.

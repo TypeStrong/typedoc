@@ -1,5 +1,5 @@
-import { Component, RendererComponent } from '../components';
-import { PageEvent } from '../events';
+import {Component, RendererComponent} from '../components';
+import {PageEvent} from '../events';
 
 /**
  * A plugin that wraps the generated output with a layout template.

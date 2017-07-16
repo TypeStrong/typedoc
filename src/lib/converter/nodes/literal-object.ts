@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { Reflection } from '../../models/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import {Reflection} from '../../models/index';
+import {Context} from '../context';
+import {Component, ConverterNodeComponent} from '../components';
 
 @Component({name: 'node:literal-object'})
 export class ObjectLiteralConverter extends ConverterNodeComponent<ts.ObjectLiteralExpression> {

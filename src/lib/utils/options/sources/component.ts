@@ -1,5 +1,5 @@
-import { Component, ComponentEvent, AbstractComponent, ChildableComponent } from '../../component';
-import { OptionsComponent } from '../options';
+import {Component, ComponentEvent, AbstractComponent, ChildableComponent} from '../../component';
+import {OptionsComponent} from '../options';
 
 @Component({name: 'options:component'})
 export class ComponentSource extends OptionsComponent {
