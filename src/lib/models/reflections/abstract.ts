@@ -1,7 +1,7 @@
-import {SourceReference} from '../sources/file';
-import {Type} from '../types/index';
-import {Comment} from '../comments/comment';
-import {TypeParameterReflection} from './type-parameter';
+import { SourceReference } from '../sources/file';
+import { Type } from '../types/index';
+import { Comment } from '../comments/comment';
+import { TypeParameterReflection } from './type-parameter';
 
 /**
  * Holds all data models used by TypeDoc.

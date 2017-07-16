@@ -2,9 +2,9 @@ import * as FS from 'fs';
 import * as Path from 'path';
 import * as Util from 'util';
 
-import {Application} from '../application';
-import {AbstractComponent, Component, Option} from './component';
-import {ParameterType} from './options/declaration';
+import { Application } from '../application';
+import { AbstractComponent, Component, Option } from './component';
+import { ParameterType } from './options/declaration';
 
 @Component({name: 'plugin-host', internal: true})
 export class PluginHost extends AbstractComponent<Application> {

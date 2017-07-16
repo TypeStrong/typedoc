@@ -2,9 +2,9 @@ import * as Path from 'path';
 import * as FS from 'fs';
 import * as _ from 'lodash';
 
-import {Component, Option} from '../../component';
-import {OptionsComponent, DiscoverEvent} from '../options';
-import {ParameterType, ParameterHint} from '../declaration';
+import { Component, Option } from '../../component';
+import { OptionsComponent, DiscoverEvent } from '../options';
+import { ParameterType, ParameterHint } from '../declaration';
 
 @Component({name: 'options:typedoc'})
 export class TypedocReader extends OptionsComponent {

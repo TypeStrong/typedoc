@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag} from '../../models/index';
-import {createDeclaration} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
-import {Option} from '../../utils/component';
-import {ParameterType} from '../../utils/options/declaration';
+import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { Option } from '../../utils/component';
+import { ParameterType } from '../../utils/options/declaration';
 
 const prefered: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,

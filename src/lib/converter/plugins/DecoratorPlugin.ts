@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {ReferenceType} from '../../models/types/index';
-import {Reflection, Decorator} from '../../models/reflections/index';
-import {Component, ConverterComponent} from '../components';
-import {Converter} from '../converter';
-import {Context} from '../context';
+import { ReferenceType } from '../../models/types/index';
+import { Reflection, Decorator } from '../../models/reflections/index';
+import { Component, ConverterComponent } from '../components';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * A plugin that detects decorators.

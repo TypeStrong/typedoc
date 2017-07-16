@@ -1,4 +1,4 @@
-import {CommentTag} from './tag';
+import { CommentTag } from './tag';
 
 /**
  * A model that represents a javadoc comment.

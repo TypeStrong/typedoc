@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
-import {createSignature} from '../factories/index';
+import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { createSignature } from '../factories/index';
 
 @Component({name: 'node:signature-call'})
 export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression> {
