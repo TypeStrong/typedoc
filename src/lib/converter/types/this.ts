@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {  Type, IntrinsicType  } from '../../models/types/index';
-import {  Component, ConverterTypeComponent, TypeNodeConverter  } from '../components';
-import {  Context  } from '../context';
+import { Type, IntrinsicType } from '../../models/types/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({ name: 'type:this' })
 export class ThisConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.ThisTypeNode> {
