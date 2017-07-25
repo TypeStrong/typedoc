@@ -25,21 +25,25 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
         }
         if (symbol) {
             const project = context.project;
-            symbol.declarations.forEach((declaration) => {
-                if (!declaration.symbol) {
-                    return;
-                }
-                const id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
-                if (!id) {
-                    return;
-                }
+            // if the symbol declarations are undefined due to an export, we skip it
+            // fixes https://github.com/TypeStrong/typedoc/issues/513
+            if (symbol.declarations) {
+                symbol.declarations.forEach((declaration) => {
+                    if (!declaration.symbol) {
+                        return;
+                    }
+                    const id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
+                    if (!id) {
+                        return;
+                    }
 
-                const reflection = project.reflections[id];
-                if (node.isExportEquals && reflection instanceof DeclarationReflection) {
-                    (<DeclarationReflection> reflection).setFlag(ReflectionFlag.ExportAssignment, true);
-                }
-                markAsExported(reflection);
-            });
+                    const reflection = project.reflections[id];
+                    if (node.isExportEquals && reflection instanceof DeclarationReflection) {
+                        (<DeclarationReflection> reflection).setFlag(ReflectionFlag.ExportAssignment, true);
+                    }
+                    markAsExported(reflection);
+                });
+            }
         }
 
         function markAsExported(reflection: Reflection) {
