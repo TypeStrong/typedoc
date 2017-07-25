@@ -23,7 +23,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
             let type = context.getTypeAtLocation(node.expression);
             symbol = type ? type.symbol : undefined;
         }
-        if (symbol) {
+        if (symbol && symbol.declarations) {
             const project = context.project;
             // if the symbol declarations are undefined due to an export, we skip it
             // fixes https://github.com/TypeStrong/typedoc/issues/513
