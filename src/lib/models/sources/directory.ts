@@ -1,4 +1,5 @@
 import { Reflection } from '../reflections/abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { SourceFile } from './file';
 
@@ -21,6 +22,8 @@ export class SourceDirectory {
     directories: {[name: string]: SourceDirectory} = {};
 
     groups: ReflectionGroup[];
+
+    categories: ReflectionCategory[];
 
     /**
      * A list of all files in this directory.
