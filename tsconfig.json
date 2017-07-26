@@ -3,7 +3,9 @@
     "module": "commonjs",
     "lib": [
       "dom",
-      "es2016"
+      "es5",
+-      "es2015.collection",
+-      "es2015.iterable"
     ],
     "target": "es5",
     "noImplicitAny": false,
