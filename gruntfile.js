@@ -90,7 +90,7 @@ module.exports = function(grunt)
                 src: 'dist/test',
                 options: {
                     mask: '*.js',
-                    timeout: 4000
+                    timeout: 10000
                 }
             }
         }
@@ -120,7 +120,13 @@ module.exports = function(grunt)
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
-            jsx: 'react'
+            jsx: 'react',
+            lib: [
+                "lib.dom.d.ts",
+                "lib.es5.d.ts",
+                "lib.es2015.iterable.d.ts",
+                "lib.es2015.collection.d.ts"
+            ],
         });
 
         FS.readdirSync(Path.join(base)).forEach(function(directory) {

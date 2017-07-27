@@ -46,7 +46,7 @@
     "progress": "^2.0.0",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.5.0",
-    "typescript": "2.3.4"
+    "typescript": "2.4.1"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.39",
@@ -71,7 +71,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha -t 4000 dist/test",
+    "test": "mocha -t 10000 dist/test",
     "build": "grunt build_and_test",
     "prepublish": "npm run build"
   },

@@ -184,12 +184,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.typeNodeConverters = [];
     }
 
-    addComponent(name: string, componentClass: ComponentClass<ConverterComponent>): ConverterComponent {
+    addComponent<T extends ConverterComponent & Component>(name: string, componentClass: T | ComponentClass<T>): T {
         const component = super.addComponent(name, componentClass);
         if (component instanceof ConverterNodeComponent) {
             this.addNodeConverter(component);
         } else if (component instanceof ConverterTypeComponent) {
-            this.addTypeConverter(<TypeTypeConverter<any>|TypeNodeConverter<any, any>> component);
+            this.addTypeConverter(component);
         }
 
         return component;
@@ -201,7 +201,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
     }
 
-    private addTypeConverter(converter: TypeTypeConverter<any>|TypeNodeConverter<any, any>) {
+    private addTypeConverter(converter: ConverterTypeComponent) {
         if ('supportsNode' in converter && 'convertNode' in converter) {
             this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
             this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
