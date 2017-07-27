@@ -30,14 +30,14 @@
     "node": ">= 4.2.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^3.0.0",
+    "@types/fs-extra": "^4.0.0",
     "@types/handlebars": "^4.0.31",
     "@types/highlight.js": "^9.1.8",
     "@types/lodash": "^4.14.37",
     "@types/marked": "0.0.28",
     "@types/minimatch": "^2.0.29",
     "@types/shelljs": "^0.7.0",
-    "fs-extra": "^3.0.0",
+    "fs-extra": "^4.0.0",
     "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
     "lodash": "^4.13.1",
