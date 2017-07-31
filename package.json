@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^2.2.39",
+    "@types/node": "^8.0.17",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
