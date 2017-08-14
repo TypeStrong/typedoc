@@ -61,8 +61,6 @@ function getParameterHelp(options: Options, scope: ParameterScope): ParameterHel
  */
 export function getOptionsHelp(options: Options): string {
     const typeDoc = getParameterHelp(options, ParameterScope.TypeDoc);
-    const typeScript = getParameterHelp(options, ParameterScope.TypeScript);
-    const margin = Math.max(typeDoc.margin, typeScript.margin);
 
     const output: string[] = [];
     output.push('Usage:');
@@ -72,7 +70,7 @@ export function getOptionsHelp(options: Options): string {
     pushHelp(typeDoc);
 
     output.push('', 'TypeScript options:');
-    pushHelp(typeScript);
+    output.push('See https://www.typescriptlang.org/docs/handbook/compiler-options.html');
 
     output.push('');
     return output.join(ts.sys.newLine);
@@ -81,7 +79,7 @@ export function getOptionsHelp(options: Options): string {
         for (let i = 0; i < columns.names.length; i++) {
             const usage = columns.names[i];
             const description = columns.helps[i];
-            output.push(usage + padding(margin - usage.length + 2) + description);
+            output.push(usage + padding(typeDoc.margin - usage.length + 2) + description);
         }
     }
 

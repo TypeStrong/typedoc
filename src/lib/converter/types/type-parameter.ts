@@ -11,7 +11,7 @@ export class TypeParameterConverter extends ConverterTypeComponent implements Ty
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority: number = -50;
+    priority = -50;
 
     /**
      * Test whether this converter can handle the given TypeScript node.

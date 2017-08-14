@@ -49,12 +49,16 @@ in order to change the behaviour of TypeDoc.
   Specifies the location the documentation should be written to.
 * `--mode <file|modules>`<br>
   Specifies the output mode the project is used to be compiled with.
+* `--options`<br>
+  Specify a js option file that should be loaded. If not specified TypeDoc will look for 'typedoc.js' in the current directory.
 * `--json <path/to/output.json>`<br>
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
+* `--ignoreCompilerErrors`<br>
+  Should TypeDoc still generate documentation pages even after the compiler has returned errors?
 
 #### Source file handling
 * `--exclude <pattern>`<br>
-  Exclude files by the given pattern when a path is provided as source
+  Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see [#170](https://github.com/TypeStrong/typedoc/issues/170))
 * `--includeDeclarations`<br>
   Turn on parsing of .d.ts declaration files.
 * `--externalPattern <pattern>`<br>
@@ -78,6 +82,8 @@ in order to change the behaviour of TypeDoc.
 * `--readme <path/to/readme|none>`<br>
   Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
   and start the documentation on the globals page.
+* `--plugin`<br>
+  Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.
 * `--hideGenerator`<br>
   Do not print the TypeDoc link at the end of the page.
 * `--gaID`<br>
@@ -102,7 +108,7 @@ in order to change the behaviour of TypeDoc.
 * `--version`<br>
   Display the version number of TypeDoc.
 * `--help`<br>
-  Display a simple cheat sheet.
+  Display all TypeDoc options.
 
 ### Webpack
 
@@ -134,8 +140,8 @@ Visit our homepage for advanced guides and an extensive API documentation:<br>
 
 ## Contributing
 
-Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
-an issue or create a pull requests:<br>
+This project is maintained by a community of developers. Contributions are welcome and appreciated.
+You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 [https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
 
 

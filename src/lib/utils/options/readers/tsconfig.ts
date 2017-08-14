@@ -12,7 +12,7 @@ import { TypeScriptSource } from '../sources/typescript';
 export class TSConfigReader extends OptionsComponent {
     @Option({
         name: TSConfigReader.OPTIONS_KEY,
-        help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
+        help: 'Specify a typescript config file that should be loaded. If not specified TypeDoc will look for \'tsconfig.json\' in the current directory.',
         type: ParameterType.String,
         hint: ParameterHint.File
     })

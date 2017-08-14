@@ -99,13 +99,17 @@ $ typedoc
 					Specifies the location the documentation should be written to.</li>
 					<li><code>--mode &lt;file|modules&gt;</code><br>
 					Specifies the output mode the project is used to be compiled with.</li>
+					<li><code>--options</code><br>
+					Specify a js option file that should be loaded. If not specified TypeDoc will look for &#39;typedoc.js&#39; in the current directory.</li>
 					<li><code>--json &lt;path/to/output.json&gt;</code><br>
 					Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.</li>
+					<li><code>--ignoreCompilerErrors</code><br>
+					Should TypeDoc still generate documentation pages even after the compiler has returned errors?</li>
 				</ul>
 				<h4 id="source-file-handling">Source file handling</h4>
 				<ul>
 					<li><code>--exclude &lt;pattern&gt;</code><br>
-					Exclude files by the given pattern when a path is provided as source</li>
+					Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see <a href="https://github.com/TypeStrong/typedoc/issues/170">#170</a>)</li>
 					<li><code>--includeDeclarations</code><br>
 					Turn on parsing of .d.ts declaration files.</li>
 					<li><code>--externalPattern &lt;pattern&gt;</code><br>
@@ -131,6 +135,8 @@ $ typedoc
 					<li><code>--readme &lt;path/to/readme|none&gt;</code><br>
 						Path to the readme file that should be displayed on the index page. Pass <code>none</code> to disable the index page
 					and start the documentation on the globals page.</li>
+					<li><code>--plugin</code><br>
+					Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to &#39;none&#39; to load no plugins.</li>
 					<li><code>--hideGenerator</code><br>
 					Do not print the TypeDoc link at the end of the page.</li>
 					<li><code>--gaID</code><br>
@@ -158,7 +164,7 @@ $ typedoc
 					<li><code>--version</code><br>
 					Display the version number of TypeDoc.</li>
 					<li><code>--help</code><br>
-					Display a simple cheat sheet.</li>
+					Display all TypeDoc options.</li>
 				</ul>
 				<h3 id="webpack">Webpack</h3>
 				<p>There is a plugin available to run TypeDoc with Webpack created by Microsoft. You can find it on NPM:<br>
@@ -178,8 +184,8 @@ $ typedoc
 				<p>Visit our homepage for advanced guides and an extensive API documentation:<br>
 				<a href="http://typedoc.org">http://typedoc.org</a></p>
 				<h2 id="contributing">Contributing</h2>
-				<p>Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
-					an issue or create a pull requests:<br>
+				<p>This project is maintained by a community of developers. Contributions are welcome and appreciated.
+					You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 				<a href="https://github.com/TypeStrong/typedoc">https://github.com/TypeStrong/typedoc</a></p>
 				<h2 id="license">License</h2>
 				<p>Copyright (c) 2015 <a href="http://typedoc.org">Sebastian Lenz</a>.<br>

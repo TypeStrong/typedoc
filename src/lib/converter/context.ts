@@ -88,7 +88,7 @@ export class Context {
     /**
      * Next free symbol id used by [[getSymbolID]].
      */
-    private symbolID: number = -1024;
+    private symbolID = -1024;
 
     /**
      * The pattern that should be used to flag external source files.

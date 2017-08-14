@@ -10,7 +10,7 @@ export class UnknownConverter extends ConverterTypeComponent implements TypeType
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority: number = -100;
+    priority = -100;
 
     /**
      * Test whether this converter can handle the given TypeScript type.

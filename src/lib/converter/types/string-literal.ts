@@ -49,6 +49,6 @@ export class StringLiteralConverter extends ConverterTypeComponent implements Ty
      * @returns The type reflection representing the given string literal type.
      */
     convertType(context: Context, type: ts.LiteralType): Type {
-        return new StringLiteralType(type.text);
+        return new StringLiteralType(<string> type.value);
     }
 }
