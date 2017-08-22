@@ -62,7 +62,8 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      */
     private addParameterProperty(context: Context, parameter: ts.ParameterDeclaration, comment: Comment) {
         const modifiers = ts.getCombinedModifierFlags(parameter);
-        const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
+        const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected |
+                                        ts.ModifierFlags.Private | ts.ModifierFlags.Readonly);
         if (!visibility) {
             return;
         }

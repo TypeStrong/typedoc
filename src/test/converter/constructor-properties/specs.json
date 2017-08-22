@@ -33,7 +33,7 @@
               "comment": {},
               "signatures": [
                 {
-                  "id": 6,
+                  "id": 7,
                   "name": "new Vector2",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -41,7 +41,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 7,
+                      "id": 8,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -55,17 +55,31 @@
                       }
                     },
                     {
-                      "id": 8,
+                      "id": 9,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Y component of the Vector\n"
+                        "shortText": "Y component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
+                      }
+                    },
+                    {
+                      "id": 10,
+                      "name": "name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Vector name\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
                       }
                     }
                   ],
@@ -85,6 +99,29 @@
               ]
             },
             {
+              "id": 6,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true
+              },
+              "comment": {
+                "shortText": "Vector name\n"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 12,
+                  "character": 29
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
               "id": 4,
               "name": "x",
               "kind": 1024,
@@ -99,7 +136,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
+                  "line": 11,
                   "character": 24
                 }
               ],
@@ -118,12 +155,12 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "Y component of the Vector\n"
+                "shortText": "Y component of the Vector"
               },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
+                  "line": 11,
                   "character": 41
                 }
               ],
@@ -145,6 +182,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
+                6,
                 4,
                 5
               ]
@@ -161,12 +199,12 @@
             {
               "type": "reference",
               "name": "Vector3",
-              "id": 9
+              "id": 11
             }
           ]
         },
         {
-          "id": 9,
+          "id": 11,
           "name": "Vector3",
           "kind": 128,
           "kindString": "Class",
@@ -176,7 +214,7 @@
           },
           "children": [
             {
-              "id": 10,
+              "id": 12,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
@@ -184,7 +222,7 @@
               "comment": {},
               "signatures": [
                 {
-                  "id": 13,
+                  "id": 16,
                   "name": "new Vector3",
                   "kind": 16384,
                   "kindString": "Constructor signature",
@@ -192,7 +230,7 @@
                   "comment": {},
                   "parameters": [
                     {
-                      "id": 14,
+                      "id": 17,
                       "name": "x",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -206,7 +244,7 @@
                       }
                     },
                     {
-                      "id": 15,
+                      "id": 18,
                       "name": "y",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -220,24 +258,38 @@
                       }
                     },
                     {
-                      "id": 16,
+                      "id": 19,
                       "name": "z",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "shortText": "Z component of the Vector\n"
+                        "shortText": "Z component of the Vector"
                       },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
+                      }
+                    },
+                    {
+                      "id": 20,
+                      "name": "name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Vector name\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
                     "name": "Vector3",
-                    "id": 9
+                    "id": 11
                   },
                   "overwrites": {
                     "type": "reference",
@@ -249,7 +301,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 19,
+                  "line": 21,
                   "character": 1
                 }
               ],
@@ -260,7 +312,35 @@
               }
             },
             {
-              "id": 17,
+              "id": 15,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true
+              },
+              "comment": {
+                "shortText": "Vector name\n"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 29,
+                  "character": 29
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.name",
+                "id": 6
+              }
+            },
+            {
+              "id": 21,
               "name": "x",
               "kind": 1024,
               "kindString": "Property",
@@ -274,7 +354,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 10,
+                  "line": 11,
                   "character": 24
                 }
               ],
@@ -289,7 +369,7 @@
               }
             },
             {
-              "id": 11,
+              "id": 13,
               "name": "y",
               "kind": 1024,
               "kindString": "Property",
@@ -303,7 +383,7 @@
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 25,
+                  "line": 28,
                   "character": 34
                 }
               ],
@@ -318,7 +398,7 @@
               }
             },
             {
-              "id": 12,
+              "id": 14,
               "name": "z",
               "kind": 1024,
               "kindString": "Property",
@@ -327,12 +407,12 @@
                 "isPublic": true
               },
               "comment": {
-                "shortText": "Z component of the Vector\n"
+                "shortText": "Z component of the Vector"
               },
               "sources": [
                 {
                   "fileName": "constructor-properties.ts",
-                  "line": 25,
+                  "line": 28,
                   "character": 51
                 }
               ],
@@ -347,23 +427,24 @@
               "title": "Constructors",
               "kind": 512,
               "children": [
-                10
+                12
               ]
             },
             {
               "title": "Properties",
               "kind": 1024,
               "children": [
-                17,
-                11,
-                12
+                15,
+                21,
+                13,
+                14
               ]
             }
           ],
           "sources": [
             {
               "fileName": "constructor-properties.ts",
-              "line": 18,
+              "line": 20,
               "character": 13
             }
           ],
@@ -382,7 +463,7 @@
           "kind": 128,
           "children": [
             2,
-            9
+            11
           ]
         }
       ],
