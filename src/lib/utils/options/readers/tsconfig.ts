@@ -22,6 +22,13 @@ export class TSConfigReader extends OptionsComponent {
      * The name of the parameter that specifies the tsconfig file.
      */
     private static OPTIONS_KEY = 'tsconfig';
+    
+    /**
+     * The name of the parameter that specifies the TS project
+     *
+     * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/commandLineParser.ts#L211
+     */ 
+    private static PROJECT_KEY = 'project';
 
     initialize() {
         this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -100);
@@ -30,6 +37,13 @@ export class TSConfigReader extends OptionsComponent {
     onDiscover(event: DiscoverEvent) {
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
+        } else if (TSConfigReader.PROJECT_KEY in event.data) {
+            // The `project` option may be a directory or file, so use TS to find it
+            let file: string = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
+            // If file is undefined, we found no file to load.
+            if (file) {
+                this.load(event, file);
+            }
         } else if (this.application.isCLI) {
             let file: string = ts.findConfigFile('.', ts.sys.fileExists);
             // If file is undefined, we found no file to load.
