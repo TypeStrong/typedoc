@@ -26,7 +26,7 @@ export class TSConfigReader extends OptionsComponent {
     /**
      * The name of the parameter that specifies the TS project
      *
-     * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/commandLineParser.ts#L211
+     * https://github.com/Microsoft/TypeScript/blob/master/src/compiler/commandLineParser.ts#L49
      */ 
     private static PROJECT_KEY = 'project';
 
