@@ -21,11 +21,6 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
      */
     private inlineTag: RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
 
-    /**
-     * Regular expression to test if a string looks like an external url.
-     */
-    private urlPrefix: RegExp = /^(http|ftp)s?:\/\//;
-
     @Option({
         name: 'listInvalidSymbolLinks',
         help: 'Emits a list of broken symbol [[navigation]] links after documentation generation',
@@ -110,7 +105,12 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
             }
 
             if (reflection && reflection.url) {
-                target = this.getRelativeUrl(reflection.url);
+                if (this.urlPrefix.test(reflection.url)) {
+                    target = reflection.url;
+                    attributes = ' class="external"';
+                } else {
+                    target = this.getRelativeUrl(reflection.url);
+                }
             } else {
                 reflection = this.reflection || this.project;
                 this.warnings.push(`In ${reflection.getFullName()}: ${original}`);
