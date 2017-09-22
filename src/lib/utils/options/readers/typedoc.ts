@@ -22,7 +22,7 @@ export class TypedocReader extends OptionsComponent {
     private static OPTIONS_KEY = 'options';
 
     initialize() {
-        this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -100);
+        this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -150);
     }
 
     onDiscover(event: DiscoverEvent) {
