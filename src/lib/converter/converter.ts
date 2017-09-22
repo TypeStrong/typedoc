@@ -235,14 +235,14 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private removeTypeConverter(converter: ConverterTypeComponent) {
-        let index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeTypeConverters.splice(index, 1);
+        const typeIndex = this.typeTypeConverters.indexOf(<any> converter);
+        if (typeIndex !== -1) {
+            this.typeTypeConverters.splice(typeIndex, 1);
         }
 
-        index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeNodeConverters.splice(index, 1);
+        const nodeIndex = this.typeNodeConverters.indexOf(<any> converter);
+        if (nodeIndex !== -1) {
+            this.typeNodeConverters.splice(nodeIndex, 1);
         }
     }
 
