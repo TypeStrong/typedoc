@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
-import {createDeclaration} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:class'})
 export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> {

@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
-import {Type, IntrinsicType, ReflectionType} from '../../models/types/index';
-import {ReflectionKind, DeclarationReflection} from '../../models/reflections/index';
-import {createReferenceType} from '../factories/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
-import {Context} from '../context';
-import {Converter} from '../converter';
+import { Type, IntrinsicType, ReflectionType } from '../../models/types/index';
+import { ReflectionKind, DeclarationReflection } from '../../models/reflections/index';
+import { createReferenceType } from '../factories/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
+import { Converter } from '../converter';
 
 @Component({name: 'type:reference'})
 export class ReferenceConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.TypeReference, ts.TypeReferenceNode> {
@@ -13,7 +13,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority: number = -50;
+    priority = -50;
 
     /**
      * Test whether this converter can handle the given TypeScript node.

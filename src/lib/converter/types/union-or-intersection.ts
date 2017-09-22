@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {Type, UnionType, IntersectionType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, TypeConverter} from '../components';
-import {Context} from '../context';
+import { Type, UnionType, IntersectionType } from '../../models/types/index';
+import { Component, ConverterTypeComponent, TypeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'type:union-or-intersection'})
 export class UnionOrIntersectionConverter extends ConverterTypeComponent implements TypeConverter<ts.UnionOrIntersectionType, ts.UnionOrIntersectionTypeNode> {
@@ -17,7 +17,7 @@ export class UnionOrIntersectionConverter extends ConverterTypeComponent impleme
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.UnionOrIntersectionType): boolean {
-        return !!(type.flags & ts.TypeFlags.UnionOrIntersection);
+        return !!(type.flags & ts.TypeFlags.UnionOrIntersection) && !(type.flags & ts.TypeFlags.EnumLiteral);
     }
 
     /**

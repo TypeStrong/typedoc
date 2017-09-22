@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {Type, ArrayType} from '../../models/index';
-import {Component, ConverterTypeComponent, TypeConverter} from '../components';
-import {Context} from '../context';
+import { Type, ArrayType } from '../../models/index';
+import { Component, ConverterTypeComponent, TypeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'type:array'})
 export class ArrayConverter extends ConverterTypeComponent implements TypeConverter<ts.TypeReference, ts.ArrayTypeNode> {

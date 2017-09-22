@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {ReferenceType} from '../../models/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
-import {Context} from '../context';
+import { ReferenceType } from '../../models/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'type:alias'})
 export class AliasConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {

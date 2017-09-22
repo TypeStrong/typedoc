@@ -7,7 +7,7 @@
       "es2015.collection",
       "es2015.iterable"
     ],
-    "target": "ES5",
+    "target": "es5",
     "noImplicitAny": false,
     "removeComments": true,
     "noUnusedLocals": true,

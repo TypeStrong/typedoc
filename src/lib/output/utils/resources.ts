@@ -2,10 +2,10 @@ import * as FS from 'fs';
 import * as Path from 'path';
 import * as Util from 'util';
 
-import {Theme} from '../theme';
-import {HelperStack} from './resources/helpers';
-import {TemplateStack, PartialStack} from './resources/templates';
-import {Renderer} from '../renderer';
+import { Theme } from '../theme';
+import { HelperStack } from './resources/helpers';
+import { TemplateStack, PartialStack } from './resources/templates';
+import { Renderer } from '../renderer';
 
 export class Resources {
     templates: TemplateStack;

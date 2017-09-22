@@ -1,8 +1,8 @@
-import {DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty} from './abstract';
-import {Type, ReflectionType} from '../types/index';
-import {ContainerReflection} from './container';
-import {SignatureReflection} from './signature';
-import {TypeParameterReflection} from './type-parameter';
+import { DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty } from './abstract';
+import { Type, ReflectionType } from '../types/index';
+import { ContainerReflection } from './container';
+import { SignatureReflection } from './signature';
+import { TypeParameterReflection } from './type-parameter';
 
 /**
  * Stores hierarchical type data.

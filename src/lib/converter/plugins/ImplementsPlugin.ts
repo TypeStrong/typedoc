@@ -1,8 +1,8 @@
-import {Reflection, ReflectionKind, DeclarationReflection, SignatureReflection} from '../../models/reflections/index';
-import {Type, ReferenceType} from '../../models/types/index';
-import {Component, ConverterComponent} from '../components';
-import {Converter} from '../converter';
-import {Context} from '../context';
+import { Reflection, ReflectionKind, DeclarationReflection, SignatureReflection } from '../../models/reflections/index';
+import { Type, ReferenceType } from '../../models/types/index';
+import { Component, ConverterComponent } from '../components';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * A plugin that detects interface implementations of functions and

@@ -1,7 +1,7 @@
 import * as Handlebars from 'handlebars';
 
-import {readFile} from '../../../utils/fs';
-import {ResourceStack, Resource} from './stack';
+import { readFile } from '../../../utils/fs';
+import { ResourceStack, Resource } from './stack';
 
 export class Template extends Resource {
     private template: HandlebarsTemplateDelegate;

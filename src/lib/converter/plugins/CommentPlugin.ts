@@ -1,14 +1,14 @@
 import * as ts from 'typescript';
 
-import {Comment, CommentTag} from '../../models/comments/index';
-import {IntrinsicType} from '../../models/types/index';
-import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
+import { Comment, CommentTag } from '../../models/comments/index';
+import { IntrinsicType } from '../../models/types/index';
+import { Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
-    SignatureReflection, ParameterReflection} from '../../models/reflections/index';
-import {Component, ConverterComponent} from '../components';
-import {parseComment, getRawComment} from '../factories/comment';
-import {Converter} from '../converter';
-import {Context} from '../context';
+    SignatureReflection, ParameterReflection } from '../../models/reflections/index';
+import { Component, ConverterComponent } from '../components';
+import { parseComment, getRawComment } from '../factories/comment';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.

@@ -1,14 +1,14 @@
 import * as ts from 'typescript';
 import * as _ts from '../../../ts-internal';
 
-import {Component} from '../../component';
-import {DiscoverEvent, OptionsComponent} from '../options';
-import {ParameterType} from '../declaration';
+import { Component } from '../../component';
+import { DiscoverEvent, OptionsComponent } from '../options';
+import { ParameterType } from '../declaration';
 
 @Component({name: 'options:arguments'})
 export class ArgumentsReader extends OptionsComponent {
     initialize() {
-        this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover);
+        this.listenTo(this.owner, DiscoverEvent.DISCOVER, this.onDiscover, -200);
     }
 
     onDiscover(event: DiscoverEvent) {
@@ -46,6 +46,7 @@ export class ArgumentsReader extends OptionsComponent {
             }
         }
 
+        const files = [];
         while (index < args.length) {
             const arg = args[index++];
 
@@ -54,8 +55,11 @@ export class ArgumentsReader extends OptionsComponent {
             } else if (arg.charCodeAt(0) === _ts.CharacterCodes.minus) {
                 readArgument(arg.slice(arg.charCodeAt(1) === _ts.CharacterCodes.minus ? 2 : 1).toLowerCase());
             } else {
-                event.addInputFile(arg);
+                files.push(arg);
             }
+        }
+        if (files) {
+            event.inputFiles = files;
         }
     }
 
