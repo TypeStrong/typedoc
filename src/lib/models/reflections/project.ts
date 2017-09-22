@@ -1,6 +1,7 @@
 import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
+import { ReflectionCategory } from '../ReflectionCategory';
 
 /**
  * A reflection that represents the root of the project.
@@ -25,6 +26,11 @@ export class ProjectReflection extends ContainerReflection {
      * A list of all source files within the project.
      */
     files: SourceFile[] = [];
+
+    /**
+     * All reflections categorized.
+     */
+    categories: ReflectionCategory[];
 
     /**
      * The name of the project.
@@ -116,5 +122,25 @@ export class ProjectReflection extends ContainerReflection {
         }
 
         return null;
+    }
+
+    /**
+     * Return a raw object representation of this reflection.
+     */
+    toObject(): any {
+        const result = super.toObject();
+
+        if (this.categories) {
+            const categories: any[] = [];
+            this.categories.forEach((category) => {
+                categories.push(category.toObject());
+            });
+
+            if (categories.length > 0) {
+                result['categories'] = categories;
+            }
+        }
+
+        return result;
     }
 }

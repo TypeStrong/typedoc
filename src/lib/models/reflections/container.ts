@@ -1,4 +1,5 @@
 import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from './abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { DeclarationReflection } from './declaration';
 
@@ -12,6 +13,11 @@ export class ContainerReflection extends Reflection {
      * All children grouped by their kind.
      */
     groups: ReflectionGroup[];
+
+    /**
+     * All children grouped by their category.
+     */
+    categories: ReflectionCategory[];
 
     /**
      * Return a list of all children of a certain kind.
@@ -59,6 +65,17 @@ export class ContainerReflection extends Reflection {
             });
 
             result['groups'] = groups;
+        }
+
+        if (this.categories) {
+            const categories: any[] = [];
+            this.categories.forEach((category) => {
+                categories.push(category.toObject());
+            });
+
+            if (categories.length > 0) {
+                result['categories'] = categories;
+            }
         }
 
         if (this.sources) {
