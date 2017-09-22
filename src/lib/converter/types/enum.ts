@@ -11,7 +11,7 @@ export class EnumConverter extends ConverterTypeComponent implements TypeTypeCon
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.Type): boolean {
-        return !!(type.flags & ts.TypeFlags.Enum);
+        return !!(type.flags & ts.TypeFlags.EnumLike);
     }
 
     /**

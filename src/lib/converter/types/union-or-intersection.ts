@@ -17,7 +17,7 @@ export class UnionOrIntersectionConverter extends ConverterTypeComponent impleme
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.UnionOrIntersectionType): boolean {
-        return !!(type.flags & ts.TypeFlags.UnionOrIntersection);
+        return !!(type.flags & ts.TypeFlags.UnionOrIntersection) && !(type.flags & ts.TypeFlags.EnumLiteral);
     }
 
     /**
