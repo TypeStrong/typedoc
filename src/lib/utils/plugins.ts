@@ -42,8 +42,8 @@ export class PluginHost extends AbstractComponent<Application> {
             const plugin = plugins[i];
             try {
                 const instance = require(plugin);
-                const initFunction = typeof instance.initPlugin === 'function'
-                  ? instance.initPlugin
+                const initFunction = typeof instance.load === 'function'
+                  ? instance.load
                   : instance                // support legacy plugins
                 ;
                 if (typeof initFunction === 'function') {
