@@ -181,6 +181,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         let result = super.toObject();

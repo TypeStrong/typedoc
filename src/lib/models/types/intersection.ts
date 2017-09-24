@@ -52,6 +52,7 @@ export class IntersectionType extends Type {
 
     /**
      * Return a raw object representation of this type.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = super.toObject();

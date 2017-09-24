@@ -70,6 +70,7 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();

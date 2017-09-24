@@ -17,6 +17,7 @@ export class TypeParameterReflection extends Reflection implements TypeContainer
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();
