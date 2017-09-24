@@ -13,7 +13,7 @@ import { Minimatch, IMinimatch } from 'minimatch';
 
 import { Converter } from './converter/index';
 import { Renderer } from './output/renderer';
-import { Serializer} from './serialization';
+import { Serializer } from './serialization';
 import { ProjectReflection } from './models/index';
 import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
