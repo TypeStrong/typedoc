@@ -4,6 +4,7 @@ import { Application } from '../application';
 import { ProjectReflection } from '../models';
 
 import { SerializerComponent } from './components';
+import { SerializeEvent } from './events';
 
 @Component({name: 'serializer', internal: true, childClass: SerializerComponent})
 export class Serializer extends ChildableComponent<Application, SerializerComponent<any>> {
@@ -82,13 +83,29 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
   /**
    * Same as toObject but emits [[ Serializer#EVENT_BEGIN ]] and [[ Serializer#EVENT_END ]] events.
    * @param value
+   * @param eventData Partial information to set in the event
    * @return {any}
    */
-  projectToObject(value: ProjectReflection): any {
-    let project: any = {};
-    this.trigger(Serializer.EVENT_BEGIN, value, project);
+  projectToObject(value: ProjectReflection, eventData?: { begin?: any, end?: any }): any {
+    const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN);
+
+    if (eventData && eventData.begin) {
+      Object.assign(eventBegin, eventData.begin);
+    }
+    eventBegin.project = value;
+    let project: any = eventBegin.output = {};
+
+    this.trigger(eventBegin);
     project = this.toObject(value, project);
-    this.trigger(Serializer.EVENT_END, value, project);
+
+    const eventEnd = new SerializeEvent(Serializer.EVENT_END);
+    if (eventData && eventData.end) {
+      Object.assign(eventEnd, eventData.end);
+    }
+    eventEnd.project = value;
+    eventEnd.output = project;
+    this.trigger(eventEnd);
+
     return project;
   }
 

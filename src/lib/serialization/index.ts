@@ -34,4 +34,6 @@ export {
   UnknownTypeSerializer
 } from './serializers';
 
+export { SerializeEvent } from './events';
+
 export * from './browser';

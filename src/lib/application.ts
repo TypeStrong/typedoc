@@ -228,7 +228,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         out = Path.resolve(out);
-        writeFile(out, JSON.stringify(this.serializer.projectToObject(project), null, '\t'), false);
+        const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
+        const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
+        writeFile(out, JSON.stringify(ser, null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
