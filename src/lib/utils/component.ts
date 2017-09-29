@@ -130,7 +130,7 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
     /**
      * The name of this component as set by the @Component decorator.
      */
-    private _componentName:string;
+    private _componentName: string; options
 
     /**
      * A list of options defined by this component.

@@ -1,9 +1,9 @@
-import {Reflection, ReflectionKind, ContainerReflection, DeclarationReflection} from "../../models/reflections/index";
-import {ReflectionGroup} from "../../models/ReflectionGroup";
-import {SourceDirectory} from "../../models/sources/directory";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
+import { Reflection, ReflectionKind, ContainerReflection, DeclarationReflection } from "../../models/reflections/index";
+import { ReflectionGroup } from "../../models/ReflectionGroup";
+import { SourceDirectory } from "../../models/sources/directory";
+import { Component, ConverterComponent } from "../components";
+import { Converter } from "../converter";
+import { Context } from "../context";
 
 const camelCaseToHyphenRegex = /([A-Z])|\W+(\w)/g;
 
@@ -13,9 +13,8 @@ const camelCaseToHyphenRegex = /([A-Z])|\W+(\w)/g;
  *
  * The handler sets the ´groups´ property of all reflections.
  */
-@Component({name:'group'})
-export class GroupPlugin extends ConverterComponent
-{
+@Component({ name: 'group' })
+export class GroupPlugin extends ConverterComponent {
     /**
      * Define the sort order of reflections.
      */
@@ -51,9 +50,9 @@ export class GroupPlugin extends ConverterComponent
     /**
      * Define the singular name of individual reflection kinds.
      */
-    static SINGULARS = (function() {
+    static SINGULARS = (function () {
         var singulars = {};
-        singulars[ReflectionKind.Enum]       = 'Enumeration';
+        singulars[ReflectionKind.Enum] = 'Enumeration';
         singulars[ReflectionKind.EnumMember] = 'Enumeration member';
         return singulars;
     })();
@@ -61,13 +60,13 @@ export class GroupPlugin extends ConverterComponent
     /**
      * Define the plural name of individual reflection kinds.
      */
-    static PLURALS = (function() {
+    static PLURALS = (function () {
         var plurals = {};
-        plurals[ReflectionKind.Class]      = 'Classes';
-        plurals[ReflectionKind.Property]   = 'Properties';
-        plurals[ReflectionKind.Enum]       = 'Enumerations';
+        plurals[ReflectionKind.Class] = 'Classes';
+        plurals[ReflectionKind.Property] = 'Properties';
+        plurals[ReflectionKind.Enum] = 'Enumerations';
         plurals[ReflectionKind.EnumMember] = 'Enumeration members';
-        plurals[ReflectionKind.TypeAlias]  = 'Type aliases';
+        plurals[ReflectionKind.TypeAlias] = 'Type aliases';
         return plurals;
     })();
 
@@ -78,7 +77,7 @@ export class GroupPlugin extends ConverterComponent
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_RESOLVE]:     this.onResolve,
+            [Converter.EVENT_RESOLVE]: this.onResolve,
             [Converter.EVENT_RESOLVE_END]: this.onEndResolve
         });
     }
@@ -90,7 +89,7 @@ export class GroupPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context:Context, reflection:Reflection) {
+    private onResolve(context: Context, reflection: Reflection) {
         var reflection = reflection;
         reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
@@ -109,8 +108,8 @@ export class GroupPlugin extends ConverterComponent
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onEndResolve(context:Context) {
-        function walkDirectory(directory:SourceDirectory) {
+    private onEndResolve(context: Context) {
+        function walkDirectory(directory: SourceDirectory) {
             directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
             for (var key in directory.directories) {
@@ -140,8 +139,8 @@ export class GroupPlugin extends ConverterComponent
      * @param reflections  The reflections that should be grouped.
      * @returns An array containing all children of the given reflection grouped by their kind.
      */
-    static getReflectionGroups(reflections:Reflection[]):ReflectionGroup[] {
-        var groups:ReflectionGroup[] = [];
+    static getReflectionGroups(reflections: Reflection[]): ReflectionGroup[] {
+        var groups: ReflectionGroup[] = [];
         reflections.forEach((child) => {
             for (var i = 0; i < groups.length; i++) {
                 var group = groups[i];
@@ -154,24 +153,28 @@ export class GroupPlugin extends ConverterComponent
             }
 
             var group = new ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
-            if(child.flags.isCoveoComponentOptions) {
+            if (child.flags.isCoveoComponentOptions) {
                 group.title = 'Component Options';
             }
             group.children.push(child);
             if (group.title == 'Component Options') {
                 if (group.children[0]['children']) {
                     group.children = group.children[0]['children'];
-                    group.children.forEach((child)=> {
+                    group.children.forEach((child) => {
                         if (child.name) {
                             if (child['type']) {
                                 let valuesExamples = GroupPlugin.getMarkupValueExampleFromType(child['type'].name, child);
-                                child.markupExample = valuesExamples.map((example)=> {
+                                child.markupExample = valuesExamples.map((example) => {
                                     return `data-${child.name.replace(camelCaseToHyphenRegex, '-$1$2').toLowerCase()}='${example}'`;
                                 }).join('\n');
                                 if (child.markupExample == '') {
                                     child.markupExample = null;
                                 }
                             }
+                        }
+                        if (child.comment.hasTag('notsupportedin')) {
+                            var tag = child.comment.getTag('notsupportedin');
+                            tag.tagName = 'Not supported in';
                         }
                     })
                 }
@@ -183,9 +186,9 @@ export class GroupPlugin extends ConverterComponent
             var someExported = false, allInherited = true, allPrivate = true, allProtected = true, allExternal = true;
             group.children.forEach((child) => {
                 someExported = child.flags.isExported || someExported;
-                allPrivate   = child.flags.isPrivate  && allPrivate;
+                allPrivate = child.flags.isPrivate && allPrivate;
                 allProtected = (child.flags.isPrivate || child.flags.isProtected) && allProtected;
-                allExternal  = child.flags.isExternal && allExternal;
+                allExternal = child.flags.isExternal && allExternal;
 
                 if (child instanceof DeclarationReflection) {
                     allInherited = child.inheritedFrom && allInherited;
@@ -196,9 +199,9 @@ export class GroupPlugin extends ConverterComponent
 
             group.someChildrenAreExported = someExported;
             group.allChildrenAreInherited = allInherited;
-            group.allChildrenArePrivate   = allPrivate;
+            group.allChildrenArePrivate = allPrivate;
             group.allChildrenAreProtectedOrPrivate = allProtected;
-            group.allChildrenAreExternal  = allExternal;
+            group.allChildrenAreExternal = allExternal;
         });
 
         return groups;
@@ -216,16 +219,16 @@ export class GroupPlugin extends ConverterComponent
                 case 'string':
                     ret = ['foo'];
                     break;
-                case 'ifieldoption' :
+                case 'ifieldoption':
                     ret = ['@foo'];
                     break;
-                case 'number' :
+                case 'number':
                     ret = ['10'];
                     break;
                 case 'array':
                     if (ref['type'] && ref['type'].typeArguments && ref['type'].typeArguments[0]) {
                         ret = GroupPlugin.getMarkupValueExampleFromType(ref['type'].typeArguments[0].name, ref);
-                        ret = ret.map((example)=> {
+                        ret = ret.map((example) => {
                             return `${example},${example}2`;
                         })
                     }
@@ -265,7 +268,7 @@ export class GroupPlugin extends ConverterComponent
      * @param kind  The original typescript kind identifier.
      * @returns A human readable version of the given typescript kind identifier.
      */
-    private static getKindString(kind:ReflectionKind):string {
+    private static getKindString(kind: ReflectionKind): string {
         var str = ReflectionKind[kind];
         str = str.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         return str;
@@ -278,7 +281,7 @@ export class GroupPlugin extends ConverterComponent
      * @param kind The original internal typescript kind identifier.
      * @returns The singular name of the given internal typescript kind identifier
      */
-    static getKindSingular(kind:ReflectionKind):string {
+    static getKindSingular(kind: ReflectionKind): string {
         if (GroupPlugin.SINGULARS[kind]) {
             return GroupPlugin.SINGULARS[kind];
         } else {
@@ -293,7 +296,7 @@ export class GroupPlugin extends ConverterComponent
      * @param kind The original internal typescript kind identifier.
      * @returns The plural name of the given internal typescript kind identifier
      */
-    static getKindPlural(kind:ReflectionKind):string {
+    static getKindPlural(kind: ReflectionKind): string {
         if (GroupPlugin.PLURALS[kind]) {
             return GroupPlugin.PLURALS[kind];
         } else {
@@ -309,13 +312,13 @@ export class GroupPlugin extends ConverterComponent
      * @param b The right reflection to sort.
      * @returns The sorting weight.
      */
-    static sortCallback(a:Reflection, b:Reflection):number {
+    static sortCallback(a: Reflection, b: Reflection): number {
         var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
         var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
         // Special sort for component options : Try to put them at the top of each class
-        if(a.flags.isCoveoComponentOptions && b.kind > ReflectionKind.Class) {
+        if (a.flags.isCoveoComponentOptions && b.kind > ReflectionKind.Class) {
             return -1;
-        } else if(b.flags.isCoveoComponentOptions && a.kind > ReflectionKind.Class) {
+        } else if (b.flags.isCoveoComponentOptions && a.kind > ReflectionKind.Class) {
             return 1;
         }
         if (aWeight == bWeight) {

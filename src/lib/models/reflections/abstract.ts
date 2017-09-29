@@ -3,6 +3,7 @@ import {Type} from "../types/index";
 import {Comment} from "../comments/comment";
 import {TypeParameterReflection} from "./type-parameter";
 import {ProjectReflection} from "./project";
+import * as _ from "lodash";
 
 
 /**
@@ -305,6 +306,8 @@ export abstract class Reflection
 
     markupExample: string;
 
+    notSupportedIn: string[];
+
     /**
      * Url safe alias for this reflection.
      *
@@ -587,6 +590,10 @@ export abstract class Reflection
 
         if (this.comment) {
             result.comment = this.comment.toObject();
+        }
+
+        if (!_.isEmpty(this.notSupportedIn)) {
+            result.notSupportedIn = this.notSupportedIn;
         }
 
         for (var key in this.flags) {

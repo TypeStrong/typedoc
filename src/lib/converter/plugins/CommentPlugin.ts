@@ -1,35 +1,36 @@
 import * as ts from "typescript";
 
-import {Comment, CommentTag} from "../../models/comments/index";
-import {IntrinsicType} from "../../models/types/index";
-import {Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
+import { Comment, CommentTag } from "../../models/comments/index";
+import { IntrinsicType } from "../../models/types/index";
+import {
+    Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
     TypeParameterReflection, DeclarationReflection, ProjectReflection,
-    SignatureReflection, ParameterReflection} from "../../models/reflections/index";
-import {Component, ConverterComponent} from "../components";
-import {parseComment, getRawComment} from "../factories/comment";
-import {Converter} from "../converter";
-import {Context} from "../context";
+    SignatureReflection, ParameterReflection
+} from "../../models/reflections/index";
+import { Component, ConverterComponent } from "../components";
+import { parseComment, getRawComment } from "../factories/comment";
+import { Converter } from "../converter";
+import { Context } from "../context";
 
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
  */
-interface IModuleComment
-{
+interface IModuleComment {
     /**
      * The module reflection this comment is targeting.
      */
-    reflection:Reflection;
+    reflection: Reflection;
 
     /**
      * The full text of the best matched comment.
      */
-    fullText:string;
+    fullText: string;
 
     /**
      * Has the full text been marked as being preferred?
      */
-    isPreferred:boolean;
+    isPreferred: boolean;
 }
 
 
@@ -37,18 +38,17 @@ interface IModuleComment
  * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
  * the generated reflections.
  */
-@Component({name:'comment'})
-export class CommentPlugin extends ConverterComponent
-{
+@Component({ name: 'comment' })
+export class CommentPlugin extends ConverterComponent {
     /**
      * List of discovered module comments.
      */
-    private comments:{[id:number]:IModuleComment};
+    private comments: { [id: number]: IModuleComment };
 
     /**
      * List of hidden reflections.
      */
-    private hidden:Reflection[];
+    private hidden: Reflection[];
 
 
     /**
@@ -56,18 +56,18 @@ export class CommentPlugin extends ConverterComponent
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:                   this.onBegin,
-            [Converter.EVENT_CREATE_DECLARATION]:      this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]:        this.onDeclaration,
-            [Converter.EVENT_CREATE_TYPE_PARAMETER]:   this.onCreateTypeParameter,
+            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
+            [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
             [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this.onFunctionImplementation,
-            [Converter.EVENT_RESOLVE_BEGIN]:           this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]:                 this.onResolve
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]: this.onResolve
         });
     }
 
 
-    private storeModuleComment(comment:string, reflection:Reflection) {
+    private storeModuleComment(comment: string, reflection: Reflection) {
         var isPreferred = (comment.toLowerCase().indexOf('@preferred') != -1);
 
         if (this.comments[reflection.id]) {
@@ -76,12 +76,12 @@ export class CommentPlugin extends ConverterComponent
                 return;
             }
 
-            info.fullText    = comment;
+            info.fullText = comment;
             info.isPreferred = isPreferred;
         } else {
             this.comments[reflection.id] = {
-                reflection:  reflection,
-                fullText:    comment,
+                reflection: reflection,
+                fullText: comment,
                 isPreferred: isPreferred
             };
         }
@@ -94,7 +94,7 @@ export class CommentPlugin extends ConverterComponent
      * @param reflection  The reflection the modifiers should be applied to.
      * @param comment  The comment that should be searched for modifiers.
      */
-    private applyModifiers(reflection:Reflection, comment:Comment) {
+    private applyModifiers(reflection: Reflection, comment: Comment) {
         if (comment.hasTag('private')) {
             reflection.setFlag(ReflectionFlag.Private);
             CommentPlugin.removeTags(comment, 'private');
@@ -128,7 +128,7 @@ export class CommentPlugin extends ConverterComponent
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context:Context) {
+    private onBegin(context: Context) {
         this.comments = {};
     }
 
@@ -140,7 +140,7 @@ export class CommentPlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onCreateTypeParameter(context:Context, reflection:TypeParameterReflection, node?:ts.Node) {
+    private onCreateTypeParameter(context: Context, reflection: TypeParameterReflection, node?: ts.Node) {
         var comment = reflection.parent.comment;
         if (comment) {
             var tag = comment.getTag('typeparam', reflection.name);
@@ -164,7 +164,7 @@ export class CommentPlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context:Context, reflection:Reflection, node?:ts.Node) {
+    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
         if (!node) return;
         var rawComment = getRawComment(node);
         if (!rawComment) return;
@@ -189,7 +189,7 @@ export class CommentPlugin extends ConverterComponent
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onFunctionImplementation(context:Context, reflection:Reflection, node?:ts.Node) {
+    private onFunctionImplementation(context: Context, reflection: Reflection, node?: ts.Node) {
         if (!node) return;
 
         var comment = getRawComment(node);
@@ -204,11 +204,11 @@ export class CommentPlugin extends ConverterComponent
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context:Context) {
+    private onBeginResolve(context: Context) {
         for (var id in this.comments) {
             if (!this.comments.hasOwnProperty(id)) continue;
 
-            var info    = this.comments[id];
+            var info = this.comments[id];
             var comment = parseComment(info.fullText);
             CommentPlugin.removeTags(comment, 'preferred');
 
@@ -237,7 +237,7 @@ export class CommentPlugin extends ConverterComponent
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context:Context, reflection:DeclarationReflection) {
+    private onResolve(context: Context, reflection: DeclarationReflection) {
         if (!(reflection instanceof DeclarationReflection)) return;
 
         var signatures = reflection.getAllSignatures();
@@ -261,14 +261,14 @@ export class CommentPlugin extends ConverterComponent
                     }
 
                     childComment.shortText = childComment.shortText || comment.shortText;
-                    childComment.text      = childComment.text      || comment.text;
-                    childComment.returns   = childComment.returns   || comment.returns;
+                    childComment.text = childComment.text || comment.text;
+                    childComment.returns = childComment.returns || comment.returns;
                 }
 
                 if (signature.parameters) {
                     signature.parameters.forEach((parameter) => {
-                        var tag:CommentTag;
-                        if (childComment)    tag = childComment.getTag('param', parameter.name);
+                        var tag: CommentTag;
+                        if (childComment) tag = childComment.getTag('param', parameter.name);
                         if (comment && !tag) tag = comment.getTag('param', parameter.name);
                         if (tag) {
                             parameter.comment = new Comment(tag.text);
@@ -290,7 +290,7 @@ export class CommentPlugin extends ConverterComponent
      * @param comment  The comment that should be modified.
      * @param tagName  The name of the that that should be removed.
      */
-    static removeTags(comment:Comment, tagName:string) {
+    static removeTags(comment: Comment, tagName: string) {
         if (!comment || !comment.tags) return;
 
         var i = 0, c = comment.tags.length;
@@ -308,11 +308,11 @@ export class CommentPlugin extends ConverterComponent
     /**
      * Remove the given reflection from the project.
      */
-    static removeReflection(project:ProjectReflection, reflection:Reflection) {
+    static removeReflection(project: ProjectReflection, reflection: Reflection) {
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
 
         var parent = <DeclarationReflection>reflection.parent;
-        parent.traverse((child:Reflection, property:TraverseProperty) => {
+        parent.traverse((child: Reflection, property: TraverseProperty) => {
             if (child == reflection) {
                 switch (property) {
                     case TraverseProperty.Children:

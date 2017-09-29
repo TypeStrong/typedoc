@@ -24,7 +24,7 @@ import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from "./
 
 import { AbstractComponent, ChildableComponent, Component, Option } from "./utils/component";
 import { Options, OptionsReadMode, IOptionsReadResult } from "./utils/options/index"
-import { ParameterType } from "./utils/options/declaration";
+import { ParameterType } from './utils/options/declaration';
 
 
 /**
@@ -63,6 +63,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     plugins: PluginHost;
 
+    notSupportedFeaturesConfig: {};
+
     @Option({
         name: 'logger',
         help: 'Specify the logger that should be used, \'none\' or \'console\'',
@@ -84,6 +86,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         type: ParameterType.String
     })
     exclude: string;
+
 
     /**
      * The version number of TypeDoc.
@@ -107,6 +110,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         this.options = this.addComponent('options', Options);
 
         this.bootstrap(options);
+
+        this.notSupportedFeaturesConfig = (<any>options).notSupportedFeaturesConfig
     }
 
 
@@ -244,7 +249,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     }
 
     private prettifyJson(obj: any, project: ProjectReflection, linkPrefix?: string) {
-        let getHighlighted = function (text, lang) {
+        let getHighlighted = function(text, lang) {
             try {
                 if (lang) {
                     return highlight.highlight(lang, text).value;
@@ -257,7 +262,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             }
         };
         marked.setOptions({
-            highlight: function (code, lang) {
+            highlight: function(code, lang) {
                 return getHighlighted(code, lang);
             }
         });
@@ -276,7 +281,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                         if (str.type && str.type.name) {
                             type = str.type.name;
                         }
-                        nodeList.push({ name: path + str.name, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
+                        let notSupportedInValues = str.notSupportedIn ? str.notSupportedIn : '';
+                        nodeList.push({ name: path + str.name, notSupportedIn: notSupportedInValues, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
                     }
                     if (str.children != null && str.children.length > 0) {
                         visitChildren(str.children, path + str.name + '.');
@@ -293,7 +299,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         let constrainedValues = [];
         if (str && str['type'] && str['type'].type == 'union') {
             if (str.type.types[0] && str.type.types[0].typeArguments && str.type.types[0].typeArguments[0]) {
-                constrainedValues = str.type.types[0].typeArguments[0].types.map(function (type) {
+                constrainedValues = str.type.types[0].typeArguments[0].types.map(function(type) {
                     return type.value;
                 });
                 if (str.type.types[0].name && str.type.types[0].name.toLowerCase() == 'array') {
