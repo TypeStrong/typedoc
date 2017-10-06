@@ -42,11 +42,15 @@ export class PluginHost extends AbstractComponent<Application> {
             const plugin = plugins[i];
             try {
                 const instance = require(plugin);
-                if (typeof instance === 'function') {
+                const initFunction = typeof instance.load === 'function'
+                  ? instance.load
+                  : instance                // support legacy plugins
+                ;
+                if (typeof initFunction === 'function') {
                     instance(this);
                     logger.write('Loaded plugin %s', plugin);
                 } else {
-                    logger.error('The plugin %s did not return a function.', plugin);
+                    logger.error('Invalid structure in plugin %s, no function found.', plugin);
                 }
             } catch (error) {
                 logger.error('The plugin %s could not be loaded.', plugin);
