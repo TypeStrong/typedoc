@@ -119,9 +119,9 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         return line.trim();
     }
 
-    function readBareLine(line: string) {
+    function readBareLine(line: string, rawLine: string) {
         if (currentTag) {
-            currentTag.text += '\n' + line;
+            currentTag.text += '\n' + rawLine;
         } else if (line === '' && shortText === 0) {
             // Ignore
         } else if (line === '' && shortText === 1) {
@@ -161,6 +161,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     }
 
     function readLine(line: string) {
+        const rawLine = line;
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
@@ -168,7 +169,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         if (tag) {
             readTagLine(line, tag);
         } else {
-            readBareLine(line);
+            readBareLine(line, rawLine);
         }
     }
 
