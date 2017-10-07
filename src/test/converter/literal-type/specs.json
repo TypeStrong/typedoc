@@ -19,7 +19,9 @@
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "sources": [
             {
               "fileName": "literal-type.ts",

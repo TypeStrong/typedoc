@@ -19,7 +19,9 @@
           "name": "objectLiteral",
           "kind": 2097152,
           "kindString": "Object literal",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An object literal."
           },

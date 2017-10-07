@@ -92,7 +92,8 @@
               "kind": 32,
               "kindString": "Variable",
               "flags": {
-                "isExported": true
+                "isExported": true,
+                "isLet": true
               },
               "comment": {
                 "shortText": "This is a variable appended to an enumeration."
