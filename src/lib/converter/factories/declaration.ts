@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection } from '../../models/index';
+import { ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection, ProjectReflection } from '../../models/index';
 import { Context } from '../context';
-import { Converter } from '../converter';
+import { Converter, SourceFileMode } from '../converter';
 import { createReferenceType } from './reference';
 
 /**
@@ -51,7 +51,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         isExported = container.flags.isExported;
     }
 
-    if (kind === ReflectionKind.ExternalModule) {
+    if (kind === ReflectionKind.ExternalModule || (container instanceof ProjectReflection && !context.isDeclaration && context.converter.mode === SourceFileMode.File)) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);

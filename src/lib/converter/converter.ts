@@ -11,6 +11,10 @@ import { CompilerHost } from './utils/compiler-host';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
 
+export enum SourceFileMode {
+    File, Modules
+}
+
 /**
  * Result structure of the [[Converter.convert]] method.
  */
@@ -73,6 +77,18 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         type: ParameterType.Boolean
     })
     excludePrivate: boolean;
+
+    @Option({
+        name: 'mode',
+        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        type: ParameterType.Map,
+        map: {
+            'file': SourceFileMode.File,
+            'modules': SourceFileMode.Modules
+        },
+        defaultValue: SourceFileMode.Modules
+    })
+    mode: SourceFileMode;
 
     private compilerHost: CompilerHost;
 
