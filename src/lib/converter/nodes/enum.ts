@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind} from '../../models/index';
-import {createDeclaration} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
-import {convertDefaultValue} from '../index';
+import { Reflection, ReflectionKind } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { convertDefaultValue } from '../index';
 
 @Component({name: 'node:enum'})
 export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {

@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
-import {ReferenceType} from '../../models/types/index';
-import {Context} from '../context';
+import { ReferenceType } from '../../models/types/index';
+import { Context } from '../context';
 
 /**
  * Create a new reference type pointing to the given symbol.

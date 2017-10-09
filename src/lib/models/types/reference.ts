@@ -1,5 +1,5 @@
-import {Reflection} from '../reflections/abstract';
-import {Type} from './abstract';
+import { Reflection } from '../reflections/abstract';
+import { Type } from './abstract';
 
 /**
  * Represents a type that refers to another reflection like a class, interface or enum.
@@ -45,12 +45,12 @@ export class ReferenceType extends Type {
     /**
      * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
      */
-    static SYMBOL_ID_RESOLVED: number = -1;
+    static SYMBOL_ID_RESOLVED = -1;
 
     /**
      * Special symbol ID noting that the reference should be resolved by the type name.
      */
-    static SYMBOL_ID_RESOLVE_BY_NAME: number = -2;
+    static SYMBOL_ID_RESOLVE_BY_NAME = -2;
 
     /**
      * Create a new instance of ReferenceType.
@@ -73,7 +73,6 @@ export class ReferenceType extends Type {
      */
     clone(): Type {
         const clone = new ReferenceType(this.name, this.symbolID, this.reflection);
-        clone.isArray = this.isArray;
         clone.typeArguments = this.typeArguments;
         return clone;
     }
@@ -86,7 +85,6 @@ export class ReferenceType extends Type {
      */
     equals(type: ReferenceType): boolean {
         return type instanceof ReferenceType &&
-            type.isArray === this.isArray &&
             (type.symbolID === this.symbolID || type.reflection === this.reflection);
     }
 
@@ -114,7 +112,6 @@ export class ReferenceType extends Type {
      */
     toString() {
         const name = this.reflection ? this.reflection.name : this.name;
-        const arraySuffix = this.isArray ? '[]' : '';
         let typeArgs = '';
         if (this.typeArguments) {
             typeArgs += '<';
@@ -122,6 +119,6 @@ export class ReferenceType extends Type {
             typeArgs += '>';
         }
 
-        return name + typeArgs + arraySuffix;
+        return name + typeArgs;
     }
 }

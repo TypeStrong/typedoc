@@ -2,14 +2,14 @@ import * as ts from 'typescript';
 import * as _ts from '../ts-internal';
 import * as _ from 'lodash';
 
-import {Application} from '../application';
-import {ParameterType} from '../utils/options/declaration';
-import {Reflection, Type, ProjectReflection} from '../models/index';
-import {Context} from './context';
-import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter} from './components';
-import {CompilerHost} from './utils/compiler-host';
-import {Component, Option, ChildableComponent, ComponentClass} from '../utils/component';
-import {normalizePath} from '../utils/fs';
+import { Application } from '../application';
+import { ParameterType } from '../utils/options/declaration';
+import { Reflection, Type, ProjectReflection } from '../models/index';
+import { Context } from './context';
+import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
+import { CompilerHost } from './utils/compiler-host';
+import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
+import { normalizePath } from '../utils/fs';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -184,12 +184,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.typeNodeConverters = [];
     }
 
-    addComponent(name: string, componentClass: ComponentClass<ConverterComponent>): ConverterComponent {
+    addComponent<T extends ConverterComponent & Component>(name: string, componentClass: T | ComponentClass<T>): T {
         const component = super.addComponent(name, componentClass);
         if (component instanceof ConverterNodeComponent) {
             this.addNodeConverter(component);
         } else if (component instanceof ConverterTypeComponent) {
-            this.addTypeConverter(<TypeTypeConverter<any>|TypeNodeConverter<any, any>> component);
+            this.addTypeConverter(component);
         }
 
         return component;
@@ -201,7 +201,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
     }
 
-    private addTypeConverter(converter: TypeTypeConverter<any>|TypeNodeConverter<any, any>) {
+    private addTypeConverter(converter: ConverterTypeComponent) {
         if ('supportsNode' in converter && 'convertNode' in converter) {
             this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
             this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
@@ -235,14 +235,14 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private removeTypeConverter(converter: ConverterTypeComponent) {
-        let index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeTypeConverters.splice(index, 1);
+        const typeIndex = this.typeTypeConverters.indexOf(<any> converter);
+        if (typeIndex !== -1) {
+            this.typeTypeConverters.splice(typeIndex, 1);
         }
 
-        index = this.typeNodeConverters.indexOf(<any> converter);
-        if (index !== -1) {
-            this.typeNodeConverters.splice(index, 1);
+        const nodeIndex = this.typeNodeConverters.indexOf(<any> converter);
+        if (nodeIndex !== -1) {
+            this.typeNodeConverters.splice(nodeIndex, 1);
         }
     }
 

@@ -1,2 +1,2 @@
-export {ComponentSource} from './component';
-export {TypeScriptSource} from './typescript';
+export { ComponentSource } from './component';
+export { TypeScriptSource } from './typescript';

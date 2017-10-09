@@ -37,7 +37,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -55,7 +55,7 @@
                   "kindString": "Get signature",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
@@ -75,13 +75,13 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -113,7 +113,7 @@
                   "kindString": "Get signature",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
@@ -147,13 +147,13 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }

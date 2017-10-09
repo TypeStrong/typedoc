@@ -28,7 +28,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -46,7 +46,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "string"
           }
         },
@@ -92,7 +92,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -110,14 +110,11 @@
             }
           ],
           "type": {
-            "type": "reference",
-            "name": "Array",
-            "typeArguments": [
-              {
-                "type": "instrinct",
-                "name": "number"
-              }
-            ]
+            "type": "array",
+            "elementType": {
+              "type": "intrinsic",
+              "name": "number"
+            }
           }
         },
         {
@@ -134,14 +131,11 @@
             }
           ],
           "type": {
-            "type": "reference",
-            "name": "Array",
-            "typeArguments": [
-              {
-                "type": "instrinct",
-                "name": "number"
-              }
-            ]
+            "type": "array",
+            "elementType": {
+              "type": "intrinsic",
+              "name": "number"
+            }
           }
         },
         {
@@ -158,7 +152,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -176,7 +170,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -194,7 +188,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -212,7 +206,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "string"
           }
         },
@@ -230,7 +224,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "number"
           }
         },
@@ -281,7 +275,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "boolean"
                           },
                           "defaultValue": "false"
@@ -303,11 +297,11 @@
                             "type": "tuple",
                             "elements": [
                               {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "number"
                               },
                               {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "number"
                               }
                             ]
@@ -328,7 +322,7 @@
                             }
                           ],
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           },
                           "defaultValue": "\"\""
@@ -357,7 +351,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }

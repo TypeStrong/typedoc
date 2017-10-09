@@ -1,6 +1,6 @@
-import {Component, RendererComponent} from '../components';
-import {NavigationItem} from '../models/NavigationItem';
-import {RendererEvent, PageEvent} from '../events';
+import { Component, RendererComponent } from '../components';
+import { NavigationItem } from '../models/NavigationItem';
+import { RendererEvent, PageEvent } from '../events';
 
 /**
  * A plugin that exposes the navigation structure of the documentation

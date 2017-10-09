@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents an intersection type.
@@ -34,9 +34,7 @@ export class IntersectionType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new IntersectionType(this.types);
-        clone.isArray = this.isArray;
-        return clone;
+        return new IntersectionType(this.types);
     }
 
     /**
@@ -47,9 +45,6 @@ export class IntersectionType extends Type {
      */
     equals(type: IntersectionType): boolean {
         if (!(type instanceof IntersectionType)) {
-            return false;
-        }
-        if (type.isArray !== this.isArray) {
             return false;
         }
         return Type.isTypeListSimiliar(type.types, this.types);

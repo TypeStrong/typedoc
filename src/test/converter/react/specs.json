@@ -109,7 +109,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             },
@@ -172,7 +172,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -182,11 +182,11 @@
                         "name": "Component",
                         "typeArguments": [
                           {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "any"
                           },
                           {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "any"
                           }
                         ]
@@ -221,7 +221,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "any"
               },
               "inheritedFrom": {
@@ -267,7 +267,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -284,7 +284,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {
@@ -383,7 +383,7 @@
                                   "kindString": "Parameter",
                                   "flags": {},
                                   "type": {
-                                    "type": "instrinct",
+                                    "type": "intrinsic",
                                     "name": "any"
                                   }
                                 },
@@ -401,7 +401,7 @@
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -440,7 +440,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -457,7 +457,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {
@@ -479,7 +479,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "any"
                       }
                     },
@@ -507,7 +507,7 @@
                               "kindString": "Call signature",
                               "flags": {},
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "any"
                               }
                             }
@@ -524,7 +524,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   },
                   "inheritedFrom": {
@@ -598,24 +598,7 @@
                   "id": 2
                 },
                 {
-                  "type": "instrinct",
-                  "name": "any"
-                }
-              ]
-            }
-          ],
-          "implementedTypes": [
-            {
-              "type": "reference",
-              "name": "ComponentLifecycle",
-              "typeArguments": [
-                {
-                  "type": "reference",
-                  "name": "DemoProps",
-                  "id": 2
-                },
-                {
-                  "type": "instrinct",
+                  "type": "intrinsic",
                   "name": "any"
                 }
               ]
@@ -643,7 +626,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               }
             },
@@ -661,7 +644,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             }

@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
-import {Application} from '../application';
-import {EventDispatcher, Event, EventMap} from './events';
-import {DeclarationOption} from './options/declaration';
+import { Application } from '../application';
+import { EventDispatcher, Event, EventMap } from './events';
+import { DeclarationOption } from './options/declaration';
 
 export interface ComponentHost {
     application: Application;
@@ -25,7 +25,7 @@ export interface ComponentOptions {
 const childMappings: {host: any, child: Function}[] = [];
 
 export function Component(options: ComponentOptions): ClassDecorator {
-    return (target: ComponentClass<Component>) => {
+    return (target: Function) => {
         const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error('The `Component` decorator can only be used with a subclass of `AbstractComponent`.');

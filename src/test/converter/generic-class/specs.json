@@ -128,9 +128,11 @@
                 }
               ],
               "type": {
-                "type": "typeParameter",
-                "isArray": true,
-                "name": "T"
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
               }
             },
             {
@@ -244,7 +246,7 @@
                         "shortText": "Constructor parameter.\n"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "string"
                       }
                     }
@@ -293,7 +295,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               },
               "inheritedFrom": {
@@ -321,9 +323,11 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
-                "isArray": true,
-                "name": "string"
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
               },
               "inheritedFrom": {
                 "type": "reference",
@@ -349,7 +353,7 @@
                     "returns": "Return value comment.\n"
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   },
                   "inheritedFrom": {
@@ -411,7 +415,7 @@
               "id": 2,
               "typeArguments": [
                 {
-                  "type": "instrinct",
+                  "type": "intrinsic",
                   "name": "string"
                 }
               ]

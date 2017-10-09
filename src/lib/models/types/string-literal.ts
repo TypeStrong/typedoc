@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents a string literal type.
@@ -34,9 +34,7 @@ export class StringLiteralType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new StringLiteralType(this.value);
-        clone.isArray = this.isArray;
-        return clone;
+        return new StringLiteralType(this.value);
     }
 
     /**
@@ -47,7 +45,6 @@ export class StringLiteralType extends Type {
      */
     equals(type: StringLiteralType): boolean {
         return type instanceof StringLiteralType &&
-            type.isArray === this.isArray &&
             type.value === this.value;
     }
 

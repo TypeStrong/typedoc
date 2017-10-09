@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {Type, UnknownType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, TypeTypeConverter} from '../components';
-import {Context} from '../context';
+import { Type, UnknownType } from '../../models/types/index';
+import { Component, ConverterTypeComponent, TypeTypeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'type:unknown'})
 export class UnknownConverter extends ConverterTypeComponent implements TypeTypeConverter<ts.Type> {
@@ -10,7 +10,7 @@ export class UnknownConverter extends ConverterTypeComponent implements TypeType
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority: number = -100;
+    priority = -100;
 
     /**
      * Test whether this converter can handle the given TypeScript type.

@@ -4,10 +4,10 @@ import * as Marked from 'marked';
 import * as HighlightJS from 'highlight.js';
 import * as Handlebars from 'handlebars';
 
-import {Component, ContextAwareRendererComponent} from '../components';
-import {RendererEvent, MarkdownEvent} from '../events';
-import {Option} from '../../utils/component';
-import {ParameterHint} from '../../utils/options/declaration';
+import { Component, ContextAwareRendererComponent } from '../components';
+import { RendererEvent, MarkdownEvent } from '../events';
+import { Option } from '../../utils/component';
+import { ParameterHint } from '../../utils/options/declaration';
 
 /**
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.

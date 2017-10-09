@@ -1,8 +1,8 @@
-import {Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy} from '../../models/reflections/index';
-import {Type, ReferenceType, TupleType, UnionType, IntersectionType} from '../../models/types/index';
-import {Component, ConverterComponent} from '../components';
-import {Converter} from '../converter';
-import {Context} from '../context';
+import { Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy } from '../../models/reflections/index';
+import { Type, ReferenceType, TupleType, UnionType, IntersectionType, ArrayType } from '../../models/types/index';
+import { Component, ConverterComponent } from '../components';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * A handler that converts all instances of [[LateResolvingType]] to their renderable equivalents.
@@ -113,6 +113,8 @@ export class TypePlugin extends ConverterComponent {
                 for (let index = 0, count = unionOrIntersectionType.types.length; index < count; index++) {
                     resolveType(reflection, unionOrIntersectionType.types[index]);
                 }
+            } else if (type instanceof ArrayType) {
+                resolveType(reflection, type.elementType);
             }
         }
     }

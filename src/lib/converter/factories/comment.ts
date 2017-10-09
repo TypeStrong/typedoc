@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Comment, CommentTag} from '../../models/comments/index';
+import { Comment, CommentTag } from '../../models/comments/index';
 
 /**
  * Return the parsed comment of the given TypeScript node.
@@ -164,7 +164,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
-        const tag = /^@(\w+)/.exec(line);
+        const tag = /^@(\S+)/.exec(line);
         if (tag) {
             readTagLine(line, tag);
         } else {

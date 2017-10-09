@@ -1,5 +1,5 @@
-import {DeclarationReflection} from '../reflections/declaration';
-import {Type} from './abstract';
+import { DeclarationReflection } from '../reflections/declaration';
+import { Type } from './abstract';
 
 /**
  * Represents a type which has it's own reflection like literal types.
@@ -35,9 +35,7 @@ export class ReflectionType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new ReflectionType(this.declaration);
-        clone.isArray = this.isArray;
-        return clone;
+        return new ReflectionType(this.declaration);
     }
 
     /**

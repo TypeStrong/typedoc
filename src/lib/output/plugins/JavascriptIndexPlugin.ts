@@ -1,10 +1,10 @@
 import * as Path from 'path';
 
-import {DeclarationReflection, ProjectReflection} from '../../models/reflections/index';
-import {GroupPlugin} from '../../converter/plugins/GroupPlugin';
-import {Component, RendererComponent} from '../components';
-import {writeFile} from '../../utils/fs';
-import {RendererEvent} from '../events';
+import { DeclarationReflection, ProjectReflection } from '../../models/reflections/index';
+import { GroupPlugin } from '../../converter/plugins/GroupPlugin';
+import { Component, RendererComponent } from '../components';
+import { writeFile } from '../../utils/fs';
+import { RendererEvent } from '../events';
 
 /**
  * A plugin that exports an index of the project to a javascript file.

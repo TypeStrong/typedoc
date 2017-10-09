@@ -38,7 +38,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "number"
               },
               "defaultValue": "100"
@@ -57,7 +57,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "boolean"
               },
               "defaultValue": "true"
@@ -76,7 +76,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               },
               "defaultValue": "\"foo\""
@@ -95,7 +95,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   }
                 }
@@ -129,14 +129,11 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "name": "Array",
-                    "typeArguments": [
-                      {
-                        "type": "instrinct",
-                        "name": "number"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "number"
+                    }
                   },
                   "defaultValue": " [100, 200, 300]"
                 },
@@ -154,7 +151,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "string"
                   },
                   "defaultValue": "\"foo\""
@@ -180,7 +177,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "string"
                           }
                         }
@@ -208,7 +205,7 @@
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "string"
                               },
                               "defaultValue": "\"test\""
@@ -227,7 +224,7 @@
                                 }
                               ],
                               "type": {
-                                "type": "instrinct",
+                                "type": "intrinsic",
                                 "name": "string"
                               },
                               "defaultValue": "z"
@@ -281,7 +278,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "object"
               }
             }
@@ -319,7 +316,7 @@
             }
           ],
           "type": {
-            "type": "instrinct",
+            "type": "intrinsic",
             "name": "object"
           }
         }

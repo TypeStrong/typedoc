@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
-import {Minimatch, IMinimatch} from 'minimatch';
+import { Minimatch, IMinimatch } from 'minimatch';
 
-import {Logger} from '../utils/loggers';
-import {Reflection, ProjectReflection, ContainerReflection, Type} from '../models/index';
-import {createTypeParameter} from './factories/type-parameter';
-import {Converter} from './converter';
+import { Logger } from '../utils/loggers';
+import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+import { createTypeParameter } from './factories/type-parameter';
+import { Converter } from './converter';
 
 /**
  * The context describes the current state the converter is in.
@@ -88,7 +88,7 @@ export class Context {
     /**
      * Next free symbol id used by [[getSymbolID]].
      */
-    private symbolID: number = -1024;
+    private symbolID = -1024;
 
     /**
      * The pattern that should be used to flag external source files.

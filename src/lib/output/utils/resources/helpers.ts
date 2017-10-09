@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import * as Handlebars from 'handlebars';
 
-import {ResourceStack, Resource} from './stack';
+import { ResourceStack, Resource } from './stack';
 
 export class Helper extends Resource {
     private helpers: any;

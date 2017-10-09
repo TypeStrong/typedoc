@@ -41,8 +41,8 @@ function decoratorWithParam(value:boolean):MethodDecorator {
  * @param options  The options object of this decorator.
  * @param options.name  A property on the options object of this decorator.
  */
-function decoratorWithOptions(options:{name:string}):ClassDecorator {
+function decoratorWithOptions(options:{name:string}): ClassDecorator {
     return function (target) {
-        target.options = options;
-    }
+        (target as any).options = options;
+    };
 }

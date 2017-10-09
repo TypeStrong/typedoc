@@ -65,16 +65,18 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "isArray": true,
-                    "name": "ISubscription",
-                    "id": 7,
-                    "typeArguments": [
-                      {
-                        "type": "typeParameter",
-                        "name": "T"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "ISubscription",
+                      "id": 7,
+                      "typeArguments": [
+                        {
+                          "type": "typeParameter",
+                          "name": "T"
+                        }
+                      ]
+                    }
                   }
                 },
                 {
@@ -118,7 +120,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "any"
                           },
                           "defaultValue": "null"
@@ -130,7 +132,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "number"
                           },
                           "defaultValue": "0"
@@ -183,7 +185,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       },
                       "implementationOf": {
@@ -235,7 +237,7 @@
                         }
                       ],
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "boolean"
                       },
                       "implementationOf": {
@@ -274,7 +276,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "boolean"
                       },
                       "implementationOf": {
@@ -333,7 +335,7 @@
                         }
                       ],
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       },
                       "implementationOf": {
@@ -453,7 +455,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "any"
                           }
                         },
@@ -464,7 +466,7 @@
                           "kindString": "Parameter",
                           "flags": {},
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "number"
                           }
                         },
@@ -547,7 +549,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "any"
                   },
                   "implementationOf": {
@@ -606,7 +608,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   },
                   "implementationOf": {
@@ -629,7 +631,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       },
                       "implementationOf": {
@@ -764,7 +766,7 @@
                             "isOptional": true
                           },
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "any"
                           }
                         },
@@ -777,7 +779,7 @@
                             "isOptional": true
                           },
                           "type": {
-                            "type": "instrinct",
+                            "type": "intrinsic",
                             "name": "number"
                           }
                         }
@@ -819,7 +821,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       }
                     }
@@ -861,7 +863,7 @@
                         }
                       ],
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "boolean"
                       }
                     }
@@ -890,7 +892,7 @@
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "boolean"
                       }
                     }
@@ -939,7 +941,7 @@
                         }
                       ],
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       }
                     }
@@ -1023,7 +1025,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "any"
                   }
                 }
@@ -1069,7 +1071,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "any"
                   }
                 },
@@ -1112,7 +1114,7 @@
                     }
                   ],
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "number"
                   }
                 },
@@ -1133,7 +1135,7 @@
                         "shortText": "Remove this subscription from its dispatcher"
                       },
                       "type": {
-                        "type": "instrinct",
+                        "type": "intrinsic",
                         "name": "void"
                       }
                     }

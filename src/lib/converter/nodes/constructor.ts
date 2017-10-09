@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment} from '../../models/index';
-import {createDeclaration, createSignature, createComment} from '../factories/index';
-import {Context} from '../context';
-import {Converter} from '../converter';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionKind, ReflectionFlag, ReferenceType, Comment } from '../../models/index';
+import { createDeclaration, createSignature, createComment } from '../factories/index';
+import { Context } from '../context';
+import { Converter } from '../converter';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:constructor'})
 export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorDeclaration> {
@@ -62,7 +62,8 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
      */
     private addParameterProperty(context: Context, parameter: ts.ParameterDeclaration, comment: Comment) {
         const modifiers = ts.getCombinedModifierFlags(parameter);
-        const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected | ts.ModifierFlags.Private);
+        const visibility = modifiers & (ts.ModifierFlags.Public | ts.ModifierFlags.Protected |
+                                        ts.ModifierFlags.Private | ts.ModifierFlags.Readonly);
         if (!visibility) {
             return;
         }

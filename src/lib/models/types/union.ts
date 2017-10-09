@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents an union type.
@@ -34,9 +34,7 @@ export class UnionType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new UnionType(this.types);
-        clone.isArray = this.isArray;
-        return clone;
+        return new UnionType(this.types);
     }
 
     /**
@@ -47,9 +45,6 @@ export class UnionType extends Type {
      */
     equals(type: UnionType): boolean {
         if (!(type instanceof UnionType)) {
-            return false;
-        }
-        if (type.isArray !== this.isArray) {
             return false;
         }
         return Type.isTypeListSimiliar(type.types, this.types);

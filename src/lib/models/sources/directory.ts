@@ -1,6 +1,7 @@
-import {Reflection} from '../reflections/abstract';
-import {ReflectionGroup} from '../ReflectionGroup';
-import {SourceFile} from './file';
+import { Reflection } from '../reflections/abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
+import { ReflectionGroup } from '../ReflectionGroup';
+import { SourceFile } from './file';
 
 /**
  * Exposes information about a directory containing source files.
@@ -21,6 +22,8 @@ export class SourceDirectory {
     directories: {[name: string]: SourceDirectory} = {};
 
     groups: ReflectionGroup[];
+
+    categories: ReflectionCategory[];
 
     /**
      * A list of all files in this directory.

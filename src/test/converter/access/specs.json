@@ -47,7 +47,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -71,7 +71,7 @@
                 }
               ],
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "string"
               }
             },
@@ -97,7 +97,7 @@
                     "shortText": "A function that is made private via comment."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -132,7 +132,7 @@
                     "shortText": "A function that is made protected via comment."
                   },
                   "type": {
-                    "type": "instrinct",
+                    "type": "intrinsic",
                     "name": "void"
                   }
                 }
@@ -244,7 +244,7 @@
                 "shortText": "A function that is made private via comment."
               },
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
@@ -279,7 +279,7 @@
                 "shortText": "A function that is made protected via comment."
               },
               "type": {
-                "type": "instrinct",
+                "type": "intrinsic",
                 "name": "void"
               }
             }
