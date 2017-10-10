@@ -15,6 +15,24 @@ const nonStaticKinds = [
 ];
 
 /**
+ * List of reflection kinds for whom the exported flag of the container reflection should be considered.
+ */
+const considerInheritedExportKinds = [
+    ReflectionKind.Accessor,
+    ReflectionKind.Constructor,
+    ReflectionKind.ConstructorSignature,
+    ReflectionKind.EnumMember,
+    ReflectionKind.Event,
+    ReflectionKind.GetSignature,
+    ReflectionKind.IndexSignature,
+    ReflectionKind.Method,
+    ReflectionKind.Parameter,
+    ReflectionKind.Property,
+    ReflectionKind.SetSignature,
+    ReflectionKind.TypeParameter
+];
+
+/**
  * Create a declaration reflection from the given TypeScript node.
  *
  * @param context  The context object describing the current state the converter is in. The
@@ -45,7 +63,8 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
 
     // Test whether the node is exported
     let isExported: boolean;
-    if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
+    if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule]) || considerInheritedExportKinds.indexOf(kind) === -1
+        || node.kind === ts.SyntaxKind.VariableDeclaration || node.kind === ts.SyntaxKind.FunctionDeclaration) {
         isExported = false; // Don't inherit exported state in modules and namespaces
     } else {
         isExported = container.flags.isExported;

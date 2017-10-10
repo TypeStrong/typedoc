@@ -1,0 +1,254 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"nested-modules\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/nested-modules/nested-modules.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "TestModule",
+          "kind": 2,
+          "kindString": "Module",
+          "flags": {},
+          "children": [
+            {
+              "id": 3,
+              "name": "TestClass",
+              "kind": 128,
+              "kindString": "Class",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "TestClass class comment.\nTestClass module comment."
+              },
+              "children": [
+                {
+                  "id": 4,
+                  "name": "property",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true,
+                    "isPublic": true
+                  },
+                  "comment": {
+                    "shortText": "This is a property."
+                  },
+                  "sources": [
+                    {
+                      "fileName": "nested-modules.ts",
+                      "line": 11,
+                      "character": 23
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"property\""
+                },
+                {
+                  "id": 7,
+                  "name": "exportedVar",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isStatic": true,
+                    "isExported": true
+                  },
+                  "comment": {
+                    "shortText": "This is an exported variable."
+                  },
+                  "sources": [
+                    {
+                      "fileName": "nested-modules.ts",
+                      "line": 30,
+                      "character": 32
+                    }
+                  ],
+                  "type": {
+                    "type": "stringLiteral",
+                    "value": "exported"
+                  },
+                  "defaultValue": "\"exported\""
+                },
+                {
+                  "id": 8,
+                  "name": "internalVar",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isStatic": true
+                  },
+                  "comment": {
+                    "shortText": "This is an internal variable."
+                  },
+                  "sources": [
+                    {
+                      "fileName": "nested-modules.ts",
+                      "line": 35,
+                      "character": 25
+                    }
+                  ],
+                  "type": {
+                    "type": "stringLiteral",
+                    "value": "internal"
+                  },
+                  "defaultValue": "\"internal\""
+                },
+                {
+                  "id": 5,
+                  "name": "method",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true,
+                    "isPublic": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 6,
+                      "name": "method",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "This is a method."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "nested-modules.ts",
+                      "line": 16,
+                      "character": 21
+                    }
+                  ]
+                },
+                {
+                  "id": 9,
+                  "name": "internalFunction",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isStatic": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 10,
+                      "name": "internalFunction",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "This is an internal function."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "nested-modules.ts",
+                      "line": 40,
+                      "character": 33
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    4,
+                    7,
+                    8
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    5,
+                    9
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "nested-modules.ts",
+                  "line": 6,
+                  "character": 26
+                },
+                {
+                  "fileName": "nested-modules.ts",
+                  "line": 25,
+                  "character": 27
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Classes",
+              "kind": 128,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "nested-modules.ts",
+              "line": 1,
+              "character": 17
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Modules",
+          "kind": 2,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "nested-modules.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
