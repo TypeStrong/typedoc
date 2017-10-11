@@ -50,12 +50,12 @@ export interface IPrintNameInterface extends INameInterface, IPrintInterface
  *
  * [[include:class-example.md]]
  */
-export class BaseClass implements INameInterface
+export abstract class BaseClass implements INameInterface
 {
     /**
      * This is a simple public member.
      */
-    public name:string;
+    public abstract name:string;
 
     /**
      * This is a simple protected member.
@@ -90,6 +90,7 @@ export class BaseClass implements INameInterface
         this.checkName();
     }
 
+    public abstract abstractMethod(): void;
 
     /**
      * This is a simple member function.
@@ -197,6 +198,8 @@ class InternalClass<TTT extends keyof BaseClass>
  */
 export class SubClassA extends BaseClass implements IPrintNameInterface
 {
+    public name:string;
+
     /**
      * This is a simple interface function.
      */
@@ -250,6 +253,10 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public set writeOnlyNameProperty(value:string) {
         this.name = value;
     }
+
+    public abstractMethod(): void {
+
+    }
 }
 
 
@@ -260,8 +267,14 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
  */
 export class SubClassB extends BaseClass
 {
+    public name: string;
+
     constructor(name:string) {
         super(name);
+    }
+
+    abstractMethod(): void {
+
     }
 
     doSomething(value:[string, SubClassA, SubClassB]) {

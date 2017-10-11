@@ -74,3 +74,16 @@ export class TestSubClass extends TestClass
         super();
     }
 }
+
+
+export abstract class TestAbstractClass {
+    abstract myAbstractProperty: string;
+
+    protected abstract myAbstractMethod(): void;
+}
+
+export class TestAbstractClassImplementation extends TestAbstractClass {
+    myAbstractProperty: string;
+
+    protected myAbstractMethod(): void { }
+}

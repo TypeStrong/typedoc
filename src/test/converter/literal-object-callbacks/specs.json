@@ -19,7 +19,9 @@
           "name": "onError",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "signatures": [
             {
               "id": 5,
@@ -46,7 +48,9 @@
           "name": "onFinally",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "signatures": [
             {
               "id": 7,
@@ -73,7 +77,9 @@
           "name": "onSuccess",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "signatures": [
             {
               "id": 3,
@@ -100,7 +106,9 @@
           "name": "callbackReturn",
           "kind": 2097152,
           "kindString": "Object literal",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "children": [
             {
               "id": 14,
