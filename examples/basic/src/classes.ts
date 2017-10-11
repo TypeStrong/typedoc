@@ -73,7 +73,7 @@ export class BaseClass implements INameInterface
     /**
      * This is an instance member of an internal class.
      */
-    private internalClass:InternalClass;
+    private internalClass:InternalClass<keyof BaseClass>;
 
 
     constructor(name:string);
@@ -181,7 +181,7 @@ export class BaseClass implements INameInterface
 /**
  * This is an internal class, it is not exported.
  */
-class InternalClass
+class InternalClass<TTT extends keyof BaseClass>
 {
     constructor(options:{name:string}) {
 
