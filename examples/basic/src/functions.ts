@@ -189,3 +189,8 @@ export function createSomething() {
  * Taken from http://usejsdoc.org/tags-inline-link.html.
  */
 export function functionWithDocLink():void { }
+
+/**
+ * A function with a destructuring argument that implements interface.
+ */
+export function functionWithTypedDestr({name}: classes.INameInterface) { }
