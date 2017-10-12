@@ -15,7 +15,50 @@
       "originalName": "%BASE%/destructuring/destructuring.ts",
       "children": [
         {
-          "id": 5,
+          "id": 2,
+          "name": "ForDestructuring",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "children": [
+            {
+              "id": 3,
+              "name": "param",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "destructuring.ts",
+                  "line": 28,
+                  "character": 9
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 27,
+              "character": 26
+            }
+          ]
+        },
+        {
+          "id": 7,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
@@ -33,7 +76,7 @@
           }
         },
         {
-          "id": 6,
+          "id": 8,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
@@ -51,7 +94,7 @@
           }
         },
         {
-          "id": 7,
+          "id": 9,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
@@ -79,7 +122,7 @@
           "defaultValue": "10"
         },
         {
-          "id": 11,
+          "id": 13,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
@@ -97,7 +140,7 @@
           }
         },
         {
-          "id": 12,
+          "id": 14,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
@@ -118,7 +161,7 @@
           }
         },
         {
-          "id": 10,
+          "id": 12,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
@@ -139,7 +182,7 @@
           }
         },
         {
-          "id": 8,
+          "id": 10,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
@@ -157,7 +200,7 @@
           }
         },
         {
-          "id": 9,
+          "id": 11,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
@@ -175,7 +218,7 @@
           }
         },
         {
-          "id": 2,
+          "id": 4,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
@@ -193,7 +236,7 @@
           }
         },
         {
-          "id": 3,
+          "id": 5,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
@@ -211,7 +254,7 @@
           }
         },
         {
-          "id": 4,
+          "id": 6,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
@@ -229,14 +272,14 @@
           }
         },
         {
-          "id": 13,
+          "id": 15,
           "name": "drawText",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 14,
+              "id": 16,
               "name": "drawText",
               "kind": 4096,
               "kindString": "Call signature",
@@ -246,7 +289,7 @@
               },
               "parameters": [
                 {
-                  "id": 15,
+                  "id": 17,
                   "name": "__namedParameters",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -255,14 +298,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 16,
+                      "id": 18,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 19,
+                          "id": 21,
                           "name": "bold",
                           "kind": 32,
                           "kindString": "Variable",
@@ -281,7 +324,7 @@
                           "defaultValue": "false"
                         },
                         {
-                          "id": 18,
+                          "id": 20,
                           "name": "location",
                           "kind": 32,
                           "kindString": "Variable",
@@ -309,7 +352,7 @@
                           "defaultValue": " [0, 0]"
                         },
                         {
-                          "id": 17,
+                          "id": 19,
                           "name": "text",
                           "kind": 32,
                           "kindString": "Variable",
@@ -333,9 +376,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            19,
-                            18,
-                            17
+                            21,
+                            20,
+                            19
                           ]
                         }
                       ],
@@ -345,7 +388,11 @@
                           "line": 25,
                           "character": 18
                         }
-                      ]
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "Object"
+                      }
                     }
                   }
                 }
@@ -363,31 +410,131 @@
               "character": 17
             }
           ]
+        },
+        {
+          "id": 22,
+          "name": "typedDestructuring",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 23,
+              "name": "typedDestructuring",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Typed destructuring function parameters."
+              },
+              "parameters": [
+                {
+                  "id": 24,
+                  "name": "__namedParameters",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "originalName": "__0",
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 25,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 26,
+                          "name": "param",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "destructuring.ts",
+                              "line": 34,
+                              "character": 34
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          "defaultValue": "1"
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            26
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "destructuring.ts",
+                          "line": 34,
+                          "character": 28
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "name": "ForDestructuring",
+                        "id": 2
+                      }
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 34,
+              "character": 27
+            }
+          ]
         }
       ],
       "groups": [
         {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        },
+        {
           "title": "Variables",
           "kind": 32,
           "children": [
-            5,
-            6,
             7,
-            11,
-            12,
-            10,
             8,
             9,
-            2,
-            3,
-            4
+            13,
+            14,
+            12,
+            10,
+            11,
+            4,
+            5,
+            6
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            13
+            15,
+            22
           ]
         }
       ],
