@@ -19,13 +19,18 @@ export class BindingObjectConverter extends ConverterTypeComponent implements Ty
      *
      * @param context  The context object describing the current state the converter is in.
      * @param node  The binding pattern that should be converted.
+     * @param type  The type of the node if already known.
      * @returns The type reflection representing the given binding pattern.
      */
-    convertNode(context: Context, node: ts.BindingPattern): Type {
+    convertNode(context: Context, node: ts.BindingPattern, type: ts.Type): Type {
         const declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
         declaration.parent = context.scope;
+
+        if (type) {
+            declaration.type = context.converter.convertType(context, null, type);
+        }
 
         context.registerReflection(declaration, null);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);

@@ -23,3 +23,12 @@ const [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = [1, 2, 3,
  * Destructuring function parameters.
  */
 function drawText({text = "", location:[x, y] = [0, 0], bold = false}) { }
+
+interface ForDestructuring {
+    param: number;
+}
+
+/**
+ * Typed destructuring function parameters.
+ */
+function typedDestructuring({param = 1}: ForDestructuring) { }
