@@ -179,7 +179,8 @@
           "kindString": "Variable",
           "flags": {
             "isPrivate": true,
-            "isExported": true
+            "isExported": true,
+            "isConst": true
           },
           "comment": {
             "shortText": "A variable that is made private via comment."
@@ -204,7 +205,8 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
-            "isProtected": true
+            "isProtected": true,
+            "isConst": true
           },
           "comment": {
             "shortText": "A variable that is made protected via comment."

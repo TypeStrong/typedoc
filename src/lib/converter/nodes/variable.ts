@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import { Reflection, ReflectionKind, IntrinsicType } from '../../models/index';
+import { Reflection, ReflectionFlag, ReflectionKind, IntrinsicType } from '../../models/index';
 import { createDeclaration, createComment } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
@@ -61,6 +61,24 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
         const scope = context.scope;
         const kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
         const variable = createDeclaration(context, node, kind, name);
+
+        switch (kind) {
+            case ReflectionKind.Variable:
+                if (node.parent.flags & ts.NodeFlags.Const) {
+                    variable.setFlag(ReflectionFlag.Const, true);
+                } else if (node.parent.flags & ts.NodeFlags.Let) {
+                    variable.setFlag(ReflectionFlag.Let, true);
+                }
+                break;
+            case ReflectionKind.Property:
+                if (variable    // child inheriting will return null on createDeclaration
+                    && node.modifiers
+                    && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
+                    variable.setFlag(ReflectionFlag.Abstract, true);
+                }
+                break;
+        }
+
         context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {

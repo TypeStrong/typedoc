@@ -87,7 +87,9 @@
           "name": "_breakpoints",
           "kind": 32,
           "kindString": "Variable",
-          "flags": {},
+          "flags": {
+            "isLet": true
+          },
           "sources": [
             {
               "fileName": "implicit-types.ts",
