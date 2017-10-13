@@ -19,6 +19,26 @@ export enum SimpleEnum
     EnumValue3 = 4
 }
 
+/**
+ * This is a const enumeration.
+ */
+export const enum ConstEnum
+{
+    /**
+     * This is the first enum member.
+     */
+    EnumValue1 = 1,
+    
+    /**
+     * This is the second enum member.
+     */
+    EnumValue2 = 2,
+
+    /**
+     * This is the third enum member.
+     */
+    EnumValue3 = 4
+}
 
 /**
  * This is an enumeration extended by a module.

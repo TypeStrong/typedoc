@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind } from '../../models/index';
+import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
@@ -26,6 +26,10 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
         const enumeration = createDeclaration(context, node, ReflectionKind.Enum);
 
         context.withScope(enumeration, () => {
+            if (!!(ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Const)) {
+                enumeration.setFlag(ReflectionFlag.Const, true);
+            }
+
             if (node.members) {
                 for (let member of node.members) {
                     this.convertMember(context, member);

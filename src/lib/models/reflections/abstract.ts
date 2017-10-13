@@ -151,6 +151,9 @@ export interface ReflectionFlags extends Array<string> {
 
     isAbstract?: boolean;
 
+    /**
+     * Is this a const variable or enum?
+     */
     isConst?: boolean;
 
     isLet?: boolean;

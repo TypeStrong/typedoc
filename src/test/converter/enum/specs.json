@@ -16,14 +16,15 @@
       "children": [
         {
           "id": 6,
-          "name": "ModuleEnum",
+          "name": "ConstEnum",
           "kind": 4,
           "kindString": "Enumeration",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isConst": true
           },
           "comment": {
-            "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
+            "shortText": "This is a const enumeration."
           },
           "children": [
             {
@@ -40,7 +41,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 31,
+                  "line": 30,
                   "character": 14
                 }
               ],
@@ -60,7 +61,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 36,
+                  "line": 35,
                   "character": 14
                 }
               ],
@@ -80,14 +81,106 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 41,
+                  "line": 40,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "4"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 25,
+              "character": 27
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "ModuleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
+          },
+          "children": [
+            {
+              "id": 11,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the first enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 51,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 12,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the second enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 56,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "2"
+            },
+            {
+              "id": 13,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the third enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 61,
                   "character": 14
                 }
               ],
               "defaultValue": "4"
             },
             {
-              "id": 10,
+              "id": 14,
               "name": "enumValue",
               "kind": 32,
               "kindString": "Variable",
@@ -101,7 +194,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 53,
+                  "line": 73,
                   "character": 17
                 }
               ],
@@ -111,7 +204,7 @@
               }
             },
             {
-              "id": 11,
+              "id": 15,
               "name": "enumFunction",
               "kind": 64,
               "kindString": "Function",
@@ -120,7 +213,7 @@
               },
               "signatures": [
                 {
-                  "id": 12,
+                  "id": 16,
                   "name": "enumFunction",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -137,7 +230,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 59,
+                  "line": 79,
                   "character": 25
                 }
               ]
@@ -148,35 +241,35 @@
               "title": "Enumeration members",
               "kind": 16,
               "children": [
-                7,
-                8,
-                9
+                11,
+                12,
+                13
               ]
             },
             {
               "title": "Variables",
               "kind": 32,
               "children": [
-                10
+                14
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                11
+                15
               ]
             }
           ],
           "sources": [
             {
               "fileName": "enum.ts",
-              "line": 26,
+              "line": 46,
               "character": 22
             },
             {
               "fileName": "enum.ts",
-              "line": 48,
+              "line": 68,
               "character": 24
             }
           ]
@@ -280,6 +373,7 @@
           "kind": 4,
           "children": [
             6,
+            10,
             2
           ]
         }
