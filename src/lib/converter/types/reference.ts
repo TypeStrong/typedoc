@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 import { Type, IntrinsicType, ReflectionType } from '../../models/types/index';
-import { ReflectionKind, DeclarationReflection } from '../../models/reflections/index';
+import { ReflectionKind, ReflectionFlag, DeclarationReflection } from '../../models/reflections/index';
 import { createReferenceType } from '../factories/index';
 import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
 import { Context } from '../context';
@@ -126,6 +126,9 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
         declaration.parent = context.scope;
+        if (context.scope.flags.isExported) {
+            declaration.setFlag(ReflectionFlag.Exported, true);
+        }
 
         context.registerReflection(declaration, null, symbol);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
