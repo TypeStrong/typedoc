@@ -20,7 +20,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isConst": true
           },
           "sources": [
             {

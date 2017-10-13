@@ -1,0 +1,196 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"type-operator\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/type-operator/type-operator.ts",
+      "children": [
+        {
+          "id": 5,
+          "name": "GenericClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "typeParameter": [
+            {
+              "id": 6,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "type": {
+                "type": "typeOperator",
+                "operator": "keyof",
+                "target": {
+                  "type": "reference",
+                  "name": "TestClass"
+                }
+              }
+            }
+          ],
+          "children": [
+            {
+              "id": 7,
+              "name": "c",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 14,
+                  "character": 5
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T",
+                "constraint": {
+                  "type": "typeOperator",
+                  "operator": "keyof",
+                  "target": {
+                    "type": "reference",
+                    "name": "TestClass"
+                  }
+                }
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                7
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 13,
+              "character": 25
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "TestClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "TestClass comment short text.",
+            "text": "TestClass comment text.\n",
+            "tags": [
+              {
+                "tag": "see",
+                "text": "[[TestClass]] @ fixtures\n"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "a",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 9,
+                  "character": 5
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 4,
+              "name": "b",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "type-operator.ts",
+                  "line": 10,
+                  "character": 5
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3,
+                4
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "type-operator.ts",
+              "line": 8,
+              "character": 22
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            5,
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "type-operator.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

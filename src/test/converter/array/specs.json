@@ -48,7 +48,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isConst": true
           },
           "comment": {
             "shortText": "A const of a complex type."
@@ -112,7 +113,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "isConst": true
           },
           "comment": {
             "shortText": "An exported const of the custom array type."
