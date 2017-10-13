@@ -91,9 +91,7 @@
               "name": "enumValue",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a variable appended to an enumeration."
               },
@@ -114,9 +112,7 @@
               "name": "enumFunction",
               "kind": 64,
               "kindString": "Function",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 12,
