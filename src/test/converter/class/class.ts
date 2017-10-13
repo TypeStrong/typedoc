@@ -80,10 +80,22 @@ export abstract class TestAbstractClass {
     abstract myAbstractProperty: string;
 
     protected abstract myAbstractMethod(): void;
+
+    abstract get myAbstractAccessor(): number;
+    abstract set myAbstractAccessor(value: number);
 }
 
 export class TestAbstractClassImplementation extends TestAbstractClass {
     myAbstractProperty: string;
 
     protected myAbstractMethod(): void { }
+
+    get myAbstractAccessor(): number
+    {
+        return 1;
+    }
+    set myAbstractAccessor(value: number)
+    {
+        
+    }
 }

@@ -104,7 +104,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true
+                "isConstructorProperty": true,
+                "isReadonly": true
               },
               "comment": {
                 "shortText": "Vector name\n"
@@ -317,7 +318,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true
+                "isConstructorProperty": true,
+                "isReadonly": true
               },
               "comment": {
                 "shortText": "Vector name\n"

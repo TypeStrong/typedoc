@@ -79,7 +79,8 @@ export enum ReflectionFlag {
     ConstructorProperty = 1024,
     Abstract = 2048,
     Const = 4096,
-    Let = 8192
+    Let = 8192,
+    Readonly = 16384
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -92,7 +93,8 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Rest,
     ReflectionFlag.Abstract,
     ReflectionFlag.Let,
-    ReflectionFlag.Const
+    ReflectionFlag.Const,
+    ReflectionFlag.Readonly
 ];
 
 export interface ReflectionFlags extends Array<string> {
@@ -152,6 +154,11 @@ export interface ReflectionFlags extends Array<string> {
     isConst?: boolean;
 
     isLet?: boolean;
+
+    /**
+     * Is this a readonly property?
+     */
+    isReadonly?: boolean;
 }
 
 export interface DefaultValueContainer extends Reflection {
@@ -422,9 +429,18 @@ export abstract class Reflection {
                 break;
             case ReflectionFlag.Let:
                 this.flags.isLet = value;
+                if (value) {
+                    this.setFlag(ReflectionFlag.Const, false);
+                }
                 break;
             case ReflectionFlag.Const:
                 this.flags.isConst = value;
+                if (value) {
+                    this.setFlag(ReflectionFlag.Let, false);
+                }
+                break;
+            case ReflectionFlag.Readonly:
+                this.flags.isReadonly = value;
                 break;
         }
     }

@@ -46,6 +46,67 @@
               }
             },
             {
+              "id": 38,
+              "name": "myAbstractAccessor",
+              "kind": 262144,
+              "kindString": "Accessor",
+              "flags": {
+                "isExported": true,
+                "isAbstract": true
+              },
+              "getSignature": [
+                {
+                  "id": 39,
+                  "name": "__get",
+                  "kind": 524288,
+                  "kindString": "Get signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "setSignature": [
+                {
+                  "id": 40,
+                  "name": "__set",
+                  "kind": 1048576,
+                  "kindString": "Set signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 41,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 84,
+                  "character": 35
+                },
+                {
+                  "fileName": "class.ts",
+                  "line": 85,
+                  "character": 35
+                }
+              ]
+            },
+            {
               "id": 36,
               "name": "myAbstractMethod",
               "kind": 2048,
@@ -86,6 +147,13 @@
               ]
             },
             {
+              "title": "Accessors",
+              "kind": 262144,
+              "children": [
+                38
+              ]
+            },
+            {
               "title": "Methods",
               "kind": 2048,
               "children": [
@@ -104,12 +172,12 @@
             {
               "type": "reference",
               "name": "TestAbstractClassImplementation",
-              "id": 38
+              "id": 42
             }
           ]
         },
         {
-          "id": 38,
+          "id": 42,
           "name": "TestAbstractClassImplementation",
           "kind": 128,
           "kindString": "Class",
@@ -118,7 +186,7 @@
           },
           "children": [
             {
-              "id": 39,
+              "id": 43,
               "name": "myAbstractProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -128,7 +196,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 86,
+                  "line": 89,
                   "character": 22
                 }
               ],
@@ -143,7 +211,82 @@
               }
             },
             {
-              "id": 40,
+              "id": 46,
+              "name": "myAbstractAccessor",
+              "kind": 262144,
+              "kindString": "Accessor",
+              "flags": {
+                "isExported": true
+              },
+              "getSignature": [
+                {
+                  "id": 47,
+                  "name": "__get",
+                  "kind": 524288,
+                  "kindString": "Get signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestAbstractClass.myAbstractAccessor",
+                    "id": 38
+                  }
+                }
+              ],
+              "setSignature": [
+                {
+                  "id": 48,
+                  "name": "__set",
+                  "kind": 1048576,
+                  "kindString": "Set signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 49,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestAbstractClass.myAbstractAccessor",
+                    "id": 38
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 93,
+                  "character": 26
+                },
+                {
+                  "fileName": "class.ts",
+                  "line": 97,
+                  "character": 26
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestAbstractClass.myAbstractAccessor",
+                "id": 38
+              }
+            },
+            {
+              "id": 44,
               "name": "myAbstractMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -153,7 +296,7 @@
               },
               "signatures": [
                 {
-                  "id": 41,
+                  "id": 45,
                   "name": "myAbstractMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -172,7 +315,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 88,
+                  "line": 91,
                   "character": 30
                 }
               ],
@@ -188,21 +331,28 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                39
+                43
+              ]
+            },
+            {
+              "title": "Accessors",
+              "kind": 262144,
+              "children": [
+                46
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                40
+                44
               ]
             }
           ],
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 85,
+              "line": 88,
               "character": 44
             }
           ],
@@ -949,7 +1099,7 @@
           "kind": 128,
           "children": [
             34,
-            38,
+            42,
             2,
             16
           ]

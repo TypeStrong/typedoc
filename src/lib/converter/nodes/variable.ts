@@ -62,24 +62,15 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
         const kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
         const variable = createDeclaration(context, node, kind, name);
 
-        switch (kind) {
-            case ReflectionKind.Variable:
+        context.withScope(variable, () => {
+            if (kind === ReflectionKind.Variable && node.parent) {
                 if (node.parent.flags & ts.NodeFlags.Const) {
                     variable.setFlag(ReflectionFlag.Const, true);
                 } else if (node.parent.flags & ts.NodeFlags.Let) {
                     variable.setFlag(ReflectionFlag.Let, true);
                 }
-                break;
-            case ReflectionKind.Property:
-                if (variable    // child inheriting will return null on createDeclaration
-                    && node.modifiers
-                    && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
-                    variable.setFlag(ReflectionFlag.Abstract, true);
-                }
-                break;
-        }
+            }
 
-        context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {
                     case ts.SyntaxKind.ArrowFunction:
