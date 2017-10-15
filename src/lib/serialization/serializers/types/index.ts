@@ -6,5 +6,6 @@ export * from './reference';
 export * from './reflection';
 export * from './string-literal';
 export * from './tuple';
+export * from './type-operator';
 export * from './type-parameter';
 export * from './unknown';
