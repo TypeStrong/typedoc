@@ -43,7 +43,7 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
       }
     }
 
-    if (reflection.decorates && reflection.decorators.length > 0) {
+    if (reflection.decorates && reflection.decorates.length > 0) {
       obj.decorates = reflection.decorates.map( t => this.owner.toObject(t) );
     }
 
