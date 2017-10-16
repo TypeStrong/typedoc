@@ -51,8 +51,8 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         isExported = container.flags.isExported;
     }
 
-    if (kind === ReflectionKind.ExternalModule) {
-        isExported = true; // Always mark external modules as exported
+    if (kind === ReflectionKind.ExternalModule || context.isDeclaration || !!(modifiers & ts.ModifierFlags.Ambient)) {
+        isExported = true; // Always mark external modules or declared types as exported
     } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
         isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
@@ -136,6 +136,7 @@ function setupDeclaration(context: Context, reflection: DeclarationReflection, n
     reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
     reflection.setFlag(ReflectionFlag.Abstract,  !!(modifiers & ts.ModifierFlags.Abstract));
     reflection.setFlag(ReflectionFlag.Readonly,  !!(modifiers & ts.ModifierFlags.Readonly));
+    reflection.setFlag(ReflectionFlag.Ambient,   !!(modifiers & ts.ModifierFlags.Ambient));
 
     if (
         context.isInherit &&

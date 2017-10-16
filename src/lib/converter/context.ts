@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { Minimatch, IMinimatch } from 'minimatch';
 
 import { Logger } from '../utils/loggers';
-import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+import { Reflection, ProjectReflection, ContainerReflection, Type, ReflectionFlag } from '../models/index';
 import { createTypeParameter } from './factories/type-parameter';
 import { Converter } from './converter';
 
@@ -46,7 +46,7 @@ export class Context {
     isExternal: boolean;
 
     /**
-     * Is the current source file a declaration file?
+     * Is the current source file a declaration file or the current scopce an ambient declaration?
      */
     isDeclaration: boolean;
 
@@ -278,16 +278,19 @@ export class Context {
         const oldScope = this.scope;
         const oldTypeArguments = this.typeArguments;
         const oldTypeParameters = this.typeParameters;
+        const oldIsDeclaration = this.isDeclaration;
 
         this.scope = scope;
         this.typeParameters = parameters ? this.extractTypeParameters(parameters, args.length > 0) : this.typeParameters;
         this.typeArguments = null;
+        this.isDeclaration = oldIsDeclaration || !!(scope.flags.flags & ReflectionFlag.Ambient);
 
         callback();
 
         this.scope = oldScope;
         this.typeParameters = oldTypeParameters;
         this.typeArguments = oldTypeArguments;
+        this.isDeclaration = oldIsDeclaration;
     }
 
     /**

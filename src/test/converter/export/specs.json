@@ -15,6 +15,55 @@
       "originalName": "%BASE%/export/export.ts",
       "children": [
         {
+          "id": 7,
+          "name": "AmbientNamespace",
+          "kind": 2,
+          "kindString": "Module",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This namespace is exported."
+          },
+          "children": [
+            {
+              "id": 8,
+              "name": "AmbientClass",
+              "kind": 128,
+              "kindString": "Class",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This class is exported."
+              },
+              "sources": [
+                {
+                  "fileName": "export.ts",
+                  "line": 15,
+                  "character": 22
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Classes",
+              "kind": 128,
+              "children": [
+                8
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 10,
+              "character": 34
+            }
+          ]
+        },
+        {
           "id": 2,
           "name": "x",
           "kind": 32,
@@ -91,6 +140,13 @@
         }
       ],
       "groups": [
+        {
+          "title": "Modules",
+          "kind": 2,
+          "children": [
+            7
+          ]
+        },
         {
           "title": "Variables",
           "kind": 32,

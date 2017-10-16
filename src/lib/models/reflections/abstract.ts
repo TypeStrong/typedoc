@@ -80,7 +80,8 @@ export enum ReflectionFlag {
     Abstract = 2048,
     Const = 4096,
     Let = 8192,
-    Readonly = 16384
+    Readonly = 16384,
+    Ambient = 32768
 }
 
 const relevantFlags: ReflectionFlag[] = [
