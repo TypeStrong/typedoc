@@ -91,8 +91,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         super(null);
 
         this.logger    = new ConsoleLogger();
-        this.converter = this.addComponent('converter', Converter);
-        this.renderer  = this.addComponent('renderer', Renderer);
+        this.converter = this.addComponent<Converter>('converter', Converter);
+        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
 
