@@ -12,10 +12,6 @@
 dl.tsd-comment-tags
     overflow: hidden
 
-    dt:before, dd:before
-        display: table
-        content: " "
-
     dt
         float: left
         padding: 1px 5px
@@ -28,6 +24,10 @@ dl.tsd-comment-tags
 
     dd
         margin: 0 0 10px 0
+
+		&:before, &:after
+			display: table
+			content: " "
         pre, &:after
             clear: both
 
