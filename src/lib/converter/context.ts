@@ -2,7 +2,18 @@ import * as ts from 'typescript';
 import { Minimatch, IMinimatch } from 'minimatch';
 
 import { Logger } from '../utils/loggers';
-import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+import {
+    ContainerReflection,
+    DeclarationReflection,
+    IntrinsicType,
+    Reflection,
+    SignatureReflection,
+    ParameterReflection,
+    ProjectReflection,
+    TypeParameterReflection,
+    TraverseProperty,
+    Type
+} from '../models/index';
 import { createTypeParameter } from './factories/type-parameter';
 import { Converter } from './converter';
 
@@ -197,6 +208,28 @@ export class Context {
     }
 
     /**
+     * Remove the given reflection from the project.
+     * @param reflection The reflection to remove
+     * @param removeStaleParent When set to true automatically removes stale parents.
+     * A stale parent is a [[DeclarationReflection]] that is invalid without child reflections.
+     * When a reflection is removed and `removeStaleParent` is true the parent is checked to see if
+     * it is invalid (stale), if so it is removed.
+     * Examples:
+     *   - Removing a reflection of kind [[ReflectionKind.GetSignature]] or [[ReflectionKind.SetSignature]]
+     *     will remove the signature from the parent, [[ReflectionKind.Accessor]]. If the removal
+     *     leaves the parent without a signature (get or set) it is stale/invalid thus requires removal as well.
+     *
+     *   - Removing a reflection of kind [[ReflectionKind.CallSignature]] or [[ReflectionKind.ConstructorSignature]]
+     *     will remove the signature from the parent, function, method or constructor.
+     *     If the removal leaves the parent without a single signature it is stale/invalid thus
+     *     requires removal as well.
+     */
+    removeReflection(reflection: Reflection, removeStaleParent: boolean = false) {
+        /* TODO: Once [[CommentPlugin#removeReflection]] is removed move function removeReflection` here so it's a method of `Context` */
+        removeReflection(this.project, reflection, removeStaleParent);
+    }
+
+    /**
      * Trigger a node reflection event.
      *
      * All events are dispatched on the current converter instance.
@@ -377,5 +410,88 @@ export class Context {
         });
 
         return typeParameters;
+    }
+}
+
+/**
+ * Remove the given reflection from the project.
+ * This is an internal implementation that is expected to be removed once the deprecated static
+ * method [[CommentPlugin#removeReflection]] is removed.
+ * Use [[Context.removeReflection]].
+ * @internal
+ */
+export function removeReflection(project: ProjectReflection,
+                                 reflection: Reflection,
+                                 removeStaleParent: boolean = false) {
+    reflection.traverse((child) => removeReflection(project, child, removeStaleParent));
+
+    const parent = <DeclarationReflection> reflection.parent;
+    parent.traverse((child: Reflection, property: TraverseProperty) => {
+        if (child === reflection) {
+            switch (property) {
+                case TraverseProperty.Children:
+                    if (parent.children) {
+                        const index = parent.children.indexOf(<DeclarationReflection> reflection);
+                        if (index !== -1) {
+                            parent.children.splice(index, 1);
+                        }
+                    }
+                    break;
+                case TraverseProperty.GetSignature:
+                    delete parent.getSignature;
+                    if (removeStaleParent && !parent.setSignature) {
+                        removeReflection(project, reflection.parent, removeStaleParent);
+                    }
+                    break;
+                case TraverseProperty.IndexSignature:
+                    delete parent.indexSignature;
+                    break;
+                case TraverseProperty.Parameters:
+                    if ((<SignatureReflection> reflection.parent).parameters) {
+                        const index = (<SignatureReflection> reflection.parent).parameters.indexOf(<ParameterReflection> reflection);
+                        if (index !== -1) {
+                            (<SignatureReflection> reflection.parent).parameters.splice(index, 1);
+                        }
+                    }
+                    break;
+                case TraverseProperty.SetSignature:
+                    delete parent.setSignature;
+                    if (removeStaleParent && !parent.getSignature) {
+                        removeReflection(project, reflection.parent, removeStaleParent);
+                    }
+                    break;
+                case TraverseProperty.Signatures:
+                    if (parent.signatures) {
+                        const index = parent.signatures.indexOf(<SignatureReflection> reflection);
+                        if (index !== -1) {
+                            parent.signatures.splice(index, 1);
+                            if (parent.signatures.length === 0) {
+                                removeReflection(project, reflection.parent, removeStaleParent);
+                            }
+                        }
+                    }
+                    break;
+                case TraverseProperty.TypeLiteral:
+                    parent.type = new IntrinsicType('Object');
+                    break;
+                case TraverseProperty.TypeParameter:
+                    if (parent.typeParameters) {
+                        const index = parent.typeParameters.indexOf(<TypeParameterReflection> reflection);
+                        if (index !== -1) {
+                            parent.typeParameters.splice(index, 1);
+                        }
+                    }
+                    break;
+            }
+        }
+    });
+
+    let id = reflection.id;
+    delete project.reflections[id];
+
+    for (let key in project.symbolMapping) {
+        if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
+            delete project.symbolMapping[key];
+        }
     }
 }

@@ -1,14 +1,12 @@
 import * as ts from 'typescript';
 
 import { Comment, CommentTag } from '../../models/comments/index';
-import { IntrinsicType } from '../../models/types/index';
-import { Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
-    TypeParameterReflection, DeclarationReflection, ProjectReflection,
-    SignatureReflection, ParameterReflection } from '../../models/reflections/index';
+import { Reflection, ReflectionFlag, ReflectionKind, TypeParameterReflection, DeclarationReflection,
+    ProjectReflection } from '../../models/reflections/index';
 import { Component, ConverterComponent } from '../components';
 import { parseComment, getRawComment } from '../factories/comment';
 import { Converter } from '../converter';
-import { Context } from '../context';
+import { Context, removeReflection } from '../context';
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
@@ -314,69 +312,12 @@ export class CommentPlugin extends ConverterComponent {
 
     /**
      * Remove the given reflection from the project.
+     *
+     * @deprecated use [[Context.removeReflection]]
      */
     static removeReflection(project: ProjectReflection, reflection: Reflection) {
-        reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
-
-        const parent = <DeclarationReflection> reflection.parent;
-        parent.traverse((child: Reflection, property: TraverseProperty) => {
-            if (child === reflection) {
-                switch (property) {
-                    case TraverseProperty.Children:
-                        if (parent.children) {
-                            const index = parent.children.indexOf(<DeclarationReflection> reflection);
-                            if (index !== -1) {
-                                parent.children.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.GetSignature:
-                        delete parent.getSignature;
-                        break;
-                    case TraverseProperty.IndexSignature:
-                        delete parent.indexSignature;
-                        break;
-                    case TraverseProperty.Parameters:
-                        if ((<SignatureReflection> reflection.parent).parameters) {
-                            const index = (<SignatureReflection> reflection.parent).parameters.indexOf(<ParameterReflection> reflection);
-                            if (index !== -1) {
-                                (<SignatureReflection> reflection.parent).parameters.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.SetSignature:
-                        delete parent.setSignature;
-                        break;
-                    case TraverseProperty.Signatures:
-                        if (parent.signatures) {
-                            const index = parent.signatures.indexOf(<SignatureReflection> reflection);
-                            if (index !== -1) {
-                                parent.signatures.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.TypeLiteral:
-                        parent.type = new IntrinsicType('Object');
-                        break;
-                    case TraverseProperty.TypeParameter:
-                        if (parent.typeParameters) {
-                            const index = parent.typeParameters.indexOf(<TypeParameterReflection> reflection);
-                            if (index !== -1) {
-                                parent.typeParameters.splice(index, 1);
-                            }
-                        }
-                        break;
-                }
-            }
-        });
-
-        let id = reflection.id;
-        delete project.reflections[id];
-
-        for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
-                delete project.symbolMapping[key];
-            }
-        }
+        /* TODO: deprecate in 1.x.x */
+        /* TODO: when removing, apply TODO in [[Context.removeReflection]] */
+        return removeReflection(project, reflection);
     }
 }
