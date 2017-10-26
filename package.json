@@ -46,10 +46,11 @@
     "progress": "^2.0.0",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.5.0",
-    "typescript": "2.4.1"
+    "typescript": "^2.5.0-dev.20170727"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.39",
+    "@types/node": "^8.0.17",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
