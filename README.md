@@ -131,6 +131,8 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 
 * [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
 * [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
+* [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
+* [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
 
 ## Advanced guides and docs
 
