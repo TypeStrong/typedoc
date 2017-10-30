@@ -46,7 +46,7 @@ export class ContainerReflection extends Reflection {
      */
     traverse(callback: TraverseCallback) {
         if (this.children) {
-            this.children.forEach((child: DeclarationReflection) => {
+            this.children.slice().forEach((child: DeclarationReflection) => {
                 callback(child, TraverseProperty.Children);
             });
         }
