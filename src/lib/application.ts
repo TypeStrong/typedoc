@@ -276,7 +276,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                         if (str.type && str.type.name) {
                             type = str.type.name;
                         }
-                        nodeList.push({ name: path + str.name, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
+                        let notSupportedInValues = str.notSupportedIn ? str.notSupportedIn : '';
+                        nodeList.push({ name: path + str.name, notSupportedIn: notSupportedInValues, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
                     }
                     if (str.children != null && str.children.length > 0) {
                         visitChildren(str.children, path + str.name + '.');
