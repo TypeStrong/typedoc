@@ -371,7 +371,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         var comment = getRawComment(node);
 
         if (result && comment != null && comment.indexOf('@notSupportedIn') != -1) {
-            var tagRegex = /@(?:notSupportedIn) ((?:[\w]+, )*[\w]+)/g;
+            var tagRegex = /@(?:notSupportedIn)\s*((?:[\w]+, )*[\w]+)/g;
 
             result.comment = parseComment(comment.replace(tagRegex, ''));
 
@@ -380,7 +380,13 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             if (!result.comment.tags) {
                 result.comment.tags = [];
             }
-            result.comment.tags.push(new CommentTag('notsupportedin', '', tag[1]));
+
+            let tagValue = tag[1];
+            const tagValueInfo = this.application.notSupportedFeaturesConfig[tagValue];
+            if (tagValueInfo) {
+                tagValue = `<a href=${tagValueInfo.link}>${tagValueInfo.name}</a>`
+            }
+            result.comment.tags.push(new CommentTag('not supported in', '', tagValue));
             result.notSupportedIn = tag[1].split(/,\s?/);
         }
 
