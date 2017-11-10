@@ -30,6 +30,7 @@ export class CommentTag {
 
     /**
      * Return a raw object representation of this tag.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = {

@@ -99,6 +99,7 @@ export class Comment {
 
     /**
      * Return a raw object representation of this comment.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = {};

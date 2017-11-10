@@ -13,6 +13,7 @@ import { Minimatch, IMinimatch } from 'minimatch';
 
 import { Converter } from './converter/index';
 import { Renderer } from './output/renderer';
+import { Serializer } from './serialization';
 import { ProjectReflection } from './models/index';
 import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
@@ -47,6 +48,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * The renderer used to generate the documentation output.
      */
     renderer: Renderer;
+
+    /**
+     * The serializer used to generate JSON output.
+     */
+    serializer: Serializer;
 
     /**
      * The logger that should be used to output messages.
@@ -92,6 +98,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
         this.logger    = new ConsoleLogger();
         this.converter = this.addComponent<Converter>('converter', Converter);
+        this.serializer = this.addComponent<Serializer>('serializer', Serializer);
         this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
@@ -221,7 +228,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         out = Path.resolve(out);
-        writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
+        const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
+        const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
+        writeFile(out, JSON.stringify(ser, null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
