@@ -382,11 +382,15 @@ export class DefaultTheme extends Theme {
      * @returns           The altered urls array.
      */
     static buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
-        const mapping = DefaultTheme.getMapping(reflection);
+        let urlReflection = reflection;
+        while (urlReflection.importedFrom) {
+            urlReflection = urlReflection.importedFrom;
+        }
+        const mapping = DefaultTheme.getMapping(urlReflection);
         if (mapping) {
             if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-                const url = [mapping.directory, DefaultTheme.getUrl(reflection) + '.html'].join('/');
-                urls.push(new UrlMapping(url, reflection, mapping.template));
+                const url = [mapping.directory, DefaultTheme.getUrl(urlReflection) + '.html'].join('/');
+                urls.push(new UrlMapping(url, urlReflection, mapping.template));
 
                 reflection.url = url;
                 reflection.hasOwnDocument = true;
@@ -395,13 +399,13 @@ export class DefaultTheme extends Theme {
             for (let key in reflection.children) {
                 const child = reflection.children[key];
                 if (mapping.isLeaf) {
-                    DefaultTheme.applyAnchorUrl(child, reflection);
+                    DefaultTheme.applyAnchorUrl(child, urlReflection);
                 } else {
                     DefaultTheme.buildUrls(child, urls);
                 }
             }
         } else {
-            DefaultTheme.applyAnchorUrl(reflection, reflection.parent);
+            DefaultTheme.applyAnchorUrl(reflection, urlReflection.parent);
         }
 
         return urls;
@@ -415,14 +419,18 @@ export class DefaultTheme extends Theme {
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-            let anchor = DefaultTheme.getUrl(reflection, container, '.');
-            if (reflection['isStatic']) {
+            let urlReflection = reflection;
+            while (urlReflection instanceof DeclarationReflection && urlReflection.importedFrom) {
+                urlReflection = urlReflection.importedFrom;
+            }
+            let anchor = DefaultTheme.getUrl(urlReflection, container, '.');
+            if (urlReflection['isStatic']) {
                 anchor = 'static-' + anchor;
             }
 
             reflection.url = container.url + '#' + anchor;
             reflection.anchor = anchor;
-            reflection.hasOwnDocument = false;
+            reflection.hasOwnDocument = reflection !== urlReflection;
         }
 
         reflection.traverse((child) => {
