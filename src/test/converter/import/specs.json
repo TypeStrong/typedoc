@@ -1,0 +1,912 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 5,
+      "name": "\"enum/enum\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true,
+        "isExternal": true
+      },
+      "originalName": "%BASE%/enum/enum.ts",
+      "children": [
+        {
+          "id": 10,
+          "name": "ModuleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true,
+            "isExternal": true
+          },
+          "comment": {
+            "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
+          },
+          "children": [
+            {
+              "id": 11,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the first enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 31,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 12,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the second enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 36,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "2"
+            },
+            {
+              "id": 13,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the third enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 41,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "4"
+            },
+            {
+              "id": 14,
+              "name": "enumValue",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isExternal": true,
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable appended to an enumeration."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 53,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 15,
+              "name": "enumFunction",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "signatures": [
+                {
+                  "id": 16,
+                  "name": "enumFunction",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "This is a function appended to an enumeration."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 59,
+                  "character": 25
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                11,
+                12,
+                13
+              ]
+            },
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                14
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                15
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum/enum.ts",
+              "line": 26,
+              "character": 22
+            },
+            {
+              "fileName": "enum/enum.ts",
+              "line": 48,
+              "character": 24
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "SimpleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true,
+            "isExternal": true
+          },
+          "comment": {
+            "shortText": "This is a simple enumeration."
+          },
+          "children": [
+            {
+              "id": 7,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the first enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 9,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 8,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the second enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 14,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "2"
+            },
+            {
+              "id": 9,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true,
+                "isExternal": true
+              },
+              "comment": {
+                "shortText": "This is the third enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum/enum.ts",
+                  "line": 19,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "4"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum/enum.ts",
+              "line": 4,
+              "character": 22
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Enumerations",
+          "kind": 4,
+          "children": [
+            10,
+            6
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum/enum.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "\"export-default/export-default\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true,
+        "isExternal": true
+      },
+      "originalName": "%BASE%/export-default/export-default.ts",
+      "children": [
+        {
+          "id": 18,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isExternal": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-default/export-default.ts",
+              "line": 1,
+              "character": 7
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            18
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-default/export-default.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "\"import/import\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/import/import.ts",
+      "children": [
+        {
+          "id": 21,
+          "name": "enums",
+          "kind": 1,
+          "kindString": "External module",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a NamespaceImport."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 4,
+              "character": 45
+            }
+          ],
+          "importedFrom": {
+            "id": 5,
+            "name": "\"enum/enum\""
+          }
+        },
+        {
+          "id": 20,
+          "name": "vars",
+          "kind": 1,
+          "kindString": "External module",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a NamespaceImport."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 1,
+              "character": 0
+            }
+          ],
+          "importedFrom": {
+            "id": 1,
+            "name": "\"variable/variable\""
+          }
+        },
+        {
+          "id": 25,
+          "name": "Foo",
+          "kind": 2,
+          "kindString": "Module",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a namespace that is aliased later."
+          },
+          "children": [
+            {
+              "id": 31,
+              "name": "SimpleEnumType",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isConst": true
+              },
+              "comment": {
+                "shortText": "This is a const that equals a type of an imported module."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 64,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SimpleEnum",
+                "id": 6
+              },
+              "defaultValue": " enums.SimpleEnum"
+            },
+            {
+              "id": 30,
+              "name": "defx",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isConst": true
+              },
+              "comment": {
+                "shortText": "This is a const that equals the default export of a module."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 59,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "5"
+              },
+              "defaultValue": " def"
+            },
+            {
+              "id": 28,
+              "name": "mye",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable of an enum type imported by a named import with a custom alias."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 49,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "MyEnum",
+                "id": 23
+              },
+              "defaultValue": " MyEnum.EnumValue3"
+            },
+            {
+              "id": 27,
+              "name": "se",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isConst": true
+              },
+              "comment": {
+                "shortText": "This is a variable of an enum type imported by a named import."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 44,
+                  "character": 19
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "EnumValue2",
+                "id": 8
+              },
+              "defaultValue": " SimpleEnum.EnumValue2"
+            },
+            {
+              "id": 26,
+              "name": "simpleEnum",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable of an enum type imported by a namespace import."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 39,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SimpleEnum",
+                "id": 6
+              },
+              "defaultValue": " enums.SimpleEnum.EnumValue1"
+            },
+            {
+              "id": 32,
+              "name": "varx",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isConst": true
+              },
+              "comment": {
+                "shortText": "This is a const that equals an exported variable of an imported module."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 69,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "defaultValue": " vars.myLet"
+            },
+            {
+              "id": 29,
+              "name": "zMe",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable of an enum type imported by an ImportEqualsDeclaration."
+              },
+              "sources": [
+                {
+                  "fileName": "import/import.ts",
+                  "line": 54,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ModuleEnum",
+                "id": 10
+              },
+              "defaultValue": " z.ModuleEnum.EnumValue2"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                31,
+                30,
+                28,
+                27,
+                26,
+                32,
+                29
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 34,
+              "character": 13
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "name": "foo",
+          "kind": 2,
+          "kindString": "Module",
+          "flags": {},
+          "comment": {
+            "shortText": "This is an ImportEqualsDeclaration to a namespace."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 75,
+              "character": 10
+            }
+          ],
+          "importedFrom": {
+            "id": 25,
+            "name": "Foo"
+          }
+        },
+        {
+          "id": 23,
+          "name": "MyEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {},
+          "comment": {
+            "shortText": "Those are NamedImports."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 9,
+              "character": 38
+            }
+          ],
+          "importedFrom": {
+            "id": 10,
+            "name": "ModuleEnum"
+          }
+        },
+        {
+          "id": 22,
+          "name": "SimpleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {},
+          "comment": {
+            "shortText": "Those are NamedImports."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 9,
+              "character": 38
+            }
+          ],
+          "importedFrom": {
+            "id": 6,
+            "name": "SimpleEnum"
+          }
+        },
+        {
+          "id": 34,
+          "name": "fooSe",
+          "kind": 16,
+          "kindString": "Enumeration member",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is an exported ImportEqualsDeclaration to an exported member of the namespace."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 80,
+              "character": 19
+            }
+          ],
+          "importedFrom": {
+            "id": 8,
+            "name": "EnumValue2"
+          }
+        },
+        {
+          "id": 24,
+          "name": "def",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "comment": {
+            "shortText": "This is a NamespaceImport that imports the defaults of a module."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 24,
+              "character": 22
+            }
+          ],
+          "importedFrom": {
+            "id": 18,
+            "name": "x"
+          }
+        },
+        {
+          "id": 35,
+          "name": "fooxx",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "This is a const to test type resolution."
+          },
+          "sources": [
+            {
+              "fileName": "import/import.ts",
+              "line": 85,
+              "character": 11
+            }
+          ],
+          "type": {
+            "type": "reference",
+            "name": "EnumValue2",
+            "id": 8
+          },
+          "defaultValue": " foo.se"
+        }
+      ],
+      "groups": [
+        {
+          "title": "External modules",
+          "kind": 1,
+          "children": [
+            21,
+            20
+          ]
+        },
+        {
+          "title": "Modules",
+          "kind": 2,
+          "children": [
+            25,
+            33
+          ]
+        },
+        {
+          "title": "Enumerations",
+          "kind": 4,
+          "children": [
+            23,
+            22
+          ]
+        },
+        {
+          "title": "Enumeration members",
+          "kind": 16,
+          "children": [
+            34
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            24,
+            35
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "import/import.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"variable/variable\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true,
+        "isExternal": true
+      },
+      "originalName": "%BASE%/variable/variable.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "myConst",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isExternal": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "variable/variable.ts",
+              "line": 1,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "15"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 3,
+          "name": "myLet",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isExternal": true,
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "variable/variable.ts",
+              "line": 2,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 4,
+          "name": "myVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isExternal": true
+          },
+          "sources": [
+            {
+              "fileName": "variable/variable.ts",
+              "line": 3,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "variable/variable.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        5,
+        17,
+        19,
+        1
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@ export { ConstructorConverter } from './constructor';
 export { EnumConverter } from './enum';
 export { ExportConverter } from './export';
 export { FunctionConverter } from './function';
+export { ImportConverter } from './import';
 export { InterfaceConverter } from './interface';
 export { TypeLiteralConverter } from './literal-type';
 export { ObjectLiteralConverter } from './literal-object';

@@ -115,6 +115,12 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
     implementedBy: Type[];
 
     /**
+     * If this reflection is an imported reference to another reflection, this is
+     * the original reflection this reflection points to.
+     */
+    importedFrom?: DeclarationReflection;
+
+    /**
      * Contains a simplified representation of the type hierarchy suitable for being
      * rendered in templates.
      */
@@ -219,6 +225,13 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
 
         if (this.implementationOf) {
             result.implementationOf = this.implementationOf.toObject();
+        }
+
+        if (this.importedFrom) {
+            result.importedFrom = {
+                id:         this.importedFrom.id,
+                name:       this.importedFrom.name
+            };
         }
 
         return result;
