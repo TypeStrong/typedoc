@@ -34,23 +34,6 @@ export class ComponentSource extends OptionsComponent {
         }
     }
 
-    private removeComponent(component: AbstractComponent<any>) {
-        const name = component.componentName;
-        let index = this.knownComponents.indexOf(name);
-        if (index !== -1) {
-            this.knownComponents.slice(index, 1);
-            for (let declaration of component.getOptionDeclarations()) {
-                this.owner.removeDeclarationByName(declaration.name);
-            }
-        }
-
-        if (component instanceof ChildableComponent) {
-            for (let child of component.getComponents()) {
-                this.removeComponent(child);
-            }
-        }
-    }
-
     private onComponentAdded(e: ComponentEvent) {
         this.addComponent(e.component);
     }

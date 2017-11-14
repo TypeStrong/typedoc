@@ -353,22 +353,22 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         let diagnostics = program.getOptionsDiagnostics();
         if (diagnostics.length) {
-            return diagnostics;
+            return diagnostics as any;
         }
 
         diagnostics = program.getSyntacticDiagnostics();
         if (diagnostics.length) {
-            return diagnostics;
+            return diagnostics as any;
         }
 
         diagnostics = program.getGlobalDiagnostics();
         if (diagnostics.length) {
-            return diagnostics;
+            return diagnostics as any;
         }
 
         diagnostics = program.getSemanticDiagnostics();
         if (diagnostics.length) {
-            return diagnostics;
+            return diagnostics as any;
         }
 
         return [];
