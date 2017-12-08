@@ -1,0 +1,109 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"comment\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/comment/comment.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "CommentedClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "A Comment for a class",
+            "text": "## Some Markup\n**with more markup**\n\nA example with decorators that should not parse to tag\n```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```",
+            "tags": [
+              {
+                "tag": "deprecated",
+                "text": ""
+              },
+              {
+                "tag": "todo",
+                "text": "something\n"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "prop",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "The main prop"
+              },
+              "sources": [
+                {
+                  "fileName": "comment.ts",
+                  "line": 28,
+                  "character": 6
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "comment.ts",
+              "line": 24,
+              "character": 27
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
