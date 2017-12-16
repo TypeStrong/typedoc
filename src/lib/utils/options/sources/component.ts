@@ -35,10 +35,9 @@ export class ComponentSource extends OptionsComponent {
     }
 
     private removeComponent(component: AbstractComponent<any>) {
-        const name = component.componentName;
-        let index = this.knownComponents.indexOf(name);
+        let index = this.knownComponents.indexOf(component.componentName);
         if (index !== -1) {
-            this.knownComponents.slice(index, 1);
+            this.knownComponents.splice(index, 1);
             for (let declaration of component.getOptionDeclarations()) {
                 this.owner.removeDeclarationByName(declaration.name);
             }
@@ -56,9 +55,6 @@ export class ComponentSource extends OptionsComponent {
     }
 
     private onComponentRemoved(e: ComponentEvent) {
-        const declarations = e.component.getOptionDeclarations();
-        for (let declaration of declarations) {
-            this.owner.removeDeclarationByName(declaration.name);
-        }
+        this.removeComponent(e.component);
     }
 }
