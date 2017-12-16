@@ -51,6 +51,7 @@ export class ReflectionCategory {
 
     /**
      * Return a raw object representation of this reflection category.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = {

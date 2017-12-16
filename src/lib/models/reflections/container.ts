@@ -46,7 +46,7 @@ export class ContainerReflection extends Reflection {
      */
     traverse(callback: TraverseCallback) {
         if (this.children) {
-            this.children.forEach((child: DeclarationReflection) => {
+            this.children.slice().forEach((child: DeclarationReflection) => {
                 callback(child, TraverseProperty.Children);
             });
         }
@@ -54,6 +54,7 @@ export class ContainerReflection extends Reflection {
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();

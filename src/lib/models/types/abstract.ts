@@ -29,6 +29,7 @@ export abstract class Type {
 
     /**
      * Return a raw object representation of this type.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         let result: any = {};

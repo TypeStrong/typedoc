@@ -23,7 +23,7 @@ export class BindingArrayConverter extends ConverterTypeComponent implements Typ
     convertNode(context: Context, node: ts.BindingPattern): Type {
         const types: Type[] = [];
 
-        (node.elements as ts.BindingElement[]).forEach((element) => {
+        (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element) => {
             types.push(this.owner.convertType(context, element));
         });
 

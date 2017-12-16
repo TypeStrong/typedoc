@@ -551,6 +551,7 @@ export abstract class Reflection {
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = {

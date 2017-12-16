@@ -58,11 +58,11 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
         }
 
         if (this.typeParameters) {
-            this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
         }
 
         if (this.parameters) {
-            this.parameters.forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
+            this.parameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
         }
 
         super.traverse(callback);
@@ -70,6 +70,7 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();

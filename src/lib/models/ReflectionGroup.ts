@@ -89,6 +89,7 @@ export class ReflectionGroup {
 
     /**
      * Return a raw object representation of this reflection group.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = {

@@ -160,16 +160,23 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         comment.tags.push(currentTag);
     }
 
+    const CODE_FENCE = /^\s*```(?!.*```)/;
+    let inCode = false;
     function readLine(line: string) {
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
-        const tag = /^@(\S+)/.exec(line);
-        if (tag) {
-            readTagLine(line, tag);
-        } else {
-            readBareLine(line);
+        if (CODE_FENCE.test(line) ) {
+          inCode = !inCode;
         }
+
+        if (!inCode) {
+          const tag = /^@(\S+)/.exec(line);
+          if (tag) {
+            return readTagLine(line, tag);
+          }
+        }
+        readBareLine(line);
     }
 
     // text = text.replace(/^\s*\/\*+\s*(\r\n?|\n)/, '');
