@@ -8,7 +8,8 @@ $type-icons:
     (enum),
     (enum-member),
     (signature),
-    (type-alias);
+    (type-alias),
+    ('type-alias.tsd-has-type-parameter');
 
 $member-icons:
     (variable, property),
