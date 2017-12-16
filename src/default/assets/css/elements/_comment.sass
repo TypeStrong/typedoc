@@ -13,7 +13,6 @@ dl.tsd-comment-tags
     overflow: hidden
 
     dt
-        clear: both
         float: left
         padding: 1px 5px
         margin: 0 10px 0 0
@@ -25,6 +24,12 @@ dl.tsd-comment-tags
 
     dd
         margin: 0 0 10px 0
+
+        &:before, &:after
+            display: table
+            content: " "
+        pre, &:after
+            clear: both
 
     p
         margin: 0
