@@ -74,6 +74,13 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     })
     excludePrivate: boolean;
 
+    @Option({
+        name: 'excludeProtected',
+        help: 'Ignores protected variables and methods',
+        type: ParameterType.Boolean
+    })
+    excludeProtected: boolean;
+
     private compilerHost: CompilerHost;
 
     private nodeConverters: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
