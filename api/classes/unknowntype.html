@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script src="../assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -100,8 +99,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="unknowntype.html#isarray" class="tsd-kind-icon">is<wbr>Array</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="unknowntype.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="unknowntype.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -130,7 +129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L12">src/lib/models/types/unknown.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L15">models/types/unknown.ts:15</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -156,34 +155,34 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="isarray" class="tsd-anchor"></a>
-					<h3>is<wbr>Array</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="type.html">Type</a>.<a href="type.html#isarray">isArray</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L11">src/lib/models/types/abstract.ts:11</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Is this an array type?</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L12">src/lib/models/types/unknown.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L10">models/types/unknown.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A string representation of the type as returned from TypeScript compiler.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;unknown&quot;</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="type.html">Type</a>.<a href="type.html#type-1">type</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L15">models/types/unknown.ts:15</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The type name identifier.</p>
 						</div>
 					</div>
 				</section>
@@ -199,9 +198,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="type.html">Type</a>.<a href="type.html#clone">clone</a></p>
+								<p>Overrides <a href="type.html">Type</a>.<a href="type.html#clone">clone</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L31">src/lib/models/types/unknown.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L32">models/types/unknown.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,9 +222,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="type.html">Type</a>.<a href="type.html#equals">equals</a></p>
+								<p>Overrides <a href="type.html">Type</a>.<a href="type.html#equals">equals</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L44">src/lib/models/types/unknown.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L42">models/types/unknown.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,15 +255,20 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="type.html">Type</a>.<a href="type.html#toobject">toObject</a></p>
+								<p>Overrides <a href="type.html">Type</a>.<a href="type.html#toobject">toObject</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L54">src/lib/models/types/unknown.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L51">models/types/unknown.ts:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return a raw object representation of this type.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>Use serializers instead</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
@@ -279,9 +283,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="type.html">Type</a>.<a href="type.html#tostring">toString</a></p>
+								<p>Overrides <a href="type.html">Type</a>.<a href="type.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/unknown.ts#L65">src/lib/models/types/unknown.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/unknown.ts#L60">models/types/unknown.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +308,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="type.html">Type</a>.<a href="type.html#istypelistequal">isTypeListEqual</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L84">src/lib/models/types/abstract.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L78">models/types/abstract.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -338,7 +342,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="type.html">Type</a>.<a href="type.html#istypelistsimiliar">isTypeListSimiliar</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L63">src/lib/models/types/abstract.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L54">models/types/abstract.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,11 +385,11 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="unknowntype.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="unknowntype.html#isarray" class="tsd-kind-icon">is<wbr>Array</a>
-							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="unknowntype.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+								<a href="unknowntype.html#type" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="unknowntype.html#clone" class="tsd-kind-icon">clone</a>
@@ -474,7 +478,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

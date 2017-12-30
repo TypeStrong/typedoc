@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script src="../assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -90,7 +89,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/icomponenthost.html" class="tsd-signature-type">IComponentHost</a></li>
+					<li><a href="../interfaces/componenthost.html" class="tsd-signature-type">ComponentHost</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -145,7 +144,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="converter.html#addcomponent" class="tsd-kind-icon">add<wbr>Component</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="converter.html#addcomponent" class="tsd-kind-icon">add<wbr>Component</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="converter.html#addnodeconverter" class="tsd-kind-icon">add<wbr>Node<wbr>Converter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="converter.html#addtypeconverter" class="tsd-kind-icon">add<wbr>Type<wbr>Converter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="converter.html#bubble" class="tsd-kind-icon">bubble</a></li>
@@ -188,9 +187,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#constructor">constructor</a></p>
-								<p>Overwrites <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#constructor">constructor</a></p>
+								<p>Overrides <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L208">src/lib/utils/component.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L181">utils/component.ts:181</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -217,13 +216,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>BEGIN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;begin&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L150">src/lib/converter/converter.ts:150</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L94">converter/converter.ts:94</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter begins converting a project.
-							The listener should implement <a href="../interfaces/iconvertercallback.html">IConverterCallback</a>.</p>
+							The listener should implement [[IConverterCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -233,13 +232,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>CREATE_<wbr>DECLARATION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;createDeclaration&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L176">src/lib/converter/converter.ts:176</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L119">converter/converter.ts:119</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has created a declaration reflection.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -249,13 +248,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>CREATE_<wbr>PARAMETER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;createParameter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L190">src/lib/converter/converter.ts:190</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L133">converter/converter.ts:133</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has created a parameter reflection.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -265,13 +264,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>CREATE_<wbr>SIGNATURE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;createSignature&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L183">src/lib/converter/converter.ts:183</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L126">converter/converter.ts:126</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has created a signature reflection.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -281,13 +280,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>CREATE_<wbr>TYPE_<wbr>PARAMETER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;createTypeParameter&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L197">src/lib/converter/converter.ts:197</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L140">converter/converter.ts:140</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has created a type parameter reflection.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -297,13 +296,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>END<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;end&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L157">src/lib/converter/converter.ts:157</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L101">converter/converter.ts:101</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has finished converting a project.
-							The listener should implement <a href="../interfaces/iconvertercallback.html">IConverterCallback</a>.</p>
+							The listener should implement [[IConverterCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -313,13 +312,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>FILE_<wbr>BEGIN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;fileBegin&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L169">src/lib/converter/converter.ts:169</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L112">converter/converter.ts:112</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter begins converting a source file.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -329,13 +328,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>FUNCTION_<wbr>IMPLEMENTATION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;functionImplementation&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L204">src/lib/converter/converter.ts:204</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L147">converter/converter.ts:147</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has found a function implementation.
-							The listener should implement <a href="../interfaces/iconverternodecallback.html">IConverterNodeCallback</a>.</p>
+							The listener should implement [[IConverterNodeCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -345,13 +344,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>RESOLVE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;resolveReflection&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L223">src/lib/converter/converter.ts:223</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L165">converter/converter.ts:165</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter resolves a reflection.
-							The listener should implement <a href="../interfaces/iconverterresolvecallback.html">IConverterResolveCallback</a>.</p>
+							The listener should implement [[IConverterResolveCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -361,13 +360,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>RESOLVE_<wbr>BEGIN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;resolveBegin&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L216">src/lib/converter/converter.ts:216</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L158">converter/converter.ts:158</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter begins resolving a project.
-							The listener should implement <a href="../interfaces/iconvertercallback.html">IConverterCallback</a>.</p>
+							The listener should implement [[IConverterCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -377,13 +376,13 @@
 					<div class="tsd-signature tsd-kind-icon">EVENT_<wbr>RESOLVE_<wbr>END<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;resolveEnd&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L230">src/lib/converter/converter.ts:230</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L172">converter/converter.ts:172</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Triggered when the converter has finished resolving a project.
-							The listener should implement <a href="../interfaces/iconvertercallback.html">IConverterCallback</a>.</p>
+							The listener should implement [[IConverterCallback]].</p>
 						</div>
 					</div>
 				</section>
@@ -396,7 +395,7 @@
 					<div class="tsd-signature tsd-kind-icon">compiler<wbr>Host<span class="tsd-signature-symbol">:</span> <a href="compilerhost.html" class="tsd-signature-type">CompilerHost</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L132">src/lib/converter/converter.ts:132</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L77">converter/converter.ts:77</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -407,7 +406,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#componentname">componentName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L133">src/lib/utils/component.ts:133</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L114">utils/component.ts:114</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -422,7 +421,7 @@
 					<div class="tsd-signature tsd-kind-icon">exclude<wbr>Externals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L116">src/lib/converter/converter.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L61">converter/converter.ts:61</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -432,7 +431,7 @@
 					<div class="tsd-signature tsd-kind-icon">exclude<wbr>Not<wbr>Exported<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L123">src/lib/converter/converter.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L68">converter/converter.ts:68</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -442,7 +441,7 @@
 					<div class="tsd-signature tsd-kind-icon">exclude<wbr>Private<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L130">src/lib/converter/converter.ts:130</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L75">converter/converter.ts:75</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -452,7 +451,7 @@
 					<div class="tsd-signature tsd-kind-icon">external<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L102">src/lib/converter/converter.ts:102</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L47">converter/converter.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -462,7 +461,7 @@
 					<div class="tsd-signature tsd-kind-icon">include<wbr>Declarations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L109">src/lib/converter/converter.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L54">converter/converter.ts:54</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -472,7 +471,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L96">src/lib/converter/converter.ts:96</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L41">converter/converter.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -487,14 +486,14 @@
 					<div class="tsd-signature tsd-kind-icon">node<wbr>Converters<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L134">src/lib/converter/converter.ts:134</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L79">converter/converter.ts:79</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>syntaxKind: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]: </span><a href="converternodecomponent.html" class="tsd-signature-type">ConverterNodeComponent</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5><span class="tsd-signature-symbol">[</span>syntaxKind: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]: </span><a href="converternodecomponent.html" class="tsd-signature-type">ConverterNodeComponent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">&gt;</span></h5>
 							</li>
 						</ul>
 					</div>
@@ -502,20 +501,20 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="typenodeconverters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> type<wbr>Node<wbr>Converters</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Node<wbr>Converters<span class="tsd-signature-symbol">:</span> <a href="../interfaces/itypenodeconverter.html" class="tsd-signature-type">ITypeNodeConverter</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_typescript_.type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Node<wbr>Converters<span class="tsd-signature-symbol">:</span> <a href="../interfaces/typenodeconverter.html" class="tsd-signature-type">TypeNodeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L136">src/lib/converter/converter.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L81">converter/converter.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="typetypeconverters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> type<wbr>Type<wbr>Converters</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Type<wbr>Converters<span class="tsd-signature-symbol">:</span> <a href="../interfaces/itypetypeconverter.html" class="tsd-signature-type">ITypeTypeConverter</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_typescript_.type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Type<wbr>Converters<span class="tsd-signature-symbol">:</span> <a href="../interfaces/typetypeconverter.html" class="tsd-signature-type">TypeTypeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L138">src/lib/converter/converter.ts:138</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L83">converter/converter.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -533,7 +532,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#application">application</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L180">src/lib/utils/component.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L156">utils/component.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -556,7 +555,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#owner">owner</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L192">src/lib/utils/component.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L167">utils/component.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -571,30 +570,36 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
 					<a name="addcomponent" class="tsd-anchor"></a>
 					<h3>add<wbr>Component</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Component<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, componentClass<span class="tsd-signature-symbol">: </span><a href="../interfaces/icomponentclass.html" class="tsd-signature-type">IComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Component&lt;T&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, componentClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#addcomponent">addComponent</a></p>
+								<p>Overrides <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#addcomponent">addComponent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L248">src/lib/converter/converter.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L187">converter/converter.ts:187</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/component.html" class="tsd-signature-type">Component</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>componentClass: <a href="../interfaces/icomponentclass.html" class="tsd-signature-type">IComponentClass</a><span class="tsd-signature-symbol">&lt;</span><a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>componentClass: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/componentclass.html" class="tsd-signature-type">ComponentClass</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -608,7 +613,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L260">src/lib/converter/converter.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L198">converter/converter.ts:198</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -625,19 +630,19 @@
 					<a name="addtypeconverter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> add<wbr>Type<wbr>Converter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Type<wbr>Converter<span class="tsd-signature-symbol">(</span>converter<span class="tsd-signature-symbol">: </span><a href="../interfaces/itypetypeconverter.html" class="tsd-signature-type">ITypeTypeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/itypenodeconverter.html" class="tsd-signature-type">ITypeNodeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Type<wbr>Converter<span class="tsd-signature-symbol">(</span>converter<span class="tsd-signature-symbol">: </span><a href="convertertypecomponent.html" class="tsd-signature-type">ConverterTypeComponent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L267">src/lib/converter/converter.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L204">converter/converter.ts:204</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>converter: <a href="../interfaces/itypetypeconverter.html" class="tsd-signature-type">ITypeTypeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/itypenodeconverter.html" class="tsd-signature-type">ITypeNodeConverter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>converter: <a href="convertertypecomponent.html" class="tsd-signature-type">ConverterTypeComponent</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -648,20 +653,20 @@
 					<a name="bubble" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> bubble</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">bubble<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">bubble<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#bubble">bubble</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L158">src/lib/utils/component.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L135">utils/component.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>name: <a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
@@ -675,13 +680,13 @@
 					<a name="compile" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> compile</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">compile<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_typescript_.diagnostic.html" class="tsd-signature-type">Diagnostic</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">compile<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Diagnostic</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L419">src/lib/converter/converter.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L347">converter/converter.ts:347</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -698,7 +703,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_typescript_.diagnostic.html" class="tsd-signature-type">Diagnostic</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Diagnostic</span><span class="tsd-signature-symbol">[]</span></h4>
 							<p>An array containing all errors generated by the TypeScript compiler.</p>
 						</li>
 					</ul>
@@ -707,13 +712,13 @@
 					<a name="convert" class="tsd-anchor"></a>
 					<h3>convert</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">convert<span class="tsd-signature-symbol">(</span>fileNames<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/iconverterresult.html" class="tsd-signature-type">IConverterResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">convert<span class="tsd-signature-symbol">(</span>fileNames<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/converterresult.html" class="tsd-signature-type">ConverterResult</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L331">src/lib/converter/converter.ts:331</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L262">converter/converter.ts:262</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -730,7 +735,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/iconverterresult.html" class="tsd-signature-type">IConverterResult</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/converterresult.html" class="tsd-signature-type">ConverterResult</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -738,13 +743,13 @@
 					<a name="convertnode" class="tsd-anchor"></a>
 					<h3>convert<wbr>Node</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">convert<wbr>Node<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, node<span class="tsd-signature-symbol">: </span><a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="reflection.html" class="tsd-signature-type">Reflection</a></li>
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>Node<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, node<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="reflection.html" class="tsd-signature-type">Reflection</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L363">src/lib/converter/converter.ts:363</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L293">converter/converter.ts:293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -762,7 +767,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>node: <a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a></h5>
+									<h5>node: <span class="tsd-signature-type">Node</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The compiler node that should be analyzed.</p>
 									</div>
@@ -777,13 +782,13 @@
 					<a name="converttype" class="tsd-anchor"></a>
 					<h3>convert<wbr>Type</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">convert<wbr>Type<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, node<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a>, type<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_typescript_.type.html" class="tsd-signature-type">Type</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="type.html" class="tsd-signature-type">Type</a></li>
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>Type<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="context.html" class="tsd-signature-type">Context</a>, node<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Node</span>, type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Type</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="type.html" class="tsd-signature-type">Type</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L390">src/lib/converter/converter.ts:390</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L319">converter/converter.ts:319</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -800,13 +805,13 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> node: <a href="../interfaces/_typescript_.node.html" class="tsd-signature-type">Node</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> node: <span class="tsd-signature-type">Node</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The node whose type should be reflected.</p>
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> type: <a href="../interfaces/_typescript_.type.html" class="tsd-signature-type">Type</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> type: <span class="tsd-signature-type">Type</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The type of the node if already known.</p>
 									</div>
@@ -828,7 +833,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#getcomponent">getComponent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L228">src/lib/utils/component.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L199">utils/component.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -858,7 +863,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#getcomponents">getComponents</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L237">src/lib/utils/component.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L207">utils/component.ts:207</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="convertercomponent.html" class="tsd-signature-type">ConverterComponent</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -875,7 +880,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L467">src/lib/converter/converter.ts:467</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L403">converter/converter.ts:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -892,14 +897,14 @@
 					<a name="getoptiondeclarations" class="tsd-anchor"></a>
 					<h3>get<wbr>Option<wbr>Declarations</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Option<wbr>Declarations<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/ioptiondeclaration.html" class="tsd-signature-type">IOptionDeclaration</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Option<wbr>Declarations<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/declarationoption.html" class="tsd-signature-type">DeclarationOption</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#getoptiondeclarations">getOptionDeclarations</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L173">src/lib/utils/component.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L149">utils/component.ts:149</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -907,7 +912,7 @@
 									<p>Return all option declarations emitted by this component.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/ioptiondeclaration.html" class="tsd-signature-type">IOptionDeclaration</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/declarationoption.html" class="tsd-signature-type">DeclarationOption</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -922,7 +927,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#hascomponent">hasComponent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/component.ts#L242">src/lib/utils/component.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/component.ts#L211">utils/component.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -944,9 +949,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#initialize">initialize</a></p>
+								<p>Overrides <a href="abstractcomponent.html">AbstractComponent</a>.<a href="abstractcomponent.html#initialize">initialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L240">src/lib/converter/converter.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L180">converter/converter.ts:180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -962,14 +967,14 @@
 					<a name="listento" class="tsd-anchor"></a>
 					<h3>listen<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">listen<wbr>To<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">listen<wbr>To<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#listento">listenTo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L400">src/lib/utils/events.ts:400</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L395">utils/events.ts:395</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -985,10 +990,10 @@
 									<h5>obj: <a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></h5>
 								</li>
 								<li>
-									<h5>name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>name: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">number</span></h5>
@@ -1002,14 +1007,15 @@
 					<a name="listentoonce" class="tsd-anchor"></a>
 					<h3>listen<wbr>ToOnce</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">listen<wbr>ToOnce<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">listen<wbr>ToOnce<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, eventMap<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">listen<wbr>ToOnce<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#listentoonce">listenToOnce</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L428">src/lib/utils/events.ts:428</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L424">utils/events.ts:424</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1023,16 +1029,34 @@
 									<h5>obj: <a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></h5>
 								</li>
 								<li>
-									<h5>name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>eventMap: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#listentoonce">listenToOnce</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L425">utils/events.ts:425</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></h5>
 								</li>
 								<li>
-									<h5>callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1040,14 +1064,16 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>eventMap<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L383">src/lib/utils/events.ts:383</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L374">utils/events.ts:374</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1058,19 +1084,46 @@
 									callbacks for all events.</p>
 								</div>
 							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#off">off</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L375">utils/events.ts:375</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5>eventMap: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#off">off</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L376">utils/events.ts:376</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1078,14 +1131,16 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>eventMap<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>eventMap<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L340">src/lib/utils/events.ts:340</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L329">utils/events.ts:329</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1097,10 +1152,28 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>eventMap: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a></h5>
 								</li>
 								<li>
-									<h5>callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#on">on</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L330">utils/events.ts:330</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventMap: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
@@ -1109,7 +1182,31 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#on">on</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L331">utils/events.ts:331</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1117,14 +1214,15 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>eventMap<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a>, context<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, priority<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#once">once</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L370">src/lib/utils/events.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L360">utils/events.ts:360</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1138,19 +1236,37 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>eventMap: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a></h5>
 								</li>
 								<li>
-									<h5>callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#once">once</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L361">utils/events.ts:361</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> context: <span class="tsd-signature-type">any</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> priority: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1163,9 +1279,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#removeallcomponents">removeAllComponents</a></p>
+								<p>Overrides <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#removeallcomponents">removeAllComponents</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L316">src/lib/converter/converter.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L249">converter/converter.ts:249</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1181,9 +1297,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#removecomponent">removeComponent</a></p>
+								<p>Overrides <a href="childablecomponent.html">ChildableComponent</a>.<a href="childablecomponent.html#removecomponent">removeComponent</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L280">src/lib/converter/converter.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L216">converter/converter.ts:216</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1206,7 +1322,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L292">src/lib/converter/converter.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L227">converter/converter.ts:227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1229,7 +1345,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L303">src/lib/converter/converter.ts:303</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L237">converter/converter.ts:237</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1252,7 +1368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/converter/converter.ts#L448">src/lib/converter/converter.ts:448</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/converter/converter.ts#L383">converter/converter.ts:383</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1278,14 +1394,14 @@
 					<a name="stoplistening" class="tsd-anchor"></a>
 					<h3>stop<wbr>Listening</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">stop<wbr>Listening<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">?: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Listening<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">?: </span><a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a>, name<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#stoplistening">stopListening</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L439">src/lib/utils/events.ts:439</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L436">utils/events.ts:436</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1300,10 +1416,10 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> obj: <a href="eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> name: <a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> name: <a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/ieventcallback.html" class="tsd-signature-type">IEventCallback</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <a href="../interfaces/eventcallback.html" class="tsd-signature-type">EventCallback</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -1314,14 +1430,14 @@
 					<a name="trigger" class="tsd-anchor"></a>
 					<h3>trigger</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventdispatcher.html">EventDispatcher</a>.<a href="eventdispatcher.html#trigger">trigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/utils/events.ts#L466">src/lib/utils/events.ts:466</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/utils/events.ts#L468">utils/events.ts:468</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1335,7 +1451,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ieventmap.html" class="tsd-signature-type">IEventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>name: <a href="event.html" class="tsd-signature-type">Event</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventmap.html" class="tsd-signature-type">EventMap</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
@@ -1437,7 +1553,7 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="converter.html#owner" class="tsd-kind-icon">owner</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
 								<a href="converter.html#addcomponent" class="tsd-kind-icon">add<wbr>Component</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -1584,7 +1700,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

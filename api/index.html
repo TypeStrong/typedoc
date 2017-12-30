@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
-	<script src="assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -69,7 +68,10 @@
 				<blockquote>
 					<p>Documentation generator for TypeScript projects.</p>
 				</blockquote>
-				<p><a href="https://travis-ci.org/TypeStrong/typedoc"><img src="https://travis-ci.org/TypeStrong/typedoc.svg?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/typedoc"><img src="https://badge.fury.io/js/typedoc.svg" alt="NPM version"></a></p>
+				<p><a href="https://travis-ci.org/TypeStrong/typedoc"><img src="https://travis-ci.org/TypeStrong/typedoc.svg?branch=master" alt="Build Status"></a>
+					<a href="http://badge.fury.io/js/typedoc"><img src="https://badge.fury.io/js/typedoc.svg" alt="NPM Version"></a>
+					<a href="https://gitter.im/TypeStrong/typedoc?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/TypeStrong/typedoc.svg" alt="Chat on Gitter"></a>
+				<a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/TypeStrong/typedoc.svg" alt="Greenkeeper Enabled"></a></p>
 				<h2 id="installation">Installation</h2>
 				<p>TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
 				in your project&#39;s directory as usual:</p>
@@ -80,13 +82,6 @@
 				<pre><code class="lang-bash">$ npm install typedoc --global
 $ typedoc
 </code></pre>
-				<h2 id="preview">Preview</h2>
-				<p>If you want to know what a documentation created with TypeDoc looks like, head over
-					to the homepage of the project. We&#39;ve setup examples demonstrating the two default
-				themes shipped with the package:</p>
-				<p><a href="http://typedoc.io/themes/default">http://typedoc.io/themes/default</a><br>
-				<a href="http://typedoc.io/themes/minimal">http://typedoc.io/themes/minimal</a></p>
-				<p>The default themes can be found here: <a href="https://github.com/TypeStrong/typedoc-default-themes">https://github.com/TypeStrong/typedoc-default-themes</a></p>
 				<h2 id="usage">Usage</h2>
 				<h3 id="shell">Shell</h3>
 				<p>TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. One major
@@ -104,13 +99,17 @@ $ typedoc
 					Specifies the location the documentation should be written to.</li>
 					<li><code>--mode &lt;file|modules&gt;</code><br>
 					Specifies the output mode the project is used to be compiled with.</li>
+					<li><code>--options</code><br>
+					Specify a js option file that should be loaded. If not specified TypeDoc will look for &#39;typedoc.js&#39; in the current directory.</li>
 					<li><code>--json &lt;path/to/output.json&gt;</code><br>
 					Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.</li>
+					<li><code>--ignoreCompilerErrors</code><br>
+					Should TypeDoc still generate documentation pages even after the compiler has returned errors?</li>
 				</ul>
 				<h4 id="source-file-handling">Source file handling</h4>
 				<ul>
 					<li><code>--exclude &lt;pattern&gt;</code><br>
-					Exclude files by the given pattern when a path is provided as source</li>
+					Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see <a href="https://github.com/TypeStrong/typedoc/issues/170">#170</a>)</li>
 					<li><code>--includeDeclarations</code><br>
 					Turn on parsing of .d.ts declaration files.</li>
 					<li><code>--externalPattern &lt;pattern&gt;</code><br>
@@ -136,6 +135,8 @@ $ typedoc
 					<li><code>--readme &lt;path/to/readme|none&gt;</code><br>
 						Path to the readme file that should be displayed on the index page. Pass <code>none</code> to disable the index page
 					and start the documentation on the globals page.</li>
+					<li><code>--plugin</code><br>
+					Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to &#39;none&#39; to load no plugins.</li>
 					<li><code>--hideGenerator</code><br>
 					Do not print the TypeDoc link at the end of the page.</li>
 					<li><code>--gaID</code><br>
@@ -144,6 +145,8 @@ $ typedoc
 					Set the site name for Google Analytics. Defaults to <code>auto</code></li>
 					<li><code>--entryPoint &lt;fully.qualified.name&gt;</code><br>
 					Specifies the fully qualified name of the root symbol. Defaults to global namespace.</li>
+					<li><code>--gitRevision &lt;revision|branch&gt;</code><br>
+					Use specified revision or branch instead of the last revision for linking to GitHub source files.</li>
 				</ul>
 				<h4 id="content">Content</h4>
 				<ul>
@@ -161,7 +164,7 @@ $ typedoc
 					<li><code>--version</code><br>
 					Display the version number of TypeDoc.</li>
 					<li><code>--help</code><br>
-					Display a simple cheat sheet.</li>
+					Display all TypeDoc options.</li>
 				</ul>
 				<h3 id="webpack">Webpack</h3>
 				<p>There is a plugin available to run TypeDoc with Webpack created by Microsoft. You can find it on NPM:<br>
@@ -175,16 +178,20 @@ $ typedoc
 				<h2 id="plugins">Plugins</h2>
 				<ul>
 					<li><a href="https://github.com/christopherthielen/typedoc-plugin-external-module-name">External Module Name</a> - Set the name of TypeDoc external modules</li>
+					<li><a href="https://github.com/gdelmas/typedoc-plugin-sourcefile-url">Sourcefile URL</a> - Set custom source file URL links</li>
+					<li><a href="https://github.com/christopherthielen/typedoc-plugin-internal-external">Internal/External Module</a> - Explicitly mark modules as <code>@internal</code> or <code>@external</code></li>
+					<li><a href="https://github.com/christopherthielen/typedoc-plugin-single-line-tags">Single Line Tags</a> - Process certain <code>@tags</code> as single lines</li>
 				</ul>
 				<h2 id="advanced-guides-and-docs">Advanced guides and docs</h2>
 				<p>Visit our homepage for advanced guides and an extensive API documentation:<br>
 				<a href="http://typedoc.org">http://typedoc.org</a></p>
 				<h2 id="contributing">Contributing</h2>
-				<p>Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
-					an issue or create a pull requests:<br>
+				<p>This project is maintained by a community of developers. Contributions are welcome and appreciated.
+					You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 				<a href="https://github.com/TypeStrong/typedoc">https://github.com/TypeStrong/typedoc</a></p>
 				<h2 id="license">License</h2>
-				<p>Copyright (c) 2015 <a href="http://www.TypeDoc.de">Sebastian Lenz</a>.<br>
+				<p>Copyright (c) 2015 <a href="http://typedoc.org">Sebastian Lenz</a>.<br>
+					Copyright (c) 2016-2017 <a href="https://github.com/TypeStrong/typedoc/graphs/contributors">TypeDoc Contributors</a>.<br>
 				Licensed under the Apache License 2.0.</p>
 			</div>
 		</div>
@@ -194,137 +201,8 @@ $ typedoc
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_assert_.html">"assert"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_buffer_.html">"buffer"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_child_process_.html">"child_<wbr>process"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_cluster_.html">"cluster"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_constants_.html">"constants"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_crypto_.html">"crypto"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_dgram_.html">"dgram"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_dns_.html">"dns"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_domain_.html">"domain"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_events_.html">"events"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_fs_.html">"fs"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_fs_extra_.html">"fs-<wbr>extra"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_handlebars_.html">"handlebars"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_highlight_js_.html">"highlight.js"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_http_.html">"http"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_https_.html">"https"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_lodash_.html">"lodash"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_marked_.html">"marked"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_minimatch_.html">"minimatch"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_net_.html">"net"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_os_.html">"os"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_path_.html">"path"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_progress_.html">"progress"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_punycode_.html">"punycode"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_querystring_.html">"querystring"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_readline_.html">"readline"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_repl_.html">"repl"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_shelljs_.html">"shelljs"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_stream_.html">"stream"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_string_decoder_.html">"string_<wbr>decoder"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_tls_.html">"tls"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_tty_.html">"tty"</a>
-					</li>
 					<li class=" tsd-kind-module tsd-is-not-exported">
 						<a href="modules/_typescript_.html">"typescript"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_typescript_performance_.html">"typescript.performance"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_url_.html">"url"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_util_.html">"util"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_vm_.html">"vm"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/_zlib_.html">"zlib"</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/nodejs.html">NodeJS</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_.html">_</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="modules/hbs.html">hbs</a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Externals</span>
-					</li>
-					<li class=" tsd-kind-module tsd-is-external">
-						<a href="modules/ts.html">ts</a>
 					</li>
 				</ul>
 			</nav>
@@ -382,6 +260,12 @@ $ typedoc
 						<a href="classes/arrayconverter.html" class="tsd-kind-icon">Array<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/arraytype.html" class="tsd-kind-icon">Array<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/arraytypeserializer.html" class="tsd-kind-icon">Array<wbr>Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/assetsplugin.html" class="tsd-kind-icon">Assets<wbr>Plugin</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -399,6 +283,9 @@ $ typedoc
 					<li class=" tsd-kind-class">
 						<a href="classes/callbacklogger.html" class="tsd-kind-icon">Callback<wbr>Logger</a>
 					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categoryplugin.html" class="tsd-kind-icon">Category<wbr>Plugin</a>
+					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/childablecomponent.html" class="tsd-kind-icon">Childable<wbr>Component</a>
 					</li>
@@ -415,7 +302,13 @@ $ typedoc
 						<a href="classes/commentplugin.html" class="tsd-kind-icon">Comment<wbr>Plugin</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/commentserializer.html" class="tsd-kind-icon">Comment<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/commenttag.html" class="tsd-kind-icon">Comment<wbr>Tag</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/commenttagserializer.html" class="tsd-kind-icon">Comment<wbr>Tag<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/compilerhost.html" class="tsd-kind-icon">Compiler<wbr>Host</a>
@@ -434,6 +327,9 @@ $ typedoc
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/containerreflection.html" class="tsd-kind-icon">Container<wbr>Reflection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/containerreflectionserializer.html" class="tsd-kind-icon">Container<wbr>Reflection<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/context.html" class="tsd-kind-icon">Context</a>
@@ -457,7 +353,16 @@ $ typedoc
 						<a href="classes/declarationreflection.html" class="tsd-kind-icon">Declaration<wbr>Reflection</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/declarationreflectionserializer.html" class="tsd-kind-icon">Declaration<wbr>Reflection<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/decoratorcontainerserializer.html" class="tsd-kind-icon">Decorator<wbr>Container<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/decoratorplugin.html" class="tsd-kind-icon">Decorator<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/decoratorwrapper.html" class="tsd-kind-icon">Decorator<wbr>Wrapper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/deepcommentplugin.html" class="tsd-kind-icon">Deep<wbr>Comment<wbr>Plugin</a>
@@ -508,10 +413,19 @@ $ typedoc
 						<a href="classes/interfaceconverter.html" class="tsd-kind-icon">Interface<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/intersectiontype.html" class="tsd-kind-icon">Intersection<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/intersectiontypeserializer.html" class="tsd-kind-icon">Intersection<wbr>Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/intrinsicconverter.html" class="tsd-kind-icon">Intrinsic<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/intrinsictype.html" class="tsd-kind-icon">Intrinsic<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/intrinsictypeserializer.html" class="tsd-kind-icon">Intrinsic<wbr>Type<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/javascriptindexplugin.html" class="tsd-kind-icon">Javascript<wbr>Index<wbr>Plugin</a>
@@ -519,7 +433,7 @@ $ typedoc
 					<li class=" tsd-kind-class">
 						<a href="classes/layoutplugin.html" class="tsd-kind-icon">Layout<wbr>Plugin</a>
 					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
+					<li class=" tsd-kind-class">
 						<a href="classes/logger.html" class="tsd-kind-icon">Logger</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -565,6 +479,9 @@ $ typedoc
 						<a href="classes/parameterreflection.html" class="tsd-kind-icon">Parameter<wbr>Reflection</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/parameterreflectionserializer.html" class="tsd-kind-icon">Parameter<wbr>Reflection<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/partialstack.html" class="tsd-kind-icon">Partial<wbr>Stack</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -577,19 +494,40 @@ $ typedoc
 						<a href="classes/projectreflection.html" class="tsd-kind-icon">Project<wbr>Reflection</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/projectreflectionserializer.html" class="tsd-kind-icon">Project<wbr>Reflection<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/referenceconverter.html" class="tsd-kind-icon">Reference<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/referencetype.html" class="tsd-kind-icon">Reference<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/referencetypeserializer.html" class="tsd-kind-icon">Reference<wbr>Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/reflection.html" class="tsd-kind-icon">Reflection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reflectioncategory.html" class="tsd-kind-icon">Reflection<wbr>Category</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/reflectiongroup.html" class="tsd-kind-icon">Reflection<wbr>Group</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/reflectiongroupserializer.html" class="tsd-kind-icon">Reflection<wbr>Group<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reflectionserializer.html" class="tsd-kind-icon">Reflection<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/reflectionserializercomponent.html" class="tsd-kind-icon">Reflection<wbr>Serializer<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/reflectiontype.html" class="tsd-kind-icon">Reflection<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reflectiontypeserializer.html" class="tsd-kind-icon">Reflection<wbr>Type<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/renderer.html" class="tsd-kind-icon">Renderer</a>
@@ -616,10 +554,22 @@ $ typedoc
 						<a href="classes/resources.html" class="tsd-kind-icon">Resources</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/serializeevent.html" class="tsd-kind-icon">Serialize<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/serializer.html" class="tsd-kind-icon">Serializer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/serializercomponent.html" class="tsd-kind-icon">Serializer<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/signatureconverter.html" class="tsd-kind-icon">Signature<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/signaturereflection.html" class="tsd-kind-icon">Signature<wbr>Reflection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/signaturereflectionserializer.html" class="tsd-kind-icon">Signature<wbr>Reflection<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/sourcedirectory.html" class="tsd-kind-icon">Source<wbr>Directory</a>
@@ -631,10 +581,19 @@ $ typedoc
 						<a href="classes/sourceplugin.html" class="tsd-kind-icon">Source<wbr>Plugin</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/sourcereferencecontainerserializer.html" class="tsd-kind-icon">Source<wbr>Reference<wbr>Container<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sourcereferencewrapper.html" class="tsd-kind-icon">Source<wbr>Reference<wbr>Wrapper</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/stringliteralconverter.html" class="tsd-kind-icon">String<wbr>Literal<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/stringliteraltype.html" class="tsd-kind-icon">String<wbr>Literal<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/stringliteraltypeserializer.html" class="tsd-kind-icon">String<wbr>Literal<wbr>Type<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/tsconfigreader.html" class="tsd-kind-icon">TSConfig<wbr>Reader</a>
@@ -649,6 +608,9 @@ $ typedoc
 						<a href="classes/theme.html" class="tsd-kind-icon">Theme</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/thisconverter.html" class="tsd-kind-icon">This<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/tocplugin.html" class="tsd-kind-icon">Toc<wbr>Plugin</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -658,10 +620,22 @@ $ typedoc
 						<a href="classes/tupletype.html" class="tsd-kind-icon">Tuple<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/tupletypeserializer.html" class="tsd-kind-icon">Tuple<wbr>Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/type.html" class="tsd-kind-icon">Type</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/typeliteralconverter.html" class="tsd-kind-icon">Type<wbr>Literal<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/typeoperatorconverter.html" class="tsd-kind-icon">Type<wbr>Operator<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/typeoperatortype.html" class="tsd-kind-icon">Type<wbr>Operator<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/typeoperatortypeserializer.html" class="tsd-kind-icon">Type<wbr>Operator<wbr>Type<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/typeparameterconverter.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Converter</a>
@@ -670,7 +644,13 @@ $ typedoc
 						<a href="classes/typeparameterreflection.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Reflection</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/typeparameterreflectionserializer.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Reflection<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/typeparametertype.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/typeparametertypeserializer.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Type<wbr>Serializer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/typeplugin.html" class="tsd-kind-icon">Type<wbr>Plugin</a>
@@ -679,10 +659,16 @@ $ typedoc
 						<a href="classes/typescriptsource.html" class="tsd-kind-icon">Type<wbr>Script<wbr>Source</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/typeserializer.html" class="tsd-kind-icon">Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/typeserializercomponent.html" class="tsd-kind-icon">Type<wbr>Serializer<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/typedocreader.html" class="tsd-kind-icon">Typedoc<wbr>Reader</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/unionconverter.html" class="tsd-kind-icon">Union<wbr>Converter</a>
+						<a href="classes/unionorintersectionconverter.html" class="tsd-kind-icon">Union<wbr>OrIntersection<wbr>Converter</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/uniontype.html" class="tsd-kind-icon">Union<wbr>Type</a>
@@ -694,6 +680,9 @@ $ typedoc
 						<a href="classes/unknowntype.html" class="tsd-kind-icon">Unknown<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/unknowntypeserializer.html" class="tsd-kind-icon">Unknown<wbr>Type<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/urlmapping.html" class="tsd-kind-icon">Url<wbr>Mapping</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -702,188 +691,194 @@ $ typedoc
 					<li class=" tsd-kind-class">
 						<a href="classes/variablestatementconverter.html" class="tsd-kind-icon">Variable<wbr>Statement<wbr>Converter</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/buffer.html" class="tsd-kind-icon">Buffer</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarscommon.html" class="tsd-kind-icon">Handlebars<wbr>Common</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarsruntimestatic.html" class="tsd-kind-icon">Handlebars<wbr>Runtime<wbr>Static</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarsstatic.html" class="tsd-kind-icon">Handlebars<wbr>Static</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarstemplatable.html" class="tsd-kind-icon">Handlebars<wbr>Templatable</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarstemplatedelegate.html" class="tsd-kind-icon">Handlebars<wbr>Template<wbr>Delegate</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/handlebarstemplates.html" class="tsd-kind-icon">Handlebars<wbr>Templates</a>
-					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/icomponent.html" class="tsd-kind-icon">IComponent</a>
+						<a href="interfaces/commandlineoption.html" class="tsd-kind-icon">Command<wbr>Line<wbr>Option</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/icomponentclass.html" class="tsd-kind-icon">IComponent<wbr>Class</a>
+						<a href="interfaces/commentcontainer.html" class="tsd-kind-icon">Comment<wbr>Container</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/icomponenthost.html" class="tsd-kind-icon">IComponent<wbr>Host</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/icomponentlist.html" class="tsd-kind-icon">IComponent<wbr>List</a>
+						<a href="interfaces/commentobject.html" class="tsd-kind-icon">Comment<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/icomponentoptions.html" class="tsd-kind-icon">IComponent<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/icomponentregistry.html" class="tsd-kind-icon">IComponent<wbr>Registry</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/iconvertercallback.html" class="tsd-kind-icon">IConverter<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/iconverternodecallback.html" class="tsd-kind-icon">IConverter<wbr>Node<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/iconverterresolvecallback.html" class="tsd-kind-icon">IConverter<wbr>Resolve<wbr>Callback</a>
+						<a href="interfaces/commenttagobject.html" class="tsd-kind-icon">Comment<wbr>Tag<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/iconverterresult.html" class="tsd-kind-icon">IConverter<wbr>Result</a>
+						<a href="interfaces/component.html" class="tsd-kind-icon">Component</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/componentclass.html" class="tsd-kind-icon">Component<wbr>Class</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/ideclarationhierarchy.html" class="tsd-kind-icon">IDeclaration<wbr>Hierarchy</a>
+						<a href="interfaces/componenthost.html" class="tsd-kind-icon">Component<wbr>Host</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/idecorator.html" class="tsd-kind-icon">IDecorator</a>
+						<a href="interfaces/componentoptions.html" class="tsd-kind-icon">Component<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/containerreflectioncontainer.html" class="tsd-kind-icon">Container<wbr>Reflection<wbr>Container</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/idefaultvaluecontainer.html" class="tsd-kind-icon">IDefault<wbr>Value<wbr>Container</a>
+						<a href="interfaces/containerreflectionobject.html" class="tsd-kind-icon">Container<wbr>Reflection<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/ieventcallback.html" class="tsd-kind-icon">IEvent<wbr>Callback</a>
+						<a href="interfaces/converterresult.html" class="tsd-kind-icon">Converter<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/declarationhierarchy.html" class="tsd-kind-icon">Declaration<wbr>Hierarchy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/declarationoption.html" class="tsd-kind-icon">Declaration<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/declarationreflectioncontainer.html" class="tsd-kind-icon">Declaration<wbr>Reflection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/declarationreflectionobject.html" class="tsd-kind-icon">Declaration<wbr>Reflection<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/decoratescontainer.html" class="tsd-kind-icon">Decorates<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/decorator.html" class="tsd-kind-icon">Decorator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/decoratorobject.html" class="tsd-kind-icon">Decorator<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/decoratorscontainer.html" class="tsd-kind-icon">Decorators<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/defaultvaluecontainer.html" class="tsd-kind-icon">Default<wbr>Value<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diagnosticsenumvalue.html" class="tsd-kind-icon">Diagnostics<wbr>Enum<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcallback.html" class="tsd-kind-icon">Event<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ieventhandler.html" class="tsd-kind-icon">IEvent<wbr>Handler</a>
+						<a href="interfaces/eventhandler.html" class="tsd-kind-icon">Event<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ieventhandlers.html" class="tsd-kind-icon">IEvent<wbr>Handlers</a>
+						<a href="interfaces/eventhandlers.html" class="tsd-kind-icon">Event<wbr>Handlers</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-not-exported">
-						<a href="interfaces/ieventiteratee.html" class="tsd-kind-icon">IEvent<wbr>Iteratee</a>
+						<a href="interfaces/eventiteratee.html" class="tsd-kind-icon">Event<wbr>Iteratee</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ieventlistener.html" class="tsd-kind-icon">IEvent<wbr>Listener</a>
+						<a href="interfaces/eventlistener.html" class="tsd-kind-icon">Event<wbr>Listener</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ieventlisteners.html" class="tsd-kind-icon">IEvent<wbr>Listeners</a>
+						<a href="interfaces/eventlisteners.html" class="tsd-kind-icon">Event<wbr>Listeners</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/ieventmap.html" class="tsd-kind-icon">IEvent<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/imodulecomment.html" class="tsd-kind-icon">IModule<wbr>Comment</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ioffapioptions.html" class="tsd-kind-icon">IOff<wbr>Api<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/ionapioptions.html" class="tsd-kind-icon">IOn<wbr>Api<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ioptiondeclaration.html" class="tsd-kind-icon">IOption<wbr>Declaration</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ioptionsreadresult.html" class="tsd-kind-icon">IOptions<wbr>Read<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iparameterhelp.html" class="tsd-kind-icon">IParameter<wbr>Help</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ireflectionflags.html" class="tsd-kind-icon">IReflection<wbr>Flags</a>
+						<a href="interfaces/eventmap.html" class="tsd-kind-icon">Event<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/iresourceclass.html" class="tsd-kind-icon">IResource<wbr>Class</a>
+						<a href="interfaces/groupscontainer.html" class="tsd-kind-icon">Groups<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/modulecomment.html" class="tsd-kind-icon">Module<wbr>Comment</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/offapioptions.html" class="tsd-kind-icon">Off<wbr>Api<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/onapioptions.html" class="tsd-kind-icon">On<wbr>Api<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/optionsreadresult.html" class="tsd-kind-icon">Options<wbr>Read<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parameterhelp.html" class="tsd-kind-icon">Parameter<wbr>Help</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parameterreflectionobject.html" class="tsd-kind-icon">Parameter<wbr>Reflection<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectreflectionobject.html" class="tsd-kind-icon">Project<wbr>Reflection<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reflectioncontainer.html" class="tsd-kind-icon">Reflection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reflectionflags.html" class="tsd-kind-icon">Reflection<wbr>Flags</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reflectionflagsobject.html" class="tsd-kind-icon">Reflection<wbr>Flags<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reflectiongroupobject.html" class="tsd-kind-icon">Reflection<wbr>Group<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reflectionobject.html" class="tsd-kind-icon">Reflection<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/iresourcemap.html" class="tsd-kind-icon">IResource<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isourcereference.html" class="tsd-kind-icon">ISource<wbr>Reference</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/itemplatemapping.html" class="tsd-kind-icon">ITemplate<wbr>Mapping</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/itraversecallback.html" class="tsd-kind-icon">ITraverse<wbr>Callback</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/itypecontainer.html" class="tsd-kind-icon">IType<wbr>Container</a>
+						<a href="interfaces/resourceclass.html" class="tsd-kind-icon">Resource<wbr>Class</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/itypeconverter.html" class="tsd-kind-icon">IType<wbr>Converter</a>
+						<a href="interfaces/resourcemap.html" class="tsd-kind-icon">Resource<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/itypenodeconverter.html" class="tsd-kind-icon">IType<wbr>Node<wbr>Converter</a>
+						<a href="interfaces/signaturereflectioncontainer.html" class="tsd-kind-icon">Signature<wbr>Reflection<wbr>Container</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/itypeparametercontainer.html" class="tsd-kind-icon">IType<wbr>Parameter<wbr>Container</a>
+						<a href="interfaces/signaturereflectionobject.html" class="tsd-kind-icon">Signature<wbr>Reflection<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcereference.html" class="tsd-kind-icon">Source<wbr>Reference</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/itypetypeconverter.html" class="tsd-kind-icon">IType<wbr>Type<wbr>Converter</a>
+						<a href="interfaces/sourcereferencecontainer.html" class="tsd-kind-icon">Source<wbr>Reference<wbr>Container</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/mapconstructor.html" class="tsd-kind-icon">Map<wbr>Constructor</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcereferenceobject.html" class="tsd-kind-icon">Source<wbr>Reference<wbr>Object</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/markedoptions.html" class="tsd-kind-icon">Marked<wbr>Options</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/templatemapping.html" class="tsd-kind-icon">Template<wbr>Mapping</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/markedstatic.html" class="tsd-kind-icon">Marked<wbr>Static</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/traversecallback.html" class="tsd-kind-icon">Traverse<wbr>Callback</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/nodebuffer.html" class="tsd-kind-icon">Node<wbr>Buffer</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/typecontainer.html" class="tsd-kind-icon">Type<wbr>Container</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/nodemodule.html" class="tsd-kind-icon">Node<wbr>Module</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/typeconverter.html" class="tsd-kind-icon">Type<wbr>Converter</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/noderequire.html" class="tsd-kind-icon">Node<wbr>Require</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/typenodeconverter.html" class="tsd-kind-icon">Type<wbr>Node<wbr>Converter</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/noderequirefunction.html" class="tsd-kind-icon">Node<wbr>Require<wbr>Function</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/typeobject.html" class="tsd-kind-icon">Type<wbr>Object</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/setconstructor.html" class="tsd-kind-icon">Set<wbr>Constructor</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/typeparametercontainer.html" class="tsd-kind-icon">Type<wbr>Parameter<wbr>Container</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/weakmapconstructor.html" class="tsd-kind-icon">Weak<wbr>Map<wbr>Constructor</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/typetypeconverter.html" class="tsd-kind-icon">Type<wbr>Type<wbr>Converter</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/weaksetconstructor.html" class="tsd-kind-icon">Weak<wbr>Set<wbr>Constructor</a>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#intersectionunion" class="tsd-kind-icon">Intersection<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#charactercodes" class="tsd-kind-icon">Character<wbr>Codes</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#diagnostics" class="tsd-kind-icon">Diagnostics</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#error_unsupported_file_encoding" class="tsd-kind-icon">ERROR_<wbr>UNSUPPORTED_<wbr>FILE_<wbr>ENCODING</a>
 					</li>
-					<li class=" tsd-kind-variable">
-						<a href="globals.html#handlebars" class="tsd-kind-icon">Handlebars</a>
+					<li class=" tsd-kind-variable tsd-is-not-exported">
+						<a href="globals.html#intrinsictypeflags" class="tsd-kind-icon">Intrinsic<wbr>Type<wbr>Flags</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#progressbar" class="tsd-kind-icon">Progress<wbr>Bar</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#reflection_id" class="tsd-kind-icon">REFLECTION_<wbr>ID</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#slowbuffer" class="tsd-kind-icon">Slow<wbr>Buffer</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#___dirname" class="tsd-kind-icon">___dirname</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#___filename" class="tsd-kind-icon">___filename</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#childmappings" class="tsd-kind-icon">child<wbr>Mappings</a>
@@ -895,49 +890,31 @@ $ typedoc
 						<a href="globals.html#existingdirectories" class="tsd-kind-icon">existing<wbr>Directories</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#exports" class="tsd-kind-icon">exports</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#global" class="tsd-kind-icon">global</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#marked" class="tsd-kind-icon">marked</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#module" class="tsd-kind-icon">module</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#nonstatickinds" class="tsd-kind-icon">non<wbr>Static<wbr>Kinds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#optiondeclarations" class="tsd-kind-icon">option<wbr>Declarations</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#prefered" class="tsd-kind-icon">prefered</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#process" class="tsd-kind-icon">process</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
 						<a href="globals.html#relevantflags" class="tsd-kind-icon">relevant<wbr>Flags</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#require" class="tsd-kind-icon">require</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#component" class="tsd-kind-icon">Component</a>
+						<a href="globals.html#tsany" class="tsd-kind-icon">tsany</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#option" class="tsd-kind-icon">Option</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#clearimmediate" class="tsd-kind-icon">clear<wbr>Immediate</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#clearinterval" class="tsd-kind-icon">clear<wbr>Interval</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#cleartimeout" class="tsd-kind-icon">clear<wbr>Timeout</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#combinepaths" class="tsd-kind-icon">combine<wbr>Paths</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#compact" class="tsd-kind-icon">compact</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#comparevalues" class="tsd-kind-icon">compare<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#convertdefaultvalue" class="tsd-kind-icon">convert<wbr>Default<wbr>Value</a>
@@ -947,6 +924,9 @@ $ typedoc
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createcomment" class="tsd-kind-icon">create<wbr>Comment</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createcompilerdiagnostic" class="tsd-kind-icon">create<wbr>Compiler<wbr>Diagnostic</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#createdeclaration" class="tsd-kind-icon">create<wbr>Declaration</a>
@@ -964,6 +944,9 @@ $ typedoc
 						<a href="globals.html#createtypeparameter" class="tsd-kind-icon">create<wbr>Type<wbr>Parameter</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#declarationnametostring" class="tsd-kind-icon">declaration<wbr>Name<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#directoryexists" class="tsd-kind-icon">directory<wbr>Exists</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -976,6 +959,21 @@ $ typedoc
 						<a href="globals.html#extractsignaturetype" class="tsd-kind-icon">extract<wbr>Signature<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getclassextendsheritageclauseelement" class="tsd-kind-icon">get<wbr>Class<wbr>Extends<wbr>Heritage<wbr>Clause<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getclassimplementsheritageclauseelements" class="tsd-kind-icon">get<wbr>Class<wbr>Implements<wbr>Heritage<wbr>Clause<wbr>Elements</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getdirectorypath" class="tsd-kind-icon">get<wbr>Directory<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getinterfacebasetypenodes" class="tsd-kind-icon">get<wbr>Interface<wbr>Base<wbr>Type<wbr>Nodes</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getjsdoccommentranges" class="tsd-kind-icon">getJSDoc<wbr>Comment<wbr>Ranges</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getoptionshelp" class="tsd-kind-icon">get<wbr>Options<wbr>Help</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
@@ -984,14 +982,26 @@ $ typedoc
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getrawcomment" class="tsd-kind-icon">get<wbr>Raw<wbr>Comment</a>
 					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getrootlength" class="tsd-kind-icon">get<wbr>Root<wbr>Length</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#getrootmoduledeclaration" class="tsd-kind-icon">get<wbr>Root<wbr>Module<wbr>Declaration</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getsourcefileofnode" class="tsd-kind-icon">get<wbr>Source<wbr>File<wbr>OfNode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#gettextofnode" class="tsd-kind-icon">get<wbr>Text<wbr>OfNode</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#ifcond" class="tsd-kind-icon">if<wbr>Cond</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#ifsignature" class="tsd-kind-icon">if<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isbindingpattern" class="tsd-kind-icon">is<wbr>Binding<wbr>Pattern</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#istopmostmoduledeclaration" class="tsd-kind-icon">is<wbr>Topmost<wbr>Module<wbr>Declaration</a>
@@ -1004,6 +1014,9 @@ $ typedoc
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#normalizepath" class="tsd-kind-icon">normalize<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#normalizeslashes" class="tsd-kind-icon">normalize<wbr>Slashes</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#offapi" class="tsd-kind-icon">off<wbr>Api</a>
@@ -1022,15 +1035,6 @@ $ typedoc
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#resetreflectionid" class="tsd-kind-icon">reset<wbr>ReflectionID</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#setimmediate" class="tsd-kind-icon">set<wbr>Immediate</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#setinterval" class="tsd-kind-icon">set<wbr>Interval</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#settimeout" class="tsd-kind-icon">set<wbr>Timeout</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#setupdeclaration" class="tsd-kind-icon">setup<wbr>Declaration</a>
@@ -1112,7 +1116,7 @@ $ typedoc
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>

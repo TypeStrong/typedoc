@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script src="../assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -107,6 +106,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#islabel" class="tsd-kind-icon">is<wbr>Label</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#isvisible" class="tsd-kind-icon">is<wbr>Visible</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#reflection" class="tsd-kind-icon">reflection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#title" class="tsd-kind-icon">title</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="navigationitem.html#url" class="tsd-kind-icon">url</a></li>
 							</ul>
@@ -126,13 +126,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Navigation<wbr>Item<span class="tsd-signature-symbol">(</span>title<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, parent<span class="tsd-signature-symbol">?: </span><a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a>, cssClasses<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Navigation<wbr>Item<span class="tsd-signature-symbol">(</span>title<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, parent<span class="tsd-signature-symbol">?: </span><a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a>, cssClasses<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, reflection<span class="tsd-signature-symbol">?: </span><a href="reflection.html" class="tsd-signature-type">Reflection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L66">src/lib/output/models/NavigationItem.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L69">output/models/NavigationItem.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,6 +174,14 @@
 										</div>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> reflection: <a href="reflection.html" class="tsd-signature-type">Reflection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The source [Reflection] for this [NavigationItem]</p>
+										</div>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a></h4>
 						</li>
@@ -188,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L36">src/lib/output/models/NavigationItem.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L34">output/models/NavigationItem.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">css<wbr>Classes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L41">src/lib/output/models/NavigationItem.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L39">output/models/NavigationItem.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -218,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">dedicated<wbr>Urls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L26">src/lib/output/models/NavigationItem.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L24">output/models/NavigationItem.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,7 +241,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Current<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L56">src/lib/output/models/NavigationItem.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L54">output/models/NavigationItem.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -248,7 +256,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Globals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L61">src/lib/output/models/NavigationItem.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L59">output/models/NavigationItem.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -263,7 +271,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>InPath<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L66">src/lib/output/models/NavigationItem.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L64">output/models/NavigationItem.ts:64</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -278,7 +286,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L46">src/lib/output/models/NavigationItem.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L44">output/models/NavigationItem.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -293,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Visible<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L51">src/lib/output/models/NavigationItem.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L49">output/models/NavigationItem.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,7 +316,7 @@
 					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="navigationitem.html" class="tsd-signature-type">NavigationItem</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L31">src/lib/output/models/NavigationItem.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L29">output/models/NavigationItem.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -318,12 +326,27 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="reflection" class="tsd-anchor"></a>
+					<h3>reflection</h3>
+					<div class="tsd-signature tsd-kind-icon">reflection<span class="tsd-signature-symbol">:</span> <a href="reflection.html" class="tsd-signature-type">Reflection</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L69">output/models/NavigationItem.ts:69</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The source [Reflection] this item is built from</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="title" class="tsd-anchor"></a>
 					<h3>title</h3>
 					<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L16">src/lib/output/models/NavigationItem.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L14">output/models/NavigationItem.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -338,7 +361,7 @@
 					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L21">src/lib/output/models/NavigationItem.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L19">output/models/NavigationItem.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -360,7 +383,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/output/models/NavigationItem.ts#L102">src/lib/output/models/NavigationItem.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/output/models/NavigationItem.ts#L106">output/models/NavigationItem.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,6 +464,9 @@
 								<a href="navigationitem.html#parent" class="tsd-kind-icon">parent</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="navigationitem.html#reflection" class="tsd-kind-icon">reflection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="navigationitem.html#title" class="tsd-kind-icon">title</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -518,7 +544,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

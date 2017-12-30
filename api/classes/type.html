@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script src="../assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -82,7 +81,13 @@
 						<span class="target">Type</span>
 						<ul class="tsd-hierarchy">
 							<li>
+								<a href="arraytype.html" class="tsd-signature-type">ArrayType</a>
+							</li>
+							<li>
 								<a href="intrinsictype.html" class="tsd-signature-type">IntrinsicType</a>
+							</li>
+							<li>
+								<a href="intersectiontype.html" class="tsd-signature-type">IntersectionType</a>
 							</li>
 							<li>
 								<a href="referencetype.html" class="tsd-signature-type">ReferenceType</a>
@@ -95,6 +100,9 @@
 							</li>
 							<li>
 								<a href="tupletype.html" class="tsd-signature-type">TupleType</a>
+							</li>
+							<li>
+								<a href="typeoperatortype.html" class="tsd-signature-type">TypeOperatorType</a>
 							</li>
 							<li>
 								<a href="typeparametertype.html" class="tsd-signature-type">TypeParameterType</a>
@@ -116,7 +124,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="type.html#isarray" class="tsd-kind-icon">is<wbr>Array</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="type.html#type-1" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -136,17 +144,17 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="isarray" class="tsd-anchor"></a>
-					<h3>is<wbr>Array</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<a name="type-1" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;void&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L11">src/lib/models/types/abstract.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L11">models/types/abstract.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Is this an array type?</p>
+							<p>The type name identifier.</p>
 						</div>
 					</div>
 				</section>
@@ -163,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L20">src/lib/models/types/abstract.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L18">models/types/abstract.ts:18</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L29">src/lib/models/types/abstract.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L26">models/types/abstract.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,13 +226,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L37">src/lib/models/types/abstract.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L34">models/types/abstract.ts:34</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return a raw object representation of this type.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>Use serializers instead</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
@@ -240,7 +253,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L52">src/lib/models/types/abstract.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L44">models/types/abstract.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +275,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L84">src/lib/models/types/abstract.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L78">models/types/abstract.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -295,7 +308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/types/abstract.ts#L63">src/lib/models/types/abstract.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/types/abstract.ts#L54">models/types/abstract.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,7 +349,7 @@
 						<a href="type.html" class="tsd-kind-icon">Type</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="type.html#isarray" class="tsd-kind-icon">is<wbr>Array</a>
+								<a href="type.html#type-1" class="tsd-kind-icon">type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="type.html#clone" class="tsd-kind-icon">clone</a>
@@ -425,7 +438,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -7,7 +7,6 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script src="../assets/js/modernizr.js"></script>
 </head>
 <body>
 <header>
@@ -103,6 +102,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#anchor" class="tsd-kind-icon">anchor</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="projectreflection.html#categories" class="tsd-kind-icon">categories</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#children" class="tsd-kind-icon">children</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#comment" class="tsd-kind-icon">comment</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#cssclasses" class="tsd-kind-icon">css<wbr>Classes</a></li>
@@ -141,7 +141,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="projectreflection.html#isproject" class="tsd-kind-icon">is<wbr>Project</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#kindof" class="tsd-kind-icon">kind<wbr>Of</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="projectreflection.html#toobject" class="tsd-kind-icon">to<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="projectreflection.html#toobject" class="tsd-kind-icon">to<wbr>Object</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="projectreflection.html#tostringhierarchy" class="tsd-kind-icon">to<wbr>String<wbr>Hierarchy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="projectreflection.html#traverse" class="tsd-kind-icon">traverse</a></li>
@@ -161,9 +161,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#constructor">constructor</a></p>
+								<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L47">src/lib/models/reflections/project.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L50">models/reflections/project.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,12 +196,28 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#anchor">anchor</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L287">src/lib/models/reflections/abstract.ts:287</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L277">models/reflections/abstract.ts:277</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The name of the anchor of this child.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+					<a name="categories" class="tsd-anchor"></a>
+					<h3>categories</h3>
+					<div class="tsd-signature tsd-kind-icon">categories<span class="tsd-signature-symbol">:</span> <a href="reflectioncategory.html" class="tsd-signature-type">ReflectionCategory</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#categories">categories</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L33">models/reflections/project.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All reflections categorized.</p>
 						</div>
 					</div>
 				</section>
@@ -212,7 +228,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#children">children</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/container.ts#L11">src/lib/models/reflections/container.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/container.ts#L10">models/reflections/container.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -228,7 +244,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#comment">comment</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L262">src/lib/models/reflections/abstract.ts:262</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L252">models/reflections/abstract.ts:252</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -244,7 +260,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#cssclasses">cssClasses</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L300">src/lib/models/reflections/abstract.ts:300</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L290">models/reflections/abstract.ts:290</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -261,7 +277,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#decorates">decorates</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L277">src/lib/models/reflections/abstract.ts:277</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L267">models/reflections/abstract.ts:267</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -273,11 +289,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="decorators" class="tsd-anchor"></a>
 					<h3>decorators</h3>
-					<div class="tsd-signature tsd-kind-icon">decorators<span class="tsd-signature-symbol">:</span> <a href="../interfaces/idecorator.html" class="tsd-signature-type">IDecorator</a><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">decorators<span class="tsd-signature-symbol">:</span> <a href="../interfaces/decorator.html" class="tsd-signature-type">Decorator</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#decorators">decorators</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L272">src/lib/models/reflections/abstract.ts:272</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L262">models/reflections/abstract.ts:262</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -292,7 +308,7 @@
 					<div class="tsd-signature tsd-kind-icon">directory<span class="tsd-signature-symbol">:</span> <a href="sourcedirectory.html" class="tsd-signature-type">SourceDirectory</a><span class="tsd-signature-symbol"> =&nbsp;new SourceDirectory()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L25">src/lib/models/reflections/project.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L23">models/reflections/project.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -307,7 +323,7 @@
 					<div class="tsd-signature tsd-kind-icon">files<span class="tsd-signature-symbol">:</span> <a href="sourcefile.html" class="tsd-signature-type">SourceFile</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L30">src/lib/models/reflections/project.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L28">models/reflections/project.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -319,11 +335,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="flags" class="tsd-anchor"></a>
 					<h3>flags</h3>
-					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <a href="../interfaces/ireflectionflags.html" class="tsd-signature-type">IReflectionFlags</a><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <a href="../interfaces/reflectionflags.html" class="tsd-signature-type">ReflectionFlags</a><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#flags">flags</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L252">src/lib/models/reflections/abstract.ts:252</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L242">models/reflections/abstract.ts:242</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -334,7 +350,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#groups">groups</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/container.ts#L16">src/lib/models/reflections/container.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/container.ts#L15">models/reflections/container.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -350,7 +366,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#hasowndocument">hasOwnDocument</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L294">src/lib/models/reflections/abstract.ts:294</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L284">models/reflections/abstract.ts:284</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -367,7 +383,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L230">src/lib/models/reflections/abstract.ts:230</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L220">models/reflections/abstract.ts:220</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -383,7 +399,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#kind">kind</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L245">src/lib/models/reflections/abstract.ts:245</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L235">models/reflections/abstract.ts:235</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -399,7 +415,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#kindstring">kindString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L250">src/lib/models/reflections/abstract.ts:250</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L240">models/reflections/abstract.ts:240</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -413,9 +429,9 @@
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#name">name</a></p>
+						<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L37">src/lib/models/reflections/project.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L40">models/reflections/project.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -432,7 +448,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#originalname">originalName</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L240">src/lib/models/reflections/abstract.ts:240</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L230">models/reflections/abstract.ts:230</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -447,7 +463,7 @@
 					<div class="tsd-signature tsd-kind-icon">package<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L47">src/lib/models/reflections/project.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L50">models/reflections/project.ts:50</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -463,7 +479,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#parent">parent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L257">src/lib/models/reflections/abstract.ts:257</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L247">models/reflections/abstract.ts:247</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -478,7 +494,7 @@
 					<div class="tsd-signature tsd-kind-icon">readme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L42">src/lib/models/reflections/project.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L45">models/reflections/project.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -493,7 +509,7 @@
 					<div class="tsd-signature tsd-kind-icon">reflections<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L18">src/lib/models/reflections/project.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L16">models/reflections/project.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -513,11 +529,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="sources" class="tsd-anchor"></a>
 					<h3>sources</h3>
-					<div class="tsd-signature tsd-kind-icon">sources<span class="tsd-signature-symbol">:</span> <a href="../interfaces/isourcereference.html" class="tsd-signature-type">ISourceReference</a><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">sources<span class="tsd-signature-symbol">:</span> <a href="../interfaces/sourcereference.html" class="tsd-signature-type">SourceReference</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#sources">sources</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L267">src/lib/models/reflections/abstract.ts:267</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L257">models/reflections/abstract.ts:257</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -532,7 +548,7 @@
 					<div class="tsd-signature tsd-kind-icon">symbol<wbr>Mapping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L20">src/lib/models/reflections/project.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L18">models/reflections/project.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -551,7 +567,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#url">url</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L282">src/lib/models/reflections/abstract.ts:282</a></li>
+							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L272">models/reflections/abstract.ts:272</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -573,9 +589,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#findreflectionbyname">findReflectionByName</a></p>
+								<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#findreflectionbyname">findReflectionByName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L90">src/lib/models/reflections/project.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L89">models/reflections/project.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -597,9 +613,9 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#findreflectionbyname">findReflectionByName</a></p>
+								<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#findreflectionbyname">findReflectionByName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L95">src/lib/models/reflections/project.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L94">models/reflections/project.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -632,7 +648,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#getalias">getAlias</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L442">src/lib/models/reflections/abstract.ts:442</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L435">models/reflections/abstract.ts:435</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -656,7 +672,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#getchildbyname">getChildByName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L487">src/lib/models/reflections/abstract.ts:487</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L479">models/reflections/abstract.ts:479</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -680,7 +696,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#getchildbyname">getChildByName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L492">src/lib/models/reflections/abstract.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L484">models/reflections/abstract.ts:484</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -713,7 +729,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#getchildrenbykind">getChildrenByKind</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/container.ts#L26">src/lib/models/reflections/container.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/container.ts#L28">models/reflections/container.ts:28</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -746,7 +762,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#getfullname">getFullName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L360">src/lib/models/reflections/abstract.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L346">models/reflections/abstract.ts:346</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -779,7 +795,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L74">src/lib/models/reflections/project.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L74">models/reflections/project.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -812,7 +828,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#hascomment">hasComment</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L474">src/lib/models/reflections/abstract.ts:474</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L468">models/reflections/abstract.ts:468</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -836,7 +852,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#hasgetterorsetter">hasGetterOrSetter</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L479">src/lib/models/reflections/abstract.ts:479</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L472">models/reflections/abstract.ts:472</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -852,9 +868,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#isproject">isProject</a></p>
+								<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#isproject">isProject</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/project.ts#L63">src/lib/models/reflections/project.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L64">models/reflections/project.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -878,7 +894,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#kindof">kindOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L328">src/lib/models/reflections/abstract.ts:328</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L315">models/reflections/abstract.ts:315</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -901,7 +917,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#kindof">kindOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L333">src/lib/models/reflections/abstract.ts:333</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L320">models/reflections/abstract.ts:320</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -933,7 +949,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#setflag">setFlag</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L372">src/lib/models/reflections/abstract.ts:372</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L357">models/reflections/abstract.ts:357</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -954,25 +970,29 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="toobject" class="tsd-anchor"></a>
 					<h3>to<wbr>Object</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">to<wbr>Object<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#toobject">toObject</a></p>
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#toobject">toObject</a></p>
+								<p>Overrides <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#toobject">toObject</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/container.ts#L58">src/lib/models/reflections/container.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/project.ts#L131">models/reflections/project.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Return a raw object representation of this reflection.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>Use serializers instead</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
@@ -989,7 +1009,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L617">src/lib/models/reflections/abstract.ts:617</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L618">models/reflections/abstract.ts:618</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1012,7 +1032,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="reflection.html">Reflection</a>.<a href="reflection.html#tostringhierarchy">toStringHierarchy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/abstract.ts#L627">src/lib/models/reflections/abstract.ts:627</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/abstract.ts#L627">models/reflections/abstract.ts:627</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1037,15 +1057,15 @@
 					<a name="traverse" class="tsd-anchor"></a>
 					<h3>traverse</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">traverse<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/itraversecallback.html" class="tsd-signature-type">ITraverseCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">traverse<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><a href="../interfaces/traversecallback.html" class="tsd-signature-type">TraverseCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="containerreflection.html">ContainerReflection</a>.<a href="containerreflection.html#traverse">traverse</a></p>
-								<p>Overwrites <a href="reflection.html">Reflection</a>.<a href="reflection.html#traverse">traverse</a></p>
+								<p>Overrides <a href="reflection.html">Reflection</a>.<a href="reflection.html#traverse">traverse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/fa87b1c/src/lib/models/reflections/container.ts#L46">src/lib/models/reflections/container.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/38e33ff/src/lib/models/reflections/container.ts#L47">models/reflections/container.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1058,7 +1078,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callback: <a href="../interfaces/itraversecallback.html" class="tsd-signature-type">ITraverseCallback</a></h5>
+									<h5>callback: <a href="../interfaces/traversecallback.html" class="tsd-signature-type">TraverseCallback</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The callback function that should be applied for each child reflection.</p>
 									</div>
@@ -1090,6 +1110,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="projectreflection.html#anchor" class="tsd-kind-icon">anchor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+								<a href="projectreflection.html#categories" class="tsd-kind-icon">categories</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="projectreflection.html#children" class="tsd-kind-icon">children</a>
@@ -1190,7 +1213,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="projectreflection.html#setflag" class="tsd-kind-icon">set<wbr>Flag</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="projectreflection.html#toobject" class="tsd-kind-icon">to<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1271,7 +1294,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
