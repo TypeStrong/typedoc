@@ -16,7 +16,7 @@ sass:
   style: compressed
 
 include:
-  - *.html # Needed to include files that start with underscore
+  - "*.html" # Needed to include files that start with underscore
 
 exclude:
   - images/edit
