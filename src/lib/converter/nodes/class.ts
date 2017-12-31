@@ -41,8 +41,8 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     const modifiers = ts.getCombinedModifierFlags(member);
                     const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
                     const protectedMember = (modifiers & ts.ModifierFlags.Protected) > 0;
-                    let exclude = context.converter.excludePrivate ? privateMember : false;
-                    exclude = exclude || (context.converter.excludeProtected ? protectedMember : false);
+                    const exclude = (context.converter.excludePrivate && privateMember)
+                        || (context.converter.excludeProtected && protectedMember);
 
                     if (!exclude) {
                         this.owner.convertNode(context, member);
