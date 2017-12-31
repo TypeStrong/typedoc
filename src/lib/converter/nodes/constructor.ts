@@ -73,6 +73,11 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
             return;
         }
 
+        const protectedParameter = modifiers & ts.ModifierFlags.Protected;
+        if (protectedParameter && context.converter.excludeProtected) {
+            return;
+        }
+
         const property = createDeclaration(context, parameter, ReflectionKind.Property);
         if (!property) {
             return;

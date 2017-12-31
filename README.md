@@ -67,6 +67,8 @@ in order to change the behaviour of TypeDoc.
   Prevent externally resolved TypeScript files from being documented.
 * `--excludePrivate`<br>
   Prevent private members from being included in the generated documentation.
+* `--excludeProtected`<br>
+  Prevent protected members from being included in the generated documentation.
 
 #### TypeScript compiler
 * `--module <commonjs, amd, system or umd>`<br>
