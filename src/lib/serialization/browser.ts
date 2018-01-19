@@ -205,7 +205,19 @@ export interface TypeObject {
   /**
    * The type name identifier.
    */
-  type: 'void' | 'array' | 'intersection' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'tuple' | 'typeParameter' | 'union' | 'unknown' | string;
+  type:
+      | 'void'
+      | 'array'
+      | 'intersection'
+      | 'intrinsic'
+      | 'reference'
+      | 'reflection'
+      | 'stringLiteral'
+      | 'tuple'
+      | 'typeParameter'
+      | 'union'
+      | 'unknown'
+      | string;
 
   // array
   /**
