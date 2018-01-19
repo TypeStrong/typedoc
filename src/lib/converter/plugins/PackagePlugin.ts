@@ -20,7 +20,8 @@ import { Option } from '../../utils/component';
 export class PackagePlugin extends ConverterComponent {
     @Option({
         name: 'readme',
-        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
+        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index ' +
+              'page and start the documentation on the globals page.'
     })
     readme: string;
 

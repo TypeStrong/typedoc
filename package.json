@@ -12,6 +12,11 @@
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
   },
+  "contributors": [
+    {
+      "name": "Andre Loker"
+    }
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -46,7 +51,7 @@
     "progress": "^2.0.0",
     "shelljs": "^0.7.0",
     "typedoc-default-themes": "^0.5.0",
-    "typescript": "2.5.3"
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.39",
