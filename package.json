@@ -61,7 +61,7 @@
     "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.1",
     "mocha": "^4.0.0",
-    "tslint": "^5.1.0"
+    "tslint": "^5.9.1"
   },
   "files": [
     "bin",
