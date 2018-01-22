@@ -45,6 +45,10 @@ interface EventIteratee<T, U> {
     (events: U, name: string, callback: Function, options: T): U;
 }
 
+interface EventTriggerer {
+    (events: EventHandler[], args: any[]): void;
+}
+
 interface OnApiOptions {
     context: any;
     ctx: any;
@@ -199,7 +203,7 @@ function onceMap(map: EventMap, name: string, callback: EventCallback, offer: Fu
 /**
  * Handles triggering the appropriate event callbacks.
  */
-function triggerApi(objEvents: EventHandlers, name: string, callback: Function, args: any[], triggerer: {(events: EventHandler[], args: any[]): void} = triggerEvents): EventHandlers {
+function triggerApi(objEvents: EventHandlers, name: string, callback: Function, args: any[], triggerer: EventTriggerer = triggerEvents): EventHandlers {
     if (objEvents) {
         const events = objEvents[name];
         let allEvents = objEvents['all'];
