@@ -11,7 +11,7 @@
 		"interface-name": [ true, "never-prefix" ],
 		"jsdoc-format": true,
 		"label-position": true,
-		"max-line-length": 120,
+		"max-line-length": [true, 170],
 		"member-access": false,
 		"member-ordering": false,
 		"no-any": false,
