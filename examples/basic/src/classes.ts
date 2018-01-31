@@ -55,7 +55,7 @@ export abstract class BaseClass implements INameInterface
     /**
      * This is a simple public member.
      */
-    public abstract name:string;
+    public name:string;
 
     /**
      * This is a simple protected member.
