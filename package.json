@@ -41,10 +41,10 @@
     "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
     "lodash": "^4.13.1",
-    "marked": "^0.3.5",
+    "marked": "^0.3.12",
     "minimatch": "^3.0.0",
     "progress": "^2.0.0",
-    "shelljs": "^0.7.0",
+    "shelljs": "^0.8.1",
     "typedoc-default-themes": "^0.5.0",
     "typescript": "2.5.3"
   },
@@ -60,7 +60,7 @@
     "grunt-ts": "^5.5.1",
     "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.1",
-    "mocha": "^4.0.0",
+    "mocha": "^5.0.0",
     "tslint": "^5.9.1"
   },
   "files": [
