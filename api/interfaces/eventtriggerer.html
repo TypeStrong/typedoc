@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PrettyPrintState | TypeDoc Documentation</title>
+	<title>EventTriggerer | TypeDoc Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,85 +56,48 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="prettyprintstate.html">PrettyPrintState</a>
+					<a href="eventtriggerer.html">EventTriggerer</a>
 				</li>
 			</ul>
-			<h1>Enumeration PrettyPrintState</h1>
+			<h1>Interface EventTriggerer</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>List of states the parser of <a href="../classes/prettyprintplugin.html">PrettyPrintPlugin</a> can be in.</p>
-					</div>
-				</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">EventTriggerer</span>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Enumeration members</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported"><a href="prettyprintstate.html#comment" class="tsd-kind-icon">Comment</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported"><a href="prettyprintstate.html#default" class="tsd-kind-icon">Default</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported"><a href="prettyprintstate.html#pre" class="tsd-kind-icon">Pre</a></li>
+			<section class="tsd-panel">
+				<h3 class="tsd-before-signature">Callable</h3>
+				<ul class="tsd-signatures tsd-kind-interface tsd-is-not-exported">
+					<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>events<span class="tsd-signature-symbol">: </span><a href="eventhandler.html" class="tsd-signature-type">EventHandler</a><span class="tsd-signature-symbol">[]</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/3581d04/src/lib/utils/events.ts#L48">utils/events.ts:48</a></li>
 							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-					<a name="comment" class="tsd-anchor"></a>
-					<h3>Comment</h3>
-					<div class="tsd-signature tsd-kind-icon">Comment<span class="tsd-signature-symbol">:</span> </div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/3581d04/src/lib/output/plugins/PrettyPrintPlugin.ts#L16">output/plugins/PrettyPrintPlugin.ts:16</a></li>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>events: <a href="eventhandler.html" class="tsd-signature-type">EventHandler</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li>
+								<h5>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
 						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Comment state, the parser waits for a comment closing tag.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-					<a name="default" class="tsd-anchor"></a>
-					<h3>Default</h3>
-					<div class="tsd-signature tsd-kind-icon">Default<span class="tsd-signature-symbol">:</span> </div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/3581d04/src/lib/output/plugins/PrettyPrintPlugin.ts#L11">output/plugins/PrettyPrintPlugin.ts:11</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Default state of the parser. Empty lines will be removed and indention will be adjusted.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-					<a name="pre" class="tsd-anchor"></a>
-					<h3>Pre</h3>
-					<div class="tsd-signature tsd-kind-icon">Pre<span class="tsd-signature-symbol">:</span> </div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/TypeStrong/typedoc/blob/3581d04/src/lib/output/plugins/PrettyPrintPlugin.ts#L21">output/plugins/PrettyPrintPlugin.ts:21</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Pre state, the parser waits for the closing tag of the current pre block.</p>
-						</div>
-					</div>
-				</section>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -149,19 +112,8 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum tsd-is-not-exported">
-						<a href="prettyprintstate.html" class="tsd-kind-icon">Pretty<wbr>Print<wbr>State</a>
-						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-								<a href="prettyprintstate.html#comment" class="tsd-kind-icon">Comment</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-								<a href="prettyprintstate.html#default" class="tsd-kind-icon">Default</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-not-exported">
-								<a href="prettyprintstate.html#pre" class="tsd-kind-icon">Pre</a>
-							</li>
-						</ul>
+					<li class="current tsd-kind-interface tsd-is-not-exported">
+						<a href="eventtriggerer.html" class="tsd-kind-icon">Event<wbr>Triggerer</a>
 					</li>
 				</ul>
 				<ul class="after-current">
