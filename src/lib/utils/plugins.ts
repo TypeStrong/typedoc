@@ -11,8 +11,7 @@ export class PluginHost extends AbstractComponent<Application> {
     @Option({
         name: 'plugin',
         help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
-        type: ParameterType.String,
-        isArray: true
+        type: ParameterType.Array
     })
     plugins: string[];
 
