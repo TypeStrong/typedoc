@@ -30,13 +30,13 @@
     "node": ">= 4.2.0"
   },
   "dependencies": {
-    "@types/fs-extra": "4.0.0",
-    "@types/handlebars": "4.0.31",
-    "@types/highlight.js": "9.12.0",
-    "@types/lodash": "4.14.74",
+    "@types/fs-extra": "5.0.0",
+    "@types/handlebars": "4.0.36",
+    "@types/highlight.js": "9.12.2",
+    "@types/lodash": "4.14.99",
     "@types/marked": "0.3.0",
-    "@types/minimatch": "2.0.29",
-    "@types/shelljs": "0.7.0",
+    "@types/minimatch": "3.0.3",
+    "@types/shelljs": "0.7.7",
     "fs-extra": "^5.0.0",
     "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
@@ -49,7 +49,7 @@
     "typescript": "2.5.3"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.39",
+    "@types/mocha": "2.2.48",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
