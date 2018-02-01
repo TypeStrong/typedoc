@@ -55,7 +55,7 @@ export abstract class BaseClass implements INameInterface
     /**
      * This is a simple public member.
      */
-    public abstract name:string;
+    public name:string;
 
     /**
      * This is a simple protected member.
@@ -165,7 +165,7 @@ export abstract class BaseClass implements INameInterface
     /**
      * @see https://github.com/sebastian-lenz/typedoc/issues/42
      */
-    public static caTest(originalValues:BaseClass, newRecord:any, fieldNames:string[], mandatoryFields:string[]): string {
+    public static caTest(originalValues:BaseClass, newRecord: any, fieldNames:string[], mandatoryFields:string[]): string {
         var returnval = "";
         var updates: string[] = [];
         var allFields: string[] = fieldNames;
@@ -178,7 +178,6 @@ export abstract class BaseClass implements INameInterface
     }
 }
 
-
 /**
  * This is an internal class, it is not exported.
  */
@@ -188,7 +187,6 @@ class InternalClass<TTT extends keyof BaseClass>
 
     }
 }
-
 
 /**
  * This is a class that extends another class.
@@ -205,14 +203,12 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
      */
     public print(value:string):void { }
 
-
     /**
      * @inheritdoc
      */
     public printName():void {
         this.print(this.getName());
     }
-
 
     /**
      * Returns the name. See [[BaseClass.name]].
@@ -233,7 +229,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
         this.name = value;
     }
 
-
     /**
      * Returns the name. See [[BaseClass.name]].
      *
@@ -242,7 +237,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public get readOnlyNameProperty():string {
         return this.name;
     }
-
 
     /**
      * Sets the name. See [[BaseClass.name]].
@@ -258,7 +252,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
 
     }
 }
-
 
 /**
  * This is a class that extends another class.
@@ -281,7 +274,6 @@ export class SubClassB extends BaseClass
     }
 }
 
-
 /**
  * This is a generic class.
  *
@@ -290,7 +282,6 @@ export class SubClassB extends BaseClass
 export class GenericClass<T extends BaseClass>
 {
     public value:T;
-
 
     /**
      * Constructor short text.
@@ -304,7 +295,6 @@ export class GenericClass<T extends BaseClass>
     constructor(p1, protected p2:T, public p3:number, private p4:number, readonly p5: string) {
     }
 
-
     /**
      * @param value [[getValue]] is the counterpart.
      */
@@ -312,17 +302,14 @@ export class GenericClass<T extends BaseClass>
         this.value = value;
     }
 
-
     public getValue():T {
         return this.value;
     }
 }
 
-
 /**
  * This a non generic class derived from a [[GenericClass|generic class]].
  */
-export class NonGenericClass extends GenericClass<SubClassB>
-{
+export class NonGenericClass extends GenericClass<SubClassB> {
 
 }
