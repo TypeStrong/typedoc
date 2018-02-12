@@ -1,26 +1,22 @@
-import * as ts from "typescript";
-import * as Path from "path";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {ConverterComponent} from "../components";
-
+import { ConverterComponent } from '../components';
 
 /**
  * Return code of ts.sys.readFile when the file encoding is unsupported.
  */
 const ERROR_UNSUPPORTED_FILE_ENCODING = -2147024809;
 
-
 /**
  * CompilerHost implementation
  */
-export class CompilerHost extends ConverterComponent implements ts.CompilerHost
-{
+export class CompilerHost extends ConverterComponent implements ts.CompilerHost {
+
     /**
      * The full path of the current directory. Result cache of [[getCurrentDirectory]].
      */
-    private currentDirectory:string;
-
-
+    private currentDirectory: string;
 
     /**
      * Return an instance of ts.SourceFile representing the given file.
@@ -32,19 +28,19 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param onError  A callback that will be invoked if an error occurs.
      * @returns An instance of ts.SourceFile representing the given file.
      */
-    getSourceFile(filename:string, languageVersion:ts.ScriptTarget, onError?: (message: string) => void):ts.SourceFile {
+    getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile {
+        let text: string;
         try {
-            var text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
+            text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
         } catch (e) {
             if (onError) {
                 onError(e.number === ERROR_UNSUPPORTED_FILE_ENCODING ? 'Unsupported file encoding' : e.message);
             }
-            text = "";
+            text = '';
         }
 
         return text !== undefined ? ts.createSourceFile(filename, text, languageVersion) : undefined;
     }
-
 
     /**
      * Return the full path of the default library that should be used.
@@ -53,12 +49,14 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      *
      * @returns The full path of the default library.
      */
-    getDefaultLibFileName(options:ts.CompilerOptions):string {
-        var lib = this.owner.getDefaultLib();
-        var path = ts.getDirectoryPath(ts.normalizePath(require.resolve('typescript')));
-        return Path.join(path, lib);
+    getDefaultLibFileName(options: ts.CompilerOptions): string {
+        const libLocation = _ts.getDirectoryPath(_ts.normalizePath(ts.sys.getExecutingFilePath()));
+        return _ts.combinePaths(libLocation, ts.getDefaultLibFileName(options));
     }
 
+    getDirectories(path: string): string[] {
+        return ts.sys.getDirectories(path);
+    }
 
     /**
      * Return the full path of the current directory.
@@ -67,10 +65,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      *
      * @returns The full path of the current directory.
      */
-    getCurrentDirectory():string {
+    getCurrentDirectory(): string {
         return this.currentDirectory || (this.currentDirectory = ts.sys.getCurrentDirectory());
     }
-
 
     /**
      * Return whether file names are case sensitive on the current platform or not.
@@ -79,10 +76,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      *
      * @returns TRUE if file names are case sensitive on the current platform, FALSE otherwise.
      */
-    useCaseSensitiveFileNames():boolean {
+    useCaseSensitiveFileNames(): boolean {
         return ts.sys.useCaseSensitiveFileNames;
     }
-
 
     /**
      * Check whether the given file exists.
@@ -92,10 +88,21 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param fileName
      * @returns {boolean}
      */
-    fileExists(fileName:string):boolean {
+    fileExists(fileName: string): boolean {
         return ts.sys.fileExists(fileName);
     }
 
+    /**
+     * Check whether the given directory exists.
+     *
+     * Implementation of ts.CompilerHost.directoryExists(directoryName)
+     *
+     * @param directoryName
+     * @returns {boolean}
+     */
+    directoryExists(directoryName: string): boolean {
+        return ts.sys.directoryExists(directoryName);
+    }
 
     /**
      * Return the contents of the given file.
@@ -105,10 +112,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param fileName
      * @returns {string}
      */
-    readFile(fileName:string):string {
+    readFile(fileName: string): string {
         return ts.sys.readFile(fileName);
     }
-
 
     /**
      * Return the canonical file name of the given file.
@@ -118,10 +124,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param fileName  The file name whose canonical variant should be resolved.
      * @returns The canonical file name of the given file.
      */
-    getCanonicalFileName(fileName:string):string {
+    getCanonicalFileName(fileName: string): string {
         return ts.sys.useCaseSensitiveFileNames ? fileName : fileName.toLowerCase();
     }
-
 
     /**
      * Return the new line char sequence of the current platform.
@@ -130,10 +135,9 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      *
      * @returns The new line char sequence of the current platform.
      */
-    getNewLine():string {
+    getNewLine(): string {
         return ts.sys.newLine;
     }
-
 
     /**
      * Write a compiled javascript file to disc.
@@ -147,5 +151,5 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost
      * @param writeByteOrderMark  Whether the UTF-8 BOM should be written or not.
      * @param onError  A callback that will be invoked if an error occurs.
      */
-    writeFile(fileName:string, data:string, writeByteOrderMark:boolean, onError?:(message: string) => void) { }
+    writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void) { }
 }

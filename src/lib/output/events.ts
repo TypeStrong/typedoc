@@ -1,10 +1,9 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {Event} from "../utils/events";
-import {ProjectReflection} from "../models/reflections/project";
-import {UrlMapping} from "./models/UrlMapping";
-import {NavigationItem} from "./models/NavigationItem";
-
+import { Event } from '../utils/events';
+import { ProjectReflection } from '../models/reflections/project';
+import { UrlMapping } from './models/UrlMapping';
+import { NavigationItem } from './models/NavigationItem';
 
 /**
  * An event emitted by the [[Renderer]] class at the very beginning and
@@ -13,43 +12,40 @@ import {NavigationItem} from "./models/NavigationItem";
  * @see [[Renderer.EVENT_BEGIN]]
  * @see [[Renderer.EVENT_END]]
  */
-export class RendererEvent extends Event
-{
+export class RendererEvent extends Event {
     /**
      * The project the renderer is currently processing.
      */
-    project:ProjectReflection;
+    project: ProjectReflection;
 
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings:any;
+    settings: any;
 
     /**
      * The path of the directory the documentation should be written to.
      */
-    outputDirectory:string;
+    outputDirectory: string;
 
     /**
      * A list of all pages that should be generated.
      *
      * This list can be altered during the [[Renderer.EVENT_BEGIN]] event.
      */
-    urls:UrlMapping[];
+    urls: UrlMapping[];
 
     /**
      * Triggered before the renderer starts rendering a project.
      * @event
      */
-    static BEGIN:string = 'beginRender';
+    static BEGIN = 'beginRender';
 
     /**
      * Triggered after the renderer has written all documents.
      * @event
      */
-    static END:string = 'endRender';
-
-
+    static END = 'endRender';
 
     /**
      * Create an [[PageEvent]] event based on this event and the given url mapping.
@@ -58,8 +54,8 @@ export class RendererEvent extends Event
      * @param mapping  The mapping that defines the generated [[PageEvent]] state.
      * @returns A newly created [[PageEvent]] instance.
      */
-    public createPageEvent(mapping:UrlMapping):PageEvent {
-        var event = new PageEvent(PageEvent.BEGIN);
+    public createPageEvent(mapping: UrlMapping): PageEvent {
+        const event = new PageEvent(PageEvent.BEGIN);
         event.project      = this.project;
         event.settings     = this.settings;
         event.url          = mapping.url;
@@ -70,7 +66,6 @@ export class RendererEvent extends Event
     }
 }
 
-
 /**
  * An event emitted by the [[Renderer]] class before and after the
  * markup of a page is rendered.
@@ -80,73 +75,71 @@ export class RendererEvent extends Event
  * @see [[Renderer.EVENT_BEGIN_PAGE]]
  * @see [[Renderer.EVENT_END_PAGE]]
  */
-export class PageEvent extends Event
-{
+export class PageEvent extends Event {
     /**
      * The project the renderer is currently processing.
      */
-    project:ProjectReflection;
+    project: ProjectReflection;
 
     /**
      * The settings that have been passed to TypeDoc.
      */
-    settings:any;
+    settings: any;
 
     /**
      * The filename the page will be written to.
      */
-    filename:string;
+    filename: string;
 
     /**
      * The url this page will be located at.
      */
-    url:string;
+    url: string;
 
     /**
      * The model that should be rendered on this page.
      */
-    model:any;
+    model: any;
 
     /**
      * The template that should be used to render this page.
      */
-    template:HandlebarsTemplateDelegate;
+    template: HandlebarsTemplateDelegate;
 
     /**
      * The name of the template that should be used to render this page.
      */
-    templateName:string;
+    templateName: string;
 
     /**
      * The primary navigation structure of this page.
      */
-    navigation:NavigationItem;
+    navigation: NavigationItem;
 
     /**
      * The table of contents structure of this page.
      */
-    toc:NavigationItem;
+    toc: NavigationItem;
 
     /**
      * The final html content of this page.
      *
      * Should be rendered by layout templates and can be modifies by plugins.
      */
-    contents:string;
+    contents: string;
 
     /**
      * Triggered before a document will be rendered.
      * @event
      */
-    static BEGIN:string = 'beginPage';
+    static BEGIN = 'beginPage';
 
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      * @event
      */
-    static END:string = 'endPage';
+    static END = 'endPage';
 }
-
 
 /**
  * An event emitted by the [[MarkedPlugin]] on the [[Renderer]] after a chunk of
@@ -154,21 +147,20 @@ export class PageEvent extends Event
  *
  * @see [[MarkedPlugin.EVENT_PARSE_MARKDOWN]]
  */
-export class MarkdownEvent extends Event
-{
+export class MarkdownEvent extends Event {
     /**
      * The unparsed original text.
      */
-    originalText:string;
+    originalText: string;
 
     /**
      * The parsed output.
      */
-    parsedText:string;
+    parsedText: string;
 
     /**
      * Triggered on the renderer when this plugin parses a markdown string.
      * @event
      */
-    static PARSE:string = 'parseMarkdown';
+    static PARSE = 'parseMarkdown';
 }

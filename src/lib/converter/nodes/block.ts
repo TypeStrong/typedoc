@@ -1,30 +1,26 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {Option} from "../../utils/component";
-import {ParameterType} from "../../utils/options/declaration";
+import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { Option } from '../../utils/component';
+import { ParameterType } from '../../utils/options/declaration';
 
-
-var prefered:ts.SyntaxKind[] = [
+const prefered: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.InterfaceDeclaration,
     ts.SyntaxKind.EnumDeclaration
 ];
 
-
 export enum SourceFileMode {
     File, Modules
 }
 
-
-@Component({name:'node:block'})
-export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock>
-{
+@Component({name: 'node:block'})
+export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock> {
     @Option({
-        name: "mode",
+        name: 'mode',
         help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
         type: ParameterType.Map,
         map: {
@@ -33,17 +29,16 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         },
         defaultValue: SourceFileMode.Modules
     })
-    mode:number;
+    mode: number;
 
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.Block,
         ts.SyntaxKind.ModuleBlock,
         ts.SyntaxKind.SourceFile
     ];
-
 
     /**
      * Analyze the given class declaration node and create a suitable reflection.
@@ -52,16 +47,15 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @param node     The class declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.SourceFile|ts.Block|ts.ModuleBlock):Reflection {
-        if (node.kind == ts.SyntaxKind.SourceFile) {
-            this.convertSourceFile(context, <ts.SourceFile>node);
+    convert(context: Context, node: ts.SourceFile|ts.Block|ts.ModuleBlock): Reflection {
+        if (node.kind === ts.SyntaxKind.SourceFile) {
+            this.convertSourceFile(context, <ts.SourceFile> node);
         } else {
             this.convertStatements(context, node);
         }
 
         return context.scope;
     }
-
 
     /**
      * Analyze the given source file node and create a suitable reflection.
@@ -70,11 +64,11 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @param node     The source file node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    private convertSourceFile(context:Context, node:ts.SourceFile):Reflection {
-        var result = context.scope;
+    private convertSourceFile(context: Context, node: ts.SourceFile): Reflection {
+        let result = context.scope;
 
         context.withSourceFile(node, () => {
-            if (this.mode == SourceFileMode.Modules) {
+            if (this.mode === SourceFileMode.Modules) {
                 result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
@@ -88,13 +82,12 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         return result;
     }
 
-
-    private convertStatements(context:Context, node:ts.SourceFile|ts.Block|ts.ModuleBlock) {
+    private convertStatements(context: Context, node: ts.SourceFile|ts.Block|ts.ModuleBlock) {
         if (node.statements) {
-            var statements:ts.Statement[] = [];
+            const statements: ts.Statement[] = [];
 
             node.statements.forEach((statement) => {
-                if (prefered.indexOf(statement.kind) != -1) {
+                if (prefered.indexOf(statement.kind) !== -1) {
                     this.owner.convertNode(context, statement);
                 } else {
                     statements.push(statement);

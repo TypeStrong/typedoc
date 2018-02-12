@@ -1,20 +1,17 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind} from "../../models/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import { Reflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
-
-@Component({name:'node:literal-type'})
-export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralNode>
-{
+@Component({name: 'node:literal-type'})
+export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralNode> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.TypeLiteral
     ];
-
 
     /**
      * Analyze the given type literal node and create a suitable reflection.
@@ -23,7 +20,7 @@ export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralN
      * @param node     The type literal node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.TypeLiteralNode):Reflection {
+    convert(context: Context, node: ts.TypeLiteralNode): Reflection {
         if (node.members) {
             node.members.forEach((node) => {
                 this.owner.convertNode(context, node);

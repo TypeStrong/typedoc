@@ -1,10 +1,10 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection} from "../../models/reflections/index";
-import {Context} from "../context";
-import {Converter} from "../converter";
-import {convertDefaultValue} from "../convert-expression";
-
+import { ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection } from '../../models/reflections/index';
+import { Context } from '../context';
+import { Converter } from '../converter';
+import { convertDefaultValue } from '../convert-expression';
 
 /**
  * Create a parameter reflection for the given node.
@@ -13,18 +13,18 @@ import {convertDefaultValue} from "../convert-expression";
  * @param node  The parameter node that should be reflected.
  * @returns The newly created parameter reflection.
  */
-export function createParameter(context:Context, node:ts.ParameterDeclaration):ParameterReflection {
-    var signature = <SignatureReflection>context.scope;
+export function createParameter(context: Context, node: ts.ParameterDeclaration): ParameterReflection {
+    const signature = <SignatureReflection> context.scope;
     if (!(signature instanceof SignatureReflection)) {
         throw new Error('Expected signature reflection.');
     }
 
-    var parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
+    const parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
     context.registerReflection(parameter, node);
     context.withScope(parameter, () => {
-        if (ts.isBindingPattern(node.name)) {
+        if (_ts.isBindingPattern(node.name)) {
             parameter.type = context.converter.convertType(context, node.name);
-            parameter.name = '__namedParameters'
+            parameter.name = '__namedParameters';
         } else {
             parameter.type = context.converter.convertType(context, node.type, context.getTypeAtLocation(node));
         }
@@ -34,7 +34,9 @@ export function createParameter(context:Context, node:ts.ParameterDeclaration):P
         parameter.setFlag(ReflectionFlag.Rest, !!node.dotDotDotToken);
         parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
 
-        if (!signature.parameters) signature.parameters = [];
+        if (!signature.parameters) {
+            signature.parameters = [];
+        }
         signature.parameters.push(parameter);
     });
 

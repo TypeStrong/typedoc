@@ -1,7 +1,7 @@
-import {Reflection} from "../reflections/abstract";
-import {ReflectionGroup} from "../ReflectionGroup";
-import {SourceFile} from "./file";
-
+import { Reflection } from '../reflections/abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
+import { ReflectionGroup } from '../ReflectionGroup';
+import { SourceFile } from './file';
 
 /**
  * Exposes information about a directory containing source files.
@@ -10,40 +10,40 @@ import {SourceFile} from "./file";
  * property. Traverse through directories by utilizing the [[SourceDirectory.parent]] or
  * [[SourceDirectory.directories]] properties.
  */
-export class SourceDirectory
-{
+export class SourceDirectory {
     /**
      * The parent directory or NULL if this is a root directory.
      */
-    parent:SourceDirectory = null;
+    parent: SourceDirectory = null;
 
     /**
      * A list of all subdirectories.
      */
-    directories:{[name:string]:SourceDirectory} = {};
+    directories: {[name: string]: SourceDirectory} = {};
 
-    groups:ReflectionGroup[];
+    groups: ReflectionGroup[];
+
+    categories: ReflectionCategory[];
 
     /**
      * A list of all files in this directory.
      */
-    files:SourceFile[] = [];
+    files: SourceFile[] = [];
 
     /**
      * The name of this directory.
      */
-    name:string = null;
+    name: string = null;
 
     /**
      * The relative path from the root directory to this directory.
      */
-    dirName:string = null;
+    dirName: string = null;
 
     /**
      * The url of the page displaying the directory contents.
      */
-    url:string;
-
+    url: string;
 
     /**
      * Create a new SourceDirectory instance.
@@ -51,7 +51,7 @@ export class SourceDirectory
      * @param name  The new of directory.
      * @param parent  The parent directory instance.
      */
-    constructor(name?:string, parent?:SourceDirectory) {
+    constructor(name?: string, parent?: SourceDirectory) {
         if (name && parent) {
             this.name    = name;
             this.dirName = (parent.dirName ? parent.dirName + '/' : '') + name;
@@ -59,18 +59,19 @@ export class SourceDirectory
         }
     }
 
-
     /**
      * Return a string describing this directory and its contents.
      *
      * @param indent  Used internally for indention.
      * @returns A string representing this directory and all of its children.
      */
-    toString(indent:string = '') {
-        var res = indent + this.name;
+    toString(indent: string = '') {
+        let res = indent + this.name;
 
-        for (var key in this.directories) {
-            if (!this.directories.hasOwnProperty(key)) continue;
+        for (let key in this.directories) {
+            if (!this.directories.hasOwnProperty(key)) {
+                continue;
+            }
             res += '\n' + this.directories[key].toString(indent + '  ');
         }
 
@@ -81,15 +82,14 @@ export class SourceDirectory
         return res;
     }
 
-
     /**
      * Return a list of all reflections exposed by the files within this directory.
      *
      * @returns An aggregated list of all [[DeclarationReflection]] defined in the
      * files of this directory.
      */
-    getAllReflections():Reflection[] {
-        var reflections:Reflection[] = [];
+    getAllReflections(): Reflection[] {
+        const reflections: Reflection[] = [];
         this.files.forEach((file) => {
             reflections.push.apply(reflections, file.reflections);
         });

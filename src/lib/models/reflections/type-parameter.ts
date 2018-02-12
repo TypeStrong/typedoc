@@ -1,29 +1,26 @@
-import {Type, TypeParameterType} from "../types/index";
-import {Reflection, ReflectionKind, ITypeContainer} from "./abstract";
-import {DeclarationReflection} from "./declaration";
+import { Type, TypeParameterType } from '../types/index';
+import { Reflection, ReflectionKind, TypeContainer } from './abstract';
+import { DeclarationReflection } from './declaration';
 
+export class TypeParameterReflection extends Reflection implements TypeContainer {
+    parent: DeclarationReflection;
 
-export class TypeParameterReflection extends Reflection implements ITypeContainer
-{
-    parent:DeclarationReflection;
-
-    type:Type;
-
+    type: Type;
 
     /**
      * Create a new TypeParameterReflection instance.
      */
-    constructor(parent?:Reflection, type?:TypeParameterType) {
+    constructor(parent?: Reflection, type?: TypeParameterType) {
         super(parent, type.name, ReflectionKind.TypeParameter);
         this.type = type.constraint;
     }
 
-
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
-    toObject():any {
-        var result = super.toObject();
+    toObject(): any {
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();

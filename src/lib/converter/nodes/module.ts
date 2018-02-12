@@ -1,21 +1,18 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, ReflectionFlag, ProjectReflection} from "../../models/index";
-import {createDeclaration} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import { Reflection, ReflectionKind, ReflectionFlag, ProjectReflection } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
-
-@Component({name:'node:module'})
-export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration>
-{
+@Component({name: 'node:module'})
+export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.ModuleDeclaration
     ];
-
 
     /**
      * Analyze the given module node and create a suitable reflection.
@@ -24,14 +21,13 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
      * @param node     The module node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.ModuleDeclaration):Reflection {
-        var parent = context.scope;
-        var reflection = createDeclaration(context, node, ReflectionKind.Module);
+    convert(context: Context, node: ts.ModuleDeclaration): Reflection {
+        const parent = context.scope;
+        const reflection = createDeclaration(context, node, ReflectionKind.Module);
 
         context.withScope(reflection, () => {
-            var opt = context.getCompilerOptions();
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
-                (!opt.module || opt.module == ts.ModuleKind.None)) {
+                (!module || module.valueOf() === ts.ModuleKind.None.valueOf())) {
                 reflection.setFlag(ReflectionFlag.Exported);
             }
 

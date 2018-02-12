@@ -1,16 +1,14 @@
-import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from "../../models/reflections/index";
-import {Comment, CommentTag} from "../../models/comments/index";
-import {Component, ConverterComponent} from "../components";
-import {Converter} from "../converter";
-import {Context} from "../context";
-
+import { Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection } from '../../models/reflections/index';
+import { Comment, CommentTag } from '../../models/comments/index';
+import { Component, ConverterComponent } from '../components';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * A handler that moves comments with dot syntax to their target.
  */
-@Component({name:'deep-comment'})
-export class DeepCommentPlugin extends ConverterComponent
-{
+@Component({name: 'deep-comment'})
+export class DeepCommentPlugin extends ConverterComponent {
     /**
      * Create a new CommentHandler instance.
      */
@@ -18,50 +16,51 @@ export class DeepCommentPlugin extends ConverterComponent
         this.listenTo(this.owner, Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, 512);
     }
 
-
     /**
      * Triggered when the converter begins resolving a project.
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context:Context) {
-        var project = context.project;
-        var name:string;
-        for (var key in project.reflections) {
-            var reflection = project.reflections[key];
+    private onBeginResolve(context: Context) {
+        const project = context.project;
+        let name: string;
+        for (let key in project.reflections) {
+            const reflection = project.reflections[key];
             if (!reflection.comment) {
                 findDeepComment(reflection);
             }
         }
 
-
-        function push(parent:Reflection) {
-            var part = parent.originalName;
-            if (!part || part.substr(0, 2) == '__' || parent instanceof SignatureReflection) {
+        function push(parent: Reflection) {
+            let part = parent.originalName;
+            if (!part || part.substr(0, 2) === '__' || parent instanceof SignatureReflection) {
                 part = '';
             }
 
-            if (part && part != '') {
-                name = (name == '' ? part : part + '.' + name);
+            if (part && part !== '') {
+                name = (name === '' ? part : part + '.' + name);
             }
         }
 
-
-        function findDeepComment(reflection:Reflection) {
+        function findDeepComment(reflection: Reflection) {
             name = '';
             push(reflection);
-            var target = reflection.parent;
+            let target = reflection.parent;
 
             while (target && !(target instanceof ProjectReflection)) {
                 push(target);
                 if (target.comment) {
-                    var tag:CommentTag;
+                    let tag: CommentTag;
                     if (reflection instanceof TypeParameterReflection) {
                         tag = target.comment.getTag('typeparam', reflection.name);
-                        if (!tag) tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                        if (!tag) {
+                            tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                        }
                     }
 
-                    if (!tag) tag = target.comment.getTag('param', name);
+                    if (!tag) {
+                        tag = target.comment.getTag('param', name);
+                    }
 
                     if (tag) {
                         target.comment.tags.splice(target.comment.tags.indexOf(tag), 1);

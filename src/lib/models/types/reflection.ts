@@ -1,45 +1,42 @@
-import {DeclarationReflection} from "../reflections/declaration";
-import {Type} from "./abstract";
-
+import { DeclarationReflection } from '../reflections/declaration';
+import { Type } from './abstract';
 
 /**
  * Represents a type which has it's own reflection like literal types.
  *
  * ~~~
- * var value:{subValueA;subValueB;subValueC;};
+ * let value: {subValueA;subValueB;subValueC;};
  * ~~~
  */
-export class ReflectionType extends Type
-{
+export class ReflectionType extends Type {
     /**
      * The reflection of the type.
      */
-    declaration:DeclarationReflection;
+    declaration: DeclarationReflection;
 
-
+    /**
+     * The type name identifier.
+     */
+    readonly type: string = 'reflection';
 
     /**
      * Create a new instance of ReflectionType.
      *
      * @param declaration  The reflection of the type.
      */
-    constructor(declaration:DeclarationReflection) {
+    constructor(declaration: DeclarationReflection) {
         super();
         this.declaration = declaration;
     }
-
 
     /**
      * Clone this type.
      *
      * @return A clone of this type.
      */
-    clone():Type {
-        var clone = new ReflectionType(this.declaration);
-        clone.isArray = this.isArray;
-        return clone;
+    clone(): Type {
+        return new ReflectionType(this.declaration);
     }
-
 
     /**
      * Test whether this type equals the given type.
@@ -47,17 +44,16 @@ export class ReflectionType extends Type
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type:ReflectionType):boolean {
-        return type == this;
+    equals(type: ReflectionType): boolean {
+        return type === this;
     }
-
 
     /**
      * Return a raw object representation of this type.
+     * @deprecated Use serializers instead
      */
-    toObject():any {
-        var result:any = super.toObject();
-        result.type = 'reflection';
+    toObject(): any {
+        const result: any = super.toObject();
 
         if (this.declaration) {
             result.declaration = this.declaration.toObject();
@@ -65,7 +61,6 @@ export class ReflectionType extends Type
 
         return result;
     }
-
 
     /**
      * Return a string representation of this type.

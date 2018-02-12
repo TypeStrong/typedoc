@@ -11,21 +11,20 @@ var highlight = require("highlight.js");
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
 
-import * as Path from "path";
-import * as FS from "fs";
-import * as Util from "util";
-import * as typescript from "typescript";
-import { Minimatch, IMinimatch } from "minimatch";
+import * as Path from 'path';
+import * as FS from 'fs';
+import * as typescript from 'typescript';
+import { Minimatch, IMinimatch } from 'minimatch';
 
-import { Converter } from "./converter/index";
-import { Renderer } from "./output/renderer";
-import { ProjectReflection } from "./models/index";
-import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from "./utils/index";
+import { Converter } from './converter/index';
+import { Renderer } from './output/renderer';
+import { Serializer } from './serialization';
+import { ProjectReflection } from './models/index';
+import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
-import { AbstractComponent, ChildableComponent, Component, Option } from "./utils/component";
-import { Options, OptionsReadMode, IOptionsReadResult } from "./utils/options/index"
+import { AbstractComponent, ChildableComponent, Component, Option } from './utils/component';
+import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
 import { ParameterType } from './utils/options/declaration';
-
 
 /**
  * The default TypeDoc main application class.
@@ -41,9 +40,8 @@ import { ParameterType } from './utils/options/declaration';
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({ name: "application", internal: true })
-export class Application extends ChildableComponent<Application, AbstractComponent<Application>>
-{
+@Component({name: 'application', internal: true})
+export class Application extends ChildableComponent<Application, AbstractComponent<Application>> {
     options: Options;
 
     /**
@@ -55,6 +53,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * The renderer used to generate the documentation output.
      */
     renderer: Renderer;
+
+    /**
+     * The serializer used to generate JSON output.
+     */
+    serializer: Serializer;
 
     /**
      * The logger that should be used to output messages.
@@ -69,9 +72,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         name: 'logger',
         help: 'Specify the logger that should be used, \'none\' or \'console\'',
         defaultValue: 'console',
-        type: ParameterType.Mixed,
+        type: ParameterType.Mixed
     })
-    loggerType: string | Function;
+    loggerType: string|Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
@@ -82,18 +85,16 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     @Option({
         name: 'exclude',
-        help: 'Define a pattern for excluded files when specifying paths.',
-        type: ParameterType.String
+        help: 'Define patterns for excluded files when specifying paths.',
+        type: ParameterType.Array
     })
-    exclude: string;
+    exclude: Array<string>;
 
 
     /**
      * The version number of TypeDoc.
      */
-    static VERSION: string = '{{ VERSION }}';
-
-
+    static VERSION = '{{ VERSION }}';
 
     /**
      * Create a new TypeDoc application instance.
@@ -103,30 +104,30 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     constructor(options?: Object) {
         super(null);
 
-        this.logger = new ConsoleLogger();
-        this.converter = this.addComponent('converter', Converter);
-        this.renderer = this.addComponent('renderer', Renderer);
-        this.plugins = this.addComponent('plugins', PluginHost);
-        this.options = this.addComponent('options', Options);
+        this.logger    = new ConsoleLogger();
+        this.converter = this.addComponent<Converter>('converter', Converter);
+        this.serializer = this.addComponent<Serializer>('serializer', Serializer);
+        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
+        this.plugins   = this.addComponent('plugins', PluginHost);
+        this.options   = this.addComponent('options', Options);
 
         this.bootstrap(options);
 
         this.notSupportedFeaturesConfig = (<any>options).notSupportedFeaturesConfig
     }
 
-
     /**
      * Initialize TypeDoc with the given options object.
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?: Object): IOptionsReadResult {
+    protected bootstrap(options?: Object): OptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
-        var logger = this.loggerType;
-        if (typeof logger == 'function') {
-            this.logger = new CallbackLogger(<any>logger);
-        } else if (logger == 'none') {
+        const logger = this.loggerType;
+        if (typeof logger === 'function') {
+            this.logger = new CallbackLogger(<any> logger);
+        } else if (logger === 'none') {
             this.logger = new Logger();
         }
 
@@ -134,19 +135,16 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return this.options.read(options, OptionsReadMode.Fetch);
     }
 
-
     /**
      * Return the application / root component instance.
      */
     get application(): Application {
-        return this
+        return this;
     }
-
 
     get isCLI(): boolean {
         return false;
     }
-
 
     /**
      * Return the path to the TypeScript compiler.
@@ -155,13 +153,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return Path.dirname(require.resolve('typescript'));
     }
 
-
     public getTypeScriptVersion(): string {
-        var tsPath = this.getTypeScriptPath();
-        var json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
+        const tsPath = this.getTypeScriptPath();
+        const json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
         return json.version;
     }
-
 
     /**
      * Run the converter for the given set of files and return the generated reflections.
@@ -172,7 +168,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     public convert(src: string[]): ProjectReflection {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
-        var result = this.converter.convert(src);
+        const result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
             this.logger.diagnostics(result.errors);
             if (this.ignoreCompilerErrors) {
@@ -185,7 +181,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             return result.project;
         }
     }
-
 
     /**
      * @param src  A list of source files whose documentation should be generated.
@@ -204,8 +199,10 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
     public generateDocs(input: any, out: string): boolean {
-        var project = input instanceof ProjectReflection ? input : this.convert(input);
-        if (!project) return false;
+        const project = input instanceof ProjectReflection ? input : this.convert(input);
+        if (!project) {
+            return false;
+        }
 
         out = Path.resolve(out);
         this.renderer.render(project, out);
@@ -218,16 +215,15 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         return true;
     }
 
-
     /**
      * @param src  A list of source that should be compiled and converted.
      */
-    public generateJson(src: string[], out: string, linkPrefix?: string): boolean;
+    public generateJson(src: string[], out: string): boolean;
 
     /**
      * @param project  The project that should be converted.
      */
-    public generateJson(project: ProjectReflection, out: string, linkPrefix?: string): boolean;
+    public generateJson(project: ProjectReflection, out: string): boolean;
 
     /**
      * Run the converter for the given set of files and write the reflections to a json file.
@@ -235,14 +231,16 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input: any, out: string, linkPrefix?: string): boolean {
-        var project = input instanceof ProjectReflection ? input : this.convert(input);
-        if (!project) return false;
+    public generateJson(input: any, out: string): boolean {
+        const project = input instanceof ProjectReflection ? input : this.convert(input);
+        if (!project) {
+            return false;
+        }
 
         out = Path.resolve(out);
-        var obj = project.toObject();
-
-        writeFile(out, JSON.stringify(this.prettifyJson(obj.children, project, linkPrefix), null, '\t'), false);
+        const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
+        const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
+        writeFile(out, JSON.stringify(ser, null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
@@ -345,18 +343,20 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles?: string[]): string[] {
-        var exclude: IMinimatch, files: string[] = [];
-        if (this.exclude) {
-            exclude = new Minimatch(this.exclude);
+        let files: string[] = [];
+        const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern)) : [];
+
+        function isExcluded(fileName: string): boolean {
+            return exclude.some(mm => mm.match(fileName));
         }
 
         function add(dirname: string) {
             FS.readdirSync(dirname).forEach((file) => {
-                var realpath = Path.join(dirname, file);
+                const realpath = Path.join(dirname, file);
                 if (FS.statSync(realpath).isDirectory()) {
                     add(realpath);
                 } else if (/\.tsx?$/.test(realpath)) {
-                    if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                    if (isExcluded(realpath.replace(/\\/g, '/'))) {
                         return;
                     }
 
@@ -369,14 +369,13 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             file = Path.resolve(file);
             if (FS.statSync(file).isDirectory()) {
                 add(file);
-            } else {
+            } else if (!isExcluded(file)) {
                 files.push(file);
             }
         });
 
         return files;
     }
-
 
     /**
      * Print the version number.

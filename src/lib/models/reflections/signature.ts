@@ -1,51 +1,48 @@
-import {Type, ReflectionType} from "../types/index";
-import {Reflection, ITypeContainer, ITypeParameterContainer, TraverseProperty, ITraverseCallback} from "./abstract";
-import {ContainerReflection} from "./container";
-import {ParameterReflection} from "./parameter";
-import {TypeParameterReflection} from "./type-parameter";
+import { Type, ReflectionType } from '../types/index';
+import { Reflection, TypeContainer, TypeParameterContainer, TraverseProperty, TraverseCallback } from './abstract';
+import { ContainerReflection } from './container';
+import { ParameterReflection } from './parameter';
+import { TypeParameterReflection } from './type-parameter';
 
+export class SignatureReflection extends Reflection implements TypeContainer, TypeParameterContainer {
+    parent: ContainerReflection;
 
-export class SignatureReflection extends Reflection implements ITypeContainer, ITypeParameterContainer
-{
-    parent:ContainerReflection;
+    parameters: ParameterReflection[];
 
-    parameters:ParameterReflection[];
+    typeParameters: TypeParameterReflection[];
 
-    typeParameters:TypeParameterReflection[];
-
-    type:Type;
+    type: Type;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.
      *
      * Applies to interface and class members.
      */
-    overwrites:Type;
+    overwrites: Type;
 
     /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
      */
-    inheritedFrom:Type;
+    inheritedFrom: Type;
 
     /**
      * A type that points to the reflection this reflection is the implementation of.
      *
      * Applies to class members.
      */
-    implementationOf:Type;
-
-
+    implementationOf: Type;
 
     /**
      * Return an array of the parameter types.
      */
-    getParameterTypes():Type[] {
-        if (!this.parameters) return [];
-        return this.parameters.map((parameter:ParameterReflection) => parameter.type);
+    getParameterTypes(): Type[] {
+        if (!this.parameters) {
+            return [];
+        }
+        return this.parameters.map((parameter: ParameterReflection) => parameter.type);
     }
-
 
     /**
      * Traverse all potential child reflections of this reflection.
@@ -55,28 +52,28 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback:ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
         }
 
         if (this.typeParameters) {
-            this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
         }
 
         if (this.parameters) {
-            this.parameters.forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
+            this.parameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
         }
 
         super.traverse(callback);
     }
 
-
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
-    toObject():any {
-        var result = super.toObject();
+    toObject(): any {
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();
@@ -97,15 +94,14 @@ export class SignatureReflection extends Reflection implements ITypeContainer, I
         return result;
     }
 
-
     /**
      * Return a string representation of this reflection.
      */
-    toString():string {
-        var result = super.toString();
+    toString(): string {
+        let result = super.toString();
 
         if (this.typeParameters) {
-            var parameters:string[] = [];
+            const parameters: string[] = [];
             this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
             result += '<' + parameters.join(', ') + '>';
         }

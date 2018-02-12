@@ -1,39 +1,37 @@
-import * as Path from "path";
-import * as ts from "typescript";
+import * as Path from 'path';
 
-import {Component, AbstractComponent, ChildableComponent} from "../utils/component";
-import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
-import {Renderer} from "./renderer";
-import {RendererEvent, PageEvent} from "./events";
-
+import { Component, AbstractComponent } from '../utils/component';
+import { ProjectReflection, DeclarationReflection } from '../models/reflections/index';
+import { Renderer } from './renderer';
+import { RendererEvent, PageEvent } from './events';
 
 export {Component};
 
-
 export abstract class RendererComponent extends AbstractComponent<Renderer> { }
-
 
 /**
  * A plugin for the renderer that reads the current render context.
  */
-export abstract class ContextAwareRendererComponent extends RendererComponent
-{
+export abstract class ContextAwareRendererComponent extends RendererComponent {
     /**
      * The project that is currently processed.
      */
-    protected project:ProjectReflection;
+    protected project: ProjectReflection;
 
     /**
      * The reflection that is currently processed.
      */
-    protected reflection:DeclarationReflection;
+    protected reflection: DeclarationReflection;
 
     /**
      * The url of the document that is being currently generated.
      */
-    private location:string;
+    private location: string;
 
-
+    /**
+     * Regular expression to test if a string looks like an external url.
+     */
+    protected urlPrefix: RegExp = /^(http|ftp)s?:\/\//;
 
     /**
      * Create a new ContextAwareRendererPlugin instance.
@@ -47,35 +45,36 @@ export abstract class ContextAwareRendererComponent extends RendererComponent
         });
     }
 
-
     /**
      * Transform the given absolute path into a relative path.
      *
      * @param absolute  The absolute path to transform.
      * @returns A path relative to the document currently processed.
      */
-    public getRelativeUrl(absolute:string):string {
-        var relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
-        return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+    public getRelativeUrl(absolute: string): string {
+        if (this.urlPrefix.test(absolute)) {
+            return absolute;
+        } else {
+            const relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
+            return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+        }
     }
-
 
     /**
      * Triggered before the renderer starts rendering a project.
      *
      * @param event  An event object describing the current render operation.
      */
-    protected onBeginRenderer(event:RendererEvent) {
+    protected onBeginRenderer(event: RendererEvent) {
         this.project = event.project;
     }
-
 
     /**
      * Triggered before a document will be rendered.
      *
      * @param page  An event object describing the current render operation.
      */
-    protected onBeginPage(page:PageEvent) {
+    protected onBeginPage(page: PageEvent) {
         this.location   = page.url;
         this.reflection = page.model instanceof DeclarationReflection ? page.model : null;
     }

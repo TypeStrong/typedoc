@@ -1,21 +1,18 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Type, ReflectionKind, DeclarationReflection, ReflectionType} from "../../models/index";
-import {Component, ConverterTypeComponent, ITypeNodeConverter} from "../components";
-import {Context} from "../context";
-import {Converter} from "../converter";
+import { Type, ReflectionKind, DeclarationReflection, ReflectionType } from '../../models/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
+import { Converter } from '../converter';
 
-
-@Component({name:'type:binding-object'})
-export class BindingObjectConverter extends ConverterTypeComponent implements ITypeNodeConverter<ts.Type, ts.BindingPattern>
-{
+@Component({name: 'type:binding-object'})
+export class BindingObjectConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.BindingPattern> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context:Context, node:ts.BindingPattern):boolean {
-        return node.kind == ts.SyntaxKind.ObjectBindingPattern;
+    supportsNode(context: Context, node: ts.BindingPattern): boolean {
+        return node.kind === ts.SyntaxKind.ObjectBindingPattern;
     }
-
 
     /**
      * Convert the given binding pattern to its type reflection.
@@ -24,8 +21,8 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
      * @param node  The binding pattern that should be converted.
      * @returns The type reflection representing the given binding pattern.
      */
-    convertNode(context:Context, node:ts.BindingPattern):Type {
-        var declaration = new DeclarationReflection();
+    convertNode(context: Context, node: ts.BindingPattern): Type {
+        const declaration = new DeclarationReflection();
         declaration.kind = ReflectionKind.TypeLiteral;
         declaration.name = '__type';
         declaration.parent = context.scope;
@@ -33,7 +30,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements IT
         context.registerReflection(declaration, null);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
-            node.elements.forEach((element) => {
+            (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element) => {
                 this.owner.convertNode(context, element);
             });
         });

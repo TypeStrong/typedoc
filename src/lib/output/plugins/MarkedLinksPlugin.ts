@@ -1,41 +1,45 @@
-import * as Util from "util";
+import * as Util from 'util';
 
-import {Reflection} from "../../models/reflections/abstract";
-import {Component, ContextAwareRendererComponent} from "../components";
-import {MarkdownEvent} from "../events";
-
+import { Reflection } from '../../models/reflections/abstract';
+import { Component, ContextAwareRendererComponent } from '../components';
+import { MarkdownEvent, RendererEvent } from '../events';
+import { Option } from '../../utils/component';
+import { ParameterType } from '../../utils/options/declaration';
 
 /**
  * A plugin that builds links in markdown texts.
  */
-@Component({name:"marked-links"})
-export class MarkedLinksPlugin extends ContextAwareRendererComponent
-{
+@Component({name: 'marked-links'})
+export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     /**
      * Regular expression for detecting bracket links.
      */
-    private brackets:RegExp = /\[\[([^\]]+)\]\]/g;
+    private brackets: RegExp = /\[\[([^\]]+)\]\]/g;
 
     /**
      * Regular expression for detecting inline tags like {@link ...}.
      */
-    private inlineTag:RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
+    private inlineTag: RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
 
-    /**
-     * Regular expression to test if a string looks like an external url.
-     */
-    private urlPrefix:RegExp = /^(http|ftp)s?:\/\//;
+    @Option({
+        name: 'listInvalidSymbolLinks',
+        help: 'Emits a list of broken symbol [[navigation]] links after documentation generation',
+        type: ParameterType.Boolean
+    })
+    listInvalidSymbolLinks: boolean;
 
-
+    private warnings: string[] = [];
 
     /**
      * Create a new MarkedLinksPlugin instance.
      */
     initialize() {
         super.initialize();
-        this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown, 100);
+        this.listenTo(this.owner, {
+            [MarkdownEvent.PARSE]: this.onParseMarkdown,
+            [RendererEvent.END]: this.onEndRenderer
+        }, null, 100);
     }
-
 
     /**
      * Find all references to symbols within the given text and transform them into a link.
@@ -48,13 +52,12 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @param text  The text that should be parsed.
      * @returns The text with symbol references replaced by links.
      */
-    private replaceBrackets(text:string):string {
-        return text.replace(this.brackets, (match:string, content:string):string => {
-            var split = MarkedLinksPlugin.splitLinkText(content);
+    private replaceBrackets(text: string): string {
+        return text.replace(this.brackets, (match: string, content: string): string => {
+            const split = MarkedLinksPlugin.splitLinkText(content);
             return this.buildLink(match, split.target, split.caption);
         });
     }
-
 
     /**
      * Find symbol {@link ...} strings in text and turn into html links
@@ -62,20 +65,23 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @param text  The string in which to replace the inline tags.
      * @return      The updated string.
      */
-    private replaceInlineTags(text:string):string {
-        return text.replace(this.inlineTag, (match:string, leading:string, tagName:string, content:string):string => {
-            var split   = MarkedLinksPlugin.splitLinkText(content);
-            var target  = split.target;
-            var caption = leading || split.caption;
+    private replaceInlineTags(text: string): string {
+        return text.replace(this.inlineTag, (match: string, leading: string, tagName: string, content: string): string => {
+            const split   = MarkedLinksPlugin.splitLinkText(content);
+            const target  = split.target;
+            const caption = leading || split.caption;
 
-            var monospace:boolean;
-            if (tagName == 'linkcode') monospace = true;
-            if (tagName == 'linkplain') monospace = false;
+            let monospace: boolean;
+            if (tagName === 'linkcode') {
+                monospace = true;
+            }
+            if (tagName === 'linkplain') {
+                monospace = false;
+            }
 
             return this.buildLink(match, target, caption, monospace);
         });
     }
-
 
     /**
      * Format a link with the given text and target.
@@ -86,12 +92,12 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @param monospace  Whether to use monospace formatting or not.
      * @returns A html link tag.
      */
-    private buildLink(original:string, target:string, caption:string, monospace?:boolean):string {
-        var attributes = '';
+    private buildLink(original: string, target: string, caption: string, monospace?: boolean): string {
+        let attributes = '';
         if (this.urlPrefix.test(target)) {
             attributes = ' class="external"';
         } else {
-            var reflection:Reflection;
+            let reflection: Reflection;
             if (this.reflection) {
                 reflection = this.reflection.findReflectionByName(target);
             } else if (this.project) {
@@ -99,8 +105,15 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
             }
 
             if (reflection && reflection.url) {
-                target = this.getRelativeUrl(reflection.url);
+                if (this.urlPrefix.test(reflection.url)) {
+                    target = reflection.url;
+                    attributes = ' class="external"';
+                } else {
+                    target = this.getRelativeUrl(reflection.url);
+                }
             } else {
+                reflection = this.reflection || this.project;
+                this.warnings.push(`In ${reflection.getFullName()}: ${original}`);
                 return original;
             }
         }
@@ -112,16 +125,29 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
         return Util.format('<a href="%s"%s>%s</a>', target, attributes, caption);
     }
 
-
     /**
      * Triggered when [[MarkedPlugin]] parses a markdown string.
      *
      * @param event
      */
-    onParseMarkdown(event:MarkdownEvent) {
+    onParseMarkdown(event: MarkdownEvent) {
         event.parsedText = this.replaceInlineTags(this.replaceBrackets(event.parsedText));
     }
 
+    /**
+     * Triggered when [[Renderer]] is finished
+     */
+    onEndRenderer(event: RendererEvent) {
+        if (this.listInvalidSymbolLinks && this.warnings.length > 0) {
+            this.application.logger.write('');
+            this.application.logger.warn('[MarkedLinksPlugin]: Found invalid symbol reference(s) in JSDocs, ' +
+                'they will not render as links in the generated documentation.');
+
+            for (let warning of this.warnings) {
+                this.application.logger.write('  ' + warning);
+            }
+        }
+    }
 
     /**
      * Split the given link into text and target at first pipe or space.
@@ -129,8 +155,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent
      * @param text  The source string that should be checked for a split character.
      * @returns An object containing the link text and target.
      */
-    static splitLinkText(text:string):{caption:string;target:string;} {
-        var splitIndex = text.indexOf('|');
+    static splitLinkText(text: string): { caption: string; target: string; } {
+        let splitIndex = text.indexOf('|');
         if (splitIndex === -1) {
             splitIndex = text.search(/\s/);
         }

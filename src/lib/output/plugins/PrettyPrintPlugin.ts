@@ -1,6 +1,5 @@
-import {Component, RendererComponent} from "../components";
-import {PageEvent} from "../events";
-
+import { Component, RendererComponent } from '../components';
+import { PageEvent } from '../events';
 
 /**
  * List of states the parser of [[PrettyPrintPlugin]] can be in.
@@ -22,7 +21,6 @@ enum PrettyPrintState {
     Pre
 }
 
-
 /**
  * A plugin that pretty prints the generated html.
  *
@@ -33,13 +31,12 @@ enum PrettyPrintState {
  * At the point writing this the docs of TypeDoc took 97.8 MB  without and 66.4 MB with this
  * plugin enabled, so it reduced the size to 68% of the original output.
  */
-@Component({name:"pretty-print"})
-export class PrettyPrintPlugin extends RendererComponent
-{
+@Component({name: 'pretty-print'})
+export class PrettyPrintPlugin extends RendererComponent {
     /**
      * Map of all tags that will be ignored.
      */
-    static IGNORED_TAGS:any = {
+    static IGNORED_TAGS: any = {
         area:    true,
         base:    true,
         br:      true,
@@ -59,14 +56,13 @@ export class PrettyPrintPlugin extends RendererComponent
     /**
      * Map of all tags that prevent this plugin form modifying the following code.
      */
-    static PRE_TAGS:any = {
+    static PRE_TAGS: any = {
         pre:      true,
         code:     true,
         textarea: true,
         script:   true,
         style:    true
     };
-
 
     /**
      * Create a new PrettyPrintPlugin instance.
@@ -75,34 +71,33 @@ export class PrettyPrintPlugin extends RendererComponent
         this.listenTo(this.owner, PageEvent.END, this.onRendererEndPage, -1024);
     }
 
-
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      *
      * @param event
      */
-    onRendererEndPage(event:PageEvent) {
-        var match:RegExpMatchArray;
-        var line:string;
-        var lineState:PrettyPrintState;
-        var lineDepth:number;
-        var tagName:string;
-        var preName:string;
+    onRendererEndPage(event: PageEvent) {
+        let match: RegExpMatchArray;
+        let line: string;
+        let lineState: PrettyPrintState;
+        let lineDepth: number;
+        let tagName: string;
+        let preName: string;
 
-        var tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
-        var emptyLineExp = /^[\s]*$/;
-        var minLineDepth = 1;
-        var state        = PrettyPrintState.Default;
-        var stack:string[] = [];
+        let tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
+        let emptyLineExp = /^[\s]*$/;
+        let minLineDepth = 1;
+        let state        = PrettyPrintState.Default;
+        const stack: string[] = [];
 
-        var lines        = event.contents.split(/\r\n?|\n/);
-        var index        = 0;
-        var count        = lines.length;
+        const lines        = event.contents.split(/\r\n?|\n/);
+        let index        = 0;
+        let count        = lines.length;
 
         while (index < count) {
             line = lines[index];
             if (emptyLineExp.test(line)) {
-                if (state == PrettyPrintState.Default) {
+                if (state === PrettyPrintState.Default) {
                     lines.splice(index, 1);
                     count -= 1;
                     continue;
@@ -112,40 +107,46 @@ export class PrettyPrintPlugin extends RendererComponent
                 lineDepth = stack.length;
 
                 while (match = tagExp.exec(line)) {
-                    if (state == PrettyPrintState.Comment) {
-                        if (match[0] == '-->') {
+                    if (state === PrettyPrintState.Comment) {
+                        if (match[0] === '-->') {
                             state = PrettyPrintState.Default;
                         }
-                    } else if (state == PrettyPrintState.Pre) {
-                        if (match[2] && match[2].toLowerCase() == preName) {
+                    } else if (state === PrettyPrintState.Pre) {
+                        if (match[2] && match[2].toLowerCase() === preName) {
                             state = PrettyPrintState.Default;
                         }
                     } else {
-                        if (match[0] == '<!--') {
+                        if (match[0] === '<!--') {
                             state = PrettyPrintState.Comment;
                         } else if (match[1]) {
                             tagName = match[1].toLowerCase();
-                            if (tagName in PrettyPrintPlugin.IGNORED_TAGS) continue;
+                            if (tagName in PrettyPrintPlugin.IGNORED_TAGS) {
+                                continue;
+                            }
                             if (tagName in PrettyPrintPlugin.PRE_TAGS) {
                                 state = PrettyPrintState.Pre;
                                 preName = tagName;
                             } else {
-                                if (tagName == 'body') minLineDepth = 2;
+                                if (tagName === 'body') {
+                                    minLineDepth = 2;
+                                }
                                 stack.push(tagName);
                             }
                         } else if (match[2]) {
                             tagName = match[2].toLowerCase();
-                            if (tagName in PrettyPrintPlugin.IGNORED_TAGS) continue;
+                            if (tagName in PrettyPrintPlugin.IGNORED_TAGS) {
+                                continue;
+                            }
 
-                            var n = stack.lastIndexOf(tagName);
-                            if (n != -1) {
+                            const n = stack.lastIndexOf(tagName);
+                            if (n !== -1) {
                                 stack.length = n;
                             }
                         }
                     }
                 }
 
-                if (lineState == PrettyPrintState.Default) {
+                if (lineState === PrettyPrintState.Default) {
                     lineDepth = Math.min(lineDepth, stack.length);
                     line = line.replace(/^\s+/, '').replace(/\s+$/, '');
                     if (lineDepth > minLineDepth) {

@@ -1,21 +1,18 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
-import {createSignature} from "../factories/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
+import { createSignature } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
-
-@Component({name:'node:signature-index'})
-export class IndexSignatureConverter extends ConverterNodeComponent<ts.SignatureDeclaration>
-{
+@Component({name: 'node:signature-index'})
+export class IndexSignatureConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.IndexSignature
     ];
-
 
     /**
      * Analyze the given index signature declaration node and create a suitable reflection.
@@ -24,8 +21,8 @@ export class IndexSignatureConverter extends ConverterNodeComponent<ts.Signature
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.SignatureDeclaration):Reflection {
-        var scope = <DeclarationReflection>context.scope;
+    convert(context: Context, node: ts.SignatureDeclaration): Reflection {
+        const scope = <DeclarationReflection> context.scope;
         if (scope instanceof DeclarationReflection) {
             scope.indexSignature = createSignature(context, node, '__index', ReflectionKind.IndexSignature);
         }

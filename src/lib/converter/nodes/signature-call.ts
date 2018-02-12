@@ -1,24 +1,21 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from "../../models/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
-import {createSignature} from "../factories/index";
+import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { createSignature } from '../factories/index';
 
-
-@Component({name:'node:signature-call'})
-export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression>
-{
+@Component({name: 'node:signature-call'})
+export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.CallSignature,
         ts.SyntaxKind.FunctionType,
         ts.SyntaxKind.FunctionExpression,
         ts.SyntaxKind.ArrowFunction
     ];
-
 
     /**
      * Analyze the given call signature declaration node and create a suitable reflection.
@@ -27,12 +24,14 @@ export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpres
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression):Reflection {
-        var scope = <DeclarationReflection>context.scope;
+    convert(context: Context, node: ts.FunctionExpression|ts.SignatureDeclaration|ts.FunctionExpression): Reflection {
+        const scope = <DeclarationReflection> context.scope;
         if (scope instanceof DeclarationReflection) {
-            var name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-            var signature = createSignature(context, <ts.SignatureDeclaration>node, name, ReflectionKind.CallSignature);
-            if (!scope.signatures) scope.signatures = [];
+            const name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
+            const signature = createSignature(context, <ts.SignatureDeclaration> node, name, ReflectionKind.CallSignature);
+            if (!scope.signatures) {
+                scope.signatures = [];
+            }
             scope.signatures.push(signature);
         }
 

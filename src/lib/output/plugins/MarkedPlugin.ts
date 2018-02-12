@@ -1,14 +1,13 @@
-import * as FS from "fs-extra";
-import * as Path from "path";
-import * as Marked from "marked";
-import * as HighlightJS from "highlight.js";
-import * as Handlebars from "handlebars";
+import * as FS from 'fs-extra';
+import * as Path from 'path';
+import * as Marked from 'marked';
+import * as HighlightJS from 'highlight.js';
+import * as Handlebars from 'handlebars';
 
-import {Component, ContextAwareRendererComponent} from "../components";
-import {RendererEvent, MarkdownEvent} from "../events";
-import {Option} from "../../utils/component";
-import {ParameterHint} from "../../utils/options/declaration";
-
+import { Component, ContextAwareRendererComponent } from '../components';
+import { RendererEvent, MarkdownEvent } from '../events';
+import { Option } from '../../utils/component';
+import { ParameterHint } from '../../utils/options/declaration';
 
 /**
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
@@ -40,44 +39,41 @@ import {ParameterHint} from "../../utils/options/declaration";
  * {{#relativeURL url}}
  * ```
  */
-@Component({name:"marked"})
-export class MarkedPlugin extends ContextAwareRendererComponent
-{
+@Component({name: 'marked'})
+export class MarkedPlugin extends ContextAwareRendererComponent {
     @Option({
         name: 'includes',
         help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
         hint: ParameterHint.Directory
     })
-    includeSource:string;
+    includeSource: string;
 
     @Option({
         name: 'media',
         help: 'Specifies the location with media files that should be copied to the output directory.',
         hint: ParameterHint.Directory
     })
-    mediaSource:string;
+    mediaSource: string;
 
     /**
      * The path referenced files are located in.
      */
-    private includes:string;
+    private includes: string;
 
     /**
      * Path to the output media directory.
      */
-    private mediaDirectory:string;
+    private mediaDirectory: string;
 
     /**
      * The pattern used to find references in markdown.
      */
-    private includePattern:RegExp = /\[\[include:([^\]]+?)\]\]/g;
+    private includePattern: RegExp = /\[\[include:([^\]]+?)\]\]/g;
 
     /**
      * The pattern used to find media links.
      */
-    private mediaPattern:RegExp = /media:\/\/([^ "\)\]\}]+)/g;
-
-
+    private mediaPattern: RegExp = /media:\/\/([^ "\)\]\}]+)/g;
 
     /**
      * Create a new MarkedPlugin instance.
@@ -86,15 +82,14 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         super.initialize();
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
-        var that = this;
-        Handlebars.registerHelper('markdown', function(arg:any) { return that.parseMarkdown(arg.fn(this), this); });
-        Handlebars.registerHelper('relativeURL', (url:string) => this.getRelativeUrl(url));
+        const that = this;
+        Handlebars.registerHelper('markdown', function(arg: any) { return that.parseMarkdown(arg.fn(this), this); });
+        Handlebars.registerHelper('relativeURL', (url: string) => url ? this.getRelativeUrl(url) : url);
 
         Marked.setOptions({
-            highlight: (text:any, lang:any) => this.getHighlighted(text, lang)
+            highlight: (text: any, lang: any) => this.getHighlighted(text, lang)
         });
     }
-
 
     /**
      * Highlight the synatx of the given text using HighlightJS.
@@ -103,7 +98,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
      * @param lang  The language that should be used to highlight the string.
      * @return A html string with syntax highlighting.
      */
-    public getHighlighted(text:string, lang?:string):string {
+    public getHighlighted(text: string, lang?: string): string {
         try {
             if (lang) {
                 return HighlightJS.highlight(lang, text).value;
@@ -116,7 +111,6 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         }
     }
 
-
     /**
      * Parse the given markdown string and return the resulting html.
      *
@@ -124,14 +118,14 @@ export class MarkedPlugin extends ContextAwareRendererComponent
      * @param context  The current handlebars context.
      * @returns The resulting html string.
      */
-    public parseMarkdown(text:string, context:any) {
+    public parseMarkdown(text: string, context: any) {
         if (this.includes) {
-            text = text.replace(this.includePattern, (match:string, path:string) => {
+            text = text.replace(this.includePattern, (match: string, path: string) => {
                 path = Path.join(this.includes, path.trim());
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
-                    var contents = FS.readFileSync(path, 'utf-8');
-                    if (path.substr(-4).toLocaleLowerCase() == '.hbs') {
-                        var template = Handlebars.compile(contents);
+                    const contents = FS.readFileSync(path, 'utf-8');
+                    if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
+                        const template = Handlebars.compile(contents);
                         return template(context);
                     } else {
                         return contents;
@@ -143,7 +137,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         }
 
         if (this.mediaDirectory) {
-            text = text.replace(this.mediaPattern, (match:string, path:string) => {
+            text = text.replace(this.mediaPattern, (match: string, path: string) => {
                 if (FS.existsSync(Path.join(this.mediaDirectory, path))) {
                     return this.getRelativeUrl('media') + '/' + path;
                 } else {
@@ -152,7 +146,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
             });
         }
 
-        var event = new MarkdownEvent(MarkdownEvent.PARSE);
+        const event = new MarkdownEvent(MarkdownEvent.PARSE);
         event.originalText = text;
         event.parsedText = text;
 
@@ -160,18 +154,17 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         return event.parsedText;
     }
 
-
     /**
      * Triggered before the renderer starts rendering a project.
      *
      * @param event  An event object describing the current render operation.
      */
-    protected onBeginRenderer(event:RendererEvent) {
+    protected onBeginRenderer(event: RendererEvent) {
         super.onBeginRenderer(event);
 
         delete this.includes;
         if (this.includeSource) {
-            var includes = Path.resolve(this.includeSource);
+            const includes = Path.resolve(this.includeSource);
             if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
                 this.includes = includes;
             } else {
@@ -180,7 +173,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         }
 
         if (this.mediaSource) {
-            var media = Path.resolve(this.mediaSource);
+            const media = Path.resolve(this.mediaSource);
             if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
                 this.mediaDirectory = Path.join(event.outputDirectory, 'media');
                 FS.copySync(media, this.mediaDirectory);
@@ -191,13 +184,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent
         }
     }
 
-
     /**
      * Triggered when [[MarkedPlugin]] parses a markdown string.
      *
      * @param event
      */
-    onParseMarkdown(event:MarkdownEvent) {
+    onParseMarkdown(event: MarkdownEvent) {
         event.parsedText = Marked(event.parsedText);
     }
 }

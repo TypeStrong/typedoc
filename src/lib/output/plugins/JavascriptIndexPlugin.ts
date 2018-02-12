@@ -1,20 +1,18 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {DeclarationReflection, ProjectReflection} from "../../models/reflections/index";
-import {GroupPlugin} from "../../converter/plugins/GroupPlugin";
-import {Component, RendererComponent} from "../components";
-import {writeFile} from "../../utils/fs";
-import {RendererEvent} from "../events";
-
+import { DeclarationReflection, ProjectReflection } from '../../models/reflections/index';
+import { GroupPlugin } from '../../converter/plugins/GroupPlugin';
+import { Component, RendererComponent } from '../components';
+import { writeFile } from '../../utils/fs';
+import { RendererEvent } from '../events';
 
 /**
  * A plugin that exports an index of the project to a javascript file.
  *
  * The resulting javascript file can be used to build a simple search function.
  */
-@Component({name:"javascript-index"})
-export class JavascriptIndexPlugin extends RendererComponent
-{
+@Component({name: 'javascript-index'})
+export class JavascriptIndexPlugin extends RendererComponent {
     /**
      * Create a new JavascriptIndexPlugin instance.
      */
@@ -22,32 +20,34 @@ export class JavascriptIndexPlugin extends RendererComponent
         this.listenTo(this.owner, RendererEvent.BEGIN, this.onRendererBegin);
     }
 
-
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      *
      * @param event  An event object describing the current render operation.
      */
-    private onRendererBegin(event:RendererEvent) {
-        var rows:any[] = [];
-        var kinds = {};
+    private onRendererBegin(event: RendererEvent) {
+        const rows: any[] = [];
+        const kinds = {};
 
-        for (var key in event.project.reflections) {
-            var reflection:DeclarationReflection = <DeclarationReflection>event.project.reflections[key];
-            if (!(reflection instanceof DeclarationReflection)) continue;
+        for (let key in event.project.reflections) {
+            const reflection: DeclarationReflection = <DeclarationReflection> event.project.reflections[key];
+            if (!(reflection instanceof DeclarationReflection)) {
+                continue;
+            }
 
             if (!reflection.url ||
                 !reflection.name ||
                 reflection.flags.isExternal ||
-                reflection.name == '')
+                reflection.name === '') {
                 continue;
+            }
 
-            var parent = reflection.parent;
+            let parent = reflection.parent;
             if (parent instanceof ProjectReflection) {
                 parent = null;
             }
 
-            var row:any = {
+            const row: any = {
                 id: rows.length,
                 kind:    reflection.kind,
                 name:    reflection.name,
@@ -66,11 +66,11 @@ export class JavascriptIndexPlugin extends RendererComponent
             rows.push(row);
         }
 
-        var fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-        var data =
-            'var typedoc = typedoc || {};' +
-            'typedoc.search = typedoc.search || {};' +
-            'typedoc.search.data = ' + JSON.stringify({kinds:kinds, rows:rows}) + ';';
+        const fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
+        const data =
+            `var typedoc = typedoc || {};
+            typedoc.search = typedoc.search || {};
+            typedoc.search.data = ${JSON.stringify({kinds: kinds, rows: rows})};`;
 
         writeFile(fileName, data, true);
     }

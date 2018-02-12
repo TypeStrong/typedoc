@@ -1,40 +1,38 @@
-import * as Path from "path";
+import * as Path from 'path';
 
-import {Reflection} from "../reflections/abstract";
-import {ReflectionGroup} from "../ReflectionGroup";
-import {SourceDirectory} from "./directory";
-
+import { Reflection } from '../reflections/abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
+import { ReflectionGroup } from '../ReflectionGroup';
+import { SourceDirectory } from './directory';
 
 /**
  * Represents references of reflections to their defining source files.
  *
  * @see [[DeclarationReflection.sources]]
  */
-export interface ISourceReference
-{
+export interface SourceReference {
     /**
      * A reference to the corresponding file instance.
      */
-    file?:SourceFile;
+    file?: SourceFile;
 
     /**
      * The filename of the source file.
      */
-    fileName:string;
+    fileName: string;
 
     /**
      * The number of the line that emitted the declaration.
      */
-    line:number;
+    line: number;
 
-    character:number;
+    character: number;
 
     /**
      * URL for displaying the source file.
      */
-    url?:string;
+    url?: string;
 }
-
 
 /**
  * Exposes information about a source file.
@@ -46,51 +44,54 @@ export interface ISourceReference
  * [[DeclarationReflection.sources]] property. It is an array of of [[IDeclarationSource]] instances
  * containing the reference in their [[IDeclarationSource.file]] field.
  */
-export class SourceFile
-{
+export class SourceFile {
     /**
      * The original full system file name.
      */
-    fullFileName:string;
+    fullFileName: string;
 
     /**
      * A trimmed version of the file name. Contains only the path relative to the
      * determined base path.
      */
-    fileName:string;
+    fileName: string;
 
     /**
      * The base name of the file.
      */
-    name:string;
+    name: string;
 
     /**
      * A url pointing to a page displaying the contents of this file.
      */
-    url:string;
+    url: string;
 
     /**
      * The representation of the parent directory of this source file.
      */
-    parent:SourceDirectory;
+    parent: SourceDirectory;
 
     /**
      * A list of all reflections that are declared in this file.
      */
-    reflections:Reflection[] = [];
+    reflections: Reflection[] = [];
 
     /**
      * A grouped list of the reflections declared in this file.
      */
-    groups:ReflectionGroup[];
+    groups: ReflectionGroup[];
 
+    /**
+     * A categorized list of the reflections declared in this file.
+     */
+    categories: ReflectionCategory[];
 
     /**
      * Create a new SourceFile instance.
      *
      * @param fullFileName  The full file name.
      */
-    constructor(fullFileName:string) {
+    constructor(fullFileName: string) {
         this.fileName     = fullFileName;
         this.fullFileName = fullFileName;
         this.name         = Path.basename(fullFileName);

@@ -1,40 +1,40 @@
-import * as FS from "fs";
-import * as Path from "path";
-import * as Util from "util";
+import * as FS from 'fs';
+import * as Path from 'path';
+import * as Util from 'util';
 
-import {Theme} from "../theme";
-import {HelperStack} from "./resources/helpers";
-import {TemplateStack, PartialStack} from "./resources/templates";
+import { Theme } from '../theme';
+import { HelperStack } from './resources/helpers';
+import { TemplateStack, PartialStack } from './resources/templates';
+import { Renderer } from '../renderer';
 
+export class Resources {
+    templates: TemplateStack;
 
-export class Resources
-{
-    templates:TemplateStack;
+    layouts: TemplateStack;
 
-    layouts:TemplateStack;
+    partials: PartialStack;
 
-    partials:PartialStack;
+    helpers: HelperStack;
 
-    helpers:HelperStack;
+    private theme: Theme;
 
-    private theme:Theme;
+    private isActive: boolean;
 
-    private isActive:boolean;
-
-
-    constructor(theme:Theme) {
+    constructor(theme: Theme) {
         this.theme     = theme;
         this.templates = new TemplateStack();
         this.layouts   = new TemplateStack();
         this.partials  = new PartialStack();
         this.helpers   = new HelperStack();
 
-        this.addDirectory(Path.basename(theme.basePath), theme.basePath);
+        this.addDirectory('default', Renderer.getDefaultTheme());
+        this.addDirectory('theme', theme.basePath);
     }
 
-
-    activate():boolean {
-        if (this.isActive) return false;
+    activate(): boolean {
+        if (this.isActive) {
+            return false;
+        }
         this.isActive = true;
 
         this.partials.activate();
@@ -42,9 +42,10 @@ export class Resources
         return true;
     }
 
-
-    deactivate():boolean {
-        if (!this.isActive) return false;
+    deactivate(): boolean {
+        if (!this.isActive) {
+            return false;
+        }
         this.isActive = false;
 
         this.partials.deactivate();
@@ -52,24 +53,22 @@ export class Resources
         return true;
     }
 
-
-    getTheme():Theme {
+    getTheme(): Theme {
         return this.theme;
     }
 
-
-    addDirectory(name:string, path:string) {
+    addDirectory(name: string, path: string) {
         if (this.isActive) {
-            throw new Error("Cannot add directories while the resource is active.");
+            throw new Error('Cannot add directories while the resource is active.');
         }
 
         path = Path.resolve(path);
         if (!FS.existsSync(path)) {
-            throw new Error(Util.format("The theme path `%s` does not exist.", path));
+            throw new Error(Util.format('The theme path `%s` does not exist.', path));
         }
 
         if (!FS.statSync(path).isDirectory()) {
-            throw new Error(Util.format("The theme path `%s` is not a directory.", path));
+            throw new Error(Util.format('The theme path `%s` is not a directory.', path));
         }
 
         this.templates.addOrigin(name, Path.join(path, 'templates'), true);
@@ -78,10 +77,9 @@ export class Resources
         this.helpers.addOrigin(name,   Path.join(path, 'helpers'),   true);
     }
 
-
-    removeDirectory(name:string) {
+    removeDirectory(name: string) {
         if (this.isActive) {
-            throw new Error("Cannot remove directories while the resource is active.");
+            throw new Error('Cannot remove directories while the resource is active.');
         }
 
         this.templates.removeOrigin(name);
@@ -90,10 +88,9 @@ export class Resources
         this.helpers.removeOrigin(name);
     }
 
-
     removeAllDirectories() {
         if (this.isActive) {
-            throw new Error("Cannot remove directories while the resource is active.");
+            throw new Error('Cannot remove directories while the resource is active.');
         }
 
         this.templates.removeAllOrigins();

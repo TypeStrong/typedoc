@@ -1,47 +1,32 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import {Application} from "../application";
-import {EventDispatcher, Event, IEventMap} from "./events";
-import {IOptionDeclaration} from "./options/declaration";
+import { Application } from '../application';
+import { EventDispatcher, Event, EventMap } from './events';
+import { DeclarationOption } from './options/declaration';
 
-
-export interface IComponentHost {
-    application:Application;
+export interface ComponentHost {
+    application: Application;
 }
 
-interface IComponent extends AbstractComponent<IComponentHost> {
+export interface Component extends AbstractComponent<ComponentHost> {
 
 }
 
-
-export interface IComponentClass<T extends IComponent> extends Function {
-    new(owner:IComponentHost):T;
+export interface ComponentClass<T extends Component> extends Function {
+    new(owner: ComponentHost): T;
 }
 
-
-interface IComponentList {
-    [name:string]:IComponentClass<IComponent>;
+export interface ComponentOptions {
+    name?: string;
+    childClass?: Function;
+    internal?: boolean;
 }
 
+const childMappings: {host: any, child: Function}[] = [];
 
-interface IComponentRegistry {
-    [scope:string]:IComponentList;
-}
-
-
-interface IComponentOptions {
-    name?:string;
-    childClass?:Function;
-    internal?:boolean;
-}
-
-
-var childMappings:{host:any, child:Function}[] = [];
-
-
-export function Component(options:IComponentOptions):ClassDecorator {
-    return (target:IComponentClass<IComponent>) => {
-        var proto = target.prototype;
+export function Component(options: ComponentOptions): ClassDecorator {
+    return (target: Function) => {
+        const proto = target.prototype;
         if (!(proto instanceof AbstractComponent)) {
             throw new Error('The `Component` decorator can only be used with a subclass of `AbstractComponent`.');
         }
@@ -57,18 +42,20 @@ export function Component(options:IComponentOptions):ClassDecorator {
             });
         }
 
-        var name = options.name;
+        const name = options.name;
         if (name) {
-            proto._componentName = name;
+            proto.componentName = name;
         }
 
-        var internal = !!options.internal;
+        const internal = !!options.internal;
         if (name && !internal) {
-            for (var childMapping of childMappings) {
-                if (!(proto instanceof childMapping.child)) continue;
+            for (let childMapping of childMappings) {
+                if (!(proto instanceof childMapping.child)) {
+                    continue;
+                }
 
-                var host = childMapping.host;
-                var defaults = host._defaultComponents || (host._defaultComponents = {});
+                const host = childMapping.host;
+                const defaults = host._defaultComponents || (host._defaultComponents = {});
                 defaults[name] = target;
                 break;
             }
@@ -76,89 +63,79 @@ export function Component(options:IComponentOptions):ClassDecorator {
     };
 }
 
-
-export function Option(options:IOptionDeclaration):PropertyDecorator {
-    return function(target:AbstractComponent<any>, propertyKey:string) {
+export function Option(options: DeclarationOption): PropertyDecorator {
+    return function(target: AbstractComponent<any>, propertyKey: string) {
         if (!(target instanceof AbstractComponent)) {
             throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
         }
 
-        var list = target['_componentOptions'] || (target['_componentOptions'] = []);
+        const list = target['_componentOptions'] || (target['_componentOptions'] = []);
         options.component = target['_componentName'];
         list.push(options);
 
         Object.defineProperty(target, propertyKey, {
             get: function () {
-                return this.application.options.getValue(options.name)
+                return this.application.options.getValue(options.name);
             },
             enumerable: true,
             configurable: true
         });
-    }
+    };
 }
 
+export class ComponentEvent extends Event {
+    owner: ComponentHost;
 
-export class ComponentEvent extends Event
-{
-    owner:IComponentHost;
+    component: AbstractComponent<ComponentHost>;
 
-    component:AbstractComponent<IComponentHost>;
+    static ADDED = 'componentAdded';
 
-    static ADDED:string = 'componentAdded';
+    static REMOVED = 'componentRemoved';
 
-    static REMOVED:string = 'componentRemoved';
-
-
-    constructor(name:string, owner:IComponentHost, component:AbstractComponent<IComponentHost>) {
+    constructor(name: string, owner: ComponentHost, component: AbstractComponent<ComponentHost>) {
         super(name);
         this.owner = owner;
         this.component = component;
     }
 }
 
-
 /**
  * Component base class.
  */
-export abstract class AbstractComponent<O extends IComponentHost> extends EventDispatcher implements IComponentHost
-{
+export abstract class AbstractComponent<O extends ComponentHost> extends EventDispatcher implements ComponentHost {
     /**
      * The owner of this component instance.
      */
-    private _componentOwner:O;
+    private _componentOwner: O;
 
     /**
      * The name of this component as set by the @Component decorator.
      */
-    private _componentName: string; options
+    public componentName: string;
 
     /**
      * A list of options defined by this component.
      */
-    private _componentOptions:IOptionDeclaration[];
-
-
+    private _componentOptions: DeclarationOption[];
 
     /**
      * Create new Component instance.
      */
-    constructor(owner:O) {
+    constructor(owner: O) {
         super();
         this._componentOwner = owner;
         this.initialize();
     }
-
 
     /**
      * Initialize this component.
      */
     protected initialize() {}
 
-
-    protected bubble(name:Event|IEventMap|string, ...args:any[]) {
+    protected bubble(name: Event|EventMap|string, ...args: any[]) {
         super.trigger.apply(this, arguments);
 
-        var owner = <any>this.owner;
+        const owner = <any> this.owner;
         if (owner instanceof AbstractComponent) {
             owner.bubble.apply(this._componentOwner, arguments);
         }
@@ -166,24 +143,17 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
         return this;
     }
 
-
     /**
      * Return all option declarations emitted by this component.
      */
-    getOptionDeclarations():IOptionDeclaration[] {
+    getOptionDeclarations(): DeclarationOption[] {
         return this._componentOptions ? this._componentOptions.slice() : [];
     }
-
-
-    get componentName():string {
-        return this._componentName;
-    }
-
 
     /**
      * Return the application / root component instance.
      */
-    get application():Application {
+    get application(): Application {
         if (this._componentOwner) {
             return this._componentOwner.application;
         } else {
@@ -191,47 +161,42 @@ export abstract class AbstractComponent<O extends IComponentHost> extends EventD
         }
     }
 
-
     /**
      * Return the owner of this component.
      */
-    get owner():O {
+    get owner(): O {
         return this._componentOwner;
     }
 }
 
-
 /**
  * Component base class.
  */
-export abstract class ChildableComponent<O extends IComponentHost, C extends IComponent> extends AbstractComponent<O>
-{
+export abstract class ChildableComponent<O extends ComponentHost, C extends Component> extends AbstractComponent<O> {
     /**
      *
      */
-    private _componentChildren:{[name:string]:C};
+    private _componentChildren: {[name: string]: C};
 
-    private _defaultComponents:{[name:string]:IComponentClass<C>};
-
+    private _defaultComponents: {[name: string]: ComponentClass<C>};
 
     /**
      * Create new Component instance.
      */
-    constructor(owner:O) {
+    constructor(owner: O) {
         super(owner);
 
-        for (var name in this._defaultComponents) {
+        for (let name in this._defaultComponents) {
             this.addComponent(name, this._defaultComponents[name]);
         }
     }
-
 
     /**
      * Retrieve a plugin instance.
      *
      * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
      */
-    getComponent(name:string):C {
+    getComponent(name: string): C {
         if (this._componentChildren && this._componentChildren[name]) {
             return this._componentChildren[name];
         } else {
@@ -239,18 +204,15 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         }
     }
 
-
-    getComponents():C[] {
+    getComponents(): C[] {
         return _.values<C>(this._componentChildren);
     }
 
-
-    hasComponent(name:string):boolean {
+    hasComponent(name: string): boolean {
         return !!(this._componentChildren && this._componentChildren[name]);
     }
 
-
-    addComponent<T extends C>(name:string, componentClass:T|IComponentClass<T>):T {
+    addComponent<T extends C & Component>(name: string, componentClass: T|ComponentClass<T>): T {
         if (!this._componentChildren) {
             this._componentChildren = {};
         }
@@ -258,8 +220,8 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         if (this._componentChildren[name]) {
             throw new Error('The component `%s` has already been added.');
         } else {
-            var component:T = typeof componentClass == "function" ? new (<IComponentClass<T>>componentClass)(this) : <T>componentClass;
-            var event = new ComponentEvent(ComponentEvent.ADDED, this, component);
+            const component: T = typeof componentClass === 'function' ? new (<ComponentClass<T>> componentClass)(this) : <T> componentClass;
+            const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);
             this._componentChildren[name] = component;
@@ -268,10 +230,11 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         }
     }
 
-
-    removeComponent(name:string):C {
-        if (!this._componentChildren) return null;
-        var component = this._componentChildren[name];
+    removeComponent(name: string): C {
+        if (!this._componentChildren) {
+            return null;
+        }
+        const component = this._componentChildren[name];
         if (component) {
             delete this._componentChildren[name];
             component.stopListening();
@@ -282,10 +245,11 @@ export abstract class ChildableComponent<O extends IComponentHost, C extends ICo
         }
     }
 
-
     removeAllComponents() {
-        if (!this._componentChildren) return;
-        for (var name in this._componentChildren) {
+        if (!this._componentChildren) {
+            return;
+        }
+        for (let name in this._componentChildren) {
             this._componentChildren[name].stopListening();
         }
 

@@ -1,7 +1,3 @@
-import * as ts from "typescript";
-import * as Util from "util";
-
-
 export enum ParameterHint {
     File,
     Directory
@@ -13,16 +9,14 @@ export enum ParameterType {
     Boolean,
     Map,
     Mixed,
-    Object
+    Array
 }
-
 
 export enum ParameterScope {
     TypeDoc, TypeScript
 }
 
-
-export interface IOptionDeclaration {
+export interface DeclarationOption {
     name: string;
     component?: string;
     short?: string;
@@ -32,11 +26,9 @@ export interface IOptionDeclaration {
     scope?: ParameterScope;
     map?: {};
     mapError?: string;
-    isArray?: boolean;
     defaultValue?: any;
     convert?: (param: OptionDeclaration, value?: any) => any;
 }
-
 
 export class OptionDeclaration {
     name: string;
@@ -53,7 +45,7 @@ export class OptionDeclaration {
 
     scope: ParameterScope;
 
-    map: Object;
+    protected map: Object | Map<string, any> | 'object';
 
     mapError: string;
 
@@ -61,10 +53,8 @@ export class OptionDeclaration {
 
     defaultValue: any;
 
-
-
-    constructor(data: IOptionDeclaration) {
-        for (var key in data) {
+    constructor(data: DeclarationOption) {
+        for (let key in data) {
             this[key] = data[key];
         }
 
@@ -72,9 +62,8 @@ export class OptionDeclaration {
         this.scope = this.scope || ParameterScope.TypeDoc;
     }
 
-
     getNames(): string[] {
-        var result = [this.name.toLowerCase()];
+        const result = [this.name.toLowerCase()];
 
         if (this.short) {
             result.push(this.short.toLowerCase());
@@ -83,27 +72,40 @@ export class OptionDeclaration {
         return result;
     }
 
-
     convert(value: any, errorCallback?: Function): any {
         switch (this.type) {
             case ParameterType.Number:
-                value = parseInt(value);
+                value = parseInt(value, 10);
                 break;
             case ParameterType.Boolean:
                 value = (typeof value === void 0 ? true : !!value);
                 break;
             case ParameterType.String:
-                value = value || "";
+                value = value || '';
+                break;
+            case ParameterType.Array:
+                if (!value) {
+                    value = [];
+                } else if (typeof value === 'string') {
+                    value = value.split(',');
+                }
                 break;
             case ParameterType.Map:
-                var key = value ? (value + "").toLowerCase() : '';
-                if (key in this.map) {
-                    value = this.map[key];
-                } else if (errorCallback) {
-                    if (this.mapError) {
-                        errorCallback(this.mapError);
-                    } else {
-                        errorCallback('Invalid value for option "%s".', this.name);
+                const map = this.map;
+                if (map !== 'object') {
+                    const key = value ? (value + '').toLowerCase() : '';
+                    const values = Object.keys(map).map(key => map[key]);
+
+                    if (map instanceof Map) {
+                        value = map.has(key) ? map.get(key) : value;
+                    } else if (key in map) {
+                        value = map[key];
+                    } else if (values.indexOf(value) === -1 && errorCallback) {
+                        if (this.mapError) {
+                            errorCallback(this.mapError);
+                        } else {
+                            errorCallback('Invalid value for option "%s".', this.name);
+                        }
                     }
                 }
                 break;

@@ -1,34 +1,30 @@
-import {SourceFile} from "../sources/file";
-import {IDefaultValueContainer, ITypeContainer, ITypeParameterContainer, ITraverseCallback, TraverseProperty} from "./abstract";
-import {Type, ReflectionType} from "../types/index";
-import {ContainerReflection} from "./container";
-import {SignatureReflection} from "./signature";
-import {TypeParameterReflection} from "./type-parameter";
-
+import { DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty } from './abstract';
+import { Type, ReflectionType } from '../types/index';
+import { ContainerReflection } from './container';
+import { SignatureReflection } from './signature';
+import { TypeParameterReflection } from './type-parameter';
 
 /**
  * Stores hierarchical type data.
  *
  * @see [[DeclarationReflection.typeHierarchy]]
  */
-export interface IDeclarationHierarchy
-{
+export interface DeclarationHierarchy {
     /**
      * The types represented by this node in the hierarchy.
      */
-    types:Type[];
+    types: Type[];
 
     /**
      * The next hierarchy level.
      */
-    next?:IDeclarationHierarchy;
+    next?: DeclarationHierarchy;
 
     /**
      * Is this the entry containing the target type?
      */
-    isTarget?:boolean;
+    isTarget?: boolean;
 }
-
 
 /**
  * A reflection that represents a single declaration emitted by the TypeScript compiler.
@@ -36,17 +32,16 @@ export interface IDeclarationHierarchy
  * All parts of a project are represented by DeclarationReflection instances. The actual
  * kind of a reflection is stored in its ´kind´ member.
  */
-export class DeclarationReflection extends ContainerReflection implements IDefaultValueContainer, ITypeContainer, ITypeParameterContainer
-{
+export class DeclarationReflection extends ContainerReflection implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
     /**
      * The type of the reflection.
      *
      * If the reflection represents a variable or a property, this is the value type.<br />
      * If the reflection represents a signature, this is the return type.
      */
-    type:Type;
+    type: Type;
 
-    typeParameters:TypeParameterReflection[];
+    typeParameters: TypeParameterReflection[];
 
     /**
      * A list of call signatures attached to this declaration.
@@ -54,94 +49,99 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      * TypeDoc creates one declaration per function that may contain ore or more
      * signature reflections.
      */
-    signatures:SignatureReflection[];
+    signatures: SignatureReflection[];
 
     /**
      * The index signature of this declaration.
      */
-    indexSignature:SignatureReflection;
+    indexSignature: SignatureReflection;
 
     /**
      * The get signature of this declaration.
      */
-    getSignature:SignatureReflection;
+    getSignature: SignatureReflection;
 
     /**
      * The set signature of this declaration.
      */
-    setSignature:SignatureReflection;
+    setSignature: SignatureReflection;
 
     /**
      * The default value of this reflection.
      *
      * Applies to function parameters.
      */
-    defaultValue:string;
+    defaultValue: string;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.
      *
      * Applies to interface and class members.
      */
-    overwrites:Type;
+    overwrites: Type;
 
     /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
      */
-    inheritedFrom:Type;
+    inheritedFrom: Type;
 
     /**
      * A type that points to the reflection this reflection is the implementation of.
      *
      * Applies to class members.
      */
-    implementationOf:Type;
+    implementationOf: Type;
 
     /**
      * A list of all types this reflection extends (e.g. the parent classes).
      */
-    extendedTypes:Type[];
+    extendedTypes: Type[];
 
     /**
      * A list of all types that extend this reflection (e.g. the subclasses).
      */
-    extendedBy:Type[];
+    extendedBy: Type[];
 
     /**
      * A list of all types this reflection implements.
      */
-    implementedTypes:Type[];
+    implementedTypes: Type[];
 
     /**
      * A list of all types that implement this reflection.
      */
-    implementedBy:Type[];
+    implementedBy: Type[];
 
     /**
      * Contains a simplified representation of the type hierarchy suitable for being
      * rendered in templates.
      */
-    typeHierarchy:IDeclarationHierarchy;
+    typeHierarchy: DeclarationHierarchy;
 
-
-    hasGetterOrSetter():boolean {
+    hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;
     }
 
+    getAllSignatures(): SignatureReflection[] {
+        let result: SignatureReflection[] = [];
 
-    getAllSignatures():SignatureReflection[] {
-        var result:SignatureReflection[] = [];
-
-        if (this.signatures) result = result.concat(this.signatures);
-        if (this.indexSignature) result.push(this.indexSignature);
-        if (this.getSignature) result.push(this.getSignature);
-        if (this.setSignature) result.push(this.setSignature);
+        if (this.signatures) {
+            result = result.concat(this.signatures);
+        }
+        if (this.indexSignature) {
+            result.push(this.indexSignature);
+        }
+        if (this.getSignature) {
+            result.push(this.getSignature);
+        }
+        if (this.setSignature) {
+            result.push(this.setSignature);
+        }
 
         return result;
     }
-
 
     /**
      * Traverse all potential child reflections of this reflection.
@@ -151,17 +151,17 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback:ITraverseCallback) {
+    traverse(callback: TraverseCallback) {
         if (this.typeParameters) {
-            this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
         }
 
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType>this.type).declaration, TraverseProperty.TypeLiteral);
+            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
         }
 
         if (this.signatures) {
-            this.signatures.forEach((signature) => callback(signature, TraverseProperty.Signatures));
+            this.signatures.slice().forEach((signature) => callback(signature, TraverseProperty.Signatures));
         }
 
         if (this.indexSignature) {
@@ -179,12 +179,12 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
         super.traverse(callback);
     }
 
-
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
-    toObject():any {
-        var result = super.toObject();
+    toObject(): any {
+        let result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();
@@ -225,17 +225,16 @@ export class DeclarationReflection extends ContainerReflection implements IDefau
         return result;
     }
 
-
     /**
      * Return a string representation of this reflection.
      */
-    toString():string {
-        var result = super.toString();
+    toString(): string {
+        let result = super.toString();
 
         if (this.typeParameters) {
-            var parameters:string[] = [];
+            const parameters: string[] = [];
             this.typeParameters.forEach((parameter) => {
-                parameters.push(parameter.name)
+                parameters.push(parameter.name);
             });
             result += '<' + parameters.join(', ') + '>';
         }

@@ -1,20 +1,18 @@
-import * as ts from "typescript";
+import * as ts from 'typescript';
+import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind} from "../../models/index";
-import {Context} from "../context";
-import {Component, ConverterNodeComponent} from "../components";
+import { Reflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
-
-@Component({name:'node:variable-statement'})
-export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement>
-{
+@Component({name: 'node:variable-statement'})
+export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports:ts.SyntaxKind[] = [
+    supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.VariableStatement
     ];
-
 
     /**
      * Analyze the given variable statement node and create a suitable reflection.
@@ -23,11 +21,11 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
      * @param node     The variable statement node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context:Context, node:ts.VariableStatement):Reflection {
+    convert(context: Context, node: ts.VariableStatement): Reflection {
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
-                if (ts.isBindingPattern(variableDeclaration.name)) {
-                    this.convertBindingPattern(context, <ts.BindingPattern>variableDeclaration.name);
+                if (_ts.isBindingPattern(variableDeclaration.name)) {
+                    this.convertBindingPattern(context, <ts.BindingPattern> variableDeclaration.name);
                 } else {
                     this.owner.convertNode(context, variableDeclaration);
                 }
@@ -37,19 +35,18 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
         return context.scope;
     }
 
-
     /**
      * Traverse the elements of the given binding pattern and create the corresponding variable reflections.
      *
      * @param context  The context object describing the current state the converter is in.
      * @param node     The binding pattern node that should be analyzed.
      */
-    convertBindingPattern(context:Context, node:ts.BindingPattern) {
-        node.elements.forEach((element:ts.BindingElement) => {
-            this.owner.convertNode(context, <any>element);
+    convertBindingPattern(context: Context, node: ts.BindingPattern) {
+        (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element: ts.BindingElement) => {
+            this.owner.convertNode(context, element);
 
-            if (ts.isBindingPattern(element.name)) {
-                this.convertBindingPattern(context, <ts.BindingPattern>element.name);
+            if (_ts.isBindingPattern(element.name)) {
+                this.convertBindingPattern(context, <ts.BindingPattern> element.name);
             }
         });
     }

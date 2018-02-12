@@ -1,12 +1,13 @@
 {
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
-  "version": "0.4.0",
-  "homepage": "http://typedoc.io",
+  "version": "0.10.0",
+  "homepage": "http://typedoc.org",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "bin": {
     "typedoc": "bin/typedoc"
   },
-  "main": "bin/typedoc.js",
   "author": {
     "name": "Sebastian Lenz",
     "url": "http://www.sebastian-lenz.de/"
@@ -14,53 +15,63 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sebastian-lenz/TypeDoc.git"
+    "url": "git://github.com/TypeStrong/TypeDoc.git"
   },
   "bugs": {
-    "url": "https://github.com/sebastian-lenz/TypeDoc/issues"
+    "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "licenses": [
     {
       "type": "Apache-2.0",
-      "url": "https://github.com/sebastian-lenz/TypeDoc/blob/master/LICENSE"
+      "url": "https://github.com/TypeStrong/TypeDoc/blob/master/LICENSE"
     }
   ],
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">= 4.2.0"
   },
   "dependencies": {
-    "fs-extra": "^0.26.2",
-    "handlebars": "4.0.5",
+    "@types/fs-extra": "5.0.0",
+    "@types/handlebars": "4.0.36",
+    "@types/highlight.js": "9.12.2",
+    "@types/lodash": "4.14.99",
+    "@types/marked": "0.3.0",
+    "@types/minimatch": "3.0.3",
+    "@types/shelljs": "0.7.7",
+    "fs-extra": "^5.0.0",
+    "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
-    "lodash": "^3.10.1",
-    "marked": "^0.3.5",
+    "lodash": "^4.13.1",
+    "marked": "^0.3.12",
     "minimatch": "^3.0.0",
-    "progress": "^1.1.8",
-    "shelljs": "^0.5.3",
-    "typedoc-default-themes": "sierrasoftworks/typedoc-default-themes#v0.3.5",
-    "typescript": "1.8.10",
-    "underscore": "^1.8.3"
+    "progress": "^2.0.0",
+    "shelljs": "^0.8.1",
+    "typedoc-default-themes": "^0.5.0",
+    "typescript": "2.7.1"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
+    "@types/mocha": "2.2.48",
+    "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^0.7.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-mocha-istanbul": "^3.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-istanbul": "^5.0.1",
     "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^5.3.0-beta.2",
+    "grunt-ts": "^5.5.1",
+    "grunt-tslint": "^5.0.1",
     "istanbul": "^0.4.1",
-    "mocha": "^2.3.4"
+    "mocha": "^5.0.0",
+    "tslint": "^5.9.1"
   },
   "files": [
     "bin",
-    "lib",
+    "dist",
+    "!dist/test",
     "tasks",
-    "index.js",
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -t 10000 dist/test",
     "build": "grunt build_and_test",
     "prepublish": "npm run build"
   },
