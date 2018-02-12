@@ -109,8 +109,6 @@ export class OptionDeclaration {
                     }
                 }
                 break;
-            case ParameterType.Object:
-                break;
         }
 
         return value;

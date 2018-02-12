@@ -10,6 +10,9 @@ import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, Typ
 import { CompilerHost } from './utils/compiler-host';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
+import { getRawComment, parseComment } from './factories/comment';
+import { CommentTag } from '../models/comments';
+import { ReflectionFlag, DeclarationReflection, ReflectionKind } from '../..';
 
 /**
  * Result structure of the [[Converter.convert]] method.

@@ -1,32 +1,31 @@
 import * as Util from "util";
-import * as Path from "path";
 
-import {Reflection} from "../models/reflections/abstract";
-import {ProjectReflection, DeclarationReflection} from "../models/reflections/index";
+
+import { Reflection } from "../models/reflections/abstract";
+import { ProjectReflection } from "../models/reflections/index";
 
 /**
  * A plugin that builds links in markdown texts.
  */
-export class LinkParser
-{
+export class LinkParser {
   /**
    * The project that is currently processed.
    */
-  private project:ProjectReflection;
+  private project: ProjectReflection;
 
   /**
    * Regular expression for detecting inline tags like {@link ...}.
    */
-  private inlineTag:RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
+  private inlineTag: RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
 
   /**
    * Regular expression to test if a string looks like an external url.
    */
-  private urlPrefix:RegExp = /^(http|ftp)s?:\/\//;
-  private linkPrefix:string;
+  private urlPrefix: RegExp = /^(http|ftp)s?:\/\//;
+  private linkPrefix: string;
 
 
-  constructor(project:ProjectReflection, linkPrefix?:string){
+  constructor(project: ProjectReflection, linkPrefix?: string) {
     this.project = project;
     this.linkPrefix = linkPrefix != null ? linkPrefix : '';
   }
@@ -38,14 +37,14 @@ export class LinkParser
    * @param text  The string in which to replace the inline tags.
    * @return      The updated string.
    */
-  private replaceInlineTags(text:string):string {
+  private replaceInlineTags(text: string): string {
     let that = this;
-    return text.replace(this.inlineTag, (match:string, leading:string, tagName:string, content:string):string => {
-      var split   = that.splitLinkText(content);
-      var target  = split.target;
+    return text.replace(this.inlineTag, (match: string, leading: string, tagName: string, content: string): string => {
+      var split = that.splitLinkText(content);
+      var target = split.target;
       var caption = leading || split.caption;
 
-      var monospace:boolean;
+      var monospace: boolean;
       if (tagName == 'linkcode') monospace = true;
       if (tagName == 'linkplain') monospace = false;
 
@@ -63,12 +62,12 @@ export class LinkParser
    * @param monospace  Whether to use monospace formatting or not.
    * @returns A html link tag.
    */
-  private buildLink(original:string, target:string, caption:string, monospace?:boolean):string {
+  private buildLink(original: string, target: string, caption: string, monospace?: boolean): string {
     let attributes = '';
     if (this.urlPrefix.test(target)) {
       attributes = ' class="external"';
     } else {
-      let reflection:Reflection;
+      let reflection: Reflection;
       reflection = this.project.findReflectionByName(target);
 
       if (reflection && reflection.url) {
@@ -103,7 +102,7 @@ export class LinkParser
    * @param text  The source string that should be checked for a split character.
    * @returns An object containing the link text and target.
    */
-  private splitLinkText(text:string):{caption:string;target:string;} {
+  private splitLinkText(text: string): { caption: string; target: string; } {
     var splitIndex = text.indexOf('|');
     if (splitIndex === -1) {
       splitIndex = text.search(/\s/);

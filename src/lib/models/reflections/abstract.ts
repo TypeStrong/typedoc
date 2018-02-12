@@ -80,7 +80,8 @@ export enum ReflectionFlag {
     ConstructorProperty = 1024,
     Abstract = 2048,
     Const = 4096,
-    Let = 8192
+    Let = 8192,
+    CoveoComponentOptions = 16384
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -307,11 +308,11 @@ export abstract class Reflection {
      * Create a new BaseReflection instance.
      */
     constructor(parent?: Reflection, name?: string, kind?: ReflectionKind) {
-        this.id     = REFLECTION_ID++;
+        this.id = REFLECTION_ID++;
         this.parent = parent;
-        this.name   = name;
+        this.name = name;
         this.originalName = name;
-        this.kind   = kind;
+        this.kind = kind;
     }
 
     /**
@@ -444,7 +445,7 @@ export abstract class Reflection {
                 alias = 'reflection-' + this.id;
             }
 
-            let target = <Reflection> this;
+            let target = <Reflection>this;
             while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
                 target = target.parent;
             }
@@ -471,7 +472,7 @@ export abstract class Reflection {
      * @returns TRUE when this reflection has a visible comment.
      */
     hasComment(): boolean {
-        return <boolean> (this.comment && this.comment.hasVisibleComponent());
+        return <boolean>(this.comment && this.comment.hasVisibleComponent());
     }
 
     hasGetterOrSetter(): boolean {
@@ -560,11 +561,11 @@ export abstract class Reflection {
      */
     toObject(): any {
         const result: any = {
-            id:         this.id,
-            name:       this.name,
-            kind:       this.kind,
+            id: this.id,
+            name: this.name,
+            kind: this.kind,
             kindString: this.kindString,
-            flags:      {}
+            flags: {}
         };
 
         if (this.originalName !== this.name) {
@@ -577,7 +578,7 @@ export abstract class Reflection {
 
         for (let key in this.flags) {
             // tslint:disable-next-line:triple-equals
-            if (parseInt(key, 10) == <any> key || key === 'flags') {
+            if (parseInt(key, 10) == <any>key || key === 'flags') {
                 continue;
             }
             if (this.flags[key]) {

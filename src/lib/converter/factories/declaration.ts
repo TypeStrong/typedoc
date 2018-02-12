@@ -4,6 +4,7 @@ import { ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflect
 import { Context } from '../context';
 import { Converter } from '../converter';
 import { createReferenceType } from './reference';
+import { getRawComment } from './comment';
 
 /**
  * List of reflection kinds that never should be static.

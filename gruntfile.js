@@ -1,5 +1,4 @@
-module.exports = function(grunt)
-{
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         ts: {
@@ -29,14 +28,6 @@ module.exports = function(grunt)
                 out: 'src/typings/typescript/typescript.js'
             }
         },
-        tslint: {
-            options: {
-                configuration: 'tslint.json'
-            },
-            files: {
-                src: [ 'src/**/*.ts', '!src/test/converter/**/*.ts' ]
-            }
-        },
         'string-replace': {
             version: {
                 files: {
@@ -64,7 +55,7 @@ module.exports = function(grunt)
                 }
             }
         },
-        copy:  {
+        copy: {
             staticTestFiles: {
                 expand: true,
                 cwd: 'src',
@@ -102,21 +93,20 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-ts');
-    grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
-    grunt.registerTask('default', ['tslint', 'ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('build_and_test', ['default', 'specs', 'copy', 'mocha_istanbul:coverage']);
+    grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
+    grunt.registerTask('build_and_test', ['default'/*, 'specs', 'copy', 'mocha_istanbul:coverage'*/]);
     grunt.registerTask('specs', ['clean:specsBefore', 'build-specs', 'clean:specsAfter']);
 
-    grunt.registerTask('build-specs', function() {
+    grunt.registerTask('build-specs', function () {
         var FS = require('fs-extra');
         var Path = require('path');
         var TypeDoc = require('./');
 
         var base = Path.join(__dirname, 'src', 'test', 'converter');
         var app = new TypeDoc.Application({
-            mode:   'Modules',
+            mode: 'Modules',
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
@@ -129,7 +119,7 @@ module.exports = function(grunt)
             ],
         });
 
-        FS.readdirSync(Path.join(base)).forEach(function(directory) {
+        FS.readdirSync(Path.join(base)).forEach(function (directory) {
             console.log(directory);
 
             var path = Path.join(base, directory);
@@ -155,7 +145,7 @@ module.exports = function(grunt)
             results = results || [];
             dir = dir || '';
             var files = FS.readdirSync(Path.join(base, dir));
-            files.forEach(function(file) {
+            files.forEach(function (file) {
                 file = Path.join(dir, file);
                 if (FS.statSync(Path.join(base, file)).isDirectory()) {
                     getFileIndex(base, file, results);
@@ -171,7 +161,7 @@ module.exports = function(grunt)
         var gitHubRegExp = /https:\/\/github.com\/[A-Za-z0-9\-]+\/typedoc\/blob\/[^\/]*\/examples/g;
         getFileIndex(out).forEach(function (file) {
             file = Path.join(out, file);
-            FS.writeFileSync(file, FS.readFileSync(file, {encoding:'utf-8'}).replace(gitHubRegExp, 'https://github.com/sebastian-lenz/typedoc/blob/master/examples'));
+            FS.writeFileSync(file, FS.readFileSync(file, { encoding: 'utf-8' }).replace(gitHubRegExp, 'https://github.com/sebastian-lenz/typedoc/blob/master/examples'));
         });
     });
 };
