@@ -54,7 +54,7 @@ import { ParameterType } from '../utils/options/declaration';
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[RendererEvent]].
  */
-@Component({name: 'renderer', internal: true, childClass: RendererComponent})
+@Component({ name: 'renderer', internal: true, childClass: RendererComponent })
 export class Renderer extends ChildableComponent<Application, RendererComponent> {
     /**
      * The theme that is used to render the documentation.
@@ -163,6 +163,9 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             return false;
         }
 
+        console.log(page.filename);
+
+
         page.template = page.template || this.theme.resources.templates.getResource(page.templateName).getTemplate();
         page.contents = page.template(page);
 
@@ -172,6 +175,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         }
 
         try {
+            console.log(`Generating... ${page.url}`)
             writeFile(page.filename, page.contents, false);
         } catch (error) {
             this.application.logger.error('Could not write %s', page.filename);

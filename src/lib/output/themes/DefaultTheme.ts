@@ -65,6 +65,11 @@ export class DefaultTheme extends Theme {
         isLeaf:    false,
         directory: 'modules',
         template:  'reflection.hbs'
+    },{
+        kind: [ReflectionKind.CoveoComponent],
+        isLeaf: false,
+        directory: 'components',
+        template : 'reflection.hbs'
     }];
 
     static URL_PREFIX: RegExp = /^(http|ftp)s?:\/\//;

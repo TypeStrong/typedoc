@@ -307,7 +307,7 @@ export class Context {
         this.inheritParent = baseNode;
         this.inherited = [];
 
-        const target = <ContainerReflection> this.scope;
+        const target = <ContainerReflection>this.scope;
         if (!(target instanceof ContainerReflection)) {
             throw new Error('Expected container reflection');
         }

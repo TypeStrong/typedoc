@@ -51,13 +51,13 @@ export class CommentPlugin extends ConverterComponent {
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:                   this.onBegin,
-            [Converter.EVENT_CREATE_DECLARATION]:      this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]:        this.onDeclaration,
-            [Converter.EVENT_CREATE_TYPE_PARAMETER]:   this.onCreateTypeParameter,
+            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
+            [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
             [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this.onFunctionImplementation,
-            [Converter.EVENT_RESOLVE_BEGIN]:           this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]:                 this.onResolve
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]: this.onResolve
         });
     }
 
@@ -70,12 +70,12 @@ export class CommentPlugin extends ConverterComponent {
                 return;
             }
 
-            info.fullText    = comment;
+            info.fullText = comment;
             info.isPreferred = isPreferred;
         } else {
             this.comments[reflection.id] = {
-                reflection:  reflection,
-                fullText:    comment,
+                reflection: reflection,
+                fullText: comment,
                 isPreferred: isPreferred
             };
         }
@@ -264,8 +264,8 @@ export class CommentPlugin extends ConverterComponent {
                     }
 
                     childComment.shortText = childComment.shortText || comment.shortText;
-                    childComment.text      = childComment.text      || comment.text;
-                    childComment.returns   = childComment.returns   || comment.returns;
+                    childComment.text = childComment.text || comment.text;
+                    childComment.returns = childComment.returns || comment.returns;
                 }
 
                 if (signature.parameters) {

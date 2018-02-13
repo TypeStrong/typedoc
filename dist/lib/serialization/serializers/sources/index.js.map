@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../../src/lib/serialization/serializers/sources/index.ts"],"names":[],"mappings":";;AAAA,uDAAwE;AAA/D,gEAAA,kCAAkC,CAAA","sourcesContent":["export { SourceReferenceContainerSerializer } from './source-reference';\n"]}

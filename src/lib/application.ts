@@ -1,3 +1,7 @@
+import { LinkParser } from "./utils/LinkParser";
+var marked = require("marked");
+var highlight = require("highlight.js");
+
 /**
  * The TypeDoc main module and namespace.
  *
@@ -35,7 +39,7 @@ import { ParameterType } from './utils/options/declaration';
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({name: 'application', internal: true})
+@Component({ name: 'application', internal: true })
 export class Application extends ChildableComponent<Application, AbstractComponent<Application>> {
     options: Options;
 
@@ -61,13 +65,15 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     plugins: PluginHost;
 
+    notSupportedFeaturesConfig: {};
+
     @Option({
         name: 'logger',
         help: 'Specify the logger that should be used, \'none\' or \'console\'',
         defaultValue: 'console',
         type: ParameterType.Mixed
     })
-    loggerType: string|Function;
+    loggerType: string | Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
@@ -83,6 +89,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     })
     exclude: Array<string>;
 
+
     /**
      * The version number of TypeDoc.
      */
@@ -96,14 +103,16 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     constructor(options?: Object) {
         super(null);
 
-        this.logger    = new ConsoleLogger();
+        this.logger = new ConsoleLogger();
         this.converter = this.addComponent<Converter>('converter', Converter);
         this.serializer = this.addComponent<Serializer>('serializer', Serializer);
-        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
-        this.plugins   = this.addComponent('plugins', PluginHost);
-        this.options   = this.addComponent('options', Options);
+        this.renderer = this.addComponent<Renderer>('renderer', Renderer);
+        this.plugins = this.addComponent('plugins', PluginHost);
+        this.options = this.addComponent('options', Options);
 
         this.bootstrap(options);
+
+        this.notSupportedFeaturesConfig = (<any>options).notSupportedFeaturesConfig
     }
 
     /**
@@ -116,7 +125,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
         const logger = this.loggerType;
         if (typeof logger === 'function') {
-            this.logger = new CallbackLogger(<any> logger);
+            this.logger = new CallbackLogger(<any>logger);
         } else if (logger === 'none') {
             this.logger = new Logger();
         }
@@ -230,10 +239,99 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         out = Path.resolve(out);
         const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
         const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
-        writeFile(out, JSON.stringify(ser, null, '\t'), false);
+        const prettifiedJson = this.prettifyJson(ser, project, )
+        writeFile(out, JSON.stringify(prettifiedJson, null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
+    }
+
+    private prettifyJson(obj: any, project: ProjectReflection, linkPrefix?: string) {
+        let getHighlighted = function (text, lang) {
+            try {
+                if (lang) {
+                    return highlight.highlight(lang, text).value;
+                } else {
+                    return highlight.highlightAuto(text).value;
+                }
+            } catch (error) {
+                this.application.logger.warn(error.message);
+                return text;
+            }
+        };
+        marked.setOptions({
+            highlight: function (code, lang) {
+                return getHighlighted(code, lang);
+            }
+        });
+        let linkParser: LinkParser = new LinkParser(project, linkPrefix);
+        let nodeList = [];
+        let visitChildren = (json, path) => {
+            if (json != null) {
+                let comment = json.comment;
+                if (comment && comment.shortText != null) {
+                    let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
+                    let type = '';
+
+                    let constrainedValues = this.generateConstrainedValues(json);
+                    let miscAttributes = this.generateMiscAttributes(json);
+                    if (json.type && json.type.name) {
+                        type = json.type.name;
+                    }
+                    let notSupportedInValues = json.notSupportedIn ? json.notSupportedIn : '';
+                    nodeList.push({ name: path + json.name, notSupportedIn: notSupportedInValues, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
+                }
+                if (json.children != null && json.children.length > 0) {
+                    json.children.forEach(child => visitChildren(child, path + json.name + '.'));
+                }
+            }
+
+
+        };
+        visitChildren(obj, '');
+
+        return nodeList;
+    }
+
+    private generateConstrainedValues(str: any) {
+        let constrainedValues = [];
+        if (str && str['type'] && str['type'].type == 'union') {
+            if (str.type.types[0] && str.type.types[0].typeArguments && str.type.types[0].typeArguments[0]) {
+                constrainedValues = str.type.types[0].typeArguments[0].types.map(function (type) {
+                    console.log(type);
+                    return type.value;
+                });
+                if (str.type.types[0].name && str.type.types[0].name.toLowerCase() == 'array') {
+                    console.log('asdasd');
+                    var copy = [];
+                    for (var i = 0; i < constrainedValues.length; i++) {
+                        copy[i] = constrainedValues.slice(0, i + 1).join(',');
+                    }
+                    constrainedValues = copy;
+                }
+                constrainedValues = constrainedValues.slice(0, 4);
+            }
+        }
+        return constrainedValues;
+    }
+
+    private generateMiscAttributes(str: any) {
+        var otherMiscAttributes = {};
+        if (str.defaultValue) {
+            var required = str.defaultValue.match(/required\s*:\s([a-zA-Z]+)\s*/);
+            if (required) {
+                otherMiscAttributes['required'] = required[1];
+            }
+            var defaultOptionValue = str.defaultValue.match(/defaultValue\s*:\s([a-zA-Z0-9()'"]+)\s*/);
+            if (defaultOptionValue) {
+                defaultOptionValue[1] = defaultOptionValue[1].replace('l(', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(')', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(')', '');
+                defaultOptionValue[1] = defaultOptionValue[1].replace(/'/g, '');
+                otherMiscAttributes['defaultValue'] = defaultOptionValue[1];
+            }
+        }
+        return otherMiscAttributes;
     }
 
     /**

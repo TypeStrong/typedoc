@@ -58,7 +58,7 @@ export class OptionDeclaration {
             this[key] = data[key];
         }
 
-        this.type  = this.type  || ParameterType.String;
+        this.type = this.type || ParameterType.String;
         this.scope = this.scope || ParameterScope.TypeDoc;
     }
 
