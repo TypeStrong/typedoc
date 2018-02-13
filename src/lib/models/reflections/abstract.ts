@@ -154,6 +154,8 @@ export interface ReflectionFlags extends Array<string> {
     isConst?: boolean;
 
     isLet?: boolean;
+
+    isCoveoComponentOptions?: boolean;
 }
 
 export interface DefaultValueContainer extends Reflection {
@@ -431,6 +433,9 @@ export abstract class Reflection {
                 break;
             case ReflectionFlag.Const:
                 this.flags.isConst = value;
+                break;
+            case ReflectionFlag.CoveoComponentOptions:
+                this.flags.isCoveoComponentOptions = value;
                 break;
         }
     }

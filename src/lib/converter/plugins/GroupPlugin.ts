@@ -148,6 +148,9 @@ export class GroupPlugin extends ConverterComponent {
             }
 
             const group = new ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+            if (child.flags.isCoveoComponentOptions) {
+                group.title = 'Component Options';
+            }
             group.children.push(child);
             if (group.title == 'Component Options') {
                 if (group.children[0]['children']) {

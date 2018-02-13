@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../../src/lib/serialization/serializers/comments/index.ts"],"names":[],"mappings":";;AAAA,qCAA8C;AAArC,sCAAA,iBAAiB,CAAA;AAC1B,6CAAqD;AAA5C,6CAAA,oBAAoB,CAAA","sourcesContent":["export { CommentSerializer } from './comment';\nexport { CommentTagSerializer } from './comment-tag';\n"]}

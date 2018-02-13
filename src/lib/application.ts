@@ -1,5 +1,4 @@
 import { LinkParser } from "./utils/LinkParser";
-var _ = require("underscore");
 var marked = require("marked");
 var highlight = require("highlight.js");
 
@@ -268,26 +267,26 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         let linkParser: LinkParser = new LinkParser(project, linkPrefix);
         let nodeList = [];
         let visitChildren = (json, path) => {
-            _.each(_.keys(json), (key) => {
-                let str = json[key];
-                if (str != null && str.name != null && str.comment != null) {
-                    let comment = str.comment;
-                    if (comment.shortText != null) {
-                        let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
-                        let type = '';
-                        let constrainedValues = this.generateConstrainedValues(str);
-                        let miscAttributes = this.generateMiscAttributes(str);
-                        if (str.type && str.type.name) {
-                            type = str.type.name;
-                        }
-                        let notSupportedInValues = str.notSupportedIn ? str.notSupportedIn : '';
-                        nodeList.push({ name: path + str.name, notSupportedIn: notSupportedInValues, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
+            if (json != null) {
+                let comment = json.comment;
+                if (comment && comment.shortText != null) {
+                    let markedText = marked(comment.shortText + (comment.text ? '\n' + comment.text : ''));
+                    let type = '';
+
+                    let constrainedValues = this.generateConstrainedValues(json);
+                    let miscAttributes = this.generateMiscAttributes(json);
+                    if (json.type && json.type.name) {
+                        type = json.type.name;
                     }
-                    if (str.children != null && str.children.length > 0) {
-                        visitChildren(str.children, path + str.name + '.');
-                    }
+                    let notSupportedInValues = json.notSupportedIn ? json.notSupportedIn : '';
+                    nodeList.push({ name: path + json.name, notSupportedIn: notSupportedInValues, comment: linkParser.parseMarkdown(markedText), type: type, constrainedValues: constrainedValues, miscAttributes: miscAttributes });
                 }
-            });
+                if (json.children != null && json.children.length > 0) {
+                    json.children.forEach(child => visitChildren(child, path + json.name + '.'));
+                }
+            }
+
+
         };
         visitChildren(obj, '');
 
@@ -299,9 +298,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         if (str && str['type'] && str['type'].type == 'union') {
             if (str.type.types[0] && str.type.types[0].typeArguments && str.type.types[0].typeArguments[0]) {
                 constrainedValues = str.type.types[0].typeArguments[0].types.map(function (type) {
+                    console.log(type);
                     return type.value;
                 });
                 if (str.type.types[0].name && str.type.types[0].name.toLowerCase() == 'array') {
+                    console.log('asdasd');
                     var copy = [];
                     for (var i = 0; i < constrainedValues.length; i++) {
                         copy[i] = constrainedValues.slice(0, i + 1).join(',');

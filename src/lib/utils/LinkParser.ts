@@ -73,7 +73,7 @@ export class LinkParser {
       if (reflection && reflection.url) {
         target = reflection.url;
       } else {
-        console.log('Link could not be resolved : ' + original);
+        //console.log('Link could not be resolved : ' + original);
         return caption;
       }
     }
