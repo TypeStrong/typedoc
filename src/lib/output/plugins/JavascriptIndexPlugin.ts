@@ -72,6 +72,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
             typedoc.search = typedoc.search || {};
             typedoc.search.data = ${JSON.stringify({kinds: kinds, rows: rows})};`;
 
-        writeFile(fileName, data, true);
+        writeFile(fileName, data, false);
     }
 }
