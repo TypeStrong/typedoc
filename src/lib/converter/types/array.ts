@@ -18,7 +18,12 @@ export class ArrayConverter extends ConverterTypeComponent implements TypeConver
      */
     supportsType(context: Context, type: ts.TypeReference): boolean {
         // Is there a better way to detect the {"type":"reference","name":"Array","typeArguments":{...}} types that are in fact arrays?
-        return !!(type.flags & ts.TypeFlags.Object) && !!type.symbol && type.symbol.name === 'Array' && !type.symbol.parent && !!type.typeArguments && type.typeArguments.length === 1;
+        return !!(type.flags & ts.TypeFlags.Object)
+          && !!type.symbol
+          && type.symbol.name === 'Array'
+          && !type.symbol.parent
+          && !!type.typeArguments
+          && type.typeArguments.length === 1;
     }
 
     /**

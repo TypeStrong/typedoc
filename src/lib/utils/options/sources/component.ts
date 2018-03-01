@@ -1,7 +1,12 @@
-import { Component, ComponentEvent, AbstractComponent, ChildableComponent } from '../../component';
-import { OptionsComponent } from '../options';
+import {
+    Component,
+    ComponentEvent,
+    AbstractComponent,
+    ChildableComponent
+} from "../../component";
+import { OptionsComponent } from "../options";
 
-@Component({name: 'options:component'})
+@Component({ name: "options:component" })
 export class ComponentSource extends OptionsComponent {
     private knownComponents: string[];
 
@@ -10,7 +15,7 @@ export class ComponentSource extends OptionsComponent {
         this.addComponent(this.application);
 
         this.listenTo(this.application, {
-            [ComponentEvent.ADDED]:   this.onComponentAdded,
+            [ComponentEvent.ADDED]: this.onComponentAdded,
             [ComponentEvent.REMOVED]: this.onComponentRemoved
         });
     }
@@ -18,7 +23,7 @@ export class ComponentSource extends OptionsComponent {
     private addComponent(component: AbstractComponent<any>) {
         const name = component.componentName;
         if (!name) {
-            this.application.logger.error('Component without name found.');
+            this.application.logger.error("Component without name found.");
             return;
         }
 
@@ -34,14 +39,27 @@ export class ComponentSource extends OptionsComponent {
         }
     }
 
+    private removeComponent(component: AbstractComponent<any>) {
+        let index = this.knownComponents.indexOf(component.componentName);
+        if (index !== -1) {
+            this.knownComponents.splice(index, 1);
+            for (let declaration of component.getOptionDeclarations()) {
+                this.owner.removeDeclarationByName(declaration.name);
+            }
+        }
+
+        if (component instanceof ChildableComponent) {
+            for (let child of component.getComponents()) {
+                this.removeComponent(child);
+            }
+        }
+    }
+
     private onComponentAdded(e: ComponentEvent) {
         this.addComponent(e.component);
     }
 
     private onComponentRemoved(e: ComponentEvent) {
-        const declarations = e.component.getOptionDeclarations();
-        for (let declaration of declarations) {
-            this.owner.removeDeclarationByName(declaration.name);
-        }
+        this.removeComponent(e.component);
     }
 }

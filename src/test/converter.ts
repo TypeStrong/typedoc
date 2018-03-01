@@ -97,3 +97,37 @@ describe('Converter', function() {
         });
     });
 });
+
+describe('Converter with excludeNotExported=true', function() {
+    const base = Path.join(__dirname, 'converter');
+    const path = Path.join(base, 'export-with-local');
+    let app: Application;
+
+    it('constructs', function() {
+        app = new Application({
+            mode:   'Modules',
+            logger: 'none',
+            target: 'ES5',
+            module: 'CommonJS',
+            experimentalDecorators: true,
+            excludeNotExported: true,
+            jsx: 'react'
+        });
+    });
+
+    let result: ProjectReflection;
+
+    it('converts fixtures', function() {
+        resetReflectionID();
+        result = app.convert(app.expandInputFiles([path]));
+        Assert(result instanceof ProjectReflection, 'No reflection returned');
+    });
+
+    it('matches specs', function() {
+        const specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs-without-exported.json')).toString());
+        let data = JSON.stringify(result.toObject(), null, '  ');
+        data = data.split(normalizePath(base)).join('%BASE%');
+
+        compareReflections(JSON.parse(data), specs);
+    });
+});
