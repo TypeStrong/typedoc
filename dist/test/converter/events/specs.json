@@ -1,0 +1,94 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"events\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/events/events.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "EventDispatcher",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "children": [
+            {
+              "id": 3,
+              "name": "EVENT_CLICK",
+              "kind": 8388608,
+              "kindString": "Event",
+              "flags": {
+                "isStatic": true
+              },
+              "comment": {
+                "shortText": "This is an event documentation."
+              },
+              "sources": [
+                {
+                  "fileName": "events.ts",
+                  "line": 7,
+                  "character": 22
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "defaultValue": "\"click\""
+            }
+          ],
+          "groups": [
+            {
+              "title": "Events",
+              "kind": 8388608,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "events.ts",
+              "line": 1,
+              "character": 21
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

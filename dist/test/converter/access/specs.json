@@ -1,0 +1,341 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"access\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/access/access.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "PrivateClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isPrivate": true,
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "A class that is documented as being private."
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "fakePrivateVariable",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "A variable that is made private via comment."
+              },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 35,
+                  "character": 23
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 4,
+              "name": "fakeProtectedVariable",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "A variable that is made protected via comment."
+              },
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 41,
+                  "character": 25
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 5,
+              "name": "fakePrivateFunction",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 6,
+                  "name": "fakePrivateFunction",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isPrivate": true
+                  },
+                  "comment": {
+                    "shortText": "A function that is made private via comment."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 47,
+                  "character": 23
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "name": "fakeProtectedFunction",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "signatures": [
+                {
+                  "id": 8,
+                  "name": "fakeProtectedFunction",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isProtected": true
+                  },
+                  "comment": {
+                    "shortText": "A function that is made protected via comment."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "access.ts",
+                  "line": 53,
+                  "character": 25
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3,
+                4
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                5,
+                7
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 29,
+              "character": 25
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "fakePrivateVariable",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isPrivate": true,
+            "isExported": true,
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "A variable that is made private via comment."
+          },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 5,
+              "character": 32
+            }
+          ],
+          "type": {
+            "type": "stringLiteral",
+            "value": "test"
+          },
+          "defaultValue": "\"test\""
+        },
+        {
+          "id": 10,
+          "name": "fakeProtectedVariable",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isProtected": true,
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "A variable that is made protected via comment."
+          },
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 11,
+              "character": 34
+            }
+          ],
+          "type": {
+            "type": "stringLiteral",
+            "value": "test"
+          },
+          "defaultValue": "\"test\""
+        },
+        {
+          "id": 11,
+          "name": "fakePrivateFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isPrivate": true,
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 12,
+              "name": "fakePrivateFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isPrivate": true
+              },
+              "comment": {
+                "shortText": "A function that is made private via comment."
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 17,
+              "character": 35
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "fakeProtectedFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "isProtected": true
+          },
+          "signatures": [
+            {
+              "id": 14,
+              "name": "fakeProtectedFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "A function that is made protected via comment."
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "access.ts",
+              "line": 23,
+              "character": 37
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            9,
+            10
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            11,
+            13
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "access.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

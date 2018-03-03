@@ -1,0 +1,177 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"array\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/array/array.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Array",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "A custom array interface."
+          },
+          "typeParameter": [
+            {
+              "id": 3,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 4,
+              "character": 22
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "complex",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "A const of a complex type."
+          },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 11,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "array",
+            "elementType": {
+              "type": "array",
+              "elementType": {
+                "type": "union",
+                "types": [
+                  {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  {
+                    "type": "array",
+                    "elementType": {
+                      "type": "union",
+                      "types": [
+                        {
+                          "type": "array",
+                          "elementType": {
+                            "type": "reference",
+                            "name": "Array",
+                            "id": 2,
+                            "typeArguments": [
+                              {
+                                "type": "intrinsic",
+                                "name": "string"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "array",
+                          "elementType": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "defaultValue": " []"
+        },
+        {
+          "id": 5,
+          "name": "custom",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "An exported const of the custom array type."
+          },
+          "sources": [
+            {
+              "fileName": "array.ts",
+              "line": 16,
+              "character": 19
+            }
+          ],
+          "type": {
+            "type": "reference",
+            "name": "Array",
+            "id": 2,
+            "typeArguments": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            4,
+            5
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "array.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

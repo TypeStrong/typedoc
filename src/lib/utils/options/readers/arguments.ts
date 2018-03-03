@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as ts from 'typescript';
 import * as _ts from '../../../ts-internal';
 
@@ -58,7 +59,7 @@ export class ArgumentsReader extends OptionsComponent {
                 files.push(arg);
             }
         }
-        if (files) {
+        if (!_.isEmpty(files)) {
             event.inputFiles = files;
         }
     }

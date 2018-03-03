@@ -1,0 +1,488 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"constructor-properties\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/constructor-properties/constructor-properties.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Vector2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A class with constructor properties."
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {},
+              "signatures": [
+                {
+                  "id": 7,
+                  "name": "new Vector2",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 8,
+                      "name": "x",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "X component of the Vector"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 9,
+                      "name": "y",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Y component of the Vector"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 10,
+                      "name": "name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Vector name\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Vector2",
+                    "id": 2
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 5,
+                  "character": 1
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true
+              },
+              "comment": {
+                "shortText": "Vector name\n"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 12,
+                  "character": 29
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 4,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "X component of the Vector"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 11,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            },
+            {
+              "id": 5,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Y component of the Vector"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 11,
+                  "character": 41
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                3
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                6,
+                4,
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 4,
+              "character": 13
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "Vector3",
+              "id": 11
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "Vector3",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A class with inherited and overwritten constructor properties."
+          },
+          "children": [
+            {
+              "id": 12,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {},
+              "signatures": [
+                {
+                  "id": 16,
+                  "name": "new Vector3",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 17,
+                      "name": "x",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "X component of the Vector"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 18,
+                      "name": "y",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Y component of the Vector"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "name": "z",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Z component of the Vector"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 20,
+                      "name": "name",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Vector name\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Vector3",
+                    "id": 11
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "Vector2.__constructor",
+                    "id": 3
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 21,
+                  "character": 1
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.__constructor",
+                "id": 3
+              }
+            },
+            {
+              "id": 15,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true
+              },
+              "comment": {
+                "shortText": "Vector name\n"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 29,
+                  "character": 29
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.name",
+                "id": 6
+              }
+            },
+            {
+              "id": 21,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "X component of the Vector"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 11,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Vector2.x",
+                "id": 4
+              }
+            },
+            {
+              "id": 13,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Y component of the Vector"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 28,
+                  "character": 34
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "Vector2.y",
+                "id": 5
+              }
+            },
+            {
+              "id": 14,
+              "name": "z",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Z component of the Vector"
+              },
+              "sources": [
+                {
+                  "fileName": "constructor-properties.ts",
+                  "line": 28,
+                  "character": 51
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                12
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                15,
+                21,
+                13,
+                14
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "constructor-properties.ts",
+              "line": 20,
+              "character": 13
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "Vector2",
+              "id": 2
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2,
+            11
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "constructor-properties.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

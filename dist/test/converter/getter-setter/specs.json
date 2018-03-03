@@ -1,0 +1,224 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"getter-setter\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/getter-setter/getter-setter.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "GetterSetter",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "children": [
+            {
+              "id": 3,
+              "name": "_name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true
+              },
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 3,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 4,
+              "name": "name",
+              "kind": 262144,
+              "kindString": "Accessor",
+              "flags": {},
+              "getSignature": [
+                {
+                  "id": 5,
+                  "name": "__get",
+                  "kind": 524288,
+                  "kindString": "Get signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "setSignature": [
+                {
+                  "id": 6,
+                  "name": "__set",
+                  "kind": 1048576,
+                  "kindString": "Set signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 7,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 6,
+                  "character": 12
+                },
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 7,
+                  "character": 12
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "name": "readOnlyName",
+              "kind": 262144,
+              "kindString": "Accessor",
+              "flags": {},
+              "getSignature": [
+                {
+                  "id": 9,
+                  "name": "__get",
+                  "kind": 524288,
+                  "kindString": "Get signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 9,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "writeOnlyName",
+              "kind": 262144,
+              "kindString": "Accessor",
+              "flags": {},
+              "setSignature": [
+                {
+                  "id": 11,
+                  "name": "__set",
+                  "kind": 1048576,
+                  "kindString": "Set signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 12,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "getter-setter.ts",
+                  "line": 11,
+                  "character": 21
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            },
+            {
+              "title": "Accessors",
+              "kind": 262144,
+              "children": [
+                4,
+                8,
+                10
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "getter-setter.ts",
+              "line": 1,
+              "character": 18
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "getter-setter.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

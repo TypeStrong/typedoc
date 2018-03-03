@@ -1,0 +1,193 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"generic-function\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/generic-function/generic-function.ts",
+      "children": [
+        {
+          "id": 6,
+          "name": "functionWithGenericArrayParameter",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 7,
+              "name": "functionWithGenericArrayParameter",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "A function with a generic type array parameter.",
+                "returns": "A generic array.\n"
+              },
+              "typeParameter": [
+                {
+                  "id": 8,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 9,
+                  "name": "param",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "A generic parameter."
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                },
+                {
+                  "id": 10,
+                  "name": "params",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "A generic array parameter."
+                  },
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "T"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 19,
+              "character": 42
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "genericFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 3,
+              "name": "genericFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Generic function short text.",
+                "returns": "Generic function return value.\n"
+              },
+              "typeParameter": [
+                {
+                  "id": 4,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function type parameter."
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "Object"
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 5,
+                  "name": "value",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function parameter."
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T",
+                    "constraint": {
+                      "type": "reference",
+                      "name": "Object"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T",
+                "constraint": {
+                  "type": "reference",
+                  "name": "Object"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 7,
+              "character": 24
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            6,
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-function.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
