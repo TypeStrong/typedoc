@@ -1,7 +1,7 @@
 import { Component, ComponentEvent, AbstractComponent, ChildableComponent } from '../../component';
 import { OptionsComponent } from '../options';
 
-@Component({name: 'options:component'})
+@Component({ name: 'options:component' })
 export class ComponentSource extends OptionsComponent {
     private knownComponents: string[];
 
@@ -10,7 +10,7 @@ export class ComponentSource extends OptionsComponent {
         this.addComponent(this.application);
 
         this.listenTo(this.application, {
-            [ComponentEvent.ADDED]:   this.onComponentAdded,
+            [ComponentEvent.ADDED]: this.onComponentAdded,
             [ComponentEvent.REMOVED]: this.onComponentRemoved
         });
     }
