@@ -1,12 +1,7 @@
-import {
-    Component,
-    ComponentEvent,
-    AbstractComponent,
-    ChildableComponent
-} from "../../component";
-import { OptionsComponent } from "../options";
+import { Component, ComponentEvent, AbstractComponent, ChildableComponent } from '../../component';
+import { OptionsComponent } from '../options';
 
-@Component({ name: "options:component" })
+@Component({ name: 'options:component' })
 export class ComponentSource extends OptionsComponent {
     private knownComponents: string[];
 
@@ -23,7 +18,7 @@ export class ComponentSource extends OptionsComponent {
     private addComponent(component: AbstractComponent<any>) {
         const name = component.componentName;
         if (!name) {
-            this.application.logger.error("Component without name found.");
+            this.application.logger.error('Component without name found.');
             return;
         }
 
