@@ -66,11 +66,8 @@ export class CliApplication extends Application {
             this.logger.error("You must either specify the 'out' or 'json' option.");
             process.exit(ExitCode.NoOutput);
         } else {
-            console.log('result.inputFiles', result.inputFiles);
             const src = this.expandInputFiles(result.inputFiles);
-            console.log('src', src);
             const project = this.convert(src);
-            console.log('project', project);
             if (project) {
                 if (this.out) {
                     this.generateDocs(project, this.out);
