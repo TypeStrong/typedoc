@@ -1,0 +1,1241 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"interface-implementation\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/interface-implementation/interface-implementation.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Forms",
+          "kind": 2,
+          "kindString": "Module",
+          "flags": {},
+          "children": [
+            {
+              "id": 45,
+              "name": "EventDispatcher",
+              "kind": 128,
+              "kindString": "Class",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Implementation of IEventDispatcher",
+                "tags": [
+                  {
+                    "tag": "see",
+                    "text": "IEventDispatcher\n"
+                  }
+                ]
+              },
+              "typeParameter": [
+                {
+                  "id": 46,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "children": [
+                {
+                  "id": 47,
+                  "name": "subscriptions",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isPrivate": true,
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 57,
+                      "character": 29
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "ISubscription",
+                      "id": 7,
+                      "typeArguments": [
+                        {
+                          "type": "typeParameter",
+                          "name": "T"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 48,
+                  "name": "add",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 49,
+                      "name": "add",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 50,
+                          "name": "listener",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "IEventListener",
+                            "id": 3,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "T"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": 51,
+                          "name": "filter",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "any"
+                          },
+                          "defaultValue": "null"
+                        },
+                        {
+                          "id": 52,
+                          "name": "priority",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          "defaultValue": "0"
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "name": "ISubscription",
+                        "id": 7,
+                        "typeArguments": [
+                          {
+                            "type": "typeParameter",
+                            "name": "T"
+                          }
+                        ]
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "IEventDispatcher.add",
+                        "id": 31
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 59,
+                      "character": 11
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "IEventDispatcher.add",
+                    "id": 30
+                  }
+                },
+                {
+                  "id": 59,
+                  "name": "clear",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 60,
+                      "name": "clear",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "IEventDispatcher.clear",
+                        "id": 42
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 69,
+                      "character": 13
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "IEventDispatcher.clear",
+                    "id": 41
+                  }
+                },
+                {
+                  "id": 56,
+                  "name": "dispatch",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 57,
+                      "name": "dispatch",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 58,
+                          "name": "event",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "typeParameter",
+                            "name": "T"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "IEventDispatcher.dispatch",
+                        "id": 39
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 65,
+                      "character": 16
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "IEventDispatcher.dispatch",
+                    "id": 38
+                  }
+                },
+                {
+                  "id": 61,
+                  "name": "hasListeners",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 62,
+                      "name": "hasListeners",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "IEventDispatcher.hasListeners",
+                        "id": 44
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 71,
+                      "character": 20
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "IEventDispatcher.hasListeners",
+                    "id": 43
+                  }
+                },
+                {
+                  "id": 53,
+                  "name": "remove",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 54,
+                      "name": "remove",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 55,
+                          "name": "subscription",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "ISubscription",
+                            "id": 7,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "T"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "IEventDispatcher.remove",
+                        "id": 36
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 63,
+                      "character": 14
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "IEventDispatcher.remove",
+                    "id": 35
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    47
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    48,
+                    59,
+                    56,
+                    61,
+                    53
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 55,
+                  "character": 32
+                }
+              ],
+              "implementedTypes": [
+                {
+                  "type": "reference",
+                  "name": "IEventDispatcher",
+                  "id": 28,
+                  "typeArguments": [
+                    {
+                      "type": "typeParameter",
+                      "name": "T"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "Subscription",
+              "kind": 128,
+              "kindString": "Class",
+              "flags": {},
+              "typeParameter": [
+                {
+                  "id": 15,
+                  "name": "V",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "children": [
+                {
+                  "id": 16,
+                  "name": "constructor",
+                  "kind": 512,
+                  "kindString": "Constructor",
+                  "flags": {},
+                  "signatures": [
+                    {
+                      "id": 21,
+                      "name": "new Subscription",
+                      "kind": 16384,
+                      "kindString": "Constructor signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 22,
+                          "name": "listener",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "IEventListener",
+                            "id": 3,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "V"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": 23,
+                          "name": "filter",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        },
+                        {
+                          "id": 24,
+                          "name": "priority",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          }
+                        },
+                        {
+                          "id": 25,
+                          "name": "dispatcher",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "EventDispatcher",
+                            "id": 45,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "V"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "name": "Subscription",
+                        "id": 14
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 29,
+                      "character": 5
+                    }
+                  ]
+                },
+                {
+                  "id": 20,
+                  "name": "dispatcher",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isConstructorProperty": true,
+                    "isPublic": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 30,
+                      "character": 115
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "EventDispatcher",
+                    "id": 45,
+                    "typeArguments": [
+                      {
+                        "type": "typeParameter",
+                        "name": "V"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": 18,
+                  "name": "filter",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isConstructorProperty": true,
+                    "isPublic": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 30,
+                      "character": 68
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "ISubscription.filter",
+                    "id": 11
+                  }
+                },
+                {
+                  "id": 17,
+                  "name": "listener",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isConstructorProperty": true,
+                    "isPublic": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 30,
+                      "character": 35
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "IEventListener",
+                    "id": 3,
+                    "typeArguments": [
+                      {
+                        "type": "typeParameter",
+                        "name": "V"
+                      }
+                    ]
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "ISubscription.listener",
+                    "id": 9
+                  }
+                },
+                {
+                  "id": 19,
+                  "name": "priority",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isConstructorProperty": true,
+                    "isPublic": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 30,
+                      "character": 89
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "ISubscription.priority",
+                    "id": 10
+                  }
+                },
+                {
+                  "id": 26,
+                  "name": "unsubscribe",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {},
+                  "signatures": [
+                    {
+                      "id": 27,
+                      "name": "unsubscribe",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      },
+                      "implementationOf": {
+                        "type": "reference",
+                        "name": "ISubscription.unsubscribe",
+                        "id": 13
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 32,
+                      "character": 19
+                    }
+                  ],
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "ISubscription.unsubscribe",
+                    "id": 12
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Constructors",
+                  "kind": 512,
+                  "children": [
+                    16
+                  ]
+                },
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    20,
+                    18,
+                    17,
+                    19
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    26
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 28,
+                  "character": 22
+                }
+              ],
+              "implementedTypes": [
+                {
+                  "type": "reference",
+                  "name": "ISubscription",
+                  "id": 7,
+                  "typeArguments": [
+                    {
+                      "type": "typeParameter",
+                      "name": "V"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 28,
+              "name": "IEventDispatcher",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
+              },
+              "typeParameter": [
+                {
+                  "id": 29,
+                  "name": "U",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "children": [
+                {
+                  "id": 30,
+                  "name": "add",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 31,
+                      "name": "add",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 32,
+                          "name": "listener",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "IEventListener",
+                            "id": 3,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "U"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": 33,
+                          "name": "filter",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        },
+                        {
+                          "id": 34,
+                          "name": "priority",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "name": "ISubscription",
+                        "id": 7,
+                        "typeArguments": [
+                          {
+                            "type": "typeParameter",
+                            "name": "U"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 43,
+                      "character": 11
+                    }
+                  ]
+                },
+                {
+                  "id": 41,
+                  "name": "clear",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 42,
+                      "name": "clear",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 46,
+                      "character": 13
+                    }
+                  ]
+                },
+                {
+                  "id": 38,
+                  "name": "dispatch",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 39,
+                      "name": "dispatch",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 40,
+                          "name": "parameter",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "typeParameter",
+                            "name": "U"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 45,
+                      "character": 16
+                    }
+                  ]
+                },
+                {
+                  "id": 43,
+                  "name": "hasListeners",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 44,
+                      "name": "hasListeners",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 47,
+                      "character": 20
+                    }
+                  ]
+                },
+                {
+                  "id": 35,
+                  "name": "remove",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 36,
+                      "name": "remove",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 37,
+                          "name": "subscription",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "reference",
+                            "name": "ISubscription",
+                            "id": 7,
+                            "typeArguments": [
+                              {
+                                "type": "typeParameter",
+                                "name": "U"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 44,
+                      "character": 14
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    30,
+                    41,
+                    38,
+                    43,
+                    35
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 41,
+                  "character": 37
+                }
+              ],
+              "implementedBy": [
+                {
+                  "type": "reference",
+                  "name": "EventDispatcher",
+                  "id": 45
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "IEventListener",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {},
+              "comment": {
+                "shortText": "Function signature of an event listener callback"
+              },
+              "typeParameter": [
+                {
+                  "id": 4,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "signatures": [
+                {
+                  "id": 5,
+                  "name": "__call",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Function signature of an event listener callback"
+                  },
+                  "parameters": [
+                    {
+                      "id": 6,
+                      "name": "parameter",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 6,
+                  "character": 28
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "name": "ISubscription",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {},
+              "comment": {
+                "shortText": "Encapsulates a subscription to an event dispatcher, and allows for unsubscribing"
+              },
+              "typeParameter": [
+                {
+                  "id": 8,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "children": [
+                {
+                  "id": 11,
+                  "name": "filter",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 19,
+                      "character": 14
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                },
+                {
+                  "id": 9,
+                  "name": "listener",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 17,
+                      "character": 16
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "IEventListener",
+                    "id": 3,
+                    "typeArguments": [
+                      {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": 10,
+                  "name": "priority",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 18,
+                      "character": 16
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 12,
+                  "name": "unsubscribe",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {},
+                  "signatures": [
+                    {
+                      "id": 13,
+                      "name": "unsubscribe",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Remove this subscription from its dispatcher"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "void"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "interface-implementation.ts",
+                      "line": 24,
+                      "character": 19
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    11,
+                    9,
+                    10
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    12
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-implementation.ts",
+                  "line": 15,
+                  "character": 27
+                }
+              ],
+              "implementedBy": [
+                {
+                  "type": "reference",
+                  "name": "Subscription",
+                  "id": 14
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Classes",
+              "kind": 128,
+              "children": [
+                45,
+                14
+              ]
+            },
+            {
+              "title": "Interfaces",
+              "kind": 256,
+              "children": [
+                28,
+                3,
+                7
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-implementation.ts",
+              "line": 1,
+              "character": 12
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Modules",
+          "kind": 2,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-implementation.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

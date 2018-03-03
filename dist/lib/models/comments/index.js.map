@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/lib/models/comments/index.ts"],"names":[],"mappings":";;AAAA,qCAAoC;AAA3B,4BAAA,OAAO,CAAA;AAChB,6BAAmC;AAA1B,2BAAA,UAAU,CAAA","sourcesContent":["export { Comment } from './comment';\nexport { CommentTag } from './tag';\n"]}

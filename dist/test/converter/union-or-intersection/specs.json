@@ -1,0 +1,302 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"union-or-intersection\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/union-or-intersection/union-or-intersection.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "FirstType",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "First type for union or intersection type tests."
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "firstProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Property of first type."
+              },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 9,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 4,
+              "character": 26
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "SecondType",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Second type for union or intersection type tests."
+          },
+          "children": [
+            {
+              "id": 5,
+              "name": "secondProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Property of second type."
+              },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 20,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 15,
+              "character": 27
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "ThirdType",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Third type for union or intersection type tests."
+          },
+          "children": [
+            {
+              "id": 9,
+              "name": "thirdComplexProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Complex Property of third type."
+              },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 41,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "union",
+                  "types": [
+                    {
+                      "type": "intrinsic",
+                      "name": "string"
+                    },
+                    {
+                      "type": "array",
+                      "elementType": {
+                        "type": "intersection",
+                        "types": [
+                          {
+                            "type": "reference",
+                            "name": "FirstType",
+                            "id": 2
+                          },
+                          {
+                            "type": "reference",
+                            "name": "SecondType",
+                            "id": 4
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": 8,
+              "name": "thirdIntersectionProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Intersection Property of third type."
+              },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 36,
+                  "character": 29
+                }
+              ],
+              "type": {
+                "type": "intersection",
+                "types": [
+                  {
+                    "type": "reference",
+                    "name": "FirstType",
+                    "id": 2
+                  },
+                  {
+                    "type": "reference",
+                    "name": "ThirdType",
+                    "id": 6
+                  }
+                ]
+              }
+            },
+            {
+              "id": 7,
+              "name": "thirdUnionProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Union Property of third type."
+              },
+              "sources": [
+                {
+                  "fileName": "union-or-intersection.ts",
+                  "line": 31,
+                  "character": 22
+                }
+              ],
+              "type": {
+                "type": "union",
+                "types": [
+                  {
+                    "type": "reference",
+                    "name": "FirstType",
+                    "id": 2
+                  },
+                  {
+                    "type": "reference",
+                    "name": "SecondType",
+                    "id": 4
+                  }
+                ]
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                9,
+                8,
+                7
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "union-or-intersection.ts",
+              "line": 26,
+              "character": 26
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2,
+            4,
+            6
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "union-or-intersection.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

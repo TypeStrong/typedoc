@@ -1,0 +1,167 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"interface-empty\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/interface-empty/interface-empty.ts",
+      "children": [
+        {
+          "id": 3,
+          "name": "ClassImplementingEmptyInterface",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "A class implementing an empty interface."
+          },
+          "children": [
+            {
+              "id": 4,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true
+              },
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 12,
+                  "character": 16
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 5,
+              "name": "goto",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPublic": true
+              },
+              "signatures": [
+                {
+                  "id": 6,
+                  "name": "goto",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "interface-empty.ts",
+                  "line": 13,
+                  "character": 15
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 11,
+              "character": 37
+            }
+          ],
+          "implementedTypes": [
+            {
+              "type": "reference",
+              "name": "EmptyInterface",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "EmptyInterface",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "comment": {
+            "shortText": "An empty interface"
+          },
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 4,
+              "character": 24
+            }
+          ],
+          "implementedBy": [
+            {
+              "type": "reference",
+              "name": "ClassImplementingEmptyInterface",
+              "id": 3
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            3
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-empty.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"this\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/this/this.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "ChainClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "ChainClass comment short text.",
+            "text": "ChainClass comment text.\n"
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "chain",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isPublic": true
+              },
+              "signatures": [
+                {
+                  "id": 4,
+                  "name": "chain",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Chain method that returns this."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "this"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "this.ts",
+                  "line": 11,
+                  "character": 13
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "this.ts",
+              "line": 6,
+              "character": 23
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "this.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

@@ -1,0 +1,442 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"events-overloads\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/events-overloads/events-overloads.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Test",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "comment": {
+            "shortText": "Encapsulates some information for background http transfers.",
+            "tags": [
+              {
+                "tag": "see",
+                "text": "https://github.com/sebastian-lenz/typedoc/issues/136\n"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "on",
+              "kind": 8388608,
+              "kindString": "Event",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 4,
+                  "name": "on",
+                  "kind": 8388608,
+                  "kindString": "Event",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Subscribe for a general event by name."
+                  },
+                  "parameters": [
+                    {
+                      "id": 5,
+                      "name": "event",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The name of the event to subscribe for."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "id": 6,
+                      "name": "handler",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The handler called when the event occure.\n"
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 7,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 8,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 9,
+                                  "name": "e",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "any"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 15,
+                              "character": 30
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                },
+                {
+                  "id": 10,
+                  "name": "on",
+                  "kind": 8388608,
+                  "kindString": "Event",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Subscribe for error notifications."
+                  },
+                  "parameters": [
+                    {
+                      "id": 11,
+                      "name": "event",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The name of the event to subscribe for."
+                      },
+                      "type": {
+                        "type": "stringLiteral",
+                        "value": "error"
+                      }
+                    },
+                    {
+                      "id": 12,
+                      "name": "handler",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A handler that will receive the error details\n"
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 13,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 14,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 15,
+                                  "name": "e",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "any"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 24,
+                              "character": 31
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                },
+                {
+                  "id": 16,
+                  "name": "on",
+                  "kind": 8388608,
+                  "kindString": "Event",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Subscribe for progress notifications."
+                  },
+                  "parameters": [
+                    {
+                      "id": 17,
+                      "name": "event",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The name of the event to subscribe for."
+                      },
+                      "type": {
+                        "type": "stringLiteral",
+                        "value": "progress"
+                      }
+                    },
+                    {
+                      "id": 18,
+                      "name": "handler",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A handler that will receive a progress event with the current and expected total bytes\n"
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 19,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 20,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 21,
+                                  "name": "e",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "any"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 33,
+                              "character": 34
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                },
+                {
+                  "id": 22,
+                  "name": "on",
+                  "kind": 8388608,
+                  "kindString": "Event",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Subscribe for success notification."
+                  },
+                  "parameters": [
+                    {
+                      "id": 23,
+                      "name": "event",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The name of the event to subscribe for."
+                      },
+                      "type": {
+                        "type": "stringLiteral",
+                        "value": "complete"
+                      }
+                    },
+                    {
+                      "id": 24,
+                      "name": "handler",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that will be called with general event data upon successful completion\n"
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 25,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 26,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 27,
+                                  "name": "e",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "any"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "events-overloads.ts",
+                              "line": 42,
+                              "character": 34
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 15,
+                  "character": 6
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 24,
+                  "character": 6
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 33,
+                  "character": 6
+                },
+                {
+                  "fileName": "events-overloads.ts",
+                  "line": 42,
+                  "character": 6
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Events",
+              "kind": 8388608,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "events-overloads.ts",
+              "line": 6,
+              "character": 14
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "events-overloads.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
