@@ -10,18 +10,17 @@ export class TestClass {
     /**
      * publicProperty short text.
      */
-    public publicProperty:string;
+    public publicProperty: string;
 
     /**
      * privateProperty short text.
      */
-    private privateProperty:number[];
+    private privateProperty: number[];
 
     /**
      * privateProperty short text.
      */
-    static staticProperty:TestClass;
-
+    static staticProperty: TestClass;
 
     /**
      * Constructor short text.
@@ -49,9 +48,7 @@ export class TestClass {
     static staticMethod() {}
 }
 
-
-export class TestSubClass extends TestClass
-{
+export class TestSubClass extends TestClass {
     /**
      * publicMethod short text.
      */
@@ -75,7 +72,6 @@ export class TestSubClass extends TestClass
     }
 }
 
-
 export abstract class TestAbstractClass {
     abstract myAbstractProperty: string;
 
@@ -86,4 +82,16 @@ export class TestAbstractClassImplementation extends TestAbstractClass {
     myAbstractProperty: string;
 
     protected myAbstractMethod(): void { }
+}
+
+/**
+ * This class will not appear when `excludeNotExported=true`
+ */
+abstract class NotExportedClass {
+    /**
+     * Adds two numbers
+     */
+    add(a: number, b: number) {
+        a + b;
+    }
 }

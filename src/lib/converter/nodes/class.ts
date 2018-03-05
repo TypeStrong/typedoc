@@ -30,7 +30,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Class);
             // set possible abstract flag here, where node is not the inherited parent
-            if (node.modifiers && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
+            if (reflection && node.modifiers && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
                 reflection.setFlag(ReflectionFlag.Abstract, true);
             }
         }

@@ -15,90 +15,6 @@
       "originalName": "%BASE%/class/class.ts",
       "children": [
         {
-          "id": 42,
-          "name": "NotExportedClass",
-          "kind": 128,
-          "kindString": "Class",
-          "flags": {
-            "isAbstract": true
-          },
-          "comment": {
-            "shortText": "This class will not appear when `excludeNotExported=true`"
-          },
-          "children": [
-            {
-              "id": 43,
-              "name": "add",
-              "kind": 2048,
-              "kindString": "Method",
-              "flags": {},
-              "signatures": [
-                {
-                  "id": 44,
-                  "name": "add",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {},
-                  "comment": {
-                    "shortText": "Adds two numbers"
-                  },
-                  "parameters": [
-                    {
-                      "id": 45,
-                      "name": "a",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    },
-                    {
-                      "id": 46,
-                      "name": "b",
-                      "kind": 32768,
-                      "kindString": "Parameter",
-                      "flags": {},
-                      "type": {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    }
-                  ],
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "void"
-                  }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 94,
-                  "character": 7
-                }
-              ]
-            }
-          ],
-          "groups": [
-            {
-              "title": "Methods",
-              "kind": 2048,
-              "children": [
-                43
-              ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 90,
-              "character": 31
-            }
-          ]
-        },
-        {
           "id": 34,
           "name": "TestAbstractClass",
           "kind": 128,
@@ -1032,7 +948,6 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            42,
             34,
             38,
             2,

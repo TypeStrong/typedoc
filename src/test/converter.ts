@@ -100,7 +100,8 @@ describe('Converter', function() {
 
 describe('Converter with excludeNotExported=true', function() {
     const base = Path.join(__dirname, 'converter');
-    const path = Path.join(base, 'export-with-local');
+    const exportWithLocalDir = Path.join(base, 'export-with-local');
+    const classDir = Path.join(base, 'class');
     let app: Application;
 
     it('constructs', function() {
@@ -117,17 +118,36 @@ describe('Converter with excludeNotExported=true', function() {
 
     let result: ProjectReflection;
 
-    it('converts fixtures', function() {
-        resetReflectionID();
-        result = app.convert(app.expandInputFiles([path]));
-        Assert(result instanceof ProjectReflection, 'No reflection returned');
+    describe('export-with-local', () => {
+        it('converts fixtures', function() {
+            resetReflectionID();
+            result = app.convert(app.expandInputFiles([exportWithLocalDir]));
+            Assert(result instanceof ProjectReflection, 'No reflection returned');
+        });
+
+        it('matches specs', function() {
+            const specs = JSON.parse(FS.readFileSync(Path.join(exportWithLocalDir, 'specs-without-exported.json')).toString());
+            let data = JSON.stringify(result.toObject(), null, '  ');
+            data = data.split(normalizePath(base)).join('%BASE%');
+
+            compareReflections(JSON.parse(data), specs);
+        });
     });
 
-    it('matches specs', function() {
-        const specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs-without-exported.json')).toString());
-        let data = JSON.stringify(result.toObject(), null, '  ');
-        data = data.split(normalizePath(base)).join('%BASE%');
+    describe('class', () => {
+        it('converts fixtures', function() {
+            resetReflectionID();
+            result = app.convert(app.expandInputFiles([classDir]));
+            Assert(result instanceof ProjectReflection, 'No reflection returned');
+        });
 
-        compareReflections(JSON.parse(data), specs);
+        it('matches specs', function() {
+            const specs = JSON.parse(FS.readFileSync(Path.join(classDir, 'specs-without-exported.json')).toString());
+            let data = JSON.stringify(result.toObject(), null, '  ');
+            data = data.split(normalizePath(base)).join('%BASE%');
+
+            compareReflections(JSON.parse(data), specs);
+        });
     });
+
 });
