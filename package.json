@@ -71,9 +71,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha -t 10000 dist/test",
-    "build": "grunt build_and_test",
-    "prepublish": "npm run build"
+    "test": "grunt build_and_test",
+    "build": "grunt default",
+    "prepublishOnly": "npm run test"
   },
   "keywords": [
     "typescript",
