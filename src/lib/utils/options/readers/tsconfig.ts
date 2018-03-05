@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import * as ts from 'typescript';
 
 import { Component, Option } from '../../component';
-import { OptionsComponent, DiscoverEvent } from '../options';
+import { OptionsComponent, OptionsReadMode, DiscoverEvent } from '../options';
 import { ParameterType, ParameterHint } from '../declaration';
 import { TypeScriptSource } from '../sources/typescript';
 
@@ -35,6 +35,11 @@ export class TSConfigReader extends OptionsComponent {
     }
 
     onDiscover(event: DiscoverEvent) {
+        // Do nothing until were fetching options
+        if (event.mode !== OptionsReadMode.Fetch) {
+            return;
+        }
+
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (TSConfigReader.PROJECT_KEY in event.data) {

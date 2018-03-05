@@ -122,7 +122,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         this.plugins.load();
-        return this.options.read(options, OptionsReadMode.Fetch);
+        return this.options.read(this.options.getRawValues(), OptionsReadMode.Fetch);
     }
 
     /**

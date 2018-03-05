@@ -58,7 +58,7 @@ export class ArgumentsReader extends OptionsComponent {
                 files.push(arg);
             }
         }
-        if (files) {
+        if (files && files.length > 0) {
             event.inputFiles = files;
         }
     }
