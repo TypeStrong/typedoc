@@ -36,7 +36,7 @@
     "@types/lodash": "4.14.99",
     "@types/marked": "0.3.0",
     "@types/minimatch": "3.0.3",
-    "@types/shelljs": "0.7.7",
+    "@types/shelljs": "0.7.8",
     "fs-extra": "^5.0.0",
     "handlebars": "^4.0.6",
     "highlight.js": "^9.0.0",
