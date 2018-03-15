@@ -32,7 +32,7 @@
                 "id": 13
               },
               "arguments": {
-                "options": "{\n    name: 'Name of class'\n}"
+                "options": "{\r\n    name: 'Name of class'\r\n}"
               }
             }
           ],

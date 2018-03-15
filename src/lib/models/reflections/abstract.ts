@@ -434,12 +434,12 @@ export abstract class Reflection {
      */
     getAlias(): string {
         if (!this._alias) {
-            let alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      let alias = this.name.replace(/[^a-z0-9]/gi, '_');
             if (alias === '') {
                 alias = 'reflection-' + this.id;
             }
 
-            let target = <Reflection> this;
+      let target = this as Reflection;
             while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
                 target = target.parent;
             }
@@ -466,7 +466,7 @@ export abstract class Reflection {
      * @returns TRUE when this reflection has a visible comment.
      */
     hasComment(): boolean {
-        return <boolean> (this.comment && this.comment.hasVisibleComponent());
+    return (this.comment && this.comment.hasVisibleComponent()) as boolean;
     }
 
     hasGetterOrSetter(): boolean {
@@ -572,7 +572,7 @@ export abstract class Reflection {
 
         for (let key in this.flags) {
             // tslint:disable-next-line:triple-equals
-            if (parseInt(key, 10) == <any> key || key === 'flags') {
+      if (parseInt(key, 10) == (key as any) || key === 'flags') {
                 continue;
             }
             if (this.flags[key]) {
