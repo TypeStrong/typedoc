@@ -4,12 +4,24 @@ import * as _ from 'lodash';
 
 import { Application } from '../application';
 import { ParameterType } from '../utils/options/declaration';
-import { Reflection, Type, ProjectReflection } from '../models/index';
+import { Reflection, Type, ProjectReflection, DeclarationReflection, ContainerReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
 import { createMinimatch } from '../utils/paths';
+
+function pruneNotExported(child) {
+    if ((child instanceof DeclarationReflection) &&
+        !child.flags.isExported) {
+        const siblings = (<ContainerReflection> child.parent).children;
+        const index = siblings.indexOf(child);
+        siblings.splice(index, 1);
+        return;
+    }
+
+    child.traverse(pruneNotExported);
+}
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -283,6 +295,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.trigger(Converter.EVENT_BEGIN, context);
 
         const errors = this.compile(context);
+        if (this.excludeNotExported) {
+            context.project.traverse(pruneNotExported);
+        }
+
         const project = this.resolve(context);
 
         this.trigger(Converter.EVENT_END, context);
