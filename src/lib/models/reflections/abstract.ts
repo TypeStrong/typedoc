@@ -85,19 +85,6 @@ export enum ReflectionFlag {
     Let = 8192
 }
 
-const relevantFlags: ReflectionFlag[] = [
-    ReflectionFlag.Private,
-    ReflectionFlag.Protected,
-    ReflectionFlag.Static,
-    ReflectionFlag.ExportAssignment,
-    ReflectionFlag.Optional,
-    ReflectionFlag.DefaultValue,
-    ReflectionFlag.Rest,
-    ReflectionFlag.Abstract,
-    ReflectionFlag.Let,
-    ReflectionFlag.Const
-];
-
 /**
  * This must extend Array in order to work with Handlebar's each helper.
  */
@@ -221,14 +208,10 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         if (!set && this.hasFlag(flag)) {
-            if (relevantFlags.includes(flag)) {
-                this.splice(this.indexOf(name), 1);
-            }
+            this.splice(this.indexOf(name), 1);
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
-            if (relevantFlags.includes(flag)) {
-                this.push(name);
-            }
+            this.push(name);
             this.flags |= flag;
         }
     }
