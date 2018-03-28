@@ -261,7 +261,10 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
             if (FS.statSync(file).isDirectory()) {
                 FS.readdirSync(file).forEach((child) => {
-                    add(Path.join(file, child));
+                    const childRealPath = Path.join(file, child);
+                    if (!FS.statSync(childRealPath).isSymbolicLink()) {
+                        add(childRealPath);
+                    }
                 });
             } else if (/\.tsx?$/.test(file)) {
                 files.push(file);
