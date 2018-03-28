@@ -152,4 +152,16 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost 
      * @param onError  A callback that will be invoked if an error occurs.
      */
     writeFile(fileName: string, data: string, writeByteOrderMark: boolean, onError?: (message: string) => void) { }
+
+    /**
+     * Return the real path of the given file path by resolving symbolic links.
+     * @param fileName
+     */
+    realpath(fileName: string): string {
+        if (ts.sys.realpath) {
+            return ts.sys.realpath(fileName);
+        }
+
+        return fileName;
+    }
 }
