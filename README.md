@@ -55,8 +55,6 @@ in order to change the behaviour of TypeDoc.
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
 * `--ignoreCompilerErrors`<br>
   Should TypeDoc still generate documentation pages even after the compiler has returned errors?
-* `--tsconfig`<br>
-  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
   
 #### Source file handling
 * `--exclude <pattern>`<br>
@@ -77,7 +75,9 @@ in order to change the behaviour of TypeDoc.
   Specify module code generation: "commonjs", "amd", "system" or "umd".
 * `--target <ES3, ES5, or ES6>`<br>
   Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
-
+* `--tsconfig`<br>
+  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
+  
 #### Theming
 * `--theme <default|minimal|path/to/theme>`<br>
   Specify the path to the theme that should be used.
