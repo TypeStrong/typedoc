@@ -75,7 +75,7 @@ in order to change the behaviour of TypeDoc.
   Specify module code generation: "commonjs", "amd", "system" or "umd".
 * `--target <ES3, ES5, or ES6>`<br>
   Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
-* `--tsconfig`<br>
+* `--tsconfig <path/to/tsconfig.json>`<br>
   Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
   
 #### Theming
