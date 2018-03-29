@@ -55,7 +55,9 @@ in order to change the behaviour of TypeDoc.
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
 * `--ignoreCompilerErrors`<br>
   Should TypeDoc still generate documentation pages even after the compiler has returned errors?
-
+* `--tsconfig`<br>
+  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
+  
 #### Source file handling
 * `--exclude <pattern>`<br>
   Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see [#170](https://github.com/TypeStrong/typedoc/issues/170))
