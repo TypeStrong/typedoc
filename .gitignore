@@ -1,0 +1,4 @@
+/.sass-cache
+/.tscache
+/coverage
+node_modules

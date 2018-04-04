@@ -48,21 +48,6 @@
     "typedoc-default-themes": "^0.5.0",
     "typescript": "2.7.2"
   },
-  "devDependencies": {
-    "@types/mocha": "2.2.48",
-    "grunt": "^1.0.2",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-mocha-istanbul": "^5.0.1",
-    "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^5.5.1",
-    "grunt-tslint": "^5.0.1",
-    "istanbul": "^0.4.1",
-    "mocha": "^5.0.4",
-    "tslint": "^5.9.1"
-  },
   "files": [
     "bin",
     "dist",
@@ -70,11 +55,6 @@
     "tasks",
     "LICENSE"
   ],
-  "scripts": {
-    "test": "mocha -t 10000 dist/test",
-    "build": "grunt build_and_test",
-    "prepublish": "npm run build"
-  },
   "keywords": [
     "typescript",
     "documentation",

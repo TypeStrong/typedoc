@@ -3,15 +3,14 @@
 This module contains the default themes of TypeDoc.
 Visit http://typedoc.org/ to learn more about TypeDoc.
 
-
 ## Contributing
 
 Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
 an issue or create a pull requests:<br>
 [https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
 
-
 ## License
 
-Copyright (c) 2015 [Sebastian Lenz](http://www.sebastian-lenz.de).<br>
+Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2016-2018 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.
