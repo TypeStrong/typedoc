@@ -4,4 +4,9 @@ node_js:
   - 8
   - 6
   - 4
+# The gem commands are required for installing Ruby's sass tool
+# which is used by grunt-contrib-sass.
+before_install:
+  - gem update --system
+  - gem install sass
 script: npm run ci-test
