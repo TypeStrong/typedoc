@@ -1,8 +1,10 @@
 import * as ts from 'typescript';
-import { Minimatch, IMinimatch } from 'minimatch';
+import { IMinimatch } from 'minimatch';
 
 import { Logger } from '../utils/loggers';
+import { pathToMinimatch } from '../utils/paths';
 import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+
 import { createTypeParameter } from './factories/type-parameter';
 import { Converter } from './converter';
 
@@ -93,7 +95,7 @@ export class Context {
     /**
      * The pattern that should be used to flag external source files.
      */
-    private externalPattern: IMinimatch;
+    private externalPattern: Array<IMinimatch>;
 
     /**
      * Create a new Context instance.
@@ -114,7 +116,7 @@ export class Context {
         this.scope = project;
 
         if (converter.externalPattern) {
-            this.externalPattern = new Minimatch(converter.externalPattern);
+            this.externalPattern = <IMinimatch[]> pathToMinimatch(converter.externalPattern);
         }
     }
 
@@ -216,10 +218,9 @@ export class Context {
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node: ts.SourceFile, callback: Function) {
-        const externalPattern = this.externalPattern;
         let isExternal = this.fileNames.indexOf(node.fileName) === -1;
-        if (externalPattern) {
-            isExternal = isExternal || externalPattern.match(node.fileName);
+        if (!isExternal && this.externalPattern) {
+            isExternal = this.externalPattern.some(mm => mm.match(node.fileName));
         }
 
         if (isExternal && this.converter.excludeExternals) {

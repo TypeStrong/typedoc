@@ -42,9 +42,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
     @Option({
         name: 'externalPattern',
-        help: 'Define a pattern for files that should be considered being external.'
+        help: 'Define patterns for files that should be considered being external.',
+        type: ParameterType.Array
     })
-    externalPattern: string;
+    externalPattern: Array<string>;
 
     @Option({
         name: 'includeDeclarations',
