@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents a type parameter type.
@@ -27,7 +27,6 @@ export class TypeParameterType extends Type {
      */
     clone(): Type {
         const clone = new TypeParameterType();
-        clone.isArray = this.isArray;
         clone.name = this.name;
         clone.constraint = this.constraint;
         return clone;
@@ -44,21 +43,18 @@ export class TypeParameterType extends Type {
             return false;
         }
 
-        let constraintEquals: boolean;
         if (this.constraint && type.constraint) {
-            constraintEquals = type.constraint.equals(this.constraint);
+            return type.constraint.equals(this.constraint);
         } else if (!this.constraint && !type.constraint) {
-            constraintEquals = true;
+            return true;
         } else {
             return false;
         }
-
-        return constraintEquals &&
-            type.isArray === this.isArray;
     }
 
     /**
      * Return a raw object representation of this type.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = super.toObject();

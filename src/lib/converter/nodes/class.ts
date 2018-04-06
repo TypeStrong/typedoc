@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, DeclarationReflection} from '../../models/index';
-import {createDeclaration} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionFlag, ReflectionKind, DeclarationReflection } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:class'})
 export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> {
@@ -29,6 +29,10 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
             reflection = <DeclarationReflection> context.scope;
         } else {
             reflection = createDeclaration(context, node, ReflectionKind.Class);
+            // set possible abstract flag here, where node is not the inherited parent
+            if (reflection && node.modifiers && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
+                reflection.setFlag(ReflectionFlag.Abstract, true);
+            }
         }
 
         context.withScope(reflection, node.typeParameters, () => {
@@ -36,7 +40,9 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                 node.members.forEach((member) => {
                     const modifiers = ts.getCombinedModifierFlags(member);
                     const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
-                    const exclude = context.converter.excludePrivate ? privateMember : false;
+                    const protectedMember = (modifiers & ts.ModifierFlags.Protected) > 0;
+                    const exclude = (context.converter.excludePrivate && privateMember)
+                        || (context.converter.excludeProtected && protectedMember);
 
                     if (!exclude) {
                         this.owner.convertNode(context, member);

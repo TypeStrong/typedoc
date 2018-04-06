@@ -19,7 +19,9 @@
           "name": "objectLiteral",
           "kind": 2097152,
           "kindString": "Object literal",
-          "flags": {},
+          "flags": {
+            "isConst": true
+          },
           "comment": {
             "shortText": "An object literal."
           },
@@ -129,14 +131,11 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "name": "Array",
-                    "typeArguments": [
-                      {
-                        "type": "intrinsic",
-                        "name": "number"
-                      }
-                    ]
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "number"
+                    }
                   },
                   "defaultValue": " [100, 200, 300]"
                 },

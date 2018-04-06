@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind} from '../../models/index';
-import {createDeclaration} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionKind } from '../../models/index';
+import { createDeclaration } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:alias'})
 export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclaration> {
@@ -24,7 +24,7 @@ export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclarati
     convert(context: Context, node: ts.TypeAliasDeclaration): Reflection {
         const alias = createDeclaration(context, node, ReflectionKind.TypeAlias);
 
-        context.withScope(alias, () => {
+        context.withScope(alias, node.typeParameters, () => {
             alias.type = this.owner.convertType(context, node.type, context.getTypeAtLocation(node.type));
         });
 

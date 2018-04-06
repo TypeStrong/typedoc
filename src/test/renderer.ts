@@ -50,7 +50,7 @@ describe('Renderer', function() {
         FS.removeSync(out);
     });
 
-    after(function(){
+    after(function() {
         FS.removeSync(out);
     });
 

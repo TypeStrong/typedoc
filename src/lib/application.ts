@@ -9,16 +9,17 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 import * as typescript from 'typescript';
-import {Minimatch, IMinimatch} from 'minimatch';
+import { Minimatch, IMinimatch } from 'minimatch';
 
-import {Converter} from './converter/index';
-import {Renderer} from './output/renderer';
-import {ProjectReflection} from './models/index';
-import {Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile} from './utils/index';
+import { Converter } from './converter/index';
+import { Renderer } from './output/renderer';
+import { Serializer } from './serialization';
+import { ProjectReflection } from './models/index';
+import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
-import {AbstractComponent, ChildableComponent, Component, Option} from './utils/component';
-import {Options, OptionsReadMode, OptionsReadResult} from './utils/options/index';
-import {ParameterType} from './utils/options/declaration';
+import { AbstractComponent, ChildableComponent, Component, Option } from './utils/component';
+import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
+import { ParameterType } from './utils/options/declaration';
 
 /**
  * The default TypeDoc main application class.
@@ -49,6 +50,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     renderer: Renderer;
 
     /**
+     * The serializer used to generate JSON output.
+     */
+    serializer: Serializer;
+
+    /**
      * The logger that should be used to output messages.
      */
     logger: Logger;
@@ -72,10 +78,10 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     @Option({
         name: 'exclude',
-        help: 'Define a pattern for excluded files when specifying paths.',
-        type: ParameterType.String
+        help: 'Define patterns for excluded files when specifying paths.',
+        type: ParameterType.Array
     })
-    exclude: string;
+    exclude: Array<string>;
 
     /**
      * The version number of TypeDoc.
@@ -91,8 +97,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         super(null);
 
         this.logger    = new ConsoleLogger();
-        this.converter = this.addComponent('converter', Converter);
-        this.renderer  = this.addComponent('renderer', Renderer);
+        this.converter = this.addComponent<Converter>('converter', Converter);
+        this.serializer = this.addComponent<Serializer>('serializer', Serializer);
+        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
 
@@ -115,7 +122,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         this.plugins.load();
-        return this.options.read(options, OptionsReadMode.Fetch);
+        return this.options.read(this.options.getRawValues(), OptionsReadMode.Fetch);
     }
 
     /**
@@ -221,7 +228,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         out = Path.resolve(out);
-        writeFile(out, JSON.stringify(project.toObject(), null, '\t'), false);
+        const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
+        const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
+        writeFile(out, JSON.stringify(ser, null, '\t'), false);
         this.logger.success('JSON written to %s', out);
 
         return true;
@@ -238,9 +247,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles?: string[]): string[] {
-        let exclude: IMinimatch, files: string[] = [];
-        if (this.exclude) {
-            exclude = new Minimatch(this.exclude);
+        let files: string[] = [];
+        const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern)) : [];
+
+        function isExcluded(fileName: string): boolean {
+            return exclude.some(mm => mm.match(fileName));
         }
 
         function add(dirname: string) {
@@ -249,7 +260,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                 if (FS.statSync(realpath).isDirectory()) {
                     add(realpath);
                 } else if (/\.tsx?$/.test(realpath)) {
-                    if (exclude && exclude.match(realpath.replace(/\\/g, '/'))) {
+                    if (isExcluded(realpath.replace(/\\/g, '/'))) {
                         return;
                     }
 
@@ -262,7 +273,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             file = Path.resolve(file);
             if (FS.statSync(file).isDirectory()) {
                 add(file);
-            } else if (!exclude || !exclude.match(file)) {
+            } else if (!isExcluded(file)) {
                 files.push(file);
             }
         });

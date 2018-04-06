@@ -1,8 +1,8 @@
-import {DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty} from './abstract';
-import {Type, ReflectionType} from '../types/index';
-import {ContainerReflection} from './container';
-import {SignatureReflection} from './signature';
-import {TypeParameterReflection} from './type-parameter';
+import { DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty } from './abstract';
+import { Type, ReflectionType } from '../types/index';
+import { ContainerReflection } from './container';
+import { SignatureReflection } from './signature';
+import { TypeParameterReflection } from './type-parameter';
 
 /**
  * Stores hierarchical type data.
@@ -153,7 +153,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      */
     traverse(callback: TraverseCallback) {
         if (this.typeParameters) {
-            this.typeParameters.forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
         }
 
         if (this.type instanceof ReflectionType) {
@@ -161,7 +161,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
         }
 
         if (this.signatures) {
-            this.signatures.forEach((signature) => callback(signature, TraverseProperty.Signatures));
+            this.signatures.slice().forEach((signature) => callback(signature, TraverseProperty.Signatures));
         }
 
         if (this.indexSignature) {
@@ -181,6 +181,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         let result = super.toObject();

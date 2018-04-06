@@ -50,7 +50,7 @@ export interface IPrintNameInterface extends INameInterface, IPrintInterface
  *
  * [[include:class-example.md]]
  */
-export class BaseClass implements INameInterface
+export abstract class BaseClass implements INameInterface
 {
     /**
      * This is a simple public member.
@@ -73,7 +73,7 @@ export class BaseClass implements INameInterface
     /**
      * This is an instance member of an internal class.
      */
-    private internalClass:InternalClass;
+    private internalClass:InternalClass<keyof BaseClass>;
 
 
     constructor(name:string);
@@ -90,6 +90,7 @@ export class BaseClass implements INameInterface
         this.checkName();
     }
 
+    public abstract abstractMethod(): void;
 
     /**
      * This is a simple member function.
@@ -164,7 +165,7 @@ export class BaseClass implements INameInterface
     /**
      * @see https://github.com/sebastian-lenz/typedoc/issues/42
      */
-    public static caTest(originalValues:BaseClass, newRecord:any, fieldNames:string[], mandatoryFields:string[]): string {
+    public static caTest(originalValues:BaseClass, newRecord: any, fieldNames:string[], mandatoryFields:string[]): string {
         var returnval = "";
         var updates: string[] = [];
         var allFields: string[] = fieldNames;
@@ -177,17 +178,15 @@ export class BaseClass implements INameInterface
     }
 }
 
-
 /**
  * This is an internal class, it is not exported.
  */
-class InternalClass
+class InternalClass<TTT extends keyof BaseClass>
 {
     constructor(options:{name:string}) {
 
     }
 }
-
 
 /**
  * This is a class that extends another class.
@@ -197,11 +196,12 @@ class InternalClass
  */
 export class SubClassA extends BaseClass implements IPrintNameInterface
 {
+    public name:string;
+
     /**
      * This is a simple interface function.
      */
     public print(value:string):void { }
-
 
     /**
      * @inheritdoc
@@ -209,7 +209,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public printName():void {
         this.print(this.getName());
     }
-
 
     /**
      * Returns the name. See [[BaseClass.name]].
@@ -230,7 +229,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
         this.name = value;
     }
 
-
     /**
      * Returns the name. See [[BaseClass.name]].
      *
@@ -239,7 +237,6 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public get readOnlyNameProperty():string {
         return this.name;
     }
-
 
     /**
      * Sets the name. See [[BaseClass.name]].
@@ -250,8 +247,11 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
     public set writeOnlyNameProperty(value:string) {
         this.name = value;
     }
-}
 
+    public abstractMethod(): void {
+
+    }
+}
 
 /**
  * This is a class that extends another class.
@@ -260,14 +260,19 @@ export class SubClassA extends BaseClass implements IPrintNameInterface
  */
 export class SubClassB extends BaseClass
 {
+    public name: string;
+
     constructor(name:string) {
         super(name);
+    }
+
+    abstractMethod(): void {
+
     }
 
     doSomething(value:[string, SubClassA, SubClassB]) {
     }
 }
-
 
 /**
  * This is a generic class.
@@ -278,7 +283,6 @@ export class GenericClass<T extends BaseClass>
 {
     public value:T;
 
-
     /**
      * Constructor short text.
      *
@@ -286,10 +290,10 @@ export class GenericClass<T extends BaseClass>
      * @param p2 Private string property
      * @param p3 Public number property
      * @param p4 Public implicit any property
+     * @param p5 Readonly property
      */
-    constructor(p1, protected p2:T, public p3:number, private p4:number) {
+    constructor(p1, protected p2:T, public p3:number, private p4:number, readonly p5: string) {
     }
-
 
     /**
      * @param value [[getValue]] is the counterpart.
@@ -298,17 +302,14 @@ export class GenericClass<T extends BaseClass>
         this.value = value;
     }
 
-
     public getValue():T {
         return this.value;
     }
 }
 
-
 /**
  * This a non generic class derived from a [[GenericClass|generic class]].
  */
-export class NonGenericClass extends GenericClass<SubClassB>
-{
+export class NonGenericClass extends GenericClass<SubClassB> {
 
 }

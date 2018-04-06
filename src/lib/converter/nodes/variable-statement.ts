@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Reflection} from '../../models/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:variable-statement'})
 export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement> {
@@ -42,7 +42,7 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
      * @param node     The binding pattern node that should be analyzed.
      */
     convertBindingPattern(context: Context, node: ts.BindingPattern) {
-        (node.elements as ts.BindingElement[]).forEach((element: ts.BindingElement) => {
+        (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element: ts.BindingElement) => {
             this.owner.convertNode(context, element);
 
             if (_ts.isBindingPattern(element.name)) {

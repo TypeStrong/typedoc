@@ -1,4 +1,4 @@
-import {Type} from './abstract';
+import { Type } from './abstract';
 
 /**
  * Represents all unknown types.
@@ -30,9 +30,7 @@ export class UnknownType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new UnknownType(this.name);
-        clone.isArray = this.isArray;
-        return clone;
+        return new UnknownType(this.name);
     }
 
     /**
@@ -43,12 +41,12 @@ export class UnknownType extends Type {
      */
     equals(type: UnknownType): boolean {
         return type instanceof UnknownType &&
-            type.isArray === this.isArray &&
             type.name === this.name;
     }
 
     /**
      * Return a raw object representation of this type.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = super.toObject();

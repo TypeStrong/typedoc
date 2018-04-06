@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
 [![NPM Version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
 [![Chat on Gitter](https://badges.gitter.im/TypeStrong/typedoc.svg)](https://gitter.im/TypeStrong/typedoc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Greenkeeper Enabled](https://badges.greenkeeper.io/TypeStrong/typedoc.svg)](https://greenkeeper.io/)
 
 ## Installation
 
@@ -48,12 +49,16 @@ in order to change the behaviour of TypeDoc.
   Specifies the location the documentation should be written to.
 * `--mode <file|modules>`<br>
   Specifies the output mode the project is used to be compiled with.
+* `--options`<br>
+  Specify a js option file that should be loaded. If not specified TypeDoc will look for 'typedoc.js' in the current directory.
 * `--json <path/to/output.json>`<br>
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
+* `--ignoreCompilerErrors`<br>
+  Should TypeDoc still generate documentation pages even after the compiler has returned errors?
 
 #### Source file handling
 * `--exclude <pattern>`<br>
-  Exclude files by the given pattern when a path is provided as source
+  Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see [#170](https://github.com/TypeStrong/typedoc/issues/170))
 * `--includeDeclarations`<br>
   Turn on parsing of .d.ts declaration files.
 * `--externalPattern <pattern>`<br>
@@ -62,13 +67,17 @@ in order to change the behaviour of TypeDoc.
   Prevent externally resolved TypeScript files from being documented.
 * `--excludePrivate`<br>
   Prevent private members from being included in the generated documentation.
+* `--excludeProtected`<br>
+  Prevent protected members from being included in the generated documentation.
 
 #### TypeScript compiler
 * `--module <commonjs, amd, system or umd>`<br>
   Specify module code generation: "commonjs", "amd", "system" or "umd".
 * `--target <ES3, ES5, or ES6>`<br>
   Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
-
+* `--tsconfig <path/to/tsconfig.json>`<br>
+  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
+  
 #### Theming
 * `--theme <default|minimal|path/to/theme>`<br>
   Specify the path to the theme that should be used.
@@ -77,6 +86,8 @@ in order to change the behaviour of TypeDoc.
 * `--readme <path/to/readme|none>`<br>
   Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
   and start the documentation on the globals page.
+* `--plugin`<br>
+  Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.
 * `--hideGenerator`<br>
   Do not print the TypeDoc link at the end of the page.
 * `--gaID`<br>
@@ -101,7 +112,7 @@ in order to change the behaviour of TypeDoc.
 * `--version`<br>
   Display the version number of TypeDoc.
 * `--help`<br>
-  Display a simple cheat sheet.
+  Display all TypeDoc options.
 
 ### Webpack
 
@@ -124,6 +135,8 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 
 * [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
 * [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
+* [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
+* [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
 
 ## Advanced guides and docs
 
@@ -133,13 +146,13 @@ Visit our homepage for advanced guides and an extensive API documentation:<br>
 
 ## Contributing
 
-Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
-an issue or create a pull requests:<br>
+This project is maintained by a community of developers. Contributions are welcome and appreciated.
+You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 [https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
 
 
 ## License
 
 Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
-Copyright (c) 2016-2017 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
+Copyright (c) 2016-2018 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.

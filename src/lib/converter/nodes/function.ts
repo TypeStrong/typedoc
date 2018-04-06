@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionKind} from '../../models/index';
-import {createDeclaration, createSignature} from '../factories/index';
-import {Context} from '../context';
-import {Converter} from '../converter';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionFlag, ReflectionKind } from '../../models/index';
+import { createDeclaration, createSignature } from '../factories/index';
+import { Context } from '../context';
+import { Converter } from '../converter';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:function'})
 export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclaration|ts.MethodDeclaration> {
@@ -29,6 +29,13 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
         const kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
         const hasBody = !!node.body;
         const method  = createDeclaration(context, <ts.Node> node, kind);
+
+        if (method  // child inheriting will return null on createDeclaration
+            && kind & ReflectionKind.Method
+            && node.modifiers
+            && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
+          method.setFlag(ReflectionFlag.Abstract, true);
+        }
 
         context.withScope(method, () => {
             if (!hasBody || !method.signatures) {

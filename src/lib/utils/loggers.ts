@@ -116,7 +116,7 @@ export class Logger {
      *
      * @param diagnostics  The TypeScript messages that should be logged.
      */
-    public diagnostics(diagnostics: ts.Diagnostic[]) {
+    public diagnostics(diagnostics: ReadonlyArray<ts.Diagnostic>) {
         diagnostics.forEach((diagnostic) => {
             this.diagnostic(diagnostic);
         });

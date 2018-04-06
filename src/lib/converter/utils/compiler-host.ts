@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {ConverterComponent} from '../components';
+import { ConverterComponent } from '../components';
 
 /**
  * Return code of ts.sys.readFile when the file encoding is unsupported.

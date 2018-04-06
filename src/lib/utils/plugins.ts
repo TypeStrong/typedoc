@@ -2,17 +2,16 @@ import * as FS from 'fs';
 import * as Path from 'path';
 import * as Util from 'util';
 
-import {Application} from '../application';
-import {AbstractComponent, Component, Option} from './component';
-import {ParameterType} from './options/declaration';
+import { Application } from '../application';
+import { AbstractComponent, Component, Option } from './component';
+import { ParameterType } from './options/declaration';
 
 @Component({name: 'plugin-host', internal: true})
 export class PluginHost extends AbstractComponent<Application> {
     @Option({
         name: 'plugin',
         help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
-        type: ParameterType.String,
-        isArray: true
+        type: ParameterType.Array
     })
     plugins: string[];
 
@@ -42,11 +41,15 @@ export class PluginHost extends AbstractComponent<Application> {
             const plugin = plugins[i];
             try {
                 const instance = require(plugin);
-                if (typeof instance === 'function') {
+                const initFunction = typeof instance.load === 'function'
+                  ? instance.load
+                  : instance                // support legacy plugins
+                ;
+                if (typeof initFunction === 'function') {
                     instance(this);
                     logger.write('Loaded plugin %s', plugin);
                 } else {
-                    logger.error('The plugin %s did not return a function.', plugin);
+                    logger.error('Invalid structure in plugin %s, no function found.', plugin);
                 }
             } catch (error) {
                 logger.error('The plugin %s could not be loaded.', plugin);

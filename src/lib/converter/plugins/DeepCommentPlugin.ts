@@ -1,8 +1,8 @@
-import {Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection} from '../../models/reflections/index';
-import {Comment, CommentTag} from '../../models/comments/index';
-import {Component, ConverterComponent} from '../components';
-import {Converter} from '../converter';
-import {Context} from '../context';
+import { Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection } from '../../models/reflections/index';
+import { Comment, CommentTag } from '../../models/comments/index';
+import { Component, ConverterComponent } from '../components';
+import { Converter } from '../converter';
+import { Context } from '../context';
 
 /**
  * A handler that moves comments with dot syntax to their target.

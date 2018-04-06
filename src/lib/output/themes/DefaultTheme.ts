@@ -1,13 +1,13 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 
-import {Theme} from '../theme';
-import {Renderer} from '../renderer';
-import {Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection} from '../../models/reflections/index';
-import {ReflectionGroup} from '../../models/ReflectionGroup';
-import {UrlMapping} from '../models/UrlMapping';
-import {NavigationItem} from '../models/NavigationItem';
-import {RendererEvent} from '../events';
+import { Theme } from '../theme';
+import { Renderer } from '../renderer';
+import { Reflection, ReflectionKind, ProjectReflection, ContainerReflection, DeclarationReflection } from '../../models/reflections/index';
+import { ReflectionGroup } from '../../models/ReflectionGroup';
+import { UrlMapping } from '../models/UrlMapping';
+import { NavigationItem } from '../models/NavigationItem';
+import { RendererEvent } from '../events';
 
 /**
  * Defines a mapping of a [[Models.Kind]] to a template file.
@@ -66,6 +66,8 @@ export class DefaultTheme extends Theme {
         directory: 'modules',
         template:  'reflection.hbs'
     }];
+
+    static URL_PREFIX: RegExp = /^(http|ftp)s?:\/\//;
 
     /**
      * Create a new DefaultTheme instance.
@@ -382,11 +384,14 @@ export class DefaultTheme extends Theme {
     static buildUrls(reflection: DeclarationReflection, urls: UrlMapping[]): UrlMapping[] {
         const mapping = DefaultTheme.getMapping(reflection);
         if (mapping) {
-            const url = [mapping.directory, DefaultTheme.getUrl(reflection) + '.html'].join('/');
-            urls.push(new UrlMapping(url, reflection, mapping.template));
+            if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
+                const url = [mapping.directory, DefaultTheme.getUrl(reflection) + '.html'].join('/');
+                urls.push(new UrlMapping(url, reflection, mapping.template));
 
-            reflection.url = url;
-            reflection.hasOwnDocument = true;
+                reflection.url = url;
+                reflection.hasOwnDocument = true;
+            }
+
             for (let key in reflection.children) {
                 const child = reflection.children[key];
                 if (mapping.isLeaf) {
@@ -409,14 +414,16 @@ export class DefaultTheme extends Theme {
      * @param container   The nearest reflection having an own document.
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
-        let anchor = DefaultTheme.getUrl(reflection, container, '.');
-        if (reflection['isStatic']) {
-            anchor = 'static-' + anchor;
-        }
+        if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
+            let anchor = DefaultTheme.getUrl(reflection, container, '.');
+            if (reflection['isStatic']) {
+                anchor = 'static-' + anchor;
+            }
 
-        reflection.url = container.url + '#' + anchor;
-        reflection.anchor = anchor;
-        reflection.hasOwnDocument = false;
+            reflection.url = container.url + '#' + anchor;
+            reflection.anchor = anchor;
+            reflection.hasOwnDocument = false;
+        }
 
         reflection.traverse((child) => {
             if (child instanceof DeclarationReflection) {

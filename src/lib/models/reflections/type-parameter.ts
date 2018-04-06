@@ -1,6 +1,6 @@
-import {Type, TypeParameterType} from '../types/index';
-import {Reflection, ReflectionKind, TypeContainer} from './abstract';
-import {DeclarationReflection} from './declaration';
+import { Type, TypeParameterType } from '../types/index';
+import { Reflection, ReflectionKind, TypeContainer } from './abstract';
+import { DeclarationReflection } from './declaration';
 
 export class TypeParameterReflection extends Reflection implements TypeContainer {
     parent: DeclarationReflection;
@@ -17,6 +17,7 @@ export class TypeParameterReflection extends Reflection implements TypeContainer
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();

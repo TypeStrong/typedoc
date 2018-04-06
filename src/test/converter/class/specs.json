@@ -15,6 +15,290 @@
       "originalName": "%BASE%/class/class.ts",
       "children": [
         {
+          "id": 42,
+          "name": "NotExportedClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isAbstract": true
+          },
+          "comment": {
+            "shortText": "This class will not appear when `excludeNotExported=true`"
+          },
+          "children": [
+            {
+              "id": 43,
+              "name": "add",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 44,
+                  "name": "add",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Adds two numbers"
+                  },
+                  "parameters": [
+                    {
+                      "id": 45,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 46,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 94,
+                  "character": 7
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                43
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 90,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 34,
+          "name": "TestAbstractClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "isAbstract": true
+          },
+          "children": [
+            {
+              "id": 35,
+              "name": "myAbstractProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isAbstract": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 76,
+                  "character": 31
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 36,
+              "name": "myAbstractMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true,
+                "isAbstract": true
+              },
+              "signatures": [
+                {
+                  "id": 37,
+                  "name": "myAbstractMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 78,
+                  "character": 39
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                35
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                36
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 75,
+              "character": 39
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "TestAbstractClassImplementation",
+              "id": 38
+            }
+          ]
+        },
+        {
+          "id": 38,
+          "name": "TestAbstractClassImplementation",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 39,
+              "name": "myAbstractProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 82,
+                  "character": 22
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "TestAbstractClass.myAbstractProperty",
+                "id": 35
+              }
+            },
+            {
+              "id": 40,
+              "name": "myAbstractMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "signatures": [
+                {
+                  "id": 41,
+                  "name": "myAbstractMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestAbstractClass.myAbstractMethod",
+                    "id": 36
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 84,
+                  "character": 30
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestAbstractClass.myAbstractMethod",
+                "id": 36
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                39
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                40
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 81,
+              "character": 44
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TestAbstractClass",
+              "id": 34
+            }
+          ]
+        },
+        {
           "id": 2,
           "name": "TestClass",
           "kind": 128,
@@ -65,7 +349,7 @@
                 {
                   "fileName": "class.ts",
                   "line": 23,
-                  "character": 36
+                  "character": 37
                 }
               ]
             },
@@ -89,9 +373,11 @@
                 }
               ],
               "type": {
-                "type": "intrinsic",
-                "isArray": true,
-                "name": "number"
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "number"
+                }
               }
             },
             {
@@ -171,7 +457,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 44,
+                  "line": 43,
                   "character": 25
                 }
               ]
@@ -204,7 +490,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 39,
+                  "line": 38,
                   "character": 29
                 }
               ]
@@ -237,7 +523,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 34,
+                  "line": 33,
                   "character": 23
                 }
               ]
@@ -270,7 +556,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 49,
+                  "line": 48,
                   "character": 23
                 }
               ]
@@ -422,7 +708,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 63,
+                  "line": 60,
                   "character": 34
                 }
               ],
@@ -448,7 +734,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 73,
+                  "line": 70,
                   "character": 30
                 }
               ],
@@ -473,7 +759,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 73,
+                  "line": 70,
                   "character": 49
                 }
               ],
@@ -498,7 +784,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 73,
+                  "line": 70,
                   "character": 68
                 }
               ],
@@ -599,7 +885,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 63,
+                  "line": 60,
                   "character": 29
                 }
               ],
@@ -642,7 +928,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 58,
+                  "line": 55,
                   "character": 23
                 }
               ],
@@ -685,7 +971,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 49,
+                  "line": 48,
                   "character": 23
                 }
               ],
@@ -728,7 +1014,7 @@
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 53,
+              "line": 51,
               "character": 25
             }
           ],
@@ -746,6 +1032,9 @@
           "title": "Classes",
           "kind": 128,
           "children": [
+            42,
+            34,
+            38,
             2,
             16
           ]

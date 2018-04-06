@@ -1,4 +1,4 @@
-import {Reflection, ReflectionKind} from './reflections/abstract';
+import { Reflection, ReflectionKind } from './reflections/abstract';
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -89,6 +89,7 @@ export class ReflectionGroup {
 
     /**
      * Return a raw object representation of this reflection group.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = {

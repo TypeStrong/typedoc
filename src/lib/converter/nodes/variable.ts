@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Reflection, ReflectionKind, IntrinsicType} from '../../models/index';
-import {createDeclaration, createComment} from '../factories/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
-import {convertDefaultValue} from '../index';
+import { Reflection, ReflectionFlag, ReflectionKind, IntrinsicType } from '../../models/index';
+import { createDeclaration, createComment } from '../factories/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
+import { convertDefaultValue } from '../index';
 
 @Component({name: 'node:variable'})
 export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclaration> {
@@ -61,6 +61,26 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
         const scope = context.scope;
         const kind = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Property : ReflectionKind.Variable;
         const variable = createDeclaration(context, node, kind, name);
+
+        // The variable can be null if `excludeNotExported` is `true`
+        if (variable) {
+            switch (kind) {
+                case ReflectionKind.Variable:
+                    if (node.parent.flags & ts.NodeFlags.Const) {
+                        variable.setFlag(ReflectionFlag.Const, true);
+                    } else if (node.parent.flags & ts.NodeFlags.Let) {
+                        variable.setFlag(ReflectionFlag.Let, true);
+                    }
+                    break;
+                case ReflectionKind.Property:
+                    if (node.modifiers
+                        && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
+                    variable.setFlag(ReflectionFlag.Abstract, true);
+                    }
+                    break;
+            }
+        }
+
         context.withScope(variable, () => {
             if (node.initializer) {
                 switch (node.initializer.kind) {

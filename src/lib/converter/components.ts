@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 
-import {Component, AbstractComponent} from '../utils/component';
-import {Reflection} from '../models/reflections/abstract';
-import {Type} from '../models/types/abstract';
-import {Context} from './context';
-import {Converter} from './converter';
+import { Component, AbstractComponent } from '../utils/component';
+import { Reflection } from '../models/reflections/abstract';
+import { Type } from '../models/types/abstract';
+import { Context } from './context';
+import { Converter } from './converter';
 
 export {Component};
 

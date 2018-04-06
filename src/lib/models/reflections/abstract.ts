@@ -1,7 +1,7 @@
-import {SourceReference} from '../sources/file';
-import {Type} from '../types/index';
-import {Comment} from '../comments/comment';
-import {TypeParameterReflection} from './type-parameter';
+import { SourceReference } from '../sources/file';
+import { Type } from '../types/index';
+import { Comment } from '../comments/comment';
+import { TypeParameterReflection } from './type-parameter';
 
 /**
  * Holds all data models used by TypeDoc.
@@ -76,7 +76,10 @@ export enum ReflectionFlag {
     Optional = 128,
     DefaultValue = 256,
     Rest = 512,
-    ConstructorProperty = 1024
+    ConstructorProperty = 1024,
+    Abstract = 2048,
+    Const = 4096,
+    Let = 8192
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -86,7 +89,10 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.ExportAssignment,
     ReflectionFlag.Optional,
     ReflectionFlag.DefaultValue,
-    ReflectionFlag.Rest
+    ReflectionFlag.Rest,
+    ReflectionFlag.Abstract,
+    ReflectionFlag.Let,
+    ReflectionFlag.Const
 ];
 
 export interface ReflectionFlags extends Array<string> {
@@ -140,6 +146,12 @@ export interface ReflectionFlags extends Array<string> {
     hasExportAssignment?: boolean;
 
     isConstructorProperty?: boolean;
+
+    isAbstract?: boolean;
+
+    isConst?: boolean;
+
+    isLet?: boolean;
 }
 
 export interface DefaultValueContainer extends Reflection {
@@ -405,6 +417,15 @@ export abstract class Reflection {
             case ReflectionFlag.ConstructorProperty:
                 this.flags.isConstructorProperty = value;
                 break;
+            case ReflectionFlag.Abstract:
+                this.flags.isAbstract = value;
+                break;
+            case ReflectionFlag.Let:
+                this.flags.isLet = value;
+                break;
+            case ReflectionFlag.Const:
+                this.flags.isConst = value;
+                break;
         }
     }
 
@@ -530,6 +551,7 @@ export abstract class Reflection {
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result: any = {

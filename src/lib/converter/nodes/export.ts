@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import {Reflection, ReflectionFlag, DeclarationReflection} from '../../models/index';
-import {Context} from '../context';
-import {Component, ConverterNodeComponent} from '../components';
+import { Reflection, ReflectionFlag, DeclarationReflection } from '../../models/index';
+import { Context } from '../context';
+import { Component, ConverterNodeComponent } from '../components';
 
 @Component({name: 'node:export'})
 export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
@@ -23,7 +23,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
             let type = context.getTypeAtLocation(node.expression);
             symbol = type ? type.symbol : undefined;
         }
-        if (symbol) {
+        if (symbol && symbol.declarations) {
             const project = context.project;
             symbol.declarations.forEach((declaration) => {
                 if (!declaration.symbol) {

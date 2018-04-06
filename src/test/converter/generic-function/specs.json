@@ -65,16 +65,20 @@
                     "text": "A generic array parameter."
                   },
                   "type": {
-                    "type": "typeParameter",
-                    "isArray": true,
-                    "name": "T"
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "T"
+                    }
                   }
                 }
               ],
               "type": {
-                "type": "typeParameter",
-                "isArray": true,
-                "name": "T"
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
               }
             }
           ],

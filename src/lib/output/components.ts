@@ -1,9 +1,9 @@
 import * as Path from 'path';
 
-import {Component, AbstractComponent} from '../utils/component';
-import {ProjectReflection, DeclarationReflection} from '../models/reflections/index';
-import {Renderer} from './renderer';
-import {RendererEvent, PageEvent} from './events';
+import { Component, AbstractComponent } from '../utils/component';
+import { ProjectReflection, DeclarationReflection } from '../models/reflections/index';
+import { Renderer } from './renderer';
+import { RendererEvent, PageEvent } from './events';
 
 export {Component};
 
@@ -29,6 +29,11 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     private location: string;
 
     /**
+     * Regular expression to test if a string looks like an external url.
+     */
+    protected urlPrefix: RegExp = /^(http|ftp)s?:\/\//;
+
+    /**
      * Create a new ContextAwareRendererPlugin instance.
      *
      * @param renderer  The renderer this plugin should be attached to.
@@ -47,8 +52,12 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      * @returns A path relative to the document currently processed.
      */
     public getRelativeUrl(absolute: string): string {
-        const relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
-        return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+        if (this.urlPrefix.test(absolute)) {
+            return absolute;
+        } else {
+            const relative = Path.relative(Path.dirname(this.location), Path.dirname(absolute));
+            return Path.join(relative, Path.basename(absolute)).replace(/\\/g, '/');
+        }
     }
 
     /**

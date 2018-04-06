@@ -1,9 +1,9 @@
 import * as ts from 'typescript';
 import * as _ts from '../../ts-internal';
 
-import {Type, TypeParameterType} from '../../models/types/index';
-import {Component, ConverterTypeComponent, TypeNodeConverter} from '../components';
-import {Context} from '../context';
+import { Type, TypeParameterType } from '../../models/types/index';
+import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'type:type-parameter'})
 export class TypeParameterConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
@@ -11,7 +11,7 @@ export class TypeParameterConverter extends ConverterTypeComponent implements Ty
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
      */
-    priority: number = -50;
+    priority = -50;
 
     /**
      * Test whether this converter can handle the given TypeScript node.

@@ -1,6 +1,7 @@
-import {Reflection, ReflectionKind, TraverseCallback, TraverseProperty} from './abstract';
-import {ReflectionGroup} from '../ReflectionGroup';
-import {DeclarationReflection} from './declaration';
+import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from './abstract';
+import { ReflectionCategory } from '../ReflectionCategory';
+import { ReflectionGroup } from '../ReflectionGroup';
+import { DeclarationReflection } from './declaration';
 
 export class ContainerReflection extends Reflection {
     /**
@@ -12,6 +13,11 @@ export class ContainerReflection extends Reflection {
      * All children grouped by their kind.
      */
     groups: ReflectionGroup[];
+
+    /**
+     * All children grouped by their category.
+     */
+    categories: ReflectionCategory[];
 
     /**
      * Return a list of all children of a certain kind.
@@ -40,7 +46,7 @@ export class ContainerReflection extends Reflection {
      */
     traverse(callback: TraverseCallback) {
         if (this.children) {
-            this.children.forEach((child: DeclarationReflection) => {
+            this.children.slice().forEach((child: DeclarationReflection) => {
                 callback(child, TraverseProperty.Children);
             });
         }
@@ -48,6 +54,7 @@ export class ContainerReflection extends Reflection {
 
     /**
      * Return a raw object representation of this reflection.
+     * @deprecated Use serializers instead
      */
     toObject(): any {
         const result = super.toObject();
@@ -59,6 +66,17 @@ export class ContainerReflection extends Reflection {
             });
 
             result['groups'] = groups;
+        }
+
+        if (this.categories) {
+            const categories: any[] = [];
+            this.categories.forEach((category) => {
+                categories.push(category.toObject());
+            });
+
+            if (categories.length > 0) {
+                result['categories'] = categories;
+            }
         }
 
         if (this.sources) {

@@ -70,7 +70,8 @@
 				</blockquote>
 				<p><a href="https://travis-ci.org/TypeStrong/typedoc"><img src="https://travis-ci.org/TypeStrong/typedoc.svg?branch=master" alt="Build Status"></a>
 					<a href="http://badge.fury.io/js/typedoc"><img src="https://badge.fury.io/js/typedoc.svg" alt="NPM Version"></a>
-				<a href="https://gitter.im/TypeStrong/typedoc?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/TypeStrong/typedoc.svg" alt="Chat on Gitter"></a></p>
+					<a href="https://gitter.im/TypeStrong/typedoc?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/TypeStrong/typedoc.svg" alt="Chat on Gitter"></a>
+				<a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/TypeStrong/typedoc.svg" alt="Greenkeeper Enabled"></a></p>
 				<h2 id="installation">Installation</h2>
 				<p>TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
 				in your project&#39;s directory as usual:</p>
@@ -98,13 +99,17 @@ $ typedoc
 					Specifies the location the documentation should be written to.</li>
 					<li><code>--mode &lt;file|modules&gt;</code><br>
 					Specifies the output mode the project is used to be compiled with.</li>
+					<li><code>--options</code><br>
+					Specify a js option file that should be loaded. If not specified TypeDoc will look for &#39;typedoc.js&#39; in the current directory.</li>
 					<li><code>--json &lt;path/to/output.json&gt;</code><br>
 					Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.</li>
+					<li><code>--ignoreCompilerErrors</code><br>
+					Should TypeDoc still generate documentation pages even after the compiler has returned errors?</li>
 				</ul>
 				<h4 id="source-file-handling">Source file handling</h4>
 				<ul>
 					<li><code>--exclude &lt;pattern&gt;</code><br>
-					Exclude files by the given pattern when a path is provided as source</li>
+					Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see <a href="https://github.com/TypeStrong/typedoc/issues/170">#170</a>)</li>
 					<li><code>--includeDeclarations</code><br>
 					Turn on parsing of .d.ts declaration files.</li>
 					<li><code>--externalPattern &lt;pattern&gt;</code><br>
@@ -113,6 +118,8 @@ $ typedoc
 					Prevent externally resolved TypeScript files from being documented.</li>
 					<li><code>--excludePrivate</code><br>
 					Prevent private members from being included in the generated documentation.</li>
+					<li><code>--excludeProtected</code><br>
+					Prevent protected members from being included in the generated documentation.</li>
 				</ul>
 				<h4 id="typescript-compiler">TypeScript compiler</h4>
 				<ul>
@@ -130,6 +137,8 @@ $ typedoc
 					<li><code>--readme &lt;path/to/readme|none&gt;</code><br>
 						Path to the readme file that should be displayed on the index page. Pass <code>none</code> to disable the index page
 					and start the documentation on the globals page.</li>
+					<li><code>--plugin</code><br>
+					Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to &#39;none&#39; to load no plugins.</li>
 					<li><code>--hideGenerator</code><br>
 					Do not print the TypeDoc link at the end of the page.</li>
 					<li><code>--gaID</code><br>
@@ -157,7 +166,7 @@ $ typedoc
 					<li><code>--version</code><br>
 					Display the version number of TypeDoc.</li>
 					<li><code>--help</code><br>
-					Display a simple cheat sheet.</li>
+					Display all TypeDoc options.</li>
 				</ul>
 				<h3 id="webpack">Webpack</h3>
 				<p>There is a plugin available to run TypeDoc with Webpack created by Microsoft. You can find it on NPM:<br>
@@ -172,17 +181,19 @@ $ typedoc
 				<ul>
 					<li><a href="https://github.com/christopherthielen/typedoc-plugin-external-module-name">External Module Name</a> - Set the name of TypeDoc external modules</li>
 					<li><a href="https://github.com/gdelmas/typedoc-plugin-sourcefile-url">Sourcefile URL</a> - Set custom source file URL links</li>
+					<li><a href="https://github.com/christopherthielen/typedoc-plugin-internal-external">Internal/External Module</a> - Explicitly mark modules as <code>@internal</code> or <code>@external</code></li>
+					<li><a href="https://github.com/christopherthielen/typedoc-plugin-single-line-tags">Single Line Tags</a> - Process certain <code>@tags</code> as single lines</li>
 				</ul>
 				<h2 id="advanced-guides-and-docs">Advanced guides and docs</h2>
 				<p>Visit our homepage for advanced guides and an extensive API documentation:<br>
 				<a href="http://typedoc.org">http://typedoc.org</a></p>
 				<h2 id="contributing">Contributing</h2>
-				<p>Contributions are welcome and appreciated. You can find TypeDoc on GitHub, feel free to start
-					an issue or create a pull requests:<br>
+				<p>This project is maintained by a community of developers. Contributions are welcome and appreciated.
+					You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 				<a href="https://github.com/TypeStrong/typedoc">https://github.com/TypeStrong/typedoc</a></p>
 				<h2 id="license">License</h2>
 				<p>Copyright (c) 2015 <a href="http://typedoc.org">Sebastian Lenz</a>.<br>
-					Copyright (c) 2016-2017 <a href="https://github.com/TypeStrong/typedoc/graphs/contributors">TypeDoc Contributors</a>.<br>
+					Copyright (c) 2016-2018 <a href="https://github.com/TypeStrong/typedoc/graphs/contributors">TypeDoc Contributors</a>.<br>
 				Licensed under the Apache License 2.0.</p>
 			</div>
 		</div>
@@ -227,6 +238,9 @@ $ typedoc
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_typescript_1_5_.html">"typescript-<wbr>1.5"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_variables_.html">"variables"</a>
 					</li>
 				</ul>
 			</nav>
