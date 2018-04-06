@@ -6,6 +6,9 @@ import Assert = require('assert');
 
 import { pathToMinimatch } from '..';
 
+// Used to ensure uniform path cross OS
+const absolutePath = (path: string) => Path.resolve(path).replace(/[\\]/g, '/');
+
 describe('Paths', () => {
   describe('pathToMinimatch', () => {
     it('Converts a path to a Minimatch expression', () => {
@@ -23,25 +26,36 @@ describe('Paths', () => {
 
     it('Minimatch can match absolute paths expressions', () => {
       const paths = ['/unix/absolute/**/path', 'C:/Windows/absolute/*/path', '**/arbitrary/path/**'];
-      const mms: string[] = (<IMinimatch[]> pathToMinimatch(paths))
-      .map(({ pattern }) => pattern);
+      const mms = (<IMinimatch[]> pathToMinimatch(paths));
+      const patterns = mms.map(({ pattern }) => pattern);
+      const comparePaths = [...paths];
+      comparePaths[0] = absolutePath(comparePaths[0]);
 
-      Assert(isEqual(mms, paths), `Patterns have been altered:\nMMS: ${mms}\nPaths: ${paths}`);
+      Assert(isEqual(patterns, comparePaths), `Patterns have been altered:\nMMS: ${patterns}\nPaths: ${comparePaths}`);
+
+      Assert(mms[0].match(absolutePath('/unix/absolute/some/sub/dir/path')), 'Din\'t match unix path');
+      Assert(mms[1].match('C:/Windows/absolute/test/path'), 'Din\'t match windows path');
+      Assert(mms[2].match(absolutePath('/some/deep/arbitrary/path/leading/nowhere')), 'Din\'t match arbitrary path');
     });
 
     it('Minimatch can match relative to the project root', () => {
       const paths = ['./relative/**/path', '../parent/*/path', 'no/dot/relative/**/path/*', '.dot/relative/**/path/*'];
       const absPaths = paths.map((path) => Path.resolve(path).replace(/\\/g, '/'));
-      const mms: string[] = (<IMinimatch[]> pathToMinimatch(paths))
-      .map(({ pattern }) => pattern);
+      const mms = (<IMinimatch[]> pathToMinimatch(paths));
+      const patterns = mms.map(({ pattern }) => pattern);
 
-      Assert(isEqual(mms, absPaths), `Project root have not been added to paths:\nMMS: ${mms}\nPaths: ${absPaths}`);
+      Assert(isEqual(patterns, absPaths), `Project root have not been added to paths:\nMMS: ${patterns}\nPaths: ${absPaths}`);
+
+      Assert(mms[0].match(Path.resolve('relative/some/sub/dir/path')), 'Din\'t match relative path');
+      Assert(mms[1].match(Path.resolve('../parent/dir/path')), 'Din\'t match parent path');
+      Assert(mms[2].match(Path.resolve('no/dot/relative/some/sub/dir/path/test')), 'Din\'t match no dot path');
+      Assert(mms[3].match(Path.resolve('.dot/relative/some/sub/dir/path/test')), 'Din\'t match dot path');
     });
 
     it('Minimatch matches dot files', () => {
       const mm = <IMinimatch> pathToMinimatch('/some/path/**');
-      Assert(mm.match('/some/path/.dot/dir'), 'Didn\'t match .dot path');
-      Assert(mm.match('/some/path/normal/dir'), 'Didn\'t match normal path');
+      Assert(mm.match(absolutePath('/some/path/.dot/dir')), 'Didn\'t match .dot path');
+      Assert(mm.match(absolutePath('/some/path/normal/dir')), 'Didn\'t match normal path');
     });
   });
 });
