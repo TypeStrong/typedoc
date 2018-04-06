@@ -4,7 +4,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "mocha -t 10000 packages/typedoc/dist/test",
-    "build": "grunt build",
+    "build": "grunt default",
     "build_and_test": "grunt build_and_test",
     "release": "npm run build_and_test && lerna publish",
     "ci-test": "npm run bootstrap && npm run build_and_test"
