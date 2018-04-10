@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@types/fs-extra": "5.0.1",
-    "@types/handlebars": "4.0.36",
+    "@types/handlebars": "4.0.37",
     "@types/highlight.js": "9.12.2",
     "@types/lodash": "4.14.104",
     "@types/marked": "0.3.0",
