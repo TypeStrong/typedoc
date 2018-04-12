@@ -78,7 +78,7 @@ export class TSConfigReader extends OptionsComponent {
     load(event: DiscoverEvent, fileName: string) {
         const { config } = ts.readConfigFile(fileName, ts.sys.readFile);
         if (config === undefined) {
-            event.addError('No valid tsconfig file found.', fileName);
+            event.addError('No valid tsconfig file found for %s.', fileName);
             return;
         }
         if (!_.isPlainObject(config)) {
