@@ -34,18 +34,20 @@ export class TypedocReader extends OptionsComponent {
         let file: string;
 
         if (TypedocReader.OPTIONS_KEY in event.data) {
-          let opts = event.data[TypedocReader.OPTIONS_KEY];
+            let opts = event.data[TypedocReader.OPTIONS_KEY];
 
-          if (opts[0] === '.') { opts = Path.resolve(opts); }
+            if (opts && opts[0] === '.') {
+                opts = Path.resolve(opts);
+            }
 
-          file = this.findTypedocFile(opts);
+            file = this.findTypedocFile(opts);
 
-          if (!FS.existsSync(file)) {
-            event.addError('The options file could not be found with the given path %s.', opts);
-            return;
-          }
+            if (!FS.existsSync(file)) {
+                event.addError('The options file could not be found with the given path %s.', opts);
+                return;
+            }
         } else if (this.application.isCLI) {
-          file = this.findTypedocFile();
+            file = this.findTypedocFile();
         }
 
         file && this.load(event, file);
@@ -59,16 +61,17 @@ export class TypedocReader extends OptionsComponent {
      * @return the typedoc.(js|json) file path or undefined
      */
     findTypedocFile(path: string = process.cwd()): string | undefined {
-      let file: string;
+        if (/typedoc\.js(on)?$/.test(path)) {
+            return path;
+        }
 
-      if (/typedoc\.js(on)?$/.test(path)) {
-        file = path;
-      } else {
-        file = Path.join(path, 'typedoc.js');
-        if (!FS.existsSync(file)) { file += 'on'; }
-      }
+        let file = Path.join(path, 'typedoc.js');
+        if (FS.existsSync(file)) {
+            return file;
+        }
 
-      return FS.existsSync(file) ? file : undefined;
+        file += 'on'; // look for JSON file
+        return FS.existsSync(file) ? file : undefined;
     }
 
     /**

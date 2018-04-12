@@ -37,33 +37,35 @@ export class TSConfigReader extends OptionsComponent {
     onDiscover(event: DiscoverEvent) {
         // Do nothing until were fetching options
         if (event.mode !== OptionsReadMode.Fetch) {
-          return;
+            return;
         }
 
         let file: string;
 
         if (TSConfigReader.OPTIONS_KEY in event.data) {
-          const tsconfig = event.data[TSConfigReader.OPTIONS_KEY];
+            const tsconfig = event.data[TSConfigReader.OPTIONS_KEY];
 
-          file = /tsconfig\.json$/.test(tsconfig)
-            ? Path.resolve(tsconfig)
-            : ts.findConfigFile(tsconfig, ts.sys.fileExists);
+            if (/tsconfig\.json$/.test(tsconfig)) {
+                file = Path.resolve(tsconfig);
+            } else {
+                file = ts.findConfigFile(tsconfig, ts.sys.fileExists);
+            }
 
-          if (!file || !FS.existsSync(file)) {
-              event.addError('The tsconfig file %s does not exist.', file);
-              return;
-          }
+            if (!file || !FS.existsSync(file)) {
+                event.addError('The tsconfig file %s does not exist.', file);
+                return;
+            }
         } else if (TSConfigReader.PROJECT_KEY in event.data) {
-          // The `project` option may be a directory or file, so use TS to find it
-          file = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
+            // The `project` option may be a directory or file, so use TS to find it
+            file = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
         } else if (this.application.isCLI) {
-          // No file or directory has been specified so find the file in the root of the project
-          file = ts.findConfigFile('.', ts.sys.fileExists);
+            // No file or directory has been specified so find the file in the root of the project
+            file = ts.findConfigFile('.', ts.sys.fileExists);
         }
 
         // If file is undefined, we found no file to load.
         if (file) {
-          this.load(event, file);
+            this.load(event, file);
         }
     }
 
@@ -76,7 +78,7 @@ export class TSConfigReader extends OptionsComponent {
     load(event: DiscoverEvent, fileName: string) {
         const { config } = ts.readConfigFile(fileName, ts.sys.readFile);
         if (config === undefined) {
-            event.addError('The tsconfig file %s does not contain valid JSON.', fileName);
+            event.addError('No valid tsconfig file found.', fileName);
             return;
         }
         if (!_.isPlainObject(config)) {
