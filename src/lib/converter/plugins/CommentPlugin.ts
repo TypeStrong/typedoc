@@ -109,7 +109,7 @@ export class CommentPlugin extends ConverterComponent {
             CommentPlugin.removeTags(comment, 'event');
         }
 
-        if (comment.hasTag('hidden')) {
+        if (comment.hasTag('hidden') || comment.hasTag('ignore')) {
             if (!this.hidden) {
                 this.hidden = [];
             }
