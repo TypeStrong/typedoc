@@ -26,4 +26,14 @@ export class CommentedClass {
    * The main prop
    */
   prop: string;
+
+  /**
+   * @hidden
+   */
+  hiddenprop: string;
+
+  /**
+   * @ignore
+   */
+  ignoredprop: string;
 }
