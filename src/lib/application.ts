@@ -257,25 +257,28 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         function add(dirname: string) {
             FS.readdirSync(dirname).forEach((file) => {
                 const realpath = Path.join(dirname, file);
-                if (FS.statSync(realpath).isDirectory()) {
-                    add(realpath);
-                } else if (/\.tsx?$/.test(realpath)) {
-                    if (isExcluded(realpath.replace(/\\/g, '/'))) {
-                        return;
+                try {
+                    if (FS.statSync(realpath).isDirectory()) {
+                        add(realpath);
+                    } else if (/\.tsx?$/.test(realpath)) {
+                        if (isExcluded(realpath.replace(/\\/g, '/'))) {
+                            return;
+                        }
+                        files.push(realpath);
                     }
-
-                    files.push(realpath);
-                }
+                } catch (e) {}
             });
         }
 
         inputFiles.forEach((file) => {
             file = Path.resolve(file);
-            if (FS.statSync(file).isDirectory()) {
-                add(file);
-            } else if (!isExcluded(file)) {
-                files.push(file);
-            }
+            try {
+                if (FS.statSync(file).isDirectory()) {
+                    add(file);
+                } else if (!isExcluded(file)) {
+                    files.push(file);
+                }
+            } catch (e) {}
         });
 
         return files;
