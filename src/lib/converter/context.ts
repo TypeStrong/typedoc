@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { IMinimatch } from 'minimatch';
 
 import { Logger } from '../utils/loggers';
-import { pathToMinimatch } from '../utils/paths';
+import { createMinimatch } from '../utils/paths';
 import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
 
 import { createTypeParameter } from './factories/type-parameter';
@@ -116,7 +116,7 @@ export class Context {
         this.scope = project;
 
         if (converter.externalPattern) {
-            this.externalPattern = <IMinimatch[]> pathToMinimatch(converter.externalPattern);
+            this.externalPattern = createMinimatch(converter.externalPattern);
         }
     }
 
