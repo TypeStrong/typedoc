@@ -21,6 +21,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "sources": [
@@ -43,6 +44,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isLet": true
           },
           "sources": [
@@ -64,7 +66,8 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "sources": [
             {

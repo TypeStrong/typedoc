@@ -60,13 +60,17 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         isExported = container.flags.isExported;
     }
 
+    let hasExport = false;
     if (kind === ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
-        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration);
-        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
+        const parentNodeExported = !!(ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration) && ts.ModifierFlags.Export);
+        isExported = isExported || parentNodeExported;
+        hasExport = parentNodeExported;
     } else {
-        isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
+        const nodeExported = !!(modifiers & ts.ModifierFlags.Export);
+        isExported = isExported || nodeExported;
+        hasExport = nodeExported;
     }
 
     // Test whether the node is private, when inheriting ignore private members
@@ -104,7 +108,8 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         child.setFlag(ReflectionFlag.Static, isStatic);
         child.setFlag(ReflectionFlag.Private, isPrivate);
         child.setFlag(ReflectionFlag.ConstructorProperty, isConstructorProperty);
-        child.setFlag(ReflectionFlag.Exported,  isExported);
+        child.setFlag(ReflectionFlag.Exported, isExported);
+        child.setFlag(ReflectionFlag.Export, hasExport);
         child = setupDeclaration(context, child, node);
 
         if (child) {

@@ -20,7 +20,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "First type for union or intersection type tests."
@@ -73,7 +74,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Second type for union or intersection type tests."
@@ -126,7 +128,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Third type for union or intersection type tests."

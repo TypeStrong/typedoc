@@ -20,7 +20,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -231,7 +232,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {

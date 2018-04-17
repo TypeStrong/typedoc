@@ -21,7 +21,8 @@
           "kindString": "Class",
           "flags": {
             "isPrivate": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "A class that is documented as being private."
@@ -180,6 +181,7 @@
           "flags": {
             "isPrivate": true,
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {
@@ -205,6 +207,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isProtected": true,
             "isConst": true
           },
@@ -231,7 +234,8 @@
           "kindString": "Function",
           "flags": {
             "isPrivate": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -266,6 +270,7 @@
           "kindString": "Function",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isProtected": true
           },
           "signatures": [

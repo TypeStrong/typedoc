@@ -20,7 +20,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "A custom array interface."
@@ -49,6 +50,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {
@@ -114,6 +116,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {

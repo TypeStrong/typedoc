@@ -20,7 +20,8 @@
           "kind": 2,
           "kindString": "Module",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "This is the module extending the function moduleFunction()."
@@ -178,7 +179,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -210,7 +212,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -320,7 +323,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -384,7 +388,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -543,7 +548,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "This is the actual implementation, this comment will not be visible\nin the generated documentation.",
@@ -683,6 +689,7 @@
           "kindString": "Function",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {

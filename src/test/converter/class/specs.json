@@ -105,6 +105,7 @@
           "kindString": "Class",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isAbstract": true
           },
           "children": [
@@ -198,7 +199,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -304,7 +306,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "TestClass comment short text.",
@@ -611,7 +614,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {

@@ -20,7 +20,8 @@
           "kind": 4,
           "kindString": "Enumeration",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
@@ -187,7 +188,8 @@
           "kind": 4,
           "kindString": "Enumeration",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "This is a simple enumeration."

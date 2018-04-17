@@ -20,7 +20,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "A Comment for a class",

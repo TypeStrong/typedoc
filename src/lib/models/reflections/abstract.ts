@@ -82,7 +82,8 @@ export enum ReflectionFlag {
     ConstructorProperty = 1024,
     Abstract = 2048,
     Const = 4096,
-    Let = 8192
+    Let = 8192,
+    Export = 16384
 }
 
 /**
@@ -124,7 +125,15 @@ export class ReflectionFlags extends Array<string> {
     }
 
     /**
-     * Is this member exported?
+     * Is this symbol exported?
+     *
+     * Note that it is possible for a symbol to have `isExported` true
+     * and `hasExport` false. For instance, if a class is exported,
+     * all its members will have `isExported` true because the members
+     * are "effectively exported" due to their parent class being
+     * exported. However, they have `hasExport` false because none of
+     * them directly appear in an export declaration nor are they
+     * prefixed with an `export` keyword.
      */
     get isExported(): boolean {
         return this.hasFlag(ReflectionFlag.Exported);
@@ -155,6 +164,15 @@ export class ReflectionFlags extends Array<string> {
 
     get hasExportAssignment(): boolean {
         return this.hasFlag(ReflectionFlag.ExportAssignment);
+    }
+
+    /**
+     * Indicates whether this symbol is being directly exported. This
+     * happens through the `export` keyword (e.g. `export const foo`)
+     * or through an export declatation (e.g. `export { foo }`).
+     */
+    get hasExport(): boolean {
+        return this.hasFlag(ReflectionFlag.Export);
     }
 
     get isConstructorProperty(): boolean {

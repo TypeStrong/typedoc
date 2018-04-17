@@ -27,7 +27,8 @@
               "kind": 128,
               "kindString": "Class",
               "flags": {
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "comment": {
                 "shortText": "Implementation of IEventDispatcher",
@@ -708,7 +709,8 @@
               "kind": 256,
               "kindString": "Interface",
               "flags": {
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "comment": {
                 "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."

@@ -37,6 +37,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
                 const reflection = project.reflections[id];
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
                     reflection.setFlag(ReflectionFlag.ExportAssignment, true);
+                    reflection.setFlag(ReflectionFlag.Export, true);
                 }
                 markAsExported(reflection);
             });

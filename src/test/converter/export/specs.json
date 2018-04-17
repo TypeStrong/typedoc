@@ -21,6 +21,7 @@
           "kindString": "Variable",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "sources": [
@@ -42,7 +43,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
