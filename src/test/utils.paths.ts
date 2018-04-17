@@ -11,11 +11,6 @@ const absolutePath = (path: string) => Path.resolve(path.replace(/^\w:/, '')).re
 
 describe('Paths', () => {
   describe('createMinimatch', () => {
-    it('Converts a path to a Minimatch expression', () => {
-      const mm = createMinimatch('/some/path/**');
-      Assert(mm instanceof Minimatch, 'Path not coverted to Minimatch');
-    });
-
     it('Converts an array of paths to an array of Minimatch expressions', () => {
       const mms = createMinimatch(['/some/path/**', '**/another/path/**', './relative/**/path']);
       Assert(Array.isArray(mms), 'Didn\'t return an array');
@@ -44,7 +39,7 @@ describe('Paths', () => {
     });
 
     it('Minimatch can match relative to the project root', () => {
-      const paths = ['./relative/**/path', '../parent/*/path', 'no/dot/relative/**/path/*', '.dot/relative/**/path/*'];
+      const paths = ['./relative/**/path', '../parent/*/path', 'no/dot/relative/**/path/*', '*/subdir/**/path/*', '.dot/relative/**/path/*'];
       const absPaths = paths.map((path) => absolutePath(path));
       const mms = createMinimatch(paths);
       const patterns = mms.map(({ pattern }) => pattern);
@@ -54,11 +49,12 @@ describe('Paths', () => {
       Assert(mms[0].match(Path.resolve('relative/some/sub/dir/path')), 'Din\'t match relative path');
       Assert(mms[1].match(Path.resolve('../parent/dir/path')), 'Din\'t match parent path');
       Assert(mms[2].match(Path.resolve('no/dot/relative/some/sub/dir/path/test')), 'Din\'t match no dot path');
+      Assert(mms[2].match(Path.resolve('some/subdir/path/test')), 'Din\'t match single star path');
       Assert(mms[3].match(Path.resolve('.dot/relative/some/sub/dir/path/test')), 'Din\'t match dot path');
     });
 
     it('Minimatch matches dot files', () => {
-      const mm = createMinimatch('/some/path/**');
+      const mm = createMinimatch(['/some/path/**'])[0];
       Assert(mm.match(absolutePath('/some/path/.dot/dir')), 'Didn\'t match .dot path');
       Assert(mm.match(absolutePath('/some/path/normal/dir')), 'Didn\'t match normal path');
     });
