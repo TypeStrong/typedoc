@@ -49,8 +49,8 @@ describe('Paths', () => {
       Assert(mms[0].match(Path.resolve('relative/some/sub/dir/path')), 'Din\'t match relative path');
       Assert(mms[1].match(Path.resolve('../parent/dir/path')), 'Din\'t match parent path');
       Assert(mms[2].match(Path.resolve('no/dot/relative/some/sub/dir/path/test')), 'Din\'t match no dot path');
-      Assert(mms[2].match(Path.resolve('some/subdir/path/test')), 'Din\'t match single star path');
-      Assert(mms[3].match(Path.resolve('.dot/relative/some/sub/dir/path/test')), 'Din\'t match dot path');
+      Assert(mms[3].match(Path.resolve('some/subdir/path/here')), 'Din\'t match single star path');
+      Assert(mms[4].match(Path.resolve('.dot/relative/some/sub/dir/path/test')), 'Din\'t match dot path');
     });
 
     it('Minimatch matches dot files', () => {
