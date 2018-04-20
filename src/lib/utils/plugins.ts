@@ -76,7 +76,7 @@ export class PluginHost extends AbstractComponent<Application> {
             let path = process.cwd(), previous: string;
             do {
                 const modules = Path.join(path, 'node_modules');
-                if (FS.existsSync(modules) && FS.lstatSync(modules).isDirectory()) {
+                if (FS.existsSync(modules) && FS.statSync(modules).isDirectory()) {
                     discoverModules(modules);
                 }
 
