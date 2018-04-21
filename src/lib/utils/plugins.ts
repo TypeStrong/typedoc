@@ -39,8 +39,23 @@ export class PluginHost extends AbstractComponent<Application> {
 
         for (i = 0; i < c; i++) {
             const plugin = plugins[i];
+
+            let pluginPath = plugin;
+            if (!Path.isAbsolute(pluginPath)) {
+                try {
+                    require.resolve(pluginPath)
+                } catch (e) {
+                    let p = Path.join(process.cwd(), 'node_modules', pluginPath);
+                    try {
+                        require.resolve(p)
+                        pluginPath = p;
+                    }
+                    catch (e) {}
+                }
+            }
+
             try {
-                const instance = require(plugin);
+                const instance = require(pluginPath);
                 const initFunction = typeof instance.load === 'function'
                     ? instance.load
                     : instance                // support legacy plugins
