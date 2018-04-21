@@ -42,15 +42,24 @@ export class PluginHost extends AbstractComponent<Application> {
 
             let pluginPath = plugin;
             if (!Path.isAbsolute(pluginPath)) {
+                let bool: boolean;
                 try {
                     require.resolve(pluginPath);
+                    bool = true;
                 } catch (e) {
+
+                }
+
+                if (!bool)
+                {
                     let p = Path.join(process.cwd(), 'node_modules', pluginPath);
                     try {
                         require.resolve(p);
                         pluginPath = p;
                     }
-                    catch (err) {}
+                    catch (err) {
+
+                    }
                 }
             }
 
