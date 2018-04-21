@@ -196,8 +196,11 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             if (!FS.existsSync(path)) {
                 path = Path.join(Renderer.getThemeDirectory(), themeName);
                 if (!FS.existsSync(path)) {
-                    this.application.logger.error('The theme %s could not be found.', themeName);
-                    return false;
+                    path = Renderer.getInstalledTheme(themeName);
+                    if (path === null || !FS.existsSync(path)) {
+                        this.application.logger.error('The theme %s could not be found.', themeName);
+                        return false;
+                    }
                 }
             }
 
@@ -280,6 +283,21 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      */
     static getThemeDirectory(): string {
         return Path.dirname(require.resolve('typedoc-default-themes'));
+    }
+
+    /**
+     * Return the path to the target installed theme.
+     *
+     * @returns The path to the default theme.
+     */
+    static getInstalledTheme(themeName: string): string {
+        if (/[\/\\]/.test(themeName)) {
+            return null;
+        }
+        try {
+            return Path.join(Path.dirname(require.resolve(`typedoc-themes-${themeName}`)), 'theme');
+        } catch (e) {}
+        return null;
     }
 
     /**
