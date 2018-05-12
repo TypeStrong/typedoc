@@ -54,7 +54,7 @@ in order to change the behavior of TypeDoc.
 * `--json <path/to/output.json>`<br>
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
 * `--listInvalidSymbolLinks`<br>
-  Emits a list of broken symbol `[[navigation]]` links after documentation generation
+  Emits a list of broken symbol `[[navigation]]` links after documentation generation.
 
 #### Source file handling
 * `--exclude <pattern>`<br>
@@ -76,7 +76,7 @@ in order to change the behavior of TypeDoc.
 * `--module <commonjs, amd, system or umd>`<br>
   Specify module code generation: "commonjs", "amd", "system" or "umd".
 * `--target <ES3, ES5, or ES6>`<br>
-  Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
+  Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6".
 * `--tsconfig <path/to/tsconfig.json>`<br>
   Specify a typescript config file that should be loaded. If not specified TypeDoc will look for `tsconfig.json` in the current directory.
   
@@ -86,7 +86,7 @@ in order to change the behavior of TypeDoc.
 * `--name <Documentation title>`<br>
   Set the name of the project that will be used in the header of the template.
 * `--readme <path/to/readme|none>`<br>
-  Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
+  Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page.
   and start the documentation on the globals page.
 * `--plugin`<br>
   Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to `none` to load no plugins.
@@ -95,7 +95,7 @@ in order to change the behavior of TypeDoc.
 * `--gaID`<br>
   Set the Google Analytics tracking ID and activate tracking code.
 * `--gaSite <site>`<br>
-  Set the site name for Google Analytics. Defaults to `auto`
+  Set the site name for Google Analytics. Defaults to `auto`.
 * `--entryPoint <fully.qualified.name>`<br>
   Specifies the fully qualified name of the root symbol. Defaults to global namespace.
 * `--gitRevision <revision|branch>`<br>
@@ -117,7 +117,7 @@ in order to change the behavior of TypeDoc.
 * `--help`<br>
   Display all TypeDoc options.
 * `--logger`<br>
-  Specify the logger that should be used, `none` or `console`
+  Specify the logger that should be used, `none` or `console`.
   
 
 #### Configuration file
@@ -153,13 +153,15 @@ There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten.
 There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:<br>
 [https://www.npmjs.org/package/grunt-typedoc](https://www.npmjs.org/package/grunt-typedoc)
 
+
 ## Plugins
 
-* [Markdown](https://github.com/tgreyjs/typedoc-plugin-markdown) - Generates Markdown output. Exposes a theme and additional arguments for rendering markdown
-* [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
-* [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
-* [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
-* [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
+* [Markdown](https://github.com/tgreyjs/typedoc-plugin-markdown) - Generates Markdown output. Exposes a theme and additional arguments for rendering markdown.
+* [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules.
+* [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links.
+* [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`.
+* [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines.
+
 
 ## Advanced guides and docs
 
