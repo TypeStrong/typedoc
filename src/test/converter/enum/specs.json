@@ -217,7 +217,6 @@
               "id": 4,
               "name": "EnumValue2",
               "kind": 16,
-              "kindString": "Enumeration member",
               "flags": {
                 "isExported": true
               },
@@ -226,7 +225,7 @@
               },
               "sources": [
                 {
-                  "fileName": "enum.ts",
+                  "fileName": "%BASE%/enum/enum.ts",
                   "line": 14,
                   "character": 14
                 }
@@ -237,7 +236,6 @@
               "id": 5,
               "name": "EnumValue3",
               "kind": 16,
-              "kindString": "Enumeration member",
               "flags": {
                 "isExported": true
               },
@@ -246,7 +244,7 @@
               },
               "sources": [
                 {
-                  "fileName": "enum.ts",
+                  "fileName": "%BASE%/enum/enum.ts",
                   "line": 19,
                   "character": 14
                 }

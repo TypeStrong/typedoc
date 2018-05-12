@@ -40,7 +40,7 @@ $ typedoc --out path/to/documentation/ path/to/typescript/project/
 
 Starting with version 0.2, TypeDoc no longer can predict whether files should be treated as modules
 or whether the project should be compiled into one big namespace. You must specify the `mode` argument
-in order to change the behaviour of TypeDoc.
+in order to change the behavior of TypeDoc.
 
 
 ### Arguments
@@ -48,17 +48,17 @@ in order to change the behaviour of TypeDoc.
 * `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to.
 * `--mode <file|modules>`<br>
-  Specifies the output mode the project is used to be compiled with.
+  Specifies the output mode the project is used to be compiled with. Use `file` to treat files as modules and `modules` to compile the project into one big namespace. 
 * `--options`<br>
-  Specify a js option file that should be loaded. If not specified TypeDoc will look for 'typedoc.js' in the current directory.
+  Specify a `.js` or `.ts` TypeDoc configuration file that should be loaded. If not specified TypeDoc will look for `typedoc.js` in the current directory. See [Configuration file](#user-content-configuration-file)
 * `--json <path/to/output.json>`<br>
   Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
-* `--ignoreCompilerErrors`<br>
-  Should TypeDoc still generate documentation pages even after the compiler has returned errors?
+* `--listInvalidSymbolLinks`<br>
+  Emits a list of broken symbol `[[navigation]]` links after documentation generation
 
 #### Source file handling
 * `--exclude <pattern>`<br>
-  Exclude files by the given pattern when a path is provided as source. Supports standard minimatch patterns (see [#170](https://github.com/TypeStrong/typedoc/issues/170))
+  Exclude files by the given pattern when a path is provided as source. Supports standard [minimatch patterns](https://github.com/isaacs/minimatch) (see [#170](https://github.com/TypeStrong/typedoc/issues/170))
 * `--includeDeclarations`<br>
   Turn on parsing of .d.ts declaration files.
 * `--externalPattern <pattern>`<br>
@@ -71,15 +71,17 @@ in order to change the behaviour of TypeDoc.
   Prevent protected members from being included in the generated documentation.
 
 #### TypeScript compiler
+* `--ignoreCompilerErrors`<br>
+  Should TypeDoc still generate documentation pages even after the compiler has returned errors?
 * `--module <commonjs, amd, system or umd>`<br>
   Specify module code generation: "commonjs", "amd", "system" or "umd".
 * `--target <ES3, ES5, or ES6>`<br>
   Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
 * `--tsconfig <path/to/tsconfig.json>`<br>
-  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
+  Specify a typescript config file that should be loaded. If not specified TypeDoc will look for `tsconfig.json` in the current directory.
   
 #### Theming
-* `--theme <default|minimal|path/to/theme>`<br>
+* `--theme <default|minimal|path/to/theme>|theme-module-name`<br>
   Specify the path to the theme that should be used.
 * `--name <Documentation title>`<br>
   Set the name of the project that will be used in the header of the template.
@@ -87,7 +89,7 @@ in order to change the behaviour of TypeDoc.
   Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page
   and start the documentation on the globals page.
 * `--plugin`<br>
-  Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.
+  Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to `none` to load no plugins.
 * `--hideGenerator`<br>
   Do not print the TypeDoc link at the end of the page.
 * `--gaID`<br>
@@ -101,18 +103,38 @@ in order to change the behaviour of TypeDoc.
 
 #### Content
 * `--includes <path/to/includes>`<br>
-  Specifies the location to look for included documents. One may use <code>[[include:FILENAME]]</code>
+  Specifies the location to look for included documents. One may use `[[include:FILENAME]]`
   in comments to include documents from this location.
-
 * `--media <path/to/media>`<br>
   Specifies the location with media files that should be copied to the output directory. In order to create
-  a link to media files use the pattern <code>media://FILENAME</code> in comments.
+  a link to media files use the pattern `media://FILENAME` in comments.
+* `--toc`<br>
+  Specifies the top level table of contents.
 
 #### Miscellaneous
 * `--version`<br>
   Display the version number of TypeDoc.
 * `--help`<br>
   Display all TypeDoc options.
+* `--logger`<br>
+  Specify the logger that should be used, `none` or `console`
+  
+
+#### Configuration file
+
+Example of a `typedoc.js` configuration file: 
+
+```js
+module.exports = {
+  src: ['./src/index.ts', './typings/'],
+  mode: 'file',
+  out: './docs',
+  includeDeclarations: true
+};
+```
+
+
+## Build Tools integration
 
 ### Webpack
 
@@ -133,6 +155,7 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 
 ## Plugins
 
+* [Markdown](https://github.com/tgreyjs/typedoc-plugin-markdown) - Generates Markdown output. Exposes a theme and additional arguments for rendering markdown
 * [External Module Name](https://github.com/christopherthielen/typedoc-plugin-external-module-name) - Set the name of TypeDoc external modules
 * [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
 * [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`

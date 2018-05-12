@@ -7,7 +7,7 @@ import { Component, ConverterNodeComponent } from '../components';
 import { Option } from '../../utils/component';
 import { ParameterType } from '../../utils/options/declaration';
 
-const prefered: ts.SyntaxKind[] = [
+const preferred: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.InterfaceDeclaration,
     ts.SyntaxKind.EnumDeclaration
@@ -87,7 +87,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             const statements: ts.Statement[] = [];
 
             node.statements.forEach((statement) => {
-                if (prefered.indexOf(statement.kind) !== -1) {
+                if (preferred.indexOf(statement.kind) !== -1) {
                     this.owner.convertNode(context, statement);
                 } else {
                     statements.push(statement);

@@ -41,7 +41,6 @@
                   "id": 4,
                   "name": "on",
                   "kind": 8388608,
-                  "kindString": "Event",
                   "flags": {},
                   "comment": {
                     "shortText": "Subscribe for a general event by name."
@@ -51,7 +50,6 @@
                       "id": 5,
                       "name": "event",
                       "kind": 32768,
-                      "kindString": "Parameter",
                       "flags": {},
                       "comment": {
                         "text": "The name of the event to subscribe for."
