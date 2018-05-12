@@ -81,7 +81,7 @@ in order to change the behavior of TypeDoc.
   Specify a typescript config file that should be loaded. If not specified TypeDoc will look for `tsconfig.json` in the current directory.
   
 #### Theming
-* `--theme <default|minimal|path/to/theme>|theme-module-name`<br>
+* `--theme <default|minimal|path/to/theme>|theme-module-name>`<br>
   Specify the path to the theme that should be used.
 * `--name <Documentation title>`<br>
   Set the name of the project that will be used in the header of the template.
