@@ -2,6 +2,7 @@ import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
 import { ReflectionCategory } from '../ReflectionCategory';
+import ReadmePackage from '../../converter/utils/readme-package';
 
 /**
  * A reflection that represents the root of the project.
@@ -43,6 +44,11 @@ export class ProjectReflection extends ContainerReflection {
      * The contents of the readme.md file of the project when found.
      */
     readme: string;
+
+    /**
+     * The readme MD pages.
+     */
+    readmePages: ReadmePackage;
 
     /**
      * The parsed data of the package.json file of the project when found.

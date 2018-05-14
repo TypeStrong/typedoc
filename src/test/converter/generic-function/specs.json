@@ -112,7 +112,6 @@
                   "id": 4,
                   "name": "T",
                   "kind": 131072,
-                  "kindString": "Type parameter",
                   "flags": {},
                   "comment": {
                     "text": "Generic function type parameter."
@@ -128,7 +127,6 @@
                   "id": 5,
                   "name": "value",
                   "kind": 32768,
-                  "kindString": "Parameter",
                   "flags": {},
                   "comment": {
                     "text": "Generic function parameter."

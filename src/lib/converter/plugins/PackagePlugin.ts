@@ -7,6 +7,7 @@ import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
 import { Option } from '../../utils/component';
+import ReadmePackage from '../utils/readme-package';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -122,6 +123,7 @@ export class PackagePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         if (this.readmeFile) {
+            project.readmePages = ReadmePackage.createFromBase(this.readmeFile);
             project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
         }
 

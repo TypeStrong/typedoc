@@ -124,6 +124,27 @@ export class DefaultTheme extends Theme {
             urls.push(new UrlMapping('index.html',   project, 'index.hbs'));
         }
 
+        if (project.readmePages) {
+            project.readmePages.updatePaths((readme) => {
+                return readme.path + '.html';
+            });
+
+            // Since the primary readme is rendered in index we have to update
+            // it's URL.
+            project.readmePages.updatePath(project.readmePages.getRoot(), 'index.html');
+
+            project.readmePages.getDefinitions().forEach((readme) => {
+                if (readme.isRoot) {
+                    return;
+                }
+
+                urls.push(new UrlMapping(readme.path, readme, 'readme.hbs'));
+            });
+
+            // For backward compatibility.
+            project.readme = project.readmePages.getRoot().content;
+        }
+
         if (entryPoint.children) {
             entryPoint.children.forEach((child: Reflection) => {
                 if (child instanceof DeclarationReflection) {
@@ -163,7 +184,7 @@ export class DefaultTheme extends Theme {
      * Create a navigation structure for the given project.
      *
      * @param project  The project whose navigation should be generated.
-     * @returns        The root navigation item.
+     * @returns        The isRoot navigation item.
      */
     getNavigation(project: ProjectReflection): NavigationItem {
         /**
@@ -274,7 +295,7 @@ export class DefaultTheme extends Theme {
          * Build the navigation structure.
          *
          * @param hasSeparateGlobals  Has the project a separated globals.html file?
-         * @return                    The root node of the generated navigation structure.
+         * @return                    The isRoot node of the generated navigation structure.
          */
         function build(hasSeparateGlobals: boolean): NavigationItem {
             const root = new NavigationItem('Index', 'index.html');

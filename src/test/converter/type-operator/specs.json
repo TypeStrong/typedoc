@@ -18,7 +18,6 @@
           "id": 5,
           "name": "GenericClass",
           "kind": 128,
-          "kindString": "Class",
           "flags": {
             "isExported": true
           },
@@ -69,18 +68,9 @@
               }
             }
           ],
-          "groups": [
-            {
-              "title": "Properties",
-              "kind": 1024,
-              "children": [
-                7
-              ]
-            }
-          ],
           "sources": [
             {
-              "fileName": "type-operator.ts",
+              "fileName": "%BASE%/type-operator/type-operator.ts",
               "line": 13,
               "character": 25
             }
@@ -129,13 +119,12 @@
               "id": 4,
               "name": "b",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isExported": true
               },
               "sources": [
                 {
-                  "fileName": "type-operator.ts",
+                  "fileName": "%BASE%/type-operator/type-operator.ts",
                   "line": 10,
                   "character": 5
                 }

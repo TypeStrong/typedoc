@@ -59,6 +59,27 @@ export class MinimalTheme extends DefaultTheme {
             DefaultTheme.applyAnchorUrl(child, project);
         });
 
+        if (project.readmePages) {
+            project.readmePages.updatePaths((readme) => {
+                return readme.path + '.html';
+            });
+
+            // Since the primary readme is rendered in index we have to update
+            // it's URL.
+            project.readmePages.updatePath(project.readmePages.getRoot(), 'index.html');
+
+            project.readmePages.getDefinitions().forEach((readme) => {
+                if (readme.isRoot) {
+                    return;
+                }
+
+                urls.push(new UrlMapping(readme.path, readme, 'readme.hbs'));
+            });
+
+            // For backward compatibility.
+            project.readme = project.readmePages.getRoot().content;
+        }
+
         return urls;
     }
 

@@ -48,8 +48,7 @@
                   "name": "decoratorAtom",
                   "type": {
                     "type": "reference",
-                    "name": "decoratorAtom",
-                    "id": 5
+                    "name": "decoratorAtom"
                   }
                 },
                 {
@@ -69,7 +68,6 @@
                   "id": 4,
                   "name": "decoratedMethod",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "shortText": "A decorated method."
@@ -110,15 +108,7 @@
           "id": 5,
           "name": "decoratorAtom",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
-          "decorates": [
-            {
-              "type": "reference",
-              "name": "decoratedMethod",
-              "id": 3
-            }
-          ],
           "signatures": [
             {
               "id": 6,
@@ -187,7 +177,7 @@
           ],
           "sources": [
             {
-              "fileName": "decorators.ts",
+              "fileName": "%BASE%/decorators/decorators.ts",
               "line": 21,
               "character": 22
             }

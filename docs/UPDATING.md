@@ -1,4 +1,6 @@
 
+[back to readme](../README.md)
+
 ## Updating
 TypeDoc makes use of internal API methods from the TypeScript compiler - as such you will need
 to recompile it for each and every different TypeScript compiler release. If your project doesn't
