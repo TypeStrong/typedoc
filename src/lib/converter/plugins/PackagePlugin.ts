@@ -86,7 +86,7 @@ export class PackagePlugin extends ConverterComponent {
         if (!node) {
             return;
         }
-        if (this.readmeFile && this.packageFile) {
+        if ((this.noReadmeFile || this.readmeFile) && this.packageFile) {
             return;
         }
 
@@ -95,6 +95,14 @@ export class PackagePlugin extends ConverterComponent {
         do {
             dirName = parentDir;
             if (this.visited.includes(dirName)) {
+                break;
+            }
+
+            if ((this.noReadmeFile || this.readmeFile) && this.packageFile) {
+                break;
+            }
+
+            if ((this.noReadmeFile || this.readmeFile) && this.packageFile) {
                 break;
             }
 
