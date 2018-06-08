@@ -1,0 +1,470 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"inherit-param-doc\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/inherit-param-doc/inherit-param-doc.ts",
+      "children": [
+        {
+          "id": 7,
+          "name": "Class1",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 8,
+              "name": "method1",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 9,
+                  "name": "method1",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 10,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter A."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 11,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter B.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "Base.method1",
+                    "id": 4
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 11,
+                  "character": 11
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "Base.method1",
+                "id": 3
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                8
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 9,
+              "character": 19
+            }
+          ],
+          "implementedTypes": [
+            {
+              "type": "reference",
+              "name": "Base",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "Class2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 13,
+              "name": "method1",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 14,
+                  "name": "method1",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 15,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Custom parameter A doc.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 16,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter B.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "Base.method1",
+                    "id": 4
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 20,
+                  "character": 11
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "Base.method1",
+                "id": 3
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                13
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 14,
+              "character": 19
+            }
+          ],
+          "implementedTypes": [
+            {
+              "type": "reference",
+              "name": "Base",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": 17,
+          "name": "Class3",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 18,
+              "name": "method1",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 19,
+                  "name": "method1",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 20,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter A."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 21,
+                      "name": "c",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Custom second parameter doc with name change.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "Base.method1",
+                    "id": 4
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 29,
+                  "character": 11
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "Base.method1",
+                "id": 3
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                18
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 23,
+              "character": 19
+            }
+          ],
+          "implementedTypes": [
+            {
+              "type": "reference",
+              "name": "Base",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Base",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "method1",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 4,
+                  "name": "method1",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {},
+                  "parameters": [
+                    {
+                      "id": 5,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter A."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 6,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Parameter B.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inherit-param-doc.ts",
+                  "line": 6,
+                  "character": 11
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inherit-param-doc.ts",
+              "line": 1,
+              "character": 21
+            }
+          ],
+          "implementedBy": [
+            {
+              "type": "reference",
+              "name": "Class1",
+              "id": 7
+            },
+            {
+              "type": "reference",
+              "name": "Class2",
+              "id": 12
+            },
+            {
+              "type": "reference",
+              "name": "Class3",
+              "id": 17
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            7,
+            12,
+            17
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inherit-param-doc.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
