@@ -52,9 +52,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "text": "Numeric parameter.\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -123,9 +120,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "text": "Generic parameter.\n"
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -182,9 +176,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "text": "Numeric parameter A."
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -240,9 +231,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "text": "Some numeric parameter."
-                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -255,9 +243,6 @@
                       "kindString": "Parameter",
                       "flags": {
                         "isOptional": true
-                      },
-                      "comment": {
-                        "text": "Optional generic parameter.\n"
                       },
                       "type": {
                         "type": "intrinsic",
@@ -604,9 +589,6 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {},
-                      "comment": {
-                        "text": "A number or a string."
-                      },
                       "type": {
                         "type": "union",
                         "types": [
