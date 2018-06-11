@@ -87,4 +87,62 @@ export abstract class Type {
 
         return true;
     }
+
+    /**
+     * Test whether the first type list can be assigned from the second type list.
+     *
+     * @param a  The type list to assign to (Parameter list of overridden method for example).
+     * @param b  The type list to assign from (Parameter list of extending method for example).
+     * @return True if second type list can be assigned to the first type list.
+     */
+    static isTypeListAssignable(a: Type[], b: Type[]): boolean {
+        // When not enough types are present in second list then it is not assignable
+        if (a.length > b.length) {
+            return false;
+        }
+        // For each type in first list check if it is assignable from corresponding type of second list
+        for (let index = 0, count = a.length; index < count; index++) {
+            if (!a[index].isAssignableFrom(b[index])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Test whether the given type can be assigned to this type.
+     *
+     * @param type  The type to check.
+     * @return True if specified type can be assigned to this type, false if not.
+     */
+    isAssignableFrom(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableTo(this);
+        } else {
+            return this.equals(type);
+        }
+    }
+
+    /**
+     * Test whether this type can be assigned to the given type.
+     *
+     * @param type  The type to check.
+     * @return True if this type can be assigned to the given type, false if not.
+     */
+    isAssignableTo(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableFrom(this);
+        } else {
+            return this.equals(type);
+        }
+    }
+
+    /**
+     * Test wether this type wraps other types.
+     *
+     * @return True if this type wraps other types, false if not.
+     */
+    isTypeWrapper(): boolean {
+        return false;
+    }
 }

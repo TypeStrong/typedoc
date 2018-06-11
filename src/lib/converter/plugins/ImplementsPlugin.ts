@@ -65,7 +65,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 interfaceMember.signatures.forEach((interfaceSignature: SignatureReflection) => {
                     const interfaceParameters = interfaceSignature.getParameterTypes();
                     classMember.signatures.forEach((classSignature: SignatureReflection) => {
-                        if (Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
+                        if (Type.isTypeListAssignable(interfaceParameters, classSignature.getParameterTypes())) {
                             classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
                             this.copyComment(classSignature, interfaceSignature);
                         }

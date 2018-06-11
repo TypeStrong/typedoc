@@ -43,7 +43,7 @@ export class IntersectionType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: IntersectionType): boolean {
+    equals(type: Type): boolean {
         if (!(type instanceof IntersectionType)) {
             return false;
         }
@@ -74,5 +74,24 @@ export class IntersectionType extends Type {
         });
 
         return names.join(' & ');
+    }
+
+    /** @inheritDoc */
+    isAssignableTo(type: Type): boolean {
+        if (type instanceof IntersectionType) {
+            return type.isAssignableFrom(this);
+        } else {
+            return this.types.some(subType => type.isAssignableFrom(subType));
+        }
+    }
+
+    /** @inheritDoc */
+    isAssignableFrom(type: Type): boolean {
+        return this.types.every(subType => type.isAssignableTo(subType));
+    }
+
+    /** @inheritDoc */
+    isTypeWrapper(): boolean {
+        return true;
     }
 }

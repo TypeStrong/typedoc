@@ -40,7 +40,7 @@ export class TypeOperatorType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TypeOperatorType): boolean {
+    equals(type: Type): boolean {
         if (!(type instanceof TypeOperatorType)) {
             return false;
         }

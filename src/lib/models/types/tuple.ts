@@ -43,7 +43,7 @@ export class TupleType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TupleType): boolean {
+    equals(type: Type): boolean {
         if (!(type instanceof TupleType)) {
             return false;
         }
@@ -74,5 +74,25 @@ export class TupleType extends Type {
         });
 
         return '[' + names.join(', ') + ']';
+    }
+
+    /** @inheritDoc */
+    isAssignableFrom(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableTo(this);
+        } else {
+            return type instanceof TupleType &&
+                type.elements.every((elementType, index) => type.elements[index].isAssignableTo(elementType));
+        }
+    }
+
+    /** @inheritDoc */
+    isAssignableTo(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableFrom(this);
+        } else {
+            return type instanceof TupleType &&
+                type.elements.every((elementType, index) => type.elements[index].isAssignableFrom(elementType));
+        }
     }
 }

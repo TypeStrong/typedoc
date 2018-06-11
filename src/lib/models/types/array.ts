@@ -73,4 +73,22 @@ export class ArrayType extends Type {
             return elementTypeStr + '[]';
         }
     }
+
+    /** @inheritDoc */
+    isAssignableFrom(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableTo(this);
+        } else {
+            return type instanceof ArrayType && type.elementType.isAssignableTo(this.elementType);
+        }
+    }
+
+    /** @inheritDoc */
+    isAssignableTo(type: Type): boolean {
+        if (type.isTypeWrapper()) {
+            return type.isAssignableFrom(this);
+        } else {
+            return type instanceof ArrayType && type.elementType.isAssignableFrom(this.elementType);
+        }
+    }
 }

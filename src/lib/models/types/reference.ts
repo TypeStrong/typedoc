@@ -83,7 +83,7 @@ export class ReferenceType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: ReferenceType): boolean {
+    equals(type: Type): boolean {
         return type instanceof ReferenceType &&
             (type.symbolID === this.symbolID || type.reflection === this.reflection);
     }

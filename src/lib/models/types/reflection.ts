@@ -44,7 +44,7 @@ export class ReflectionType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: ReflectionType): boolean {
+    equals(type: Type): boolean {
         return type === this;
     }
 

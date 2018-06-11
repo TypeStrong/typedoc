@@ -1,0 +1,1316 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"inheritdoc\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/inheritdoc/inheritdoc.ts",
+      "children": [
+        {
+          "id": 35,
+          "name": "ConcreteClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Concrete class short text.",
+            "text": "Concrete class text.\n"
+          },
+          "children": [
+            {
+              "id": 64,
+              "name": "extendedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 65,
+                  "name": "extendedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with one numeric parameter but implemented with an additional optional parameter."
+                  },
+                  "parameters": [
+                    {
+                      "id": 66,
+                      "name": "a2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Numeric parameter.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 67,
+                      "name": "b2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.extendedMethod",
+                    "id": 33
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 138,
+                  "character": 18
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.extendedMethod",
+                "id": 32
+              }
+            },
+            {
+              "id": 39,
+              "name": "methodWithGenericParameter",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 40,
+                  "name": "methodWithGenericParameter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with generic parameter 2."
+                  },
+                  "parameters": [
+                    {
+                      "id": 41,
+                      "name": "b2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Generic parameter.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.methodWithGenericParameter",
+                    "id": 8
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 99,
+                  "character": 30
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.methodWithGenericParameter",
+                "id": 7
+              }
+            },
+            {
+              "id": 36,
+              "name": "methodWithGenericReturnType",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 37,
+                  "name": "methodWithGenericReturnType",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with generic return type.",
+                    "returns": "Generic return type.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 38,
+                      "name": "a2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Numeric parameter A."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.methodWithGenericReturnType",
+                    "id": 5
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 94,
+                  "character": 31
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.methodWithGenericReturnType",
+                "id": 4
+              }
+            },
+            {
+              "id": 45,
+              "name": "methodWithOptionalGenericParameter",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 46,
+                  "name": "methodWithOptionalGenericParameter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with optional generic parameter."
+                  },
+                  "parameters": [
+                    {
+                      "id": 47,
+                      "name": "e2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Some numeric parameter."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 48,
+                      "name": "f2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "Optional generic parameter.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.methodWithOptionalGenericParameter",
+                    "id": 14
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 111,
+                  "character": 38
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.methodWithOptionalGenericParameter",
+                "id": 13
+              }
+            },
+            {
+              "id": 49,
+              "name": "overloadedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 50,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.overloadedMethod",
+                    "id": 18
+                  }
+                },
+                {
+                  "id": 51,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "parameters": [
+                    {
+                      "id": 52,
+                      "name": "n2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.overloadedMethod",
+                    "id": 21
+                  }
+                },
+                {
+                  "id": 53,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "parameters": [
+                    {
+                      "id": 54,
+                      "name": "t2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.overloadedMethod",
+                    "id": 21
+                  }
+                },
+                {
+                  "id": 55,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "parameters": [
+                    {
+                      "id": 56,
+                      "name": "b2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    },
+                    {
+                      "id": 57,
+                      "name": "t2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.overloadedMethod",
+                    "id": 23
+                  }
+                },
+                {
+                  "id": 58,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "parameters": [
+                    {
+                      "id": 59,
+                      "name": "d2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "Date"
+                      }
+                    },
+                    {
+                      "id": 60,
+                      "name": "t2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "null"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.overloadedMethod",
+                    "id": 26
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 114,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 117,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 120,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 123,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 126,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 128,
+                  "character": 20
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.overloadedMethod",
+                "id": 17
+              }
+            },
+            {
+              "id": 42,
+              "name": "undocumentedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 43,
+                  "name": "undocumentedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "No doc is copied from interface because no documentation is present there.",
+                    "tags": [
+                      {
+                        "tag": "inheritdoc",
+                        "text": "\n"
+                      }
+                    ]
+                  },
+                  "parameters": [
+                    {
+                      "id": 44,
+                      "name": "c2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.undocumentedMethod",
+                    "id": 11
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 106,
+                  "character": 22
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.undocumentedMethod",
+                "id": 10
+              }
+            },
+            {
+              "id": 61,
+              "name": "unionParamMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 62,
+                  "name": "unionParamMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with a union parameter and return value.",
+                    "returns": "A string or a number.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 63,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A number or a string."
+                      },
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "intrinsic",
+                        "name": "string"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    ]
+                  },
+                  "implementationOf": {
+                    "type": "reference",
+                    "name": "BaseInterface.unionParamMethod",
+                    "id": 30
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 133,
+                  "character": 20
+                }
+              ],
+              "implementationOf": {
+                "type": "reference",
+                "name": "BaseInterface.unionParamMethod",
+                "id": 29
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                64,
+                39,
+                36,
+                45,
+                49,
+                42,
+                61
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inheritdoc.ts",
+              "line": 92,
+              "character": 26
+            }
+          ],
+          "implementedTypes": [
+            {
+              "type": "reference",
+              "name": "BaseInterface",
+              "id": 2,
+              "typeArguments": [
+                {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "BaseInterface",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Base interface short text.",
+            "text": "Base interface text.\n"
+          },
+          "typeParameter": [
+            {
+              "id": 3,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "children": [
+            {
+              "id": 32,
+              "name": "extendedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 33,
+                  "name": "extendedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with one numeric parameter but implemented with an additional optional parameter."
+                  },
+                  "parameters": [
+                    {
+                      "id": 34,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Numeric parameter.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 84,
+                  "character": 18
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "name": "methodWithGenericParameter",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 8,
+                  "name": "methodWithGenericParameter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with generic parameter 2."
+                  },
+                  "parameters": [
+                    {
+                      "id": 9,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Generic parameter.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 20,
+                  "character": 30
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "methodWithGenericReturnType",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 5,
+                  "name": "methodWithGenericReturnType",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with generic return type.",
+                    "returns": "Generic return type.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 6,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Numeric parameter A."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 13,
+                  "character": 31
+                }
+              ]
+            },
+            {
+              "id": 13,
+              "name": "methodWithOptionalGenericParameter",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 14,
+                  "name": "methodWithOptionalGenericParameter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with optional generic parameter."
+                  },
+                  "parameters": [
+                    {
+                      "id": 15,
+                      "name": "e",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "Some numeric parameter."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 16,
+                      "name": "f",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "Optional generic parameter.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 30,
+                  "character": 38
+                }
+              ]
+            },
+            {
+              "id": 17,
+              "name": "overloadedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 18,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with no args and no return value."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                },
+                {
+                  "id": 19,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with numeric arg and string return value.",
+                    "returns": "The string return value.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 20,
+                      "name": "n",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The numeric argument."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                },
+                {
+                  "id": 21,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with generic arg and numeric return value.",
+                    "returns": "The numeric return value.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 22,
+                      "name": "t",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The generic argument."
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 23,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with boolean and optional generic arg and numeric return value.",
+                    "returns": "The numeric return value.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 24,
+                      "name": "b",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The boolean argument."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    },
+                    {
+                      "id": 25,
+                      "name": "t",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The optional generic argument."
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 26,
+                  "name": "overloadedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Overloaded method with Date and nullable generic arg and numeric return value.",
+                    "returns": "The numeric return value.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 27,
+                      "name": "d",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The date argument."
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "Date"
+                      }
+                    },
+                    {
+                      "id": 28,
+                      "name": "t",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The nullable generic argument."
+                      },
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "typeParameter",
+                            "name": "T"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "null"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 35,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 43,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 51,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 60,
+                  "character": 20
+                },
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 69,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "undocumentedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "undocumentedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 12,
+                      "name": "c",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 22,
+                  "character": 22
+                }
+              ]
+            },
+            {
+              "id": 29,
+              "name": "unionParamMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 30,
+                  "name": "unionParamMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Method with a union parameter and return value.",
+                    "returns": "A string or a number.\n"
+                  },
+                  "parameters": [
+                    {
+                      "id": 31,
+                      "name": "a",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A number or a string."
+                      },
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "intrinsic",
+                        "name": "string"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "inheritdoc.ts",
+                  "line": 77,
+                  "character": 20
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                32,
+                7,
+                4,
+                13,
+                17,
+                10,
+                29
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "inheritdoc.ts",
+              "line": 6,
+              "character": 30
+            }
+          ],
+          "implementedBy": [
+            {
+              "type": "reference",
+              "name": "ConcreteClass",
+              "id": 35
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            35
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "inheritdoc.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

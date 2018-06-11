@@ -20,15 +20,19 @@ export class TypeParameterType extends Type {
      */
     readonly type: string = 'typeParameter';
 
+    constructor(constraint?: Type) {
+        super();
+        this.constraint = constraint;
+    }
+
     /**
      * Clone this type.
      *
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new TypeParameterType();
+        const clone = new TypeParameterType(this.constraint);
         clone.name = this.name;
-        clone.constraint = this.constraint;
         return clone;
     }
 
@@ -38,7 +42,7 @@ export class TypeParameterType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: TypeParameterType): boolean {
+    equals(type: Type): boolean {
         if (!(type instanceof TypeParameterType)) {
             return false;
         }
@@ -72,5 +76,20 @@ export class TypeParameterType extends Type {
      */
     toString() {
         return this.name;
+    }
+
+    /** @inheritDoc */
+    isAssignableTo(type: Type): boolean {
+        return this.constraint != null && type.isAssignableFrom(this.constraint);
+    }
+
+    /** @inheritDoc */
+    isAssignableFrom(type: Type): boolean {
+        return this.constraint == null || type.isAssignableTo(this.constraint);
+    }
+
+    /** @inheritDoc */
+    isTypeWrapper(): boolean {
+        return true;
     }
 }

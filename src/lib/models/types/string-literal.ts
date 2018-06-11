@@ -1,4 +1,5 @@
 import { Type } from './abstract';
+import { IntrinsicType } from './intrinsic';
 
 /**
  * Represents a string literal type.
@@ -43,7 +44,7 @@ export class StringLiteralType extends Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: StringLiteralType): boolean {
+    equals(type: Type): boolean {
         return type instanceof StringLiteralType &&
             type.value === this.value;
     }
@@ -63,5 +64,13 @@ export class StringLiteralType extends Type {
      */
     toString(): string {
         return '"' + this.value + '"';
+    }
+
+    /** @inheritDoc */
+    isAssignableTo(type: Type): boolean {
+        if (type instanceof IntrinsicType && type.name === 'string') {
+            return true;
+        }
+        return super.isAssignableTo(type);
     }
 }
