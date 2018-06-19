@@ -1,5 +1,6 @@
-import { DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty } from './abstract';
-import { Type, ReflectionType } from '../types/index';
+import { ReflectionType, Type } from '../types/index';
+import { DefaultValueContainer, Reflection, ReflectionFlag, TraverseCallback, TraverseProperty, TypeContainer,
+         TypeParameterContainer } from './abstract';
 import { ContainerReflection } from './container';
 import { SignatureReflection } from './signature';
 import { TypeParameterReflection } from './type-parameter';
@@ -120,6 +121,12 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      */
     typeHierarchy?: DeclarationHierarchy;
 
+    /**
+     * The id of another declaration renamed by this one. This is used for export declarations. Eg:
+     * export { foo as bar }
+     */
+    renames?: number;
+
     hasGetterOrSetter(): boolean {
         return !!this.getSignature || !!this.setSignature;
     }
@@ -222,6 +229,10 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
             result.implementationOf = this.implementationOf.toObject();
         }
 
+        if (this.renames) {
+            result.renames = this.renames;
+        }
+
         return result;
     }
 
@@ -245,4 +256,12 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
 
         return result;
     }
+}
+
+export function markAsExported(reflection: Reflection) {
+    if (reflection instanceof DeclarationReflection) {
+        (<DeclarationReflection> reflection).setFlag(ReflectionFlag.Exported, true);
+    }
+
+    reflection.traverse(markAsExported);
 }

@@ -20,7 +20,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -30,7 +31,8 @@
               "kindString": "Property",
               "flags": {
                 "isStatic": true,
-                "isExported": true
+                 "isExported": true,
+                 "hasExport": true
               },
               "sources": [
                 {
@@ -76,7 +78,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -86,7 +89,8 @@
               "kindString": "Property",
               "flags": {
                 "isStatic": true,
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "sources": [
                 {

@@ -1,5 +1,5 @@
 export { createComment } from './comment';
-export { createDeclaration } from './declaration';
+export { createDeclaration, convertExportDeclarationReflections } from './declaration';
 export { createParameter } from './parameter';
 export { createReferenceType } from './reference';
 export { createSignature } from './signature';

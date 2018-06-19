@@ -21,6 +21,7 @@
           "kindString": "Class",
           "flags": {
             "isExported": true,
+            "hasExport": true,
             "isAbstract": true
           },
           "children": [
@@ -114,7 +115,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -220,7 +222,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "TestClass comment short text.",
@@ -527,7 +530,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -887,17 +891,18 @@
               }
             },
             {
-              "id": 44,
+              "id": 49,
               "name": "staticMergedMethod",
               "kind": 2048,
               "kindString": "Method",
               "flags": {
                 "isStatic": true,
+                "hasExport": true,
                 "isExported": true
               },
               "signatures": [
                 {
-                  "id": 45,
+                  "id": 50,
                   "name": "staticMergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -989,7 +994,7 @@
                 42,
                 19,
                 17,
-                44,
+                49,
                 32
               ]
             }

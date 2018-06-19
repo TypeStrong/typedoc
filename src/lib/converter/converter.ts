@@ -1,27 +1,15 @@
-import * as ts from 'typescript';
-import * as _ts from '../ts-internal';
 import * as _ from 'lodash';
+import * as ts from 'typescript';
 
 import { Application } from '../application';
-import { ParameterType } from '../utils/options/declaration';
-import { Reflection, Type, ProjectReflection, DeclarationReflection, ContainerReflection } from '../models/index';
-import { Context } from './context';
-import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
+import { ProjectReflection, Reflection, Type } from '../models/index';
+import { ChildableComponent, Component, ComponentClass, Option } from '../utils/component';
 import { normalizePath } from '../utils/fs';
+import { ParameterType } from '../utils/options/declaration';
+import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeNodeConverter, TypeTypeConverter } from './components';
+import { Context } from './context';
+import { convertExportDeclarationReflections } from './factories/index';
 import { createMinimatch } from '../utils/paths';
-
-function pruneNotExported(child) {
-    if ((child instanceof DeclarationReflection) &&
-        !child.flags.isExported) {
-        const siblings = (<ContainerReflection> child.parent).children;
-        const index = siblings.indexOf(child);
-        siblings.splice(index, 1);
-        return;
-    }
-
-    child.traverse(pruneNotExported);
-}
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -295,8 +283,19 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.trigger(Converter.EVENT_BEGIN, context);
 
         const errors = this.compile(context);
+
+        convertExportDeclarationReflections(context);
+
         if (this.excludeNotExported) {
-            context.project.traverse(pruneNotExported);
+            context.project.pruneNotExported();
+            const dangling = context.project.getDanglingRenames();
+            if (dangling.length !== 0) {
+                this.application.logger.warn(`The some names refer to symbols that have been removed due to --excludeNotExported and will consequently
+not be linked to the symbols they rename. Run without --excludeNotExported to get proper linking. Here are the names:`);
+                for (const name of dangling) {
+                    this.application.logger.write(name);
+                }
+            }
         }
 
         const project = this.resolve(context);

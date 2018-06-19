@@ -57,6 +57,7 @@ export enum ReflectionKind {
     ObjectLiteral = 2097152,
     TypeAlias = 4194304,
     Event = 8388608,
+    ExportDeclaration = 16777216,
 
     ClassOrInterface = Class | Interface,
     VariableOrProperty = Variable | Property,
@@ -396,6 +397,9 @@ export abstract class Reflection {
 
     /**
      * Test whether this reflection is of the given kind.
+     *
+     * @param kind A single kind or an array of kinds. When an array is used the function returns
+     * true if the reflection matches *any* of the kinds in the array.
      */
     kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
         const kindArray = Array.isArray(kind) ? kind : [kind];

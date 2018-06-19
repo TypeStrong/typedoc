@@ -52,6 +52,10 @@ export class DeclarationReflectionSerializer extends ReflectionSerializerCompone
       obj.implementationOf = this.owner.toObject(declaration.implementationOf);
     }
 
+    if (declaration.renames) {
+      obj.renames = declaration.renames;
+    }
+
     return obj;
   }
 

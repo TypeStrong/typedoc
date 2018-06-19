@@ -1,8 +1,8 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionFlag, DeclarationReflection } from '../../models/index';
-import { Context } from '../context';
+import { DeclarationReflection, ExportDeclarationReflection, markAsExported, Reflection, ReflectionFlag } from '../../models/index';
 import { Component, ConverterNodeComponent } from '../components';
+import { Context } from '../context';
 
 @Component({name: 'node:export'})
 export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
@@ -10,10 +10,19 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
      * List of supported TypeScript syntax kinds.
      */
     supports: ts.SyntaxKind[] = [
-        ts.SyntaxKind.ExportAssignment
+        ts.SyntaxKind.ExportAssignment,
+        ts.SyntaxKind.ExportDeclaration
     ];
 
-    convert(context: Context, node: ts.ExportAssignment): Reflection {
+    convert(context: Context, node: ts.ExportAssignment | ts.ExportDeclaration): Reflection {
+        if (ts.isExportDeclaration(node)) {
+            return this.convertExportDeclaration(context, node);
+        }
+
+        return this.convertExportAssignment(context, node);
+    }
+
+    convertExportAssignment(context: Context, node: ts.ExportAssignment): Reflection {
         let symbol: ts.Symbol | undefined;
 
         // default export
@@ -43,14 +52,16 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
             });
         }
 
-        function markAsExported(reflection: Reflection) {
-            if (reflection instanceof DeclarationReflection) {
-                reflection.setFlag(ReflectionFlag.Exported, true);
-            }
+        return context.scope;
+    }
 
-            reflection.traverse(markAsExported);
+    convertExportDeclaration(context: Context, node: ts.ExportDeclaration): Reflection {
+        const scope = context.scope;
+        if (!(scope instanceof DeclarationReflection)) {
+            throw new Error('we expect to have for scope a module declaration');
         }
 
-        return context.scope;
+        // We just create a reflection which will be finalized later.
+        return new ExportDeclarationReflection(node, scope);
     }
 }

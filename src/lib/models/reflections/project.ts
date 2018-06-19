@@ -1,6 +1,7 @@
 import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
+import { DeclarationReflection } from './declaration';
 
 /**
  * A reflection that represents the root of the project.
@@ -66,7 +67,7 @@ export class ProjectReflection extends ContainerReflection {
      * @param kind  The desired kind of reflection.
      * @returns     An array containing all reflections with the desired kind.
      */
-    getReflectionsByKind(kind: ReflectionKind): Reflection[] {
+    getReflectionsByKind(kind: ReflectionKind | ReflectionKind[]): Reflection[] {
         const values: Reflection[] = [];
         for (let id in this.reflections) {
             const reflection = this.reflections[id];
@@ -76,6 +77,56 @@ export class ProjectReflection extends ContainerReflection {
         }
 
         return values;
+    }
+
+    /**
+     * Prune from the descendants of this project the `DeclarationReflection` objects  that do not have the `Exported` flag set.
+     * This modifies the tree in-place.
+     */
+    pruneNotExported(): void {
+        const project = this;
+
+        function _pruneNotExported(child) {
+            if (!(child instanceof DeclarationReflection)) {
+                return;
+            }
+
+            if (!child.flags.isExported) {
+                delete project.reflections[child.id];
+
+                const siblings = (<ContainerReflection> child.parent).children;
+                if (siblings === undefined) {
+                    throw new Error('internal error: the parent of a reflection has no children!');
+                }
+                const index = siblings.indexOf(child);
+                siblings.splice(index, 1);
+                return;
+            }
+
+            child.traverse(_pruneNotExported);
+        }
+
+        this.traverse(_pruneNotExported);
+    }
+
+    /**
+     * @returns The list of rename declarations that point to a symbol for which we don't have a reflection.
+     */
+    getDanglingRenames(): string[] {
+        const dangling = new Set<string>();
+        const project = this;
+        function _getDanglingRenames(child) {
+            if (child instanceof DeclarationReflection && child.renames && !project.reflections[child.renames]) {
+                dangling.add(child.name);
+                delete child.renames;
+            }
+
+            child.traverse(_getDanglingRenames);
+        }
+
+        this.traverse(_getDanglingRenames);
+
+        return Array.from(dangling);
     }
 
     /**

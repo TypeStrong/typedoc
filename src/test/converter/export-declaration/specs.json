@@ -1,0 +1,983 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 20,
+      "name": "\"export-declaration\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/export-declaration/export-declaration.ts",
+      "children": [
+        {
+          "id": 45,
+          "name": "SomeClassFromMod",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 5,
+              "character": 79
+            }
+          ],
+          "renames": 2
+        },
+        {
+          "id": 49,
+          "name": "SomeClassFromMod2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 76
+            }
+          ],
+          "renames": 11
+        },
+        {
+          "id": 50,
+          "name": "SomeInterfaceFromMod2",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 76
+            }
+          ],
+          "renames": 13
+        },
+        {
+          "id": 46,
+          "name": "SomeInterfaceFromModRenamed",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 60
+            }
+          ],
+          "renames": 4
+        },
+        {
+          "id": 38,
+          "name": "exportedVar1",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 22,
+              "character": 25
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": " notExportedVar"
+        },
+        {
+          "id": 39,
+          "name": "exportedVar2",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 24,
+              "character": 25
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 37,
+          "name": "notExportedVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 21,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 48,
+          "name": "someVarFromMod2",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 76
+            }
+          ],
+          "renames": 18
+        },
+        {
+          "id": 44,
+          "name": "someVarFromModRenamed",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 5,
+              "character": 61
+            }
+          ],
+          "renames": 9
+        },
+        {
+          "id": 40,
+          "name": "defaultSymbol",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "signatures": [
+            {
+              "id": 41,
+              "name": "defaultSymbol",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 26,
+              "character": 37
+            }
+          ]
+        },
+        {
+          "id": 24,
+          "name": "exportedLocalFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "signatures": [
+            {
+              "id": 25,
+              "name": "exportedLocalFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 11,
+              "character": 30
+            }
+          ]
+        },
+        {
+          "id": 26,
+          "name": "exportedLocalFunction2",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "signatures": [
+            {
+              "id": 27,
+              "name": "exportedLocalFunction2",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 13,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 29,
+          "name": "exportedLocalFunction3",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 30,
+              "name": "exportedLocalFunction3",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 31,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                },
+                {
+                  "id": 32,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 18,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 33,
+          "name": "exportedLocalFunction4",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 34,
+              "name": "exportedLocalFunction4",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 35,
+                  "name": "c",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 36,
+                  "name": "d",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 19,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 43,
+          "name": "funcFromMod",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 5,
+              "character": 20
+            }
+          ],
+          "renames": 6
+        },
+        {
+          "id": 47,
+          "name": "funcFromMod2",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 76
+            }
+          ],
+          "renames": 15
+        },
+        {
+          "id": 51,
+          "name": "funcFromModRenamedInMod2",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 6,
+              "character": 76
+            }
+          ],
+          "renames": 6
+        },
+        {
+          "id": 52,
+          "name": "renamedExportedLocalFunction3",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 15,
+              "character": 64
+            }
+          ],
+          "renames": 29
+        },
+        {
+          "id": 53,
+          "name": "renamedExportedLocalFunction4",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.ts",
+              "line": 16,
+              "character": 64
+            }
+          ],
+          "renames": 33
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            45,
+            49
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            50,
+            46
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            38,
+            39,
+            37,
+            48,
+            44
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            40,
+            24,
+            26,
+            29,
+            33,
+            43,
+            47,
+            51,
+            52,
+            53
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-declaration.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"mod\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/export-declaration/mod.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "SomeClassFromMod",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "property",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "mod.ts",
+                  "line": 8,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "defaultValue": "1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 7,
+              "character": 29
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "SomeInterfaceFromMod",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "children": [
+            {
+              "id": 5,
+              "name": "foo",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "mod.ts",
+                  "line": 12,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 11,
+              "character": 37
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "someVarFromMod",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 5,
+              "character": 27
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          },
+          "defaultValue": "\"some value\""
+        },
+        {
+          "id": 6,
+          "name": "funcFromMod",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "signatures": [
+            {
+              "id": 7,
+              "name": "funcFromMod",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 8,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 1,
+              "character": 27
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            4
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            9
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            6
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mod.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "\"mod2\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/export-declaration/mod2.ts",
+      "children": [
+        {
+          "id": 11,
+          "name": "SomeClassFromMod2",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "children": [
+            {
+              "id": 12,
+              "name": "property",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "mod2.ts",
+                  "line": 8,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "defaultValue": "1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                12
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod2.ts",
+              "line": 7,
+              "character": 30
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "SomeInterfaceFromMod2",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "children": [
+            {
+              "id": 14,
+              "name": "foo",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "mod2.ts",
+                  "line": 12,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                14
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod2.ts",
+              "line": 11,
+              "character": 38
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "name": "someVarFromMod2",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "hasExport": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "mod2.ts",
+              "line": 5,
+              "character": 28
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          },
+          "defaultValue": "\"some value\""
+        },
+        {
+          "id": 15,
+          "name": "funcFromMod2",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "signatures": [
+            {
+              "id": 16,
+              "name": "funcFromMod2",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 17,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod2.ts",
+              "line": 1,
+              "character": 28
+            }
+          ]
+        },
+        {
+          "id": 42,
+          "name": "funcFromModRenamedInMod2",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExport": true
+          },
+          "sources": [
+            {
+              "fileName": "mod2.ts",
+              "line": 15,
+              "character": 48
+            }
+          ],
+          "renames": 6
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            11
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            13
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            18
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            15,
+            42
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mod2.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        20,
+        1,
+        10
+      ]
+    }
+  ]
+}

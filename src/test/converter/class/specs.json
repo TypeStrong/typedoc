@@ -981,7 +981,8 @@
               "kindString": "Method",
               "flags": {
                 "isStatic": true,
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "signatures": [
                 {

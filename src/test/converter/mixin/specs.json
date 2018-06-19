@@ -20,6 +20,7 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "comment": {
@@ -107,6 +108,7 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "comment": {
@@ -507,6 +509,7 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "comment": {
@@ -734,6 +737,7 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "comment": {
@@ -1058,6 +1062,7 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "typeParameter": [
@@ -1100,6 +1105,7 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "typeParameter": [
@@ -1173,6 +1179,7 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "typeParameter": [
@@ -1224,6 +1231,7 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
+            "hasExport": true,
             "isExported": true
           },
           "comment": {
@@ -1255,6 +1263,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
+            "hasExport": true,
             "isExported": true,
             "isConst": true
           },
@@ -1346,6 +1355,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
+            "hasExport": true,
             "isExported": true,
             "isConst": true
           },
@@ -1457,6 +1467,7 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
+            "hasExport": true,
             "isExported": true,
             "isConst": true
           },

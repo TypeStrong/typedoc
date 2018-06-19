@@ -199,6 +199,24 @@ export class Context {
     }
 
     /**
+     * Get the reflection for a given symbol.
+     *
+     * @param symbol The symbol for which to get a reflection.
+     *
+     * @returns The reflection if it exists.
+     */
+    getReflectionForSymbol(symbol: ts.Symbol): Reflection | undefined {
+        const { project } = this;
+        const symbolId = this.getSymbolID(symbol);
+        const id = symbolId !== undefined ? project.symbolMapping[symbolId] : undefined;
+        if (!id) {
+            return undefined;
+        }
+
+        return project.reflections[id];
+    }
+
+    /**
      * Trigger a node reflection event.
      *
      * All events are dispatched on the current converter instance.
