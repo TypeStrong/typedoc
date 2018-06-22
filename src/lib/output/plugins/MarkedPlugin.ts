@@ -88,7 +88,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         Marked.setOptions({
             highlight: (text: any, lang: any) => this.getHighlighted(text, lang),
-            breaks: true,
+            breaks: true
         });
     }
 
