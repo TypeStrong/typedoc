@@ -60,6 +60,8 @@
     "grunt-ts": "^5.5.1",
     "grunt-tslint": "^5.0.2",
     "istanbul": "^0.4.1",
+    "@types/mockery": "^1.4.29",
+    "mockery": "^2.1.0",
     "mocha": "^5.2.0",
     "tslint": "^5.10.0"
   },
