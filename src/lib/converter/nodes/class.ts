@@ -50,7 +50,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                 });
             }
 
-            const baseType = _ts.getClassExtendsHeritageClauseElement(node);
+            const baseType = _ts.getEffectiveBaseTypeNode(node);
             if (baseType) {
                 const type = context.getTypeAtLocation(baseType);
                 if (!context.isInherit) {
