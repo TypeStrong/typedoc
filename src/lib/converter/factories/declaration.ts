@@ -24,7 +24,7 @@ const nonStaticKinds = [
  * @param name  The desired name of the reflection.
  * @returns The resulting reflection.
  */
-export function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection {
+export function createDeclaration(context: Context, node: ts.Declaration, kind: ReflectionKind, name?: string): DeclarationReflection {
     const container = <ContainerReflection> context.scope;
     if (!(container instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
@@ -54,7 +54,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
     if (kind === ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
-        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
+        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration);
         isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
     } else {
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
@@ -99,7 +99,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         child.setFlag(ReflectionFlag.Static, isStatic);
         child.setFlag(ReflectionFlag.Private, isPrivate);
         child.setFlag(ReflectionFlag.ConstructorProperty, isConstructorProperty);
-        child.setFlag(ReflectionFlag.Exported,  isExported);
+        child.setFlag(ReflectionFlag.Exported, isExported);
         child = setupDeclaration(context, child, node);
 
         if (child) {
@@ -127,13 +127,13 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
  * @param node  The TypeScript node whose properties should be applies to the given reflection.
  * @returns The reflection populated with the values of the given node.
  */
-function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Node) {
+function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Declaration) {
     const modifiers = ts.getCombinedModifierFlags(node);
 
-    reflection.setFlag(ReflectionFlag.External,  context.isExternal);
+    reflection.setFlag(ReflectionFlag.External, context.isExternal);
     reflection.setFlag(ReflectionFlag.Protected, !!(modifiers & ts.ModifierFlags.Protected));
-    reflection.setFlag(ReflectionFlag.Public,    !!(modifiers & ts.ModifierFlags.Public));
-    reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
+    reflection.setFlag(ReflectionFlag.Public, !!(modifiers & ts.ModifierFlags.Public));
+    reflection.setFlag(ReflectionFlag.Optional, !!(node['questionToken']));
 
     if (
         context.isInherit &&

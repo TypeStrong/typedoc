@@ -98,7 +98,7 @@ export function isBindingPattern(node: ts.Node): node is ts.BindingPattern {
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1729
 export function getClassExtendsHeritageClauseElement(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
-  return tsany.getClassExtendsHeritageClauseElement.apply(this, arguments);
+  return tsany.getClassExtendsHeritageElement.apply(this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1734

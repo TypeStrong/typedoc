@@ -28,7 +28,7 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
         const scope   = context.scope;
         const kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
         const hasBody = !!node.body;
-        const method  = createDeclaration(context, <ts.Node> node, kind);
+        const method  = createDeclaration(context, node, kind);
 
         if (method  // child inheriting will return null on createDeclaration
             && kind & ReflectionKind.Method
