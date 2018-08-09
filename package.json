@@ -63,6 +63,7 @@
     "istanbul": "^0.4.1",
     "mocha": "^5.0.4",
     "mockery": "^2.1.0",
+    "ts-node": "^7.0.0",
     "tslint": "^5.9.1"
   },
   "files": [
@@ -75,7 +76,8 @@
   "scripts": {
     "test": "mocha -t 10000 dist/test",
     "build": "grunt build_and_test",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "grunt": "grunt"
   },
   "keywords": [
     "typescript",
