@@ -75,20 +75,17 @@
 				<h2 id="installation">Installation</h2>
 				<p>TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
 				in your project&#39;s directory as usual:</p>
-				<pre><code class="lang-bash">$ npm install typedoc --save-dev
-</code></pre>
+				<pre><code class="language-bash">$ npm install typedoc --save-dev</code></pre>
 				<p>Like the TypeScript compiler, TypeDoc comes with a binary that can be called from anywhere
 				if you install TypeDoc as a global module. The name of the executable is <code>typedoc</code>.</p>
-				<pre><code class="lang-bash">$ npm install typedoc --global
-$ typedoc
-</code></pre>
+				<pre><code class="language-bash">$ npm install typedoc --global
+$ typedoc</code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="shell">Shell</h3>
 				<p>TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. One major
 					difference is the fact that one may pass an entire directory instead of individual files to the documentation
 				generator. So in order to create a documentation for an entire project you simply type:</p>
-				<pre><code class="lang-bash">$ typedoc --out path/to/documentation/ path/to/typescript/project/
-</code></pre>
+				<pre><code class="language-bash">$ typedoc --out path/to/documentation/ path/to/typescript/project/</code></pre>
 				<h3 id="important-note">Important note</h3>
 				<p>Starting with version 0.2, TypeDoc no longer can predict whether files should be treated as modules
 					or whether the project should be compiled into one big namespace. You must specify the <code>mode</code> argument
