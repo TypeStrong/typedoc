@@ -10,7 +10,7 @@
 ## Installation
 
 TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
-in your project's directory as usual:
+in your project's directory as usual (using npm 3+):
 
 ```bash
 $ npm install typedoc --save-dev
@@ -30,7 +30,7 @@ $ typedoc
 
 TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. One major
 difference is the fact that one may pass an entire directory instead of individual files to the documentation
-generator. So in order to create a documentation for an entire project you simply type:
+generator. So in order to create a documentation for an entire project you can type:
 
 ```bash
 $ typedoc --out path/to/documentation/ path/to/typescript/project/

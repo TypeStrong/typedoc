@@ -1,9 +1,17 @@
 sudo: false
 language: node_js
 
-before_script:
- - "[ -d dist ] || npm run prepare"
-
 node_js:
   - 6
   - 10
+
+
+before_install:
+ - npm install --global npm@
+before_install: >
+  node_version=$(node -v);
+  if  [ ${node_version:1:1} = 6 ]; then
+      npm install --global npm@^3
+    else
+      npm install --global npm@latest
+  fi
