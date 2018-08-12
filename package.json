@@ -76,7 +76,7 @@
   "scripts": {
     "test": "mocha -t 10000 --exit dist/test",
     "build": "grunt build_and_test",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm test",
     "prepare": "grunt",
     "grunt": "grunt",
     "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
