@@ -13,7 +13,7 @@ import { ParameterHint } from '../../utils/options/declaration';
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
  *
  * Templates should parse all comments with the markdown handler so authors can
- * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
+ * easily format their documentation. TypeDoc uses the Marked (https://github.com/markedjs/marked)
  * markdown parser and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight
  * code blocks within markdown sections. Additionally this plugin allows to link to other symbols
  * using double angle brackets.
