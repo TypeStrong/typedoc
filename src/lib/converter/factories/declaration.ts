@@ -15,6 +15,14 @@ const nonStaticKinds = [
 ];
 
 /**
+ * List of ts kinds leading to none static merge.
+ */
+const nonStaticMergeKinds = [
+    ts.SyntaxKind.ClassDeclaration,
+    ts.SyntaxKind.InterfaceDeclaration
+];
+
+/**
  * Create a declaration reflection from the given TypeScript node.
  *
  * @param context  The context object describing the current state the converter is in. The
@@ -78,7 +86,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         if (container.kind === ReflectionKind.Class) {
             if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
-            } else if (!node.parent || node.parent.kind !== ts.SyntaxKind.ClassDeclaration) {
+            } else if (!node.parent || nonStaticMergeKinds.indexOf(node.parent.kind) === -1) {
                 isStatic = true;
             }
         }
