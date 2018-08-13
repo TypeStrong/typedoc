@@ -10,7 +10,7 @@
 ## Installation
 
 TypeDoc runs on Node.js and is available as an NPM package. You can install TypeDoc
-in your project's directory as usual (using npm 3+):
+in your project's directory as usual (using npm 4+):
 
 ```bash
 $ npm install typedoc --save-dev
