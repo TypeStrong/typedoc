@@ -74,7 +74,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha -t 10000 --exit dist/test",
+    "test": "grunt test",
     "build": "grunt build_and_test",
     "prepublishOnly": "grunt build_and_test",
     "prepare": "grunt default",
