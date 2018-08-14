@@ -939,6 +939,72 @@
               }
             },
             {
+              "id": 42,
+              "name": "mergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 43,
+                  "name": "mergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "mergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 91,
+                  "character": 16
+                }
+              ]
+            },
+            {
+              "id": 49,
+              "name": "staticMergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 50,
+                  "name": "staticMergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 98,
+                  "character": 38
+                }
+              ]
+            },
+            {
               "id": 32,
               "name": "staticMethod",
               "kind": 2048,
@@ -1007,6 +1073,8 @@
               "children": [
                 19,
                 17,
+                42,
+                49,
                 32
               ]
             }
