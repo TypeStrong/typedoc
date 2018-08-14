@@ -84,6 +84,20 @@ export class TestAbstractClassImplementation extends TestAbstractClass {
     protected myAbstractMethod(): void { }
 }
 
+export interface TestSubClass {
+    /**
+     * mergedMethod short text.
+     */
+    mergedMethod();
+}
+
+export module TestSubClass {
+    /**
+     * staticMergedMethod short text.
+     */
+    export function staticMergedMethod() { }
+}
+
 /**
  * This class will not appear when `excludeNotExported=true`
  */
