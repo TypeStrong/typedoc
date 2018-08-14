@@ -74,9 +74,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "mocha -t 10000 --exit dist/test",
+    "test": "grunt test",
     "build": "grunt build_and_test",
-    "prepublish": "npm run build",
+    "prepublishOnly": "grunt build_and_test",
+    "prepare": "grunt default",
     "grunt": "grunt",
     "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
   },

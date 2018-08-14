@@ -105,8 +105,9 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-tslint');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
 
-    grunt.registerTask('default', ['tslint', 'ts:typedoc', 'string-replace:version']);
-    grunt.registerTask('build_and_test', ['default', 'copy', 'mocha_istanbul:coverage']);
+    grunt.registerTask('default', ['ts:typedoc', 'string-replace:version']);
+    grunt.registerTask('test', ['tslint', 'copy', 'mocha_istanbul:coverage']);
+    grunt.registerTask('build_and_test', ['default', 'test']);
     grunt.registerTask('specs', ['clean:specsBefore', 'update-specs', 'clean:specsAfter']);
 
     grunt.registerTask('update-specs', function() {
