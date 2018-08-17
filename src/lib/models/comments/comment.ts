@@ -42,7 +42,7 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return <boolean> (!!this.shortText || !!this.text || !!this.tags);
+        return !!this.shortText || !!this.text || !!this.tags;
     }
 
     /**

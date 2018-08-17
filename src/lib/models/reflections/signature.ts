@@ -54,7 +54,7 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
+            callback(this.type.declaration, TraverseProperty.TypeLiteral);
         }
 
         if (this.typeParameters) {

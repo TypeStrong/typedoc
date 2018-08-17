@@ -157,7 +157,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
         }
 
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
+            callback(this.type.declaration, TraverseProperty.TypeLiteral);
         }
 
         if (this.signatures) {

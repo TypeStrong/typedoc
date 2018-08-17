@@ -36,7 +36,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
 
                 const reflection = project.reflections[id];
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
-                    (<DeclarationReflection> reflection).setFlag(ReflectionFlag.ExportAssignment, true);
+                    reflection.setFlag(ReflectionFlag.ExportAssignment, true);
                 }
                 markAsExported(reflection);
             });
@@ -44,7 +44,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
 
         function markAsExported(reflection: Reflection) {
             if (reflection instanceof DeclarationReflection) {
-                (<DeclarationReflection> reflection).setFlag(ReflectionFlag.Exported, true);
+                reflection.setFlag(ReflectionFlag.Exported, true);
             }
 
             reflection.traverse(markAsExported);
