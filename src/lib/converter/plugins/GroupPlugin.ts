@@ -87,10 +87,9 @@ export class GroupPlugin extends ConverterComponent {
         reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
         if (reflection instanceof ContainerReflection) {
-            const container = <ContainerReflection> reflection;
-            if (container.children && container.children.length > 0) {
-                container.children.sort(GroupPlugin.sortCallback);
-                container.groups = GroupPlugin.getReflectionGroups(container.children);
+            if (reflection.children && reflection.children.length > 0) {
+                reflection.children.sort(GroupPlugin.sortCallback);
+                reflection.groups = GroupPlugin.getReflectionGroups(reflection.children);
             }
         }
     }

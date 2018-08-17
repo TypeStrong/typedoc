@@ -486,7 +486,7 @@ export class EventDispatcher {
                 }
             });
         } else {
-            eventsApi(triggerApi, this._events, <EventMap|string> name, void 0, args);
+            eventsApi(triggerApi, this._events, name, void 0, args);
         }
 
         return this;

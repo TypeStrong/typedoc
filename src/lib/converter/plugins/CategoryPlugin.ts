@@ -36,13 +36,12 @@ export class CategoryPlugin extends ConverterComponent {
      */
     private onResolve(context: Context, reflection: Reflection) {
         if (reflection instanceof ContainerReflection) {
-            const container = <ContainerReflection> reflection;
-            if (container.children && container.children.length > 0) {
-                container.children.sort(GroupPlugin.sortCallback);
-                container.categories = CategoryPlugin.getReflectionCategories(container.children);
+            if (reflection.children && reflection.children.length > 0) {
+                reflection.children.sort(GroupPlugin.sortCallback);
+                reflection.categories = CategoryPlugin.getReflectionCategories(reflection.children);
             }
-            if (container.categories && container.categories.length > 1) {
-                container.categories.sort(CategoryPlugin.sortCatCallback);
+            if (reflection.categories && reflection.categories.length > 1) {
+                reflection.categories.sort(CategoryPlugin.sortCatCallback);
             }
         }
     }

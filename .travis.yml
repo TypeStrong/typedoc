@@ -15,3 +15,7 @@ before_install: >
     else
       npm install --global npm@latest
   fi
+
+script:
+ - npm test
+ - npm run lint

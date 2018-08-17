@@ -49,7 +49,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      */
     convert(context: Context, node: ts.SourceFile|ts.Block|ts.ModuleBlock): Reflection {
         if (node.kind === ts.SyntaxKind.SourceFile) {
-            this.convertSourceFile(context, <ts.SourceFile> node);
+            this.convertSourceFile(context, node);
         } else {
             this.convertStatements(context, node);
         }
