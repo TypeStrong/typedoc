@@ -76,6 +76,7 @@
   "scripts": {
     "test": "grunt test",
     "build": "grunt build_and_test",
+    "lint": "tslint --project .",
     "prepublishOnly": "grunt build_and_test",
     "prepare": "grunt default",
     "grunt": "grunt",
