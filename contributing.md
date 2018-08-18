@@ -85,11 +85,11 @@ You can automatically fix some style problems by running `npm run lint -- --fix`
 
 #### Building
 
-To compile the TypeDoc source, run `npm grunt`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm build`.
+To compile the TypeDoc source, run `npm run grunt`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build`.
 
 #### Testing
 
-TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm build`.
+TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build`.
 
 If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run grunt -- update-specs` to update the spec files for the new output.
 
@@ -97,7 +97,7 @@ If you have changed the TypeDoc output, it will cause tests to fail. Once you ha
 
 Once you have finished working on an issue, you can submit a pull request to have your changes merged into the TypeDoc repository and included in the next release.
 
-Before submitting a pull request, make sure that there are no linting problems (`npm run lint`), all tests pass (`npm test`), and your branch is up to date.
+Before submitting a pull request, make sure that there are no linting problems (`npm run lint`), all tests pass (`npm test`), and your branch is up to date. Its also a good idea to join the TypeDoc [Gitter] room to discuss how best to implement changes.
 
 Please do not change the project version number in a pull request.
 
