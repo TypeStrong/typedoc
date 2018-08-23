@@ -53,31 +53,28 @@ export class Repository {
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, gitRevision: string) {
+    constructor(path: string, gitRevision: string, repoLinks: string[]) {
         this.path = path;
         this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
-        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
-        if (out.code === 0) {
-            let url: RegExpExecArray;
-            const remotes = out.stdout.split('\n');
-            for (let i = 0, c = remotes.length; i < c; i++) {
-                url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
+        let url: RegExpExecArray;
 
-                if (url) {
-                    this.gitHubHostname = url[1];
-                    this.gitHubUser = url[2];
-                    this.gitHubProject = url[3];
-                    if (this.gitHubProject.substr(-4) === '.git') {
-                        this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
-                    }
-                    break;
+        for (let i = 0, c = repoLinks.length; i < c; i++) {
+            url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
+
+            if (url) {
+                this.gitHubHostname = url[1];
+                this.gitHubUser = url[2];
+                this.gitHubProject = url[3];
+                if (this.gitHubProject.substr(-4) === '.git') {
+                    this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
                 }
+                break;
             }
         }
 
-        out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
+        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
         if (out.code === 0) {
             out.stdout.split('\n').forEach((file) => {
                 if (file !== '') {
@@ -144,7 +141,11 @@ export class Repository {
         if (!out || out.code !== 0) {
             return null;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
+
+        let remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
+        let remotes: string[] = (remotesOutput.code === 0) ? remotesOutput.stdout.split('\n') : [];
+
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision, remotes);
     }
 }
 
