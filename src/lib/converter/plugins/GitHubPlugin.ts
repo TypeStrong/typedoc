@@ -12,7 +12,7 @@ import { ParameterType } from '../../utils/options/declaration';
 /**
  * Stores data of a repository.
  */
-class Repository {
+export class Repository {
     /**
      * The root path of this repository.
      */
