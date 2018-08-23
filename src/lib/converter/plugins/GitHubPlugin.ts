@@ -39,6 +39,16 @@ class Repository {
     gitHubProject: string;
 
     /**
+     * The hostname for this github project.
+     *
+     * Defaults to: `github.com` (for normal, public GitHub instance projects)
+     *
+     * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
+     * (if found as a match in the list of git remotes).
+     */
+    gitHubHostname = 'github.com';
+
+    /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
@@ -53,10 +63,12 @@ class Repository {
             let url: RegExpExecArray;
             const remotes = out.stdout.split('\n');
             for (let i = 0, c = remotes.length; i < c; i++) {
-                url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
+                url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
+
                 if (url) {
-                    this.gitHubUser = url[1];
-                    this.gitHubProject = url[2];
+                    this.gitHubHostname = url[1];
+                    this.gitHubUser = url[2];
+                    this.gitHubProject = url[3];
                     if (this.gitHubProject.substr(-4) === '.git') {
                         this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
                     }
@@ -106,7 +118,7 @@ class Repository {
         }
 
         return [
-            'https://github.com',
+            `https://${this.gitHubHostname}`,
             this.gitHubUser,
             this.gitHubProject,
             'blob',
