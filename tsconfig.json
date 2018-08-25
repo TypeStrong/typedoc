@@ -11,6 +11,8 @@
     "target": "es5",
     "noImplicitAny": false,
     "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
     "removeComments": true,
     "noUnusedLocals": true,
     "preserveConstEnums": true,

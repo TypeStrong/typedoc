@@ -17,7 +17,7 @@ import { Serializer } from './serialization';
 import { ProjectReflection } from './models/index';
 import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 
-import { AbstractComponent, ChildableComponent, Component, Option } from './utils/component';
+import { AbstractComponent, ChildableComponent, Component, Option, DUMMY_APPLICATION_OWNER } from './utils/component';
 import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
 import { ParameterType } from './utils/options/declaration';
 
@@ -67,21 +67,21 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         defaultValue: 'console',
         type: ParameterType.Mixed
     })
-    loggerType: string|Function;
+    readonly loggerType!: string|Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
         help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
         type: ParameterType.Boolean
     })
-    ignoreCompilerErrors: boolean;
+    readonly ignoreCompilerErrors!: boolean;
 
     @Option({
         name: 'exclude',
         help: 'Define patterns for excluded files when specifying paths.',
         type: ParameterType.Array
     })
-    exclude: Array<string>;
+    readonly exclude!: Array<string>;
 
     /**
      * The version number of TypeDoc.
@@ -94,7 +94,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param options An object containing the options that should be used.
      */
     constructor(options?: Object) {
-        super(null);
+        super(DUMMY_APPLICATION_OWNER);
 
         this.logger    = new ConsoleLogger();
         this.converter = this.addComponent<Converter>('converter', Converter);
@@ -153,9 +153,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * Run the converter for the given set of files and return the generated reflections.
      *
      * @param src  A list of source that should be compiled and converted.
-     * @returns An instance of ProjectReflection on success, NULL otherwise.
+     * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
-    public convert(src: string[]): ProjectReflection {
+    public convert(src: string[]): ProjectReflection | undefined {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
 
         const result = this.converter.convert(src);
@@ -165,7 +165,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
                 this.logger.resetErrors();
                 return result.project;
             } else {
-                return null;
+                return;
             }
         } else {
             return result.project;
@@ -246,7 +246,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param inputFiles  The list of files that should be expanded.
      * @returns  The list of input files with expanded directories.
      */
-    public expandInputFiles(inputFiles?: string[]): string[] {
+    public expandInputFiles(inputFiles: string[] = []): string[] {
         let files: string[] = [];
         const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern, {dot: true})) : [];
 

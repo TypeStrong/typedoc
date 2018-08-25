@@ -12,7 +12,7 @@ export function convertDefaultValue(node: ts.VariableDeclaration|ts.ParameterDec
     if (node.initializer) {
         return convertExpression(node.initializer);
     } else {
-        return null;
+        return '';
     }
 }
 

@@ -21,17 +21,17 @@ export class NavigationItem {
     /**
      * A list of urls that should be seen as sub-pages of this node.
      */
-    dedicatedUrls: string[];
+    dedicatedUrls?: string[];
 
     /**
      * The parent navigation node.
      */
-    parent: NavigationItem;
+    parent?: NavigationItem;
 
     /**
      * An array containing all child navigation nodes.
      */
-    children: NavigationItem[];
+    children?: NavigationItem[];
 
     /**
      * A string containing the css classes of this node.
@@ -41,32 +41,32 @@ export class NavigationItem {
     /**
      * Is this item a simple label without a link?
      */
-    isLabel: boolean;
+    isLabel?: boolean;
 
     /**
      * Is this item visible?
      */
-    isVisible: boolean;
+    isVisible?: boolean;
 
     /**
      * Does this navigation node represent the current page?
      */
-    isCurrent: boolean;
+    isCurrent?: boolean;
 
     /**
      * Is this the navigation node for the globals page?
      */
-    isGlobals: boolean;
+    isGlobals?: boolean;
 
     /**
      * Is this navigation node one of the parents of the current page?
      */
-    isInPath: boolean;
+    isInPath?: boolean;
 
     /**
      * The source [Reflection] this item is built from
      */
-    reflection: Reflection;
+    reflection?: Reflection;
 
     /**
      * Create a new NavigationItem instance.
@@ -78,9 +78,9 @@ export class NavigationItem {
      * @param reflection  The source [Reflection] for this [NavigationItem]
      */
     constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string, reflection?: Reflection) {
-        this.title      = title  || '';
-        this.url        = url    || '';
-        this.parent     = parent || null;
+        this.title = title || '';
+        this.url = url || '';
+        this.parent = parent;
         this.cssClasses = cssClasses || '';
         this.reflection = reflection;
 

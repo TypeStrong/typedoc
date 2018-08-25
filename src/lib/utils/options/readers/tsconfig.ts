@@ -16,7 +16,7 @@ export class TSConfigReader extends OptionsComponent {
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options: string;
+    options!: string;
 
     /**
      * The name of the parameter that specifies the tsconfig file.
@@ -44,13 +44,13 @@ export class TSConfigReader extends OptionsComponent {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (TSConfigReader.PROJECT_KEY in event.data) {
             // The `project` option may be a directory or file, so use TS to find it
-            let file: string = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
+            const file = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
             // If file is undefined, we found no file to load.
             if (file) {
                 this.load(event, file);
             }
         } else if (this.application.isCLI) {
-            let file: string = ts.findConfigFile('.', ts.sys.fileExists);
+            const file = ts.findConfigFile('.', ts.sys.fileExists);
             // If file is undefined, we found no file to load.
             if (file) {
                 this.load(event, file);

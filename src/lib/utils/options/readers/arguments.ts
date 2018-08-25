@@ -36,17 +36,17 @@ export class ArgumentsReader extends OptionsComponent {
             if (!declaration) {
                 event.addError('Unknown option: %s', arg);
             } else if (declaration.type !== ParameterType.Boolean) {
-                if (!args[index]) {
+                if (!args![index]) {
                     event.addError('Option "%s" expects an argument', declaration.name);
                 } else {
-                    event.data[declaration.name] = args[index++];
+                    event.data[declaration.name] = args![index++];
                 }
             } else {
                 event.data[declaration.name] = true;
             }
         }
 
-        const files = [];
+        const files: string[] = [];
         while (index < args.length) {
             const arg = args[index++];
 
