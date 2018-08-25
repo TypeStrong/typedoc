@@ -11,10 +11,14 @@ import { Context } from '../context';
  * @param includeParent  Should the name of the parent be provided within the fallback name?
  * @returns A new reference type instance pointing to the given symbol.
  */
-export function createReferenceType(context: Context, symbol: ts.Symbol, includeParent?: boolean): ReferenceType {
+export function createReferenceType(context: Context, symbol: ts.Symbol | undefined, includeParent?: boolean): ReferenceType | undefined {
+    if (!symbol) {
+        return;
+    }
+
     const checker = context.checker;
-    const id      = context.getSymbolID(symbol);
-    let name    = checker.symbolToString(symbol);
+    const id = context.getSymbolID(symbol)!;
+    let name = checker.symbolToString(symbol);
 
     if (includeParent && symbol.parent) {
         name = checker.symbolToString(symbol.parent) + '.' + name;

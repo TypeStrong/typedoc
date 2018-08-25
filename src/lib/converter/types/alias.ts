@@ -75,7 +75,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
         const result = new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
 
         if (node.typeArguments) {
-            result.typeArguments = node.typeArguments.map(n => this.owner.convertType(context, n));
+            result.typeArguments = this.owner.convertTypes(context, node.typeArguments);
         }
 
         return result;

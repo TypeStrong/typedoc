@@ -1,0 +1,128 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js lint
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\Users\Gerrit\AppData\Local\Microsoft\WindowsApps;C:\Program Files\iTunes;C:\Program Files\Microsoft VS Code\bin;C:\Users\Gerrit\AppData\Local\GitHubDesktop\bin;C:\Users\Gerrit\AppData\Roaming\Composer\vendor\bin;C:\Users\Gerrit\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Yarn\bin;C:\Users\Gerrit\AppData\Local\Yarn\bin;C:\Users\Gerrit\AppData\Roaming\npm;C:\Program Files (x86)\Common Files\Apple\Apple Application Support;C:\Users\Gerrit\AppData\Local\Pandoc\;C:\Users\Gerrit\Documents\xampp\php;;C:\Users\Gerrit\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.10.0
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  {
+    "name": "typedoc",
+    "description": "Create api documentations for typescript projects.",
+    "version": "0.12.0",
+    "homepage": "http://typedoc.org",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "bin": {
+      "typedoc": "bin/typedoc"
+    },
+    "author": {
+      "name": "Sebastian Lenz",
+      "url": "http://www.sebastian-lenz.de/"
+    },
+    "license": "Apache-2.0",
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/TypeStrong/TypeDoc.git"
+    },
+    "bugs": {
+      "url": "https://github.com/TypeStrong/TypeDoc/issues"
+    },
+    "licenses": [
+      {
+        "type": "Apache-2.0",
+        "url": "https://github.com/TypeStrong/TypeDoc/blob/master/LICENSE"
+      }
+    ],
+    "engines": {
+      "node": ">= 6.0.0"
+    },
+    "dependencies": {
+      "@types/fs-extra": "^5.0.3",
+      "@types/handlebars": "^4.0.38",
+      "@types/highlight.js": "^9.12.3",
+      "@types/lodash": "^4.14.110",
+      "@types/marked": "^0.4.0",
+      "@types/minimatch": "3.0.3",
+      "@types/shelljs": "^0.8.0",
+      "fs-extra": "^7.0.0",
+      "handlebars": "^4.0.6",
+      "highlight.js": "^9.0.0",
+      "lodash": "^4.17.10",
+      "marked": "^0.4.0",
+      "minimatch": "^3.0.0",
+      "progress": "^2.0.0",
+      "shelljs": "^0.8.2",
+      "typedoc-default-themes": "^0.5.0",
+      "typescript": "3.0.x"
+    },
+    "devDependencies": {
+      "@types/mocha": "^5.2.4",
+      "@types/mockery": "^1.4.29",
+      "grunt": "^1.0.3",
+      "grunt-cli": "^1.2.0",
+      "grunt-contrib-clean": "^1.0.0",
+      "grunt-contrib-copy": "^1.0.0",
+      "grunt-contrib-watch": "^1.1.0",
+      "grunt-mocha-istanbul": "^5.0.1",
+      "grunt-string-replace": "^1.2.0",
+      "grunt-ts": "^6.0.0-beta.21",
+      "grunt-tslint": "^5.0.2",
+      "istanbul": "^0.4.1",
+      "mocha": "^5.2.0",
+      "mockery": "^2.1.0",
+      "ts-node": "^7.0.0",
+      "tslint": "^5.10.0"
+    },
+    "files": [
+      "bin",
+      "dist",
+      "!dist/test",
+      "tasks",
+      "LICENSE"
+    ],
+    "scripts": {
+      "test": "grunt test",
+      "build": "grunt build_and_test",
+      "lint": "tslint --project .",
+      "prepublishOnly": "grunt build_and_test",
+      "prepare": "grunt default",
+      "grunt": "grunt",
+      "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
+    },
+    "keywords": [
+      "typescript",
+      "documentation",
+      "generator",
+      "gruntplugin"
+    ]
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 2
+  Command: C:\WINDOWS\system32\cmd.exe
+  Arguments: /d /s /c tslint --project .
+  Directory: C:\Users\Gerrit\Documents\GitHub\typedoc
+  Output:
+  
+      at ProcessTermError.MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
+      at new ProcessTermError (C:\Program Files (x86)\Yarn\lib\cli.js:226:113)
+      at ChildProcess.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:30281:17)
+      at ChildProcess.emit (events.js:180:13)
+      at maybeClose (internal/child_process.js:936:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)

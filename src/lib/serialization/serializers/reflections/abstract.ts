@@ -9,9 +9,8 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
 
   static PRIORITY = 1000;
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: Reflection) => true;
+  supports(t: unknown) {
+    return t instanceof Reflection;
   }
 
   toObject(reflection: Reflection, obj?: any): any {

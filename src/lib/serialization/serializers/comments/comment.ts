@@ -11,18 +11,15 @@ export class CommentSerializer extends SerializerComponent<Comment> {
   /**
    * Filter for instances of [[Comment]]
    */
-  protected static serializeGroup(instance: any): boolean {
+  serializeGroup(instance: unknown): boolean {
     return instance instanceof Comment;
   }
 
-  // use same fn for every instance
-  serializeGroup = CommentSerializer.serializeGroup;
-  serializeGroupSymbol = Comment;
-
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: Comment) => true;
+  supports(t: unknown) {
+    return true;
   }
+
+  serializeGroupSymbol = Comment;
 
   toObject(comment: Comment, obj?: any): any {
     obj = obj || {};

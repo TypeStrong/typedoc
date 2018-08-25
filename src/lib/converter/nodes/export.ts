@@ -14,7 +14,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
     ];
 
     convert(context: Context, node: ts.ExportAssignment): Reflection {
-        let symbol: ts.Symbol = undefined;
+        let symbol: ts.Symbol | undefined;
 
         // default export
         if (node.symbol && (node.symbol.flags & ts.SymbolFlags.Alias) === ts.SymbolFlags.Alias) {
@@ -29,7 +29,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
                 if (!declaration.symbol) {
                     return;
                 }
-                const id = project.symbolMapping[context.getSymbolID(declaration.symbol)];
+                const id = project.symbolMapping[context.getSymbolID(declaration.symbol)!];
                 if (!id) {
                     return;
                 }

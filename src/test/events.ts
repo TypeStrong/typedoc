@@ -23,7 +23,7 @@ describe('Events', function () {
         obj.counter = 0;
 
         obj.on('event', function () {
-            obj.counter += 1;
+            obj.counter! += 1;
         });
         obj.trigger('event');
         Assert.equal(obj.counter, 1, 'counter should be incremented.');
@@ -40,7 +40,7 @@ describe('Events', function () {
         obj.counter = 0;
 
         obj.on('a b c', function () {
-            obj.counter += 1;
+            obj.counter! += 1;
         });
 
         obj.trigger('a');
@@ -178,11 +178,11 @@ describe('Events', function () {
         a.listenTo(b, 'event', cb);
         b.on('event', cb);
         a.listenTo(b, 'event2', cb);
-        a.stopListening(null, {event: cb});
+        a.stopListening(undefined, {event: cb});
         b.trigger('event event2');
         b.off();
         a.listenTo(b, 'event event2', cb);
-        a.stopListening(null, 'event');
+        a.stopListening(undefined, 'event');
         a.stopListening();
         b.trigger('event2');
     });
@@ -194,11 +194,11 @@ describe('Events', function () {
         obj.counterB = 0;
 
         const incrA = function () {
-            obj.counterA += 1;
+            obj.counterA! += 1;
             obj.trigger('event');
         };
         const incrB = function () {
-            obj.counterB += 1;
+            obj.counterB! += 1;
         };
         obj.listenToOnce(obj, 'event', incrA);
         obj.listenToOnce(obj, 'event', incrB);
@@ -416,17 +416,18 @@ describe('Events', function () {
 
     it('listenTo with empty callback does not throw an error', function () {
         const e = new Events();
-        e.listenTo(e, 'foo', null);
+        e.listenTo(e, 'foo', undefined);
         e.trigger('foo');
         Assert(true);
     });
 
     it('trigger all for each event', function () {
-        let a: boolean, b: boolean;
+        let a = false;
+        let b = false;
         const obj = new Events();
         obj.counter = 0;
         obj.on('all', function (event) {
-            obj.counter++;
+            obj.counter!++;
             if (event === 'a') { a = true; }
             if (event === 'b') { b = true; }
         }).trigger('a b');
@@ -439,7 +440,7 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const callback = function () {
-            obj.counter += 1;
+            obj.counter! += 1;
         };
 
         obj.on('event', callback);
@@ -454,11 +455,11 @@ describe('Events', function () {
         obj.counterA = 0;
         obj.counterB = 0;
         const callback = function () {
-            obj.counterA += 1;
+            obj.counterA! += 1;
         };
         obj.on('event', callback);
         obj.on('event', function () {
-            obj.counterB += 1;
+            obj.counterB! += 1;
         });
         obj.trigger('event');
         obj.off('event', callback);
@@ -471,7 +472,7 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const callback = function () {
-            obj.counter += 1;
+            obj.counter! += 1;
             obj.off('event', callback);
         };
         obj.on('event', callback);
@@ -486,11 +487,11 @@ describe('Events', function () {
         obj.counterA = 0;
         obj.counterB = 0;
         const incrA = function () {
-            obj.counterA += 1;
+            obj.counterA! += 1;
             obj.off('event', incrA);
         };
         const incrB = function () {
-            obj.counterB += 1;
+            obj.counterB! += 1;
             obj.off('event', incrB);
         };
         obj.on('event', incrA);
@@ -520,12 +521,12 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const incr1 = function () {
-            obj.counter += 1;
+            obj.counter! += 1;
             obj.off('event', incr1);
             obj.trigger('event');
         };
         const incr2 = function () {
-            obj.counter += 1;
+            obj.counter! += 1;
         };
         obj.on('event', incr1);
         obj.on('event', incr2);
@@ -586,7 +587,7 @@ describe('Events', function () {
         obj.on('x y all', function () {
             Assert(false);
         }, obj);
-        obj.off(null, null, obj);
+        obj.off(undefined, undefined, obj);
         obj.trigger('x y');
     });
 
@@ -600,7 +601,7 @@ describe('Events', function () {
         };
         obj.on('x y all', success);
         obj.on('x y all', fail);
-        obj.off(null, fail);
+        obj.off(undefined, fail);
         obj.trigger('x y');
     });
 
@@ -612,7 +613,7 @@ describe('Events', function () {
         obj.on('event', function () {
             Assert(false);
         }, obj);
-        obj.off(null, null, obj);
+        obj.off(undefined, undefined, obj);
         obj.trigger('event');
     });
 
@@ -623,11 +624,11 @@ describe('Events', function () {
         obj.counterB = 0;
 
         const incrA = function () {
-            obj.counterA += 1;
+            obj.counterA! += 1;
             obj.trigger('event');
         };
         const incrB = function () {
-            obj.counterB += 1;
+            obj.counterB! += 1;
         };
         obj.once('event', incrA);
         obj.once('event', incrB);
@@ -711,7 +712,7 @@ describe('Events', function () {
         obj.once('event', function () {
             Assert(false);
         }, context);
-        obj.off(null, null, context);
+        obj.off(undefined, undefined, context);
         obj.trigger('event');
     });
 
@@ -781,7 +782,7 @@ describe('Events', function () {
 
         Assert.equal(obj, obj.trigger('noeventssetyet'));
         Assert.equal(obj, obj.off('noeventssetyet'));
-        Assert.equal(obj, obj.stopListening(null, 'noeventssetyet'));
+        Assert.equal(obj, obj.stopListening(undefined, 'noeventssetyet'));
         Assert.equal(obj, obj.on('a', fn));
         Assert.equal(obj, obj.once('c', fn));
         Assert.equal(obj, obj.trigger('a'));

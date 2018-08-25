@@ -25,7 +25,7 @@ export class UnknownConverter extends ConverterTypeComponent implements TypeType
      * This is a type based converter with no node based equivalent.
      *
      * If no other converter is able to reflect a type, this converter will produce a
-     * reflection by utilising ts.typeToString() to generate a string representation of the
+     * reflection by utilizing ts.typeToString() to generate a string representation of the
      * given type.
      *
      * @param context  The context object describing the current state the converter is in.

@@ -16,7 +16,7 @@ export class CategoryPlugin extends ConverterComponent {
     /**
      * Define the sort order of categories. By default, sort alphabetically.
      */
-    static WEIGHTS = [];
+    static WEIGHTS: string[] = [];
 
     /**
      * Create a new CategoryPlugin instance.
