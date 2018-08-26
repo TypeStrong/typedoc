@@ -102,7 +102,7 @@ export function getEffectiveBaseTypeNode(node: ts.ClassLikeDeclaration | ts.Inte
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1734
-export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration) {
+export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration): ts.NodeArray<ts.ExpressionWithTypeArguments> | undefined {
   return tsany.getClassImplementsHeritageClauseElements.apply(this, arguments);
 }
 

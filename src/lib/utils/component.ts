@@ -55,7 +55,8 @@ export function Component(options: ComponentOptions): ClassDecorator {
                 }
 
                 const host = childMapping.host;
-                host['_defaultComponents'][name] = target as any;
+                host['_defaultComponents'] = host['_defaultComponents'] || {};
+                host['_defaultComponents']![name] = target as any;
                 break;
             }
         }
@@ -69,11 +70,12 @@ export function Option(options: DeclarationOption): PropertyDecorator {
         }
 
         options.component = target['_componentName'];
-        target['_componentOptions'].push(options);
+        target['_componentOptions'] = target['_componentOptions'] || [];
+        target['_componentOptions']!.push(options);
 
         Object.defineProperty(target, propertyKey, {
-            get: function () {
-                return target.application.options.getValue(options.name);
+            get: function (this: AbstractComponent<ComponentHost>) {
+                return this.application.options.getValue(options.name);
             },
             enumerable: true,
             configurable: true
@@ -121,7 +123,7 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
     /**
      * A list of options defined by this component.
      */
-    private _componentOptions: DeclarationOption[] = [];
+    private _componentOptions?: DeclarationOption[];
 
     /**
      * Create new Component instance.
@@ -140,7 +142,7 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
     protected bubble(name: Event|EventMap|string, ...args: any[]) {
         super.trigger(name, ...args);
 
-        if (this.owner instanceof AbstractComponent) {
+        if (this.owner instanceof AbstractComponent && this._componentOwner !== DUMMY_APPLICATION_OWNER) {
             this.owner.bubble(name, ...args);
         }
 
@@ -151,7 +153,7 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
      * Return all option declarations emitted by this component.
      */
     getOptionDeclarations(): DeclarationOption[] {
-        return this._componentOptions.slice();
+        return (this._componentOptions || []).slice();
     }
 
     /**
@@ -180,9 +182,9 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
     /**
      *
      */
-    private _componentChildren: {[name: string]: C} = {};
+    private _componentChildren?: {[name: string]: C};
 
-    private _defaultComponents: {[name: string]: ComponentClass<C>} = {};
+    private _defaultComponents?: {[name: string]: ComponentClass<C>};
 
     /**
      * Create new Component instance.
@@ -190,9 +192,9 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
     constructor(owner: O | typeof DUMMY_APPLICATION_OWNER) {
         super(owner);
 
-        for (let name in this._defaultComponents) {
-            this.addComponent(name, this._defaultComponents[name]);
-        }
+        _.entries(this._defaultComponents || {}).forEach(([name, component]) => {
+            this.addComponent(name, component);
+        });
     }
 
     /**
@@ -201,7 +203,7 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
      * @returns  The instance of the plugin or undefined if no plugin with the given class is attached.
      */
     getComponent(name: string): C | undefined {
-        return this._componentChildren[name];
+        return (this._componentChildren || {})[name];
     }
 
     getComponents(): C[] {
@@ -209,10 +211,14 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
     }
 
     hasComponent(name: string): boolean {
-        return !!this._componentChildren[name];
+        return !!(this._componentChildren || {})[name];
     }
 
     addComponent<T extends C>(name: string, componentClass: T|ComponentClass<T, O>): T {
+        if (!this._componentChildren) {
+            this._componentChildren = {};
+        }
+
         if (this._componentChildren[name]) {
             // Component already added so we will return the existing component
             // TODO: add better logging around this because it could be unexpected but shouldn't be fatal
@@ -232,9 +238,9 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
     }
 
     removeComponent(name: string): C | undefined {
-        const component = this._componentChildren[name];
+        const component = (this._componentChildren || {})[name];
         if (component) {
-            delete this._componentChildren[name];
+            delete this._componentChildren![name];
             component.stopListening();
             this.bubble(new ComponentEvent(ComponentEvent.REMOVED, this, component));
             return component;

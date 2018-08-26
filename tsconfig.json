@@ -8,8 +8,9 @@
       "es2015.collection",
       "es2015.iterable"
     ],
-    "target": "es5",
+    "target": "es2015",
     "noImplicitAny": false,
+    "downlevelIteration": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,

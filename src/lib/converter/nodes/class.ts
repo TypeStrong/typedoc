@@ -71,16 +71,8 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
             }
 
             const implementedTypes = _ts.getClassImplementsHeritageClauseElements(node);
-            if (implementedTypes) {
-                implementedTypes.forEach((implementedType) => {
-                    if (!reflection!.implementedTypes) {
-                        reflection!.implementedTypes = [];
-                    }
-                    const convertedType = this.owner.convertType(context, implementedType);
-                    if (convertedType) {
-                        reflection!.implementedTypes!.push(convertedType);
-                    }
-                });
+            if (implementedTypes && implementedTypes.length) {
+                reflection!.implementedTypes = this.owner.convertTypes(context, implementedTypes);
             }
         });
 

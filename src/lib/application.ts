@@ -188,7 +188,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path the documentation should be written to.
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
-    public generateDocs(input: any, out: string): boolean {
+    public generateDocs(input: ProjectReflection | string[], out: string): boolean {
         const project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) {
             return false;

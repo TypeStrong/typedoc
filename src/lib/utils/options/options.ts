@@ -174,16 +174,14 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
 
     removeDeclaration(declaration: OptionDeclaration) {
         const names = _.keys(this.declarations);
-        let name: string;
-        for (name of names) {
+        for (const name of names) {
             if (this.declarations[name] === declaration) {
                 delete this.declarations[name];
             }
         }
 
-        name = declaration.name;
-        if (name in this.values) {
-            delete this.values[name];
+        if (declaration.name in this.values) {
+            delete this.values[declaration.name];
         }
     }
 

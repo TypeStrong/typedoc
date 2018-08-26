@@ -104,7 +104,9 @@ export class OptionDeclaration {
                     const key = value ? (value + '').toLowerCase() : '';
                     const values = _.values(map);
 
-                    if (key in map) {
+                    if (map instanceof Map) {
+                        value = map.has(key) ? map.get(key) : value;
+                    } else if (key in map) {
                         value = map[key];
                     } else if (values.indexOf(value) === -1 && errorCallback) {
                         if (this.mapError) {
