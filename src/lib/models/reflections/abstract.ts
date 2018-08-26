@@ -83,8 +83,24 @@ export enum ReflectionFlag {
     Let = 8192
 }
 
-export class ReflectionFlags {
-    flags = ReflectionFlag.None;
+const relevantFlags: ReflectionFlag[] = [
+    ReflectionFlag.Private,
+    ReflectionFlag.Protected,
+    ReflectionFlag.Static,
+    ReflectionFlag.ExportAssignment,
+    ReflectionFlag.Optional,
+    ReflectionFlag.DefaultValue,
+    ReflectionFlag.Rest,
+    ReflectionFlag.Abstract,
+    ReflectionFlag.Let,
+    ReflectionFlag.Const
+];
+
+/**
+ * This must extend Array in order to work with Handlebar's each helper.
+ */
+export class ReflectionFlags extends Array<string> {
+    private flags = ReflectionFlag.None;
 
     hasFlag(flag: ReflectionFlag) {
         return (flag & this.flags) !== 0;
@@ -166,7 +182,7 @@ export class ReflectionFlags {
 
     get isLet() {
         return this.hasFlag(ReflectionFlag.Let);
-}
+    }
 
     setFlag(flag: ReflectionFlag, set: boolean) {
         switch (flag) {
@@ -202,8 +218,14 @@ export class ReflectionFlags {
 
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         if (!set && this.hasFlag(flag)) {
+            if (relevantFlags.indexOf(flag) !== -1) {
+                this.splice(this.indexOf(ReflectionFlag[flag]), 1);
+            }
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
+            if (relevantFlags.indexOf(flag) !== -1) {
+                this.push(ReflectionFlag[flag]);
+            }
             this.flags |= flag;
         }
     }
@@ -530,15 +552,12 @@ export abstract class Reflection {
             result.comment = this.comment.toObject();
         }
 
-        for (let key in this.flags) {
-            // tslint:disable-next-line:triple-equals
-            if (parseInt(key, 10) == <any> key || key === 'flags') {
-                continue;
+        Object.getOwnPropertyNames(ReflectionFlags.prototype).forEach(name => {
+            const descriptor = Object.getOwnPropertyDescriptor(ReflectionFlags.prototype, name)!;
+            if (typeof descriptor.get === 'function' && this.flags[name] === true) {
+                result.flags[name] = true;
             }
-            if (this.flags[key]) {
-                result.flags[key] = true;
-            }
-        }
+        });
 
         if (this.decorates) {
             result.decorates = this.decorates.map((type) => type.toObject());

@@ -42,7 +42,7 @@ export interface EventMap {
 }
 
 interface EventIteratee<T, U> {
-    (events: U, name: string | undefined, callback: Function | undefined, options: T): U;
+    (events: U, name: string, callback: Function | undefined, options: T): U;
 }
 
 interface EventTriggerer {
@@ -71,11 +71,9 @@ const eventSplitter = /\s+/;
  */
 function eventsApi<T, U>(
     iteratee: EventIteratee<T, U>,
-    events: U,
-    name: EventMap | string | undefined,
+    events: U, name: EventMap | string | undefined,
     callback: EventCallback | undefined,
-    options: T
-): U {
+    options: T): U {
     let i = 0, names: string[];
 
     if (name && typeof name === 'object') {
@@ -87,7 +85,6 @@ function eventsApi<T, U>(
         for (names = _.keys(name); i < names.length ; i++) {
             events = eventsApi(iteratee, events, names[i], name[names[i]], options);
         }
-    // tslint:disable-next-line:strict-type-predicates
     } else if (name && typeof name === 'string' && eventSplitter.test(name)) {
         // Handle space separated event names by delegating them individually.
         for (names = name.split(eventSplitter); i < names.length; i++) {
@@ -95,7 +92,7 @@ function eventsApi<T, U>(
         }
     } else {
         // Finally, standard events.
-        events = iteratee(events, name, callback, options);
+        events = iteratee(events, <any> name, callback, options);
     }
 
     return events;
@@ -104,9 +101,9 @@ function eventsApi<T, U>(
 /**
  * The reducing API that adds a callback to the `events` object.
  */
-function onApi(events: EventHandlers, name: string | undefined, callback: EventCallback | undefined, options: OnApiOptions): EventHandlers {
+function onApi(events: EventHandlers, name: string, callback: EventCallback | undefined, options: OnApiOptions): EventHandlers {
     if (callback) {
-        const handlers = events[name!] || (events[name!] = []);
+        const handlers = events[name] || (events[name] = []);
         const context = options.context, ctx = options.ctx, listening = options.listening, priority = options.priority;
         if (listening) {
             listening.count++;
@@ -129,7 +126,7 @@ function onApi(events: EventHandlers, name: string | undefined, callback: EventC
 /**
  * The reducing API that removes a callback from the `events` object.
  */
-function offApi(events: EventHandlers | undefined, name: string | undefined, callback: EventCallback | undefined, options: OffApiOptions): EventHandlers | undefined {
+function offApi(events: EventHandlers | undefined, name: string, callback: EventCallback | undefined, options: OffApiOptions): EventHandlers | undefined {
     if (!events) {
         return;
     }
@@ -194,9 +191,9 @@ function offApi(events: EventHandlers | undefined, name: string | undefined, cal
  * Reduces the event callbacks into a map of `{event: onceWrapper`.}
  * `offer` unbinds the `onceWrapper` after it has been called.
  */
-function onceMap(map: EventMap, name: string | undefined, callback: EventCallback | undefined, offer: Function): EventMap {
+function onceMap(map: EventMap, name: string, callback: EventCallback | undefined, offer: Function): EventMap {
     if (callback) {
-        const once = map[name!] = <EventCallback> _.once(function() {
+        const once = map[name] = <EventCallback> _.once(function() {
             offer(name, once);
             callback.apply(this, arguments);
         });
@@ -210,14 +207,9 @@ function onceMap(map: EventMap, name: string | undefined, callback: EventCallbac
 /**
  * Handles triggering the appropriate event callbacks.
  */
-function triggerApi(
-    objEvents: EventHandlers | undefined,
-    name: string | undefined,
-    args: any[],
-    triggerer: EventTriggerer = triggerEvents
-): EventHandlers | undefined {
+function triggerApi(objEvents: EventHandlers, name: string, callback: Function | undefined, args: any[], triggerer: EventTriggerer = triggerEvents): EventHandlers {
     if (objEvents) {
-        const events = objEvents[name!];
+        const events = objEvents[name];
         let allEvents = objEvents['all'];
         if (events && allEvents) {
             allEvents = allEvents.slice();
@@ -261,12 +253,12 @@ export class Event {
     /**
      * Has [[Event.stopPropagation]] been called?
      */
-    private _isPropagationStopped = false;
+    private _isPropagationStopped?: boolean;
 
     /**
      * Has [[Event.preventDefault]] been called?
      */
-    private _isDefaultPrevented = false;
+    private _isDefaultPrevented?: boolean;
 
     /**
      * Create a new Event instance.
@@ -300,14 +292,14 @@ export class Event {
      * Has [[Event.stopPropagation]] been called?
      */
     get isPropagationStopped(): boolean {
-        return this._isPropagationStopped;
+        return !!this._isPropagationStopped;
     }
 
     /**
      * Has [[Event.preventDefault]] been called?
      */
     get isDefaultPrevented(): boolean {
-        return this._isDefaultPrevented;
+        return !!this._isDefaultPrevented;
     }
 }
 
@@ -336,7 +328,7 @@ export class EventDispatcher {
     /**
      * A unique id that identifies this instance.
      */
-    private _listenId?: string;
+    private _listenId!: string;
 
     /**
      * Bind an event to a `callback` function. Passing `"all"` will bind
@@ -353,8 +345,8 @@ export class EventDispatcher {
     /**
      * Guard the `listening` argument from the public API.
      */
-    private internalOn(name: EventMap|string, callback: EventCallback | undefined, context?: any, priority: number = 0, listening?: EventListener) {
-        this._events = eventsApi(onApi, this._events || {}, name, callback, {
+    private internalOn(name: EventMap | string, callback: EventCallback | undefined, context?: any, priority: number = 0, listening?: EventListener) {
+        this._events = eventsApi(onApi, this._events || <EventHandlers> {}, name, callback, {
             context: context,
             ctx: this,
             listening: listening,
@@ -388,8 +380,8 @@ export class EventDispatcher {
      * callbacks for all events.
      */
     off();
-    off(eventMap?: EventMap, context?: any);
-    off(name?: string, callback?: EventCallback, context?: any);
+    off(eventMap: EventMap | undefined, context?: any);
+    off(name: string | undefined, callback?: EventCallback, context?: any);
     off(name?: EventMap|string, callback?: EventCallback, context?: any) {
         if (!this._events) {
             return this;
@@ -455,7 +447,7 @@ export class EventDispatcher {
             return this;
         }
 
-        const ids = obj ? [obj._listenId!] : _.keys(listeningTo);
+        const ids = obj ? [obj._listenId] : _.keys(listeningTo);
         for (let i = 0; i < ids.length; i++) {
             const listening = listeningTo[ids[i]];
 
@@ -487,7 +479,7 @@ export class EventDispatcher {
         }
 
         if (name instanceof Event) {
-            triggerApi(this._events, name.name, [name], (events: EventHandler[], args: any[]) => {
+            triggerApi(this._events, name.name, void 0, [name], (events: EventHandler[], args: any[]) => {
                 let ev: EventHandler, i = -1, l = events.length;
                 while (++i < l) {
                     if (name.isPropagationStopped) {
@@ -498,7 +490,7 @@ export class EventDispatcher {
                 }
             });
         } else {
-            eventsApi(triggerApi as any, this._events, name, void 0, args);
+            eventsApi(triggerApi, this._events, name, void 0, args);
         }
 
         return this;
