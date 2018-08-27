@@ -85,6 +85,7 @@ function eventsApi<T, U>(
         for (names = _.keys(name); i < names.length ; i++) {
             events = eventsApi(iteratee, events, names[i], name[names[i]], options);
         }
+    // tslint:disable-next-line:strict-type-predicates
     } else if (name && typeof name === 'string' && eventSplitter.test(name)) {
         // Handle space separated event names by delegating them individually.
         for (names = name.split(eventSplitter); i < names.length; i++) {
