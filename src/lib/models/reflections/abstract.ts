@@ -217,14 +217,15 @@ export class ReflectionFlags extends Array<string> {
     }
 
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
+        const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.indexOf(flag) !== -1) {
-                this.splice(this.indexOf(ReflectionFlag[flag]), 1);
+                this.splice(this.indexOf(name), 1);
             }
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
             if (relevantFlags.indexOf(flag) !== -1) {
-                this.push(ReflectionFlag[flag]);
+                this.push(name);
             }
             this.flags |= flag;
         }
@@ -375,9 +376,9 @@ export abstract class Reflection {
      *
      * @see [[BaseReflection.getAlias]]
      */
-    private _alias = '';
+    private _alias?: string;
 
-    private _aliases: string[] = [];
+    private _aliases?: string[];
 
     /**
      * Create a new BaseReflection instance.
