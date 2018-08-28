@@ -218,7 +218,7 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
         }
 
         if (this._componentChildren[name]) {
-            throw new Error('The component `%s` has already been added.');
+            return;
         } else {
             const component: T = typeof componentClass === 'function'
                 ? new (<ComponentClass<T>> componentClass)(this)
