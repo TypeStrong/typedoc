@@ -19,7 +19,8 @@
     "inlineSources": true, // Required for debugging NPM published package.
     "outDir": "dist/",
     "rootDir": "src/",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "newLine": "LF"
   },
   "include": [
     "src/**/*.ts"
