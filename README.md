@@ -137,6 +137,7 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 * [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
 * [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
 * [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
+* [Localization](https://github.com/IgniteUI/typedoc-plugin-localization) - Generate documentation for different languages
 
 ## Advanced guides and docs
 
