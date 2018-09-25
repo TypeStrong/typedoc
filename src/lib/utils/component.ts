@@ -12,8 +12,8 @@ export interface Component extends AbstractComponent<ComponentHost> {
 
 }
 
-export interface ComponentClass<T extends Component> extends Function {
-    new(owner: ComponentHost): T;
+export interface ComponentClass<T extends Component, O extends ComponentHost = ComponentHost> extends Function {
+    new(owner: O): T;
 }
 
 export interface ComponentOptions {
@@ -64,7 +64,7 @@ export function Component(options: ComponentOptions): ClassDecorator {
 }
 
 export function Option(options: DeclarationOption): PropertyDecorator {
-    return function(target: AbstractComponent<any>, propertyKey: string) {
+    return function(target: object, propertyKey: string | symbol) {
         if (!(target instanceof AbstractComponent)) {
             throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
         }
@@ -212,7 +212,7 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
         return !!(this._componentChildren && this._componentChildren[name]);
     }
 
-    addComponent<T extends C & Component>(name: string, componentClass: T|ComponentClass<T>): T {
+    addComponent<T extends C & Component>(name: string, componentClass: T|ComponentClass<T, O>): T {
         if (!this._componentChildren) {
             this._componentChildren = {};
         }
@@ -220,7 +220,9 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
         if (this._componentChildren[name]) {
             throw new Error('The component `%s` has already been added.');
         } else {
-            const component: T = typeof componentClass === 'function' ? new (<ComponentClass<T>> componentClass)(this) : <T> componentClass;
+            const component: T = typeof componentClass === 'function'
+                ? new (<ComponentClass<T>> componentClass)(this)
+                : componentClass;
             const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);

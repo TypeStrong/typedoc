@@ -27,13 +27,12 @@
               "id": 4,
               "name": "end",
               "kind": 1024,
-              "kindString": "Property",
               "flags": {
                 "isExported": true
               },
               "sources": [
                 {
-                  "fileName": "implicit-types.ts",
+                  "fileName": "%BASE%/implicit-types/implicit-types.ts",
                   "line": 1,
                   "character": 54
                 }
@@ -86,13 +85,12 @@
           "id": 5,
           "name": "_breakpoints",
           "kind": 32,
-          "kindString": "Variable",
           "flags": {
             "isLet": true
           },
           "sources": [
             {
-              "fileName": "implicit-types.ts",
+              "fileName": "%BASE%/implicit-types/implicit-types.ts",
               "line": 3,
               "character": 16
             }

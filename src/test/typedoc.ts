@@ -1,6 +1,7 @@
 import { Application } from '..';
 import * as Path from 'path';
 import Assert = require('assert');
+import './.dot';
 
 describe('TypeDoc', function() {
     let application: Application;
@@ -53,6 +54,14 @@ describe('TypeDoc', function() {
 
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'class', 'class.ts')), -1);
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'access', 'access.ts')), -1);
+            Assert.equal(expanded.indexOf(inputFiles), -1);
+        });
+        it('supports excluding directories beginning with dots', function() {
+            const inputFiles = __dirname;
+            application.options.setValue('exclude', '**/+(.dot)/**');
+            const expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.equal(expanded.indexOf(Path.join(inputFiles, '.dot', 'index.d.ts')), -1);
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
     });

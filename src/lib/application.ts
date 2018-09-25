@@ -248,7 +248,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     public expandInputFiles(inputFiles?: string[]): string[] {
         let files: string[] = [];
-        const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern)) : [];
+        const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern, {dot: true})) : [];
 
         function isExcluded(fileName: string): boolean {
             return exclude.some(mm => mm.match(fileName));

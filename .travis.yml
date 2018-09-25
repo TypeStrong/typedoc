@@ -1,5 +1,21 @@
 sudo: false
 language: node_js
+
 node_js:
   - 6
-  - 4
+  - 10
+
+
+before_install:
+ - npm install --global npm@
+before_install: >
+  node_version=$(node -v);
+  if  [ ${node_version:1:1} = 6 ]; then
+      npm install --global npm@^4
+    else
+      npm install --global npm@latest
+  fi
+
+script:
+ - npm test
+ - npm run lint

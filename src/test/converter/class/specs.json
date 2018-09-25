@@ -15,7 +15,7 @@
       "originalName": "%BASE%/class/class.ts",
       "children": [
         {
-          "id": 42,
+          "id": 44,
           "name": "NotExportedClass",
           "kind": 128,
           "kindString": "Class",
@@ -27,14 +27,14 @@
           },
           "children": [
             {
-              "id": 43,
+              "id": 45,
               "name": "add",
               "kind": 2048,
               "kindString": "Method",
               "flags": {},
               "signatures": [
                 {
-                  "id": 44,
+                  "id": 46,
                   "name": "add",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -44,7 +44,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 45,
+                      "id": 47,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -55,7 +55,7 @@
                       }
                     },
                     {
-                      "id": 46,
+                      "id": 48,
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -75,7 +75,7 @@
               "sources": [
                 {
                   "fileName": "class.ts",
-                  "line": 94,
+                  "line": 108,
                   "character": 7
                 }
               ]
@@ -86,14 +86,14 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                43
+                45
               ]
             }
           ],
           "sources": [
             {
               "fileName": "class.ts",
-              "line": 90,
+              "line": 104,
               "character": 31
             }
           ]
@@ -853,6 +853,38 @@
               }
             },
             {
+              "id": 42,
+              "name": "mergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 43,
+                  "name": "mergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "mergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 91,
+                  "character": 16
+                }
+              ]
+            },
+            {
               "id": 19,
               "name": "protectedMethod",
               "kind": 2048,
@@ -939,6 +971,39 @@
               }
             },
             {
+              "id": 49,
+              "name": "staticMergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 50,
+                  "name": "staticMergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 98,
+                  "character": 38
+                }
+              ]
+            },
+            {
               "id": 32,
               "name": "staticMethod",
               "kind": 2048,
@@ -1005,8 +1070,10 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
+                42,
                 19,
                 17,
+                49,
                 32
               ]
             }
@@ -1016,6 +1083,16 @@
               "fileName": "class.ts",
               "line": 51,
               "character": 25
+            },
+            {
+              "fileName": "class.ts",
+              "line": 87,
+              "character": 29
+            },
+            {
+              "fileName": "class.ts",
+              "line": 94,
+              "character": 26
             }
           ],
           "extendedTypes": [
@@ -1032,7 +1109,7 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            42,
+            44,
             34,
             38,
             2,

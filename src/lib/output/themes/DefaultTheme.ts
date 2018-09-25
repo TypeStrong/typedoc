@@ -329,7 +329,7 @@ export class DefaultTheme extends Theme {
         for (let id in event.project.reflections) {
             const reflection = event.project.reflections[id];
             if (reflection instanceof DeclarationReflection) {
-                DefaultTheme.applyReflectionClasses(<DeclarationReflection> reflection);
+                DefaultTheme.applyReflectionClasses(reflection);
             }
 
             if (reflection instanceof ContainerReflection && reflection['groups']) {

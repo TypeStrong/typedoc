@@ -1,13 +1,12 @@
 {
 	"rules": {
 		"align": false,
-		"ban": [],
 		"class-name": true,
 		"comment-format": [ true, "check-space" ],
 		"curly": true,
 		"eofline": true,
 		"forin": false,
-		"indent": [ true, "spaces" ],
+		"indent": [ true, "spaces", 4 ],
 		"interface-name": [ true, "never-prefix" ],
 		"jsdoc-format": true,
 		"label-position": true,
@@ -29,6 +28,7 @@
 		"no-string-literal": false,
 		"no-switch-case-fall-through": false,
 		"no-trailing-whitespace": true,
+		"no-unnecessary-type-assertion": true,
 		"no-unused-expression": false,
 		"no-use-before-declare": false,
 		"no-var-keyword": true,

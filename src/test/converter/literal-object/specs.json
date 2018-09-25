@@ -87,14 +87,12 @@
               "id": 4,
               "name": "valueY",
               "kind": 64,
-              "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
                   "id": 5,
                   "name": "valueY",
                   "kind": 4096,
-                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -104,7 +102,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "literal-object.ts",
+                  "fileName": "%BASE%/literal-object/literal-object.ts",
                   "line": 6,
                   "character": 10
                 }

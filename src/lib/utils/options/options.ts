@@ -131,7 +131,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     }
 
     setValue(name: string|OptionDeclaration, value: any, errorCallback?: Function) {
-        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(<string> name);
+        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(name);
         if (!declaration) {
             return;
         }
@@ -158,12 +158,9 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     }
 
     addDeclaration(declaration: OptionDeclaration|DeclarationOption) {
-        let decl: OptionDeclaration;
-        if (!(declaration instanceof OptionDeclaration)) {
-            decl = new OptionDeclaration(<DeclarationOption> declaration);
-        } else {
-            decl = <OptionDeclaration> declaration;
-        }
+        const decl = declaration instanceof OptionDeclaration
+            ? declaration
+            : new OptionDeclaration(declaration);
 
         for (let name of decl.getNames()) {
             if (name in this.declarations) {

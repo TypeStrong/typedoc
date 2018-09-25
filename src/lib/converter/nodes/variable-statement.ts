@@ -25,7 +25,7 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
                 if (_ts.isBindingPattern(variableDeclaration.name)) {
-                    this.convertBindingPattern(context, <ts.BindingPattern> variableDeclaration.name);
+                    this.convertBindingPattern(context, variableDeclaration.name);
                 } else {
                     this.owner.convertNode(context, variableDeclaration);
                 }
@@ -46,7 +46,7 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
             this.owner.convertNode(context, element);
 
             if (_ts.isBindingPattern(element.name)) {
-                this.convertBindingPattern(context, <ts.BindingPattern> element.name);
+                this.convertBindingPattern(context, element.name);
             }
         });
     }
