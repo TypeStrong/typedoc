@@ -29,7 +29,7 @@ export class ArrayConverter extends ConverterTypeComponent implements TypeConver
     /**
      * Convert the given array type node to its type reflection.
      *
-     * This is a node based convert er with no type equivalent.
+     * This is a node based converter with no type equivalent.
      *
      * ```
      * let someValue: number[];
