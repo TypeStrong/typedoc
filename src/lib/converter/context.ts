@@ -58,7 +58,7 @@ export class Context {
     /**
      * The currently set type arguments.
      */
-    typeArguments?: (Type | undefined)[];
+    typeArguments?: Type[];
 
     /**
      * Is the converter in inheritance mode?
@@ -336,7 +336,7 @@ export class Context {
         }
 
         if (typeArguments) {
-            this.typeArguments = typeArguments.map((t) => this.converter.convertType(this, t));
+            this.typeArguments = this.converter.convertTypes(this, typeArguments);
         } else {
             this.typeArguments = undefined;
         }
@@ -377,7 +377,7 @@ export class Context {
             }
             const name = declaration.symbol.name;
             if (this.typeArguments && this.typeArguments[index]) {
-                typeParameters[name] = this.typeArguments[index]!;
+                typeParameters[name] = this.typeArguments[index];
             } else {
                 const param = createTypeParameter(this, declaration);
                 if (param) {
