@@ -54,7 +54,7 @@ export class HelperStack extends ResourceStack<Helper> {
     }
 
     deactivate(): boolean {
-        if (!super.activate()) {
+        if (!super.deactivate()) {
             return false;
         }
 
