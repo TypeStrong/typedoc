@@ -218,7 +218,10 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
         }
 
         if (this._componentChildren[name]) {
-            return;
+            // Component already added so we will return the existing component
+            // TODO: add better logging around this because it could be unexpected but shouldn't be fatal
+            // See https://github.com/TypeStrong/typedoc/issues/846
+            return this._componentChildren[name];
         } else {
             const component: T = typeof componentClass === 'function'
                 ? new (<ComponentClass<T>> componentClass)(this)
