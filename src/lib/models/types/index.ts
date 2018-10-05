@@ -1,5 +1,6 @@
 export { Type } from './abstract';
 export { ArrayType } from './array';
+export { ConditionalType } from './conditional';
 export { IntrinsicType } from './intrinsic';
 export { IntersectionType } from './intersection';
 export { ReferenceType } from './reference';

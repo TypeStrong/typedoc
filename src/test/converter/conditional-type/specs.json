@@ -15,14 +15,57 @@
       "originalName": "%BASE%/conditional-type/conditional-type.ts",
       "children": [
         {
-          "id": 6,
+          "id": 2,
+          "name": "C",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "children": [
+            {
+              "id": 3,
+              "name": "foo",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "conditional-type.ts",
+                  "line": 2,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "conditional-type.ts",
+              "line": 1,
+              "character": 7
+            }
+          ]
+        },
+        {
+          "id": 8,
           "name": "B",
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {},
           "typeParameter": [
             {
-              "id": 7,
+              "id": 9,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -32,41 +75,56 @@
           "sources": [
             {
               "fileName": "conditional-type.ts",
-              "line": 5,
+              "line": 9,
               "character": 6
             }
           ],
           "type": {
-            "type": "unknown",
-            "name": "B<T>"
+            "type": "conditional",
+            "checkType": {
+              "type": "typeParameter",
+              "name": "T"
+            },
+            "extendsType": {
+              "type": "intrinsic",
+              "name": "string"
+            },
+            "trueType": {
+              "type": "stringLiteral",
+              "value": "string"
+            },
+            "falseType": {
+              "type": "stringLiteral",
+              "value": "notstring"
+            }
           }
         },
         {
-          "id": 2,
+          "id": 4,
           "name": "A",
           "kind": 64,
-          "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 3,
+              "id": 5,
               "name": "A",
               "kind": 4096,
-              "kindString": "Call signature",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 4,
+                  "id": 6,
                   "name": "T",
                   "kind": 131072,
+                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
               "parameters": [
                 {
-                  "id": 5,
+                  "id": 7,
                   "name": "x",
                   "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "typeParameter",
@@ -75,15 +133,30 @@
                 }
               ],
               "type": {
-                "type": "unknown",
-                "name": "T extends number ? number : string"
+                "type": "conditional",
+                "checkType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                },
+                "extendsType": {
+                  "type": "intrinsic",
+                  "name": "number"
+                },
+                "trueType": {
+                  "type": "intrinsic",
+                  "name": "number"
+                },
+                "falseType": {
+                  "type": "reference",
+                  "name": "C"
+                }
               }
             }
           ],
           "sources": [
             {
-              "fileName": "conditional-type.ts",
-              "line": 1,
+              "fileName": "%BASE%/conditional-type/conditional-type.ts",
+              "line": 5,
               "character": 10
             }
           ]
@@ -91,17 +164,24 @@
       ],
       "groups": [
         {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        },
+        {
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            6
+            8
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            2
+            4
           ]
         }
       ],

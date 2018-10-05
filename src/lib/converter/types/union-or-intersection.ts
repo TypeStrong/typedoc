@@ -47,7 +47,7 @@ export class UnionOrIntersectionConverter extends ConverterTypeComponent impleme
     /**
      * Convert the given union type to its type reflection.
      *
-     * This is a type based converter, see [[convertUnionTypeNode]] for the node equivalent.
+     * This is a type based converter, see [[convertNode]] for the node equivalent.
      *
      * ```
      * let someValue: string|number;
