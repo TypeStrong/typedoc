@@ -1,0 +1,126 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"conditional-type\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/conditional-type/conditional-type.ts",
+      "children": [
+        {
+          "id": 6,
+          "name": "B",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {},
+          "typeParameter": [
+            {
+              "id": 7,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "conditional-type.ts",
+              "line": 5,
+              "character": 6
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "B<T>"
+          }
+        },
+        {
+          "id": 2,
+          "name": "A",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 3,
+              "name": "A",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "typeParameter": [
+                {
+                  "id": 4,
+                  "name": "T",
+                  "kind": 131072,
+                  "flags": {}
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 5,
+                  "name": "x",
+                  "kind": 32768,
+                  "flags": {},
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "T extends number ? number : string"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "conditional-type.ts",
+              "line": 1,
+              "character": 10
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Type aliases",
+          "kind": 4194304,
+          "children": [
+            6
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "conditional-type.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}
