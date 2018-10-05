@@ -61,7 +61,7 @@ describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
     let app: Application;
 
-    it('constructs', function() {
+    before('constructs', function() {
         app = new Application({
             mode:   'Modules',
             logger: 'none',
@@ -104,7 +104,7 @@ describe('Converter with excludeNotExported=true', function() {
     const classDir = Path.join(base, 'class');
     let app: Application;
 
-    it('constructs', function() {
+    before('constructs', function() {
         app = new Application({
             mode:   'Modules',
             logger: 'none',
