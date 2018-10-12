@@ -20,26 +20,26 @@ export class ArgumentsReader extends OptionsComponent {
     /**
      * Read and store the given list of arguments.
      *
-     * @param args  The list of arguments that should be parsed. When omitted the
+     * @param passedArgs  The list of arguments that should be parsed. When omitted the
      *   current command line arguments will be used.
      * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
      *   will simply skip all unknown arguments.
      * @returns TRUE on success, otherwise FALSE.
      */
-    private parseArguments(event: DiscoverEvent, args?: string[]) {
+    private parseArguments(event: DiscoverEvent, passedArgs?: string[]) {
         let index = 0;
         const owner = this.owner;
-        args = args || process.argv.slice(2);
+        const args = passedArgs || process.argv.slice(2);
 
         function readArgument(arg: string) {
             const declaration = owner.getDeclaration(arg);
             if (!declaration) {
                 event.addError('Unknown option: %s', arg);
             } else if (declaration.type !== ParameterType.Boolean) {
-                if (!args![index]) {
+                if (!args[index]) {
                     event.addError('Option "%s" expects an argument', declaration.name);
                 } else {
-                    event.data[declaration.name] = args![index++];
+                    event.data[declaration.name] = args[index++];
                 }
             } else {
                 event.data[declaration.name] = true;

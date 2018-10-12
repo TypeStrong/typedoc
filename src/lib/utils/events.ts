@@ -254,12 +254,12 @@ export class Event {
     /**
      * Has [[Event.stopPropagation]] been called?
      */
-    private _isPropagationStopped?: boolean;
+    private _isPropagationStopped = false;
 
     /**
      * Has [[Event.preventDefault]] been called?
      */
-    private _isDefaultPrevented?: boolean;
+    private _isDefaultPrevented = false;
 
     /**
      * Create a new Event instance.
@@ -293,14 +293,14 @@ export class Event {
      * Has [[Event.stopPropagation]] been called?
      */
     get isPropagationStopped(): boolean {
-        return !!this._isPropagationStopped;
+        return this._isPropagationStopped;
     }
 
     /**
      * Has [[Event.preventDefault]] been called?
      */
     get isDefaultPrevented(): boolean {
-        return !!this._isDefaultPrevented;
+        return this._isDefaultPrevented;
     }
 }
 
@@ -329,7 +329,10 @@ export class EventDispatcher {
     /**
      * A unique id that identifies this instance.
      */
-    private _listenId!: string;
+    private get _listenId: string {
+        return this._savedListenId || (this._savedListenId = _.uniqueId('l'));
+    }
+    private _savedListenId?: string;
 
     /**
      * Bind an event to a `callback` function. Passing `"all"` will bind
@@ -405,14 +408,14 @@ export class EventDispatcher {
         if (!obj) {
             return this;
         }
-        const id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+        const id = obj._listenId;
         const listeningTo = this._listeningTo || (this._listeningTo = {});
         let listening = listeningTo[id];
 
         // This object is not listening to any other events on `obj` yet.
         // Setup the necessary references to track the listening callbacks.
         if (!listening) {
-            const thisId = this._listenId || (this._listenId = _.uniqueId('l'));
+            const thisId = this._listenId;
             listening = listeningTo[id] = {
                 obj: obj,
                 objId: id,
