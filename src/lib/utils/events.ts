@@ -329,7 +329,7 @@ export class EventDispatcher {
     /**
      * A unique id that identifies this instance.
      */
-    private get _listenId: string {
+    private get _listenId(): string {
         return this._savedListenId || (this._savedListenId = _.uniqueId('l'));
     }
     private _savedListenId?: string;
