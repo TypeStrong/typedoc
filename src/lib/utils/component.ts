@@ -56,7 +56,7 @@ export function Component(options: ComponentOptions): ClassDecorator {
 
                 const host = childMapping.host;
                 host['_defaultComponents'] = host['_defaultComponents'] || {};
-                host['_defaultComponents']![name] = target as any;
+                host['_defaultComponents'][name] = target as any;
                 break;
             }
         }
@@ -71,7 +71,7 @@ export function Option(options: DeclarationOption): PropertyDecorator {
 
         options.component = target['_componentName'];
         target['_componentOptions'] = target['_componentOptions'] || [];
-        target['_componentOptions']!.push(options);
+        target['_componentOptions'].push(options);
 
         Object.defineProperty(target, propertyKey, {
             get: function (this: AbstractComponent<ComponentHost>) {
