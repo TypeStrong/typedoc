@@ -12,9 +12,9 @@ import * as _ from 'lodash';
 import { EventDispatcher, Event } from '../lib/utils/events';
 
 class Events extends EventDispatcher {
-    counter?: number;
-    counterA?: number;
-    counterB?: number;
+    counter = 0;
+    counterA = 0;
+    counterB = 0;
 }
 
 describe('Events', function () {
@@ -23,7 +23,7 @@ describe('Events', function () {
         obj.counter = 0;
 
         obj.on('event', function () {
-            obj.counter! += 1;
+            obj.counter += 1;
         });
         obj.trigger('event');
         Assert.equal(obj.counter, 1, 'counter should be incremented.');
@@ -40,7 +40,7 @@ describe('Events', function () {
         obj.counter = 0;
 
         obj.on('a b c', function () {
-            obj.counter! += 1;
+            obj.counter += 1;
         });
 
         obj.trigger('a');
@@ -194,11 +194,11 @@ describe('Events', function () {
         obj.counterB = 0;
 
         const incrA = function () {
-            obj.counterA! += 1;
+            obj.counterA += 1;
             obj.trigger('event');
         };
         const incrB = function () {
-            obj.counterB! += 1;
+            obj.counterB += 1;
         };
         obj.listenToOnce(obj, 'event', incrA);
         obj.listenToOnce(obj, 'event', incrB);
@@ -427,7 +427,7 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         obj.on('all', function (event) {
-            obj.counter!++;
+            obj.counter++;
             if (event === 'a') { a = true; }
             if (event === 'b') { b = true; }
         }).trigger('a b');
@@ -440,7 +440,7 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const callback = function () {
-            obj.counter! += 1;
+            obj.counter += 1;
         };
 
         obj.on('event', callback);
@@ -455,11 +455,11 @@ describe('Events', function () {
         obj.counterA = 0;
         obj.counterB = 0;
         const callback = function () {
-            obj.counterA! += 1;
+            obj.counterA += 1;
         };
         obj.on('event', callback);
         obj.on('event', function () {
-            obj.counterB! += 1;
+            obj.counterB += 1;
         });
         obj.trigger('event');
         obj.off('event', callback);
@@ -472,7 +472,7 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const callback = function () {
-            obj.counter! += 1;
+            obj.counter += 1;
             obj.off('event', callback);
         };
         obj.on('event', callback);
@@ -487,11 +487,11 @@ describe('Events', function () {
         obj.counterA = 0;
         obj.counterB = 0;
         const incrA = function () {
-            obj.counterA! += 1;
+            obj.counterA += 1;
             obj.off('event', incrA);
         };
         const incrB = function () {
-            obj.counterB! += 1;
+            obj.counterB += 1;
             obj.off('event', incrB);
         };
         obj.on('event', incrA);
@@ -521,12 +521,12 @@ describe('Events', function () {
         const obj = new Events();
         obj.counter = 0;
         const incr1 = function () {
-            obj.counter! += 1;
+            obj.counter += 1;
             obj.off('event', incr1);
             obj.trigger('event');
         };
         const incr2 = function () {
-            obj.counter! += 1;
+            obj.counter += 1;
         };
         obj.on('event', incr1);
         obj.on('event', incr2);
@@ -624,11 +624,11 @@ describe('Events', function () {
         obj.counterB = 0;
 
         const incrA = function () {
-            obj.counterA! += 1;
+            obj.counterA += 1;
             obj.trigger('event');
         };
         const incrB = function () {
-            obj.counterB! += 1;
+            obj.counterB += 1;
         };
         obj.once('event', incrA);
         obj.once('event', incrB);
