@@ -67,21 +67,21 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         defaultValue: 'console',
         type: ParameterType.Mixed
     })
-    readonly loggerType!: string|Function;
+    loggerType!: string|Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
         help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
         type: ParameterType.Boolean
     })
-    readonly ignoreCompilerErrors!: boolean;
+    ignoreCompilerErrors!: boolean;
 
     @Option({
         name: 'exclude',
         help: 'Define patterns for excluded files when specifying paths.',
         type: ParameterType.Array
     })
-    readonly exclude!: Array<string>;
+    exclude!: Array<string>;
 
     /**
      * The version number of TypeDoc.
