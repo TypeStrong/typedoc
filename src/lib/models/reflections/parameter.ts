@@ -3,11 +3,11 @@ import { Reflection, DefaultValueContainer, TypeContainer, TraverseCallback, Tra
 import { SignatureReflection } from './signature';
 
 export class ParameterReflection extends Reflection implements DefaultValueContainer, TypeContainer {
-    parent: SignatureReflection;
+    parent?: SignatureReflection;
 
-    defaultValue: string;
+    defaultValue?: string;
 
-    type: Type;
+    type?: Type;
 
     /**
      * Traverse all potential child reflections of this reflection.

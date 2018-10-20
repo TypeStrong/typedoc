@@ -51,7 +51,7 @@ export abstract class Type {
      * @param a
      * @param b
      */
-    static isTypeListSimiliar(a: Type[], b: Type[]): boolean {
+    static isTypeListSimilar(a: Type[], b: Type[]): boolean {
         if (a.length !== b.length) {
             return false;
         }

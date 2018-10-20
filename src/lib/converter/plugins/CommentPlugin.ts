@@ -38,13 +38,14 @@ interface ModuleComment {
 export class CommentPlugin extends ConverterComponent {
     /**
      * List of discovered module comments.
+     * Defined in this.onBegin
      */
-    private comments: {[id: number]: ModuleComment};
+    private comments!: {[id: number]: ModuleComment};
 
     /**
      * List of hidden reflections.
      */
-    private hidden: Reflection[];
+    private hidden?: Reflection[];
 
     /**
      * Create a new CommentPlugin instance.
@@ -134,7 +135,7 @@ export class CommentPlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onCreateTypeParameter(context: Context, reflection: TypeParameterReflection, node?: ts.Node) {
-        const comment = reflection.parent.comment;
+        const comment = reflection.parent && reflection.parent.comment;
         if (comment) {
             let tag = comment.getTag('typeparam', reflection.name);
             if (!tag) {
@@ -146,7 +147,8 @@ export class CommentPlugin extends ConverterComponent {
 
             if (tag) {
                 reflection.comment = new Comment(tag.text);
-                comment.tags.splice(comment.tags.indexOf(tag), 1);
+                // comment.tags must be set if we found a tag.
+                comment.tags!.splice(comment.tags!.indexOf(tag), 1);
             }
         }
     }
@@ -247,14 +249,14 @@ export class CommentPlugin extends ConverterComponent {
         if (signatures.length) {
             const comment = reflection.comment;
             if (comment && comment.hasTag('returns')) {
-                comment.returns = comment.getTag('returns').text;
+                comment.returns = comment.getTag('returns')!.text;
                 CommentPlugin.removeTags(comment, 'returns');
             }
 
             signatures.forEach((signature) => {
                 let childComment = signature.comment;
                 if (childComment && childComment.hasTag('returns')) {
-                    childComment.returns = childComment.getTag('returns').text;
+                    childComment.returns = childComment.getTag('returns')!.text;
                     CommentPlugin.removeTags(childComment, 'returns');
                 }
 
@@ -270,7 +272,7 @@ export class CommentPlugin extends ConverterComponent {
 
                 if (signature.parameters) {
                     signature.parameters.forEach((parameter) => {
-                        let tag: CommentTag;
+                        let tag: CommentTag | undefined;
                         if (childComment) {
                             tag = childComment.getTag('param', parameter.name);
                         }
@@ -296,7 +298,7 @@ export class CommentPlugin extends ConverterComponent {
      * @param comment  The comment that should be modified.
      * @param tagName  The name of the that that should be removed.
      */
-    static removeTags(comment: Comment, tagName: string) {
+    static removeTags(comment: Comment | undefined, tagName: string) {
         if (!comment || !comment.tags) {
             return;
         }
@@ -338,9 +340,9 @@ export class CommentPlugin extends ConverterComponent {
                         break;
                     case TraverseProperty.Parameters:
                         if ((<SignatureReflection> reflection.parent).parameters) {
-                            const index = (<SignatureReflection> reflection.parent).parameters.indexOf(<ParameterReflection> reflection);
+                            const index = (<SignatureReflection> reflection.parent).parameters!.indexOf(<ParameterReflection> reflection);
                             if (index !== -1) {
-                                (<SignatureReflection> reflection.parent).parameters.splice(index, 1);
+                                (<SignatureReflection> reflection.parent).parameters!.splice(index, 1);
                             }
                         }
                         break;

@@ -65,7 +65,7 @@ export class TypePlugin extends ConverterComponent {
             });
         }
 
-        function walk(types: Type[], callback: {(declaration: DeclarationReflection): void}) {
+        function walk(types: Type[] | undefined, callback: {(declaration: DeclarationReflection): void}) {
             if (!types) {
                 return;
             }
@@ -80,7 +80,7 @@ export class TypePlugin extends ConverterComponent {
             });
         }
 
-        function resolveTypes(reflection: Reflection, types: Type[]) {
+        function resolveTypes(reflection: Reflection, types?: Type[]) {
             if (!types) {
                 return;
             }
@@ -132,8 +132,8 @@ export class TypePlugin extends ConverterComponent {
                 });
             }
 
-            let root: DeclarationHierarchy;
-            let hierarchy: DeclarationHierarchy;
+            let root!: DeclarationHierarchy;
+            let hierarchy!: DeclarationHierarchy;
             function push(types: Type[]) {
                 const level: DeclarationHierarchy = {types: types};
                 if (hierarchy) {

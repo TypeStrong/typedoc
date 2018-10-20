@@ -25,7 +25,7 @@ export class ReferenceType extends Type {
     /**
      * The type arguments of this reference.
      */
-    typeArguments: Type[];
+    typeArguments?: Type[];
 
     /**
      * The symbol id of the referenced type as returned from the TypeScript compiler.
@@ -40,7 +40,7 @@ export class ReferenceType extends Type {
      *
      * The [[TypePlugin]] will try to set this property in the resolving phase.
      */
-    reflection: Reflection;
+    reflection?: Reflection;
 
     /**
      * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
@@ -100,7 +100,7 @@ export class ReferenceType extends Type {
             result.id = this.reflection.id;
         }
 
-        if (this.typeArguments) {
+        if (this.typeArguments && this.typeArguments.length) {
             result.typeArguments = this.typeArguments.map((t) => t.toObject());
         }
 
