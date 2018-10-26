@@ -4,17 +4,17 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "identifier": "build",
-      "type": "grunt",
-      "task": "default",
+      "label": "build",
+      "type": "shell",
+      "command": "npm run grunt -- default",
       "problemMatcher": [
         "$tsc"
       ]
     },
     {
-      "identifier": "build_and_test",
-      "type": "grunt",
-      "task": "build_and_test",
+      "label": "build_and_test",
+      "type": "shell",
+      "command": "npm run grunt -- build_and_test",
       "problemMatcher": [
         "$tsc"
       ]
