@@ -3,6 +3,7 @@ import { Reflection, TraverseProperty } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { DecoratorWrapper } from '../models';
+import { ReflectionFlags } from '../../../models/reflections/abstract';
 
 @Component({name: 'serializer:reflection'})
 export class ReflectionSerializer extends ReflectionSerializerComponent<Reflection> {
@@ -32,12 +33,8 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
       obj.comment = this.owner.toObject(reflection.comment);
     }
 
-    for (let key in reflection.flags) {
-      // tslint:disable-next-line:triple-equals
-      if (parseInt(key, 10) == <any> key || key === 'flags') {
-        continue;
-      }
-      if (reflection.flags[key]) {
+    for (const key of Object.getOwnPropertyNames(ReflectionFlags.prototype)) {
+      if (reflection.flags[key] === true) {
         obj.flags[key] = true;
       }
     }
