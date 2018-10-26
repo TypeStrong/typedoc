@@ -43,7 +43,7 @@ export class ReflectionCategory {
     private getAllChildrenHaveOwnDocument(): boolean {
         let onlyOwnDocuments = true;
         this.children.forEach((child) => {
-            onlyOwnDocuments = onlyOwnDocuments && child.hasOwnDocument;
+            onlyOwnDocuments = onlyOwnDocuments && !!child.hasOwnDocument;
         });
 
         return onlyOwnDocuments;

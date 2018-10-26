@@ -131,7 +131,7 @@ export class Logger {
         let output: string;
         if (diagnostic.file) {
             output = diagnostic.file.fileName;
-            output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
+            output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start || 0).line + ')';
             output += ts.sys.newLine + ' ' + ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
         } else {
             output = ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);

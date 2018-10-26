@@ -21,7 +21,7 @@ export class DynamicModulePlugin extends ConverterComponent {
     /**
      * List of reflections whose name must be trimmed.
      */
-    private reflections: Reflection[];
+    private reflections!: Reflection[];
 
     /**
      * Create a new DynamicModuleHandler instance.

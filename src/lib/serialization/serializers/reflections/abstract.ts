@@ -9,9 +9,8 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
 
   static PRIORITY = 1000;
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: Reflection) => true;
+  supports(t: unknown) {
+    return t instanceof Reflection;
   }
 
   toObject(reflection: Reflection, obj?: any): any {
@@ -57,19 +56,10 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
       }
       let name = TraverseProperty[property];
       name = name.substr(0, 1).toLowerCase() + name.substr(1);
-      switch (property) {
-        case TraverseProperty.GetSignature:
-        case TraverseProperty.SetSignature:
-        case TraverseProperty.IndexSignature:
-          obj[name] = this.owner.toObject(child);
-          break;
-        default:
-          if (!obj[name]) {
-            obj[name] = [];
-          }
-          obj[name].push(this.owner.toObject(child));
-          break;
+      if (!obj[name]) {
+        obj[name] = [];
       }
+      obj[name].push(this.owner.toObject(child));
     });
 
     return obj;

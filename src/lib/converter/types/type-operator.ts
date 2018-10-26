@@ -25,8 +25,10 @@ export class TypeOperatorConverter extends ConverterTypeComponent implements Typ
      * @param node  The type operator node representing keys of a type.
      * @returns The type representing keys of a type.
      */
-    convertNode(context: Context, node: ts.TypeOperatorNode): TypeOperatorType {
+    convertNode(context: Context, node: ts.TypeOperatorNode): TypeOperatorType | undefined {
         const target = this.owner.convertType(context, node.type);
-        return new TypeOperatorType(target);
+        if (target) {
+            return new TypeOperatorType(target);
+        }
     }
 }

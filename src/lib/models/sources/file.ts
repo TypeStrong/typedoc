@@ -64,12 +64,12 @@ export class SourceFile {
     /**
      * A url pointing to a page displaying the contents of this file.
      */
-    url: string;
+    url?: string;
 
     /**
      * The representation of the parent directory of this source file.
      */
-    parent: SourceDirectory;
+    parent?: SourceDirectory;
 
     /**
      * A list of all reflections that are declared in this file.
@@ -79,12 +79,12 @@ export class SourceFile {
     /**
      * A grouped list of the reflections declared in this file.
      */
-    groups: ReflectionGroup[];
+    groups?: ReflectionGroup[];
 
     /**
      * A categorized list of the reflections declared in this file.
      */
-    categories: ReflectionCategory[];
+    categories?: ReflectionCategory[];
 
     /**
      * Create a new SourceFile instance.

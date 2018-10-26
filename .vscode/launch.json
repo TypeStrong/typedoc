@@ -7,16 +7,18 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Debug Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "--no-timeouts"
+                "--no-timeouts",
+                "dist/test/**/*.js"
             ],
             "outFiles": [
                 "${workspaceRoot}/lib/**/*.js",
                 "${workspaceRoot}/test/**/*.js"
             ],
+            "preLaunchTask": "build",
             "sourceMaps": true
         }
     ]

@@ -31,12 +31,12 @@ export class Repository {
     /**
      * The user/organisation name of this repository on GitHub.
      */
-    gitHubUser: string;
+    gitHubUser?: string;
 
     /**
      * The project name of this repository on GitHub.
      */
-    gitHubProject: string;
+    gitHubProject?: string;
 
     /**
      * The hostname for this github project.
@@ -58,7 +58,7 @@ export class Repository {
         this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
-        let url: RegExpExecArray;
+        let url: RegExpExecArray | null;
 
         for (let i = 0, c = repoLinks.length; i < c; i++) {
             url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
@@ -109,9 +109,9 @@ export class Repository {
      * @param fileName  The file whose GitHub URL should be determined.
      * @returns An url pointing to the web preview of the given file or NULL.
      */
-    getGitHubURL(fileName: string): string {
+    getGitHubURL(fileName: string): string | undefined {
         if (!this.gitHubUser || !this.gitHubProject || !this.contains(fileName)) {
-            return null;
+            return;
         }
 
         return [
@@ -131,15 +131,15 @@ export class Repository {
      * creates a new instance of [[Repository]].
      *
      * @param path  The potential repository root.
-     * @returns A new instance of [[Repository]] or NULL.
+     * @returns A new instance of [[Repository]] or undefined.
      */
-    static tryCreateRepository(path: string, gitRevision: string): Repository {
+    static tryCreateRepository(path: string, gitRevision: string): Repository | undefined {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
 
         if (!out || out.code !== 0) {
-            return null;
+            return;
         }
 
         let remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
@@ -170,7 +170,7 @@ export class GitHubPlugin extends ConverterComponent {
         help: 'Use specified revision instead of the last revision for linking to GitHub source files.',
         type: ParameterType.String
     })
-    gitRevision: string;
+    gitRevision!: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -188,14 +188,14 @@ export class GitHubPlugin extends ConverterComponent {
      * Check whether the given file is placed inside a repository.
      *
      * @param fileName  The name of the file a repository should be looked for.
-     * @returns The found repository info or NULL.
+     * @returns The found repository info or undefined.
      */
-    private getRepository(fileName: string): Repository {
+    private getRepository(fileName: string): Repository | undefined {
         // Check for known non-repositories
         const dirName = Path.dirname(fileName);
         for (let i = 0, c = this.ignoredPaths.length; i < c; i++) {
             if (this.ignoredPaths[i] === dirName) {
-                return null;
+                return;
             }
         }
 
@@ -221,8 +221,6 @@ export class GitHubPlugin extends ConverterComponent {
         for (let i = segments.length; i > 0; i--) {
             this.ignoredPaths.push(segments.slice(0, i).join('/'));
         }
-
-        return null;
     }
 
     /**

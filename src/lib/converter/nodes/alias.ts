@@ -21,11 +21,11 @@ export class AliasConverter extends ConverterNodeComponent<ts.TypeAliasDeclarati
      * @param node     The type alias declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.TypeAliasDeclaration): Reflection {
+    convert(context: Context, node: ts.TypeAliasDeclaration): Reflection | undefined {
         const alias = createDeclaration(context, node, ReflectionKind.TypeAlias);
 
         context.withScope(alias, node.typeParameters, () => {
-            alias.type = this.owner.convertType(context, node.type, context.getTypeAtLocation(node.type));
+            alias!.type = this.owner.convertType(context, node.type, context.getTypeAtLocation(node.type));
         });
 
         return alias;

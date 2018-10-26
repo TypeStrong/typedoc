@@ -47,7 +47,7 @@ export class IntersectionType extends Type {
         if (!(type instanceof IntersectionType)) {
             return false;
         }
-        return Type.isTypeListSimiliar(type.types, this.types);
+        return Type.isTypeListSimilar(type.types, this.types);
     }
 
     /**

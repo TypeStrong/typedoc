@@ -22,7 +22,7 @@ export class LayoutPlugin extends RendererComponent {
      * @param page  An event object describing the current render operation.
      */
     private onRendererEndPage(page: PageEvent) {
-        const layout = this.owner.theme.resources.layouts.getResource('default').getTemplate();
+        const layout = this.owner.theme!.resources.layouts.getResource('default')!.getTemplate();
         page.contents = layout(page);
     }
 }

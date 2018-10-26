@@ -6,9 +6,8 @@ import { ReflectionSerializerComponent } from '../../components';
 @Component({name: 'serializer:signature-reflection'})
 export class SignatureReflectionSerializer extends ReflectionSerializerComponent<SignatureReflection> {
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: SignatureReflection) => r instanceof SignatureReflection;
+  supports(t: unknown) {
+    return t instanceof SignatureReflection;
   }
 
   toObject(signature: SignatureReflection, obj?: any): any {
