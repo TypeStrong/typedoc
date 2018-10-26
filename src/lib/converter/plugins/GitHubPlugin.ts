@@ -12,7 +12,7 @@ import { ParameterType } from '../../utils/options/declaration';
 /**
  * Stores data of a repository.
  */
-class Repository {
+export class Repository {
     /**
      * The root path of this repository.
      */
@@ -39,33 +39,42 @@ class Repository {
     gitHubProject?: string;
 
     /**
+     * The hostname for this github project.
+     *
+     * Defaults to: `github.com` (for normal, public GitHub instance projects)
+     *
+     * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
+     * (if found as a match in the list of git remotes).
+     */
+    gitHubHostname = 'github.com';
+
+    /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, gitRevision: string) {
+    constructor(path: string, gitRevision: string, repoLinks: string[]) {
         this.path = path;
         this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
-        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
-        if (out.code === 0) {
-            let url: RegExpExecArray | null;
-            const remotes = out.stdout.split('\n');
-            for (let i = 0, c = remotes.length; i < c; i++) {
-                url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
-                if (url) {
-                    this.gitHubUser = url[1];
-                    this.gitHubProject = url[2];
-                    if (this.gitHubProject.substr(-4) === '.git') {
-                        this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
-                    }
-                    break;
+        let url: RegExpExecArray | null;
+
+        for (let i = 0, c = repoLinks.length; i < c; i++) {
+            url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
+
+            if (url) {
+                this.gitHubHostname = url[1];
+                this.gitHubUser = url[2];
+                this.gitHubProject = url[3];
+                if (this.gitHubProject.substr(-4) === '.git') {
+                    this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
                 }
+                break;
             }
         }
 
-        out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
+        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
         if (out.code === 0) {
             out.stdout.split('\n').forEach((file) => {
                 if (file !== '') {
@@ -106,7 +115,7 @@ class Repository {
         }
 
         return [
-            'https://github.com',
+            `https://${this.gitHubHostname}`,
             this.gitHubUser,
             this.gitHubProject,
             'blob',
@@ -132,7 +141,11 @@ class Repository {
         if (!out || out.code !== 0) {
             return;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
+
+        let remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
+        let remotes: string[] = (remotesOutput.code === 0) ? remotesOutput.stdout.split('\n') : [];
+
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision, remotes);
     }
 }
 
