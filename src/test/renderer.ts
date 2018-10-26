@@ -44,7 +44,7 @@ function compareDirectories(a, b) {
 describe('Renderer', function() {
     const src = Path.join(__dirname, '..', '..', 'examples', 'basic', 'src');
     const out = Path.join(__dirname, '..', 'tmp', 'test');
-    let app: Application, project: ProjectReflection;
+    let app: Application, project: ProjectReflection | undefined;
 
     before(function() {
         FS.removeSync(out);
@@ -76,7 +76,7 @@ describe('Renderer', function() {
 
     it('renders basic example', function() {
         this.timeout(0);
-        const result = app.generateDocs(project, out);
+        const result = app.generateDocs(project!, out);
         Assert(result === true, 'Application.generateDocs returned errors');
 
         FS.removeSync(Path.join(out, 'assets'));

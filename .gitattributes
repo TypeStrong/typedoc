@@ -1,2 +1,2 @@
 # Disable core.autocrlf's line ending conversion behavior to prevent test failures on Windows
-* text=lf
+* text=auto eol=lf

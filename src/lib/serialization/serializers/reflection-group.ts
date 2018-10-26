@@ -11,17 +11,18 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
   /**
    * Filter for instances of [[ReflectionGroup]]
    */
-  protected static serializeGroup(instance: any): boolean {
+  serializeGroup(instance: any): boolean {
     return instance instanceof ReflectionGroup;
   }
 
-  // use same fn for every instance
-  serializeGroup = ReflectionGroupSerializer.serializeGroup;
   serializeGroupSymbol = ReflectionGroup;
 
   initialize(): void {
     super.initialize();
-    this.supports = (r: ReflectionGroup) => r instanceof ReflectionGroup;
+  }
+
+  supports(r: unknown) {
+    return r instanceof ReflectionGroup;
   }
 
   toObject(group: ReflectionGroup, obj?: any): any {

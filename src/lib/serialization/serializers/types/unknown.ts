@@ -6,9 +6,8 @@ import { TypeSerializerComponent } from '../../components';
 @Component({name: 'serializer:unknown-type'})
 export class UnknownTypeSerializer extends TypeSerializerComponent<UnknownType> {
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (t: UnknownType) => t instanceof UnknownType;
+  supports(t: unknown) {
+    return t instanceof UnknownType;
   }
 
   toObject(unknown: UnknownType, obj?: any): any {

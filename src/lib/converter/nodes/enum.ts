@@ -22,7 +22,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
      * @param node     The enumeration declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.EnumDeclaration): Reflection {
+    convert(context: Context, node: ts.EnumDeclaration): Reflection | undefined {
         const enumeration = createDeclaration(context, node, ReflectionKind.Enum);
 
         context.withScope(enumeration, () => {
@@ -43,7 +43,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
      * @param node     The enumeration member node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    private convertMember(context: Context, node: ts.EnumMember): Reflection {
+    private convertMember(context: Context, node: ts.EnumMember): Reflection | undefined {
         const member = createDeclaration(context, node, ReflectionKind.EnumMember);
         if (member) {
             member.defaultValue = convertDefaultValue(node);

@@ -11,14 +11,19 @@ export class TypeParameterType extends Type {
     /**
      *
      */
-    name: string;
+    readonly name: string;
 
-    constraint: Type;
+    constraint?: Type;
 
     /**
      * The type name identifier.
      */
     readonly type: string = 'typeParameter';
+
+    constructor(name: string) {
+        super();
+        this.name = name;
+    }
 
     /**
      * Clone this type.
@@ -26,8 +31,7 @@ export class TypeParameterType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new TypeParameterType();
-        clone.name = this.name;
+        const clone = new TypeParameterType(this.name);
         clone.constraint = this.constraint;
         return clone;
     }
