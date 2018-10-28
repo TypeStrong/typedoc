@@ -9,13 +9,13 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 import * as typescript from 'typescript';
-import { Minimatch, IMinimatch } from 'minimatch';
 
 import { Converter } from './converter/index';
 import { Renderer } from './output/renderer';
 import { Serializer } from './serialization';
 import { ProjectReflection } from './models/index';
 import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
+import { createMinimatch } from './utils/paths';
 
 import { AbstractComponent, ChildableComponent, Component, Option, DUMMY_APPLICATION_OWNER } from './utils/component';
 import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
@@ -248,7 +248,10 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     public expandInputFiles(inputFiles: string[] = []): string[] {
         let files: string[] = [];
-        const exclude: Array<IMinimatch> = this.exclude ? this.exclude.map(pattern => new Minimatch(pattern, {dot: true})) : [];
+
+        const exclude = this.exclude
+          ? createMinimatch(this.exclude)
+          : [];
 
         function isExcluded(fileName: string): boolean {
             return exclude.some(mm => mm.match(fileName));

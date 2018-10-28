@@ -2,6 +2,7 @@ export { Application } from './lib/application';
 export { CliApplication } from './lib/cli';
 
 export { EventDispatcher, Event } from './lib/utils/events';
+export { createMinimatch } from './lib/utils/paths';
 export { resetReflectionID } from './lib/models/reflections/abstract';
 export { normalizePath } from './lib/utils/fs';
 export * from './lib/models/reflections';
