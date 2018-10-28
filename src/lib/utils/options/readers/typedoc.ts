@@ -31,7 +31,7 @@ export class TypedocReader extends OptionsComponent {
             return;
         }
 
-        let file: string;
+        let file: string | undefined;
 
         if (TypedocReader.OPTIONS_KEY in event.data) {
             let opts = event.data[TypedocReader.OPTIONS_KEY];
@@ -42,7 +42,7 @@ export class TypedocReader extends OptionsComponent {
 
             file = this.findTypedocFile(opts);
 
-            if (!FS.existsSync(file)) {
+            if (!file || !FS.existsSync(file)) {
                 event.addError('The options file could not be found with the given path %s.', opts);
                 return;
             }

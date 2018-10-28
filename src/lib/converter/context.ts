@@ -95,7 +95,7 @@ export class Context {
     /**
      * The pattern that should be used to flag external source files.
      */
-    private externalPattern: Array<IMinimatch>;
+    private externalPattern?: Array<IMinimatch>;
 
     /**
      * Create a new Context instance.

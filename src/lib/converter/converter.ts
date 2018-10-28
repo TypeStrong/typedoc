@@ -45,7 +45,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         help: 'Define patterns for files that should be considered being external.',
         type: ParameterType.Array
     })
-    externalPattern: Array<string>;
+    externalPattern!: Array<string>;
 
     @Option({
         name: 'includeDeclarations',

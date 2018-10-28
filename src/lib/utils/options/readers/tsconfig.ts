@@ -40,7 +40,7 @@ export class TSConfigReader extends OptionsComponent {
             return;
         }
 
-        let file: string;
+        let file: string | undefined;
 
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             const tsconfig = event.data[TSConfigReader.OPTIONS_KEY];
@@ -52,7 +52,7 @@ export class TSConfigReader extends OptionsComponent {
             }
 
             if (!file || !FS.existsSync(file)) {
-                event.addError('The tsconfig file %s does not exist.', file);
+                event.addError('The tsconfig file %s does not exist.', file || '');
                 return;
             }
         } else if (TSConfigReader.PROJECT_KEY in event.data) {
