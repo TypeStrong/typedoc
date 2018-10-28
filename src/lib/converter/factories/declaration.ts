@@ -15,6 +15,14 @@ const nonStaticKinds = [
 ];
 
 /**
+ * List of ts kinds leading to none static merge.
+ */
+const nonStaticMergeKinds = [
+    ts.SyntaxKind.ClassDeclaration,
+    ts.SyntaxKind.InterfaceDeclaration
+];
+
+/**
  * Create a declaration reflection from the given TypeScript node.
  *
  * @param context  The context object describing the current state the converter is in. The
@@ -22,13 +30,13 @@ const nonStaticKinds = [
  * @param node  The TypeScript node that should be converted to a reflection.
  * @param kind  The desired kind of the reflection.
  * @param name  The desired name of the reflection.
- * @returns The resulting reflection.
+ * @returns The resulting reflection or undefined if an error is encountered.
  */
-export function createDeclaration(context: Context, node: ts.Node, kind: ReflectionKind, name?: string): DeclarationReflection {
-    const container = <ContainerReflection> context.scope;
-    if (!(container instanceof ContainerReflection)) {
+export function createDeclaration(context: Context, node: ts.Declaration, kind: ReflectionKind, name?: string): DeclarationReflection | undefined {
+    if (!(context.scope instanceof ContainerReflection)) {
         throw new Error('Expected container reflection.');
     }
+    const container = context.scope;
 
     // Ensure we have a name for the reflection
     if (!name) {
@@ -37,7 +45,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         } else if (node.symbol) {
             name = node.symbol.name;
         } else {
-            return null;
+            return;
         }
     }
 
@@ -54,20 +62,20 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
     if (kind === ReflectionKind.ExternalModule) {
         isExported = true; // Always mark external modules as exported
     } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
-        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent);
+        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration);
         isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
     } else {
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
     if (!isExported && context.converter.excludeNotExported) {
-        return null;
+        return;
     }
 
     // Test whether the node is private, when inheriting ignore private members
     const isPrivate = !!(modifiers & ts.ModifierFlags.Private);
     if (context.isInherit && isPrivate) {
-        return null;
+        return;
     }
 
     // Test whether the node is static, when merging a module to a class make the node static
@@ -78,14 +86,14 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
         if (container.kind === ReflectionKind.Class) {
             if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
-            } else if (!node.parent || node.parent.kind !== ts.SyntaxKind.ClassDeclaration) {
+            } else if (!node.parent || nonStaticMergeKinds.indexOf(node.parent.kind) === -1) {
                 isStatic = true;
             }
         }
     }
 
     // Check if we already have a child with the same name and static flag
-    let child: DeclarationReflection;
+    let child: DeclarationReflection | undefined;
     const children = container.children = container.children || [];
     children.forEach((n: DeclarationReflection) => {
         if (n.name === name && n.flags.isStatic === isStatic) {
@@ -95,7 +103,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
 
     if (!child) {
         // Child does not exist, create a new reflection
-        child = new DeclarationReflection(container, name, kind);
+        child = new DeclarationReflection(name, kind, container);
         child.setFlag(ReflectionFlag.Static, isStatic);
         child.setFlag(ReflectionFlag.Private, isPrivate);
         child.setFlag(ReflectionFlag.ConstructorProperty, isConstructorProperty);
@@ -127,7 +135,7 @@ export function createDeclaration(context: Context, node: ts.Node, kind: Reflect
  * @param node  The TypeScript node whose properties should be applies to the given reflection.
  * @returns The reflection populated with the values of the given node.
  */
-function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Node) {
+function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Declaration) {
     const modifiers = ts.getCombinedModifierFlags(node);
 
     reflection.setFlag(ReflectionFlag.External,  context.isExternal);
@@ -171,7 +179,7 @@ function mergeDeclarations(context: Context, reflection: DeclarationReflection, 
 
     if (
         context.isInherit &&
-        context.inherited.indexOf(reflection.name) !== -1 &&
+        (context.inherited || []).indexOf(reflection.name) !== -1 &&
         (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.overwrites) {
@@ -180,7 +188,7 @@ function mergeDeclarations(context: Context, reflection: DeclarationReflection, 
                 signature.overwrites = createReferenceType(context, node.symbol, true);
             });
         }
-        return null;
+        return;
     }
 
     return reflection;

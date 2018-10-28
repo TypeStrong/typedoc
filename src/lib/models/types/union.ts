@@ -47,7 +47,7 @@ export class UnionType extends Type {
         if (!(type instanceof UnionType)) {
             return false;
         }
-        return Type.isTypeListSimiliar(type.types, this.types);
+        return Type.isTypeListSimilar(type.types, this.types);
     }
 
     /**

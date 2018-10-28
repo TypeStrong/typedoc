@@ -21,12 +21,12 @@ export class Comment {
     /**
      * The text of the ```@returns``` tag if present.
      */
-    returns: string;
+    returns?: string;
 
     /**
      * All associated javadoc tags.
      */
-    tags: CommentTag[];
+    tags?: CommentTag[];
 
     /**
      * Creates a new Comment instance.
@@ -42,7 +42,7 @@ export class Comment {
      * @returns TRUE when this comment has a visible component.
      */
     hasVisibleComponent(): boolean {
-        return <boolean> (!!this.shortText || !!this.text || !!this.tags);
+        return !!this.shortText || !!this.text || !!this.tags;
     }
 
     /**
@@ -70,19 +70,12 @@ export class Comment {
      *
      * @param tagName  The name of the tag to look for.
      * @param paramName  An optional parameter name to look for.
-     * @returns The found tag or NULL.
+     * @returns The found tag or undefined.
      */
-    getTag(tagName: string, paramName?: string): CommentTag {
-        if (!this.tags) {
-            return null;
-        }
-        for (let i = 0, c = this.tags.length; i < c; i++) {
-            const tag = this.tags[i];
-            if (tag.tagName === tagName && (paramName === void 0 || tag.paramName === paramName)) {
-                return this.tags[i];
-            }
-        }
-        return null;
+    getTag(tagName: string, paramName?: string): CommentTag | undefined {
+        return (this.tags || []).find(tag => {
+            return tag.tagName === tagName && (paramName === void 0 || tag.paramName === paramName);
+        });
     }
 
     /**
@@ -92,9 +85,9 @@ export class Comment {
      */
     copyFrom(comment: Comment) {
         this.shortText = comment.shortText;
-        this.text      = comment.text;
-        this.returns   = comment.returns;
-        this.tags      = comment.tags ? comment.tags.map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)) : null;
+        this.text = comment.text;
+        this.returns = comment.returns;
+        this.tags = comment.tags ? comment.tags.map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)) : undefined;
     }
 
     /**

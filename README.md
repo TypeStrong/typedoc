@@ -5,7 +5,6 @@
 [![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
 [![NPM Version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
 [![Chat on Gitter](https://badges.gitter.im/TypeStrong/typedoc.svg)](https://gitter.im/TypeStrong/typedoc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Greenkeeper Enabled](https://badges.greenkeeper.io/TypeStrong/typedoc.svg)](https://greenkeeper.io/)
 
 ## Installation
 
@@ -77,7 +76,7 @@ in order to change the behaviour of TypeDoc.
   Specify ECMAScript target version: "ES3" (default), "ES5" or "ES6"
 * `--tsconfig <path/to/tsconfig.json>`<br>
   Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
-  
+
 #### Theming
 * `--theme <default|minimal|path/to/theme>`<br>
   Specify the path to the theme that should be used.
@@ -137,6 +136,7 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 * [Sourcefile URL](https://github.com/gdelmas/typedoc-plugin-sourcefile-url) - Set custom source file URL links
 * [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
 * [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
+* [Localization](https://github.com/IgniteUI/typedoc-plugin-localization) - Generate documentation for different languages
 
 ## Advanced guides and docs
 
@@ -149,6 +149,8 @@ Visit our homepage for advanced guides and an extensive API documentation:<br>
 This project is maintained by a community of developers. Contributions are welcome and appreciated.
 You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 [https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
+
+For more information, read the [contribution guide](https://github.com/TypeStrong/typedoc/contributing.md).
 
 
 ## License

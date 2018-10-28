@@ -13,7 +13,7 @@ import { ParameterHint } from '../../utils/options/declaration';
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
  *
  * Templates should parse all comments with the markdown handler so authors can
- * easily format their documentation. TypeDoc uses the Marked (https://github.com/chjj/marked)
+ * easily format their documentation. TypeDoc uses the Marked (https://github.com/markedjs/marked)
  * markdown parser and HighlightJS (https://github.com/isagalaev/highlight.js) to highlight
  * code blocks within markdown sections. Additionally this plugin allows to link to other symbols
  * using double angle brackets.
@@ -46,24 +46,24 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
         hint: ParameterHint.Directory
     })
-    includeSource: string;
+    includeSource!: string;
 
     @Option({
         name: 'media',
         help: 'Specifies the location with media files that should be copied to the output directory.',
         hint: ParameterHint.Directory
     })
-    mediaSource: string;
+    mediaSource!: string;
 
     /**
      * The path referenced files are located in.
      */
-    private includes: string;
+    private includes?: string;
 
     /**
      * Path to the output media directory.
      */
-    private mediaDirectory: string;
+    private mediaDirectory?: string;
 
     /**
      * The pattern used to find references in markdown.
@@ -121,7 +121,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     public parseMarkdown(text: string, context: any) {
         if (this.includes) {
             text = text.replace(this.includePattern, (match: string, path: string) => {
-                path = Path.join(this.includes, path.trim());
+                path = Path.join(this.includes!, path.trim());
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
                     const contents = FS.readFileSync(path, 'utf-8');
                     if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
@@ -138,7 +138,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         if (this.mediaDirectory) {
             text = text.replace(this.mediaPattern, (match: string, path: string) => {
-                if (FS.existsSync(Path.join(this.mediaDirectory, path))) {
+                if (FS.existsSync(Path.join(this.mediaDirectory!, path))) {
                     return this.getRelativeUrl('media') + '/' + path;
                 } else {
                     return match;
@@ -146,9 +146,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             });
         }
 
-        const event = new MarkdownEvent(MarkdownEvent.PARSE);
-        event.originalText = text;
-        event.parsedText = text;
+        const event = new MarkdownEvent(MarkdownEvent.PARSE, text, text);
 
         this.owner.trigger(event);
         return event.parsedText;
@@ -178,7 +176,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 this.mediaDirectory = Path.join(event.outputDirectory, 'media');
                 FS.copySync(media, this.mediaDirectory);
             } else {
-                this.mediaDirectory = null;
+                this.mediaDirectory = undefined;
                 this.application.logger.warn('Could not find provided media directory: ' + media);
             }
         }

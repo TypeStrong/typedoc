@@ -28,7 +28,7 @@ export class SignatureConverter extends ConverterNodeComponent<ts.FunctionExpres
         const scope = <DeclarationReflection> context.scope;
         if (scope instanceof DeclarationReflection) {
             const name = scope.kindOf(ReflectionKind.FunctionOrMethod) ? scope.name : '__call';
-            const signature = createSignature(context, <ts.SignatureDeclaration> node, name, ReflectionKind.CallSignature);
+            const signature = createSignature(context, node, name, ReflectionKind.CallSignature);
             if (!scope.signatures) {
                 scope.signatures = [];
             }

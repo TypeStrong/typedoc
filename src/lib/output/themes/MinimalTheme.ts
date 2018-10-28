@@ -52,10 +52,10 @@ export class MinimalTheme extends DefaultTheme {
         urls.push(new UrlMapping('index.html', project, 'index.hbs'));
 
         project.url = 'index.html';
-        project.anchor = null;
+        project.anchor = undefined;
         project.hasOwnDocument = true;
 
-        project.children.forEach((child) => {
+        (project.children || []).forEach((child) => {
             DefaultTheme.applyAnchorUrl(child, project);
         });
 

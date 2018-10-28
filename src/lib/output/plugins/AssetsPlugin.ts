@@ -31,16 +31,16 @@ export class AssetsPlugin extends RendererComponent {
      * @param event  An event object describing the current render operation.
      */
     private onRendererBegin(event: RendererEvent) {
-        let fromDefault = Path.join(Renderer.getDefaultTheme(), 'assets');
+        let fromDefault: string | undefined = Path.join(Renderer.getDefaultTheme(), 'assets');
         const to = Path.join(event.outputDirectory, 'assets');
 
         if (this.copyDefaultAssets) {
             FS.copySync(fromDefault, to);
         } else {
-            fromDefault = null;
+            fromDefault = undefined;
         }
 
-        const from = Path.join(this.owner.theme.basePath, 'assets');
+        const from = Path.join(this.owner.theme!.basePath, 'assets');
         if (from !== fromDefault && FS.existsSync(from)) {
             FS.copySync(from, to);
         }

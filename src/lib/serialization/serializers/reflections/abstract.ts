@@ -3,15 +3,15 @@ import { Reflection, TraverseProperty } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { DecoratorWrapper } from '../models';
+import { ReflectionFlags } from '../../../models/reflections/abstract';
 
 @Component({name: 'serializer:reflection'})
 export class ReflectionSerializer extends ReflectionSerializerComponent<Reflection> {
 
   static PRIORITY = 1000;
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: Reflection) => true;
+  supports(t: unknown) {
+    return t instanceof Reflection;
   }
 
   toObject(reflection: Reflection, obj?: any): any {
@@ -33,12 +33,8 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
       obj.comment = this.owner.toObject(reflection.comment);
     }
 
-    for (let key in reflection.flags) {
-      // tslint:disable-next-line:triple-equals
-      if (parseInt(key, 10) == <any> key || key === 'flags') {
-        continue;
-      }
-      if (reflection.flags[key]) {
+    for (const key of Object.getOwnPropertyNames(ReflectionFlags.prototype)) {
+      if (reflection.flags[key] === true) {
         obj.flags[key] = true;
       }
     }
@@ -57,19 +53,10 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
       }
       let name = TraverseProperty[property];
       name = name.substr(0, 1).toLowerCase() + name.substr(1);
-      switch (property) {
-        case TraverseProperty.GetSignature:
-        case TraverseProperty.SetSignature:
-        case TraverseProperty.IndexSignature:
-          obj[name] = this.owner.toObject(child);
-          break;
-        default:
-          if (!obj[name]) {
-            obj[name] = [];
-          }
-          obj[name].push(this.owner.toObject(child));
-          break;
+      if (!obj[name]) {
+        obj[name] = [];
       }
+      obj[name].push(this.owner.toObject(child));
     });
 
     return obj;

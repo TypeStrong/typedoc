@@ -16,7 +16,7 @@ export class TSConfigReader extends OptionsComponent {
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options: string;
+    options!: string;
 
     /**
      * The name of the parameter that specifies the tsconfig file.

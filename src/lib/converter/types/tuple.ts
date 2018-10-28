@@ -34,13 +34,7 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * @returns The type reflection representing the given tuple type node.
      */
     convertNode(context: Context, node: ts.TupleTypeNode): TupleType {
-        let elements: Type[];
-        if (node.elementTypes) {
-            elements = node.elementTypes.map((n) => this.owner.convertType(context, n));
-        } else {
-            elements = [];
-        }
-
+        const elements: Type[] = this.owner.convertTypes(context, node.elementTypes);
         return new TupleType(elements);
     }
 
@@ -58,13 +52,7 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * @returns The type reflection representing the given tuple type.
      */
     convertType(context: Context, type: ts.TypeReference): TupleType {
-        let elements: Type[];
-        if (type.typeArguments) {
-            elements = type.typeArguments.map((t) => this.owner.convertType(context, null, t));
-        } else {
-            elements = [];
-        }
-
+        const elements: Type[] = this.owner.convertTypes(context, undefined, type.typeArguments);
         return new TupleType(elements);
     }
 }

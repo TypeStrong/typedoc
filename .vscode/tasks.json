@@ -1,11 +1,23 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "0.1.0",
-    "command": "tsc",
-    "isShellCommand": true,
-    "args": ["-w", "-p", "."],
-    "showOutput": "silent",
-    "isWatching": true,
-    "problemMatcher": "$tsc-watch"
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "npm run grunt -- default",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "build_and_test",
+      "type": "shell",
+      "command": "npm run grunt -- build_and_test",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    }
+  ]
 }

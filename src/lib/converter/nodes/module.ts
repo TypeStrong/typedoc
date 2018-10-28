@@ -21,14 +21,14 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
      * @param node     The module node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.ModuleDeclaration): Reflection {
+    convert(context: Context, node: ts.ModuleDeclaration): Reflection | undefined {
         const parent = context.scope;
         const reflection = createDeclaration(context, node, ReflectionKind.Module);
 
         context.withScope(reflection, () => {
             if (parent instanceof ProjectReflection && !context.isDeclaration &&
                 (!module || module.valueOf() === ts.ModuleKind.None.valueOf())) {
-                reflection.setFlag(ReflectionFlag.Exported);
+                reflection!.setFlag(ReflectionFlag.Exported);
             }
 
             if (node.body) {

@@ -96,13 +96,13 @@ export function isBindingPattern(node: ts.Node): node is ts.BindingPattern {
   return tsany.isBindingPattern.apply(this, arguments);
 }
 
-// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1729
-export function getClassExtendsHeritageClauseElement(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
-  return tsany.getClassExtendsHeritageClauseElement.apply(this, arguments);
+// https://github.com/Microsoft/TypeScript/blob/v3.0.1/src/compiler/utilities.ts#L2408
+export function getEffectiveBaseTypeNode(node: ts.ClassLikeDeclaration | ts.InterfaceDeclaration) {
+  return tsany.getEffectiveBaseTypeNode.apply(this, arguments);
 }
 
 // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/utilities.ts#L1734
-export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration) {
+export function getClassImplementsHeritageClauseElements(node: ts.ClassLikeDeclaration): ts.NodeArray<ts.ExpressionWithTypeArguments> | undefined {
   return tsany.getClassImplementsHeritageClauseElements.apply(this, arguments);
 }
 
@@ -130,15 +130,55 @@ export const optionDeclarations: CommandLineOption[] = tsany.optionDeclarations;
 /**
  * Command line options
  *
- * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L3344
+ * https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L3310
  */
-export interface CommandLineOption {
+export interface CommandLineOptionBase {
   name: string;
-  type: string;
-  shortName: string;
-  description: DiagnosticsEnumValue;
-  paramType: DiagnosticsEnumValue;
+  /**
+   * a value of a primitive type, or an object literal mapping named values to actual values
+   */
+  type: 'string' | 'number' | 'boolean' | 'object' | 'list' | Map<number | string, any>;
+  /**
+   * True if option value is a path or fileName
+   */
+  isFilePath?: boolean;
+  /**
+   * A short mnemonic for convenience - for instance, 'h' can be used in place of 'help'
+   */
+  shortName?: string;
+  /**
+   * The message describing what the command line switch does
+   */
+  description?: ts.DiagnosticMessage;
+  /**
+   * The name to be used for a non-boolean option's parameter
+   */
+  paramType?: ts.DiagnosticMessage;
+  experimental?: boolean;
+  /**
+   * True if option can only be specified via tsconfig.json file
+   */
+  isTSConfigOnly?: boolean;
 }
+
+export interface CommandLineOptionOfPrimitiveType extends CommandLineOptionBase {
+  type: 'string' | 'number' | 'boolean';
+}
+
+export interface CommandLineOptionOfCustomType extends CommandLineOptionBase {
+  type: Map<number | string, any>;  // an object literal mapping named values to actual values
+}
+
+export interface TsConfigOnlyOption extends CommandLineOptionBase {
+  type: 'object';
+}
+
+export interface CommandLineOptionOfListType extends CommandLineOptionBase {
+  type: 'list';
+  element: CommandLineOptionOfCustomType | CommandLineOptionOfPrimitiveType;
+}
+
+export type CommandLineOption = CommandLineOptionOfCustomType | CommandLineOptionOfPrimitiveType | TsConfigOnlyOption | CommandLineOptionOfListType;
 
 export const Diagnostics: {
   [key: string]: DiagnosticsEnumValue;

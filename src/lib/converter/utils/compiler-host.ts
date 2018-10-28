@@ -16,7 +16,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost 
     /**
      * The full path of the current directory. Result cache of [[getCurrentDirectory]].
      */
-    private currentDirectory: string;
+    private currentDirectory?: string;
 
     /**
      * Return an instance of ts.SourceFile representing the given file.
@@ -28,8 +28,8 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost 
      * @param onError  A callback that will be invoked if an error occurs.
      * @returns An instance of ts.SourceFile representing the given file.
      */
-    getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile {
-        let text: string;
+    getSourceFile(filename: string, languageVersion: ts.ScriptTarget, onError?: (message: string) => void): ts.SourceFile | undefined {
+        let text: string | undefined;
         try {
             text = ts.sys.readFile(filename, this.application.options.getCompilerOptions().charset);
         } catch (e) {
@@ -112,7 +112,7 @@ export class CompilerHost extends ConverterComponent implements ts.CompilerHost 
      * @param fileName
      * @returns {string}
      */
-    readFile(fileName: string): string {
+    readFile(fileName: string): string | undefined {
         return ts.sys.readFile(fileName);
     }
 

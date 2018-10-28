@@ -4,7 +4,7 @@ import { readFile } from '../../../utils/fs';
 import { ResourceStack, Resource } from './stack';
 
 export class Template extends Resource {
-    private template: HandlebarsTemplateDelegate;
+    private template?: HandlebarsTemplateDelegate;
 
     getTemplate(): HandlebarsTemplateDelegate {
         if (!this.template) {

@@ -21,7 +21,7 @@ export function createSignature(context: Context, node: ts.SignatureDeclaration,
         throw new Error('Expected container reflection.');
     }
 
-    const signature = new SignatureReflection(container, name, kind);
+    const signature = new SignatureReflection(name, kind, container);
     context.registerReflection(signature, node);
     context.withScope(signature, node.typeParameters, true, () => {
         node.parameters.forEach((parameter: ts.ParameterDeclaration) => {
@@ -46,18 +46,18 @@ export function createSignature(context: Context, node: ts.SignatureDeclaration,
  * @param node  The signature declaration whose return type should be determined.
  * @returns The return type reflection of the given signature.
  */
-function extractSignatureType(context: Context, node: ts.SignatureDeclaration): Type {
+function extractSignatureType(context: Context, node: ts.SignatureDeclaration): Type | undefined {
     const checker = context.checker;
     if (node.kind & ts.SyntaxKind.CallSignature || node.kind & ts.SyntaxKind.CallExpression) {
         try {
             const signature = checker.getSignatureFromDeclaration(node);
+            // This is essentially what checker.getReturnTypeOfSignature will do, but doing it ourselves avoids type errors.
+            if (!signature) {
+                throw new Error('Failed to retrieve signature for node.');
+            }
             return context.converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
         } catch (error) {}
     }
 
-    if (node.type) {
-        return context.converter.convertType(context, node.type);
-    } else {
-        return context.converter.convertType(context, node);
-    }
+    return context.converter.convertType(context, node.type || node);
 }

@@ -14,7 +14,7 @@ export class TypedocReader extends OptionsComponent {
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options: string;
+    options!: string;
 
     /**
      * The name of the parameter that specifies the options file.

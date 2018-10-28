@@ -7,17 +7,17 @@ export class ContainerReflection extends Reflection {
     /**
      * The children of this reflection.
      */
-    children: DeclarationReflection[];
+    children?: DeclarationReflection[];
 
     /**
      * All children grouped by their kind.
      */
-    groups: ReflectionGroup[];
+    groups?: ReflectionGroup[];
 
     /**
      * All children grouped by their category.
      */
-    categories: ReflectionCategory[];
+    categories?: ReflectionCategory[];
 
     /**
      * Return a list of all children of a certain kind.
@@ -26,14 +26,7 @@ export class ContainerReflection extends Reflection {
      * @returns     An array containing all children with the desired kind.
      */
     getChildrenByKind(kind: ReflectionKind): DeclarationReflection[] {
-        const values: DeclarationReflection[] = [];
-        for (let key in this.children) {
-            const child = this.children[key];
-            if (child.kindOf(kind)) {
-                values.push(child);
-            }
-        }
-        return values;
+        return (this.children || []).filter(child => child.kindOf(kind));
     }
 
     /**
