@@ -222,9 +222,6 @@ export class CommentPlugin extends ConverterComponent {
 
         if (this.hidden) {
             const project = context.project;
-            // this.hidden.forEach((reflection) => {
-            //     CommentPlugin.removeReflection(project, reflection);
-            // });
             CommentPlugin.removeReflections(project, this.hidden);
         }
     }
@@ -341,7 +338,6 @@ export class CommentPlugin extends ConverterComponent {
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
 
         const parent = <DeclarationReflection> reflection.parent;
-
         parent.traverse((child: Reflection, property: TraverseProperty) => {
             if (child === reflection) {
                 switch (property) {
