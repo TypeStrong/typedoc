@@ -316,7 +316,7 @@ export class CommentPlugin extends ConverterComponent {
      * Remove the specified reflections from the project.
      */
     static removeReflections(project: ProjectReflection, reflections: Reflection[]) {
-        const deletedIds = new Array<number>();
+        const deletedIds: number[] = [];
         reflections.forEach((reflection) => {
             CommentPlugin.removeReflection(project, reflection, deletedIds);
         });
@@ -332,9 +332,6 @@ export class CommentPlugin extends ConverterComponent {
      * Remove the given reflection from the project.
      */
     private static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds: number[]) {
-        // keep track of the reflections that have been deleted
-        deletedIds.push(reflection.id);
-
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
 
         const parent = <DeclarationReflection> reflection.parent;
@@ -391,5 +388,8 @@ export class CommentPlugin extends ConverterComponent {
 
         let id = reflection.id;
         delete project.reflections[id];
+
+        // keep track of the reflections that have been deleted
+        deletedIds.push(id);
     }
 }
