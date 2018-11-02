@@ -222,9 +222,7 @@ export class CommentPlugin extends ConverterComponent {
 
         if (this.hidden) {
             const project = context.project;
-            this.hidden.forEach((reflection) => {
-                CommentPlugin.removeReflection(project, reflection);
-            });
+            CommentPlugin.removeReflections(project, this.hidden);
         }
     }
 
@@ -315,10 +313,26 @@ export class CommentPlugin extends ConverterComponent {
     }
 
     /**
+     * Remove the specified reflections from the project.
+     */
+    static removeReflections(project: ProjectReflection, reflections: Reflection[]) {
+        const deletedIds: number[] = [];
+        reflections.forEach((reflection) => {
+            CommentPlugin.removeReflection(project, reflection, deletedIds);
+        });
+
+        for (let key in project.symbolMapping) {
+            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.indexOf(project.symbolMapping[key]) !== -1) {
+                delete project.symbolMapping[key];
+            }
+        }
+    }
+
+    /**
      * Remove the given reflection from the project.
      */
-    static removeReflection(project: ProjectReflection, reflection: Reflection) {
-        reflection.traverse((child) => CommentPlugin.removeReflection(project, child));
+    private static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds: number[]) {
+        reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
 
         const parent = <DeclarationReflection> reflection.parent;
         parent.traverse((child: Reflection, property: TraverseProperty) => {
@@ -375,10 +389,7 @@ export class CommentPlugin extends ConverterComponent {
         let id = reflection.id;
         delete project.reflections[id];
 
-        for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
-                delete project.symbolMapping[key];
-            }
-        }
+        // keep track of the reflections that have been deleted
+        deletedIds.push(id);
     }
 }
