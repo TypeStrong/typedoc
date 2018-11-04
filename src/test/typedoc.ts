@@ -2,12 +2,13 @@ import { Application } from '..';
 import * as Path from 'path';
 import Assert = require('assert');
 import './.dot';
+import { Converter, Context } from '../lib/converter';
 
 describe('TypeDoc', function() {
     let application: Application;
 
     describe('Application', function() {
-        it('constructs', function() {
+        before('constructs', function() {
             application = new Application();
         });
         it('expands input directory', function() {
@@ -63,6 +64,18 @@ describe('TypeDoc', function() {
 
             Assert.equal(expanded.indexOf(Path.join(inputFiles, '.dot', 'index.d.ts')), -1);
             Assert.equal(expanded.indexOf(inputFiles), -1);
+        });
+        it('Honors the exclude option even if a module is imported', () => {
+            application.options.setValue('exclude', '**/b.d.ts');
+
+            function handler(context: Context) {
+                Assert.deepStrictEqual(context.fileNames, [
+                    Path.resolve(__dirname, 'module', 'a.d.ts').replace(/\\/g, '/')
+                ]);
+            }
+            application.converter.on(Converter.EVENT_END, handler);
+            application.convert([ Path.join(__dirname, 'module', 'a.d.ts')]);
+            application.converter.off(Converter.EVENT_END, handler);
         });
     });
 });

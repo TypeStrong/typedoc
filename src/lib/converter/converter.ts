@@ -10,6 +10,7 @@ import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, Typ
 import { CompilerHost } from './utils/compiler-host';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
+import { createMinimatch } from '../utils/paths';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -384,26 +385,33 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
         const program = context.program;
 
-        program.getSourceFiles().forEach((sourceFile) => {
+        const exclude = createMinimatch(this.application.exclude || []);
+        const isExcluded = (file: ts.SourceFile) => exclude.some(mm => mm.match(file.fileName));
+
+        const includedSourceFiles = program.getSourceFiles()
+            .filter(file => !isExcluded(file));
+        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+
+        includedSourceFiles.forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
 
-        let diagnostics = program.getOptionsDiagnostics();
+        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSyntacticDiagnostics();
+        diagnostics = program.getSyntacticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getGlobalDiagnostics();
+        diagnostics = program.getGlobalDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSemanticDiagnostics();
+        diagnostics = program.getSemanticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
