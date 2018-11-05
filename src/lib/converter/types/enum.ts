@@ -28,7 +28,7 @@ export class EnumConverter extends ConverterTypeComponent implements TypeTypeCon
      * @param type  The enumeration type that should be converted.
      * @returns The type reflection representing the given enumeration type.
      */
-    convertType(context: Context, type: ts.Type): Type {
+    convertType(context: Context, type: ts.Type): Type | undefined {
         return createReferenceType(context, type.symbol);
     }
 }

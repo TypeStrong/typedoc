@@ -38,56 +38,69 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         name: 'name',
         help: 'Set the name of the project that will be used in the header of the template.'
     })
-    name: string;
+    name!: string;
 
     @Option({
         name: 'externalPattern',
-        help: 'Define a pattern for files that should be considered being external.'
+        help: 'Define patterns for files that should be considered being external.',
+        type: ParameterType.Array
     })
-    externalPattern: string;
+    externalPattern!: Array<string>;
 
     @Option({
         name: 'includeDeclarations',
         help: 'Turn on parsing of .d.ts declaration files.',
         type: ParameterType.Boolean
     })
-    includeDeclarations: boolean;
+    includeDeclarations!: boolean;
 
     @Option({
         name: 'excludeExternals',
         help: 'Prevent externally resolved TypeScript files from being documented.',
         type: ParameterType.Boolean
     })
-    excludeExternals: boolean;
+    excludeExternals!: boolean;
 
     @Option({
         name: 'excludeNotExported',
         help: 'Prevent symbols that are not exported from being documented.',
         type: ParameterType.Boolean
     })
-    excludeNotExported: boolean;
+    excludeNotExported!: boolean;
 
     @Option({
         name: 'excludePrivate',
         help: 'Ignores private variables and methods',
         type: ParameterType.Boolean
     })
-    excludePrivate: boolean;
+    excludePrivate!: boolean;
 
     @Option({
         name: 'excludeProtected',
         help: 'Ignores protected variables and methods',
         type: ParameterType.Boolean
     })
-    excludeProtected: boolean;
+    excludeProtected!: boolean;
 
-    private compilerHost: CompilerHost;
+    /**
+     * Defined in the initialize method
+     */
+    private compilerHost!: CompilerHost;
 
-    private nodeConverters: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
+    /**
+     * Defined in the initialize method
+     */
+    private nodeConverters!: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
 
-    private typeNodeConverters: TypeNodeConverter<ts.Type, ts.Node>[];
+    /**
+     * Defined in the initialize method
+     */
+    private typeNodeConverters!: TypeNodeConverter<ts.Type, ts.Node>[];
 
-    private typeTypeConverters: TypeTypeConverter<ts.Type>[];
+    /**
+     * Defined in the initialize method
+     */
+    private typeTypeConverters!: TypeTypeConverter<ts.Type>[];
 
     /**
      * General events
@@ -220,7 +233,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
     }
 
-    removeComponent(name: string): ConverterComponent {
+    removeComponent(name: string): ConverterComponent | undefined {
         const component = super.removeComponent(name);
         if (component instanceof ConverterNodeComponent) {
             this.removeNodeConverter(component);
@@ -295,18 +308,18 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      *
      * @param context  The context object describing the current state the converter is in.
      * @param node     The compiler node that should be analyzed.
-     * @return The resulting reflection or NULL.
+     * @return The resulting reflection or undefined.
      */
-    convertNode(context: Context, node: ts.Node): Reflection {
+    convertNode(context: Context, node: ts.Node): Reflection | undefined {
         if (context.visitStack.indexOf(node) !== -1) {
-            return null;
+            return;
         }
 
         const oldVisitStack = context.visitStack;
         context.visitStack = oldVisitStack.slice();
         context.visitStack.push(node);
 
-        let result: Reflection;
+        let result: Reflection | undefined;
         if (node.kind in this.nodeConverters) {
             result = this.nodeConverters[node.kind].convert(context, node);
         }
@@ -323,7 +336,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param type  The type of the node if already known.
      * @returns The TypeDoc type reflection representing the given node and type.
      */
-    convertType(context: Context, node?: ts.Node, type?: ts.Type): Type {
+    convertType(context: Context, node?: ts.Node, type?: ts.Type): Type | undefined {
         // Run all node based type conversions
         if (node) {
             type = type || context.getTypeAtLocation(node);
@@ -343,6 +356,23 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
                 }
             }
         }
+    }
+
+    /**
+     * Helper function to convert multiple types at once, filtering out types which fail to convert.
+     *
+     * @param context
+     * @param nodes
+     */
+    convertTypes(context: Context, nodes: ReadonlyArray<ts.Node> = [], types: ReadonlyArray<ts.Type> = []): Type[] {
+        const result: Type[] = [];
+        _.zip(nodes, types).forEach(([node, type]) => {
+            const converted = this.convertType(context, node, type);
+            if (converted) {
+                result.push(converted);
+            }
+        });
+        return result;
     }
 
     /**

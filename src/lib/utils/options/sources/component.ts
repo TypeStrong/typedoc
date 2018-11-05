@@ -3,7 +3,7 @@ import { OptionsComponent } from '../options';
 
 @Component({name: 'options:component'})
 export class ComponentSource extends OptionsComponent {
-    private knownComponents: string[];
+    private knownComponents!: string[];
 
     protected initialize() {
         this.knownComponents = [];

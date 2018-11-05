@@ -158,7 +158,7 @@ export class GroupPlugin extends ConverterComponent {
                 allExternal  = child.flags.isExternal && allExternal;
 
                 if (child instanceof DeclarationReflection) {
-                    allInherited = child.inheritedFrom && allInherited;
+                    allInherited = !!child.inheritedFrom && allInherited;
                 } else {
                     allInherited = false;
                 }

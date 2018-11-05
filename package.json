@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "homepage": "http://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,14 +39,14 @@
     "@types/shelljs": "^0.8.0",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.6",
-    "highlight.js": "^9.0.0",
+    "highlight.js": "9.12.0",
     "lodash": "^4.17.10",
     "marked": "^0.4.0",
     "minimatch": "^3.0.0",
     "progress": "^2.0.0",
     "shelljs": "^0.8.2",
     "typedoc-default-themes": "^0.5.0",
-    "typescript": "3.0.x"
+    "typescript": "3.1.x"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.4",

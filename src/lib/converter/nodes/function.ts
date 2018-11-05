@@ -24,7 +24,7 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
      * @param node     The function declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.FunctionDeclaration|ts.MethodDeclaration): Reflection {
+    convert(context: Context, node: ts.FunctionDeclaration|ts.MethodDeclaration): Reflection | undefined {
         const scope   = context.scope;
         const kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
         const hasBody = !!node.body;
@@ -38,14 +38,14 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
         }
 
         context.withScope(method, () => {
-            if (!hasBody || !method.signatures) {
-                const signature = createSignature(context, <ts.SignatureDeclaration> node, method.name, ReflectionKind.CallSignature);
-                if (!method.signatures) {
-                    method.signatures = [];
+            if (!hasBody || !method!.signatures) {
+                const signature = createSignature(context, <ts.SignatureDeclaration> node, method!.name, ReflectionKind.CallSignature);
+                if (!method!.signatures) {
+                    method!.signatures = [];
                 }
-                method.signatures.push(signature);
+                method!.signatures!.push(signature);
             } else {
-                context.trigger(Converter.EVENT_FUNCTION_IMPLEMENTATION, method, <ts.Node> node);
+                context.trigger(Converter.EVENT_FUNCTION_IMPLEMENTATION, method!, <ts.Node> node);
             }
         });
 
