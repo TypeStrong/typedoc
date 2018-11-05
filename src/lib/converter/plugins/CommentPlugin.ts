@@ -331,7 +331,7 @@ export class CommentPlugin extends ConverterComponent {
     /**
      * Remove the given reflection from the project.
      */
-    private static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds?: number[]) {
+    static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds?: number[]) {
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
 
         const parent = <DeclarationReflection> reflection.parent;
