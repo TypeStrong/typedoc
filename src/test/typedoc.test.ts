@@ -62,19 +62,20 @@ describe('TypeDoc', function() {
             application.options.setValue('exclude', '**/+(.dot)/**');
             const expanded = application.expandInputFiles([inputFiles]);
 
-            Assert.equal(expanded.indexOf(Path.join(inputFiles, '.dot', 'index.d.ts')), -1);
+            Assert.equal(expanded.indexOf(Path.join(inputFiles, '.dot', 'index.ts')), -1);
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
         it('Honors the exclude option even if a module is imported', () => {
-            application.options.setValue('exclude', '**/b.d.ts');
+            application.options.setValue('exclude', '**/b.ts');
 
             function handler(context: Context) {
                 Assert.deepStrictEqual(context.fileNames, [
-                    Path.resolve(__dirname, 'module', 'a.d.ts').replace(/\\/g, '/')
+                    Path.resolve(__dirname, 'module', 'a.ts').replace(/\\/g, '/')
                 ]);
             }
             application.converter.on(Converter.EVENT_END, handler);
-            application.convert([ Path.join(__dirname, 'module', 'a.d.ts')]);
+            const reflection = application.convert([ Path.join(__dirname, 'module', 'a.ts')]);
+            Assert(reflection, 'Failed to convert modules.');
             application.converter.off(Converter.EVENT_END, handler);
         });
     });
