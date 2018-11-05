@@ -150,7 +150,7 @@ This project is maintained by a community of developers. Contributions are welco
 You can find TypeDoc on GitHub; feel free to start an issue or create a pull requests:<br>
 [https://github.com/TypeStrong/typedoc](https://github.com/TypeStrong/typedoc)
 
-For more information, read the [contribution guide](https://github.com/TypeStrong/typedoc/contributing.md).
+For more information, read the [contribution guide](https://github.com/TypeStrong/typedoc/blob/master/CONTRIBUTING.md).
 
 
 ## License
