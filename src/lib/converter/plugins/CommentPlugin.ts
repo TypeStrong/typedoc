@@ -331,7 +331,7 @@ export class CommentPlugin extends ConverterComponent {
     /**
      * Remove the given reflection from the project.
      */
-    private static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds: number[]) {
+    static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds?: number[]) {
         reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
 
         const parent = <DeclarationReflection> reflection.parent;
@@ -389,7 +389,16 @@ export class CommentPlugin extends ConverterComponent {
         let id = reflection.id;
         delete project.reflections[id];
 
-        // keep track of the reflections that have been deleted
-        deletedIds.push(id);
+        // if an array was provided, keep track of the reflections that have been deleted, otherwise clean symbol mappings
+        if (deletedIds) {
+            deletedIds.push(id);
+        } else {
+            for (let key in project.symbolMapping) {
+                if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
+                    delete project.symbolMapping[key];
+                }
+            }
+        }
+
     }
 }
