@@ -67,6 +67,7 @@
     "scripts": {
         "pretest": "node scripts/copy_test_files.js",
         "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+        "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
         "build": "tsc --project .",
         "postbuild": "node scripts/replace_application_version.js",
         "build_and_test": "npm run build && npm run test",

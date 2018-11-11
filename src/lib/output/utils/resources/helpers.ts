@@ -27,7 +27,7 @@ export class HelperStack extends ResourceStack<Helper> {
     private registeredNames: string[] = [];
 
     constructor() {
-        super(Helper, /\.js$/);
+        super(Helper, /\.[tj]s$/);
         this.addCoreHelpers();
     }
 
