@@ -87,6 +87,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         Handlebars.registerHelper('relativeURL', (url: string) => url ? this.getRelativeUrl(url) : url);
 
         Marked.setOptions({
+            gfm: true,
+            tables: true,
             highlight: (text: any, lang: any) => this.getHighlighted(text, lang)
         });
     }
