@@ -1,0 +1,4 @@
+---
+layout: guide
+permalink: /guides/
+---
