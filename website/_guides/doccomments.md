@@ -64,37 +64,37 @@ function doSomething(target:any, arg:any):number {
 ```
 
 
-## Modules
+## Namespaces
 
-Modules can be commented like any other elements in TypeScript. As modules can be defined in multiple
+Namespaces (previously referred to as "modules") can be commented like any other elements in TypeScript. As namespaces can be defined in multiple
 files, TypeDoc selects the longest comment by default. One may override this behaviour with the special
 `@preferred` comment tag.
 
 ```typescript
 /**
- * Actual module comment.
+ * Actual namespace comment.
  * @preferred
  */
-module MyModule { }
+namespace MyModule { }
 ```
 
 ```typescript
 /**
- * Dismissed module comment.
+ * Dismissed namespace comment.
  * This is the longer comment but will be dismissed in favor of the preferred comment.
  */
-module MyModule { }
+namespace MyModule { }
 ```
 
 
-## Dynamic modules
+## Files
 
-The first doc comment within a file is used as the doc comment of a dynamic module. However, you must
+The first doc comment within a file is used as the doc comment of a file. However, you must
 ensure that the first declaration also has as doc comment.
 
 ```typescript
 /**
- * This is a doc comment for a dynamic module.
+ * This is a doc comment for a file
  */
 
 /**
