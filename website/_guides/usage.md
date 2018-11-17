@@ -10,9 +10,9 @@ menuOrder: 2
 
 TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. All
 arguments that are passed in without a flag will be parsed as input files. TypeDoc accepts
-directories as input files, it will .
+directories as input files.
 
-In order to create a documentation for an entire project you simply type:
+To create documentation for an entire project via the CLI you can type:
 
 ```bash
 $ typedoc --out path/to/documentation/ path/to/typescript/project/
@@ -141,6 +141,12 @@ $ typedoc --verbose
 ```
 
 Print more information while TypeDoc is running.
+
+### Help
+```bash
+$ typedoc --help
+```
+The help command will print all available options.
 
 ## Configuration Files
 
