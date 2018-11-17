@@ -141,3 +141,55 @@ $ typedoc --verbose
 ```
 
 Print more information while TypeDoc is running.
+
+## Configuration Files
+
+### typedoc.json
+When running typedoc from the CLI, you can define any option except the entry files in a json file named `typedoc.json`.
+
+```json
+{
+    "mode": "file",
+    "out": "docs"
+}
+```
+
+### tsconfig.json
+TypeDoc options can be defined withing an existing `tsconfig.json` file. Use a `typedocOptions` section to define
+options as a json model.
+```json
+{
+    "compilerOptions": {
+      "normalTypeScriptOptions": "here"
+    },
+    "typedocOptions": {
+        "mode": "modules",
+        "out": "docs"
+    }
+}
+```
+
+### Node module
+If you would like dynamic configuration or would like to run typedoc without using the CLI, import the node module.
+```javascript
+const TypeDoc = require('typedoc');
+
+const app = new TypeDoc.Application({
+    mode:   'Modules',
+    logger: 'none',
+    target: 'ES5',
+    module: 'CommonJS',
+    experimentalDecorators: true
+});
+
+const project = app.convert(app.expandInputFiles(['src']));
+
+if (project) { // Project may not have converted correctly
+    const outputDir = 'docs';
+
+    // Rendered docs
+    app.generateDocs(project, outputDir);
+    // Alternatively generate JSON output
+    app.generateJson(project, outputDir + '/documentation.json');
+}
+```
