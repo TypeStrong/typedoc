@@ -1,154 +1,72 @@
 ---
 layout: 'guide'
 title: 'Usage'
-menuOrder: 2
+menuOrder: 1
 ---
 
 # Usage
 
-## Arguments
+<ul class="toc">
+<li><a href="#installation">Installation</a></li>
+<li><a href="#command-line-interface">Command line interface</a></li>
+<li><a href="#node-module">Node Module</a></li>
+<li><a href="#third-party-tools">Third-Party Tools</a></li>
+</ul>
 
-TypeDoc accepts most of the command line arguments that the TypeScript compiler accepts. All
-arguments that are passed in without a flag will be parsed as input files. TypeDoc accepts
-directories as input files.
+## Installation
 
-To create documentation for an entire project via the CLI you can type:
+### Requirements
+
+TypeDoc requires [Node.js](http://nodejs.org/) to be installed on your system. If you haven't done that already, head
+over to their site and follow their install instructions.
+
+Installing TypeDoc is available as a node package. Using ``npm`` ensures that all relevant
+dependencies are setup correctly. You can choose to either install locally to your project or
+globally to the CLI.
+
+
+### Global CLI installation
+
+If you want to use TypeDoc from your command line, global installation is the preferred way of installing it:
 
 ```bash
-$ typedoc --out path/to/documentation/ path/to/typescript/project/
+$ npm install --global typedoc
+```
+
+Like the TypeScript compiler, TypeDoc comes with a binary that can be called from anywhere if you
+install TypeDoc as a global module. The name of the executable is ``typedoc``. To verify everything
+is setup correctly, you can run TypeDoc with the ``--version`` argurment. It should output something like the following:
+
+```bash
+$ typedoc --version
+
+TypeDoc 0.13.0
+Using TypeScript 3.1.1 from /Users/aciccarello/Documents/code/typedoc/typedoc/node_modules/typescript/lib
 ```
 
 
-### out
+### Local installation
+
+If you want to use TypeDoc as a node module within your project or as an npm script, you can
+install it as a local module. This is recommended for uses such as integrating it with your build process.
+By saving to the project `package.json` file,
+anyone who runs `npm install` on the project will have typedoc installed.
 
 ```bash
-$ typedoc --out <path/to/documentation/>
+$ npm install --save-dev typedoc
 ```
 
-Specifies the location the documentation should be written to.
-
-
-### name
+## Command line interface
+The CLI can be used both from your terminal or from npm scripts. All argurments that are not passed
+with flags are considered input files or directories. Use either the ``--out`` or ``--json``
+arguments to define the format and destination of your documentation.
 
 ```bash
-$ typedoc --name <Documentation title>
+typedoc --out docs /src
 ```
 
-Set the name of the project that will be used in the header of the template.
-
-
-### readme
-
-```bash
-$ typedoc --readme <path/to/readme|none>
-```
-
-Path to the readme file that should be displayed on the index page. Pass none to disable the index page and start the documentation on the globals page.
-
-
-### module
-
-```bash
-$ typedoc --module <commonjs or amd>
-```
-
-Specify module code generation: "commonjs" or "amd"
-
-
-### target
-
-```bash
-$ typedoc --target <ES3 or ES5>
-```
-
-Specify ECMAScript target version: "ES3" (default), or "ES5"
-
-
-### exclude
-
-```bash
-$ typedoc --exclude <pattern>
-```
-
-Exclude files by the given pattern when a path is provided as source
-
-
-### theme
-
-```bash
-$ typedoc --theme <path/to/theme>
-```
-
-Specify the path to the theme that should be used
-
-
-### includeDeclarations
-
-```bash
-$ typedoc --includeDeclarations
-```
-
-Turn on parsing of .d.ts declaration files.
-
-
-### externalPattern
-
-```bash
-$ typedoc --externalPattern <pattern>
-```
-
-Define a pattern for files that should be considered being external.
-
-
-### excludeExternals
-```bash
-$ typedoc --excludeExternals
-```
-
-Prevent externally resolved TypeScript files from being documented.
-
-
-### gaID
-
-```bash
-$ typedoc --gaID
-```
-
-Set the Google Analytics tracking ID and activate tracking code.
-
-
-### gaSite
-
-```bash
-$ typedoc --gaSite <site>
-```
-
-Set the site name for Google Analytics. Defaults to `auto`.
-
-
-### hideGenerator
-```bash
-$ typedoc --hideGenerator
-```
-
-Do not print the TypeDoc link at the end of the page.
-
-
-### verbose
-
-```bash
-$ typedoc --verbose
-```
-
-Print more information while TypeDoc is running.
-
-### Help
-```bash
-$ typedoc --help
-```
-The help command will print all available options.
-
-## Configuration Files
+### JSON Configuration
+Instead of passing all arguments via the command line, the CLI also supports reading TypeDoc configuration from json files.
 
 ### typedoc.json
 When running typedoc from the CLI, you can define any option except the entry files in a json file named `typedoc.json`.
@@ -175,8 +93,9 @@ options as a json model.
 }
 ```
 
-### Node module
-If you would like dynamic configuration or would like to run typedoc without using the CLI, import the node module.
+## Node module
+If you would like dynamic configuration or would like to run typedoc without using the CLI, import
+the node module and build the documentation yourself.
 ```javascript
 const TypeDoc = require('typedoc');
 
@@ -198,4 +117,106 @@ if (project) { // Project may not have converted correctly
     // Alternatively generate JSON output
     app.generateJson(project, outputDir + '/documentation.json');
 }
+```
+
+## Third-Party Tools
+
+Some great folks out there have created plugins so you can run TypeDoc with your favorite task runner.
+Plugins are available for Grunt, Gulp, and Webpack. All of them can be installed using ``npm``.
+
+
+### Grunt
+
+<dl class="specs">
+    <dt>Name</dt><dd>grunt-typedoc</dd>
+    <dt>Website</dt><dd><a href="https://www.npmjs.org/package/grunt-typedoc/">https://www.npmjs.org/package/grunt-typedoc/</a></dd>
+    <dt>Author</dt><dd><a href="https://github.com/Bartvds">Bart van der Schoor</a></dd>
+</dl>
+
+You can install the plugin with the following command:
+
+```bash
+$ npm install --save-dev grunt-typedoc
+```
+
+Update the following snippet with your configuration and add it to your ``gruntfile.js`` file:
+
+```js
+grunt.loadNpmTasks('grunt-typedoc');
+grunt.initConfig({
+    typedoc: {
+        build: {
+            options: {
+                module: 'commonjs',
+                target: 'es5',
+                out: 'docs/',
+                name: 'My project title'
+            },
+            src: 'src/**/*'
+        }
+    }
+});
+```
+
+
+### Gulp
+
+<dl class="specs">
+    <dt>Name</dt><dd>gulp-typedoc</dd>
+    <dt>Website</dt><dd><a href="https://www.npmjs.org/package/gulp-typedoc/">https://www.npmjs.org/package/gulp-typedoc/</a></dd>
+    <dt>Author</dt><dd><a href="https://github.com/rogierschouten">Rogier Schouten</a></dd>
+</dl>
+
+You can install the plugin with the following command:
+
+```bash
+$ npm install --save-dev gulp-typedoc
+```
+
+Update the following snippet with your configuration and add it to your ``gulpfile.js`` file:
+
+```js
+var typedoc = require("gulp-typedoc");
+gulp.task("typedoc", function() {
+    return gulp
+        .src(["src/**/*.ts"])
+        .pipe(typedoc({
+            module: "commonjs",
+            target: "es5",
+            out: "docs/",
+            name: "My project title"
+        }))
+    ;
+});
+```
+
+### Webpack
+
+<dl class="specs">
+    <dt>Name</dt><dd>typedoc-webpack-plugin</dd>
+    <dt>Website</dt><dd><a href="https://www.npmjs.com/package/typedoc-webpack-plugin">https://www.npmjs.com/package/typedoc-webpack-plugin</a></dd>
+    <dt>Author</dt><dd><a href="https://github.com/timsawyer">Tim Sawyer</a></dd>
+</dl>
+
+You can install the plugin with the following command:
+
+```bash
+$ npm install typedoc-webpack-plugin --save-dev
+```
+
+Update the following snippet with your configuration and add it to your Webpack config file:
+
+```js
+var TypedocWebpackPlugin = require('typedoc-webpack-plugin');
+
+// add to webpack plugins
+plugins: [
+    new TypedocWebpackPlugin({
+        name: 'Contoso'
+        mode: 'file',
+        theme: './typedoc-theme/',
+        includeDeclarations: false,
+        ignoreCompilerErrors: true,
+    })
+]
 ```

@@ -1,7 +1,7 @@
 ---
 layout: 'guide'
-title: 'DocComments'
-menuOrder: 4
+title: 'Doc Comments'
+menuOrder: 3
 ---
 
 # Document your code
@@ -10,14 +10,18 @@ TypeDoc runs the TypeScript compiler and extracts type information from the gene
 Therefore you don't have to include additional metadata within your comments, TypeScript specific elements
 like classes, enumerations or property types and access modifiers will be automatically detected.
 
-All comments are parsed as markdown. TypeDoc uses the Marked (<https://github.com/chjj/marked>) markdown parser
-and HighlightJS (<https://github.com/isagalaev/highlight.js>) to highlight code blocks within markdown sections.
+All comments are parsed as markdown. TypeDoc uses the [Marked](<https://github.com/chjj/marked>) markdown parser
+and [HighlightJS](<https://github.com/isagalaev/highlight.js>) to highlight code blocks within markdown sections.
 Additionally you can link to other classes, members or functions using double square brackets.
 
 
-## JavaDoc tags
+## Supported tags
 
-The documentation generator currently understands the following javadoc tags:
+TypeDoc supports a specific set of tags. Many JSDoc tags are not supported because the TypeScript
+compiler can infer the information directly from code. TypeDoc renders any unsupported tags in a
+list in the documentation, so they are not lost.
+
+The documentation generator currently understands the following doc comment tags:
 
 ### ```@param <param name>```
 Documents a parameter for the subsequent method
@@ -30,9 +34,6 @@ Documents events triggered by the subsequent method
 
 ### ```@hidden and @ignore```
 Keeps the subsequent code from being documented.
-
-____
-All other tags will be rendered as definition lists, so they are not lost.
 
 
 ## Function signatures

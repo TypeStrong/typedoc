@@ -1,7 +1,7 @@
 ---
 layout: 'guide'
 title: 'Themes'
-menuOrder: 3
+menuOrder: 4
 ---
 
 # Themes

@@ -1,0 +1,37 @@
+Usage:
+ typedoc --mode modules --out path/to/documentation path/to/sourcefiles
+
+TypeDoc options:
+ --disableOutputCheck      Should TypeDoc disable the testing and cleaning of the output directory?
+ --entryPoint              Specifies the fully qualified name of the root symbol. Defaults to global namespace.
+ --exclude                 Define patterns for excluded files when specifying paths.
+ --excludeExternals        Prevent externally resolved TypeScript files from being documented.
+ --excludeNotExported      Prevent symbols that are not exported from being documented.
+ --excludePrivate          Ignores private variables and methods
+ --excludeProtected        Ignores protected variables and methods
+ --externalPattern         Define patterns for files that should be considered being external.
+ --gaID                    Set the Google Analytics tracking ID and activate tracking code.
+ --gaSite                  Set the site name for Google Analytics. Defaults to `auto`.
+ --gitRevision             Use specified revision instead of the last revision for linking to GitHub source files.
+ -h, --help                Print this message.
+ --hideGenerator           Do not print the TypeDoc link at the end of the page.
+ --ignoreCompilerErrors    Should TypeDoc generate documentation pages even after the compiler has returned errors?
+ --includeDeclarations     Turn on parsing of .d.ts declaration files.
+ --includes DIRECTORY      Specifies the location to look for included documents (use [[include:FILENAME]] in comments).
+ --json                    Specifies the location and file name a json file describing the project is written to.
+ --listInvalidSymbolLinks  Emits a list of broken symbol [[navigation]] links after documentation generation
+ --logger                  Specify the logger that should be used, 'none' or 'console'
+ --media DIRECTORY         Specifies the location with media files that should be copied to the output directory.
+ --mode                    Specifies the output mode the project is used to be compiled with: 'file' or 'modules'
+ --name                    Set the name of the project that will be used in the header of the template.
+ --options                 Specify a js option file that should be loaded. If not specified TypeDoc will look for 'typedoc.js' in the current directory.
+ --out DIRECTORY           Specifies the location the documentation should be written to.
+ --plugin                  Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to 'none' to load no plugins.
+ --readme                  Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.
+ --theme                   Specify the path to the theme that should be used or 'default' or 'minimal' to use built-in themes.
+ --toc                     Specifies the top level table of contents.
+ --tsconfig                Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.
+ -v, --version             Print the TypeDoc's version.
+
+TypeScript options:
+See https://www.typescriptlang.org/docs/handbook/compiler-options.html
