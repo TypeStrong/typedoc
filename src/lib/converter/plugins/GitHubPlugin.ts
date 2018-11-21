@@ -201,18 +201,20 @@ export class GitHubPlugin extends ConverterComponent {
 
         // Check for known repositories
         for (let path in this.repositories) {
-            if (!this.repositories.hasOwnProperty(path)) {
+            const lookupPath = path.toLowerCase();
+
+            if (!this.repositories.hasOwnProperty(lookupPath)) {
                 continue;
             }
-            if (fileName.substr(0, path.length) === path) {
-                return this.repositories[path];
+            if (fileName.substr(0, path.length).toLowerCase() === lookupPath) {
+                return this.repositories[lookupPath];
             }
         }
 
         // Try to create a new repository
         const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
         if (repository) {
-            this.repositories[repository.path] = repository;
+            this.repositories[repository.path.toLowerCase()] = repository;
             return repository;
         }
 
