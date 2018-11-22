@@ -201,13 +201,11 @@ export class GitHubPlugin extends ConverterComponent {
 
         // Check for known repositories
         for (let path in this.repositories) {
-            const lookupPath = path.toLowerCase();
-
-            if (!this.repositories.hasOwnProperty(lookupPath)) {
+            if (!this.repositories.hasOwnProperty(path)) {
                 continue;
             }
-            if (fileName.substr(0, path.length).toLowerCase() === lookupPath) {
-                return this.repositories[lookupPath];
+            if (fileName.substr(0, path.length).toLowerCase() === path) {
+                return this.repositories[path];
             }
         }
 
