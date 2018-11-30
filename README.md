@@ -122,13 +122,13 @@ There is a plugin available to run TypeDoc with Webpack created by Microsoft. Yo
 ### Gulp
 
 There is a plugin available to run TypeDoc with Gulp created by Rogier Schouten. You can find it on NPM:<br>
-[https://www.npmjs.org/package/gulp-typedoc/](https://www.npmjs.org/package/gulp-typedoc/)
+[https://www.npmjs.com/package/gulp-typedoc/](https://www.npmjs.com/package/gulp-typedoc/)
 
 
 ### Grunt
 
 There is a plugin available to run TypeDoc with Grunt created by Bart van der Schoor. You can find it on NPM:<br>
-[https://www.npmjs.org/package/grunt-typedoc](https://www.npmjs.org/package/grunt-typedoc)
+[https://www.npmjs.com/package/grunt-typedoc](https://www.npmjs.com/package/grunt-typedoc)
 
 ## Plugins
 
@@ -137,6 +137,9 @@ There is a plugin available to run TypeDoc with Grunt created by Bart van der Sc
 * [Internal/External Module](https://github.com/christopherthielen/typedoc-plugin-internal-external) - Explicitly mark modules as `@internal` or `@external`
 * [Single Line Tags](https://github.com/christopherthielen/typedoc-plugin-single-line-tags) - Process certain `@tags` as single lines
 * [Localization](https://github.com/IgniteUI/typedoc-plugin-localization) - Generate documentation for different languages
+
+A list of all published Typedoc plugins can be found on NPM:<br>
+[https://www.npmjs.com/search?q=keywords:typedocplugin](https://www.npmjs.com/search?q=keywords:typedocplugin)
 
 ## Advanced guides and docs
 
