@@ -8,6 +8,9 @@ import { OptionsComponent, OptionsReadMode, DiscoverEvent } from '../options';
 import { ParameterType, ParameterHint } from '../declaration';
 import { TypeScriptSource } from '../sources/typescript';
 
+/**
+ * Obtains option values from tsconfig.json
+ */
 @Component({name: 'options:tsconfig'})
 export class TSConfigReader extends OptionsComponent {
     @Option({

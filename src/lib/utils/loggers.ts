@@ -15,7 +15,7 @@ export enum LogLevel {
 /**
  * A logger that will not produce any output.
  *
- * This logger also serves as the ase calls of other loggers as it implements
+ * This logger also serves as the base class of other loggers as it implements
  * all the required utility functions.
  */
 export class Logger {

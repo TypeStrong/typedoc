@@ -5,6 +5,12 @@ import { Component } from '../../component';
 import { OptionsComponent } from '../options';
 import { DeclarationOption, ParameterScope, ParameterType, ParameterHint } from '../declaration';
 
+/**
+ * Discovers and contributes options declared by TypeScript.
+ *
+ * typedoc accepts many of the same options as TypeScript itself, so they must be parsed
+ * from TypeScript's metadata and declared on typedoc's Option parser.
+ */
 @Component({name: 'options:typescript'})
 export class TypeScriptSource extends OptionsComponent {
     private declarations!: DeclarationOption[];
