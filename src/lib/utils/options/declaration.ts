@@ -20,6 +20,8 @@ export enum ParameterScope {
 }
 
 /**
+ * Option-bag passed to Option decorator.
+ *
  * TODO: This should be a union type of multiple possible option types.
  */
 export interface DeclarationOption {
@@ -36,6 +38,10 @@ export interface DeclarationOption {
     convert?: (param: OptionDeclaration, value?: any) => any;
 }
 
+/**
+ * Runtime structure describing a configuration option.
+ * Used by option parsing and validation.
+ */
 export class OptionDeclaration {
     name!: string;
 

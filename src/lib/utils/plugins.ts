@@ -5,6 +5,9 @@ import { Application } from '../application';
 import { AbstractComponent, Component, Option } from './component';
 import { ParameterType } from './options/declaration';
 
+/**
+ * Responsible for discovering and loading plugins.
+ */
 @Component({ name: 'plugin-host', internal: true })
 export class PluginHost extends AbstractComponent<Application> {
     @Option({

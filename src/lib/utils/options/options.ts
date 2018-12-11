@@ -7,6 +7,14 @@ import { Component, AbstractComponent, ChildableComponent } from '../component';
 import { Application } from '../../application';
 import { OptionDeclaration, DeclarationOption, ParameterScope } from './declaration';
 
+/**
+ * Child of the master Options component.  Options === configuration
+ *
+ * Serves one of two roles:
+ *
+ * - Aggregates and contributes configuration declarations declared by components or plugins
+ * - Parses option values from various sources (config file, command-line args, etc)
+ */
 export class OptionsComponent extends AbstractComponent<Options> { }
 
 export enum OptionsReadMode {
@@ -51,6 +59,10 @@ export class DiscoverEvent extends Event {
     }
 }
 
+/**
+ * Responsible for loading options via child components that read options
+ * from various sources.
+ */
 @Component({name: 'options', internal: true, childClass: OptionsComponent})
 export class Options extends ChildableComponent<Application, OptionsComponent> {
     private declarations!: {[name: string]: OptionDeclaration};

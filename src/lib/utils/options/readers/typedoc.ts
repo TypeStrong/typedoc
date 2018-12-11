@@ -6,6 +6,9 @@ import { Component, Option } from '../../component';
 import { OptionsComponent, OptionsReadMode, DiscoverEvent } from '../options';
 import { ParameterType, ParameterHint } from '../declaration';
 
+/**
+ * Obtains option values from typedoc.js
+ */
 @Component({name: 'options:typedoc'})
 export class TypedocReader extends OptionsComponent {
     @Option({

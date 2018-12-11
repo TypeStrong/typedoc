@@ -4,6 +4,9 @@ import { Application } from '../application';
 import { EventDispatcher, Event, EventMap } from './events';
 import { DeclarationOption } from './options/declaration';
 
+/**
+ * Exposes a reference to the root Application component.
+ */
 export interface ComponentHost {
     readonly application: Application;
 }
@@ -16,14 +19,21 @@ export interface ComponentClass<T extends Component, O extends ComponentHost = C
     new(owner: O): T;
 }
 
+/**
+ * Option-bag passed to Component decorator.
+ */
 export interface ComponentOptions {
     name?: string;
+    /** Specify valid child component class.  Used to prove that children are valid via `instanceof` checks */
     childClass?: Function;
     internal?: boolean;
 }
 
 const childMappings: {host: ChildableComponent<any, any>, child: Function}[] = [];
 
+/**
+ * Class decorator applied to Components
+ */
 export function Component(options: ComponentOptions): ClassDecorator {
     return (target: Function) => {
         const proto = target.prototype;
@@ -63,6 +73,11 @@ export function Component(options: ComponentOptions): ClassDecorator {
     };
 }
 
+/**
+ * Decorator that declares a configuration option.
+ *
+ * Use it on an instance property of a Component class.
+ */
 export function Option(options: DeclarationOption): PropertyDecorator {
     return function(target: object, propertyKey: string | symbol) {
         if (!(target instanceof AbstractComponent)) {
@@ -107,7 +122,10 @@ export class ComponentEvent extends Event {
 export const DUMMY_APPLICATION_OWNER = Symbol();
 
 /**
- * Component base class.
+ * Component base class.  Has an owner (unless it's the application root component),
+ * can dispatch events to its children, and has access to the root Application component.
+ *
+ * @template O type of component's owner.
  */
 export abstract class AbstractComponent<O extends ComponentHost> extends EventDispatcher implements ComponentHost {
     /**
@@ -176,7 +194,10 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
 }
 
 /**
- * Component base class.
+ * Component that can have child components.
+ *
+ * @template O type of Component's owner
+ * @template C type of Component's children
  */
 export abstract class ChildableComponent<O extends ComponentHost, C extends Component> extends AbstractComponent<O> {
     /**
