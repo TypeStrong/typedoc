@@ -9,15 +9,17 @@ var {destructObjectA, destructObjectB, destructObjectC} = {destructObjectA:0, de
  */
 var [destructArrayA, destructArrayB, destructArrayC = 10] = [0, 'string', 0];
 
+const numberArray = [1, 2, 3, 4];
+
 /**
  * Array Destructuring with rest
  */
-var [destructArrayWithRestA, destructArrayWithRestB, ...destructArrayWithRest] = [1, 2, 3, 4];
+const [destructArrayWithRestA, destructArrayWithRestB, ...destructArrayWithRest] = numberArray;
 
 /**
  * Array Destructuring with ignores
  */
-var [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = [1, 2, 3, 4];
+const [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = numberArray;
 
 /**
  * Destructuring function parameters.
