@@ -1,10 +1,10 @@
 ---
 layout: 'guide'
-title: 'Usage'
+title: 'Installation'
 menuOrder: 1
 ---
 
-# Usage
+# Installation
 
 <ul class="toc">
 <li><a href="#installation">Installation</a></li>

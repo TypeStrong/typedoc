@@ -18,4 +18,4 @@ npm install --global typedoc
 typedoc --out docs /src
 ```
 
-For more advanced usage and configuration guides, see the [usage guide](./guides/usage).
+For more advanced usage and configuration guides, see the [installation guide](./guides/installation).

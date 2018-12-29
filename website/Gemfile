@@ -3,7 +3,7 @@ ruby RUBY_VERSION
 
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
-# file and run `bundle install`. 
+# file and run `bundle install`.
 # If you have trouble installing nokogiri see:
 # http://www.nokogiri.org/tutorials/installing_nokogiri.html
 
@@ -22,6 +22,7 @@ gem "minima"
 gem "github-pages", group: :jekyll_plugins
 
 # If you have any plugins, put them here!
-# group :jekyll_plugins do
+group :jekyll_plugins do
+  gem 'jekyll-redirect-from'
 #   gem "jekyll-github-metadata", "~> 1.0"
-# end
+end

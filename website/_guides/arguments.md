@@ -2,6 +2,8 @@
 layout: 'guide'
 title: 'Arguments'
 menuOrder: 2
+redirect_from:
+  - /guides/usage
 ---
 
 

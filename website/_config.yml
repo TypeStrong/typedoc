@@ -12,6 +12,9 @@ collections:
 # Build settings
 markdown: kramdown
 
+plugins:
+  - jekyll-redirect-from
+
 sass:
   style: compressed
 
