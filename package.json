@@ -81,7 +81,7 @@
     "prepublishOnly": "grunt build_and_test",
     "prepare": "grunt default",
     "grunt": "grunt",
-    "deploy": "gh-pages -d website",
+    "deploy": "ts-node ./tasks/deploy-website.ts",
     "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
   },
   "keywords": [

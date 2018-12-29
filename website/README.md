@@ -27,4 +27,4 @@ See the [Github Guide](https://help.github.com/articles/setting-up-your-github-p
 for a complete guide.
 
 ## Pushing to GitHub pages (maintainers)
-Deploy instructions TBD
+Run the `deploy` script in the above directory.
