@@ -36,7 +36,7 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
       let match = this.router.get(component.serializeGroup);
 
       if (!match) {
-        match = Array.from(this.router.values()).find( v => v.symbol === component.serializeGroupSymbol)
+        match = Array.from(this.router.values()).find( v => v.symbol.toString() === component.serializeGroupSymbol.toString())
           || { symbol: component.serializeGroupSymbol , group: [] };
         this.router.set(component.serializeGroup, match);
         this.routes.push(component.serializeGroup);
