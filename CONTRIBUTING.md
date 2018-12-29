@@ -9,6 +9,7 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 1. [How Can I Contribute?](#how-can-i-contribute)
    - [Bug Reports](#bug-reports)
    - [Suggestions](#suggestions)
+   - [Documentation](#documentation)
    - [Code](#code)
 1. [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
 1. [Linting, Building, and Testing](#linting-building-and-testing)
@@ -41,6 +42,11 @@ When creating an enhancement request, explain your use case and ultimate goal. T
 - **Use a clear and descriptive title** for the issue to identify the suggestion.
 - **Provide an example where this enhancement would improve TypeDoc**
 - **If possible, list another documentation generator where this feature exists**
+
+### Documentation
+
+Improvements to the website documentation are welcomed. The website source files are located in the `website` directory.
+Instructions on how to make updates the website are found in that directory's [readme](./website/README.md).
 
 ### Code
 
