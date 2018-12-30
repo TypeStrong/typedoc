@@ -108,7 +108,7 @@ export class SourcePlugin extends ConverterComponent {
             file.reflections.push(reflection);
         }
 
-        reflection.sources!.push({
+        reflection.sources.push({
             file: file,
             fileName: fileName,
             line: position.line + 1,
