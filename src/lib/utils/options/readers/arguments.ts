@@ -5,6 +5,9 @@ import { Component } from '../../component';
 import { DiscoverEvent, OptionsComponent } from '../options';
 import { ParameterType } from '../declaration';
 
+/**
+ * Obtains option values from command-line arguments
+ */
 @Component({name: 'options:arguments'})
 export class ArgumentsReader extends OptionsComponent {
     initialize() {

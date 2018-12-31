@@ -1,6 +1,12 @@
 import { Component, ComponentEvent, AbstractComponent, ChildableComponent } from '../../component';
 import { OptionsComponent } from '../options';
 
+/**
+ * Aggregates options declared by other components.
+ *
+ * Listens for when a component is added and adds the component's declared
+ * options to the `Options` component.
+ */
 @Component({name: 'options:component'})
 export class ComponentSource extends OptionsComponent {
     private knownComponents!: string[];
