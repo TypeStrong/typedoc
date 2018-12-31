@@ -109,11 +109,8 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "intrinsic",
+            "name": "Object"
           }
         },
         {
@@ -130,11 +127,8 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "intrinsic",
+            "name": "Object"
           }
         },
         {
