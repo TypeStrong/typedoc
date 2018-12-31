@@ -26,7 +26,7 @@ Once this has been done, you should have a functional version of TypeDoc for
 your version of TypeScript. Please open a Pull Request with your updated project
 so that others may benefit from the update.
 
-To use your of your version of TypeDoc in a project, point your `package.json`
+To use your version of TypeDoc in a project, point your `package.json`
 file at it using your GitHub project path.
 
 ```json
