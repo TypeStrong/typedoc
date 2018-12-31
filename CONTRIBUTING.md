@@ -85,13 +85,13 @@ You can automatically fix some style problems by running `npm run lint -- --fix`
 
 #### Building
 
-To compile the TypeDoc source, run `npm run grunt`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build`.
+To compile the TypeDoc source, run `npm run build`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build_and_test`.
 
 #### Testing
 
 TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build`.
 
-If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run grunt -- update-specs` to update the spec files for the new output.
+If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `node scripts/rebuild_specs` to update the spec files for the new output.
 
 ## Pull Requests
 
