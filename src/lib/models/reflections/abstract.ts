@@ -533,66 +533,6 @@ export abstract class Reflection {
     traverse(callback: TraverseCallback) { }
 
     /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = {
-            id:         this.id,
-            name:       this.name,
-            kind:       this.kind,
-            kindString: this.kindString,
-            flags:      {}
-        };
-
-        if (this.originalName !== this.name) {
-            result.originalName = this.originalName;
-        }
-
-        if (this.comment) {
-            result.comment = this.comment.toObject();
-        }
-
-        Object.getOwnPropertyNames(ReflectionFlags.prototype).forEach(name => {
-            const descriptor = Object.getOwnPropertyDescriptor(ReflectionFlags.prototype, name)!;
-            if (typeof descriptor.get === 'function' && this.flags[name] === true) {
-                result.flags[name] = true;
-            }
-        });
-
-        if (this.decorates) {
-            result.decorates = this.decorates.map((type) => type.toObject());
-        }
-
-        if (this.decorators) {
-            result.decorators = this.decorators.map((decorator) => {
-                const result: any = { name: decorator.name };
-                if (decorator.type) {
-                    result.type = decorator.type.toObject();
-                }
-                if (decorator.arguments) {
-                    result.arguments = decorator.arguments;
-                }
-                return result;
-            });
-        }
-
-        this.traverse((child, property) => {
-            if (property === TraverseProperty.TypeLiteral) {
-                return;
-            }
-            let name = TraverseProperty[property];
-            name = name.substr(0, 1).toLowerCase() + name.substr(1);
-            if (!result[name]) {
-                result[name] = [];
-            }
-            result[name].push(child.toObject());
-        });
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this reflection.
      */
     toString(): string {

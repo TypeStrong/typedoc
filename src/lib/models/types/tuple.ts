@@ -51,20 +51,6 @@ export class TupleType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-
-        if (this.elements && this.elements.length) {
-            result.elements = this.elements.map((e) => e.toObject());
-        }
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

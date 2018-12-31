@@ -49,16 +49,6 @@ export class TypeOperatorType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.operator = this.operator;
-        result.target = this.target.toObject();
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

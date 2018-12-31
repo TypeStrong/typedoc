@@ -26,24 +26,6 @@ export class ParameterReflection extends Reflection implements DefaultValueConta
     }
 
     /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = super.toObject();
-
-        if (this.type) {
-            result.type = this.type.toObject();
-        }
-
-        if (this.defaultValue) {
-            result.defaultValue = this.defaultValue;
-        }
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this reflection.
      */
     toString() {

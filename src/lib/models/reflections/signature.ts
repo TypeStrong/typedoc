@@ -72,32 +72,6 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
     }
 
     /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = super.toObject();
-
-        if (this.type) {
-            result.type = this.type.toObject();
-        }
-
-        if (this.overwrites) {
-            result.overwrites = this.overwrites.toObject();
-        }
-
-        if (this.inheritedFrom) {
-            result.inheritedFrom = this.inheritedFrom.toObject();
-        }
-
-        if (this.implementationOf) {
-            result.implementationOf = this.implementationOf.toObject();
-        }
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this reflection.
      */
     toString(): string {

@@ -45,16 +45,6 @@ export class UnknownType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

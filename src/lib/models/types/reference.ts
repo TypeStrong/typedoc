@@ -89,25 +89,6 @@ export class ReferenceType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-
-        if (this.reflection) {
-            result.id = this.reflection.id;
-        }
-
-        if (this.typeArguments && this.typeArguments.length) {
-            result.typeArguments = this.typeArguments.map((t) => t.toObject());
-        }
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      * @example EventEmitter<any>
      */

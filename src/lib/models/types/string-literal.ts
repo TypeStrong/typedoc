@@ -49,16 +49,6 @@ export class StringLiteralType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.value = this.value;
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString(): string {

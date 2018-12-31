@@ -52,17 +52,6 @@ export class ArrayType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.elementType = this.elementType.toObject();
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {
