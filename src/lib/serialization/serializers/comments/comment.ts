@@ -18,8 +18,6 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         return true;
     }
 
-    serializeGroupSymbol = Comment;
-
     toObject(comment: Comment, obj?: any): any {
         obj = obj || {};
 

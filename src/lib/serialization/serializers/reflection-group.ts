@@ -14,8 +14,6 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
         return instance instanceof ReflectionGroup;
     }
 
-    serializeGroupSymbol = ReflectionGroup;
-
     initialize(): void {
         super.initialize();
     }

@@ -20,12 +20,17 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
      */
     static EVENT_END = 'end';
 
-    private router!: Map<any, { symbol: any; group: SerializerComponent<any>[] }>;
-    private routes!: any[];
+    /**
+     * Serializers, sorted by their `serializeGroup` function to enable higher performance.
+     *
+     * TODO: This implementation results in a more complicated implementation, potentially
+     * without actual performance benefits due to the Map overhead. Does this actually help?
+     */
+    private serializers!: Map<(instance: unknown) => boolean, SerializerComponent<any>[]>;
 
-    initialize(): void {
-        this.router = new Map<any, { symbol: any; group: SerializerComponent<any>[] }>();
-        this.routes = [];
+    initialize() {
+        super.initialize();
+        this.serializers = new Map();
     }
 
     addComponent<T extends SerializerComponent<any> & Component>(
@@ -34,18 +39,15 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
     ): T {
         const component = super.addComponent(name, componentClass);
 
-        if (component.serializeGroup && component.serializeGroupSymbol) {
-            let match = this.router.get(component.serializeGroup);
+        if (component.serializeGroup) {
+            let group = this.serializers.get(component.serializeGroup);
 
-            if (!match) {
-                match = Array.from(this.router.values()).find(
-                    v => v.symbol === component.serializeGroupSymbol
-                ) || { symbol: component.serializeGroupSymbol, group: [] };
-                this.router.set(component.serializeGroup, match);
-                this.routes.push(component.serializeGroup);
+            if (!group) {
+                this.serializers.set(component.serializeGroup, group = []);
             }
-            match.group.push(component);
-            match.group.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
+            group.push(component);
+            group.sort((a, b) => (b.priority || 0) - (a.priority || 0));
         }
 
         return component;
@@ -57,36 +59,39 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
      */
     removeComponent(name: string): SerializerComponent<any> | undefined {
         const component = super.removeComponent(name);
-        const symbol = component && component.serializeGroupSymbol;
-        if (symbol) {
-            const values = Array.from(this.router.values());
-            for (let i = 0, len = values.length; i < len; i++) {
-                const idx = values[i].group.findIndex(o => o === symbol);
-                if (idx > -1) {
-                    values[i].group.splice(idx, 1);
-                    break;
-                }
+
+        if (component && component.serializeGroup) {
+            // Remove from the router
+            const group = this.serializers
+                .get(component.serializeGroup)!
+                .filter(comp => comp !== component);
+
+            if (group.length) {
+                this.serializers.set(component.serializeGroup, group);
+            } else {
+                this.serializers.delete(component.serializeGroup);
             }
         }
+
         return component;
     }
 
     removeAllComponents() {
         super.removeAllComponents();
-
-        this.router = new Map<any, { symbol: any; group: SerializerComponent<any>[] }>();
-        this.routes = [];
+        this.serializers = new Map();
     }
 
     toObject(value: any, obj?: any): any {
-        return this.findRoutes(value).reduce((result, curr) => curr.toObject(value, result), obj);
+        return this.findSerializers(value).reduce(
+            (result, curr) => curr.toObject(value, result),
+            obj
+        );
     }
 
     /**
      * Same as toObject but emits [[ Serializer#EVENT_BEGIN ]] and [[ Serializer#EVENT_END ]] events.
      * @param value
      * @param eventData Partial information to set in the event
-     * @return {any}
      */
     projectToObject(value: ProjectReflection, eventData?: { begin?: any; end?: any }): any {
         const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
@@ -109,18 +114,19 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
         return project;
     }
 
-    private findRoutes(value: any): SerializerComponent<any>[] {
+    private findSerializers(value: any): SerializerComponent<any>[] {
         const routes: SerializerComponent<any>[] = [];
-        for (let i = 0, len = this.routes.length; i < len; i++) {
-            if (this.routes[i](value)) {
-                const serializers = this.router.get(this.routes[i])!.group;
-                for (let serializer of serializers) {
-                    if (serializer.supports(value)) {
-                        routes.push(serializer);
+
+        for (const [ groupSupports, components ] of this.serializers.entries()) {
+            if (groupSupports(value)) {
+                for (const component of components) {
+                    if (component.supports(value)) {
+                        routes.push(component);
                     }
                 }
             }
         }
+
         return routes;
     }
 }

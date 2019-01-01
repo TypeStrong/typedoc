@@ -14,8 +14,6 @@ export class DecoratorContainerSerializer extends SerializerComponent<DecoratorW
         return instance instanceof DecoratorWrapper;
     }
 
-    serializeGroupSymbol = DecoratorWrapper;
-
     initialize(): void {
         super.initialize();
     }

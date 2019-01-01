@@ -9,11 +9,12 @@ import { Serializer } from './serializer';
  * Like [[Converter]] plugins each [[Serializer]] plugin defines a predicate that instructs if an
  * object can be serialized by it, this is done dynamically at runtime via a `supports` method.
  *
- * Additionally, each [[Serializer]] plugin must defines a predicate that instructs the group
+ * Additionally, each [[Serializer]] plugin must define a predicate that instructs the group
  * it belongs to.
  *
- * Grouping serializers is required due to performance, we don't need to check all the reflection
- * serializers when we are looking for type (or any other) serializers.
+ * Serializers are grouped to improve performance when finding serializers that apply to a node,
+ * this makes it possible to skip the `supports` calls for `Type`s when searching for a
+ * `Reflection` and vise versa.
  */
 export abstract class SerializerComponent<T> extends AbstractComponent<Serializer> {
     /**
@@ -26,14 +27,10 @@ export abstract class SerializerComponent<T> extends AbstractComponent<Serialize
      * A high-level predicate filtering which group this serializer belongs to.
      * This is a high-level filter before the [[SerializerComponent.supports]] predicate filter.
      *
-     * When the filter returns true the group identifier is taken from
-     * [[SerializerComponentType.serializeGroupSymbol]].
-     *
      * For example, use the [[Reflection]] class class to group all reflection based serializers:
      * ```typescript
      * class ReflectionSerializer {
      *  serializeGroup(instance) { return instance instanceof Reflection }
-     *  serializeGroupSymbol = Reflection;
      * }
      * ```
      *
@@ -41,19 +38,10 @@ export abstract class SerializerComponent<T> extends AbstractComponent<Serialize
      * ```typescript
      * class TypeSerializer {
      *  serializeGroup(instance) { return instance instanceof Type }
-     *  serializeGroupSymbol = Type;
      * }
      * ```
-     *
-     * > When a serializer component extends a parent serializer component the SERIALIZE_GROUP
-     * and SERIALIZE_GROUP_SYMBOL are also inherited so child serializers of the same group do not
-     * need to declare a predicate nor a group.
      */
     abstract serializeGroup(instance: unknown): boolean;
-    /**
-     * The symbol representing the group this serializer belongs to.
-     */
-    abstract serializeGroupSymbol: any;
 
     /**
      * The priority this serializer should be executed with.
@@ -75,8 +63,6 @@ export abstract class ReflectionSerializerComponent<T extends Reflection> extend
     serializeGroup(instance: unknown): boolean {
         return instance instanceof Reflection;
     }
-
-    serializeGroupSymbol = Reflection;
 }
 
 export abstract class TypeSerializerComponent<T extends Type> extends SerializerComponent<T> {
@@ -86,6 +72,4 @@ export abstract class TypeSerializerComponent<T extends Type> extends Serializer
     serializeGroup(instance: unknown): boolean {
         return instance instanceof Type;
     }
-
-    serializeGroupSymbol = Type;
 }

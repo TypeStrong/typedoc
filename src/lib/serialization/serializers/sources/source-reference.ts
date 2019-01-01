@@ -8,7 +8,6 @@ export class SourceReferenceContainerSerializer extends SerializerComponent<Sour
 
   static PRIORITY = 1000;
 
-  serializeGroupSymbol = SourceReferenceWrapper;
   serializeGroup(instance: unknown) {
       return instance instanceof SourceReferenceWrapper;
   }

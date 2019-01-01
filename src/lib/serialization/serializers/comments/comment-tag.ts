@@ -14,8 +14,6 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
         return instance instanceof CommentTag;
     }
 
-    serializeGroupSymbol = CommentTag;
-
     supports(t: unknown) {
         return true;
     }
