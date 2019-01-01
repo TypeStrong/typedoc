@@ -1,0 +1,31 @@
+---
+name: Bug report
+about: Tell about typedoc's bug
+---
+<!--
+    Thank you for contributing to Typedoc! 
+    We ask you to give a description for each part,
+    so that you may provide enough information.
+
+    Please be as specific as possible! Provide codes, sreenshots, repositories, explanations, issues, links ... anything that could describe your point.
+-->
+
+## Expected Behavior
+<!--
+    According to the code or documentation, how is Typedoc supposed to work?
+-->
+
+## Actual Behavior
+<!--
+    What does Typedoc fail to do?  
+-->
+
+## Steps to reproduce the bug
+<!--
+    Tell us how we could reproduce the bug. 
+-->
+
+## Specifications
+  - Typedoc version:
+  - Node.js version:
+  - OS:
