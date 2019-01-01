@@ -10,6 +10,8 @@ about: Tell about typedoc's bug
     Please be as specific as possible! Provide codes, sreenshots, repositories, explanations, issues, links ... anything that could describe your point.
 -->
 
+- [ ] I have checked [issues with bug label](https://github.com/TypeStrong/typedoc/labels/bug) and found no duplicates
+
 ## Expected Behavior
 <!--
     According to the code or documentation, how is Typedoc supposed to work?
