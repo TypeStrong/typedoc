@@ -3,19 +3,17 @@ import { IntrinsicType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 
-@Component({name: 'serializer:intrinsic-type'})
+@Component({ name: 'serializer:intrinsic-type' })
 export class IntrinsicTypeSerializer extends TypeSerializerComponent<IntrinsicType> {
+    supports(t: unknown) {
+        return t instanceof IntrinsicType;
+    }
 
-  supports(t: unknown) {
-    return t instanceof IntrinsicType;
-  }
+    toObject(intrinsic: IntrinsicType, obj?: any): any {
+        obj = obj || {};
 
-  toObject(intrinsic: IntrinsicType, obj?: any): any {
-    obj = obj || {};
+        obj.name = intrinsic.name;
 
-    obj.name = intrinsic.name;
-
-    return obj;
-  }
-
+        return obj;
+    }
 }

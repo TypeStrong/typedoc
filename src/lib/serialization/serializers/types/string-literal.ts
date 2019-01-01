@@ -3,19 +3,17 @@ import { StringLiteralType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 
-@Component({name: 'serializer:string-literal-type'})
+@Component({ name: 'serializer:string-literal-type' })
 export class StringLiteralTypeSerializer extends TypeSerializerComponent<StringLiteralType> {
+    supports(t: unknown) {
+        return t instanceof StringLiteralType;
+    }
 
-  supports(t: unknown) {
-    return t instanceof StringLiteralType;
-  }
+    toObject(stringLiteral: StringLiteralType, obj?: any): any {
+        obj = obj || {};
 
-  toObject(stringLiteral: StringLiteralType, obj?: any): any {
-    obj = obj || {};
+        obj.value = stringLiteral.value;
 
-    obj.value = stringLiteral.value;
-
-    return obj;
-  }
-
+        return obj;
+    }
 }

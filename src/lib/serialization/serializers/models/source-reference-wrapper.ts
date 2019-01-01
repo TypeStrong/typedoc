@@ -5,5 +5,5 @@ import { SourceReference } from '../../../models/sources/file';
  * so it can be identified
  */
 export class SourceReferenceWrapper {
-  constructor(public sourceReference: SourceReference) { }
+    constructor(public sourceReference: SourceReference) {}
 }
