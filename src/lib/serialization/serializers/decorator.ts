@@ -11,7 +11,7 @@ export class DecoratorContainerSerializer extends SerializerComponent<DecoratorW
     /**
      * Filter for instances of [[DecoratorWrapper]]
      */
-    serializeGroup(instance: any): boolean {
+    serializeGroup(instance: unknown): boolean {
         return instance instanceof DecoratorWrapper;
     }
 

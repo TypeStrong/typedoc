@@ -4,7 +4,7 @@ import { Application } from '../application';
 import { ProjectReflection } from '../models';
 
 import { SerializerComponent } from './components';
-import { SerializeEvent } from './events';
+import { SerializeEvent, SerializeEventData } from './events';
 import { ModelToObject } from './schema';
 
 @Component({ name: 'serializer', internal: true, childClass: SerializerComponent })
@@ -80,8 +80,10 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
     toObject<T>(value: T, obj?: Partial<ModelToObject<T>>): ModelToObject<T> {
         // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
         // the defined property, but the benefit of being mostly typed is probably worth it.
-        return this.findSerializers(value)
-            .reduce((result, curr) => curr.toObject(value, result), obj) as ModelToObject<T>;
+        return this.findSerializers(value).reduce(
+            (result, curr) => curr.toObject(value, result),
+            obj
+        ) as ModelToObject<T>;
     }
 
     /**
@@ -89,22 +91,25 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
      * @param value
      * @param eventData Partial information to set in the event
      */
-    projectToObject(value: ProjectReflection, eventData?: { begin?: any; end?: any }): ModelToObject<ProjectReflection> {
-        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
+    projectToObject(
+        value: ProjectReflection,
+        eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
+    ): ModelToObject<ProjectReflection> {
 
-        if (eventData && eventData.begin) {
-            Object.assign(eventBegin, eventData.begin);
+        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value, {});
+        if (eventData.begin) {
+            eventBegin.outputDirectory = eventData.begin.outputDirectory;
+            eventBegin.outputFile = eventData.begin.outputFile;
         }
-        let project: any = (eventBegin.output = {});
-
         this.trigger(eventBegin);
-        project = this.toObject(value, project);
 
-        const eventEnd = new SerializeEvent(Serializer.EVENT_END, value);
-        if (eventData && eventData.end) {
-            Object.assign(eventEnd, eventData.end);
+        const project = this.toObject(value, eventBegin.output);
+
+        const eventEnd = new SerializeEvent(Serializer.EVENT_END, value, project);
+        if (eventData.end) {
+            eventBegin.outputDirectory = eventData.end.outputDirectory;
+            eventBegin.outputFile = eventData.end.outputFile;
         }
-        eventEnd.output = project;
         this.trigger(eventEnd);
 
         return project;

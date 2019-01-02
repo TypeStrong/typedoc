@@ -11,7 +11,7 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
     /**
      * Filter for instances of [[ReflectionGroup]]
      */
-    serializeGroup(instance: any): boolean {
+    serializeGroup(instance: unknown): boolean {
         return instance instanceof ReflectionGroup;
     }
 
