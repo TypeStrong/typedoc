@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { ParameterReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:parameter-reflection' })
 export class ParameterReflectionSerializer extends ReflectionSerializerComponent<ParameterReflection> {
@@ -9,17 +10,19 @@ export class ParameterReflectionSerializer extends ReflectionSerializerComponent
         return t instanceof ParameterReflection;
     }
 
-    toObject(parameter: ParameterReflection, obj?: any): any {
-        obj = obj || {};
+    toObject(parameter: ParameterReflection, obj: JSONOutput.Reflection): JSONOutput.ParameterReflection {
+        const result: JSONOutput.ParameterReflection = {
+            ...obj
+        };
 
         if (parameter.type) {
-            obj.type = this.owner.toObject(parameter.type);
+            result.type = this.owner.toObject(parameter.type);
         }
 
         if (parameter.defaultValue) {
-            obj.defaultValue = parameter.defaultValue;
+            result.defaultValue = parameter.defaultValue;
         }
 
-        return obj;
+        return result;
     }
 }

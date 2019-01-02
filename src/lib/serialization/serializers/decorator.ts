@@ -2,6 +2,7 @@ import { Component } from '../../utils/component';
 
 import { SerializerComponent } from '../components';
 import { DecoratorWrapper } from './models/decorator-wrapper';
+import { JSONOutput } from '../schema';
 
 @Component({ name: 'serializer:decorator-container' })
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
@@ -14,28 +15,24 @@ export class DecoratorContainerSerializer extends SerializerComponent<DecoratorW
         return instance instanceof DecoratorWrapper;
     }
 
-    initialize(): void {
-        super.initialize();
+    supports(_: unknown) {
+        return true;
     }
 
-    supports(s: unknown) {
-        return s instanceof DecoratorWrapper;
-    }
-
-    toObject(decoratorWrapper: DecoratorWrapper, obj?: any): any {
-        obj = obj || {};
-
-        const decorator = decoratorWrapper.decorator;
-        obj.name = decorator.name;
+    toObject({ decorator }: DecoratorWrapper, obj?: Partial<JSONOutput.Decorator>): JSONOutput.Decorator {
+        const result: JSONOutput.Decorator = {
+            ...obj,
+            name: decorator.name
+        };
 
         if (decorator.type) {
-            obj.type = this.owner.toObject(decorator.type);
+            result.type = this.owner.toObject(decorator.type);
         }
 
         if (decorator.arguments) {
-            obj.arguments = decorator.arguments;
+            result.arguments = decorator.arguments;
         }
 
-        return obj;
+        return result;
     }
 }

@@ -1,13 +1,13 @@
 import { Component } from '../../../utils/component';
-import { ArrayType } from '../../../models';
+import { UnionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:array-type' })
-export class ArrayTypeSerializer extends TypeSerializerComponent<ArrayType> {
+@Component({ name: 'serializer:union-type' })
+export class UnionTypeSerializer extends TypeSerializerComponent<UnionType> {
     supports(t: unknown) {
-        return t instanceof ArrayType;
+        return t instanceof UnionType;
     }
 
     /**
@@ -15,10 +15,10 @@ export class ArrayTypeSerializer extends TypeSerializerComponent<ArrayType> {
      * @param type
      * @param obj
      */
-    toObject(type: ArrayType, obj: Pick<JSONOutput.ArrayType, 'type'>): JSONOutput.ArrayType {
+    toObject(type: UnionType, obj: Pick<JSONOutput.UnionType, 'type'>): JSONOutput.UnionType {
         return {
             ...obj,
-            elementType: this.owner.toObject(type.elementType)
+            types: type.types.map(t => this.owner.toObject(t))
         };
     }
 }

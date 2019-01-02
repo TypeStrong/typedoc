@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { TypeParameterType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:type-parameter-type' })
 export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypeParameterType> {
@@ -9,15 +10,16 @@ export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypePar
         return t instanceof TypeParameterType;
     }
 
-    toObject(typeParameter: TypeParameterType, obj?: any): any {
-        obj = obj || {};
+    toObject(type: TypeParameterType, obj: Pick<JSONOutput.TypeParameterType, 'type'>): JSONOutput.TypeParameterType {
+        const result: JSONOutput.TypeParameterType = {
+            ...obj,
+            name: type.name
+        };
 
-        obj.name = typeParameter.name;
-
-        if (typeParameter.constraint) {
-            obj.constraint = this.owner.toObject(typeParameter.constraint);
+        if (type.constraint) {
+            result.constraint = this.owner.toObject(type.constraint);
         }
 
-        return obj;
+        return result;
     }
 }

@@ -12,7 +12,7 @@ export class ReferenceType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'reference';
+    readonly type = 'reference';
 
     /**
      * The name of the referenced type.

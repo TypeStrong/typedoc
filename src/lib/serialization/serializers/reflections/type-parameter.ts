@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { TypeParameterReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:type-parameter-reflection' })
 export class TypeParameterReflectionSerializer extends ReflectionSerializerComponent<
@@ -11,13 +12,13 @@ export class TypeParameterReflectionSerializer extends ReflectionSerializerCompo
         return t instanceof TypeParameterReflection;
     }
 
-    toObject(typeParameter: TypeParameterReflection, obj?: any): any {
-        obj = obj || {};
+    toObject(typeParameter: TypeParameterReflection, obj: JSONOutput.Reflection): JSONOutput.TypeParameterReflection {
+        const result: JSONOutput.TypeParameterReflection = { ...obj };
 
         if (typeParameter.type) {
-            obj.type = this.owner.toObject(typeParameter.type);
+            result.type = this.owner.toObject(typeParameter.type);
         }
 
-        return obj;
+        return result;
     }
 }

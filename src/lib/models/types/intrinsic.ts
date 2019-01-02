@@ -16,7 +16,7 @@ export class IntrinsicType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'intrinsic';
+    readonly type = 'intrinsic';
 
     /**
      * Create a new instance of IntrinsicType.

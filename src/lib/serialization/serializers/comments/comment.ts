@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { Comment } from '../../../models';
 
 import { SerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:comment' })
 export class CommentSerializer extends SerializerComponent<Comment> {
@@ -18,9 +19,7 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         return true;
     }
 
-    toObject(comment: Comment, obj?: any): any {
-        obj = obj || {};
-
+    toObject(comment: Comment, obj: Partial<JSONOutput.Comment> = {}): JSONOutput.Comment {
         if (comment.shortText) {
             obj.shortText = comment.shortText;
         }
@@ -30,11 +29,10 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         if (comment.returns) {
             obj.returns = comment.returns;
         }
-
         if (comment.tags && comment.tags.length) {
-            obj.tags = [];
-            comment.tags.forEach(tag => obj.tags.push(this.owner.toObject(tag)));
+            obj.tags = comment.tags.map(tag => this.owner.toObject(tag));
         }
+
         return obj;
     }
 }

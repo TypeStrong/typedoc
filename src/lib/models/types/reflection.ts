@@ -17,7 +17,7 @@ export class ReflectionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'reflection';
+    readonly type = 'reflection';
 
     /**
      * Create a new instance of ReflectionType.

@@ -3,6 +3,7 @@ import { ContainerReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { SourceReferenceWrapper } from '../models';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:container-reflection' })
 export class ContainerReflectionSerializer extends ReflectionSerializerComponent<ContainerReflection> {
@@ -10,15 +11,22 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
         return t instanceof ContainerReflection;
     }
 
-    toObject(container: ContainerReflection, obj?: any): any {
-        obj = obj || {};
+    /**
+     * Will be run after [[ReflectionSerializer]] so will be passed the result of that serialization.
+     * @param container
+     * @param obj
+     */
+    toObject(container: ContainerReflection, obj: JSONOutput.Reflection): JSONOutput.ContainerReflection {
+        const result: JSONOutput.ContainerReflection = {
+            ...obj
+        };
 
         if (container.groups && container.groups.length > 0) {
-            obj.groups = container.groups.map(group => this.owner.toObject(group));
+            result.groups = container.groups.map(group => this.owner.toObject(group));
         }
 
         if (container.sources && container.sources.length > 0) {
-            obj.sources = container.sources.map(source =>
+            result.sources = container.sources.map(source =>
                 this.owner.toObject(
                     new SourceReferenceWrapper({
                         fileName: source.fileName,
@@ -29,6 +37,6 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
             );
         }
 
-        return obj;
+        return result;
     }
 }

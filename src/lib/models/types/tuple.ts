@@ -16,7 +16,7 @@ export class TupleType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'tuple';
+    readonly type = 'tuple';
 
     /**
      * Create a new TupleType instance.

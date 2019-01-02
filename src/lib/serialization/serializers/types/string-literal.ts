@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { StringLiteralType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:string-literal-type' })
 export class StringLiteralTypeSerializer extends TypeSerializerComponent<StringLiteralType> {
@@ -9,11 +10,10 @@ export class StringLiteralTypeSerializer extends TypeSerializerComponent<StringL
         return t instanceof StringLiteralType;
     }
 
-    toObject(stringLiteral: StringLiteralType, obj?: any): any {
-        obj = obj || {};
-
-        obj.value = stringLiteral.value;
-
-        return obj;
+    toObject(type: StringLiteralType, obj: Pick<JSONOutput.StringLiteralType, 'type'>): JSONOutput.StringLiteralType {
+        return {
+            ...obj,
+            value: type.value
+        };
     }
 }

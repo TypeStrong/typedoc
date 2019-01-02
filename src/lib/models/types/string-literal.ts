@@ -16,7 +16,7 @@ export class StringLiteralType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'stringLiteral';
+    readonly type = 'stringLiteral';
 
     /**
      * Create a new instance of StringLiteralType.

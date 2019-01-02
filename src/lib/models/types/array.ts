@@ -17,7 +17,7 @@ export class ArrayType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'array';
+    readonly type = 'array';
 
     /**
      * Create a new TupleType instance.

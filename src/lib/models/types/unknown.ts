@@ -12,7 +12,7 @@ export class UnknownType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'unknown';
+    readonly type = 'unknown';
 
     /**
      * Create a new instance of UnknownType.

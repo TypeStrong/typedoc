@@ -3,6 +3,7 @@ import { ProjectReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { ContainerReflectionSerializer } from './container';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:project-reflection' })
 export class ProjectReflectionSerializer extends ReflectionSerializerComponent<ProjectReflection> {
@@ -12,7 +13,7 @@ export class ProjectReflectionSerializer extends ReflectionSerializerComponent<P
         return t instanceof ProjectReflection;
     }
 
-    toObject(container: ProjectReflection, obj?: any): any {
+    toObject(container: ProjectReflection, obj: JSONOutput.ContainerReflection): JSONOutput.ProjectReflection {
         return obj;
     }
 }

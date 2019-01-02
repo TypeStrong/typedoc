@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { CommentTag } from '../../../models';
 
 import { SerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:comment-tag' })
 export class CommentTagSerializer extends SerializerComponent<CommentTag> {
@@ -18,16 +19,16 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
         return true;
     }
 
-    toObject(tag: CommentTag, obj?: any): any {
-        obj = obj || {};
-
-        obj.tag = tag.tagName;
-        obj.text = tag.text;
+    toObject(tag: CommentTag, obj: Partial<JSONOutput.CommentTag> = {}): JSONOutput.CommentTag {
+        const result: JSONOutput.CommentTag = {
+            tag: tag.tagName,
+            text: tag.text
+        };
 
         if (tag.paramName) {
-            obj.param = tag.paramName;
+            result.param = tag.paramName;
         }
 
-        return obj;
+        return { ...obj, ...result };
     }
 }

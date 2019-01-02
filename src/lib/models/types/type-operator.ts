@@ -12,7 +12,7 @@ export class TypeOperatorType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'typeOperator';
+    readonly type = 'typeOperator';
 
     target: Type;
 

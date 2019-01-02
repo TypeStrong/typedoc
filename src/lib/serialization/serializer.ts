@@ -5,6 +5,7 @@ import { ProjectReflection } from '../models';
 
 import { SerializerComponent } from './components';
 import { SerializeEvent } from './events';
+import { ModelToObject } from './schema';
 
 @Component({ name: 'serializer', internal: true, childClass: SerializerComponent })
 export class Serializer extends ChildableComponent<Application, SerializerComponent<any>> {
@@ -22,9 +23,6 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
 
     /**
      * Serializers, sorted by their `serializeGroup` function to enable higher performance.
-     *
-     * TODO: This implementation results in a more complicated implementation, potentially
-     * without actual performance benefits due to the Map overhead. Does this actually help?
      */
     private serializers!: Map<(instance: unknown) => boolean, SerializerComponent<any>[]>;
 
@@ -43,11 +41,11 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
             let group = this.serializers.get(component.serializeGroup);
 
             if (!group) {
-                this.serializers.set(component.serializeGroup, group = []);
+                this.serializers.set(component.serializeGroup, (group = []));
             }
 
             group.push(component);
-            group.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+            group.sort((a, b) => b.priority - a.priority);
         }
 
         return component;
@@ -62,9 +60,7 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
 
         if (component && component.serializeGroup) {
             // Remove from the router
-            const group = this.serializers
-                .get(component.serializeGroup)!
-                .filter(comp => comp !== component);
+            const group = this.serializers.get(component.serializeGroup)!.filter(comp => comp !== component);
 
             if (group.length) {
                 this.serializers.set(component.serializeGroup, group);
@@ -81,11 +77,11 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
         this.serializers = new Map();
     }
 
-    toObject(value: any, obj?: any): any {
-        return this.findSerializers(value).reduce(
-            (result, curr) => curr.toObject(value, result),
-            obj
-        );
+    toObject<T>(value: T, obj?: Partial<ModelToObject<T>>): ModelToObject<T> {
+        // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
+        // the defined property, but the benefit of being mostly typed is probably worth it.
+        return this.findSerializers(value)
+            .reduce((result, curr) => curr.toObject(value, result), obj) as ModelToObject<T>;
     }
 
     /**
@@ -93,7 +89,7 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
      * @param value
      * @param eventData Partial information to set in the event
      */
-    projectToObject(value: ProjectReflection, eventData?: { begin?: any; end?: any }): any {
+    projectToObject(value: ProjectReflection, eventData?: { begin?: any; end?: any }): ModelToObject<ProjectReflection> {
         const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
 
         if (eventData && eventData.begin) {
@@ -114,10 +110,10 @@ export class Serializer extends ChildableComponent<Application, SerializerCompon
         return project;
     }
 
-    private findSerializers(value: any): SerializerComponent<any>[] {
-        const routes: SerializerComponent<any>[] = [];
+    private findSerializers<T>(value: T): SerializerComponent<T>[] {
+        const routes: SerializerComponent<T>[] = [];
 
-        for (const [ groupSupports, components ] of this.serializers.entries()) {
+        for (const [groupSupports, components] of this.serializers.entries()) {
             if (groupSupports(value)) {
                 for (const component of components) {
                     if (component.supports(value)) {

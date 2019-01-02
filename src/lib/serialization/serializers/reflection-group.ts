@@ -2,6 +2,7 @@ import { Component } from '../../utils/component';
 import { ReflectionGroup } from '../../models/ReflectionGroup';
 
 import { SerializerComponent } from '../components';
+import { JSONOutput } from '../schema';
 
 @Component({ name: 'serializer:reflection-group' })
 export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
@@ -14,26 +15,21 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
         return instance instanceof ReflectionGroup;
     }
 
-    initialize(): void {
-        super.initialize();
-    }
-
     supports(r: unknown) {
-        return r instanceof ReflectionGroup;
+        return true;
     }
 
-    toObject(group: ReflectionGroup, obj?: any): any {
-        obj = obj || {};
-
-        Object.assign(obj, {
+    toObject(group: ReflectionGroup, obj?: Partial<JSONOutput.ReflectionGroup>): JSONOutput.ReflectionGroup {
+        const result: JSONOutput.ReflectionGroup = {
+            ...obj,
             title: group.title,
             kind: group.kind
-        });
+        };
 
         if (group.children && group.children.length > 0) {
-            obj.children = group.children.map(child => child.id);
+            result.children = group.children.map(child => child.id);
         }
 
-        return obj;
+        return result;
     }
 }

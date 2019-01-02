@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { Type } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:type' })
 export class TypeSerializer extends TypeSerializerComponent<Type> {
@@ -11,11 +12,10 @@ export class TypeSerializer extends TypeSerializerComponent<Type> {
         return t instanceof Type;
     }
 
-    toObject(type: Type, obj?: any): any {
-        obj = obj || {};
-
-        obj.type = type.type;
-
-        return obj;
+    toObject(type: Type, obj?: Partial<JSONOutput.Type<Type>>): JSONOutput.Type<Type> {
+        return {
+            ...obj,
+            type: type.type
+        };
     }
 }

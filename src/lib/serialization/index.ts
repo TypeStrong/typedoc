@@ -13,7 +13,6 @@ export {
     ArrayTypeSerializer,
     DeclarationReflectionSerializer,
     IntersectionTypeSerializer,
-    IntersectionUnion,
     IntrinsicTypeSerializer,
     ParameterReflectionSerializer,
     ProjectReflectionSerializer,

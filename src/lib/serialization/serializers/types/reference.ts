@@ -2,6 +2,7 @@ import { Component } from '../../../utils/component';
 import { ReferenceType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { JSONOutput } from '../../schema';
 
 @Component({ name: 'serializer:reference-type' })
 export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceType> {
@@ -9,19 +10,21 @@ export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceTy
         return t instanceof ReferenceType;
     }
 
-    toObject(reference: ReferenceType, obj?: any): any {
-        obj = obj || {};
-
-        obj.name = reference.name;
-
-        if (reference.reflection) {
-            obj.id = reference.reflection.id;
+    toObject(
+        type: ReferenceType,
+        obj: Pick<JSONOutput.ReferenceType, 'type'> & Partial<JSONOutput.ReferenceType>
+    ): JSONOutput.ReferenceType {
+        if (type.reflection) {
+            obj.id = type.reflection.id;
         }
 
-        if (reference.typeArguments && reference.typeArguments.length > 0) {
-            obj.typeArguments = reference.typeArguments.map(t => this.owner.toObject(t));
+        if (type.typeArguments && type.typeArguments.length > 0) {
+            obj.typeArguments = type.typeArguments.map(t => this.owner.toObject(t));
         }
 
-        return obj;
+        return {
+            ...obj,
+            name: type.name
+        };
     }
 }
