@@ -47,7 +47,7 @@ type _ModelToObject<T> =
  * to add custom properties to the exported interfaces.
  * For example, if your custom serializer adds a property to all [[Reflection]] objects:
  * ```ts
- * declare module 'typedoc' {
+ * declare module 'typedoc/dist/lib/serialization/schema' {
  *     export namespace JSONOutput {
  *         export interface AbstractReflection {
  *             myCustomProp: boolean
@@ -59,7 +59,7 @@ type _ModelToObject<T> =
  * If a plugin defines a new Model type, [[ModelToObject]] will not pick up the serializer type.
  * To fix this, use declaration merging to augment the [[Serializer]] class.
  * ```ts
- * declare module 'typedoc' {
+ * declare module 'typedoc/dist/lib/serialization/serializer' {
  *     export interface Serializer {
  *         toObject(value: CustomModel, obj?: Partial<CustomModel>): CustomOutput
  *     }
