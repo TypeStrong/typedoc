@@ -32,4 +32,4 @@ export {
 
 export { SerializeEvent } from './events';
 
-export * from './browser';
+export { JSONOutput } from './schema';

@@ -11,3 +11,4 @@ export { Renderer } from './lib/output/renderer';
 export { DefaultTheme } from './lib/output/themes/DefaultTheme';
 export { NavigationItem } from './lib/output/models/NavigationItem';
 export { UrlMapping } from './lib/output/models/UrlMapping';
+export { JSONOutput } from './lib/serialization';
