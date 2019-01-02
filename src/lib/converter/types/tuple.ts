@@ -17,11 +17,19 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.TypeReference): boolean {
-        // Arrays also use the typeArguments property, but they have a requirement on the symbol as well.
-        const supportedByArrayConverter = type.symbol && type.symbol.name === 'Array';
-        const isReferenceType = !!(type.objectFlags & ts.ObjectFlags.Reference);
-        return !!(type.objectFlags & ts.ObjectFlags.Tuple) ||
-            (!supportedByArrayConverter && isReferenceType && !!type.typeArguments);
+        // If this type is a tuple
+        if (type.objectFlags & ts.ObjectFlags.Tuple) {
+            return true;
+        }
+
+        // If this type points to a tuple
+        if (type.objectFlags & ts.ObjectFlags.Reference) {
+            if (type.target.objectFlags & ts.ObjectFlags.Tuple) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
