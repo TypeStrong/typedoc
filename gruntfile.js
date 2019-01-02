@@ -140,7 +140,7 @@ module.exports = function(grunt)
             var src = app.expandInputFiles([path]);
             var out = Path.join(base, directory, 'specs.json');
             var result = app.convert(src);
-            var data = JSON.stringify(result.toObject(), null, '  ');
+            var data = JSON.stringify(app.serializer.projectToObject(result), null, '  ');
             data = data.split(TypeDoc.normalizePath(base)).join('%BASE%');
             FS.writeFileSync(out, data);
         });
