@@ -1,10 +1,11 @@
-import { Reflection, ContainerReflection, SourceDirectory, SourceFile } from '../../models';
+import { Reflection, ContainerReflection, DeclarationReflection } from '../../models';
 import { ReflectionCategory } from '../../models/ReflectionCategory';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
 import { Option } from '../../utils/component';
 import { ParameterType } from '../../utils/options/declaration';
+import { Comment } from '../../models/comments/index';
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
@@ -84,28 +85,11 @@ export class CategoryPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onEndResolve(context: Context) {
-        // const self = this;
-        // function walkDirectory(directory: SourceDirectory) {
-        //     self.categorize(directory);
-
-        //     for (let key in directory.directories) {
-        //         if (!directory.directories.hasOwnProperty(key)) {
-        //             continue;
-        //         }
-        //         walkDirectory(directory.directories[key]);
-        //     }
-        // }
-
         const project = context.project;
         this.categorize(project);
-
-        // walkDirectory(project.directory);
-        // project.files.forEach((file) => {
-        //     this.categorize(file);
-        // });
     }
 
-    private categorize(obj: ContainerReflection | SourceDirectory | SourceFile) {
+    private categorize(obj: ContainerReflection) {
         if (this.categorizeByGroup) {
             this.groupCategorize(obj);
         } else {
@@ -113,7 +97,7 @@ export class CategoryPlugin extends ConverterComponent {
         }
     }
 
-    private groupCategorize(obj: ContainerReflection | SourceDirectory | SourceFile) {
+    private groupCategorize(obj: ContainerReflection) {
         if (!obj.groups || obj.groups.length === 0) {
             return;
         }
@@ -128,7 +112,7 @@ export class CategoryPlugin extends ConverterComponent {
         });
     }
 
-    private lumpCategorize(obj: ContainerReflection | SourceDirectory | SourceFile) {
+    private lumpCategorize(obj: ContainerReflection) {
         if (obj instanceof ContainerReflection) {
             if (obj.children && obj.children.length > 0) {
                 obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
@@ -136,10 +120,6 @@ export class CategoryPlugin extends ConverterComponent {
             if (obj.categories && obj.categories.length > 1) {
                 obj.categories.sort(CategoryPlugin.sortCatCallback);
             }
-        } else if (obj instanceof SourceDirectory) {
-            obj.categories = CategoryPlugin.getReflectionCategories(obj.getAllReflections());
-        } else {
-            obj.categories = CategoryPlugin.getReflectionCategories(obj.reflections);
         }
     }
 
@@ -184,8 +164,8 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns The category the reflection belongs to
      */
     static getCategory(reflection: Reflection): string {
-        if (reflection.comment) {
-            const tags = reflection.comment.tags;
+        function extractCategoryTag(comment: Comment) {
+            const tags = comment.tags;
             if (tags) {
                 for (let i = 0; i < tags.length; i++) {
                     if (tags[i].tagName === 'category') {
@@ -194,19 +174,21 @@ export class CategoryPlugin extends ConverterComponent {
                     }
                 }
             }
+            return '';
         }
-        return '';
-    }
 
-    /**
-     * Callback used to sort reflections by name.
-     *
-     * @param a The left reflection to sort.
-     * @param b The right reflection to sort.
-     * @returns The sorting weight.
-     */
-    static sortCallback(a: Reflection, b: Reflection): number {
-        return a.name > b.name ? 1 : -1;
+        let category = '';
+        if (reflection.comment) {
+            category = extractCategoryTag(reflection.comment);
+        } else if (reflection instanceof DeclarationReflection && reflection.signatures) {
+            // If a reflection has signatures, use the first category tag amongst them
+            reflection.signatures.forEach(sig => {
+                if (sig.comment && category === '') {
+                    category = extractCategoryTag(sig.comment);
+                }
+            });
+        }
+        return category;
     }
 
     /**
@@ -217,16 +199,16 @@ export class CategoryPlugin extends ConverterComponent {
      * @returns The sorting weight.
      */
     static sortCatCallback(a: ReflectionCategory, b: ReflectionCategory): number {
-        const aWeight = CategoryPlugin.WEIGHTS.indexOf(a.title);
-        const bWeight = CategoryPlugin.WEIGHTS.indexOf(b.title);
-        if (aWeight < 0 && bWeight < 0) {
+        let aWeight = CategoryPlugin.WEIGHTS.indexOf(a.title);
+        let bWeight = CategoryPlugin.WEIGHTS.indexOf(b.title);
+        if (aWeight === -1 || bWeight === -1) {
+            let asteriskIndex = CategoryPlugin.WEIGHTS.indexOf('*');
+            if (asteriskIndex === -1) { asteriskIndex = CategoryPlugin.WEIGHTS.length; }
+            if (aWeight === -1) { aWeight = asteriskIndex; }
+            if (bWeight === -1) { bWeight = asteriskIndex; }
+        }
+        if (aWeight === bWeight) {
             return a.title > b.title ? 1 : -1;
-        }
-        if (aWeight < 0) {
-            return 1;
-        }
-        if (bWeight < 0) {
-            return -1;
         }
         return aWeight - bWeight;
     }
