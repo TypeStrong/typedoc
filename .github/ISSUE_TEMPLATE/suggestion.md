@@ -19,5 +19,5 @@ about: Suggest an improvement or a feature
 
 ## Suggestion
 <!--
-    What do you suggest to fix the problem?
+    How do you suggest fixing the problem?
 -->
