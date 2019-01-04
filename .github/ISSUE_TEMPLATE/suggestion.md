@@ -14,7 +14,7 @@ about: Suggest an improvement or a feature
 
 ## Problem
 <!--
-    What is making you feel inconvenient without this improvement or feature?
+    What is missing or inconvenient without this improvement or feature?
 -->
 
 ## Suggestion
