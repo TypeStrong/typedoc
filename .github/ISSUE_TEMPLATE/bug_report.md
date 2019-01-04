@@ -14,7 +14,7 @@ about: Tell about typedoc's bug
 
 ## Expected Behavior
 <!--
-    According to the code or documentation, how is Typedoc supposed to work?
+    According to your expectations, how is Typedoc supposed to work?
 -->
 
 ## Actual Behavior
