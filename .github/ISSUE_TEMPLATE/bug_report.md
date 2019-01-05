@@ -24,7 +24,11 @@ about: Tell about typedoc's bug
 
 ## Steps to reproduce the bug
 <!--
-    Tell us how we could reproduce the bug. 
+    Tell us how we could reproduce the bug. Possible ways are providing:
+    - Typedoc command (typedoc --out ...)
+    - Configuration (typedoc.js or your custom option file)
+    - Code that causes a bug in the documentation generated
+    - Project (Github repository, CodePen, ...) where the issue can be reproduced.
 -->
 
 ## Specifications
