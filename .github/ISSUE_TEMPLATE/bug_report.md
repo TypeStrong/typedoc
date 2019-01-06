@@ -1,6 +1,7 @@
 ---
 name: Bug report
 about: Tell about typedoc's bug
+labels: bug
 ---
 <!--
     Thank you for contributing to Typedoc! 
