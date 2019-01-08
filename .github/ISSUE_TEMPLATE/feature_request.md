@@ -17,7 +17,7 @@ about: Suggest an improvement or a feature
     What is missing or inconvenient without this improvement or feature?
 -->
 
-## Suggestion
+## Suggested Solution
 <!--
     How do you suggest fixing the problem?
 -->
