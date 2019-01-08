@@ -32,7 +32,7 @@ labels: bug
     - Project (Github repository, CodePen, ...) where the issue can be reproduced.
 -->
 
-## Specifications
+## Environment
   - Typedoc version:
   - Node.js version:
   - OS:
