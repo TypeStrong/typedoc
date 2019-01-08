@@ -1,5 +1,5 @@
 ---
-name: Suggestion
+name: Feature Request
 about: Suggest an improvement or a feature
 ---
 <!--
