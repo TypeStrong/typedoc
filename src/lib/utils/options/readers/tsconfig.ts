@@ -48,7 +48,7 @@ export class TSConfigReader extends OptionsComponent {
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             const tsconfig = event.data[TSConfigReader.OPTIONS_KEY];
 
-            if (FS.existsSync(tsconfig)) {
+            if (FS.existsSync(tsconfig) && FS.statSync(tsconfig).isFile()) {
                 file = Path.resolve(tsconfig);
             } else {
                 file = ts.findConfigFile(tsconfig, ts.sys.fileExists);
