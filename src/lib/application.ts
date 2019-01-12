@@ -257,12 +257,13 @@ export class Application extends ChildableComponent<Application, AbstractCompone
             return exclude.some(mm => mm.match(fileName));
         }
 
+        const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
         function add(dirname: string) {
             FS.readdirSync(dirname).forEach((file) => {
                 const realpath = Path.join(dirname, file);
                 if (FS.statSync(realpath).isDirectory()) {
                     add(realpath);
-                } else if (/\.tsx?$/.test(realpath)) {
+                } else if (supportedFileRegex.test(realpath)) {
                     if (isExcluded(realpath.replace(/\\/g, '/'))) {
                         return;
                     }
