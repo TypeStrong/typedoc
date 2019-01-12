@@ -64,6 +64,8 @@ export class TypedocReader extends OptionsComponent {
      * @return the typedoc.(js|json) file path or undefined
      */
     findTypedocFile(path: string): string | undefined {
+        path = Path.resolve(path);
+
         if (FS.existsSync(path) && FS.statSync(path).isFile()) {
             return path;
         }
