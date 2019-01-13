@@ -3,7 +3,7 @@ import * as _ts from '../../../ts-internal';
 
 import { Component } from '../../component';
 import { OptionsComponent } from '../options';
-import { DeclarationOption, ParameterScope, ParameterType, ParameterHint } from '../declaration';
+import { DeclarationOption, ParameterScope, ParameterType } from '../declaration';
 
 /**
  * Discovers and contributes options declared by TypeScript.
@@ -28,7 +28,7 @@ export class TypeScriptSource extends OptionsComponent {
         this.declarations = [];
 
         for (let declaration of _ts.optionDeclarations) {
-            if (TypeScriptSource.IGNORED.indexOf(declaration.name) === -1) {
+            if (!TypeScriptSource.IGNORED.includes(declaration.name)) {
                 this.addTSOption(declaration);
             }
         }
@@ -70,15 +70,6 @@ export class TypeScriptSource extends OptionsComponent {
                     const error = _ts.createCompilerDiagnostic(option['error']);
                     param.mapError = ts.flattenDiagnosticMessageText(error.messageText, ', ');
                 }
-        }
-
-        switch (option.paramType) {
-            case _ts.Diagnostics.FILE:
-                param.hint = ParameterHint.File;
-                break;
-            case _ts.Diagnostics.DIRECTORY:
-                param.hint = ParameterHint.Directory;
-                break;
         }
 
         this.declarations.push(param);

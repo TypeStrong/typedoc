@@ -90,8 +90,8 @@ export class SourcePlugin extends ConverterComponent {
         if (!node) {
             return;
         }
-        const sourceFile      = _ts.getSourceFileOfNode(node);
-        const fileName        = sourceFile.fileName;
+        const sourceFile = node.getSourceFile();
+        const fileName = sourceFile.fileName;
         const file: SourceFile = this.getSourceFile(fileName, context.project);
 
         let position: ts.LineAndCharacter;
