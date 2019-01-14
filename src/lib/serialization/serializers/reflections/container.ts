@@ -19,7 +19,7 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
     }
 
     if (container.categories && container.categories.length > 0) {
-      obj.categroies = container.categories.map( category => this.owner.toObject(category) );
+      obj.categories = container.categories.map( category => this.owner.toObject(category) );
     }
 
     if (container.sources && container.sources.length > 0) {
