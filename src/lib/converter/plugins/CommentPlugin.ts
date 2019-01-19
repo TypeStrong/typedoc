@@ -322,7 +322,7 @@ export class CommentPlugin extends ConverterComponent {
         });
 
         for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.indexOf(project.symbolMapping[key]) !== -1) {
+            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.includes(project.symbolMapping[key])) {
                 delete project.symbolMapping[key];
             }
         }
