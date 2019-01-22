@@ -63,7 +63,7 @@ export class CommentPlugin extends ConverterComponent {
     }
 
     private storeModuleComment(comment: string, reflection: Reflection) {
-        const isPreferred = (comment.toLowerCase().indexOf('@preferred') !== -1);
+        const isPreferred = (comment.toLowerCase().includes('@preferred'));
 
         if (this.comments[reflection.id]) {
             const info = this.comments[reflection.id];
