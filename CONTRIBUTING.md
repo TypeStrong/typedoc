@@ -22,12 +22,12 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 
 This section guides you through submitting a bug report for TypeDoc. Following these guidelines helps others understand your report and resolve the issue.
 
-Before creating a bug report please check [this list][bugs] list to see if it has already been reported. If the issue is closed, please open a new issue and link to the original issue.
+Before creating a bug report please check [this list][bugs] to see if it has already been reported. If the issue is closed, please open a new issue and link it to the original issue.
 
-When creating a bug report, explain the problem and include as much additional information as necessary to help maintainers reproduce it. Ideally, provide an example project which highlights the problem.
+When creating a bug report, explain the problem and include as much additional information as necessary to help maintainers to reproduce it. Ideally, provide an example project which highlights the problem.
 
 - **Use a clear and descriptive title** for the issue to identify the problem
-- **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be fixed quickly.
+- **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be quickly fixed.
 - **Explain what you expected to see instead and why**
 
 ### Suggestions
@@ -67,7 +67,7 @@ If you don't already have [Git] installed, install it first. You will need it to
    ```bash
    git remote add typedoc https://github.com/TypeStrong/typedoc
    ```
-1. Install dependencies and build the latest version:
+1. Install dependencies:
    ```bash
    npm install
    ```
