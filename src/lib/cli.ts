@@ -72,7 +72,7 @@ export class CliApplication extends Application {
                     this.generateJson(project, this.json);
                 }
                 if (!this.out && !this.json) {
-                    this.logger.log("You must either specify the 'out' or 'json' option.");
+                    this.logger.log("No 'out' or 'json' option has been set");
                     this.logger.log("The './docs' directory have been set in default output");
                     this.generateDocs(project, './docs');
                 }
