@@ -151,38 +151,3 @@ describe('Converter with excludeNotExported=true', function() {
     });
 
 });
-
-describe('Converter with marked', function() {
-    const base = Path.join(__dirname, 'converter');
-    const markdownDir = Path.join(base, 'markdown');
-    let app: Application;
-
-    before('constructs', function() {
-        app = new Application({
-            mode:   'Modules',
-            logger: 'none',
-            target: 'ES5',
-            module: 'CommonJS',
-            experimentalDecorators: true
-        });
-    });
-
-    let result: ProjectReflection | undefined;
-
-    describe('markdown', () => {
-        it('converts fixtures', function() {
-            resetReflectionID();
-            result = app.convert(app.expandInputFiles([markdownDir]));
-            Assert(result instanceof ProjectReflection, 'No reflection returned');
-        });
-
-        it('matches specs', function() {
-            const specs = JSON.parse(FS.readFileSync(Path.join(markdownDir, 'specs.json')).toString());
-            let data = JSON.stringify(result!.toObject(), null, '  ');
-            data = data.split(normalizePath(base)).join('%BASE%');
-
-            compareReflections(JSON.parse(data), specs);
-        });
-    });
-
-});
