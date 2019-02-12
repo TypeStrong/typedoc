@@ -9,6 +9,7 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 1. [How Can I Contribute?](#how-can-i-contribute)
    - [Bug Reports](#bug-reports)
    - [Suggestions](#suggestions)
+   - [Documentation](#documentation)
    - [Code](#code)
 1. [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
 1. [Linting, Building, and Testing](#linting-building-and-testing)
@@ -41,6 +42,17 @@ When creating an enhancement request, explain your use case and ultimate goal. T
 - **Use a clear and descriptive title** for the issue to identify the suggestion.
 - **Provide an example where this enhancement would improve TypeDoc**
 - **If possible, list another documentation generator where this feature exists**
+
+### Documentation
+
+TypeDoc is documented in 4 primary areas.
+
+- This repo's [README.md](https://github.com/TypeStrong/typedoc/blob/master/README.md)
+- The website guides hosted at [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/)
+- Doc comments of source files which are rendered in the [api docs](https://typedoc.org/api/)
+- The [option descriptions](https://github.com/TypeStrong/typedoc/blob/ce0654295698e2bb2badf5f93d388bd977da3c46/src/lib/application.ts#L66) used by the `--help` command
+
+If you would like to improve the documentation in any of these areas, please open an issue if there isn't one already to discuss what you would like to improve. Then submit a [Pull Request](#pull-requests) to this repo, (or to [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/) in the case of guides).
 
 ### Code
 
