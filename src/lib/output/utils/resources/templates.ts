@@ -39,7 +39,7 @@ export class PartialStack extends TemplateStack {
         const resources = this.getAllResources();
 
         for (let name in resources) {
-            if (this.registeredNames.indexOf(name) !== -1) {
+            if (this.registeredNames.includes(name)) {
                 continue;
             }
             this.registeredNames.push(name);

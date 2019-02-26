@@ -111,7 +111,7 @@ export class TypePlugin extends ConverterComponent {
     }
 
     private postpone(reflection: DeclarationReflection) {
-        if (this.reflections.indexOf(reflection) === -1) {
+        if (!this.reflections.includes(reflection)) {
             this.reflections.push(reflection);
         }
     }

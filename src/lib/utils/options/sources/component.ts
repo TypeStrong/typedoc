@@ -28,7 +28,7 @@ export class ComponentSource extends OptionsComponent {
             return;
         }
 
-        if (this.knownComponents.indexOf(name) === -1) {
+        if (!this.knownComponents.includes(name)) {
             this.knownComponents.push(name);
             this.owner.addDeclarations(component.getOptionDeclarations());
         }

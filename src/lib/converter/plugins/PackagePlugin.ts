@@ -94,7 +94,7 @@ export class PackagePlugin extends ConverterComponent {
         let dirName: string, parentDir = Path.resolve(Path.dirname(fileName));
         do {
             dirName = parentDir;
-            if (this.visited.indexOf(dirName) !== -1) {
+            if (this.visited.includes(dirName)) {
                 break;
             }
 

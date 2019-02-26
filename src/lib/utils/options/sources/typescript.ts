@@ -28,7 +28,7 @@ export class TypeScriptSource extends OptionsComponent {
         this.declarations = [];
 
         for (let declaration of _ts.optionDeclarations) {
-            if (TypeScriptSource.IGNORED.indexOf(declaration.name) === -1) {
+            if (!TypeScriptSource.IGNORED.includes(declaration.name)) {
                 this.addTSOption(declaration);
             }
         }

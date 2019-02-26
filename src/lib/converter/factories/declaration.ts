@@ -81,12 +81,12 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     // Test whether the node is static, when merging a module to a class make the node static
     let isConstructorProperty = false;
     let isStatic = false;
-    if (nonStaticKinds.indexOf(kind) === -1) {
+    if (!nonStaticKinds.includes(kind)) {
         isStatic = !!(modifiers & ts.ModifierFlags.Static);
         if (container.kind === ReflectionKind.Class) {
             if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
-            } else if (!node.parent || nonStaticMergeKinds.indexOf(node.parent.kind) === -1) {
+            } else if (!node.parent || !nonStaticMergeKinds.includes(node.parent.kind)) {
                 isStatic = true;
             }
         }
@@ -179,7 +179,7 @@ function mergeDeclarations(context: Context, reflection: DeclarationReflection, 
 
     if (
         context.isInherit &&
-        (context.inherited || []).indexOf(reflection.name) !== -1 &&
+        (context.inherited || []).includes(reflection.name) &&
         (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.overwrites) {

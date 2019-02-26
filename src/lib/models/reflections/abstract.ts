@@ -219,12 +219,12 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         if (!set && this.hasFlag(flag)) {
-            if (relevantFlags.indexOf(flag) !== -1) {
+            if (relevantFlags.includes(flag)) {
                 this.splice(this.indexOf(name), 1);
             }
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
-            if (relevantFlags.indexOf(flag) !== -1) {
+            if (relevantFlags.includes(flag)) {
                 this.push(name);
             }
             this.flags |= flag;
@@ -441,7 +441,7 @@ export abstract class Reflection {
                 target._aliases = [];
             }
             let suffix = '', index = 0;
-            while (target._aliases.indexOf(alias + suffix) !== -1) {
+            while (target._aliases.includes(alias + suffix)) {
                 suffix = '-' + (++index).toString();
             }
 
