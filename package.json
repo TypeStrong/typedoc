@@ -2,7 +2,7 @@
   "name": "typedoc",
   "description": "Create api documentations for typescript projects.",
   "version": "0.14.2",
-  "homepage": "http://typedoc.org",
+  "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
