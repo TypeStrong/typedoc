@@ -16,17 +16,28 @@ class SomeMixinClass extends base {
     someProperty : string = 'initialValue'
 
 
-    someMethod (arg : SomeMixinType, somethingElse : RegularInterface) : SomeMixinType[] {
+    someMethod (arg : SomeMixinType) : SomeMixinType[] {
         return [ arg, this ]
     }
 }
 
 // the "instance type" of this mixin
 // export type SomeMixin = Mixin<typeof SomeMixin>
-// or (supports recursive type definition)
+
+// or, alternative notation (supports recursive type definition)
 export interface SomeMixinType extends Mixin<typeof SomeMixinFunc> {}
 
 
-interface RegularInterface extends Base {
+
+// for debugging
+export interface RegularInterface extends Base {
     regularInterfaceProperty        : string
+}
+
+
+export class SomeClassWithMixin extends SomeMixinFunc(Base) {
+
+    method () {
+
+    }
 }
