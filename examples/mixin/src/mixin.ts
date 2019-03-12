@@ -9,13 +9,14 @@ export class Base {
     }
 }
 
-export const SomeMixin = <T extends AnyConstructor<Base>>(base : T) =>
+export const SomeMixinFunc = <T extends AnyConstructor<Base>>(base : T) =>
 
 // internal mixin class
-class SomeMixin extends base {
+class SomeMixinClass extends base {
     someProperty : string = 'initialValue'
 
-    someMethod (arg : SomeMixin) : SomeMixin[] {
+
+    someMethod (arg : SomeMixinType, somethingElse : RegularInterface) : SomeMixinType[] {
         return [ arg, this ]
     }
 }
@@ -23,4 +24,9 @@ class SomeMixin extends base {
 // the "instance type" of this mixin
 // export type SomeMixin = Mixin<typeof SomeMixin>
 // or (supports recursive type definition)
-export interface SomeMixin extends Mixin<typeof SomeMixin> {}
+export interface SomeMixinType extends Mixin<typeof SomeMixinFunc> {}
+
+
+interface RegularInterface extends Base {
+    regularInterfaceProperty        : string
+}
