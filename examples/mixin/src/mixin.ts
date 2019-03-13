@@ -5,39 +5,57 @@ export type Mixin<T extends AnyFunction> = InstanceType<ReturnType<T>>
 
 
 export class Base {
-    initialize () {
+    baseProperty    : string = 'init'
+
+    baseMethod () : number {
+        return 42
     }
 }
 
-export const SomeMixinFunc = <T extends AnyConstructor<Base>>(base : T) =>
+export const Mixin1Func = <T extends AnyConstructor<Base>>(base : T) =>
 
 // internal mixin class
-class SomeMixinClass extends base {
-    someProperty : string = 'initialValue'
+class Mixin1Class extends base {
+    property1 : string = 'init'
 
 
-    someMethod (arg : SomeMixinType) : SomeMixinType[] {
+    method1 (arg : Mixin1Type) : Mixin1Type[] {
         return [ arg, this ]
     }
 }
 
 // the "instance type" of this mixin
-// export type SomeMixin = Mixin<typeof SomeMixin>
+// export type Mixin1 = Mixin<typeof Mixin1>
 
 // or, alternative notation (supports recursive type definition)
-export interface SomeMixinType extends Mixin<typeof SomeMixinFunc> {}
+export interface Mixin1Type extends Mixin<typeof Mixin1Func> {}
 
 
+export const Mixin2 = <T extends AnyConstructor<Mixin1Type & Base>>(base : T) =>
 
-// for debugging
-export interface RegularInterface extends Base {
-    regularInterfaceProperty        : string
+
+// internal mixin class
+class Mixin2 extends base {
+    property2 : string = 'init'
+
+
+    method2 (arg : Mixin1Type) : Mixin1Type[] {
+        return [ arg ]
+    }
 }
 
+// the "instance type" of this mixin
+// export type Mixin1 = Mixin<typeof Mixin1>
 
-export class SomeClassWithMixin extends SomeMixinFunc(Base) {
+// or, alternative notation (supports recursive type definition)
+export interface Mixin2I extends Mixin<typeof Mixin2> {}
 
-    method () {
 
+
+export class SomeClassWithMixin extends Mixin2(Mixin1Func(Base)) {
+    classWithMixinProperty  : string = 'init'
+
+    classWithMixinMethod () : string {
+        return '42'
     }
 }
