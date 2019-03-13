@@ -48,7 +48,7 @@ class Mixin2 extends base {
 // export type Mixin1 = Mixin<typeof Mixin1>
 
 // or, alternative notation (supports recursive type definition)
-export interface Mixin2I extends Mixin<typeof Mixin2> {}
+export interface Mixin2 extends Mixin<typeof Mixin2> {}
 
 
 

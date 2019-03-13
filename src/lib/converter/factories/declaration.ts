@@ -93,11 +93,11 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         }
     }
 
-    // Check if we already have a child with the same name and static flag
+    // Check if we already have a child of the same kind, with the same name and static flag
     let child: DeclarationReflection | undefined;
     const children = container.children = container.children || [];
     children.forEach((n: DeclarationReflection) => {
-        if (n.name === name && n.flags.isStatic === isStatic) {
+        if (n.name === name && n.flags.isStatic === isStatic && n.kind === kind) {
             child = n;
         }
     });
