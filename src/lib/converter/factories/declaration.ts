@@ -19,6 +19,7 @@ const nonStaticKinds = [
  */
 const nonStaticMergeKinds = [
     ts.SyntaxKind.ClassDeclaration,
+    ts.SyntaxKind.ClassExpression,
     ts.SyntaxKind.InterfaceDeclaration
 ];
 
