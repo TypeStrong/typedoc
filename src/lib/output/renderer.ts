@@ -110,6 +110,13 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
     })
     toc!: string[];
 
+    @Option({
+        name: 'tocIncludeModules',
+        help: 'Include modules in the top level table of contents.',
+        type: ParameterType.Boolean
+    })
+    tocIncludeModules!: boolean;
+
     /**
      * Create a new Renderer instance.
      *

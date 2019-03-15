@@ -32,25 +32,35 @@ export class TocPlugin extends RendererComponent {
         }
 
         const trail: Reflection[] = [];
-        while (!(model instanceof ProjectReflection) && !model.kindOf(ReflectionKind.SomeModule)) {
+        while (this.shouldBeIncludedInTrail(model)) {
             trail.unshift(model);
             model = model.parent;
         }
 
         const tocRestriction = this.owner.toc;
+        const tocIncludeModules = this.owner.tocIncludeModules;
         page.toc = new NavigationItem();
-        TocPlugin.buildToc(model, trail, page.toc, tocRestriction);
+        TocPlugin.buildToc(model, trail, page.toc, tocRestriction, tocIncludeModules);
+    }
+
+    private shouldBeIncludedInTrail(model: any): boolean {
+        if (model instanceof ProjectReflection) {
+            return false;
+        }
+
+        return !model.kindOf(ReflectionKind.SomeModule) || this.owner.tocIncludeModules;
     }
 
     /**
      * Create a toc navigation item structure.
      *
-     * @param model   The models whose children should be written to the toc.
-     * @param trail   Defines the active trail of expanded toc entries.
-     * @param parent  The parent [[NavigationItem]] the toc should be appended to.
-     * @param restriction  The restricted table of contents.
+     * @param model           The models whose children should be written to the toc.
+     * @param trail           Defines the active trail of expanded toc entries.
+     * @param parent          The parent [[NavigationItem]] the toc should be appended to.
+     * @param restriction     The restricted top level toc entries.
+     * @param includeModules  Include modules in the top level toc.
      */
-    static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem, restriction?: string[]) {
+    static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem, restriction?: string[], includeModules?: boolean) {
         const index = trail.indexOf(model);
         const children = model['children'] || [];
 
@@ -67,7 +77,7 @@ export class TocPlugin extends RendererComponent {
                     return;
                 }
 
-                if (child.kindOf(ReflectionKind.SomeModule)) {
+                if (child.kindOf(ReflectionKind.SomeModule) && !includeModules) {
                     return;
                 }
 
