@@ -52,13 +52,13 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                     }
 
                     if (type) {
-                        const typesToInheritFrom : ts.Type[] = type.isIntersection() ? type.types : [ type ]
+                        const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
 
-                        typesToInheritFrom.forEach((typeToInheritFrom : ts.Type) => {
+                        typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
                             typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
                                 context.inherit(declaration, baseType.typeArguments);
                             });
-                        })
+                        });
                     }
                 });
             }
