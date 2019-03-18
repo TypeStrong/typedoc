@@ -161,16 +161,16 @@ function setupDeclaration(context: Context, reflection: DeclarationReflection, n
 
 // we should not be merging type and value with the same name,
 // because TypeScript have different namespaces for these two categories
-function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind) : boolean {
+function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind): boolean {
     if (
         (kind1 & ReflectionKind.SomeType && kind2 & ReflectionKind.SomeValue)
         ||
         (kind2 & ReflectionKind.SomeType && kind1 & ReflectionKind.SomeValue)
     ) {
-        return false
+        return false;
     }
 
-    return true
+    return true;
 }
 
 /**
