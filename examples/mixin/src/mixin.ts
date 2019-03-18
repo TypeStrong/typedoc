@@ -58,8 +58,8 @@ class Mixin2 extends base {
     property2 : string = 'init'
 
 
-    method2 (arg : Mixin1Type) : Mixin1Type[] {
-        return [ arg ]
+    method2 (arg : Mixin2) : Mixin2[] {
+        return [ arg, this ]
     }
 }
 
