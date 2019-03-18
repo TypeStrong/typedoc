@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { ReflectionKind, ReflectionFlag, ContainerReflection, DeclarationReflection } from '../../models/index';
+import { ContainerReflection, DeclarationReflection, ReflectionFlag, ReflectionKind } from '../../models/index';
 import { Context } from '../context';
 import { Converter } from '../converter';
 import { createReferenceType } from './reference';
@@ -97,7 +97,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     let child: DeclarationReflection | undefined;
     const children = container.children = container.children || [];
     children.forEach((n: DeclarationReflection) => {
-        if (n.name === name && n.flags.isStatic === isStatic && n.kind === kind) {
+        if (n.name === name && n.flags.isStatic === isStatic && canMergeReflectionsByKind(n.kind, kind)) {
             child = n;
         }
     });
@@ -157,6 +157,20 @@ function setupDeclaration(context: Context, reflection: DeclarationReflection, n
     }
 
     return reflection;
+}
+
+// we should not be merging type and value with the same name,
+// because TypeScript have different namespaces for these two categories
+function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind) : boolean {
+    if (
+        (kind1 & ReflectionKind.SomeType && kind2 & ReflectionKind.SomeValue)
+        ||
+        (kind2 & ReflectionKind.SomeType && kind1 & ReflectionKind.SomeValue)
+    ) {
+        return false
+    }
+
+    return true
 }
 
 /**
