@@ -47,7 +47,7 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                         }
                         const convertedType = this.owner.convertType(context, baseType, type);
                         if (convertedType) {
-                            reflection!.extendedTypes!.push(convertedType);
+                            reflection!.extendedTypes.push(convertedType);
                         }
                     }
 

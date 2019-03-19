@@ -59,7 +59,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     }
                     const convertedType = this.owner.convertType(context, baseType, type);
                     if (convertedType) {
-                        reflection!.extendedTypes!.push(convertedType);
+                        reflection!.extendedTypes.push(convertedType);
                     }
                 }
 
