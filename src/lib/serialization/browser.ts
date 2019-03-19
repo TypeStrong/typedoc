@@ -56,6 +56,10 @@ export interface GroupsContainer<T> {
   groups: T[];
 }
 
+export interface CategoriesContainer<T> {
+  categories: T[];
+}
+
 export interface ContainerReflectionContainer<TChildren> {
   children: TChildren[];
 }
@@ -147,6 +151,7 @@ export interface ParameterReflectionObject extends  ReflectionObject,
 export interface ContainerReflectionObject extends  ReflectionObject,
                                                     Partial<SourceReferenceContainer<SourceReferenceObject>>,
                                                     Partial<GroupsContainer<ReflectionGroupObject>>,
+                                                    Partial<CategoriesContainer<ReflectionCategoryObject>>,
                                                     ContainerReflectionContainer<ReflectionObject> {}
 
 export interface DeclarationReflectionObject extends  ContainerReflectionObject,
@@ -283,6 +288,23 @@ export interface ReflectionGroupObject {
 
   /**
    * A list of reflection id's for this group.
+   */
+  children?: number[];
+
+  /**
+   * A list of categories for this group.
+   */
+  categories?: ReflectionCategoryObject[];
+}
+
+export interface ReflectionCategoryObject {
+  /**
+   * The title, a string representation of the typescript kind, of this category.
+   */
+  title: string;
+
+  /**
+   * A list of reflection id's for this category.
    */
   children?: number[];
 }
