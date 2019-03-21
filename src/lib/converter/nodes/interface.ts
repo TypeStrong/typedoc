@@ -47,13 +47,17 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
                         }
                         const convertedType = this.owner.convertType(context, baseType, type);
                         if (convertedType) {
-                            reflection!.extendedTypes!.push(convertedType);
+                            reflection!.extendedTypes.push(convertedType);
                         }
                     }
 
-                    if (type && type.symbol) {
-                        type.symbol.declarations.forEach((declaration) => {
-                            context.inherit(declaration, baseType.typeArguments);
+                    if (type) {
+                        const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
+
+                        typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
+                            typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
+                                context.inherit(declaration, baseType.typeArguments);
+                            });
                         });
                     }
                 });
