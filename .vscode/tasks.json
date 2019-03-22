@@ -6,7 +6,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "npm run grunt -- default",
+      "command": "npm run build",
       "problemMatcher": [
         "$tsc"
       ]
@@ -14,7 +14,7 @@
     {
       "label": "build_and_test",
       "type": "shell",
-      "command": "npm run grunt -- build_and_test",
+      "command": "npm run build_and_test",
       "problemMatcher": [
         "$tsc"
       ]

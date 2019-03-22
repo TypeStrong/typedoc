@@ -306,7 +306,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @return The resulting reflection or undefined.
      */
     convertNode(context: Context, node: ts.Node): Reflection | undefined {
-        if (context.visitStack.indexOf(node) !== -1) {
+        if (context.visitStack.includes(node)) {
             return;
         }
 

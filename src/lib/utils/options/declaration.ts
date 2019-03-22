@@ -114,7 +114,7 @@ export class OptionDeclaration {
                         value = map.has(key) ? map.get(key) : value;
                     } else if (key in map) {
                         value = map[key];
-                    } else if (values.indexOf(value) === -1 && errorCallback) {
+                    } else if (!values.includes(value) && errorCallback) {
                         if (this.mapError) {
                             errorCallback(this.mapError);
                         } else {

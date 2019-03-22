@@ -218,7 +218,7 @@ export class Context {
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node: ts.SourceFile, callback: Function) {
-        let isExternal = this.fileNames.indexOf(node.fileName) === -1;
+        let isExternal = !this.fileNames.includes(node.fileName);
         if (!isExternal && this.externalPattern) {
             isExternal = this.externalPattern.some(mm => mm.match(node.fileName));
         }
@@ -322,7 +322,7 @@ export class Context {
 
         if (baseNode.symbol) {
             const id = this.getSymbolID(baseNode.symbol)!;
-            if (this.inheritedChildren && this.inheritedChildren.indexOf(id) !== -1) {
+            if (this.inheritedChildren && this.inheritedChildren.includes(id)) {
                 return target;
             } else {
                 this.inheritedChildren = this.inheritedChildren || [];
