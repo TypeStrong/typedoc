@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionKind, ReflectionFlag, ProjectReflection } from '../../models/index';
+import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/index';
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
@@ -22,20 +22,14 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
      * @return The resulting reflection or NULL.
      */
     convert(context: Context, node: ts.ModuleDeclaration): Reflection | undefined {
-        const parent = context.scope;
-        const reflection = createDeclaration(context, node, ReflectionKind.Module);
-
+        const reflection = context.isInherit && context.inheritParent === node
+            ? <DeclarationReflection> context.scope
+            : createDeclaration(context, node, ReflectionKind.Module);
         context.withScope(reflection, () => {
-            if (parent instanceof ProjectReflection && !context.isDeclaration &&
-                (!module || module.valueOf() === ts.ModuleKind.None.valueOf())) {
-                reflection!.setFlag(ReflectionFlag.Exported);
-            }
-
             if (node.body) {
                 this.owner.convertNode(context, node.body);
             }
         });
-
         return reflection;
     }
 }

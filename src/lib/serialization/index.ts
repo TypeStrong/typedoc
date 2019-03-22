@@ -22,6 +22,7 @@ export {
   ParameterReflectionSerializer,
   ProjectReflectionSerializer,
   ReferenceTypeSerializer,
+  ReflectionCategorySerializer,
   ReflectionGroupSerializer,
   ReflectionSerializer,
   ReflectionTypeSerializer,

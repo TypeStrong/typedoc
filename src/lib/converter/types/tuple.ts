@@ -17,7 +17,19 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.TypeReference): boolean {
-        return !!(type.objectFlags & ts.ObjectFlags.Tuple);
+        // If this type is a tuple
+        if (type.objectFlags & ts.ObjectFlags.Tuple) {
+            return true;
+        }
+
+        // If this type points to a tuple
+        if (type.objectFlags & ts.ObjectFlags.Reference) {
+            if (type.target.objectFlags & ts.ObjectFlags.Tuple) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

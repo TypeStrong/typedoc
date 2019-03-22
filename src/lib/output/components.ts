@@ -5,7 +5,7 @@ import { ProjectReflection, DeclarationReflection } from '../models/reflections/
 import { Renderer } from './renderer';
 import { RendererEvent, PageEvent } from './events';
 
-export {Component};
+export { Component };
 
 export abstract class RendererComponent extends AbstractComponent<Renderer> { }
 
