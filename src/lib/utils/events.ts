@@ -2,7 +2,7 @@
 // (c) 2010-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 // Backbone may be freely distributed under the MIT license.
 // For all details and documentation:
-// http://backbonejs.org
+// https://backbonejs.org
 //
 // The Events object is a typesafe conversion of Backbones Events object:
 // https://github.com/jashkenas/backbone/blob/05fde9e201f7e2137796663081105cd6dad12a98/backbone.js#L119-L374
