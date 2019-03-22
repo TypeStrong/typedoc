@@ -1,8 +1,8 @@
 {
   "name": "typedoc",
-  "description": "Create api documentations for typescript projects.",
+  "description": "Create api documentation for TypeScript projects.",
   "version": "0.14.2",
-  "homepage": "http://typedoc.org",
+  "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
@@ -50,18 +50,9 @@
   "devDependencies": {
     "@types/mocha": "^5.2.4",
     "@types/mockery": "^1.4.29",
-    "grunt": "^1.0.3",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-mocha-istanbul": "^5.0.1",
-    "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^6.0.0-beta.21",
-    "grunt-tslint": "^5.0.2",
-    "istanbul": "^0.4.1",
     "mocha": "^5.2.0",
     "mockery": "^2.1.0",
+    "nyc": "^13.1.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0"
   },
@@ -73,13 +64,16 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "grunt test",
-    "build": "grunt build_and_test",
+    "pretest": "node scripts/copy_test_files.js",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+    "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
+    "build": "tsc --project .",
+    "postbuild": "node scripts/replace_application_version.js",
+    "build_and_test": "npm run build && npm run test",
     "lint": "tslint --project .",
-    "prepublishOnly": "grunt build_and_test",
-    "prepare": "grunt default",
-    "grunt": "grunt",
-    "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
+    "prepublishOnly": "npm run lint && npm run build_and_test",
+    "prepare": "npm run build",
+    "clean": "rm -rf node_modules package-lock.json lib coverage"
   },
   "keywords": [
     "typescript",

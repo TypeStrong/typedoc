@@ -17,5 +17,5 @@ before_install: >
   fi
 
 script:
- - npm test
+ - npm run build_and_test
  - npm run lint
