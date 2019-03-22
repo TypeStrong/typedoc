@@ -73,7 +73,6 @@
     "lint": "tslint --project .",
     "prepublishOnly": "npm run lint && npm run build_and_test",
     "prepare": "npm run build",
-    "mocha": "mocha",
     "clean": "rm -rf node_modules package-lock.json lib coverage"
   },
   "keywords": [
