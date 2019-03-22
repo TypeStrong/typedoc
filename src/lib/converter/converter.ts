@@ -274,14 +274,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(fileNames: string[]): ConverterResult {
-        // TODO: This mutates the input array, is this side effect used anywhere? Can it be removed?
-        for (let i = 0, c = fileNames.length; i < c; i++) {
-            fileNames[i] = normalizePath(fileNames[i]);
-        }
+        const normalizedFiles = fileNames.map(normalizePath)
 
-        const program = ts.createProgram(fileNames, this.application.options.getCompilerOptions());
+        const program = ts.createProgram(normalizedFiles, this.application.options.getCompilerOptions());
         const checker = program.getTypeChecker();
-        const context = new Context(this, fileNames, checker, program);
+        const context = new Context(this, normalizedFiles, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 

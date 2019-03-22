@@ -5,6 +5,10 @@ import { Component } from '../../component';
 import { DiscoverEvent, OptionsComponent } from '../options';
 import { ParameterType } from '../declaration';
 
+/**
+ * ASCII Values
+ * https://www.ascii-code.com/
+ */
 enum CharacterCodes {
     space = 0x20,
     doubleQuote = 0x22,
