@@ -30,31 +30,31 @@
     "node": ">= 6.0.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^5.0.3",
+    "@types/fs-extra": "^5.0.5",
     "@types/highlight.js": "^9.12.3",
-    "@types/lodash": "^4.14.110",
+    "@types/lodash": "^4.14.123",
     "@types/marked": "^0.6.0",
     "@types/minimatch": "3.0.3",
-    "@types/shelljs": "^0.8.0",
-    "fs-extra": "^7.0.0",
+    "@types/shelljs": "^0.8.3",
+    "fs-extra": "^7.0.1",
     "handlebars": "^4.1.0",
     "highlight.js": "^9.13.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "marked": "^0.6.0",
     "minimatch": "^3.0.0",
-    "progress": "^2.0.0",
-    "shelljs": "^0.8.2",
+    "progress": "^2.0.3",
+    "shelljs": "^0.8.3",
     "typedoc-default-themes": "^0.5.0",
     "typescript": "3.3.x"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.4",
+    "@types/mocha": "^5.2.6",
     "@types/mockery": "^1.4.29",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "mockery": "^2.1.0",
-    "nyc": "^13.1.0",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.10.0"
+    "nyc": "^13.3.0",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0"
   },
   "files": [
     "bin",
