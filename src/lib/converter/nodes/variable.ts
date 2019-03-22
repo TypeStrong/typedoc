@@ -30,6 +30,7 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
 
     /**
      * Analyze the given variable declaration node and create a suitable reflection.
+     * TODO: the type of `node` is incorrect, it should be a union of ts.PropertySignature | ts.PropertyDeclaration | ...
      *
      * @param context  The context object describing the current state the converter is in.
      * @param node     The variable declaration node that should be analyzed.
@@ -50,9 +51,9 @@ export class VariableConverter extends ConverterNodeComponent<ts.VariableDeclara
 
         let name: string | undefined;
         let isBindingPattern: boolean;
-        if (_ts.isBindingPattern(node.name)) {
-            if (node['propertyName']) {
-                name = _ts.declarationNameToString(node['propertyName']);
+        if (ts.isArrayBindingPattern(node.name) || ts.isObjectBindingPattern(node.name)) {
+            if (ts.isBindingElement(node) && node.propertyName) {
+                name = node.propertyName.getText();
                 isBindingPattern = true;
             } else {
                 return;

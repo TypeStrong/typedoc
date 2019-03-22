@@ -41,12 +41,12 @@ export class DecoratorPlugin extends ConverterComponent {
         args.forEach((arg: ts.Expression, index: number) => {
             if (index < signature.parameters.length) {
                 const parameter = signature.parameters[index];
-                result[parameter.name] = _ts.getTextOfNode(arg);
+                result[parameter.name] = arg.getText();
             } else {
                 if (!result['...']) {
                     result['...'] = [];
                 }
-                result['...'].push(_ts.getTextOfNode(arg));
+                result['...'].push(arg.getText());
             }
         });
 
@@ -90,7 +90,7 @@ export class DecoratorPlugin extends ConverterComponent {
             }
 
             const info: Decorator = {
-                name: _ts.getTextOfNode(identifier)
+                name: identifier.getText()
             };
 
             const type = context.checker.getTypeAtLocation(identifier);
