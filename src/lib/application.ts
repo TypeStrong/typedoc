@@ -221,7 +221,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input: any, out: string): boolean {
+    public generateJson(input: ProjectReflection | string[], out: string): boolean {
         const project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) {
             return false;

@@ -62,7 +62,9 @@ export enum ReflectionKind {
     VariableOrProperty = Variable | Property,
     FunctionOrMethod = ReflectionKind.Function | Method,
     SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
-    SomeModule = Module | ExternalModule
+    SomeModule = Module | ExternalModule,
+    SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
+    SomeValue = Variable | Function | ObjectLiteral
 }
 
 export enum ReflectionFlag {

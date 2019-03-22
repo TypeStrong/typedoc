@@ -62,7 +62,7 @@ describe('TypeDoc', function() {
             application.options.setValue('exclude', '**/+(.dot)/**');
             const expanded = application.expandInputFiles([inputFiles]);
 
-            Assert(!expanded.includes(Path.join(inputFiles, '.dot', 'index.d.ts')));
+            Assert(!expanded.includes(Path.join(inputFiles, '.dot', 'index.ts')));
             Assert(!expanded.includes(inputFiles));
         });
         it('Honors the exclude option even if a module is imported', () => {
