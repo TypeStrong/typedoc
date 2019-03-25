@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { ContainerReflection, DeclarationReflection, ReflectionFlag, ReflectionKind } from '../../models/index';
 import { Context } from '../context';
 import { Converter } from '../converter';
+import { getRawComment } from './comment.js';
 import { createReferenceType } from './reference';
 
 /**
@@ -69,7 +70,11 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
-    if (!isExported && context.converter.excludeNotExported) {
+    if (
+        (!isExported && context.converter.excludeNotExported)
+        ||
+        (context.converter.excludeNotDocumented && !getRawComment(node))
+    ) {
         return;
     }
 

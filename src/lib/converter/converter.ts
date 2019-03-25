@@ -70,6 +70,13 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     excludeNotExported!: boolean;
 
     @Option({
+        name: 'excludeNotDocumented',
+        help: 'Prevent symbols that are not explicitly documented from appearing in the results.',
+        type: ParameterType.Boolean
+    })
+    excludeNotDocumented!: boolean;
+
+    @Option({
         name: 'excludePrivate',
         help: 'Ignores private variables and methods',
         type: ParameterType.Boolean
