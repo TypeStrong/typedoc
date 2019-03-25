@@ -1,4 +1,4 @@
-import * as github from './../lib/converter/plugins/GitHubPlugin';
+import * as github from '../lib/converter/plugins/GitHubPlugin';
 import Assert = require('assert');
 
 describe('GitHubRepository', function() {

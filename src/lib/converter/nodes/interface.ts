@@ -5,6 +5,7 @@ import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
+import { toArray } from 'lodash';
 
 @Component({name: 'node:interface'})
 export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDeclaration> {
@@ -32,14 +33,14 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
 
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
-                node.members.forEach((member, isInherit) => {
+                node.members.forEach((member) => {
                     this.owner.convertNode(context, member);
                 });
             }
 
-            const baseTypes = _ts.getInterfaceBaseTypeNodes(node);
-            if (baseTypes) {
-                baseTypes.forEach((baseType) => {
+            const extendsClause = toArray(node.heritageClauses).find(h => h.token === ts.SyntaxKind.ExtendsKeyword);
+            if (extendsClause) {
+                extendsClause.types.forEach((baseType) => {
                     const type = context.getTypeAtLocation(baseType);
                     if (!context.isInherit) {
                         if (!reflection!.extendedTypes) {

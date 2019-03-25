@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
 
 import { Type, TypeParameterType } from '../../models/types/index';
 import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
@@ -37,7 +36,7 @@ export class TypeParameterConverter extends ConverterTypeComponent implements Ty
      */
     convertNode(context: Context, node: ts.TypeReferenceNode): Type | undefined {
         if (node.typeName) {
-            const name = _ts.getTextOfNode(node.typeName);
+            const name = node.getText();
             if (context.typeParameters && context.typeParameters[name]) {
                 return context.typeParameters[name].clone();
             }

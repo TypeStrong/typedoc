@@ -3,7 +3,7 @@
 > Documentation generator for TypeScript projects.
 
 [![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
-[![NPM Version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
+[![NPM Version](https://badge.fury.io/js/typedoc.svg)](https://badge.fury.io/js/typedoc)
 [![Chat on Gitter](https://badges.gitter.im/TypeStrong/typedoc.svg)](https://gitter.im/TypeStrong/typedoc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Installation
@@ -144,7 +144,7 @@ A list of all published Typedoc plugins can be found on NPM:<br>
 ## Advanced guides and docs
 
 Visit our homepage for advanced guides and an extensive API documentation:<br>
-[http://typedoc.org](http://typedoc.org)
+[https://typedoc.org](https://typedoc.org)
 
 
 ## Contributing
@@ -158,6 +158,6 @@ For more information, read the [contribution guide](https://github.com/TypeStron
 
 ## License
 
-Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2015 [Sebastian Lenz](https://typedoc.org).<br>
 Copyright (c) 2016-2018 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.

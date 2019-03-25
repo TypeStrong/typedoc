@@ -183,7 +183,7 @@ export function createSomething() {
 
 /**
  * See {@linkcode INameInterface} and [INameInterface's name property]{@link INameInterface.name}.
- * Also, check out {@link http://www.google.com|Google} and
+ * Also, check out {@link https://www.google.com|Google} and
  * {@link https://github.com GitHub}.
  *
  * Taken from http://usejsdoc.org/tags-inline-link.html.
