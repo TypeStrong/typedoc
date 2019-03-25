@@ -73,7 +73,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     if (
         (!isExported && context.converter.excludeNotExported)
         ||
-        (context.converter.excludeNotDocumented && !getRawComment(node))
+        (context.converter.excludeNotDocumented && kind !== ReflectionKind.EnumMember && !getRawComment(node))
     ) {
         return;
     }
