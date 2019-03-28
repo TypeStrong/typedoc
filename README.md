@@ -41,8 +41,9 @@ Starting with version 0.2, TypeDoc no longer can predict whether files should be
 or whether the project should be compiled into one big namespace. You must specify the `mode` argument
 in order to change the behaviour of TypeDoc.
 
-
 ### Arguments
+
+For a complete list of the command line arguments run `typedoc --help` or read [here](https://typedoc.org/guides/arguments/).
 
 * `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to.
@@ -64,6 +65,8 @@ in order to change the behaviour of TypeDoc.
   Define a pattern for files that should be considered being external.
 * `--excludeExternals`<br>
   Prevent externally resolved TypeScript files from being documented.
+* `--excludeNotExported`<br>
+  Prevent symbols that are not exported from being documented.
 * `--excludePrivate`<br>
   Prevent private members from being included in the generated documentation.
 * `--excludeProtected`<br>
