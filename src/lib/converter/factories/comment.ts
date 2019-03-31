@@ -129,8 +129,27 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     let shortText = 0;
 
     function consumeTypeData(line: string): string {
-        line = line.replace(/^\{[^\}]*\}+/, '');
-        line = line.replace(/^\[[^\[][^\]]*\]+/, '');
+        // Raynor Chen @ 2019.3.31
+        // Removed these two lines.
+        // Reason: when we have the following comment:
+
+        // /*
+        //  *
+        //  * @param param1 {@link Event} classes. raynor test
+        //  * @param param2
+        //  */
+        // public testMethod1(param1: string, param2: number): string;
+
+        // The {@link Event} will be removed by these two lines.
+
+        // The function "consumeTypeData" only used to parsing @params or tags.
+        // So I think that it should be OK to remove these two lines of code.
+
+        // This two lines of code are here sice 2015. Initially imported by this:
+        // https://github.com/TypeStrong/typedoc/commit/70534bd4f2de74178a97d80c8dcfc57b0caca4a0#diff-247cf0e71d102b082c0985b7eb6de15aR285
+
+        // line = line.replace(/^\{[^\}]*\}+/, '');
+        // line = line.replace(/^\[[^\[][^\]]*\]+/, '');
         return line.trim();
     }
 
