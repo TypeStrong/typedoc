@@ -62,12 +62,13 @@
           "id": 4,
           "name": "myVar",
           "kind": 32,
+          "kindString": "Variable",
           "flags": {
             "isExported": true
           },
           "sources": [
             {
-              "fileName": "%BASE%/variable/variable.ts",
+              "fileName": "variable.ts",
               "line": 3,
               "character": 16
             }

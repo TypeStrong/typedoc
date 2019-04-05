@@ -28,12 +28,13 @@
               "id": 4,
               "name": "name",
               "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isPrivate": true
               },
               "sources": [
                 {
-                  "fileName": "%BASE%/interface-empty/interface-empty.ts",
+                  "fileName": "interface-empty.ts",
                   "line": 12,
                   "character": 16
                 }
@@ -47,6 +48,7 @@
               "id": 5,
               "name": "goto",
               "kind": 2048,
+              "kindString": "Method",
               "flags": {
                 "isPublic": true
               },
@@ -65,7 +67,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "%BASE%/interface-empty/interface-empty.ts",
+                  "fileName": "interface-empty.ts",
                   "line": 13,
                   "character": 15
                 }

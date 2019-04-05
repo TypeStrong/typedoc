@@ -18,6 +18,7 @@
           "id": 4,
           "name": "onError",
           "kind": 64,
+          "kindString": "Function",
           "flags": {
             "isLet": true
           },
@@ -26,6 +27,7 @@
               "id": 5,
               "name": "onError",
               "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
               "type": {
                 "type": "intrinsic",
@@ -35,7 +37,7 @@
           ],
           "sources": [
             {
-              "fileName": "%BASE%/literal-object-callbacks/literal-object-callbacks.ts",
+              "fileName": "literal-object-callbacks.ts",
               "line": 2,
               "character": 11
             }
