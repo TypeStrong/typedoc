@@ -124,6 +124,7 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBegin(context: Context) {
+        this.hidden = undefined;
         this.comments = {};
     }
 
