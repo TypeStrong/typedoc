@@ -283,10 +283,11 @@
                   "id": 5,
                   "name": "valueY",
                   "kind": 32,
+                  "kindString": "Variable",
                   "flags": {},
                   "sources": [
                     {
-                      "fileName": "%BASE%/literal-type/literal-type.ts",
+                      "fileName": "literal-type.ts",
                       "line": 3,
                       "character": 10
                     }
@@ -326,10 +327,11 @@
                   "id": 4,
                   "name": "valueZ",
                   "kind": 32,
+                  "kindString": "Variable",
                   "flags": {},
                   "sources": [
                     {
-                      "fileName": "%BASE%/literal-type/literal-type.ts",
+                      "fileName": "literal-type.ts",
                       "line": 2,
                       "character": 10
                     }

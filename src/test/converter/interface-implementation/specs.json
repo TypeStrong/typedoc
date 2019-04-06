@@ -997,6 +997,7 @@
                   "id": 4,
                   "name": "T",
                   "kind": 131072,
+                  "kindString": "Type parameter",
                   "flags": {}
                 }
               ],
@@ -1005,6 +1006,7 @@
                   "id": 5,
                   "name": "__call",
                   "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "comment": {
                     "shortText": "Function signature of an event listener callback"

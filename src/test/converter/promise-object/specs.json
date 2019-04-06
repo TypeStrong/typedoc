@@ -64,12 +64,13 @@
           "id": 4,
           "name": "z",
           "kind": 32,
+          "kindString": "Variable",
           "flags": {
             "isLet": true
           },
           "sources": [
             {
-              "fileName": "%BASE%/promise-object/promise-object.ts",
+              "fileName": "promise-object.ts",
               "line": 3,
               "character": 5
             }

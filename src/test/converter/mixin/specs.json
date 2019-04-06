@@ -51,6 +51,7 @@
               "id": 4,
               "name": "baseMethod",
               "kind": 2048,
+              "kindString": "Method",
               "flags": {
                 "isExported": true
               },
@@ -59,6 +60,7 @@
                   "id": 5,
                   "name": "baseMethod",
                   "kind": 4096,
+                  "kindString": "Call signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -68,7 +70,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "%BASE%/mixin/mixin.ts",
+                  "fileName": "mixin.ts",
                   "line": 11,
                   "character": 14
                 }
@@ -237,10 +239,12 @@
                     "name": "number"
                   },
                   "overwrites": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   }
@@ -254,10 +258,12 @@
                 }
               ],
               "overwrites": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               }
@@ -583,10 +589,12 @@
                     "name": "number"
                   },
                   "overwrites": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   }
@@ -600,10 +608,12 @@
                 }
               ],
               "overwrites": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               }
@@ -835,10 +845,12 @@
                     "name": "number"
                   },
                   "overwrites": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
+                    "id": 4,
                     "type": "reference",
                     "name": "Base.baseMethod"
                   }
@@ -852,10 +864,12 @@
                 }
               ],
               "overwrites": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
+                "id": 4,
                 "type": "reference",
                 "name": "Base.baseMethod"
               }
