@@ -8,6 +8,9 @@ import { OptionsComponent, OptionsReadMode, DiscoverEvent } from '../options';
 import { ParameterType, ParameterHint } from '../declaration';
 import { TypeScriptSource } from '../sources/typescript';
 
+/**
+ * Obtains option values from tsconfig.json
+ */
 @Component({name: 'options:tsconfig'})
 export class TSConfigReader extends OptionsComponent {
     @Option({
@@ -45,7 +48,7 @@ export class TSConfigReader extends OptionsComponent {
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             const tsconfig = event.data[TSConfigReader.OPTIONS_KEY];
 
-            if (/tsconfig\.json$/.test(tsconfig)) {
+            if (FS.existsSync(tsconfig) && FS.statSync(tsconfig).isFile()) {
                 file = Path.resolve(tsconfig);
             } else {
                 file = ts.findConfigFile(tsconfig, ts.sys.fileExists);
@@ -56,8 +59,14 @@ export class TSConfigReader extends OptionsComponent {
                 return;
             }
         } else if (TSConfigReader.PROJECT_KEY in event.data) {
-            // The `project` option may be a directory or file, so use TS to find it
-            file = ts.findConfigFile(event.data[TSConfigReader.PROJECT_KEY], ts.sys.fileExists);
+            const resolved = Path.resolve(event.data[TSConfigReader.PROJECT_KEY]);
+            // If the file exists, use it
+            if (FS.existsSync(resolved)) {
+                file = resolved;
+            } else {
+                // Use TS to find the file, since it could be a directory
+                file = ts.findConfigFile(resolved, ts.sys.fileExists);
+            }
         } else if (this.application.isCLI) {
             // No file or directory has been specified so find the file in the root of the project
             file = ts.findConfigFile('.', ts.sys.fileExists);

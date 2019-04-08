@@ -45,12 +45,14 @@
               "id": 4,
               "name": "name",
               "kind": 262144,
+              "kindString": "Accessor",
               "flags": {},
               "getSignature": [
                 {
                   "id": 5,
                   "name": "__get",
                   "kind": 524288,
+                  "kindString": "Get signature",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -86,12 +88,12 @@
               ],
               "sources": [
                 {
-                  "fileName": "%BASE%/getter-setter/getter-setter.ts",
+                  "fileName": "getter-setter.ts",
                   "line": 6,
                   "character": 12
                 },
                 {
-                  "fileName": "%BASE%/getter-setter/getter-setter.ts",
+                  "fileName": "getter-setter.ts",
                   "line": 7,
                   "character": 12
                 }

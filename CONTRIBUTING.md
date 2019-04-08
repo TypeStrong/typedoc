@@ -9,6 +9,7 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 1. [How Can I Contribute?](#how-can-i-contribute)
    - [Bug Reports](#bug-reports)
    - [Suggestions](#suggestions)
+   - [Documentation](#documentation)
    - [Code](#code)
 1. [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
 1. [Linting, Building, and Testing](#linting-building-and-testing)
@@ -22,12 +23,12 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 
 This section guides you through submitting a bug report for TypeDoc. Following these guidelines helps others understand your report and resolve the issue.
 
-Before creating a bug report please check [this list][bugs] list to see if it has already been reported. If the issue is closed, please open a new issue and link to the original issue.
+Before creating a bug report please check [this list][bugs] to see if it has already been reported. If the issue is closed, please open a new issue and link it to the original issue.
 
-When creating a bug report, explain the problem and include as much additional information as necessary to help maintainers reproduce it. Ideally, provide an example project which highlights the problem.
+When creating a bug report, explain the problem and include as much additional information as necessary to help maintainers to reproduce it. Ideally, provide an example project which highlights the problem.
 
 - **Use a clear and descriptive title** for the issue to identify the problem
-- **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be fixed quickly.
+- **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be quickly fixed.
 - **Explain what you expected to see instead and why**
 
 ### Suggestions
@@ -41,6 +42,17 @@ When creating an enhancement request, explain your use case and ultimate goal. T
 - **Use a clear and descriptive title** for the issue to identify the suggestion.
 - **Provide an example where this enhancement would improve TypeDoc**
 - **If possible, list another documentation generator where this feature exists**
+
+### Documentation
+
+TypeDoc is documented in 4 primary areas.
+
+- This repo's [README.md](https://github.com/TypeStrong/typedoc/blob/master/README.md)
+- The website guides hosted at [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/)
+- Doc comments of source files which are rendered in the [api docs](https://typedoc.org/api/)
+- The [option descriptions](https://github.com/TypeStrong/typedoc/blob/ce0654295698e2bb2badf5f93d388bd977da3c46/src/lib/application.ts#L66) used by the `--help` command
+
+If you would like to improve the documentation in any of these areas, please open an issue if there isn't one already to discuss what you would like to improve. Then submit a [Pull Request](#pull-requests) to this repo, (or to [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/) in the case of guides).
 
 ### Code
 
@@ -67,7 +79,7 @@ If you don't already have [Git] installed, install it first. You will need it to
    ```bash
    git remote add typedoc https://github.com/TypeStrong/typedoc
    ```
-1. Install dependencies and build the latest version:
+1. Install dependencies:
    ```bash
    npm install
    ```
@@ -85,13 +97,13 @@ You can automatically fix some style problems by running `npm run lint -- --fix`
 
 #### Building
 
-To compile the TypeDoc source, run `npm run grunt`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build`.
+To compile the TypeDoc source, run `npm run build`. This will start the TypeScript compiler and output the compiled JavaScript to the `dist` folder. If you want to build and test in one step, run `npm run build_and_test`.
 
 #### Testing
 
 TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build`.
 
-If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `npm run grunt -- update-specs` to update the spec files for the new output.
+If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `node scripts/rebuild_specs` to update the spec files for the new output.
 
 ## Pull Requests
 

@@ -112,7 +112,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
      */
     private convertLiteral(context: Context, symbol: ts.Symbol, node?: ts.Node): Type | undefined {
         for (let declaration of symbol.declarations) {
-            if (context.visitStack.indexOf(declaration) !== -1) {
+            if (context.visitStack.includes(declaration)) {
                 if (declaration.kind === ts.SyntaxKind.TypeLiteral ||
                         declaration.kind === ts.SyntaxKind.ObjectLiteralExpression) {
                     // TODO: Check if this type assertion is safe and document.

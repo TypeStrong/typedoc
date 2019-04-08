@@ -87,7 +87,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             const statements: ts.Statement[] = [];
 
             node.statements.forEach((statement) => {
-                if (preferred.indexOf(statement.kind) !== -1) {
+                if (preferred.includes(statement.kind)) {
                     this.owner.convertNode(context, statement);
                 } else {
                     statements.push(statement);

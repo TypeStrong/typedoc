@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
+import { toArray } from 'lodash';
 
 import { Comment, CommentTag } from '../../models/comments/index';
 
@@ -32,14 +32,7 @@ export function createComment(node: ts.Node): Comment | undefined {
  * @return TRUE if the given node is the topmost module declaration, FALSE otherwise.
  */
 function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
-    if (node.nextContainer && node.nextContainer.kind === ts.SyntaxKind.ModuleDeclaration) {
-        let next = <ts.ModuleDeclaration> node.nextContainer;
-        if (node.name.end + 1 === next.name.pos) {
-            return false;
-        }
-    }
-
-    return true;
+    return node.getChildren().some(ts.isModuleBlock);
 }
 
 /**
@@ -66,6 +59,29 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
 }
 
 /**
+ * Derived from the internal ts utility
+ * https://github.com/Microsoft/TypeScript/blob/v3.2.2/src/compiler/utilities.ts#L954
+ * @param node
+ * @param text
+ */
+function getJSDocCommentRanges(node: ts.Node, text: string): ts.CommentRange[] {
+    const hasTrailingCommentRanges = [
+        ts.SyntaxKind.Parameter,
+        ts.SyntaxKind.FunctionExpression,
+        ts.SyntaxKind.ArrowFunction,
+        ts.SyntaxKind.ParenthesizedExpression
+    ].includes(node.kind);
+
+    let commentRanges = toArray(ts.getLeadingCommentRanges(text, node.pos));
+    if (hasTrailingCommentRanges) {
+        commentRanges = toArray(ts.getTrailingCommentRanges(text, node.pos)).concat(commentRanges);
+    }
+
+    // True if the comment starts with '/**' but not if it is '/**/'
+    return commentRanges.filter(({ pos }) => text.substr(pos, 3) === '/**' && text[pos + 4] !== '/');
+}
+
+/**
  * Return the raw comment string for the given node.
  *
  * @param node  The node whose comment should be resolved.
@@ -82,9 +98,9 @@ export function getRawComment(node: ts.Node): string | undefined {
         }
     }
 
-    const sourceFile = _ts.getSourceFileOfNode(node);
-    const comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
-    if (comments && comments.length) {
+    const sourceFile = node.getSourceFile();
+    const comments = getJSDocCommentRanges(node, sourceFile.text);
+    if (comments.length) {
         let comment: ts.CommentRange;
         if (node.kind === ts.SyntaxKind.SourceFile) {
             if (comments.length === 1) {

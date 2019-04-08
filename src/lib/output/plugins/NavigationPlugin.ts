@@ -48,7 +48,7 @@ export class NavigationPlugin extends RendererComponent {
             item.isInPath  = false;
             item.isVisible = item.isGlobals;
 
-            if (item.url === page.url || (item.dedicatedUrls && item.dedicatedUrls.indexOf(page.url) !== -1)) {
+            if (item.url === page.url || (item.dedicatedUrls && item.dedicatedUrls.includes(page.url))) {
                 currentItems.push(item);
             }
 

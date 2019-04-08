@@ -100,7 +100,7 @@ export class Repository {
      * @returns TRUE when the file is part of the repository, otherwise FALSE.
      */
     contains(fileName: string): boolean {
-        return this.files.indexOf(fileName) !== -1;
+        return this.files.includes(fileName);
     }
 
     /**
@@ -204,7 +204,7 @@ export class GitHubPlugin extends ConverterComponent {
             if (!this.repositories.hasOwnProperty(path)) {
                 continue;
             }
-            if (fileName.substr(0, path.length) === path) {
+            if (fileName.substr(0, path.length).toLowerCase() === path) {
                 return this.repositories[path];
             }
         }
@@ -212,7 +212,7 @@ export class GitHubPlugin extends ConverterComponent {
         // Try to create a new repository
         const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
         if (repository) {
-            this.repositories[repository.path] = repository;
+            this.repositories[repository.path.toLowerCase()] = repository;
             return repository;
         }
 

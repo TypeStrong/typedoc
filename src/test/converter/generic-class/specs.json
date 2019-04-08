@@ -90,6 +90,7 @@
               "id": 4,
               "name": "value",
               "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -98,7 +99,7 @@
               },
               "sources": [
                 {
-                  "fileName": "%BASE%/generic-class/generic-class.ts",
+                  "fileName": "generic-class.ts",
                   "line": 9,
                   "character": 19
                 }
@@ -112,6 +113,7 @@
               "id": 5,
               "name": "values",
               "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isProtected": true
               },
@@ -120,7 +122,7 @@
               },
               "sources": [
                 {
-                  "fileName": "%BASE%/generic-class/generic-class.ts",
+                  "fileName": "generic-class.ts",
                   "line": 14,
                   "character": 20
                 }
@@ -298,7 +300,8 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "GenericClass.value"
+                "name": "GenericClass.value",
+                "id": 4
               }
             },
             {
@@ -328,7 +331,8 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "GenericClass.values"
+                "name": "GenericClass.values",
+                "id": 5
               }
             },
             {

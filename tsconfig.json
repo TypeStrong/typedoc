@@ -6,7 +6,8 @@
       "es5",
       "es2015.core",
       "es2015.collection",
-      "es2015.iterable"
+      "es2015.iterable",
+      "es2016.array.include" // Supported by Node 6+
     ],
     "target": "es2015",
     "noImplicitAny": false,
@@ -29,6 +30,8 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "src/test/converter/**/*.ts"
+    "src/test/converter/**/*.ts",
+    "src/test/.dot/**/*.ts",
+    "src/test/module/**/*.ts"
   ]
 }

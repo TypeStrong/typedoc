@@ -18,10 +18,11 @@
           "id": 5,
           "name": "destructArrayA",
           "kind": 32,
+          "kindString": "Variable",
           "flags": {},
           "sources": [
             {
-              "fileName": "%BASE%/destructuring/destructuring.ts",
+              "fileName": "destructuring.ts",
               "line": 10,
               "character": 21
             }
@@ -109,11 +110,17 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
           }
         },
         {
@@ -130,11 +137,17 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
           }
         },
         {
@@ -213,10 +226,11 @@
           "id": 4,
           "name": "destructObjectC",
           "kind": 32,
+          "kindString": "Variable",
           "flags": {},
           "sources": [
             {
-              "fileName": "%BASE%/destructuring/destructuring.ts",
+              "fileName": "destructuring.ts",
               "line": 4,
               "character": 56
             }

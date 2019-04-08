@@ -7,9 +7,9 @@ import { ParameterType } from '../utils/options/declaration';
 import { Reflection, Type, ProjectReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { CompilerHost } from './utils/compiler-host';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
+import { createMinimatch } from '../utils/paths';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -81,11 +81,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         type: ParameterType.Boolean
     })
     excludeProtected!: boolean;
-
-    /**
-     * Defined in the initialize method
-     */
-    private compilerHost!: CompilerHost;
 
     /**
      * Defined in the initialize method
@@ -198,7 +193,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      *   must expose the settings that should be used and serves as a global logging endpoint.
      */
     initialize() {
-        this.compilerHost = new CompilerHost(this);
         this.nodeConverters = {};
         this.typeTypeConverters = [];
         this.typeNodeConverters = [];
@@ -280,13 +274,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(fileNames: string[]): ConverterResult {
-        for (let i = 0, c = fileNames.length; i < c; i++) {
-            fileNames[i] = normalizePath(_ts.normalizeSlashes(fileNames[i]));
-        }
+        const normalizedFiles = fileNames.map(normalizePath);
 
-        const program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);
+        const program = ts.createProgram(normalizedFiles, this.application.options.getCompilerOptions());
         const checker = program.getTypeChecker();
-        const context = new Context(this, fileNames, checker, program);
+        const context = new Context(this, normalizedFiles, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
@@ -311,7 +303,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @return The resulting reflection or undefined.
      */
     convertNode(context: Context, node: ts.Node): Reflection | undefined {
-        if (context.visitStack.indexOf(node) !== -1) {
+        if (context.visitStack.includes(node)) {
             return;
         }
 
@@ -384,26 +376,33 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
         const program = context.program;
 
-        program.getSourceFiles().forEach((sourceFile) => {
+        const exclude = createMinimatch(this.application.exclude || []);
+        const isExcluded = (file: ts.SourceFile) => exclude.some(mm => mm.match(file.fileName));
+
+        const includedSourceFiles = program.getSourceFiles()
+            .filter(file => !isExcluded(file));
+        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+
+        includedSourceFiles.forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
 
-        let diagnostics = program.getOptionsDiagnostics();
+        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSyntacticDiagnostics();
+        diagnostics = program.getSyntacticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getGlobalDiagnostics();
+        diagnostics = program.getGlobalDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSemanticDiagnostics();
+        diagnostics = program.getSemanticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
