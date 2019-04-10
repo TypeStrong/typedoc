@@ -40,7 +40,7 @@
     "handlebars": "^4.1.0",
     "highlight.js": "^9.13.1",
     "lodash": "^4.17.11",
-    "marked": "^0.6.0",
+    "marked": "^0.6.2",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
