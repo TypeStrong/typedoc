@@ -169,7 +169,7 @@ export class CategoryPlugin extends ConverterComponent {
         function extractCategoryTag(comment: Comment) {
             const tags = comment.tags;
             if (tags) {
-                let tagIndex = tags.findIndex(tag => tag.tagName === 'category');
+                const tagIndex = tags.findIndex(tag => tag.tagName === 'category');
                 if (tagIndex >= 0) {
                     const tag = tags[tagIndex].text;
                     tags.splice(tagIndex, 1);
