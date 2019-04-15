@@ -1,0 +1,424 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"destructuring\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/destructuring/destructuring.ts",
+      "children": [
+        {
+          "id": 5,
+          "name": "destructArrayA",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 10,
+              "character": 21
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 6,
+          "name": "destructArrayB",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 10,
+              "character": 37
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          }
+        },
+        {
+          "id": 7,
+          "name": "destructArrayC",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 10,
+              "character": 53
+            }
+          ],
+          "type": {
+            "type": "union",
+            "types": [
+              {
+                "type": "unknown",
+                "name": "0"
+              },
+              {
+                "type": "unknown",
+                "name": "10"
+              }
+            ]
+          },
+          "defaultValue": "10"
+        },
+        {
+          "id": 11,
+          "name": "destructArrayWithIgnoresA",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 20,
+              "character": 32
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 12,
+          "name": "destructArrayWithIgnoresRest",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 20,
+              "character": 67
+            }
+          ],
+          "type": {
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": 10,
+          "name": "destructArrayWithRest",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 15,
+              "character": 79
+            }
+          ],
+          "type": {
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
+          }
+        },
+        {
+          "id": 8,
+          "name": "destructArrayWithRestA",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 15,
+              "character": 29
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 9,
+          "name": "destructArrayWithRestB",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 15,
+              "character": 53
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 2,
+          "name": "destructObjectA",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 22
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 3,
+          "name": "destructObjectB",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 39
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          }
+        },
+        {
+          "id": 4,
+          "name": "destructObjectC",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 4,
+              "character": 56
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        },
+        {
+          "id": 13,
+          "name": "drawText",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 14,
+              "name": "drawText",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Destructuring function parameters."
+              },
+              "parameters": [
+                {
+                  "id": 15,
+                  "name": "__namedParameters",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "originalName": "__0",
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 16,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 19,
+                          "name": "bold",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "destructuring.ts",
+                              "line": 25,
+                              "character": 60
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          },
+                          "defaultValue": "false"
+                        },
+                        {
+                          "id": 18,
+                          "name": "location",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "destructuring.ts",
+                              "line": 25,
+                              "character": 45
+                            }
+                          ],
+                          "type": {
+                            "type": "tuple",
+                            "elements": [
+                              {
+                                "type": "intrinsic",
+                                "name": "number"
+                              },
+                              {
+                                "type": "intrinsic",
+                                "name": "number"
+                              }
+                            ]
+                          },
+                          "defaultValue": " [0, 0]"
+                        },
+                        {
+                          "id": 17,
+                          "name": "text",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "destructuring.ts",
+                              "line": 25,
+                              "character": 23
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          },
+                          "defaultValue": "\"\""
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            19,
+                            18,
+                            17
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "destructuring.ts",
+                          "line": 25,
+                          "character": 18
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "destructuring.ts",
+              "line": 25,
+              "character": 17
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            5,
+            6,
+            7,
+            11,
+            12,
+            10,
+            8,
+            9,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            13
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "destructuring.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

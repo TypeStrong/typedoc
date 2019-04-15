@@ -1,0 +1,705 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"react\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/react/react.tsx",
+      "children": [
+        {
+          "id": 5,
+          "name": "Demo",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "children": [
+            {
+              "id": 7,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 8,
+                  "name": "new Demo",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 9,
+                      "name": "props",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "DemoProps",
+                        "id": 2
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Demo",
+                    "id": 5
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "Component.__constructor"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 14,
+                  "character": 23
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "Component.__constructor"
+              }
+            },
+            {
+              "id": 34,
+              "name": "context",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 142,
+                  "character": 15
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "__type"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.context"
+              }
+            },
+            {
+              "id": 6,
+              "name": "foo",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true
+              },
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 14,
+                  "character": 15
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            },
+            {
+              "id": 32,
+              "name": "props",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 140,
+                  "character": 13
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "DemoProps",
+                "id": 2
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.props"
+              }
+            },
+            {
+              "id": 35,
+              "name": "refs",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 143,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "reflection",
+                "declaration": {
+                  "id": 36,
+                  "name": "__type",
+                  "kind": 65536,
+                  "kindString": "Type literal",
+                  "flags": {},
+                  "indexSignature": [
+                    {
+                      "id": 37,
+                      "name": "__index",
+                      "kind": 8192,
+                      "kindString": "Index signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 38,
+                          "name": "key",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "name": "Component",
+                        "typeArguments": [
+                          {
+                            "type": "intrinsic",
+                            "name": "any"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "any"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "react.d.ts",
+                      "line": 143,
+                      "character": 13
+                    }
+                  ]
+                }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.refs"
+              }
+            },
+            {
+              "id": 33,
+              "name": "state",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 141,
+                  "character": 13
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "any"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.state"
+              }
+            },
+            {
+              "id": 27,
+              "name": "forceUpdate",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 28,
+                  "name": "forceUpdate",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 29,
+                      "name": "callBack",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 30,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 31,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "any"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 138,
+                              "character": 30
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Component.forceUpdate"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 138,
+                  "character": 19
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.forceUpdate"
+              }
+            },
+            {
+              "id": 10,
+              "name": "render",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "render",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "Element"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "Component.render"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 23,
+                  "character": 10
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "Component.render"
+              }
+            },
+            {
+              "id": 12,
+              "name": "setState",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 13,
+                  "name": "setState",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 14,
+                      "name": "f",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 15,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 16,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 17,
+                                  "name": "prevState",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "any"
+                                  }
+                                },
+                                {
+                                  "id": 18,
+                                  "name": "props",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "DemoProps",
+                                    "id": 2
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "any"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 136,
+                              "character": 19
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "name": "callback",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 20,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 21,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "any"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 136,
+                              "character": 61
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Component.setState"
+                  }
+                },
+                {
+                  "id": 22,
+                  "name": "setState",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 23,
+                      "name": "state",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    },
+                    {
+                      "id": 24,
+                      "name": "callback",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 25,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 26,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "any"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "react.d.ts",
+                              "line": 137,
+                              "character": 37
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Component.setState"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "react.d.ts",
+                  "line": 136,
+                  "character": 16
+                },
+                {
+                  "fileName": "react.d.ts",
+                  "line": 137,
+                  "character": 16
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Component.setState"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                7
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                34,
+                6,
+                32,
+                35,
+                33
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                27,
+                10,
+                12
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 12,
+              "character": 10
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "Component",
+              "typeArguments": [
+                {
+                  "type": "reference",
+                  "name": "DemoProps",
+                  "id": 2
+                },
+                {
+                  "type": "intrinsic",
+                  "name": "any"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "DemoProps",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {},
+          "children": [
+            {
+              "id": 4,
+              "name": "age",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 8,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            },
+            {
+              "id": 3,
+              "name": "name",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {},
+              "sources": [
+                {
+                  "fileName": "react.tsx",
+                  "line": 7,
+                  "character": 8
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "react.tsx",
+              "line": 6,
+              "character": 19
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            5
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "react.tsx",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

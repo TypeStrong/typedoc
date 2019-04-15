@@ -1,0 +1,201 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"export-with-local\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/export-with-local/export-with-local.ts",
+      "children": [
+        {
+          "id": 7,
+          "name": "localVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 9,
+              "character": 12
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          },
+          "defaultValue": "\"local\""
+        },
+        {
+          "id": 2,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 1,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        },
+        {
+          "id": 3,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 4,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 5,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 6,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 3,
+              "character": 19
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "times",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 9,
+              "name": "times",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 10,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 11,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 11,
+              "character": 14
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            7,
+            2
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            3,
+            8
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-with-local.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

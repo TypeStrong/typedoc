@@ -1,0 +1,396 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"literal-type\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/literal-type/literal-type.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "typeLiteral",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "literal-type.ts",
+              "line": 1,
+              "character": 15
+            }
+          ],
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 3,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 19,
+                  "name": "valueA",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "literal-type.ts",
+                      "line": 9,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 20,
+                  "name": "valueB",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "literal-type.ts",
+                      "line": 10,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  }
+                },
+                {
+                  "id": 8,
+                  "name": "valueX",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal-type.ts",
+                      "line": 4,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 9,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 18,
+                          "name": "valueA",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal-type.ts",
+                              "line": 7,
+                              "character": 14
+                            }
+                          ],
+                          "type": {
+                            "type": "array",
+                            "elementType": {
+                              "type": "intrinsic",
+                              "name": "number"
+                            }
+                          }
+                        },
+                        {
+                          "id": 11,
+                          "name": "valueY",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal-type.ts",
+                              "line": 6,
+                              "character": 14
+                            }
+                          ],
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 12,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {},
+                              "signatures": [
+                                {
+                                  "id": 13,
+                                  "name": "__call",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {},
+                                  "parameters": [
+                                    {
+                                      "id": 14,
+                                      "name": "z",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {},
+                                      "type": {
+                                        "type": "intrinsic",
+                                        "name": "string"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "reflection",
+                                    "declaration": {
+                                      "id": 15,
+                                      "name": "__type",
+                                      "kind": 65536,
+                                      "kindString": "Type literal",
+                                      "flags": {},
+                                      "children": [
+                                        {
+                                          "id": 16,
+                                          "name": "a",
+                                          "kind": 32,
+                                          "kindString": "Variable",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal-type.ts",
+                                              "line": 6,
+                                              "character": 29
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          }
+                                        },
+                                        {
+                                          "id": 17,
+                                          "name": "b",
+                                          "kind": 32,
+                                          "kindString": "Variable",
+                                          "flags": {},
+                                          "sources": [
+                                            {
+                                              "fileName": "literal-type.ts",
+                                              "line": 6,
+                                              "character": 39
+                                            }
+                                          ],
+                                          "type": {
+                                            "type": "intrinsic",
+                                            "name": "string"
+                                          }
+                                        }
+                                      ],
+                                      "groups": [
+                                        {
+                                          "title": "Variables",
+                                          "kind": 32,
+                                          "children": [
+                                            16,
+                                            17
+                                          ]
+                                        }
+                                      ],
+                                      "sources": [
+                                        {
+                                          "fileName": "literal-type.ts",
+                                          "line": 6,
+                                          "character": 27
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "sources": [
+                                {
+                                  "fileName": "literal-type.ts",
+                                  "line": 6,
+                                  "character": 15
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "id": 10,
+                          "name": "valueZ",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "literal-type.ts",
+                              "line": 5,
+                              "character": 14
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            18,
+                            11,
+                            10
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal-type.ts",
+                          "line": 4,
+                          "character": 11
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "valueY",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal-type.ts",
+                      "line": 3,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 6,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "signatures": [
+                        {
+                          "id": 7,
+                          "name": "__call",
+                          "kind": 4096,
+                          "kindString": "Call signature",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "literal-type.ts",
+                          "line": 3,
+                          "character": 11
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 4,
+                  "name": "valueZ",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "literal-type.ts",
+                      "line": 2,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Variables",
+                  "kind": 32,
+                  "children": [
+                    19,
+                    20,
+                    8,
+                    5,
+                    4
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "literal-type.ts",
+                  "line": 1,
+                  "character": 16
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "literal-type.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

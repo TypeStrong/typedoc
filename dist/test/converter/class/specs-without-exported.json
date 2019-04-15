@@ -1,0 +1,1053 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"class\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/class/class.ts",
+      "children": [
+        {
+          "id": 34,
+          "name": "TestAbstractClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true,
+            "isAbstract": true
+          },
+          "children": [
+            {
+              "id": 35,
+              "name": "myAbstractProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isAbstract": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 76,
+                  "character": 31
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 36,
+              "name": "myAbstractMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true,
+                "isAbstract": true
+              },
+              "signatures": [
+                {
+                  "id": 37,
+                  "name": "myAbstractMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 78,
+                  "character": 39
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                35
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                36
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 75,
+              "character": 39
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "TestAbstractClassImplementation",
+              "id": 38
+            }
+          ]
+        },
+        {
+          "id": 38,
+          "name": "TestAbstractClassImplementation",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 39,
+              "name": "myAbstractProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 82,
+                  "character": 22
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "overwrites": {
+                "type": "reference",
+                "name": "TestAbstractClass.myAbstractProperty",
+                "id": 35
+              }
+            },
+            {
+              "id": 40,
+              "name": "myAbstractMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "signatures": [
+                {
+                  "id": 41,
+                  "name": "myAbstractMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestAbstractClass.myAbstractMethod",
+                    "id": 36
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 84,
+                  "character": 30
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestAbstractClass.myAbstractMethod",
+                "id": 36
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                39
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                40
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 81,
+              "character": 44
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TestAbstractClass",
+              "id": 34
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "TestClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "TestClass comment short text.",
+            "text": "TestClass comment text.\n",
+            "tags": [
+              {
+                "tag": "see",
+                "text": "[[TestClass]] @ fixtures\n"
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": 6,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 7,
+                  "name": "new TestClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "TestClass",
+                    "id": 2
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 23,
+                  "character": 37
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "privateProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "privateProperty short text."
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 18,
+                  "character": 27
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "number"
+                }
+              }
+            },
+            {
+              "id": 3,
+              "name": "publicProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "publicProperty short text."
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 13,
+                  "character": 25
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 5,
+              "name": "staticProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "privateProperty short text."
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 23,
+                  "character": 25
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "TestClass",
+                "id": 2
+              }
+            },
+            {
+              "id": 12,
+              "name": "privateMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 13,
+                  "name": "privateMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "privateMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 43,
+                  "character": 25
+                }
+              ]
+            },
+            {
+              "id": 10,
+              "name": "protectedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "signatures": [
+                {
+                  "id": 11,
+                  "name": "protectedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "protectedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 38,
+                  "character": 29
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "name": "publicMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isPublic": true
+              },
+              "signatures": [
+                {
+                  "id": 9,
+                  "name": "publicMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "publicMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 33,
+                  "character": 23
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "staticMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 15,
+                  "name": "staticMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 48,
+                  "character": 23
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                6
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                3,
+                5
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                12,
+                10,
+                8,
+                14
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 8,
+              "character": 22
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "TestSubClass",
+              "id": 16
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "name": "TestSubClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 21,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 25,
+                  "name": "new TestSubClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  },
+                  "parameters": [
+                    {
+                      "id": 26,
+                      "name": "p1",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Constructor param"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    },
+                    {
+                      "id": 27,
+                      "name": "p2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Private string property"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    },
+                    {
+                      "id": 28,
+                      "name": "p3",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Public number property"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 29,
+                      "name": "p4",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Public implicit any property\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "TestSubClass",
+                    "id": 16
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestClass.__constructor",
+                    "id": 6
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 60,
+                  "character": 34
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestClass.__constructor",
+                "id": 6
+              }
+            },
+            {
+              "id": 22,
+              "name": "p2",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true,
+                "isConstructorProperty": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Private string property"
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 70,
+                  "character": 30
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 23,
+              "name": "p3",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isExported": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Public number property"
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 70,
+                  "character": 49
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            },
+            {
+              "id": 24,
+              "name": "p4",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isConstructorProperty": true,
+                "isExported": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "Public implicit any property\n"
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 70,
+                  "character": 68
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "any"
+              }
+            },
+            {
+              "id": 30,
+              "name": "publicProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isPublic": true
+              },
+              "comment": {
+                "shortText": "publicProperty short text."
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 13,
+                  "character": 25
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "TestClass.publicProperty",
+                "id": 3
+              }
+            },
+            {
+              "id": 31,
+              "name": "staticProperty",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "privateProperty short text."
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 23,
+                  "character": 25
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "TestClass",
+                "id": 2
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "TestClass.staticProperty",
+                "id": 5
+              }
+            },
+            {
+              "id": 42,
+              "name": "mergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 43,
+                  "name": "mergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "mergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 91,
+                  "character": 16
+                }
+              ]
+            },
+            {
+              "id": 19,
+              "name": "protectedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isProtected": true
+              },
+              "signatures": [
+                {
+                  "id": 20,
+                  "name": "protectedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "protectedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestClass.protectedMethod",
+                    "id": 10
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 60,
+                  "character": 29
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestClass.protectedMethod",
+                "id": 10
+              }
+            },
+            {
+              "id": 17,
+              "name": "publicMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true,
+                "isPublic": true
+              },
+              "signatures": [
+                {
+                  "id": 18,
+                  "name": "publicMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "publicMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "overwrites": {
+                    "type": "reference",
+                    "name": "TestClass.publicMethod",
+                    "id": 8
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 55,
+                  "character": 23
+                }
+              ],
+              "overwrites": {
+                "type": "reference",
+                "name": "TestClass.publicMethod",
+                "id": 8
+              }
+            },
+            {
+              "id": 44,
+              "name": "staticMergedMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 45,
+                  "name": "staticMergedMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMergedMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 98,
+                  "character": 38
+                }
+              ]
+            },
+            {
+              "id": 32,
+              "name": "staticMethod",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 33,
+                  "name": "staticMethod",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "staticMethod short text."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "TestClass.staticMethod",
+                    "id": 14
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 48,
+                  "character": 23
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "TestClass.staticMethod",
+                "id": 14
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                21
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                22,
+                23,
+                24,
+                30,
+                31
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                42,
+                19,
+                17,
+                44,
+                32
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 51,
+              "character": 25
+            },
+            {
+              "fileName": "class.ts",
+              "line": 87,
+              "character": 29
+            },
+            {
+              "fileName": "class.ts",
+              "line": 94,
+              "character": 26
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TestClass",
+              "id": 2
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            34,
+            38,
+            2,
+            16
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "class.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

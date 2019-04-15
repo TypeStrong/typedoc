@@ -1,0 +1,112 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"variable\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/variable/variable.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "myConst",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 1,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "15"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 3,
+          "name": "myLet",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 2,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        },
+        {
+          "id": 4,
+          "name": "myVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true
+          },
+          "sources": [
+            {
+              "fileName": "variable.ts",
+              "line": 3,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          },
+          "defaultValue": "15"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "variable.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

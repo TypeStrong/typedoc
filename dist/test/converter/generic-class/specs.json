@@ -1,0 +1,454 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"generic-class\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/generic-class/generic-class.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "GenericClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "GenericClass short text."
+          },
+          "typeParameter": [
+            {
+              "id": 3,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "comment": {
+                "shortText": "Generic parameter.\n"
+              }
+            }
+          ],
+          "children": [
+            {
+              "id": 6,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 7,
+                  "name": "new GenericClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  },
+                  "parameters": [
+                    {
+                      "id": 8,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Constructor parameter.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "T"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "GenericClass",
+                    "id": 2
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 25
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "name": "value",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property."
+              },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 19
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T"
+              }
+            },
+            {
+              "id": 5,
+              "name": "values",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property array."
+              },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 20
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
+              }
+            },
+            {
+              "id": 9,
+              "name": "getValue",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 10,
+                  "name": "getValue",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "getValue short text.",
+                    "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 12
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                6
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4,
+                5
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                9
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 5,
+              "character": 18
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "NonGenericClass",
+              "id": 11
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "NonGenericClass",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {},
+          "comment": {
+            "shortText": "NonGenericClass short text."
+          },
+          "children": [
+            {
+              "id": 14,
+              "name": "constructor",
+              "kind": 512,
+              "kindString": "Constructor",
+              "flags": {},
+              "comment": {
+                "shortText": "Constructor short text."
+              },
+              "signatures": [
+                {
+                  "id": 15,
+                  "name": "new NonGenericClass",
+                  "kind": 16384,
+                  "kindString": "Constructor signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Constructor short text."
+                  },
+                  "parameters": [
+                    {
+                      "id": 16,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "shortText": "Constructor parameter.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "NonGenericClass",
+                    "id": 11
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "GenericClass.__constructor",
+                    "id": 6
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 25
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.__constructor",
+                "id": 6
+              }
+            },
+            {
+              "id": 12,
+              "name": "value",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property."
+              },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 9,
+                  "character": 19
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.value",
+                "id": 4
+              }
+            },
+            {
+              "id": 13,
+              "name": "values",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isProtected": true
+              },
+              "comment": {
+                "shortText": "Generic property array."
+              },
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 14,
+                  "character": 20
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.values",
+                "id": 5
+              }
+            },
+            {
+              "id": 17,
+              "name": "getValue",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 18,
+                  "name": "getValue",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "getValue short text.",
+                    "returns": "Return value comment.\n"
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "GenericClass.getValue",
+                    "id": 9
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "generic-class.ts",
+                  "line": 28,
+                  "character": 12
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "GenericClass.getValue",
+                "id": 9
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Constructors",
+              "kind": 512,
+              "children": [
+                14
+              ]
+            },
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                12,
+                13
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                17
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-class.ts",
+              "line": 37,
+              "character": 21
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "GenericClass",
+              "id": 2,
+              "typeArguments": [
+                {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2,
+            11
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-class.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

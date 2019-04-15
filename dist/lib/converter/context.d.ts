@@ -1,0 +1,36 @@
+import * as ts from 'typescript';
+import { Logger } from '../utils/loggers';
+import { Reflection, ProjectReflection, Type } from '../models/index';
+import { Converter } from './converter';
+export declare class Context {
+    converter: Converter;
+    fileNames: string[];
+    checker: ts.TypeChecker;
+    program: ts.Program;
+    project: ProjectReflection;
+    scope: Reflection;
+    isExternal?: boolean;
+    isDeclaration?: boolean;
+    typeParameters?: ts.MapLike<Type>;
+    typeArguments?: Type[];
+    isInherit?: boolean;
+    inheritParent?: ts.Node;
+    inheritedChildren?: number[];
+    inherited?: string[];
+    visitStack: ts.Node[];
+    private symbolID;
+    private externalPattern?;
+    constructor(converter: Converter, fileNames: string[], checker: ts.TypeChecker, program: ts.Program);
+    getCompilerOptions(): ts.CompilerOptions;
+    getTypeAtLocation(node: ts.Node): ts.Type | undefined;
+    getLogger(): Logger;
+    getSymbolID(symbol: ts.Symbol | undefined): number | undefined;
+    registerReflection(reflection: Reflection, node?: ts.Node, symbol?: ts.Symbol): void;
+    trigger(name: string, reflection: Reflection, node?: ts.Node): void;
+    withSourceFile(node: ts.SourceFile, callback: Function): void;
+    withScope(scope: Reflection | undefined, callback: () => void): void;
+    withScope(scope: Reflection | undefined, parameters: ts.NodeArray<ts.TypeParameterDeclaration> | undefined, callback: () => void): void;
+    withScope(scope: Reflection | undefined, parameters: ts.NodeArray<ts.TypeParameterDeclaration> | undefined, preserve: boolean, callback: () => void): void;
+    inherit(baseNode: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection;
+    private extractTypeParameters;
+}
