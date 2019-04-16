@@ -104,11 +104,14 @@ export class SourcePlugin extends ConverterComponent {
         if (!reflection.sources) {
             reflection.sources = [];
         }
+
+        const sources = reflection.sources;
+
         if (reflection instanceof DeclarationReflection) {
             file.reflections.push(reflection);
         }
 
-        reflection.sources!.push({
+        sources.push({
             file: file,
             fileName: fileName,
             line: position.line + 1,
