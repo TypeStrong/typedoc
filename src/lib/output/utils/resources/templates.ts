@@ -3,10 +3,10 @@ import * as Handlebars from 'handlebars';
 import { readFile } from '../../../utils/fs';
 import { ResourceStack, Resource } from './stack';
 
-export class Template extends Resource {
-    private template?: HandlebarsTemplateDelegate;
+export class Template<T = any> extends Resource {
+    private template?: TemplateDelegate<T>;
 
-    getTemplate(): HandlebarsTemplateDelegate {
+    getTemplate(): TemplateDelegate<T> {
         if (!this.template) {
             const raw = readFile(this.fileName);
             this.template = Handlebars.compile(raw, {
