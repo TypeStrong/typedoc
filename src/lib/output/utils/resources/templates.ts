@@ -4,9 +4,9 @@ import { readFile } from '../../../utils/fs';
 import { ResourceStack, Resource } from './stack';
 
 export class Template<T = any> extends Resource {
-    private template?: TemplateDelegate<T>;
+    private template?: Handlebars.TemplateDelegate<T>;
 
-    getTemplate(): TemplateDelegate<T> {
+    getTemplate(): Handlebars.TemplateDelegate<T> {
         if (!this.template) {
             const raw = readFile(this.fileName);
             this.template = Handlebars.compile(raw, {
