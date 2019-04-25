@@ -66,5 +66,11 @@ describe('Paths', () => {
       Assert(!mms[0].match(Path.resolve('some/path')), "Didn't match a negated expression");
       Assert(mms[1].match(Path.resolve('some/path')), "Didn't match a doubly negated expression");
     });
+
+    it('Minimatch does not match commented expressions', () => {
+      const [mm] = createMinimatch(['#/some/path']);
+
+      Assert(!mm.match('#/some/path'), "Didn't match a commented expression");
+    });
   });
 });
