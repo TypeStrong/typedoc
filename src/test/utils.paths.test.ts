@@ -58,5 +58,13 @@ describe('Paths', () => {
       Assert(mm.match(absolutePath('/some/path/.dot/dir')), 'Didn\'t match .dot path');
       Assert(mm.match(absolutePath('/some/path/normal/dir')), 'Didn\'t match normal path');
     });
+
+    it('Minimatch matches negated expressions', () => {
+      const paths = ['!./some/path', '!!./some/path'];
+      const mms = createMinimatch(paths);
+
+      Assert(!mms[0].match(Path.resolve('some/path')), "Didn't match a negated expression");
+      Assert(mms[1].match(Path.resolve('some/path')), "Didn't match a doubly negated expression");
+    });
   });
 });
