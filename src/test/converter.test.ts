@@ -98,6 +98,60 @@ describe('Converter', function() {
     });
 });
 
+describe('Converter with categorizeByGroup=false', function() {
+    const base = Path.join(__dirname, 'converter');
+    const categoryDir = Path.join(base, 'category');
+    const classDir = Path.join(base, 'class');
+    let app: Application;
+
+    before('constructs', function() {
+        app = new Application({
+            mode:   'Modules',
+            logger: 'none',
+            target: 'ES5',
+            module: 'CommonJS',
+            experimentalDecorators: true,
+            categorizeByGroup: false,
+            jsx: 'react'
+        });
+    });
+
+    let result: ProjectReflection | undefined;
+
+    describe('category', () => {
+        it('converts fixtures', function() {
+            resetReflectionID();
+            result = app.convert(app.expandInputFiles([categoryDir]));
+            Assert(result instanceof ProjectReflection, 'No reflection returned');
+        });
+
+        it('matches specs', function() {
+            const specs = JSON.parse(FS.readFileSync(Path.join(categoryDir, 'specs-with-lump-categories.json')).toString());
+            let data = JSON.stringify(result!.toObject(), null, '  ');
+            data = data.split(normalizePath(base)).join('%BASE%');
+
+            compareReflections(JSON.parse(data), specs);
+        });
+    });
+
+    // verify that no categories are used when not specified during lump categorization
+    describe('class', () => {
+        it('converts fixtures', function() {
+            resetReflectionID();
+            result = app.convert(app.expandInputFiles([classDir]));
+            Assert(result instanceof ProjectReflection, 'No reflection returned');
+        });
+
+        it('matches specs', function() {
+            const specs = JSON.parse(FS.readFileSync(Path.join(classDir, 'specs.json')).toString());
+            let data = JSON.stringify(result!.toObject(), null, '  ');
+            data = data.split(normalizePath(base)).join('%BASE%');
+
+            compareReflections(JSON.parse(data), specs);
+        });
+    });
+});
+
 describe('Converter with excludeNotExported=true', function() {
     const base = Path.join(__dirname, 'converter');
     const exportWithLocalDir = Path.join(base, 'export-with-local');
