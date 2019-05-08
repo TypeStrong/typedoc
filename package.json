@@ -80,5 +80,14 @@
     "documentation",
     "generator",
     "gruntplugin"
-  ]
+  ],
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ]
+  }
 }
