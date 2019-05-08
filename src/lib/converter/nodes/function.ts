@@ -43,7 +43,7 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
                 if (!method!.signatures) {
                     method!.signatures = [];
                 }
-                method!.signatures!.push(signature);
+                method!.signatures.push(signature);
             } else {
                 context.trigger(Converter.EVENT_FUNCTION_IMPLEMENTATION, method!, <ts.Node> node);
             }

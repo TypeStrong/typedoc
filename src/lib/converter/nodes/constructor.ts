@@ -44,7 +44,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
                     signature.type = new ReferenceType(parent.name, ReferenceType.SYMBOL_ID_RESOLVED, parent);
                 }
                 method!.signatures = method!.signatures || [];
-                method!.signatures!.push(signature);
+                method!.signatures.push(signature);
             } else {
                 context.trigger(Converter.EVENT_FUNCTION_IMPLEMENTATION, method!, node);
             }

@@ -25,6 +25,10 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
             result.groups = container.groups.map(group => this.owner.toObject(group));
         }
 
+        if (container.categories && container.categories.length > 0) {
+            result.categories = container.categories.map(category => this.owner.toObject(category));
+        }
+
         if (container.sources && container.sources.length > 0) {
             result.sources = container.sources.map(source =>
                 this.owner.toObject(

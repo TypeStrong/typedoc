@@ -1,7 +1,6 @@
 import * as Path from 'path';
 
 import { Reflection } from '../reflections/abstract';
-import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { SourceDirectory } from './directory';
 
@@ -80,11 +79,6 @@ export class SourceFile {
      * A grouped list of the reflections declared in this file.
      */
     groups?: ReflectionGroup[];
-
-    /**
-     * A categorized list of the reflections declared in this file.
-     */
-    categories?: ReflectionCategory[];
 
     /**
      * Create a new SourceFile instance.

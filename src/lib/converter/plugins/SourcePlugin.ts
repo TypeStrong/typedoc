@@ -90,8 +90,8 @@ export class SourcePlugin extends ConverterComponent {
         if (!node) {
             return;
         }
-        const sourceFile      = _ts.getSourceFileOfNode(node);
-        const fileName        = sourceFile.fileName;
+        const sourceFile = node.getSourceFile();
+        const fileName = sourceFile.fileName;
         const file: SourceFile = this.getSourceFile(fileName, context.project);
 
         let position: ts.LineAndCharacter;
@@ -101,14 +101,15 @@ export class SourcePlugin extends ConverterComponent {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
         }
 
-        if (!reflection.sources) {
-            reflection.sources = [];
-        }
         if (reflection instanceof DeclarationReflection) {
             file.reflections.push(reflection);
         }
 
-        reflection.sources!.push({
+        if (!reflection.sources) {
+            reflection.sources = [];
+        }
+
+        reflection.sources.push({
             file: file,
             fileName: fileName,
             line: position.line + 1,

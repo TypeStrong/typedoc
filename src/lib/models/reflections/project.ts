@@ -1,7 +1,6 @@
 import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
-import { ReflectionCategory } from '../ReflectionCategory';
 
 /**
  * A reflection that represents the root of the project.
@@ -26,11 +25,6 @@ export class ProjectReflection extends ContainerReflection {
      * A list of all source files within the project.
      */
     files: SourceFile[] = [];
-
-    /**
-     * All reflections categorized.
-     */
-    categories?: ReflectionCategory[];
 
     /**
      * The name of the project.
@@ -85,21 +79,12 @@ export class ProjectReflection extends ContainerReflection {
     }
 
     /**
-     * @param name  The name to look for. Might contain a hierarchy.
-     */
-    findReflectionByName(name: string): Reflection;
-
-    /**
-     * @param names  The name hierarchy to look for.
-     */
-    findReflectionByName(names: string[]): Reflection;
-
-    /**
      * Try to find a reflection by its name.
      *
+     * @param names The name hierarchy to look for, if a string, the name will be split on "."
      * @return The found reflection or undefined.
      */
-    findReflectionByName(arg: any): Reflection | undefined {
+    findReflectionByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
         const name = names.pop();
 

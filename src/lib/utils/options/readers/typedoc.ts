@@ -50,7 +50,7 @@ export class TypedocReader extends OptionsComponent {
                 return;
             }
         } else if (this.application.isCLI) {
-            file = this.findTypedocFile();
+            file = this.findTypedocFile(process.cwd());
         }
 
         file && this.load(event, file);
@@ -63,8 +63,10 @@ export class TypedocReader extends OptionsComponent {
      *   typedoc file will be attempted to be found at the root of this path
      * @return the typedoc.(js|json) file path or undefined
      */
-    findTypedocFile(path: string = process.cwd()): string | undefined {
-        if (/typedoc\.js(on)?$/.test(path)) {
+    findTypedocFile(path: string): string | undefined {
+        path = Path.resolve(path);
+
+        if (FS.existsSync(path) && FS.statSync(path).isFile()) {
             return path;
         }
 

@@ -1,0 +1,163 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"clodule-with-subclass\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/clodule-with-subclass/clodule-with-subclass.ts",
+      "children": [
+        {
+          "id": 3,
+          "name": "Bar",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 4,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "clodule-with-subclass.ts",
+                  "line": 4,
+                  "character": 16
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "1"
+              },
+              "defaultValue": "1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                4
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "clodule-with-subclass.ts",
+              "line": 7,
+              "character": 16
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "Foo",
+              "id": 2
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Foo",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 5,
+              "name": "x",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "clodule-with-subclass.ts",
+                  "line": 4,
+                  "character": 16
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "1"
+              },
+              "defaultValue": "1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "clodule-with-subclass.ts",
+              "line": 2,
+              "character": 16
+            },
+            {
+              "fileName": "clodule-with-subclass.ts",
+              "line": 3,
+              "character": 20
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "name": "Bar",
+              "id": 3
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            3,
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "clodule-with-subclass.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

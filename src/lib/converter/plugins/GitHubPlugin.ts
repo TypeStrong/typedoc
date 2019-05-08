@@ -100,7 +100,7 @@ export class Repository {
      * @returns TRUE when the file is part of the repository, otherwise FALSE.
      */
     contains(fileName: string): boolean {
-        return this.files.indexOf(fileName) !== -1;
+        return this.files.includes(fileName);
     }
 
     /**

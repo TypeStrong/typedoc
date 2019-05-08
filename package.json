@@ -1,8 +1,8 @@
 {
   "name": "typedoc",
-  "description": "Create api documentations for typescript projects.",
-  "version": "0.13.0",
-  "homepage": "http://typedoc.org",
+  "description": "Create api documentation for TypeScript projects.",
+  "version": "0.15.0-0",
+  "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
@@ -30,41 +30,31 @@
     "node": ">= 6.0.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^5.0.3",
-    "@types/handlebars": "^4.0.38",
+    "@types/fs-extra": "^5.0.5",
     "@types/highlight.js": "^9.12.3",
-    "@types/lodash": "^4.14.110",
-    "@types/marked": "^0.4.0",
+    "@types/lodash": "^4.14.123",
+    "@types/marked": "^0.6.0",
     "@types/minimatch": "3.0.3",
-    "@types/shelljs": "^0.8.0",
-    "fs-extra": "^7.0.0",
-    "handlebars": "^4.0.6",
-    "highlight.js": "9.12.0",
-    "lodash": "^4.17.10",
-    "marked": "^0.4.0",
+    "@types/shelljs": "^0.8.3",
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.2",
+    "highlight.js": "^9.13.1",
+    "lodash": "^4.17.11",
+    "marked": "^0.6.2",
     "minimatch": "^3.0.0",
-    "progress": "^2.0.0",
-    "shelljs": "^0.8.2",
-    "typedoc-default-themes": "^0.5.0",
-    "typescript": "3.1.x"
+    "progress": "^2.0.3",
+    "shelljs": "^0.8.3",
+    "typedoc-default-themes": "^0.6.0-0",
+    "typescript": "3.4.x"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.4",
+    "@types/mocha": "^5.2.6",
     "@types/mockery": "^1.4.29",
-    "grunt": "^1.0.3",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-mocha-istanbul": "^5.0.1",
-    "grunt-string-replace": "^1.2.0",
-    "grunt-ts": "^6.0.0-beta.21",
-    "grunt-tslint": "^5.0.2",
-    "istanbul": "^0.4.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.4",
     "mockery": "^2.1.0",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.10.0"
+    "nyc": "^14.0.0",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0"
   },
   "files": [
     "bin",
@@ -74,18 +64,30 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "grunt test",
-    "build": "grunt build_and_test",
+    "pretest": "node scripts/copy_test_files.js",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+    "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
+    "build": "tsc --project .",
+    "postbuild": "node scripts/replace_application_version.js",
+    "build_and_test": "npm run build && npm run test",
     "lint": "tslint --project .",
-    "prepublishOnly": "grunt build_and_test",
-    "prepare": "grunt default",
-    "grunt": "grunt",
-    "clean": "rm -rf node_modules package-lock.json lib coverage .tscache"
+    "prepublishOnly": "npm run lint && npm run build_and_test",
+    "prepare": "npm run build",
+    "clean": "rm -rf node_modules package-lock.json lib coverage"
   },
   "keywords": [
     "typescript",
     "documentation",
     "generator",
     "gruntplugin"
-  ]
+  ],
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ]
+  }
 }

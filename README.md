@@ -3,7 +3,7 @@
 > Documentation generator for TypeScript projects.
 
 [![Build Status](https://travis-ci.org/TypeStrong/typedoc.svg?branch=master)](https://travis-ci.org/TypeStrong/typedoc)
-[![NPM Version](https://badge.fury.io/js/typedoc.svg)](http://badge.fury.io/js/typedoc)
+[![NPM Version](https://badge.fury.io/js/typedoc.svg)](https://badge.fury.io/js/typedoc)
 [![Chat on Gitter](https://badges.gitter.im/TypeStrong/typedoc.svg)](https://gitter.im/TypeStrong/typedoc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Installation
@@ -41,8 +41,9 @@ Starting with version 0.2, TypeDoc no longer can predict whether files should be
 or whether the project should be compiled into one big namespace. You must specify the `mode` argument
 in order to change the behaviour of TypeDoc.
 
-
 ### Arguments
+
+For a complete list of the command line arguments run `typedoc --help` or read [here](https://typedoc.org/guides/arguments/).
 
 * `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to.
@@ -64,6 +65,8 @@ in order to change the behaviour of TypeDoc.
   Define a pattern for files that should be considered being external.
 * `--excludeExternals`<br>
   Prevent externally resolved TypeScript files from being documented.
+* `--excludeNotExported`<br>
+  Prevent symbols that are not exported from being documented.
 * `--excludePrivate`<br>
   Prevent private members from being included in the generated documentation.
 * `--excludeProtected`<br>
@@ -144,7 +147,7 @@ A list of all published Typedoc plugins can be found on NPM:<br>
 ## Advanced guides and docs
 
 Visit our homepage for advanced guides and an extensive API documentation:<br>
-[http://typedoc.org](http://typedoc.org)
+[https://typedoc.org](https://typedoc.org)
 
 
 ## Contributing
@@ -158,6 +161,6 @@ For more information, read the [contribution guide](https://github.com/TypeStron
 
 ## License
 
-Copyright (c) 2015 [Sebastian Lenz](http://typedoc.org).<br>
+Copyright (c) 2015 [Sebastian Lenz](https://typedoc.org).<br>
 Copyright (c) 2016-2018 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.

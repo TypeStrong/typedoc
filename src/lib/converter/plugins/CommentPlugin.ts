@@ -63,7 +63,7 @@ export class CommentPlugin extends ConverterComponent {
     }
 
     private storeModuleComment(comment: string, reflection: Reflection) {
-        const isPreferred = (comment.toLowerCase().indexOf('@preferred') !== -1);
+        const isPreferred = (comment.toLowerCase().includes('@preferred'));
 
         if (this.comments[reflection.id]) {
             const info = this.comments[reflection.id];
@@ -124,6 +124,7 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBegin(context: Context) {
+        this.hidden = undefined;
         this.comments = {};
     }
 
@@ -322,7 +323,7 @@ export class CommentPlugin extends ConverterComponent {
         });
 
         for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.indexOf(project.symbolMapping[key]) !== -1) {
+            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.includes(project.symbolMapping[key])) {
                 delete project.symbolMapping[key];
             }
         }

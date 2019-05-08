@@ -125,6 +125,7 @@
               "id": 4,
               "name": "x",
               "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isConstructorProperty": true,
                 "isPublic": true
@@ -134,7 +135,7 @@
               },
               "sources": [
                 {
-                  "fileName": "%BASE%/constructor-properties/constructor-properties.ts",
+                  "fileName": "constructor-properties.ts",
                   "line": 11,
                   "character": 24
                 }
@@ -148,6 +149,7 @@
               "id": 5,
               "name": "y",
               "kind": 1024,
+              "kindString": "Property",
               "flags": {
                 "isConstructorProperty": true,
                 "isPublic": true
@@ -157,7 +159,7 @@
               },
               "sources": [
                 {
-                  "fileName": "%BASE%/constructor-properties/constructor-properties.ts",
+                  "fileName": "constructor-properties.ts",
                   "line": 11,
                   "character": 41
                 }
@@ -362,7 +364,8 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Vector2.x"
+                "name": "Vector2.x",
+                "id": 4
               }
             },
             {
@@ -390,7 +393,8 @@
               },
               "overwrites": {
                 "type": "reference",
-                "name": "Vector2.y"
+                "name": "Vector2.y",
+                "id": 5
               }
             },
             {

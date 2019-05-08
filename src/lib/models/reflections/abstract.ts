@@ -62,7 +62,9 @@ export enum ReflectionKind {
     VariableOrProperty = Variable | Property,
     FunctionOrMethod = ReflectionKind.Function | Method,
     SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
-    SomeModule = Module | ExternalModule
+    SomeModule = Module | ExternalModule,
+    SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
+    SomeValue = Variable | Function | ObjectLiteral
 }
 
 export enum ReflectionFlag {
@@ -219,12 +221,12 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
         if (!set && this.hasFlag(flag)) {
-            if (relevantFlags.indexOf(flag) !== -1) {
+            if (relevantFlags.includes(flag)) {
                 this.splice(this.indexOf(name), 1);
             }
             this.flags ^= flag;
         } else if (set && !this.hasFlag(flag)) {
-            if (relevantFlags.indexOf(flag) !== -1) {
+            if (relevantFlags.includes(flag)) {
                 this.push(name);
             }
             this.flags |= flag;
@@ -256,7 +258,11 @@ export enum TraverseProperty {
 }
 
 export interface TraverseCallback {
-    (reflection: Reflection, property: TraverseProperty): void;
+    /**
+     * May return false to bail out of any further iteration. To preserve backwards compatibility, if
+     * a function returns undefined, iteration must continue.
+     */
+    (reflection: Reflection, property: TraverseProperty): boolean | void;
 }
 
 /**
@@ -441,7 +447,7 @@ export abstract class Reflection {
                 target._aliases = [];
             }
             let suffix = '', index = 0;
-            while (target._aliases.indexOf(alias + suffix) !== -1) {
+            while (target._aliases.includes(alias + suffix)) {
                 suffix = '-' + (++index).toString();
             }
 
@@ -467,19 +473,10 @@ export abstract class Reflection {
     }
 
     /**
-     * @param name  The name of the child to look for. Might contain a hierarchy.
-     */
-    getChildByName(name: string): Reflection;
-
-    /**
-     * @param names  The name hierarchy of the child to look for.
-     */
-    getChildByName(names: string[]): Reflection;
-
-    /**
      * Return a child by its name.
      *
-     * @returns The found child or NULL.
+     * @param names The name hierarchy of the child to look for.
+     * @returns The found child or undefined.
      */
     getChildByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
@@ -490,9 +487,10 @@ export abstract class Reflection {
             if (child.name === name) {
                 if (names.length <= 1) {
                     result = child;
-                } else if (child) {
+                } else {
                     result = child.getChildByName(names.slice(1));
                 }
+                return false;
             }
         });
 
@@ -548,7 +546,7 @@ export abstract class Reflection {
         const lines = [indent + this.toString()];
 
         indent += '  ';
-        this.traverse((child, property) => {
+        this.traverse((child) => {
             lines.push(child.toStringHierarchy(indent));
         });
 

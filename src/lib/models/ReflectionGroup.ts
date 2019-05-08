@@ -1,4 +1,5 @@
 import { Reflection, ReflectionKind } from './reflections/abstract';
+import { ReflectionCategory } from './ReflectionCategory';
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -61,6 +62,11 @@ export class ReflectionGroup {
      * Are any children exported declarations?
      */
     someChildrenAreExported?: boolean;
+
+    /**
+     * Categories contained within this group.
+     */
+    categories?: ReflectionCategory[];
 
     /**
      * Create a new ReflectionGroup instance.

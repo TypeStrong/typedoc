@@ -35,6 +35,7 @@
                   "id": 4,
                   "name": "x",
                   "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",
@@ -45,6 +46,7 @@
                   "id": 5,
                   "name": "y",
                   "kind": 32768,
+                  "kindString": "Parameter",
                   "flags": {},
                   "type": {
                     "type": "intrinsic",

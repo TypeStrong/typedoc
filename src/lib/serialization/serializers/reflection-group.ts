@@ -30,6 +30,10 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
             result.children = group.children.map(child => child.id);
         }
 
+        if (group.categories && group.categories.length > 0) {
+            result.categories = group.categories.map(category => this.owner.toObject(category));
+        }
+
         return result;
     }
 }
