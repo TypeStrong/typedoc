@@ -15,6 +15,7 @@ export type ModelToObject<T> = T extends Array<infer U> ? _ModelToObject<U>[] : 
 type _ModelToObject<T> =
     // Reflections
     T extends M.ReflectionGroup ? JSONOutput.ReflectionGroup :
+    T extends M.ReflectionCategory ? JSONOutput.ReflectionCategory :
     T extends M.SignatureReflection ? JSONOutput.SignatureReflection :
     T extends M.ParameterReflection ? JSONOutput.ParameterReflection :
     T extends M.DeclarationReflection ? JSONOutput.DeclarationReflection | JSONOutput.ReflectionPointer :
@@ -76,6 +77,12 @@ export namespace JSONOutput {
         title: M.ReflectionGroup['title'];
         kind: M.ReflectionGroup['kind'];
         children?: M.ReflectionGroup['children'][number]['id'][];
+        categories?: ModelToObject<M.ReflectionGroup['categories']>;
+    }
+
+    export interface ReflectionCategory {
+        title: M.ReflectionCategory['title'];
+        children?: M.ReflectionCategory['children'][number]['id'][];
     }
 
     export interface SignatureReflection extends Reflection {
@@ -111,6 +118,7 @@ export namespace JSONOutput {
 
     export interface ContainerReflection extends Reflection {
         groups?: ModelToObject<M.ContainerReflection['groups']>;
+        categories?: ModelToObject<M.ContainerReflection['categories']>;
         sources?: ModelToObject<SourceReferenceWrapper[]>;
     }
 
