@@ -153,7 +153,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      * @param callback  The callback function that should be applied for each child reflection.
      */
     traverse(callback: TraverseCallback) {
-        for (const parameter of toArray(this.typeParameters).slice()) {
+        for (const parameter of toArray(this.typeParameters)) {
             if (callback(parameter, TraverseProperty.TypeParameter) === false) {
                 return;
             }
@@ -165,7 +165,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
             }
         }
 
-        for (const signature of toArray(this.signatures).slice()) {
+        for (const signature of toArray(this.signatures)) {
             if (callback(signature, TraverseProperty.Signatures) === false) {
                 return;
             }

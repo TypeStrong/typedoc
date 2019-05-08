@@ -63,13 +63,13 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
             }
         }
 
-        for (const parameter of toArray(this.typeParameters).slice()) {
+        for (const parameter of toArray(this.typeParameters)) {
             if (callback(parameter, TraverseProperty.TypeParameter) === false) {
                 return;
             }
         }
 
-        for (const parameter of toArray(this.parameters).slice()) {
+        for (const parameter of toArray(this.parameters)) {
             if (callback(parameter, TraverseProperty.Parameters) === false) {
                 return;
             }
