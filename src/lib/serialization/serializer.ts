@@ -96,6 +96,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>
     S.CommentTagSerializer,
     S.CommentSerializer,
 
+    S.ReflectionSerializer,
     S.ContainerReflectionSerializer,
     S.DeclarationReflectionSerializer,
     S.ParameterReflectionSerializer,
@@ -105,6 +106,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>
 
     S.SourceReferenceContainerSerializer,
 
+    S.TypeSerializer,
     S.ArrayTypeSerializer,
     S.IntersectionTypeSerializer,
     S.IntrinsicTypeSerializer,
