@@ -18,15 +18,19 @@ import { ModelToObject } from './schema';
  */
 export abstract class SerializerComponent<T> {
     /**
-     * Set when the SerializerComponent is added to the serializer.
-     */
-    protected owner!: Serializer;
-
-    /**
      * The priority this serializer should be executed with.
      * A higher priority means the [[Serializer]] will be applied earlier.
      */
     static PRIORITY = 0;
+
+    constructor(owner: Serializer) {
+        this.owner = owner;
+    }
+
+    /**
+     * Set when the SerializerComponent is added to the serializer.
+     */
+    protected owner: Serializer;
 
     /**
      * A high-level predicate filtering which group this serializer belongs to.
