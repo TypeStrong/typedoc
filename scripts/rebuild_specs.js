@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const TypeDoc = require(path.join(__dirname, '..'));
+const TypeDoc = require('..');
 
 const app = new TypeDoc.Application({
     mode: 'Modules',
@@ -38,7 +38,7 @@ fs.remove(path.join(__dirname, '../src/test/renderer/specs'))
             const src = app.expandInputFiles([ fullPath ]);
             const out = path.join(fullPath, 'specs.json');
             const result = app.convert(src);
-            const data = JSON.stringify(result.toObject(), null, '  ')
+            const data = JSON.stringify(app.serializer.toObject(result), null, '  ')
                 .split(TypeDoc.normalizePath(base))
                 .join('%BASE%');
 
