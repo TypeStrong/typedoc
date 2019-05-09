@@ -4,31 +4,7 @@ import { ProjectReflection } from '../models';
 import { SerializerComponent } from './components';
 import { SerializeEvent, SerializeEventData } from './events';
 import { ModelToObject } from './schema';
-import {
-    CommentTagSerializer,
-    CommentSerializer,
-    ContainerReflectionSerializer,
-    DeclarationReflectionSerializer,
-    ParameterReflectionSerializer,
-    SignatureReflectionSerializer,
-    TypeParameterReflectionSerializer,
-    ProjectReflectionSerializer,
-    SourceReferenceContainerSerializer,
-    ArrayTypeSerializer,
-    IntersectionTypeSerializer,
-    IntrinsicTypeSerializer,
-    ReferenceTypeSerializer,
-    ReflectionTypeSerializer,
-    StringLiteralTypeSerializer,
-    TupleTypeSerializer,
-    TypeOperatorTypeSerializer,
-    TypeParameterTypeSerializer,
-    UnionTypeSerializer,
-    UnknownTypeSerializer,
-    DecoratorContainerSerializer,
-    ReflectionCategorySerializer,
-    ReflectionGroupSerializer
-} from './serializers';
+import * as S from './serializers';
 
 export class Serializer extends EventDispatcher {
     /**
@@ -117,33 +93,33 @@ export class Serializer extends EventDispatcher {
 }
 
 const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>)[] = [
-    CommentTagSerializer,
-    CommentSerializer,
+    S.CommentTagSerializer,
+    S.CommentSerializer,
 
-    ContainerReflectionSerializer,
-    DeclarationReflectionSerializer,
-    ParameterReflectionSerializer,
-    ProjectReflectionSerializer,
-    SignatureReflectionSerializer,
-    TypeParameterReflectionSerializer,
+    S.ContainerReflectionSerializer,
+    S.DeclarationReflectionSerializer,
+    S.ParameterReflectionSerializer,
+    S.ProjectReflectionSerializer,
+    S.SignatureReflectionSerializer,
+    S.TypeParameterReflectionSerializer,
 
-    SourceReferenceContainerSerializer,
+    S.SourceReferenceContainerSerializer,
 
-    ArrayTypeSerializer,
-    IntersectionTypeSerializer,
-    IntrinsicTypeSerializer,
-    ReferenceTypeSerializer,
-    ReflectionTypeSerializer,
-    StringLiteralTypeSerializer,
-    TupleTypeSerializer,
-    TypeOperatorTypeSerializer,
-    TypeParameterTypeSerializer,
-    UnionTypeSerializer,
-    UnknownTypeSerializer,
+    S.ArrayTypeSerializer,
+    S.IntersectionTypeSerializer,
+    S.IntrinsicTypeSerializer,
+    S.ReferenceTypeSerializer,
+    S.ReflectionTypeSerializer,
+    S.StringLiteralTypeSerializer,
+    S.TupleTypeSerializer,
+    S.TypeOperatorTypeSerializer,
+    S.TypeParameterTypeSerializer,
+    S.UnionTypeSerializer,
+    S.UnknownTypeSerializer,
 
-    DecoratorContainerSerializer,
-    ReflectionCategorySerializer,
-    ReflectionGroupSerializer
+    S.DecoratorContainerSerializer,
+    S.ReflectionCategorySerializer,
+    S.ReflectionGroupSerializer
 ];
 
 function addSerializers(owner: Serializer) {
