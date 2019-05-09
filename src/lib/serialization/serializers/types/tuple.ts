@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { TupleType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:tuple-type' })
 export class TupleTypeSerializer extends TypeSerializerComponent<TupleType> {
     supports(t: unknown) {
         return t instanceof TupleType;

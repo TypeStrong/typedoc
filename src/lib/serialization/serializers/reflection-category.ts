@@ -1,10 +1,8 @@
-import { Component } from '../../utils/component';
 import { ReflectionCategory } from '../../models/ReflectionCategory';
 
 import { SerializerComponent } from '../components';
 import { JSONOutput } from '../schema';
 
-@Component({ name: 'serializer:reflection-category' })
 export class ReflectionCategorySerializer extends SerializerComponent<ReflectionCategory> {
     static PRIORITY = 1000;
 

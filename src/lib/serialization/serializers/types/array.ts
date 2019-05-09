@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { ArrayType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:array-type' })
 export class ArrayTypeSerializer extends TypeSerializerComponent<ArrayType> {
     supports(t: unknown) {
         return t instanceof ArrayType;

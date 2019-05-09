@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { TypeParameterType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:type-parameter-type' })
 export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypeParameterType> {
     supports(t: unknown) {
         return t instanceof TypeParameterType;

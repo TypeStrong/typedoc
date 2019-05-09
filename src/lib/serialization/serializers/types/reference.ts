@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { ReferenceType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:reference-type' })
 export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceType> {
     supports(t: unknown) {
         return t instanceof ReferenceType;

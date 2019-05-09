@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { UnionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:union-type' })
 export class UnionTypeSerializer extends TypeSerializerComponent<UnionType> {
     supports(t: unknown) {
         return t instanceof UnionType;

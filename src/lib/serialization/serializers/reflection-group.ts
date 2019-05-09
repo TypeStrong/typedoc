@@ -1,10 +1,8 @@
-import { Component } from '../../utils/component';
 import { ReflectionGroup } from '../../models/ReflectionGroup';
 
 import { SerializerComponent } from '../components';
 import { JSONOutput } from '../schema';
 
-@Component({ name: 'serializer:reflection-group' })
 export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
     static PRIORITY = 1000;
 

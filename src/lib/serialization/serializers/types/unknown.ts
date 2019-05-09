@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { UnknownType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:unknown-type' })
 export class UnknownTypeSerializer extends TypeSerializerComponent<UnknownType> {
     supports(t: unknown) {
         return t instanceof UnknownType;

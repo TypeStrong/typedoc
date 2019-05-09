@@ -1,4 +1,3 @@
-import { Component } from '../../../utils/component';
 import { Reflection, TraverseProperty } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
@@ -6,7 +5,6 @@ import { DecoratorWrapper } from '../models';
 import { ReflectionFlags } from '../../../models/reflections/abstract';
 import { JSONOutput, ModelToObject } from '../../schema';
 
-@Component({ name: 'serializer:reflection' })
 export class ReflectionSerializer extends ReflectionSerializerComponent<Reflection> {
     static PRIORITY = 1000;
 

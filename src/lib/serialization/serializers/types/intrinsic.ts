@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { IntrinsicType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:intrinsic-type' })
 export class IntrinsicTypeSerializer extends TypeSerializerComponent<IntrinsicType> {
     supports(t: unknown) {
         return t instanceof IntrinsicType;

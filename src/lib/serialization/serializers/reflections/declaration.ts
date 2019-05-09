@@ -1,11 +1,9 @@
-import { Component } from '../../../utils/component';
 import { DeclarationReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { ContainerReflectionSerializer } from './container';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:declaration-reflection' })
 export class DeclarationReflectionSerializer extends ReflectionSerializerComponent<DeclarationReflection> {
     static PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
 

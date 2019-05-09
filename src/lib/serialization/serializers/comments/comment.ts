@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { Comment } from '../../../models';
 
 import { SerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:comment' })
 export class CommentSerializer extends SerializerComponent<Comment> {
     static PRIORITY = 1000;
 

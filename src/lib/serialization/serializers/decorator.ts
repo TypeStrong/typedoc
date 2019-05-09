@@ -1,10 +1,7 @@
-import { Component } from '../../utils/component';
-
 import { SerializerComponent } from '../components';
 import { DecoratorWrapper } from './models/decorator-wrapper';
 import { JSONOutput } from '../schema';
 
-@Component({ name: 'serializer:decorator-container' })
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
     static PRIORITY = 1000;
 

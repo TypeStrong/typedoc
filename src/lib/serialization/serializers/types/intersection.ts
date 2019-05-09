@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { IntersectionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:intersection-type' })
 export class IntersectionTypeSerializer extends TypeSerializerComponent<IntersectionType> {
     supports(t: unknown) {
         return t instanceof IntersectionType;

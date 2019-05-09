@@ -1,10 +1,7 @@
-import { Component } from '../../../utils/component';
-
 import { SerializerComponent } from '../../components';
 import { SourceReferenceWrapper } from '../models';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:source-reference-container' })
 export class SourceReferenceContainerSerializer extends SerializerComponent<SourceReferenceWrapper> {
     static PRIORITY = 1000;
 

@@ -1,5 +1,4 @@
 import { Reflection, Type } from '../models';
-import { AbstractComponent } from '../utils';
 
 import { Serializer } from './serializer';
 import { ModelToObject } from './schema';
@@ -17,7 +16,12 @@ import { ModelToObject } from './schema';
  * this makes it possible to skip the `supports` calls for `Type`s when searching for a
  * `Reflection` and vise versa.
  */
-export abstract class SerializerComponent<T> extends AbstractComponent<Serializer> {
+export abstract class SerializerComponent<T> {
+    /**
+     * Set when the SerializerComponent is added to the serializer.
+     */
+    protected owner!: Serializer;
+
     /**
      * The priority this serializer should be executed with.
      * A higher priority means the [[Serializer]] will be applied earlier.
@@ -54,7 +58,7 @@ export abstract class SerializerComponent<T> extends AbstractComponent<Serialize
 
     abstract supports(item: unknown): boolean;
 
-    abstract toObject(item: T, obj?: Partial<ModelToObject<T>>): Partial<ModelToObject<T>>;
+    abstract toObject(item: T, obj?: object): Partial<ModelToObject<T>>;
 }
 
 export abstract class ReflectionSerializerComponent<T extends Reflection> extends SerializerComponent<T> {

@@ -1,11 +1,9 @@
-import { Component } from '../../../utils/component';
 import { ContainerReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { SourceReferenceWrapper } from '../models';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:container-reflection' })
 export class ContainerReflectionSerializer extends ReflectionSerializerComponent<ContainerReflection> {
     supports(t: unknown) {
         return t instanceof ContainerReflection;

@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { DeclarationReflection, ReflectionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:reflection-type' })
 export class ReflectionTypeSerializer extends TypeSerializerComponent<ReflectionType> {
     private visited = new Set<DeclarationReflection>();
 

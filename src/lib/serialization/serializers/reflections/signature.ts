@@ -1,10 +1,8 @@
-import { Component } from '../../../utils/component';
 import { SignatureReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { JSONOutput } from '../../schema';
 
-@Component({ name: 'serializer:signature-reflection' })
 export class SignatureReflectionSerializer extends ReflectionSerializerComponent<SignatureReflection> {
     supports(t: unknown) {
         return t instanceof SignatureReflection;

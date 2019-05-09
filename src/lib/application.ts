@@ -97,8 +97,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         super(DUMMY_APPLICATION_OWNER);
 
         this.logger    = new ConsoleLogger();
+        this.serializer = new Serializer();
         this.converter = this.addComponent<Converter>('converter', Converter);
-        this.serializer = this.addComponent<Serializer>('serializer', Serializer);
         this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
