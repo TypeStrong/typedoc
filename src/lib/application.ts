@@ -17,7 +17,13 @@ import { ProjectReflection } from './models/index';
 import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
 import { createMinimatch } from './utils/paths';
 
-import { AbstractComponent, ChildableComponent, Component, Option, DUMMY_APPLICATION_OWNER } from './utils/component';
+import {
+    AbstractComponent,
+    ChildableComponent,
+    Component,
+    Option,
+    DUMMY_APPLICATION_OWNER
+} from './utils/component';
 import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
 import { ParameterType } from './utils/options/declaration';
 
@@ -35,7 +41,7 @@ import { ParameterType } from './utils/options/declaration';
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({name: 'application', internal: true})
+@Component({ name: 'application', internal: true })
 export class Application extends ChildableComponent<Application, AbstractComponent<Application>> {
     options: Options;
 
@@ -63,11 +69,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
 
     @Option({
         name: 'logger',
-        help: 'Specify the logger that should be used, \'none\' or \'console\'',
+        help: "Specify the logger that should be used, 'none' or 'console'",
         defaultValue: 'console',
         type: ParameterType.Mixed
     })
-    loggerType!: string|Function;
+    loggerType!: string | Function;
 
     @Option({
         name: 'ignoreCompilerErrors',
@@ -156,7 +162,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
     public convert(src: string[]): ProjectReflection | undefined {
-        this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
+        this.logger.writeln(
+            'Using TypeScript %s from %s',
+            this.getTypeScriptVersion(),
+            this.getTypeScriptPath()
+        );
 
         const result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
@@ -249,37 +259,29 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     public expandInputFiles(inputFiles: string[] = []): string[] {
         let files: string[] = [];
 
-        const exclude = this.exclude
-          ? createMinimatch(this.exclude)
-          : [];
+        const exclude = this.exclude ? createMinimatch(this.exclude) : [];
 
         function isExcluded(fileName: string): boolean {
             return exclude.some(mm => mm.match(fileName));
         }
 
         const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
-        function add(dirname: string) {
-            FS.readdirSync(dirname).forEach((file) => {
-                const realpath = Path.join(dirname, file);
-                if (FS.statSync(realpath).isDirectory()) {
-                    add(realpath);
-                } else if (supportedFileRegex.test(realpath)) {
-                    if (isExcluded(realpath.replace(/\\/g, '/'))) {
-                        return;
-                    }
+        function add(file: string) {
+            if (isExcluded(file.replace(/\\/g, '/'))) {
+                return;
+            }
 
-                    files.push(realpath);
-                }
-            });
-        }
-
-        inputFiles.forEach((file) => {
-            file = Path.resolve(file);
             if (FS.statSync(file).isDirectory()) {
-                add(file);
-            } else if (!isExcluded(file)) {
+                FS.readdirSync(file).forEach(next => {
+                    add(Path.join(file, next));
+                });
+            } else if (supportedFileRegex.test(file)) {
                 files.push(file);
             }
+        }
+
+        inputFiles.forEach(file => {
+            add(Path.resolve(file));
         });
 
         return files;
