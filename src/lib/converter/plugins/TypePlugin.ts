@@ -65,22 +65,22 @@ export class TypePlugin extends ConverterComponent {
             });
         }
 
-        function walk(types: Type[], callback: {(declaration: DeclarationReflection): void}) {
+        function walk(types: Type[] | undefined, callback: {(declaration: DeclarationReflection): void}) {
             if (!types) {
                 return;
             }
-            types.forEach((type: ReferenceType) => {
+            types.forEach(type => {
                 if (!(type instanceof ReferenceType)) {
                     return;
                 }
                 if (!type.reflection || !(type.reflection instanceof DeclarationReflection)) {
                     return;
                 }
-                callback(<DeclarationReflection> type.reflection);
+                callback(type.reflection);
             });
         }
 
-        function resolveTypes(reflection: Reflection, types: Type[]) {
+        function resolveTypes(reflection: Reflection, types?: Type[]) {
             if (!types) {
                 return;
             }
@@ -91,28 +91,19 @@ export class TypePlugin extends ConverterComponent {
 
         function resolveType(reflection: Reflection, type: Type) {
             if (type instanceof ReferenceType) {
-                const referenceType: ReferenceType = <ReferenceType> type;
-                if (referenceType.symbolID === ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
-                    referenceType.reflection = reflection.findReflectionByName(referenceType.name);
-                } else if (!referenceType.reflection && referenceType.symbolID !== ReferenceType.SYMBOL_ID_RESOLVED) {
-                    referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
+                if (type.symbolID === ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                    type.reflection = reflection.findReflectionByName(type.name);
+                } else if (!type.reflection && type.symbolID !== ReferenceType.SYMBOL_ID_RESOLVED) {
+                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
                 }
 
-                if (referenceType.typeArguments) {
-                    referenceType.typeArguments.forEach((typeArgument: Type) => {
-                        resolveType(reflection, typeArgument);
-                    });
+                if (type.typeArguments) {
+                    resolveTypes(reflection, type.typeArguments);
                 }
             } else if (type instanceof TupleType) {
-                const tupleType: TupleType = <TupleType> type;
-                for (let index = 0, count = tupleType.elements.length; index < count; index++) {
-                    resolveType(reflection, tupleType.elements[index]);
-                }
+                resolveTypes(reflection, type.elements);
             } else if (type instanceof UnionType || type instanceof IntersectionType) {
-                const unionOrIntersectionType: UnionType | IntersectionType = <UnionType | IntersectionType> type;
-                for (let index = 0, count = unionOrIntersectionType.types.length; index < count; index++) {
-                    resolveType(reflection, unionOrIntersectionType.types[index]);
-                }
+                resolveTypes(reflection, type.types);
             } else if (type instanceof ArrayType) {
                 resolveType(reflection, type.elementType);
             }
@@ -120,7 +111,7 @@ export class TypePlugin extends ConverterComponent {
     }
 
     private postpone(reflection: DeclarationReflection) {
-        if (this.reflections.indexOf(reflection) === -1) {
+        if (!this.reflections.includes(reflection)) {
             this.reflections.push(reflection);
         }
     }
@@ -141,8 +132,8 @@ export class TypePlugin extends ConverterComponent {
                 });
             }
 
-            let root: DeclarationHierarchy;
-            let hierarchy: DeclarationHierarchy;
+            let root!: DeclarationHierarchy;
+            let hierarchy!: DeclarationHierarchy;
             function push(types: Type[]) {
                 const level: DeclarationHierarchy = {types: types};
                 if (hierarchy) {

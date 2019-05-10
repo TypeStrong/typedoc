@@ -60,12 +60,15 @@ export enum ReflectionKind {
 
     ClassOrInterface = Class | Interface,
     VariableOrProperty = Variable | Property,
-    FunctionOrMethod = Function | Method,
+    FunctionOrMethod = ReflectionKind.Function | Method,
     SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
-    SomeModule = Module | ExternalModule
+    SomeModule = Module | ExternalModule,
+    SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
+    SomeValue = Variable | Function | ObjectLiteral
 }
 
 export enum ReflectionFlag {
+    None = 0,
     Private = 1,
     Protected = 2,
     Public = 4,
@@ -95,75 +98,152 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Const
 ];
 
-export interface ReflectionFlags extends Array<string> {
-    flags?: ReflectionFlag;
+/**
+ * This must extend Array in order to work with Handlebar's each helper.
+ */
+export class ReflectionFlags extends Array<string> {
+    private flags = ReflectionFlag.None;
+
+    hasFlag(flag: ReflectionFlag) {
+        return (flag & this.flags) !== 0;
+    }
 
     /**
      * Is this a private member?
      */
-    isPrivate?: boolean;
+    get isPrivate(): boolean {
+        return this.hasFlag(ReflectionFlag.Private);
+    }
 
     /**
      * Is this a protected member?
      */
-    isProtected?: boolean;
+    get isProtected(): boolean {
+        return this.hasFlag(ReflectionFlag.Protected);
+    }
 
     /**
      * Is this a public member?
      */
-    isPublic?: boolean;
+    get isPublic(): boolean {
+        return this.hasFlag(ReflectionFlag.Public);
+    }
 
     /**
      * Is this a static member?
      */
-    isStatic?: boolean;
+    get isStatic(): boolean {
+        return this.hasFlag(ReflectionFlag.Static);
+    }
 
     /**
      * Is this member exported?
      */
-    isExported?: boolean;
+    get isExported(): boolean {
+        return this.hasFlag(ReflectionFlag.Exported);
+    }
 
     /**
      * Is this a declaration from an external document?
      */
-    isExternal?: boolean;
+    get isExternal(): boolean {
+        return this.hasFlag(ReflectionFlag.External);
+    }
 
     /**
      * Whether this reflection is an optional component or not.
      *
      * Applies to function parameters and object members.
      */
-    isOptional?: boolean;
+    get isOptional(): boolean {
+        return this.hasFlag(ReflectionFlag.Optional);
+    }
 
     /**
      * Whether it's a rest parameter, like `foo(...params);`.
      */
-    isRest?: boolean;
+    get isRest(): boolean {
+        return this.hasFlag(ReflectionFlag.Rest);
+    }
 
-    /**
-     *
-     */
-    hasExportAssignment?: boolean;
+    get hasExportAssignment(): boolean {
+        return this.hasFlag(ReflectionFlag.ExportAssignment);
+    }
 
-    isConstructorProperty?: boolean;
+    get isConstructorProperty(): boolean {
+        return this.hasFlag(ReflectionFlag.ConstructorProperty);
+    }
 
-    isAbstract?: boolean;
+    get isAbstract(): boolean {
+        return this.hasFlag(ReflectionFlag.Abstract);
+    }
 
-    isConst?: boolean;
+    get isConst() {
+        return this.hasFlag(ReflectionFlag.Const);
+    }
 
-    isLet?: boolean;
+    get isLet() {
+        return this.hasFlag(ReflectionFlag.Let);
+    }
+
+    setFlag(flag: ReflectionFlag, set: boolean) {
+        switch (flag) {
+            case ReflectionFlag.Private:
+                this.setSingleFlag(ReflectionFlag.Private, set);
+                if (set) {
+                    this.setFlag(ReflectionFlag.Protected, false);
+                    this.setFlag(ReflectionFlag.Public, false);
+                }
+                break;
+            case ReflectionFlag.Protected:
+                this.setSingleFlag(ReflectionFlag.Protected, set);
+                if (set) {
+                    this.setFlag(ReflectionFlag.Private, false);
+                    this.setFlag(ReflectionFlag.Public, false);
+                }
+                break;
+            case ReflectionFlag.Public:
+                this.setSingleFlag(ReflectionFlag.Public, set);
+                if (set) {
+                    this.setFlag(ReflectionFlag.Private, false);
+                    this.setFlag(ReflectionFlag.Protected, false);
+                }
+                break;
+            case ReflectionFlag.Const:
+            case ReflectionFlag.Let:
+                this.setSingleFlag(flag, set);
+                this.setSingleFlag((ReflectionFlag.Let | ReflectionFlag.Const) ^ flag, !set);
+            default:
+                this.setSingleFlag(flag, set);
+        }
+    }
+
+    private setSingleFlag(flag: ReflectionFlag, set: boolean) {
+        const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
+        if (!set && this.hasFlag(flag)) {
+            if (relevantFlags.includes(flag)) {
+                this.splice(this.indexOf(name), 1);
+            }
+            this.flags ^= flag;
+        } else if (set && !this.hasFlag(flag)) {
+            if (relevantFlags.includes(flag)) {
+                this.push(name);
+            }
+            this.flags |= flag;
+        }
+    }
 }
 
 export interface DefaultValueContainer extends Reflection {
-    defaultValue: string;
+    defaultValue?: string;
 }
 
 export interface TypeContainer extends Reflection {
-    type: Type;
+    type?: Type;
 }
 
 export interface TypeParameterContainer extends Reflection {
-    typeParameters: TypeParameterReflection[];
+    typeParameters?: TypeParameterReflection[];
 }
 
 export enum TraverseProperty {
@@ -178,7 +258,11 @@ export enum TraverseProperty {
 }
 
 export interface TraverseCallback {
-    (reflection: Reflection, property: TraverseProperty): void;
+    /**
+     * May return false to bail out of any further iteration. To preserve backwards compatibility, if
+     * a function returns undefined, iteration must continue.
+     */
+    (reflection: Reflection, property: TraverseProperty): boolean | void;
 }
 
 /**
@@ -237,71 +321,75 @@ export abstract class Reflection {
     /**
      * The human readable string representation of the kind of this reflection.
      */
-    kindString: string;
+    kindString?: string;
 
-    flags: ReflectionFlags = [];
+    flags: ReflectionFlags = new ReflectionFlags();
 
     /**
      * The reflection this reflection is a child of.
      */
-    parent: Reflection;
+    parent?: Reflection;
 
     /**
      * The parsed documentation comment attached to this reflection.
      */
-    comment: Comment;
+    comment?: Comment;
 
     /**
      * A list of all source files that contributed to this reflection.
      */
-    sources: SourceReference[];
+    sources?: SourceReference[];
 
     /**
      * A list of all decorators attached to this reflection.
      */
-    decorators: Decorator[];
+    decorators?: Decorator[];
 
     /**
      * A list of all types that are decorated by this reflection.
      */
-    decorates: Type[];
+    decorates?: Type[];
 
     /**
      * The url of this reflection in the generated documentation.
+     * TODO: Reflections shouldn't know urls exist. Move this to a serializer.
      */
-    url: string;
+    url?: string;
 
     /**
      * The name of the anchor of this child.
+     * TODO: Reflections shouldn't know anchors exist. Move this to a serializer.
      */
-    anchor: string;
+    anchor?: string;
 
     /**
      * Is the url pointing to an individual document?
      *
      * When FALSE, the url points to an anchor tag on a page of a different reflection.
+     * TODO: Reflections shouldn't know how they are rendered. Move this to the correct serializer.
      */
-    hasOwnDocument: boolean;
+    hasOwnDocument?: boolean;
 
     /**
      * A list of generated css classes that should be applied to representations of this
      * reflection in the generated markup.
+     * TODO: Reflections shouldn't know about CSS. Move this property to the correct serializer.
      */
-    cssClasses: string;
+    cssClasses?: string;
 
     /**
      * Url safe alias for this reflection.
      *
      * @see [[BaseReflection.getAlias]]
      */
-    private _alias: string;
+    private _alias?: string;
 
-    private _aliases: string[];
+    private _aliases?: string[];
 
     /**
      * Create a new BaseReflection instance.
      */
-    constructor(parent?: Reflection, name?: string, kind?: ReflectionKind) {
+    constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
         this.id     = REFLECTION_ID++;
         this.parent = parent;
         this.name   = name;
@@ -310,29 +398,11 @@ export abstract class Reflection {
     }
 
     /**
-     * @param kind  The kind to test for.
-     */
-    kindOf(kind: ReflectionKind): boolean;
-
-    /**
-     * @param kind  An array of kinds to test for.
-     */
-    kindOf(kind: ReflectionKind[]): boolean;
-
-    /**
      * Test whether this reflection is of the given kind.
      */
-    kindOf(kind: any): boolean {
-        if (Array.isArray(kind)) {
-            for (let i = 0, c = kind.length; i < c; i++) {
-                if ((this.kind & kind[i]) !== 0) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return (this.kind & kind) !== 0;
-        }
+    kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
+        const kindArray = Array.isArray(kind) ? kind : [kind];
+        return kindArray.some(kind => (this.kind & kind) !== 0);
     }
 
     /**
@@ -355,78 +425,7 @@ export abstract class Reflection {
      * Set a flag on this reflection.
      */
     setFlag(flag: ReflectionFlag, value: boolean = true) {
-        let name: string, index: number;
-        if (relevantFlags.indexOf(flag) !== -1) {
-            name = ReflectionFlag[flag];
-            name = name.replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
-            index = this.flags.indexOf(name);
-        }
-
-        if (value) {
-            this.flags.flags |= flag;
-            if (name && index === -1) {
-                this.flags.push(name);
-            }
-        } else {
-            this.flags.flags &= ~flag;
-            if (name && index !== -1) {
-                this.flags.splice(index, 1);
-            }
-        }
-
-        switch (flag) {
-            case ReflectionFlag.Private:
-                this.flags.isPrivate = value;
-                if (value) {
-                    this.setFlag(ReflectionFlag.Protected, false);
-                    this.setFlag(ReflectionFlag.Public, false);
-                }
-                break;
-            case ReflectionFlag.Protected:
-                this.flags.isProtected = value;
-                if (value) {
-                    this.setFlag(ReflectionFlag.Private, false);
-                    this.setFlag(ReflectionFlag.Public, false);
-                }
-                break;
-            case ReflectionFlag.Public:
-                this.flags.isPublic = value;
-                if (value) {
-                    this.setFlag(ReflectionFlag.Private, false);
-                    this.setFlag(ReflectionFlag.Protected, false);
-                }
-                break;
-            case ReflectionFlag.Static:
-                this.flags.isStatic = value;
-                break;
-            case ReflectionFlag.Exported:
-                this.flags.isExported = value;
-                break;
-            case ReflectionFlag.External:
-                this.flags.isExternal = value;
-                break;
-            case ReflectionFlag.Optional:
-                this.flags.isOptional = value;
-                break;
-            case ReflectionFlag.Rest:
-                this.flags.isRest = value;
-                break;
-            case ReflectionFlag.ExportAssignment:
-                this.flags.hasExportAssignment = value;
-                break;
-            case ReflectionFlag.ConstructorProperty:
-                this.flags.isConstructorProperty = value;
-                break;
-            case ReflectionFlag.Abstract:
-                this.flags.isAbstract = value;
-                break;
-            case ReflectionFlag.Let:
-                this.flags.isLet = value;
-                break;
-            case ReflectionFlag.Const:
-                this.flags.isConst = value;
-                break;
-        }
+        this.flags.setFlag(flag, value);
     }
 
     /**
@@ -448,7 +447,7 @@ export abstract class Reflection {
                 target._aliases = [];
             }
             let suffix = '', index = 0;
-            while (target._aliases.indexOf(alias + suffix) !== -1) {
+            while (target._aliases.includes(alias + suffix)) {
                 suffix = '-' + (++index).toString();
             }
 
@@ -466,7 +465,7 @@ export abstract class Reflection {
      * @returns TRUE when this reflection has a visible comment.
      */
     hasComment(): boolean {
-        return <boolean> (this.comment && this.comment.hasVisibleComponent());
+        return this.comment ? this.comment.hasVisibleComponent() : false;
     }
 
     hasGetterOrSetter(): boolean {
@@ -474,32 +473,24 @@ export abstract class Reflection {
     }
 
     /**
-     * @param name  The name of the child to look for. Might contain a hierarchy.
-     */
-    getChildByName(name: string): Reflection;
-
-    /**
-     * @param names  The name hierarchy of the child to look for.
-     */
-    getChildByName(names: string[]): Reflection;
-
-    /**
      * Return a child by its name.
      *
-     * @returns The found child or NULL.
+     * @param names The name hierarchy of the child to look for.
+     * @returns The found child or undefined.
      */
-    getChildByName(arg: any): Reflection {
+    getChildByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
         const name = names[0];
-        let result: Reflection = null;
+        let result: Reflection | undefined;
 
         this.traverse((child) => {
             if (child.name === name) {
                 if (names.length <= 1) {
                     result = child;
-                } else if (child) {
+                } else {
                     result = child.getChildByName(names.slice(1));
                 }
+                return false;
             }
         });
 
@@ -514,27 +505,17 @@ export abstract class Reflection {
     }
 
     /**
-     * @param name  The name to look for. Might contain a hierarchy.
-     */
-    findReflectionByName(name: string): Reflection;
-
-    /**
-     * @param names  The name hierarchy to look for.
-     */
-    findReflectionByName(names: string[]): Reflection;
-
-    /**
      * Try to find a reflection by its name.
      *
      * @return The found reflection or null.
      */
-    findReflectionByName(arg: any): Reflection {
+    findReflectionByName(arg: string | string[]): Reflection | undefined {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
 
         const reflection = this.getChildByName(names);
         if (reflection) {
             return reflection;
-        } else {
+        } else if (this.parent) {
             return this.parent.findReflectionByName(names);
         }
     }
@@ -570,15 +551,12 @@ export abstract class Reflection {
             result.comment = this.comment.toObject();
         }
 
-        for (let key in this.flags) {
-            // tslint:disable-next-line:triple-equals
-            if (parseInt(key, 10) == <any> key || key === 'flags') {
-                continue;
+        Object.getOwnPropertyNames(ReflectionFlags.prototype).forEach(name => {
+            const descriptor = Object.getOwnPropertyDescriptor(ReflectionFlags.prototype, name)!;
+            if (typeof descriptor.get === 'function' && this.flags[name] === true) {
+                result.flags[name] = true;
             }
-            if (this.flags[key]) {
-                result.flags[key] = true;
-            }
-        }
+        });
 
         if (this.decorates) {
             result.decorates = this.decorates.map((type) => type.toObject());
@@ -628,7 +606,7 @@ export abstract class Reflection {
         const lines = [indent + this.toString()];
 
         indent += '  ';
-        this.traverse((child, property) => {
+        this.traverse((child) => {
             lines.push(child.toStringHierarchy(indent));
         });
 

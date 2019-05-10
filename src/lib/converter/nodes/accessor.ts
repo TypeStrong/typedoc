@@ -22,14 +22,14 @@ export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclar
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.SignatureDeclaration): Reflection {
+    convert(context: Context, node: ts.SignatureDeclaration): Reflection | undefined {
         const accessor = createDeclaration(context, node, ReflectionKind.Accessor);
 
         context.withScope(accessor, () => {
             if (node.kind === ts.SyntaxKind.GetAccessor) {
-                accessor.getSignature = createSignature(context, node, '__get', ReflectionKind.GetSignature);
+                accessor!.getSignature = createSignature(context, node, '__get', ReflectionKind.GetSignature);
             } else {
-                accessor.setSignature = createSignature(context, node, '__set', ReflectionKind.SetSignature);
+                accessor!.setSignature = createSignature(context, node, '__set', ReflectionKind.SetSignature);
             }
         });
 

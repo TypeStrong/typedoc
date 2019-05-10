@@ -1,0 +1,119 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"promise-object\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/promise-object/promise-object.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "promise-object.ts",
+              "line": 1,
+              "character": 5
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "object"
+          }
+        },
+        {
+          "id": 3,
+          "name": "y",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "promise-object.ts",
+              "line": 2,
+              "character": 5
+            }
+          ],
+          "type": {
+            "type": "reference",
+            "name": "Promise",
+            "typeArguments": [
+              {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "name": "z",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "promise-object.ts",
+              "line": 3,
+              "character": 5
+            }
+          ],
+          "type": {
+            "type": "reference",
+            "name": "Promise",
+            "typeArguments": [
+              {
+                "type": "intrinsic",
+                "name": "object"
+              }
+            ]
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "promise-object.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import { ParameterType } from '../../utils/options/declaration';
 /**
  * Stores data of a repository.
  */
-class Repository {
+export class Repository {
     /**
      * The root path of this repository.
      */
@@ -31,41 +31,50 @@ class Repository {
     /**
      * The user/organisation name of this repository on GitHub.
      */
-    gitHubUser: string;
+    gitHubUser?: string;
 
     /**
      * The project name of this repository on GitHub.
      */
-    gitHubProject: string;
+    gitHubProject?: string;
+
+    /**
+     * The hostname for this github project.
+     *
+     * Defaults to: `github.com` (for normal, public GitHub instance projects)
+     *
+     * Or the hostname for an enterprise version of GitHub, e.g. `github.acme.com`
+     * (if found as a match in the list of git remotes).
+     */
+    gitHubHostname = 'github.com';
 
     /**
      * Create a new Repository instance.
      *
      * @param path  The root path of the repository.
      */
-    constructor(path: string, gitRevision: string) {
+    constructor(path: string, gitRevision: string, repoLinks: string[]) {
         this.path = path;
         this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
-        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
-        if (out.code === 0) {
-            let url: RegExpExecArray;
-            const remotes = out.stdout.split('\n');
-            for (let i = 0, c = remotes.length; i < c; i++) {
-                url = /github\.com[:\/]([^\/]+)\/(.*)/.exec(remotes[i]);
-                if (url) {
-                    this.gitHubUser = url[1];
-                    this.gitHubProject = url[2];
-                    if (this.gitHubProject.substr(-4) === '.git') {
-                        this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
-                    }
-                    break;
+        let url: RegExpExecArray | null;
+
+        for (let i = 0, c = repoLinks.length; i < c; i++) {
+            url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
+
+            if (url) {
+                this.gitHubHostname = url[1];
+                this.gitHubUser = url[2];
+                this.gitHubProject = url[3];
+                if (this.gitHubProject.substr(-4) === '.git') {
+                    this.gitHubProject = this.gitHubProject.substr(0, this.gitHubProject.length - 4);
                 }
+                break;
             }
         }
 
-        out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
+        let out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-files', {silent: true});
         if (out.code === 0) {
             out.stdout.split('\n').forEach((file) => {
                 if (file !== '') {
@@ -91,7 +100,7 @@ class Repository {
      * @returns TRUE when the file is part of the repository, otherwise FALSE.
      */
     contains(fileName: string): boolean {
-        return this.files.indexOf(fileName) !== -1;
+        return this.files.includes(fileName);
     }
 
     /**
@@ -100,13 +109,13 @@ class Repository {
      * @param fileName  The file whose GitHub URL should be determined.
      * @returns An url pointing to the web preview of the given file or NULL.
      */
-    getGitHubURL(fileName: string): string {
+    getGitHubURL(fileName: string): string | undefined {
         if (!this.gitHubUser || !this.gitHubProject || !this.contains(fileName)) {
-            return null;
+            return;
         }
 
         return [
-            'https://github.com',
+            `https://${this.gitHubHostname}`,
             this.gitHubUser,
             this.gitHubProject,
             'blob',
@@ -122,17 +131,21 @@ class Repository {
      * creates a new instance of [[Repository]].
      *
      * @param path  The potential repository root.
-     * @returns A new instance of [[Repository]] or NULL.
+     * @returns A new instance of [[Repository]] or undefined.
      */
-    static tryCreateRepository(path: string, gitRevision: string): Repository {
+    static tryCreateRepository(path: string, gitRevision: string): Repository | undefined {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
 
         if (!out || out.code !== 0) {
-            return null;
+            return;
         }
-        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision);
+
+        let remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
+        let remotes: string[] = (remotesOutput.code === 0) ? remotesOutput.stdout.split('\n') : [];
+
+        return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision, remotes);
     }
 }
 
@@ -157,7 +170,7 @@ export class GitHubPlugin extends ConverterComponent {
         help: 'Use specified revision instead of the last revision for linking to GitHub source files.',
         type: ParameterType.String
     })
-    gitRevision: string;
+    gitRevision!: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -175,14 +188,14 @@ export class GitHubPlugin extends ConverterComponent {
      * Check whether the given file is placed inside a repository.
      *
      * @param fileName  The name of the file a repository should be looked for.
-     * @returns The found repository info or NULL.
+     * @returns The found repository info or undefined.
      */
-    private getRepository(fileName: string): Repository {
+    private getRepository(fileName: string): Repository | undefined {
         // Check for known non-repositories
         const dirName = Path.dirname(fileName);
         for (let i = 0, c = this.ignoredPaths.length; i < c; i++) {
             if (this.ignoredPaths[i] === dirName) {
-                return null;
+                return;
             }
         }
 
@@ -191,7 +204,7 @@ export class GitHubPlugin extends ConverterComponent {
             if (!this.repositories.hasOwnProperty(path)) {
                 continue;
             }
-            if (fileName.substr(0, path.length) === path) {
+            if (fileName.substr(0, path.length).toLowerCase() === path) {
                 return this.repositories[path];
             }
         }
@@ -199,7 +212,7 @@ export class GitHubPlugin extends ConverterComponent {
         // Try to create a new repository
         const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
         if (repository) {
-            this.repositories[repository.path] = repository;
+            this.repositories[repository.path.toLowerCase()] = repository;
             return repository;
         }
 
@@ -208,8 +221,6 @@ export class GitHubPlugin extends ConverterComponent {
         for (let i = segments.length; i > 0; i--) {
             this.ignoredPaths.push(segments.slice(0, i).join('/'));
         }
-
-        return null;
     }
 
     /**

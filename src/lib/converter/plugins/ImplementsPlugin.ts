@@ -34,7 +34,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 return;
             }
 
-            let classMember: DeclarationReflection;
+            let classMember: DeclarationReflection | undefined;
 
             if (!classReflection.children) {
                 return;
@@ -64,7 +64,7 @@ export class ImplementsPlugin extends ConverterComponent {
             if (interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
                 interfaceMember.signatures.forEach((interfaceSignature: SignatureReflection) => {
                     const interfaceParameters = interfaceSignature.getParameterTypes();
-                    classMember.signatures.forEach((classSignature: SignatureReflection) => {
+                    (classMember!.signatures || []).forEach((classSignature: SignatureReflection) => {
                         if (Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
                             classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
                             this.copyComment(classSignature, interfaceSignature);
@@ -89,7 +89,7 @@ export class ImplementsPlugin extends ConverterComponent {
                 source instanceof SignatureReflection && source.parameters) {
                 for (let index = 0, count = target.parameters.length; index < count; index++) {
                     if (target.parameters[index].comment) {
-                        target.parameters[index].comment.copyFrom(source.parameters[index].comment);
+                        target.parameters[index].comment!.copyFrom(source.parameters[index].comment!);
                     }
                 }
             }
@@ -109,9 +109,8 @@ export class ImplementsPlugin extends ConverterComponent {
                     return;
                 }
 
-                const source = <DeclarationReflection> (<ReferenceType> type).reflection;
-                if (source && source.kindOf(ReflectionKind.Interface)) {
-                    this.analyzeClass(context, reflection, source);
+                if (type.reflection && type.reflection.kindOf(ReflectionKind.Interface)) {
+                    this.analyzeClass(context, reflection, <DeclarationReflection> type.reflection);
                 }
             });
         }

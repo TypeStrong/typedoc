@@ -2,7 +2,7 @@
 // (c) 2010-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 // Backbone may be freely distributed under the MIT license.
 // For all details and documentation:
-// http://backbonejs.org
+// https://backbonejs.org
 //
 // This test case was taken from
 // https://github.com/jashkenas/backbone/blob/6b927eb5e7081af16f97d9c15e34b030624a68f9/test/events.js
@@ -12,9 +12,9 @@ import * as _ from 'lodash';
 import { EventDispatcher, Event } from '../lib/utils/events';
 
 class Events extends EventDispatcher {
-    counter?: number;
-    counterA?: number;
-    counterB?: number;
+    counter = 0;
+    counterA = 0;
+    counterB = 0;
 }
 
 describe('Events', function () {
@@ -178,11 +178,11 @@ describe('Events', function () {
         a.listenTo(b, 'event', cb);
         b.on('event', cb);
         a.listenTo(b, 'event2', cb);
-        a.stopListening(null, {event: cb});
+        a.stopListening(undefined, {event: cb});
         b.trigger('event event2');
         b.off();
         a.listenTo(b, 'event event2', cb);
-        a.stopListening(null, 'event');
+        a.stopListening(undefined, 'event');
         a.stopListening();
         b.trigger('event2');
     });
@@ -416,13 +416,14 @@ describe('Events', function () {
 
     it('listenTo with empty callback does not throw an error', function () {
         const e = new Events();
-        e.listenTo(e, 'foo', null);
+        e.listenTo(e, 'foo', undefined);
         e.trigger('foo');
         Assert(true);
     });
 
     it('trigger all for each event', function () {
-        let a: boolean, b: boolean;
+        let a = false;
+        let b = false;
         const obj = new Events();
         obj.counter = 0;
         obj.on('all', function (event) {
@@ -586,7 +587,7 @@ describe('Events', function () {
         obj.on('x y all', function () {
             Assert(false);
         }, obj);
-        obj.off(null, null, obj);
+        obj.off(undefined, undefined, obj);
         obj.trigger('x y');
     });
 
@@ -600,7 +601,7 @@ describe('Events', function () {
         };
         obj.on('x y all', success);
         obj.on('x y all', fail);
-        obj.off(null, fail);
+        obj.off(undefined, fail);
         obj.trigger('x y');
     });
 
@@ -612,7 +613,7 @@ describe('Events', function () {
         obj.on('event', function () {
             Assert(false);
         }, obj);
-        obj.off(null, null, obj);
+        obj.off(undefined, undefined, obj);
         obj.trigger('event');
     });
 
@@ -711,7 +712,7 @@ describe('Events', function () {
         obj.once('event', function () {
             Assert(false);
         }, context);
-        obj.off(null, null, context);
+        obj.off(undefined, undefined, context);
         obj.trigger('event');
     });
 
@@ -781,7 +782,7 @@ describe('Events', function () {
 
         Assert.equal(obj, obj.trigger('noeventssetyet'));
         Assert.equal(obj, obj.off('noeventssetyet'));
-        Assert.equal(obj, obj.stopListening(null, 'noeventssetyet'));
+        Assert.equal(obj, obj.stopListening(undefined, 'noeventssetyet'));
         Assert.equal(obj, obj.on('a', fn));
         Assert.equal(obj, obj.once('c', fn));
         Assert.equal(obj, obj.trigger('a'));

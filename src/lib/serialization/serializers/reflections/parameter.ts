@@ -6,9 +6,8 @@ import { ReflectionSerializerComponent } from '../../components';
 @Component({name: 'serializer:parameter-reflection'})
 export class ParameterReflectionSerializer extends ReflectionSerializerComponent<ParameterReflection> {
 
-  initialize(): void {
-    super.initialize();
-    this.supports = (r: ParameterReflection) => r instanceof ParameterReflection;
+  supports(t: unknown) {
+    return t instanceof ParameterReflection;
   }
 
   toObject(parameter: ParameterReflection, obj?: any): any {

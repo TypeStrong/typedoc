@@ -7,9 +7,9 @@ import { ParameterType } from '../utils/options/declaration';
 import { Reflection, Type, ProjectReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { CompilerHost } from './utils/compiler-host';
 import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
 import { normalizePath } from '../utils/fs';
+import { createMinimatch } from '../utils/paths';
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -38,56 +38,64 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         name: 'name',
         help: 'Set the name of the project that will be used in the header of the template.'
     })
-    name: string;
+    name!: string;
 
     @Option({
         name: 'externalPattern',
-        help: 'Define a pattern for files that should be considered being external.'
+        help: 'Define patterns for files that should be considered being external.',
+        type: ParameterType.Array
     })
-    externalPattern: string;
+    externalPattern!: Array<string>;
 
     @Option({
         name: 'includeDeclarations',
         help: 'Turn on parsing of .d.ts declaration files.',
         type: ParameterType.Boolean
     })
-    includeDeclarations: boolean;
+    includeDeclarations!: boolean;
 
     @Option({
         name: 'excludeExternals',
         help: 'Prevent externally resolved TypeScript files from being documented.',
         type: ParameterType.Boolean
     })
-    excludeExternals: boolean;
+    excludeExternals!: boolean;
 
     @Option({
         name: 'excludeNotExported',
         help: 'Prevent symbols that are not exported from being documented.',
         type: ParameterType.Boolean
     })
-    excludeNotExported: boolean;
+    excludeNotExported!: boolean;
 
     @Option({
         name: 'excludePrivate',
         help: 'Ignores private variables and methods',
         type: ParameterType.Boolean
     })
-    excludePrivate: boolean;
+    excludePrivate!: boolean;
 
     @Option({
         name: 'excludeProtected',
         help: 'Ignores protected variables and methods',
         type: ParameterType.Boolean
     })
-    excludeProtected: boolean;
+    excludeProtected!: boolean;
 
-    private compilerHost: CompilerHost;
+    /**
+     * Defined in the initialize method
+     */
+    private nodeConverters!: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
 
-    private nodeConverters: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
+    /**
+     * Defined in the initialize method
+     */
+    private typeNodeConverters!: TypeNodeConverter<ts.Type, ts.Node>[];
 
-    private typeNodeConverters: TypeNodeConverter<ts.Type, ts.Node>[];
-
-    private typeTypeConverters: TypeTypeConverter<ts.Type>[];
+    /**
+     * Defined in the initialize method
+     */
+    private typeTypeConverters!: TypeTypeConverter<ts.Type>[];
 
     /**
      * General events
@@ -185,7 +193,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      *   must expose the settings that should be used and serves as a global logging endpoint.
      */
     initialize() {
-        this.compilerHost = new CompilerHost(this);
         this.nodeConverters = {};
         this.typeTypeConverters = [];
         this.typeNodeConverters = [];
@@ -220,7 +227,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
     }
 
-    removeComponent(name: string): ConverterComponent {
+    removeComponent(name: string): ConverterComponent | undefined {
         const component = super.removeComponent(name);
         if (component instanceof ConverterNodeComponent) {
             this.removeNodeConverter(component);
@@ -267,13 +274,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(fileNames: string[]): ConverterResult {
-        for (let i = 0, c = fileNames.length; i < c; i++) {
-            fileNames[i] = normalizePath(_ts.normalizeSlashes(fileNames[i]));
-        }
+        const normalizedFiles = fileNames.map(normalizePath);
 
-        const program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);
+        const program = ts.createProgram(normalizedFiles, this.application.options.getCompilerOptions());
         const checker = program.getTypeChecker();
-        const context = new Context(this, fileNames, checker, program);
+        const context = new Context(this, normalizedFiles, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
@@ -295,18 +300,18 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      *
      * @param context  The context object describing the current state the converter is in.
      * @param node     The compiler node that should be analyzed.
-     * @return The resulting reflection or NULL.
+     * @return The resulting reflection or undefined.
      */
-    convertNode(context: Context, node: ts.Node): Reflection {
-        if (context.visitStack.indexOf(node) !== -1) {
-            return null;
+    convertNode(context: Context, node: ts.Node): Reflection | undefined {
+        if (context.visitStack.includes(node)) {
+            return;
         }
 
         const oldVisitStack = context.visitStack;
         context.visitStack = oldVisitStack.slice();
         context.visitStack.push(node);
 
-        let result: Reflection;
+        let result: Reflection | undefined;
         if (node.kind in this.nodeConverters) {
             result = this.nodeConverters[node.kind].convert(context, node);
         }
@@ -323,7 +328,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param type  The type of the node if already known.
      * @returns The TypeDoc type reflection representing the given node and type.
      */
-    convertType(context: Context, node?: ts.Node, type?: ts.Type): Type {
+    convertType(context: Context, node?: ts.Node, type?: ts.Type): Type | undefined {
         // Run all node based type conversions
         if (node) {
             type = type || context.getTypeAtLocation(node);
@@ -346,6 +351,23 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     /**
+     * Helper function to convert multiple types at once, filtering out types which fail to convert.
+     *
+     * @param context
+     * @param nodes
+     */
+    convertTypes(context: Context, nodes: ReadonlyArray<ts.Node> = [], types: ReadonlyArray<ts.Type> = []): Type[] {
+        const result: Type[] = [];
+        _.zip(nodes, types).forEach(([node, type]) => {
+            const converted = this.convertType(context, node, type);
+            if (converted) {
+                result.push(converted);
+            }
+        });
+        return result;
+    }
+
+    /**
      * Compile the files within the given context and convert the compiler symbols to reflections.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -354,26 +376,33 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
         const program = context.program;
 
-        program.getSourceFiles().forEach((sourceFile) => {
+        const exclude = createMinimatch(this.application.exclude || []);
+        const isExcluded = (file: ts.SourceFile) => exclude.some(mm => mm.match(file.fileName));
+
+        const includedSourceFiles = program.getSourceFiles()
+            .filter(file => !isExcluded(file));
+        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+
+        includedSourceFiles.forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
 
-        let diagnostics = program.getOptionsDiagnostics();
+        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSyntacticDiagnostics();
+        diagnostics = program.getSyntacticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getGlobalDiagnostics();
+        diagnostics = program.getGlobalDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
 
-        diagnostics = program.getSemanticDiagnostics();
+        diagnostics = program.getSemanticDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }

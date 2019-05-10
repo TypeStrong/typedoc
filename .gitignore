@@ -4,12 +4,15 @@
 .baseDir.js
 .baseDir.ts
 yarn.lock
+.nyc_output
+yarn-error.log
 
 /src/typings/typescript/typescript.js
 
 /tmp/
 /etc/
 /examples/*/doc
+/examples/basic/json.json
 /examples/definitely-typed/src/
 /examples/plottable/src/
 /examples/doppio/src/

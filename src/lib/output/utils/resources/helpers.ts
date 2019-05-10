@@ -27,7 +27,10 @@ export class HelperStack extends ResourceStack<Helper> {
     private registeredNames: string[] = [];
 
     constructor() {
-        super(Helper, /\.js$/);
+        // Include .ts files so that tests run with ts-node work.
+        // Exclude .d.ts files so that declaration files are not included after compilation.
+        // Once lookbehind assertions are supported by all supported Node versions replace with /(?<!\.d)\.ts$|\.js$/
+        super(Helper, /((?!\.d).{2}|^.{0,1})\.ts$|\.js$/);
         this.addCoreHelpers();
     }
 
@@ -41,7 +44,7 @@ export class HelperStack extends ResourceStack<Helper> {
             const helpers = resources[resourceName].getHelpers();
 
             for (let name in helpers) {
-                if (this.registeredNames.indexOf(name) !== -1) {
+                if (this.registeredNames.includes(name)) {
                     continue;
                 }
                 this.registeredNames.push(name);
@@ -54,7 +57,7 @@ export class HelperStack extends ResourceStack<Helper> {
     }
 
     deactivate(): boolean {
-        if (!super.activate()) {
+        if (!super.deactivate()) {
             return false;
         }
 

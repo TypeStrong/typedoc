@@ -26,7 +26,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
         help: 'Emits a list of broken symbol [[navigation]] links after documentation generation',
         type: ParameterType.Boolean
     })
-    listInvalidSymbolLinks: boolean;
+    listInvalidSymbolLinks!: boolean;
 
     private warnings: string[] = [];
 
@@ -38,7 +38,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
         this.listenTo(this.owner, {
             [MarkdownEvent.PARSE]: this.onParseMarkdown,
             [RendererEvent.END]: this.onEndRenderer
-        }, null, 100);
+        }, undefined, 100);
     }
 
     /**
@@ -70,14 +70,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
             const split   = MarkedLinksPlugin.splitLinkText(content);
             const target  = split.target;
             const caption = leading || split.caption;
-
-            let monospace: boolean;
-            if (tagName === 'linkcode') {
-                monospace = true;
-            }
-            if (tagName === 'linkplain') {
-                monospace = false;
-            }
+            const monospace = tagName === 'linkcode';
 
             return this.buildLink(match, target, caption, monospace);
         });
@@ -97,7 +90,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
         if (this.urlPrefix.test(target)) {
             attributes = ' class="external"';
         } else {
-            let reflection: Reflection;
+            let reflection: Reflection | undefined;
             if (this.reflection) {
                 reflection = this.reflection.findReflectionByName(target);
             } else if (this.project) {
@@ -112,8 +105,8 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
                     target = this.getRelativeUrl(reflection.url);
                 }
             } else {
-                reflection = this.reflection || this.project;
-                this.warnings.push(`In ${reflection.getFullName()}: ${original}`);
+                const fullName = (this.reflection || this.project)!.getFullName();
+                this.warnings.push(`In ${fullName}: ${original}`);
                 return original;
             }
         }

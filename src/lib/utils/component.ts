@@ -4,26 +4,36 @@ import { Application } from '../application';
 import { EventDispatcher, Event, EventMap } from './events';
 import { DeclarationOption } from './options/declaration';
 
+/**
+ * Exposes a reference to the root Application component.
+ */
 export interface ComponentHost {
-    application: Application;
+    readonly application: Application;
 }
 
 export interface Component extends AbstractComponent<ComponentHost> {
 
 }
 
-export interface ComponentClass<T extends Component> extends Function {
-    new(owner: ComponentHost): T;
+export interface ComponentClass<T extends Component, O extends ComponentHost = ComponentHost> extends Function {
+    new(owner: O): T;
 }
 
+/**
+ * Option-bag passed to Component decorator.
+ */
 export interface ComponentOptions {
     name?: string;
+    /** Specify valid child component class.  Used to prove that children are valid via `instanceof` checks */
     childClass?: Function;
     internal?: boolean;
 }
 
-const childMappings: {host: any, child: Function}[] = [];
+const childMappings: {host: ChildableComponent<any, any>, child: Function}[] = [];
 
+/**
+ * Class decorator applied to Components
+ */
 export function Component(options: ComponentOptions): ClassDecorator {
     return (target: Function) => {
         const proto = target.prototype;
@@ -49,32 +59,37 @@ export function Component(options: ComponentOptions): ClassDecorator {
 
         const internal = !!options.internal;
         if (name && !internal) {
-            for (let childMapping of childMappings) {
+            for (const childMapping of childMappings) {
                 if (!(proto instanceof childMapping.child)) {
                     continue;
                 }
 
                 const host = childMapping.host;
-                const defaults = host._defaultComponents || (host._defaultComponents = {});
-                defaults[name] = target;
+                host['_defaultComponents'] = host['_defaultComponents'] || {};
+                host['_defaultComponents'][name] = target as any;
                 break;
             }
         }
     };
 }
 
+/**
+ * Decorator that declares a configuration option.
+ *
+ * Use it on an instance property of a Component class.
+ */
 export function Option(options: DeclarationOption): PropertyDecorator {
-    return function(target: AbstractComponent<any>, propertyKey: string) {
+    return function(target: object, propertyKey: string | symbol) {
         if (!(target instanceof AbstractComponent)) {
             throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
         }
 
-        const list = target['_componentOptions'] || (target['_componentOptions'] = []);
         options.component = target['_componentName'];
-        list.push(options);
+        target['_componentOptions'] = target['_componentOptions'] || [];
+        target['_componentOptions'].push(options);
 
         Object.defineProperty(target, propertyKey, {
-            get: function () {
+            get: function (this: AbstractComponent<ComponentHost>) {
                 return this.application.options.getValue(options.name);
             },
             enumerable: true,
@@ -100,28 +115,38 @@ export class ComponentEvent extends Event {
 }
 
 /**
- * Component base class.
+ * Dummy owner to be passed in to AbstractComponent / ChildableComponents if the class being constructed is
+ * the application. The application does not have an owner and will return itself for component.application
+ * and component.owner.
+ */
+export const DUMMY_APPLICATION_OWNER = Symbol();
+
+/**
+ * Component base class.  Has an owner (unless it's the application root component),
+ * can dispatch events to its children, and has access to the root Application component.
+ *
+ * @template O type of component's owner.
  */
 export abstract class AbstractComponent<O extends ComponentHost> extends EventDispatcher implements ComponentHost {
     /**
      * The owner of this component instance.
      */
-    private _componentOwner: O;
+    private _componentOwner: O | typeof DUMMY_APPLICATION_OWNER;
 
     /**
      * The name of this component as set by the @Component decorator.
      */
-    public componentName: string;
+    public componentName!: string;
 
     /**
      * A list of options defined by this component.
      */
-    private _componentOptions: DeclarationOption[];
+    private _componentOptions?: DeclarationOption[];
 
     /**
      * Create new Component instance.
      */
-    constructor(owner: O) {
+    constructor(owner: O | typeof DUMMY_APPLICATION_OWNER) {
         super();
         this._componentOwner = owner;
         this.initialize();
@@ -133,11 +158,10 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
     protected initialize() {}
 
     protected bubble(name: Event|EventMap|string, ...args: any[]) {
-        super.trigger.apply(this, arguments);
+        super.trigger(name, ...args);
 
-        const owner = <any> this.owner;
-        if (owner instanceof AbstractComponent) {
-            owner.bubble.apply(this._componentOwner, arguments);
+        if (this.owner instanceof AbstractComponent && this._componentOwner !== DUMMY_APPLICATION_OWNER) {
+            this.owner.bubble(name, ...args);
         }
 
         return this;
@@ -147,80 +171,84 @@ export abstract class AbstractComponent<O extends ComponentHost> extends EventDi
      * Return all option declarations emitted by this component.
      */
     getOptionDeclarations(): DeclarationOption[] {
-        return this._componentOptions ? this._componentOptions.slice() : [];
+        return (this._componentOptions || []).slice();
     }
 
     /**
      * Return the application / root component instance.
      */
     get application(): Application {
-        if (this._componentOwner) {
-            return this._componentOwner.application;
-        } else {
-            return null;
-        }
+        return this._componentOwner === DUMMY_APPLICATION_OWNER
+            ? this as any as Application
+            : this._componentOwner.application;
     }
 
     /**
      * Return the owner of this component.
      */
     get owner(): O {
-        return this._componentOwner;
+        return this._componentOwner === DUMMY_APPLICATION_OWNER
+            ? this as any
+            : this._componentOwner;
     }
 }
 
 /**
- * Component base class.
+ * Component that can have child components.
+ *
+ * @template O type of Component's owner
+ * @template C type of Component's children
  */
 export abstract class ChildableComponent<O extends ComponentHost, C extends Component> extends AbstractComponent<O> {
     /**
      *
      */
-    private _componentChildren: {[name: string]: C};
+    private _componentChildren?: {[name: string]: C};
 
-    private _defaultComponents: {[name: string]: ComponentClass<C>};
+    private _defaultComponents?: {[name: string]: ComponentClass<C>};
 
     /**
      * Create new Component instance.
      */
-    constructor(owner: O) {
+    constructor(owner: O | typeof DUMMY_APPLICATION_OWNER) {
         super(owner);
 
-        for (let name in this._defaultComponents) {
-            this.addComponent(name, this._defaultComponents[name]);
-        }
+        _.entries(this._defaultComponents || {}).forEach(([name, component]) => {
+            this.addComponent(name, component);
+        });
     }
 
     /**
      * Retrieve a plugin instance.
      *
-     * @returns  The instance of the plugin or NULL if no plugin with the given class is attached.
+     * @returns  The instance of the plugin or undefined if no plugin with the given class is attached.
      */
-    getComponent(name: string): C {
-        if (this._componentChildren && this._componentChildren[name]) {
-            return this._componentChildren[name];
-        } else {
-            return null;
-        }
+    getComponent(name: string): C | undefined {
+        return (this._componentChildren || {})[name];
     }
 
     getComponents(): C[] {
-        return _.values<C>(this._componentChildren);
+        return _.values(this._componentChildren);
     }
 
     hasComponent(name: string): boolean {
-        return !!(this._componentChildren && this._componentChildren[name]);
+        return !!(this._componentChildren || {})[name];
     }
 
-    addComponent<T extends C & Component>(name: string, componentClass: T|ComponentClass<T>): T {
+    addComponent<T extends C>(name: string, componentClass: T|ComponentClass<T, O>): T {
         if (!this._componentChildren) {
             this._componentChildren = {};
         }
 
         if (this._componentChildren[name]) {
-            throw new Error('The component `%s` has already been added.');
+            // Component already added so we will return the existing component
+            // TODO: add better logging around this because it could be unexpected but shouldn't be fatal
+            // See https://github.com/TypeStrong/typedoc/issues/846
+            return <T> this._componentChildren[name];
         } else {
-            const component: T = typeof componentClass === 'function' ? new (<ComponentClass<T>> componentClass)(this) : <T> componentClass;
+            const component: T = typeof componentClass === 'function'
+                ? new (<ComponentClass<T>> componentClass)(this)
+                : componentClass;
             const event = new ComponentEvent(ComponentEvent.ADDED, this, component);
 
             this.bubble(event);
@@ -230,27 +258,19 @@ export abstract class ChildableComponent<O extends ComponentHost, C extends Comp
         }
     }
 
-    removeComponent(name: string): C {
-        if (!this._componentChildren) {
-            return null;
-        }
-        const component = this._componentChildren[name];
+    removeComponent(name: string): C | undefined {
+        const component = (this._componentChildren || {})[name];
         if (component) {
-            delete this._componentChildren[name];
+            delete this._componentChildren![name];
             component.stopListening();
             this.bubble(new ComponentEvent(ComponentEvent.REMOVED, this, component));
             return component;
-        } else {
-            return null;
         }
     }
 
     removeAllComponents() {
-        if (!this._componentChildren) {
-            return;
-        }
-        for (let name in this._componentChildren) {
-            this._componentChildren[name].stopListening();
+        for (const component of _.values(this._componentChildren)) {
+            component.stopListening();
         }
 
         this._componentChildren = {};

@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
 
 import { ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection } from '../../models/reflections/index';
 import { Context } from '../context';
@@ -13,16 +12,20 @@ import { convertDefaultValue } from '../convert-expression';
  * @param node  The parameter node that should be reflected.
  * @returns The newly created parameter reflection.
  */
-export function createParameter(context: Context, node: ts.ParameterDeclaration): ParameterReflection {
-    const signature = <SignatureReflection> context.scope;
-    if (!(signature instanceof SignatureReflection)) {
+export function createParameter(context: Context, node: ts.ParameterDeclaration): ParameterReflection | undefined {
+    if (!(context.scope instanceof SignatureReflection)) {
         throw new Error('Expected signature reflection.');
     }
+    const signature = context.scope;
 
-    const parameter = new ParameterReflection(signature, node.symbol.name, ReflectionKind.Parameter);
+    if (!node.symbol) {
+        return;
+    }
+
+    const parameter = new ParameterReflection(node.symbol.name, ReflectionKind.Parameter, signature);
     context.registerReflection(parameter, node);
     context.withScope(parameter, () => {
-        if (_ts.isBindingPattern(node.name)) {
+        if (ts.isArrayBindingPattern(node.name) || ts.isObjectBindingPattern(node.name)) {
             parameter.type = context.converter.convertType(context, node.name);
             parameter.name = '__namedParameters';
         } else {

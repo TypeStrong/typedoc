@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
 
 import { Reflection } from '../../models/index';
 import { Context } from '../context';
@@ -24,8 +23,8 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
     convert(context: Context, node: ts.VariableStatement): Reflection {
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
-                if (_ts.isBindingPattern(variableDeclaration.name)) {
-                    this.convertBindingPattern(context, <ts.BindingPattern> variableDeclaration.name);
+                if (ts.isArrayBindingPattern(variableDeclaration.name) || ts.isObjectBindingPattern(variableDeclaration.name)) {
+                    this.convertBindingPattern(context, variableDeclaration.name);
                 } else {
                     this.owner.convertNode(context, variableDeclaration);
                 }
@@ -42,11 +41,15 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
      * @param node     The binding pattern node that should be analyzed.
      */
     convertBindingPattern(context: Context, node: ts.BindingPattern) {
-        (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element: ts.BindingElement) => {
+        node.elements.forEach((element) => {
             this.owner.convertNode(context, element);
 
-            if (_ts.isBindingPattern(element.name)) {
-                this.convertBindingPattern(context, <ts.BindingPattern> element.name);
+            if (!ts.isBindingElement(element)) {
+                return;
+            }
+
+            if (ts.isArrayBindingPattern(element.name) || ts.isObjectBindingPattern(element.name)) {
+                this.convertBindingPattern(context, element.name);
             }
         });
     }

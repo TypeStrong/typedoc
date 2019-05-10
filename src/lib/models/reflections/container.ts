@@ -2,22 +2,23 @@ import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from '
 import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { DeclarationReflection } from './declaration';
+import { toArray } from 'lodash';
 
 export class ContainerReflection extends Reflection {
     /**
      * The children of this reflection.
      */
-    children: DeclarationReflection[];
+    children?: DeclarationReflection[];
 
     /**
      * All children grouped by their kind.
      */
-    groups: ReflectionGroup[];
+    groups?: ReflectionGroup[];
 
     /**
      * All children grouped by their category.
      */
-    categories: ReflectionCategory[];
+    categories?: ReflectionCategory[];
 
     /**
      * Return a list of all children of a certain kind.
@@ -26,14 +27,7 @@ export class ContainerReflection extends Reflection {
      * @returns     An array containing all children with the desired kind.
      */
     getChildrenByKind(kind: ReflectionKind): DeclarationReflection[] {
-        const values: DeclarationReflection[] = [];
-        for (let key in this.children) {
-            const child = this.children[key];
-            if (child.kindOf(kind)) {
-                values.push(child);
-            }
-        }
-        return values;
+        return (this.children || []).filter(child => child.kindOf(kind));
     }
 
     /**
@@ -45,10 +39,10 @@ export class ContainerReflection extends Reflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     traverse(callback: TraverseCallback) {
-        if (this.children) {
-            this.children.slice().forEach((child: DeclarationReflection) => {
-                callback(child, TraverseProperty.Children);
-            });
+        for (const child of toArray(this.children)) {
+            if (callback(child, TraverseProperty.Children) === false) {
+                return;
+            }
         }
     }
 

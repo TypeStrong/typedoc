@@ -21,7 +21,7 @@ export class DynamicModulePlugin extends ConverterComponent {
     /**
      * List of reflections whose name must be trimmed.
      */
-    private reflections: Reflection[];
+    private reflections!: Reflection[];
 
     /**
      * Create a new DynamicModuleHandler instance.
@@ -54,7 +54,7 @@ export class DynamicModulePlugin extends ConverterComponent {
     private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
             let name = reflection.name;
-            if (name.indexOf('/') === -1) {
+            if (!name.includes('/')) {
                 return;
             }
 

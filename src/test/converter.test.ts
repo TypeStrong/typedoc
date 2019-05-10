@@ -61,7 +61,7 @@ describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
     let app: Application;
 
-    it('constructs', function() {
+    before('constructs', function() {
         app = new Application({
             mode:   'Modules',
             logger: 'none',
@@ -79,7 +79,7 @@ describe('Converter', function() {
         }
 
         describe(directory, function() {
-            let result: ProjectReflection;
+            let result: ProjectReflection | undefined;
 
             it('converts fixtures', function() {
                 resetReflectionID();
@@ -89,7 +89,7 @@ describe('Converter', function() {
 
             it('matches specs', function() {
                 const specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs.json')).toString());
-                let data = JSON.stringify(result.toObject(), null, '  ');
+                let data = JSON.stringify(result!.toObject(), null, '  ');
                 data = data.split(normalizePath(base)).join('%BASE%');
 
                 compareReflections(JSON.parse(data), specs);
@@ -104,7 +104,7 @@ describe('Converter with excludeNotExported=true', function() {
     const classDir = Path.join(base, 'class');
     let app: Application;
 
-    it('constructs', function() {
+    before('constructs', function() {
         app = new Application({
             mode:   'Modules',
             logger: 'none',
@@ -116,7 +116,7 @@ describe('Converter with excludeNotExported=true', function() {
         });
     });
 
-    let result: ProjectReflection;
+    let result: ProjectReflection | undefined;
 
     describe('export-with-local', () => {
         it('converts fixtures', function() {
@@ -127,7 +127,7 @@ describe('Converter with excludeNotExported=true', function() {
 
         it('matches specs', function() {
             const specs = JSON.parse(FS.readFileSync(Path.join(exportWithLocalDir, 'specs-without-exported.json')).toString());
-            let data = JSON.stringify(result.toObject(), null, '  ');
+            let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
             compareReflections(JSON.parse(data), specs);
@@ -143,7 +143,7 @@ describe('Converter with excludeNotExported=true', function() {
 
         it('matches specs', function() {
             const specs = JSON.parse(FS.readFileSync(Path.join(classDir, 'specs-without-exported.json')).toString());
-            let data = JSON.stringify(result.toObject(), null, '  ');
+            let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
             compareReflections(JSON.parse(data), specs);

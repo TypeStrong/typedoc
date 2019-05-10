@@ -3,36 +3,37 @@ import { Reflection, TypeContainer, TypeParameterContainer, TraverseProperty, Tr
 import { ContainerReflection } from './container';
 import { ParameterReflection } from './parameter';
 import { TypeParameterReflection } from './type-parameter';
+import { toArray } from 'lodash';
 
 export class SignatureReflection extends Reflection implements TypeContainer, TypeParameterContainer {
-    parent: ContainerReflection;
+    parent?: ContainerReflection;
 
-    parameters: ParameterReflection[];
+    parameters?: ParameterReflection[];
 
-    typeParameters: TypeParameterReflection[];
+    typeParameters?: TypeParameterReflection[];
 
-    type: Type;
+    type?: Type;
 
     /**
      * A type that points to the reflection that has been overwritten by this reflection.
      *
      * Applies to interface and class members.
      */
-    overwrites: Type;
+    overwrites?: Type;
 
     /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
      */
-    inheritedFrom: Type;
+    inheritedFrom?: Type;
 
     /**
      * A type that points to the reflection this reflection is the implementation of.
      *
      * Applies to class members.
      */
-    implementationOf: Type;
+    implementationOf?: Type;
 
     /**
      * Return an array of the parameter types.
@@ -41,7 +42,10 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
         if (!this.parameters) {
             return [];
         }
-        return this.parameters.map((parameter: ParameterReflection) => parameter.type);
+        function notUndefined<T>(t: T | undefined): t is T {
+            return !!t;
+        }
+        return this.parameters.map(parameter => parameter.type).filter(notUndefined);
     }
 
     /**
@@ -54,15 +58,21 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback((<ReflectionType> this.type).declaration, TraverseProperty.TypeLiteral);
+            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+                return;
+            }
         }
 
-        if (this.typeParameters) {
-            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+        for (const parameter of toArray(this.typeParameters)) {
+            if (callback(parameter, TraverseProperty.TypeParameter) === false) {
+                return;
+            }
         }
 
-        if (this.parameters) {
-            this.parameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
+        for (const parameter of toArray(this.parameters)) {
+            if (callback(parameter, TraverseProperty.Parameters) === false) {
+                return;
+            }
         }
 
         super.traverse(callback);

@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
+import { toArray } from 'lodash';
 
 import { Comment, CommentTag } from '../../models/comments/index';
 
@@ -7,13 +7,12 @@ import { Comment, CommentTag } from '../../models/comments/index';
  * Return the parsed comment of the given TypeScript node.
  *
  * @param node  The node whose comment should be returned.
- * @return The parsed comment as a [[Comment]] instance or NULL if
- *     no comment is present.
+ * @return The parsed comment as a [[Comment]] instance or undefined if no comment is present.
  */
-export function createComment(node: ts.Node): Comment {
+export function createComment(node: ts.Node): Comment | undefined {
     const comment = getRawComment(node);
-    if (comment == null) {
-        return null;
+    if (!comment) {
+        return;
     }
 
     return parseComment(comment);
@@ -22,7 +21,7 @@ export function createComment(node: ts.Node): Comment {
 /**
  * Check whether the given module declaration is the topmost.
  *
- * This funtion returns TRUE if there is no trailing module defined, in
+ * This function returns TRUE if there is no trailing module defined, in
  * the following example this would be the case only for module <code>C</code>.
  *
  * ```
@@ -33,14 +32,7 @@ export function createComment(node: ts.Node): Comment {
  * @return TRUE if the given node is the topmost module declaration, FALSE otherwise.
  */
 function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
-    if (node.nextContainer && node.nextContainer.kind === ts.SyntaxKind.ModuleDeclaration) {
-        let next = <ts.ModuleDeclaration> node.nextContainer;
-        if (node.name.end + 1 === next.name.pos) {
-            return false;
-        }
-    }
-
-    return true;
+    return node.getChildren().some(ts.isModuleBlock);
 }
 
 /**
@@ -67,29 +59,52 @@ function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
 }
 
 /**
+ * Derived from the internal ts utility
+ * https://github.com/Microsoft/TypeScript/blob/v3.2.2/src/compiler/utilities.ts#L954
+ * @param node
+ * @param text
+ */
+function getJSDocCommentRanges(node: ts.Node, text: string): ts.CommentRange[] {
+    const hasTrailingCommentRanges = [
+        ts.SyntaxKind.Parameter,
+        ts.SyntaxKind.FunctionExpression,
+        ts.SyntaxKind.ArrowFunction,
+        ts.SyntaxKind.ParenthesizedExpression
+    ].includes(node.kind);
+
+    let commentRanges = toArray(ts.getLeadingCommentRanges(text, node.pos));
+    if (hasTrailingCommentRanges) {
+        commentRanges = toArray(ts.getTrailingCommentRanges(text, node.pos)).concat(commentRanges);
+    }
+
+    // True if the comment starts with '/**' but not if it is '/**/'
+    return commentRanges.filter(({ pos }) => text.substr(pos, 3) === '/**' && text[pos + 4] !== '/');
+}
+
+/**
  * Return the raw comment string for the given node.
  *
  * @param node  The node whose comment should be resolved.
- * @returns     The raw comment string or NULL if no comment could be found.
+ * @returns     The raw comment string or undefined if no comment could be found.
  */
-export function getRawComment(node: ts.Node): string {
+export function getRawComment(node: ts.Node): string | undefined {
     if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
         node = node.parent.parent;
     } else if (node.kind === ts.SyntaxKind.ModuleDeclaration) {
         if (!isTopmostModuleDeclaration(<ts.ModuleDeclaration> node)) {
-            return null;
+            return;
         } else {
             node = getRootModuleDeclaration(<ts.ModuleDeclaration> node);
         }
     }
 
-    const sourceFile = _ts.getSourceFileOfNode(node);
-    const comments = _ts.getJSDocCommentRanges(node, sourceFile.text);
-    if (comments && comments.length) {
+    const sourceFile = node.getSourceFile();
+    const comments = getJSDocCommentRanges(node, sourceFile.text);
+    if (comments.length) {
         let comment: ts.CommentRange;
         if (node.kind === ts.SyntaxKind.SourceFile) {
             if (comments.length === 1) {
-                return null;
+                return;
             }
             comment = comments[0];
         } else {
@@ -98,7 +113,7 @@ export function getRawComment(node: ts.Node): string {
 
         return sourceFile.text.substring(comment.pos, comment.end);
     } else {
-        return null;
+        return;
     }
 }
 
@@ -138,7 +153,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
 
     function readTagLine(line: string, tag: RegExpExecArray) {
         let tagName = tag[1].toLowerCase();
-        let paramName: string;
+        let paramName: string | undefined;
         line = line.substr(tagName.length + 1).trim();
 
         if (tagName === 'return') { tagName = 'returns'; }
@@ -179,8 +194,6 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         readBareLine(line);
     }
 
-    // text = text.replace(/^\s*\/\*+\s*(\r\n?|\n)/, '');
-    // text = text.replace(/(\r\n?|\n)\s*\*+\/\s*$/, '');
     text = text.replace(/^\s*\/\*+/, '');
     text = text.replace(/\*+\/\s*$/, '');
     text.split(/\r\n?|\n/).forEach(readLine);

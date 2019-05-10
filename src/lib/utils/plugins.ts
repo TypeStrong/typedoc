@@ -1,19 +1,21 @@
 import * as FS from 'fs';
 import * as Path from 'path';
-import * as Util from 'util';
 
 import { Application } from '../application';
 import { AbstractComponent, Component, Option } from './component';
 import { ParameterType } from './options/declaration';
 
-@Component({name: 'plugin-host', internal: true})
+/**
+ * Responsible for discovering and loading plugins.
+ */
+@Component({ name: 'plugin-host', internal: true })
 export class PluginHost extends AbstractComponent<Application> {
     @Option({
         name: 'plugin',
         help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
         type: ParameterType.Array
     })
-    plugins: string[];
+    plugins!: string[];
 
     /**
      * Load the given list of npm plugins.
@@ -29,6 +31,8 @@ export class PluginHost extends AbstractComponent<Application> {
         let i: number, c: number = plugins.length;
         for (i = 0; i < c; i++) {
             const plugin = plugins[i];
+            // TSLint would be correct here, but it doesn't take into account user config files.
+            // tslint:disable-next-line:strict-type-predicates
             if (typeof plugin !== 'string') {
                 logger.error('Unknown plugin %s', plugin);
                 return false;
@@ -42,9 +46,9 @@ export class PluginHost extends AbstractComponent<Application> {
             try {
                 const instance = require(plugin);
                 const initFunction = typeof instance.load === 'function'
-                  ? instance.load
-                  : instance                // support legacy plugins
-                ;
+                    ? instance.load
+                    : instance                // support legacy plugins
+                    ;
                 if (typeof initFunction === 'function') {
                     instance(this);
                     logger.write('Loaded plugin %s', plugin);
@@ -54,8 +58,10 @@ export class PluginHost extends AbstractComponent<Application> {
             } catch (error) {
                 logger.error('The plugin %s could not be loaded.', plugin);
                 logger.writeln(error.stack);
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -76,7 +82,7 @@ export class PluginHost extends AbstractComponent<Application> {
             let path = process.cwd(), previous: string;
             do {
                 const modules = Path.join(path, 'node_modules');
-                if (FS.existsSync(modules) && FS.lstatSync(modules).isDirectory()) {
+                if (FS.existsSync(modules) && FS.statSync(modules).isDirectory()) {
                     discoverModules(modules);
                 }
 
@@ -89,16 +95,25 @@ export class PluginHost extends AbstractComponent<Application> {
          * Scan the given `node_modules` directory for TypeDoc plugins.
          */
         function discoverModules(basePath: string) {
+            const candidates: string[] = [];
             FS.readdirSync(basePath).forEach((name) => {
                 const dir = Path.join(basePath, name);
-                const infoFile = Path.join(dir, 'package.json');
+                if (name.startsWith('@')) {
+                    FS.readdirSync(dir).forEach((n) => {
+                        candidates.push(Path.join(name, n));
+                    });
+                }
+                candidates.push(name);
+            });
+            candidates.forEach((name) => {
+                const infoFile = Path.join(basePath, name, 'package.json');
                 if (!FS.existsSync(infoFile)) {
                     return;
                 }
 
                 const info = loadPackageInfo(infoFile);
                 if (isPlugin(info)) {
-                    result.push(name);
+                    result.push(Path.join(basePath, name));
                 }
             });
         }
@@ -108,7 +123,7 @@ export class PluginHost extends AbstractComponent<Application> {
          */
         function loadPackageInfo(fileName: string): any {
             try {
-                return JSON.parse(FS.readFileSync(fileName, {encoding: 'utf-8'}));
+                return JSON.parse(FS.readFileSync(fileName, { encoding: 'utf-8' }));
             } catch (error) {
                 logger.error('Could not parse %s', fileName);
                 return {};
@@ -119,8 +134,8 @@ export class PluginHost extends AbstractComponent<Application> {
          * Test whether the given package info describes a TypeDoc plugin.
          */
         function isPlugin(info: any): boolean {
-            const keywords: string[] = info.keywords;
-            if (!keywords || !Util.isArray(keywords)) {
+            const keywords: unknown[] = info.keywords;
+            if (!keywords || !Array.isArray(keywords)) {
                 return false;
             }
 

@@ -110,11 +110,17 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
           }
         },
         {
@@ -131,11 +137,17 @@
             }
           ],
           "type": {
-            "type": "array",
-            "elementType": {
-              "type": "intrinsic",
-              "name": "number"
-            }
+            "type": "tuple",
+            "elements": [
+              {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            ]
           }
         },
         {

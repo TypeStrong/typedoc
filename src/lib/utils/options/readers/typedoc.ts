@@ -6,6 +6,9 @@ import { Component, Option } from '../../component';
 import { OptionsComponent, OptionsReadMode, DiscoverEvent } from '../options';
 import { ParameterType, ParameterHint } from '../declaration';
 
+/**
+ * Obtains option values from typedoc.js
+ */
 @Component({name: 'options:typedoc'})
 export class TypedocReader extends OptionsComponent {
     @Option({
@@ -14,7 +17,7 @@ export class TypedocReader extends OptionsComponent {
         type: ParameterType.String,
         hint: ParameterHint.File
     })
-    options: string;
+    options!: string;
 
     /**
      * The name of the parameter that specifies the options file.
@@ -31,30 +34,59 @@ export class TypedocReader extends OptionsComponent {
             return;
         }
 
+        let file: string | undefined;
+
         if (TypedocReader.OPTIONS_KEY in event.data) {
-            this.load(event, Path.resolve(event.data[TypedocReader.OPTIONS_KEY]));
-        } else if (this.application.isCLI) {
-            const file = Path.resolve('typedoc.js');
-            if (FS.existsSync(file)) {
-                this.load(event, file);
+            let opts = event.data[TypedocReader.OPTIONS_KEY];
+
+            if (opts && opts[0] === '.') {
+                opts = Path.resolve(opts);
             }
+
+            file = this.findTypedocFile(opts);
+
+            if (!file || !FS.existsSync(file)) {
+                event.addError('The options file could not be found with the given path %s.', opts);
+                return;
+            }
+        } else if (this.application.isCLI) {
+            file = this.findTypedocFile(process.cwd());
         }
+
+        file && this.load(event, file);
+    }
+
+    /**
+     * Search for the typedoc.js or typedoc.json file from the given path
+     *
+     * @param  path Path to the typedoc.(js|json) file. If path is a directory
+     *   typedoc file will be attempted to be found at the root of this path
+     * @return the typedoc.(js|json) file path or undefined
+     */
+    findTypedocFile(path: string): string | undefined {
+        path = Path.resolve(path);
+
+        if (FS.existsSync(path) && FS.statSync(path).isFile()) {
+            return path;
+        }
+
+        let file = Path.join(path, 'typedoc.js');
+        if (FS.existsSync(file)) {
+            return file;
+        }
+
+        file += 'on'; // look for JSON file
+        return FS.existsSync(file) ? file : undefined;
     }
 
     /**
      * Load the specified option file.
      *
+     * @param event The event object from the DISCOVER event.
      * @param optionFile  The absolute path and file name of the option file.
-     * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
-     *   will simply skip all unknown arguments.
      * @returns TRUE on success, otherwise FALSE.
      */
     load(event: DiscoverEvent, optionFile: string) {
-        if (!FS.existsSync(optionFile)) {
-            event.addError('The option file %s does not exist.', optionFile);
-            return;
-        }
-
         let data = require(optionFile);
         if (typeof data === 'function') {
             data = data(this.application);

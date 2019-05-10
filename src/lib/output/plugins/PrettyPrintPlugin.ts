@@ -36,7 +36,7 @@ export class PrettyPrintPlugin extends RendererComponent {
     /**
      * Map of all tags that will be ignored.
      */
-    static IGNORED_TAGS: any = {
+    static IGNORED_TAGS = {
         area:    true,
         base:    true,
         br:      true,
@@ -56,7 +56,7 @@ export class PrettyPrintPlugin extends RendererComponent {
     /**
      * Map of all tags that prevent this plugin form modifying the following code.
      */
-    static PRE_TAGS: any = {
+    static PRE_TAGS = {
         pre:      true,
         code:     true,
         textarea: true,
@@ -77,12 +77,12 @@ export class PrettyPrintPlugin extends RendererComponent {
      * @param event
      */
     onRendererEndPage(event: PageEvent) {
-        let match: RegExpMatchArray;
+        let match: RegExpMatchArray | null;
         let line: string;
         let lineState: PrettyPrintState;
         let lineDepth: number;
         let tagName: string;
-        let preName: string;
+        let preName: string | undefined;
 
         let tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
         let emptyLineExp = /^[\s]*$/;
@@ -90,7 +90,7 @@ export class PrettyPrintPlugin extends RendererComponent {
         let state        = PrettyPrintState.Default;
         const stack: string[] = [];
 
-        const lines        = event.contents.split(/\r\n?|\n/);
+        const lines        = (event.contents || '').split(/\r\n?|\n/);
         let index        = 0;
         let count        = lines.length;
 

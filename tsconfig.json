@@ -6,10 +6,15 @@
       "es5",
       "es2015.core",
       "es2015.collection",
-      "es2015.iterable"
+      "es2015.iterable",
+      "es2016.array.include" // Supported by Node 6+
     ],
-    "target": "es5",
+    "target": "es2015",
     "noImplicitAny": false,
+    "downlevelIteration": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
     "removeComments": true,
     "noUnusedLocals": true,
     "preserveConstEnums": true,
@@ -18,12 +23,15 @@
     "inlineSources": true, // Required for debugging NPM published package.
     "outDir": "dist/",
     "rootDir": "src/",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "newLine": "LF"
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
-    "src/test/converter/**/*.ts"
+    "src/test/converter/**/*.ts",
+    "src/test/.dot/**/*.ts",
+    "src/test/module/**/*.ts"
   ]
 }

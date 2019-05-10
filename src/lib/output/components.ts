@@ -5,7 +5,7 @@ import { ProjectReflection, DeclarationReflection } from '../models/reflections/
 import { Renderer } from './renderer';
 import { RendererEvent, PageEvent } from './events';
 
-export {Component};
+export { Component };
 
 export abstract class RendererComponent extends AbstractComponent<Renderer> { }
 
@@ -16,17 +16,18 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
     /**
      * The project that is currently processed.
      */
-    protected project: ProjectReflection;
+    protected project?: ProjectReflection;
 
     /**
      * The reflection that is currently processed.
      */
-    protected reflection: DeclarationReflection;
+    protected reflection?: DeclarationReflection;
 
     /**
      * The url of the document that is being currently generated.
+     * Set when a page begins rendering.
      */
-    private location: string;
+    private location!: string;
 
     /**
      * Regular expression to test if a string looks like an external url.
@@ -76,6 +77,6 @@ export abstract class ContextAwareRendererComponent extends RendererComponent {
      */
     protected onBeginPage(page: PageEvent) {
         this.location   = page.url;
-        this.reflection = page.model instanceof DeclarationReflection ? page.model : null;
+        this.reflection = page.model instanceof DeclarationReflection ? page.model : undefined;
     }
 }

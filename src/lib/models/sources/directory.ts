@@ -1,5 +1,4 @@
 import { Reflection } from '../reflections/abstract';
-import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { SourceFile } from './file';
 
@@ -12,18 +11,16 @@ import { SourceFile } from './file';
  */
 export class SourceDirectory {
     /**
-     * The parent directory or NULL if this is a root directory.
+     * The parent directory or undefined if this is a root directory.
      */
-    parent: SourceDirectory = null;
+    parent?: SourceDirectory;
 
     /**
      * A list of all subdirectories.
      */
     directories: {[name: string]: SourceDirectory} = {};
 
-    groups: ReflectionGroup[];
-
-    categories: ReflectionCategory[];
+    groups?: ReflectionGroup[];
 
     /**
      * A list of all files in this directory.
@@ -33,17 +30,17 @@ export class SourceDirectory {
     /**
      * The name of this directory.
      */
-    name: string = null;
+    name?: string;
 
     /**
      * The relative path from the root directory to this directory.
      */
-    dirName: string = null;
+    dirName?: string;
 
     /**
      * The url of the page displaying the directory contents.
      */
-    url: string;
+    url?: string;
 
     /**
      * Create a new SourceDirectory instance.

@@ -5,6 +5,7 @@ import { Reflection, ReflectionKind, DeclarationReflection } from '../../models/
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
+import { toArray } from 'lodash';
 
 @Component({name: 'node:interface'})
 export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDeclaration> {
@@ -22,8 +23,8 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
      * @param node     The interface declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.InterfaceDeclaration): Reflection {
-        let reflection: DeclarationReflection;
+    convert(context: Context, node: ts.InterfaceDeclaration): Reflection | undefined {
+        let reflection: DeclarationReflection | undefined;
         if (context.isInherit && context.inheritParent === node) {
             reflection = <DeclarationReflection> context.scope;
         } else {
@@ -32,25 +33,32 @@ export class InterfaceConverter extends ConverterNodeComponent<ts.InterfaceDecla
 
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
-                node.members.forEach((member, isInherit) => {
+                node.members.forEach((member) => {
                     this.owner.convertNode(context, member);
                 });
             }
 
-            const baseTypes = _ts.getInterfaceBaseTypeNodes(node);
-            if (baseTypes) {
-                baseTypes.forEach((baseType) => {
+            const extendsClause = toArray(node.heritageClauses).find(h => h.token === ts.SyntaxKind.ExtendsKeyword);
+            if (extendsClause) {
+                extendsClause.types.forEach((baseType) => {
                     const type = context.getTypeAtLocation(baseType);
                     if (!context.isInherit) {
-                        if (!reflection.extendedTypes) {
-                            reflection.extendedTypes = [];
+                        if (!reflection!.extendedTypes) {
+                            reflection!.extendedTypes = [];
                         }
-                        reflection.extendedTypes.push(this.owner.convertType(context, baseType, type));
+                        const convertedType = this.owner.convertType(context, baseType, type);
+                        if (convertedType) {
+                            reflection!.extendedTypes.push(convertedType);
+                        }
                     }
 
-                    if (type && type.symbol) {
-                        type.symbol.declarations.forEach((declaration) => {
-                            context.inherit(declaration, baseType.typeArguments);
+                    if (type) {
+                        const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
+
+                        typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
+                            typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
+                                context.inherit(declaration, baseType.typeArguments);
+                            });
                         });
                     }
                 });

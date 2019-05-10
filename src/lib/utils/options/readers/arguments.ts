@@ -5,6 +5,20 @@ import { Component } from '../../component';
 import { DiscoverEvent, OptionsComponent } from '../options';
 import { ParameterType } from '../declaration';
 
+/**
+ * ASCII Values
+ * https://www.ascii-code.com/
+ */
+enum CharacterCodes {
+    space = 0x20,
+    doubleQuote = 0x22,
+    at = 0x40,
+    minus = 0x2d
+}
+
+/**
+ * Obtains option values from command-line arguments
+ */
 @Component({name: 'options:arguments'})
 export class ArgumentsReader extends OptionsComponent {
     initialize() {
@@ -20,16 +34,16 @@ export class ArgumentsReader extends OptionsComponent {
     /**
      * Read and store the given list of arguments.
      *
-     * @param args  The list of arguments that should be parsed. When omitted the
+     * @param passedArgs  The list of arguments that should be parsed. When omitted the
      *   current command line arguments will be used.
      * @param ignoreUnknownArgs  Should unknown arguments be ignored? If so the parser
      *   will simply skip all unknown arguments.
      * @returns TRUE on success, otherwise FALSE.
      */
-    private parseArguments(event: DiscoverEvent, args?: string[]) {
+    private parseArguments(event: DiscoverEvent, passedArgs?: string[]) {
         let index = 0;
         const owner = this.owner;
-        args = args || process.argv.slice(2);
+        const args = passedArgs || process.argv.slice(2);
 
         function readArgument(arg: string) {
             const declaration = owner.getDeclaration(arg);
@@ -46,14 +60,14 @@ export class ArgumentsReader extends OptionsComponent {
             }
         }
 
-        const files = [];
+        const files: string[] = [];
         while (index < args.length) {
             const arg = args[index++];
 
-            if (arg.charCodeAt(0) === _ts.CharacterCodes.at) {
+            if (arg.charCodeAt(0) === CharacterCodes.at) {
                 this.parseResponseFile(event, arg.slice(1));
-            } else if (arg.charCodeAt(0) === _ts.CharacterCodes.minus) {
-                readArgument(arg.slice(arg.charCodeAt(1) === _ts.CharacterCodes.minus ? 2 : 1).toLowerCase());
+            } else if (arg.charCodeAt(0) === CharacterCodes.minus) {
+                readArgument(arg.slice(arg.charCodeAt(1) === CharacterCodes.minus ? 2 : 1).toLowerCase());
             } else {
                 files.push(arg);
             }
@@ -80,7 +94,7 @@ export class ArgumentsReader extends OptionsComponent {
         const args: string[] = [];
         let pos = 0;
         while (true) {
-            while (pos < text.length && text.charCodeAt(pos) <= _ts.CharacterCodes.space) {
+            while (pos < text.length && text.charCodeAt(pos) <= CharacterCodes.space) {
                 pos++;
             }
             if (pos >= text.length) {
@@ -88,9 +102,9 @@ export class ArgumentsReader extends OptionsComponent {
             }
 
             const start = pos;
-            if (text.charCodeAt(start) === _ts.CharacterCodes.doubleQuote) {
+            if (text.charCodeAt(start) === CharacterCodes.doubleQuote) {
                 pos++;
-                while (pos < text.length && text.charCodeAt(pos) !== _ts.CharacterCodes.doubleQuote) {
+                while (pos < text.length && text.charCodeAt(pos) !== CharacterCodes.doubleQuote) {
                     pos++;
                 }
                 if (pos < text.length) {
@@ -101,7 +115,7 @@ export class ArgumentsReader extends OptionsComponent {
                     return;
                 }
             } else {
-                while (text.charCodeAt(pos) > _ts.CharacterCodes.space) {
+                while (text.charCodeAt(pos) > CharacterCodes.space) {
                     pos++;
                 }
                 args.push(text.substring(start, pos));

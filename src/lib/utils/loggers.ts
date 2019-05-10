@@ -15,7 +15,7 @@ export enum LogLevel {
 /**
  * A logger that will not produce any output.
  *
- * This logger also serves as the ase calls of other loggers as it implements
+ * This logger also serves as the base class of other loggers as it implements
  * all the required utility functions.
  */
 export class Logger {
@@ -131,10 +131,10 @@ export class Logger {
         let output: string;
         if (diagnostic.file) {
             output = diagnostic.file.fileName;
-            output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start).line + ')';
+            output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start || 0).line + ')';
             output += ts.sys.newLine + ' ' + ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
         } else {
-            output = diagnostic.messageText.toString();
+            output = ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
         }
 
         switch (diagnostic.category) {

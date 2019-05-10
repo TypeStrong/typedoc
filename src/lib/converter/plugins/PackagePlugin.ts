@@ -22,27 +22,27 @@ export class PackagePlugin extends ConverterComponent {
         name: 'readme',
         help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
     })
-    readme: string;
+    readme!: string;
 
     /**
      * The file name of the found readme.md file.
      */
-    private readmeFile: string;
+    private readmeFile?: string;
 
     /**
      * The file name of the found package.json file.
      */
-    private packageFile: string;
+    private packageFile?: string;
 
     /**
      * List of directories the handler already inspected.
      */
-    private visited: string[];
+    private visited!: string[];
 
     /**
      * Should the readme file be ignored?
      */
-    private noReadmeFile: boolean;
+    private noReadmeFile?: boolean;
 
     /**
      * Create a new PackageHandler instance.
@@ -61,9 +61,9 @@ export class PackagePlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBegin(context: Context) {
-        this.readmeFile  = null;
-        this.packageFile = null;
-        this.visited     = [];
+        this.readmeFile = undefined;
+        this.packageFile = undefined;
+        this.visited = [];
 
         let readme = this.readme;
         this.noReadmeFile = (readme === 'none');
@@ -94,7 +94,7 @@ export class PackagePlugin extends ConverterComponent {
         let dirName: string, parentDir = Path.resolve(Path.dirname(fileName));
         do {
             dirName = parentDir;
-            if (this.visited.indexOf(dirName) !== -1) {
+            if (this.visited.includes(dirName)) {
                 break;
             }
 

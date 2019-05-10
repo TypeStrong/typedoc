@@ -9,20 +9,25 @@ import { ProjectReflection } from '../models';
  * @see [[Serializer.EVENT_END]]
  */
 export class SerializeEvent extends Event {
-  /**
-   * The project the renderer is currently processing.
-   */
-  project: ProjectReflection;
+    /**
+     * The project the renderer is currently processing.
+     */
+    readonly project: ProjectReflection;
 
-  /**
-   * The path of the directory the serialized JSON should be written to.
-   */
-  outputDirectory?: string;
+    /**
+     * The path of the directory the serialized JSON should be written to.
+     */
+    outputDirectory?: string;
 
-  /**
-   * The name of the main JSON file (base + ext)
-   */
-  outputFile?: string;
+    /**
+     * The name of the main JSON file (base + ext)
+     */
+    outputFile?: string;
 
-  output: any;
+    output: any;
+
+    constructor(name: string, project: ProjectReflection) {
+        super(name);
+        this.project = project;
+    }
 }

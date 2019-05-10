@@ -1,7 +1,7 @@
 /**
  * Examples of features added in TypeScript 1.4.
  *
- * @see  http://blogs.msdn.com/b/typescript/archive/2014/11/18/what-s-new-in-the-typescript-type-system.aspx
+ * @see  https://blogs.msdn.com/b/typescript/archive/2014/11/18/what-s-new-in-the-typescript-type-system.aspx
  */
 
 /**
