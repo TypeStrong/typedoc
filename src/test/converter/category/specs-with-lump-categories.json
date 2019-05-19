@@ -577,21 +577,6 @@
                 4,
                 3,
                 5
-              ],
-              "categories": [
-                {
-                  "title": "Other",
-                  "children": [
-                    4,
-                    5
-                  ]
-                },
-                {
-                  "title": "Test",
-                  "children": [
-                    3
-                  ]
-                }
               ]
             },
             {
@@ -602,22 +587,26 @@
                 10,
                 8,
                 14
-              ],
-              "categories": [
-                {
-                  "title": "Other",
-                  "children": [
-                    12,
-                    14
-                  ]
-                },
-                {
-                  "title": "Test",
-                  "children": [
-                    10,
-                    8
-                  ]
-                }
+              ]
+            }
+          ],
+          "categories": [
+            {
+              "title": "Other",
+              "children": [
+                6,
+                4,
+                5,
+                12,
+                14
+              ]
+            },
+            {
+              "title": "Test",
+              "children": [
+                3,
+                10,
+                8
               ]
             }
           ],
@@ -1095,23 +1084,6 @@
                 24,
                 30,
                 31
-              ],
-              "categories": [
-                {
-                  "title": "Other",
-                  "children": [
-                    22,
-                    23,
-                    24,
-                    31
-                  ]
-                },
-                {
-                  "title": "Test",
-                  "children": [
-                    30
-                  ]
-                }
               ]
             },
             {
@@ -1123,6 +1095,29 @@
                 17,
                 49,
                 32
+              ]
+            }
+          ],
+          "categories": [
+            {
+              "title": "Other",
+              "children": [
+                21,
+                22,
+                23,
+                24,
+                31,
+                42,
+                19,
+                17,
+                49,
+                32
+              ]
+            },
+            {
+              "title": "Test",
+              "children": [
+                30
               ]
             }
           ],
@@ -1162,23 +1157,23 @@
             38,
             2,
             16
-          ],
-          "categories": [
-            {
-              "title": "Other",
-              "children": [
-                44,
-                34,
-                38,
-                16
-              ]
-            },
-            {
-              "title": "Test",
-              "children": [
-                2
-              ]
-            }
+          ]
+        }
+      ],
+      "categories": [
+        {
+          "title": "Other",
+          "children": [
+            44,
+            34,
+            38,
+            16
+          ]
+        },
+        {
+          "title": "Test",
+          "children": [
+            2
           ]
         }
       ],
