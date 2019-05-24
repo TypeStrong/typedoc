@@ -62,6 +62,7 @@ export enum ReflectionKind {
     ClassOrInterface = Class | Interface,
     VariableOrProperty = Variable | Property,
     FunctionOrMethod = ReflectionKind.Function | Method,
+    ClassMember = Accessor | Constructor | Method | Property | Event,
     SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
     SomeModule = Module | ExternalModule,
     SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
