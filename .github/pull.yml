@@ -1,0 +1,6 @@
+version: "1"
+rules:
+  - base: master
+    upstream: typestrong:master
+    mergeMethod: merge
+label: ":arrow_heading_down: pull"
