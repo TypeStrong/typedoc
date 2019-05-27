@@ -1,5 +1,5 @@
 {
-  "name": "typedoc",
+  "name": "@gerrit0/typedoc",
   "description": "Create api documentation for TypeScript projects.",
   "version": "0.15.0-0",
   "homepage": "https://typedoc.org",
@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/TypeStrong/TypeDoc.git"
+    "url": "git://github.com/Gerrit0/TypeDoc.git"
   },
   "bugs": {
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
