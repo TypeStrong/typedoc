@@ -68,7 +68,8 @@ describe('Converter', function() {
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
-            jsx: 'react'
+            jsx: 'react',
+            name: 'typedoc'
         });
     });
 
@@ -112,7 +113,8 @@ describe('Converter with categorizeByGroup=false', function() {
             module: 'CommonJS',
             experimentalDecorators: true,
             categorizeByGroup: false,
-            jsx: 'react'
+            jsx: 'react',
+            name: 'typedoc'
         });
     });
 
@@ -166,7 +168,8 @@ describe('Converter with excludeNotExported=true', function() {
             module: 'CommonJS',
             experimentalDecorators: true,
             excludeNotExported: true,
-            jsx: 'react'
+            jsx: 'react',
+            name: 'typedoc'
         });
     });
 
