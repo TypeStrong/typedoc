@@ -40,7 +40,7 @@
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
     "typedoc-default-themes": "^0.6.0-0",
-    "typescript": "3.4.x"
+    "typescript": "3.5.x"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
