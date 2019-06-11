@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",
-    "@types/marked": "^0.6.0",
+    "@types/marked": "^0.6.5",
     "@types/mocha": "^5.2.6",
     "@types/mockery": "^1.4.29",
     "@types/shelljs": "^0.8.3",
