@@ -1,7 +1,7 @@
 {
-  "name": "@gerrit0/typedoc",
+  "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.15.0",
+  "version": "0.15.0-0",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Gerrit0/TypeDoc.git"
+    "url": "git://github.com/TypeStrong/TypeDoc.git"
   },
   "bugs": {
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
@@ -30,7 +30,6 @@
     "node": ">= 6.0.0"
   },
   "dependencies": {
-    "@gerrit0/typedoc-default-themes": "^0.6.0",
     "@types/minimatch": "3.0.3",
     "fs-extra": "^7.0.1",
     "handlebars": "^4.1.2",
@@ -40,6 +39,7 @@
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
+    "typedoc-default-themes": "^0.6.0-0",
     "typescript": "3.5.x"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=30000 dist/test/*.test.js",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
     "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
     "build": "tsc --project .",
     "postbuild": "node scripts/replace_application_version.js",

@@ -16,7 +16,6 @@ const app = new TypeDoc.Application({
         "lib.es2015.iterable.d.ts",
         "lib.es2015.collection.d.ts"
     ],
-    name: 'typedoc'
 });
 
 const base = path.join(__dirname, '../src/test/converter');

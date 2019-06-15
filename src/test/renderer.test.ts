@@ -61,8 +61,7 @@ describe('Renderer', function() {
             target: 'ES5',
             readme: Path.join(src, '..', 'README.md'),
             module: 'CommonJS',
-            gaSite: 'foo.com', // verify theme option without modifying output
-            name: 'typedoc'
+            gaSite: 'foo.com' // verify theme option without modifying output
         });
     });
 
