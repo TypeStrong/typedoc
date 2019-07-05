@@ -1,0 +1,139 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 3,
+      "name": "\"function\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/dots.in.path/function.ts",
+      "children": [
+        {
+          "id": 4,
+          "name": "exportedFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 5,
+              "name": "exportedFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "This is a simple exported function."
+              },
+              "parameters": [
+                {
+                  "id": 6,
+                  "name": "arg",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "reference",
+                    "name": "EmptyInterface",
+                    "id": 2
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 6,
+              "character": 32
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            4
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "function.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"interface-empty\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/dots.in.path/interface-empty.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "EmptyInterface",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is a simple interface"
+          },
+          "sources": [
+            {
+              "fileName": "interface-empty.ts",
+              "line": 4,
+              "character": 31
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "interface-empty.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        3,
+        1
+      ]
+    }
+  ]
+}
