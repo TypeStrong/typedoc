@@ -34,13 +34,13 @@
     "fs-extra": "^8.1.0",
     "handlebars": "^4.1.2",
     "highlight.js": "^9.15.8",
-    "lodash": "^4.17.14",
-    "marked": "^0.6.3",
+    "lodash": "^4.17.15",
+    "marked": "^0.7.0",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
-    "typedoc-default-themes": "file:../typedoc-default-themes/typedoc-default-themes-0.6.0-0.tgz",
-    "typescript": "^3.4.5"
+    "typedoc-default-themes": "^0.6.0",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.0",
@@ -49,7 +49,7 @@
     "@types/mocha": "^5.2.7",
     "@types/mockery": "^1.4.29",
     "@types/shelljs": "^0.8.5",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "mockery": "^2.1.0",
     "nyc": "^14.1.1",
     "ts-node": "^8.3.0",
