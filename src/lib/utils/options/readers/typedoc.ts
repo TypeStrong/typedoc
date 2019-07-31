@@ -13,7 +13,7 @@ import { ParameterType, ParameterHint } from '../declaration';
 export class TypedocReader extends OptionsComponent {
     @Option({
         name: TypedocReader.OPTIONS_KEY,
-        help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' in the current directory.',
+        help: 'Specify a js option file that should be loaded. If not specified TypeDoc will look for \'typedoc.js\' or \'typedoc.json\' in the current directory.',
         type: ParameterType.String,
         hint: ParameterHint.File
     })
