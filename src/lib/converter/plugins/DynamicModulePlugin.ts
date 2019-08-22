@@ -73,7 +73,8 @@ export class DynamicModulePlugin extends ConverterComponent {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, '');
             name = name.substr(0, name.length - Path.extname(name).length);
-            reflection.name = '"' + this.basePath.trim(name) + '"';
+            // reflection.name = '"' + this.basePath.trim(name) + '"';
+            reflection.name = this.basePath.trim(name) ;
         });
     }
 }

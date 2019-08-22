@@ -162,6 +162,7 @@ export class ConsoleLogger extends Logger {
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
+        console.log(message);
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }

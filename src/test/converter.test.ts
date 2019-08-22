@@ -74,6 +74,7 @@ describe('Converter', function() {
 
     FS.readdirSync(base).forEach(function (directory) {
         const path = Path.join(base, directory);
+        // const path = "C:\\repositories\\github_repos\\typedoc\\src\\test\\converter\\arrayGenerics"
         if (!FS.lstatSync(path).isDirectory()) {
             return;
         }
@@ -92,7 +93,11 @@ describe('Converter', function() {
                 let data = JSON.stringify(result!.toObject(), null, '  ');
                 data = data.split(normalizePath(base)).join('%BASE%');
 
-                compareReflections(JSON.parse(data), specs);
+                try{
+                    compareReflections(JSON.parse(data), specs);
+                }catch{
+                    console.log(data)
+                }
             });
         });
     });

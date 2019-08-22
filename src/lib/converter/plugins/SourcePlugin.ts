@@ -101,13 +101,13 @@ export class SourcePlugin extends ConverterComponent {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
         }
 
-        if (!reflection.sources) {
-            reflection.sources = [];
-        }
         if (reflection instanceof DeclarationReflection) {
             file.reflections.push(reflection);
         }
-
+        
+        if (!reflection.sources) {
+            reflection.sources = [];
+        }
         reflection.sources.push({
             file: file,
             fileName: fileName,

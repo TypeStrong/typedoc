@@ -11,15 +11,13 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": [
-                "--no-timeouts",
-                "dist/test/**/*.js"
+                "--require",
+                "ts-node/register",
+                "--watch-extensions",
+                "ts",
+                "--timeout=10000",
+                "${workspaceRoot}/src/test/converter.test.ts"
             ],
-            "outFiles": [
-                "${workspaceRoot}/lib/**/*.js",
-                "${workspaceRoot}/test/**/*.js"
-            ],
-            "preLaunchTask": "build",
-            "sourceMaps": true
         }
     ]
 }
