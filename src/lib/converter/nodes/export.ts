@@ -40,16 +40,10 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
         return context.scope;
     }
 
-    private _convertExportDeclaration(context: Context, node: ts.ExportDeclaration): Reflection | undefined {
-        if (node.moduleSpecifier) {
-            // export * from 'xxx';
-            return this._convertExportAllDeclaration(context, node.moduleSpecifier);
+    private _convertByExportClause(context: Context, node: ts.ExportDeclaration): Reflection | undefined{
+        if (!node.exportClause){
+            return;
         }
-        if (!node.exportClause) {
-            return context.scope;
-        }
-
-
         // export { xx, xx as yy };
         node.exportClause.elements.forEach((element) => {
             // export { q as quat };
@@ -86,6 +80,18 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
                 }
             }
         });
+    }
+
+    private _convertExportDeclaration(context: Context, node: ts.ExportDeclaration): Reflection | undefined {
+        if (node.exportClause) {
+            this._convertByExportClause(context, node)
+            return context.scope;
+        }
+
+        if (node.moduleSpecifier) {
+            // export * from 'xxx';
+            return this._convertExportAllDeclaration(context, node.moduleSpecifier);
+        }
 
         return context.scope;
     }
