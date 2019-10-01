@@ -1,0 +1,363 @@
+{
+    "id": 0,
+    "name": "typedoc",
+    "kind": 0,
+    "flags": {},
+    "children": [
+      {
+        "id": 1,
+        "name": "\"export-literals\"",
+        "kind": 1,
+        "kindString": "External module",
+        "flags": {
+          "isExported": true
+        },
+        "originalName": "%BASE%/export-literals/export-literals.ts",
+        "children": [
+          {
+            "id": 2,
+            "name": "INestedInterface",
+            "kind": 256,
+            "kindString": "Interface",
+            "flags": {
+              "isExported": true
+            },
+            "children": [
+              {
+                "id": 6,
+                "name": "nested",
+                "kind": 1024,
+                "kindString": "Property",
+                "flags": {
+                  "isExported": true
+                },
+                "sources": [
+                  {
+                    "fileName": "export-literals.ts",
+                    "line": 7,
+                    "character": 10
+                  }
+                ],
+                "type": {
+                  "type": "reflection",
+                  "declaration": {
+                    "id": 7,
+                    "name": "__type",
+                    "kind": 65536,
+                    "kindString": "Type literal",
+                    "flags": {},
+                    "children": [
+                      {
+                        "id": 8,
+                        "name": "isIncluded",
+                        "kind": 32,
+                        "kindString": "Variable",
+                        "flags": {
+                          "isExported": true
+                        },
+                        "sources": [
+                          {
+                            "fileName": "export-literals.ts",
+                            "line": 8,
+                            "character": 18
+                          }
+                        ],
+                        "type": {
+                          "type": "intrinsic",
+                          "name": "boolean"
+                        }
+                      }
+                    ],
+                    "groups": [
+                      {
+                        "title": "Variables",
+                        "kind": 32,
+                        "children": [
+                          8
+                        ]
+                      }
+                    ],
+                    "sources": [
+                      {
+                        "fileName": "export-literals.ts",
+                        "line": 7,
+                        "character": 11
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": 3,
+                "name": "nestedOptional",
+                "kind": 1024,
+                "kindString": "Property",
+                "flags": {
+                  "isExported": true,
+                  "isOptional": true
+                },
+                "sources": [
+                  {
+                    "fileName": "export-literals.ts",
+                    "line": 3,
+                    "character": 18
+                  }
+                ],
+                "type": {
+                  "type": "reflection",
+                  "declaration": {
+                    "id": 4,
+                    "name": "__type",
+                    "kind": 65536,
+                    "kindString": "Type literal",
+                    "flags": {},
+                    "children": [
+                      {
+                        "id": 5,
+                        "name": "innerMember",
+                        "kind": 32,
+                        "kindString": "Variable",
+                        "flags": {
+                          "isExported": true
+                        },
+                        "sources": [
+                          {
+                            "fileName": "export-literals.ts",
+                            "line": 4,
+                            "character": 19
+                          }
+                        ],
+                        "type": {
+                          "type": "intrinsic",
+                          "name": "string"
+                        }
+                      }
+                    ],
+                    "groups": [
+                      {
+                        "title": "Variables",
+                        "kind": 32,
+                        "children": [
+                          5
+                        ]
+                      }
+                    ],
+                    "sources": [
+                      {
+                        "fileName": "export-literals.ts",
+                        "line": 3,
+                        "character": 20
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "groups": [
+              {
+                "title": "Properties",
+                "kind": 1024,
+                "children": [
+                  6,
+                  3
+                ]
+              }
+            ],
+            "sources": [
+              {
+                "fileName": "export-literals.ts",
+                "line": 1,
+                "character": 33
+              }
+            ]
+          },
+          {
+            "id": 14,
+            "name": "createSomething",
+            "kind": 64,
+            "kindString": "Function",
+            "flags": {
+              "isExported": true
+            },
+            "signatures": [
+              {
+                "id": 15,
+                "name": "createSomething",
+                "kind": 4096,
+                "kindString": "Call signature",
+                "flags": {},
+                "type": {
+                  "type": "reflection",
+                  "declaration": {
+                    "id": 16,
+                    "name": "__type",
+                    "kind": 65536,
+                    "kindString": "Type literal",
+                    "flags": {},
+                    "children": [
+                      {
+                        "id": 17,
+                        "name": "foo",
+                        "kind": 32,
+                        "kindString": "Variable",
+                        "flags": {
+                          "isExported": true
+                        },
+                        "sources": [
+                          {
+                            "fileName": "export-literals.ts",
+                            "line": 18,
+                            "character": 11
+                          }
+                        ],
+                        "type": {
+                          "type": "intrinsic",
+                          "name": "string"
+                        },
+                        "defaultValue": "\"bar\""
+                      }
+                    ],
+                    "groups": [
+                      {
+                        "title": "Variables",
+                        "kind": 32,
+                        "children": [
+                          17
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "sources": [
+              {
+                "fileName": "export-literals.ts",
+                "line": 16,
+                "character": 31
+              }
+            ]
+          },
+          {
+            "id": 9,
+            "name": "func",
+            "kind": 64,
+            "kindString": "Function",
+            "flags": {
+              "isExported": true
+            },
+            "signatures": [
+              {
+                "id": 10,
+                "name": "func",
+                "kind": 4096,
+                "kindString": "Call signature",
+                "flags": {},
+                "parameters": [
+                  {
+                    "id": 11,
+                    "name": "param",
+                    "kind": 32768,
+                    "kindString": "Parameter",
+                    "flags": {},
+                    "type": {
+                      "type": "reflection",
+                      "declaration": {
+                        "id": 12,
+                        "name": "__type",
+                        "kind": 65536,
+                        "kindString": "Type literal",
+                        "flags": {},
+                        "children": [
+                          {
+                            "id": 13,
+                            "name": "nested",
+                            "kind": 32,
+                            "kindString": "Variable",
+                            "flags": {
+                              "isExported": true
+                            },
+                            "sources": [
+                              {
+                                "fileName": "export-literals.ts",
+                                "line": 12,
+                                "character": 35
+                              }
+                            ],
+                            "type": {
+                              "type": "intrinsic",
+                              "name": "string"
+                            }
+                          }
+                        ],
+                        "groups": [
+                          {
+                            "title": "Variables",
+                            "kind": 32,
+                            "children": [
+                              13
+                            ]
+                          }
+                        ],
+                        "sources": [
+                          {
+                            "fileName": "export-literals.ts",
+                            "line": 12,
+                            "character": 27
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ],
+                "type": {
+                  "type": "intrinsic",
+                  "name": "boolean"
+                }
+              }
+            ],
+            "sources": [
+              {
+                "fileName": "export-literals.ts",
+                "line": 12,
+                "character": 20
+              }
+            ]
+          }
+        ],
+        "groups": [
+          {
+            "title": "Interfaces",
+            "kind": 256,
+            "children": [
+              2
+            ]
+          },
+          {
+            "title": "Functions",
+            "kind": 64,
+            "children": [
+              14,
+              9
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "fileName": "export-literals.ts",
+            "line": 1,
+            "character": 0
+          }
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "title": "External modules",
+        "kind": 1,
+        "children": [
+          1
+        ]
+      }
+    ]
+  }

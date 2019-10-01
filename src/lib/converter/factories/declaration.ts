@@ -56,6 +56,10 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     let isExported: boolean;
     if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         isExported = false; // Don't inherit exported state in modules and namespaces
+    } else if (container.kindOf([ReflectionKind.TypeLiteral]) && context.converter.excludeNotExported) {
+        // If the container for this is a type literal, it never had the
+        // isExported flag set on it.  See https://github.com/TypeStrong/typedoc/issues/953
+        isExported = true;
     } else {
         isExported = container.flags.isExported;
     }
@@ -108,7 +112,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         child.setFlag(ReflectionFlag.Static, isStatic);
         child.setFlag(ReflectionFlag.Private, isPrivate);
         child.setFlag(ReflectionFlag.ConstructorProperty, isConstructorProperty);
-        child.setFlag(ReflectionFlag.Exported,  isExported);
+        child.setFlag(ReflectionFlag.Exported, isExported);
         child = setupDeclaration(context, child, node);
 
         if (child) {

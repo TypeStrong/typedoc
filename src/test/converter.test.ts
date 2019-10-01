@@ -156,6 +156,7 @@ describe('Converter with excludeNotExported=true', function() {
     const base = Path.join(__dirname, 'converter');
     const exportWithLocalDir = Path.join(base, 'export-with-local');
     const classDir = Path.join(base, 'class');
+    const literalsDir = Path.join(base, 'export-literals');
     let app: Application;
 
     before('constructs', function() {
@@ -204,4 +205,19 @@ describe('Converter with excludeNotExported=true', function() {
         });
     });
 
+    describe('export-literals', () => {
+        it('converts fixtures', function() {
+            resetReflectionID();
+            result = app.convert(app.expandInputFiles([literalsDir]));
+            Assert(result instanceof ProjectReflection, 'No reflection returned');
+        });
+
+        it('matches specs', function() {
+            const specs = JSON.parse(FS.readFileSync(Path.join(literalsDir, 'specs-without-exported.json')).toString());
+            let data = JSON.stringify(result!.toObject(), null, '  ');
+            data = data.split(normalizePath(base)).join('%BASE%');
+
+            compareReflections(JSON.parse(data), specs);
+        });
+    });
 });
