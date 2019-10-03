@@ -101,7 +101,7 @@ To compile the TypeDoc source, run `npm run build`. This will start the TypeScri
 
 #### Testing
 
-TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build`.
+TypeDoc includes an extensive set of tests that describe its output. To validate any changes you have made, build the project and then run `npm test`. Alternatively, to rebuild with your changes and then immediately test, run `npm run build_and_test`.
 
 If you have changed the TypeDoc output, it will cause tests to fail. Once you have validated that the introduced changes were intended, run `node scripts/rebuild_specs` to update the spec files for the new output.
 
