@@ -128,7 +128,7 @@ describe('Converter with categorizeByGroup=false', function() {
 
         it('matches specs', function() {
             const specs = JSON.parse(FS.readFileSync(Path.join(categoryDir, 'specs-with-lump-categories.json')).toString());
-            let data = JSON.stringify(result!.toObject(), null, '  ');
+            let data = JSON.stringify(app.serializer.projectToObject(result!), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
             compareReflections(JSON.parse(data), specs);
@@ -145,7 +145,7 @@ describe('Converter with categorizeByGroup=false', function() {
 
         it('matches specs', function() {
             const specs = JSON.parse(FS.readFileSync(Path.join(classDir, 'specs.json')).toString());
-            let data = JSON.stringify(result!.toObject(), null, '  ');
+            let data = JSON.stringify(app.serializer.projectToObject(result!), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
             compareReflections(JSON.parse(data), specs);
