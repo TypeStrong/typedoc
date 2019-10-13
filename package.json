@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.15.0-0",
+  "version": "0.15.0",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,31 +30,31 @@
     "node": ">= 6.0.0"
   },
   "dependencies": {
-    "@types/fs-extra": "^5.0.5",
-    "@types/highlight.js": "^9.12.3",
-    "@types/lodash": "^4.14.123",
-    "@types/marked": "^0.6.0",
     "@types/minimatch": "3.0.3",
-    "@types/shelljs": "^0.8.3",
-    "fs-extra": "^7.0.1",
-    "handlebars": "^4.1.2",
-    "highlight.js": "^9.13.1",
-    "lodash": "^4.17.11",
-    "marked": "^0.6.2",
+    "fs-extra": "^8.1.0",
+    "handlebars": "^4.4.3",
+    "highlight.js": "^9.15.10",
+    "lodash": "^4.17.15",
+    "marked": "^0.7.0",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
-    "typedoc-default-themes": "^0.6.0-0",
-    "typescript": "3.4.x"
+    "typedoc-default-themes": "^0.6.0",
+    "typescript": "3.6.x"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.6",
+    "@types/fs-extra": "^8.0.0",
+    "@types/lodash": "^4.14.144",
+    "@types/marked": "^0.6.5",
+    "@types/mocha": "^5.2.7",
     "@types/mockery": "^1.4.29",
-    "mocha": "^6.1.4",
+    "@types/node": "^12.7.12",
+    "@types/shelljs": "^0.8.5",
+    "mocha": "^6.2.1",
     "mockery": "^2.1.0",
-    "nyc": "^14.0.0",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.14.0"
+    "nyc": "^14.1.1",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0"
   },
   "files": [
     "bin",

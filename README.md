@@ -100,6 +100,8 @@ For a complete list of the command line arguments run `typedoc --help` or read [
   Specifies the fully qualified name of the root symbol. Defaults to global namespace.
 * `--gitRevision <revision|branch>`<br>
   Use specified revision or branch instead of the last revision for linking to GitHub source files.
+* `--toc EntryClass,ImportantInterface`<br>
+  Define the contents of the top level table of contents as a comma-separated list of global symbols.
 
 #### Content
 * `--includes <path/to/includes>`<br>

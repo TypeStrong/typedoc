@@ -87,5 +87,15 @@ describe('TypeDoc', function() {
             Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'access', 'access.ts')), false);
             Assert.strictEqual(expanded.includes(inputFiles), false);
         });
+
+        it('supports negations in directory excludes', function() {
+            const inputFiles = Path.join(__dirname, 'converter');
+            application.options.setValue('exclude', [ '**/!(access)/' ]);
+            const expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'class', 'class.ts')), false);
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'access', 'access.ts')), true);
+            Assert.strictEqual(expanded.includes(inputFiles), false);
+        });
     });
 });
