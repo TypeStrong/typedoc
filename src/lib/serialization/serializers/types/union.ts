@@ -1,7 +1,7 @@
 import { UnionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { UnionType as JSONUnionType } from '../../schema';
 
 export class UnionTypeSerializer extends TypeSerializerComponent<UnionType> {
     supports(t: unknown) {
@@ -13,7 +13,7 @@ export class UnionTypeSerializer extends TypeSerializerComponent<UnionType> {
      * @param type
      * @param obj
      */
-    toObject(type: UnionType, obj: Pick<JSONOutput.UnionType, 'type'>): JSONOutput.UnionType {
+    toObject(type: UnionType, obj: Pick<JSONUnionType, 'type'>): JSONUnionType {
         return {
             ...obj,
             types: type.types.map(t => this.owner.toObject(t))

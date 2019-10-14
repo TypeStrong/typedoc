@@ -1,7 +1,7 @@
 import { Type } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { Type as JSONType } from '../../schema';
 
 export class TypeSerializer extends TypeSerializerComponent<Type> {
     static PRIORITY = 1000;
@@ -10,7 +10,7 @@ export class TypeSerializer extends TypeSerializerComponent<Type> {
         return t instanceof Type;
     }
 
-    toObject(type: Type, obj?: Partial<JSONOutput.Type<Type>>): JSONOutput.Type<Type> {
+    toObject(type: Type, obj?: Partial<JSONType>): JSONType {
         return {
             ...obj,
             type: type.type

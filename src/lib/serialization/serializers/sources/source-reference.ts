@@ -1,6 +1,6 @@
 import { SerializerComponent } from '../../components';
 import { SourceReferenceWrapper } from '../models';
-import { JSONOutput } from '../../schema';
+import { SourceReference as JSONSourceReference } from '../../schema';
 
 export class SourceReferenceContainerSerializer extends SerializerComponent<SourceReferenceWrapper> {
     static PRIORITY = 1000;
@@ -13,7 +13,10 @@ export class SourceReferenceContainerSerializer extends SerializerComponent<Sour
         return true;
     }
 
-    toObject({ sourceReference: ref }: SourceReferenceWrapper, obj?: Partial<JSONOutput.SourceReference>): JSONOutput.SourceReference {
+    toObject(
+        { sourceReference: ref }: SourceReferenceWrapper,
+        obj?: Partial<JSONSourceReference>
+    ): JSONSourceReference {
         return {
             ...obj,
             fileName: ref.fileName,

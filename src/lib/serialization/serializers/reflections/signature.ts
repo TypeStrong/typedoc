@@ -1,15 +1,15 @@
 import { SignatureReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { SignatureReflection as JSONSignatureReflection, Reflection as JSONReflection } from '../../schema';
 
 export class SignatureReflectionSerializer extends ReflectionSerializerComponent<SignatureReflection> {
     supports(t: unknown) {
         return t instanceof SignatureReflection;
     }
 
-    toObject(signature: SignatureReflection, obj: JSONOutput.Reflection): JSONOutput.SignatureReflection {
-        const result: JSONOutput.SignatureReflection = { ...obj };
+    toObject(signature: SignatureReflection, obj: JSONReflection): JSONSignatureReflection {
+        const result: JSONSignatureReflection = { ...obj };
 
         if (signature.type) {
             result.type = this.owner.toObject(signature.type);

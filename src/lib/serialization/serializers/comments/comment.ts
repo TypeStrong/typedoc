@@ -1,7 +1,7 @@
 import { Comment } from '../../../models';
 
 import { SerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { Comment as JSONComment } from '../../schema';
 
 export class CommentSerializer extends SerializerComponent<Comment> {
     static PRIORITY = 1000;
@@ -17,7 +17,7 @@ export class CommentSerializer extends SerializerComponent<Comment> {
         return true;
     }
 
-    toObject(comment: Comment, obj: Partial<JSONOutput.Comment> = {}): JSONOutput.Comment {
+    toObject(comment: Comment, obj: Partial<JSONComment> = {}): JSONComment {
         if (comment.shortText) {
             obj.shortText = comment.shortText;
         }

@@ -1,7 +1,7 @@
 import { ReflectionCategory } from '../../models/ReflectionCategory';
 
 import { SerializerComponent } from '../components';
-import { JSONOutput } from '../schema';
+import { ReflectionCategory as JSONReflectionCategory } from '../schema';
 
 export class ReflectionCategorySerializer extends SerializerComponent<ReflectionCategory> {
     static PRIORITY = 1000;
@@ -17,8 +17,8 @@ export class ReflectionCategorySerializer extends SerializerComponent<Reflection
         return r instanceof ReflectionCategory;
     }
 
-    toObject(category: ReflectionCategory, obj?: Partial<JSONOutput.ReflectionCategory>): JSONOutput.ReflectionCategory {
-        const result: JSONOutput.ReflectionCategory = {
+    toObject(category: ReflectionCategory, obj?: Partial<JSONReflectionCategory>): JSONReflectionCategory {
+        const result: JSONReflectionCategory = {
             ...obj,
             title: category.title
         };

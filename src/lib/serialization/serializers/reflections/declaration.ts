@@ -2,7 +2,10 @@ import { DeclarationReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { ContainerReflectionSerializer } from './container';
-import { JSONOutput } from '../../schema';
+import {
+    DeclarationReflection as JSONDeclarationReflection,
+    ContainerReflection as JSONContainerReflection
+} from '../../schema';
 
 export class DeclarationReflectionSerializer extends ReflectionSerializerComponent<DeclarationReflection> {
     static PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
@@ -11,8 +14,8 @@ export class DeclarationReflectionSerializer extends ReflectionSerializerCompone
         return t instanceof DeclarationReflection;
     }
 
-    toObject(declaration: DeclarationReflection, obj: JSONOutput.ContainerReflection): JSONOutput.DeclarationReflection {
-        const result: JSONOutput.DeclarationReflection = {
+    toObject(declaration: DeclarationReflection, obj: JSONContainerReflection): JSONDeclarationReflection {
+        const result: JSONDeclarationReflection = {
             ...obj
         };
 

@@ -1,7 +1,7 @@
 import { ReferenceType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { ReferenceType as JSONReferenceType } from '../../schema';
 
 export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceType> {
     supports(t: unknown) {
@@ -10,8 +10,8 @@ export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceTy
 
     toObject(
         type: ReferenceType,
-        obj: Pick<JSONOutput.ReferenceType, 'type'> & Partial<JSONOutput.ReferenceType>
-    ): JSONOutput.ReferenceType {
+        obj: Pick<JSONReferenceType, 'type'> & Partial<JSONReferenceType>
+    ): JSONReferenceType {
         if (type.reflection) {
             obj.id = type.reflection.id;
         }

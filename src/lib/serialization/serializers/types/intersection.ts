@@ -1,7 +1,7 @@
 import { IntersectionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { IntersectionType as JSONIntersectionType } from '../../schema';
 
 export class IntersectionTypeSerializer extends TypeSerializerComponent<IntersectionType> {
     supports(t: unknown) {
@@ -13,7 +13,7 @@ export class IntersectionTypeSerializer extends TypeSerializerComponent<Intersec
      * @param type
      * @param obj
      */
-    toObject(type: IntersectionType, obj: Pick<JSONOutput.IntersectionType, 'type'>): JSONOutput.IntersectionType {
+    toObject(type: IntersectionType, obj: Pick<JSONIntersectionType, 'type'>): JSONIntersectionType {
         return {
             ...obj,
             types: type.types.map(t => this.owner.toObject(t))

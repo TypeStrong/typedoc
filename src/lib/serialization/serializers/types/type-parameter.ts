@@ -1,15 +1,15 @@
 import { TypeParameterType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { TypeParameterType as JSONTypeParameterType } from '../../schema';
 
 export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypeParameterType> {
     supports(t: unknown) {
         return t instanceof TypeParameterType;
     }
 
-    toObject(type: TypeParameterType, obj: Pick<JSONOutput.TypeParameterType, 'type'>): JSONOutput.TypeParameterType {
-        const result: JSONOutput.TypeParameterType = {
+    toObject(type: TypeParameterType, obj: Pick<JSONTypeParameterType, 'type'>): JSONTypeParameterType {
+        const result: JSONTypeParameterType = {
             ...obj,
             name: type.name
         };

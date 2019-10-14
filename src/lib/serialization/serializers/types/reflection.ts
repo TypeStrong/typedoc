@@ -1,7 +1,7 @@
 import { DeclarationReflection, ReflectionType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { ReflectionType as JSONReflectionType } from '../../schema';
 
 export class ReflectionTypeSerializer extends TypeSerializerComponent<ReflectionType> {
     private visited = new Set<DeclarationReflection>();
@@ -10,8 +10,8 @@ export class ReflectionTypeSerializer extends TypeSerializerComponent<Reflection
         return t instanceof ReflectionType;
     }
 
-    toObject(reference: ReflectionType, obj: Pick<JSONOutput.ReflectionType, 'type'>): JSONOutput.ReflectionType {
-        const result: JSONOutput.ReflectionType = {
+    toObject(reference: ReflectionType, obj: Pick<JSONReflectionType, 'type'>): JSONReflectionType {
+        const result: JSONReflectionType = {
             ...obj
         };
 

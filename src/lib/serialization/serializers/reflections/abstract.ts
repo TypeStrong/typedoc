@@ -3,7 +3,7 @@ import { Reflection, TraverseProperty } from '../../../models';
 import { ReflectionSerializerComponent } from '../../components';
 import { DecoratorWrapper } from '../models';
 import { ReflectionFlags } from '../../../models/reflections/abstract';
-import { JSONOutput, ModelToObject } from '../../schema';
+import { Reflection as JSONReflection } from '../../schema';
 
 export class ReflectionSerializer extends ReflectionSerializerComponent<Reflection> {
     static PRIORITY = 1000;
@@ -12,8 +12,8 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<Reflecti
         return t instanceof Reflection;
     }
 
-    toObject(reflection: Reflection, obj?: Partial<ModelToObject<Reflection>>): JSONOutput.Reflection {
-        const result: JSONOutput.Reflection = {
+    toObject(reflection: Reflection, obj?: Partial<JSONReflection>): JSONReflection {
+        const result: JSONReflection = {
             ...obj,
             id: reflection.id,
             name: reflection.name,

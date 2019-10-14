@@ -2,7 +2,7 @@ import { ContainerReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { SourceReferenceWrapper } from '../models';
-import { JSONOutput } from '../../schema';
+import { ContainerReflection as JSONContainerReflection, Reflection as JSONReflection } from '../../schema';
 
 export class ContainerReflectionSerializer extends ReflectionSerializerComponent<ContainerReflection> {
     supports(t: unknown) {
@@ -14,8 +14,8 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
      * @param container
      * @param obj
      */
-    toObject(container: ContainerReflection, obj: JSONOutput.Reflection): JSONOutput.ContainerReflection {
-        const result: JSONOutput.ContainerReflection = {
+    toObject(container: ContainerReflection, obj: JSONReflection): JSONContainerReflection {
+        const result: JSONContainerReflection = {
             ...obj
         };
 

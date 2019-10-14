@@ -1,15 +1,15 @@
 import { ParameterReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { ParameterReflection as JSONParameterReflection, Reflection as JSONReflection } from '../../schema';
 
 export class ParameterReflectionSerializer extends ReflectionSerializerComponent<ParameterReflection> {
     supports(t: unknown) {
         return t instanceof ParameterReflection;
     }
 
-    toObject(parameter: ParameterReflection, obj: JSONOutput.Reflection): JSONOutput.ParameterReflection {
-        const result: JSONOutput.ParameterReflection = {
+    toObject(parameter: ParameterReflection, obj: JSONReflection): JSONParameterReflection {
+        const result: JSONParameterReflection = {
             ...obj
         };
 

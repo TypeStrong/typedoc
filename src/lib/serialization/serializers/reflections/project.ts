@@ -2,7 +2,10 @@ import { ProjectReflection } from '../../../models';
 
 import { ReflectionSerializerComponent } from '../../components';
 import { ContainerReflectionSerializer } from './container';
-import { JSONOutput } from '../../schema';
+import {
+    ProjectReflection as JSONProjectReflection,
+    ContainerReflection as JSONContainerReflection
+} from '../../schema';
 
 export class ProjectReflectionSerializer extends ReflectionSerializerComponent<ProjectReflection> {
     static PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
@@ -11,7 +14,7 @@ export class ProjectReflectionSerializer extends ReflectionSerializerComponent<P
         return t instanceof ProjectReflection;
     }
 
-    toObject(container: ProjectReflection, obj: JSONOutput.ContainerReflection): JSONOutput.ProjectReflection {
+    toObject(container: ProjectReflection, obj: JSONContainerReflection): JSONProjectReflection {
         return obj;
     }
 }

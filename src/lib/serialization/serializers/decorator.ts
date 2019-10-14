@@ -1,6 +1,6 @@
 import { SerializerComponent } from '../components';
 import { DecoratorWrapper } from './models/decorator-wrapper';
-import { JSONOutput } from '../schema';
+import { Decorator } from '../schema';
 
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
     static PRIORITY = 1000;
@@ -16,8 +16,8 @@ export class DecoratorContainerSerializer extends SerializerComponent<DecoratorW
         return true;
     }
 
-    toObject({ decorator }: DecoratorWrapper, obj?: Partial<JSONOutput.Decorator>): JSONOutput.Decorator {
-        const result: JSONOutput.Decorator = {
+    toObject({ decorator }: DecoratorWrapper, obj?: Partial<Decorator>): Decorator {
+        const result: Decorator = {
             ...obj,
             name: decorator.name
         };

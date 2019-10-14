@@ -1,7 +1,7 @@
 import { UnknownType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { UnknownType as JSONUnknownType } from '../../schema';
 
 export class UnknownTypeSerializer extends TypeSerializerComponent<UnknownType> {
     supports(t: unknown) {
@@ -13,7 +13,7 @@ export class UnknownTypeSerializer extends TypeSerializerComponent<UnknownType> 
      * @param type
      * @param obj
      */
-    toObject(type: UnknownType, obj: Pick<JSONOutput.UnknownType, 'type'>): JSONOutput.UnknownType {
+    toObject(type: UnknownType, obj: Pick<JSONUnknownType, 'type'>): JSONUnknownType {
         return {
             ...obj,
             name: type.name

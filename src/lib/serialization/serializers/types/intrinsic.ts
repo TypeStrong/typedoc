@@ -1,7 +1,7 @@
 import { IntrinsicType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
-import { JSONOutput } from '../../schema';
+import { IntrinsicType as JSONIntrinsicType } from '../../schema';
 
 export class IntrinsicTypeSerializer extends TypeSerializerComponent<IntrinsicType> {
     supports(t: unknown) {
@@ -13,7 +13,7 @@ export class IntrinsicTypeSerializer extends TypeSerializerComponent<IntrinsicTy
      * @param type
      * @param obj
      */
-    toObject(type: IntrinsicType, obj: Pick<JSONOutput.IntrinsicType, 'type'>): JSONOutput.IntrinsicType {
+    toObject(type: IntrinsicType, obj: Pick<JSONIntrinsicType, 'type'>): JSONIntrinsicType {
         return {
             ...obj,
             name: type.name

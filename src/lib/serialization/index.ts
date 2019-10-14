@@ -33,4 +33,5 @@ export {
 
 export { SerializeEvent } from './events';
 
-export { JSONOutput } from './schema';
+import * as JSONOutput from './schema';
+export { JSONOutput };

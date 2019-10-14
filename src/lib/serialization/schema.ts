@@ -1,5 +1,30 @@
 /**
- * Documents the exported JSON schema. The root object is a [[JSONOutput.ProjectReflection]].
+ * Contains interfaces which describe the JSON output. Each interface is related to a specific type of serializer.
+ *
+ * ## Plugins
+ * Plugins which modify the serialization process can use declaration merging
+ * to add custom properties to the exported interfaces.
+ * For example, if your custom serializer adds a property to all [[Reflection]] objects:
+ * ```ts
+ * declare module 'typedoc/dist/lib/serialization/schema' {
+ *     export interface AbstractReflection {
+ *         myCustomProp: boolean
+ *     }
+ * }
+ * ```
+ *
+ * If a plugin defines a new Model type, [[ModelToObject]] will not pick up the serializer type and
+ * the resulting type will not be included in the return type of {@link Serializer.toObject}.
+ * To fix this, use declaration merging to augment the [[Serializer]] class.
+ * ```ts
+ * declare module 'typedoc/dist/lib/serialization/serializer' {
+ *     export interface Serializer {
+ *         toObject(value: CustomModel, obj?: Partial<CustomModel>): CustomOutput
+ *     }
+ * }
+ * ```
+ *
+ * For documentation on the JSON output properties, view the corresponding model.
  */
 
 /** */
@@ -14,242 +39,192 @@ export type ModelToObject<T> = T extends Array<infer U> ? _ModelToObject<U>[] : 
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
     // Reflections
-    T extends M.ReflectionGroup ? JSONOutput.ReflectionGroup :
-    T extends M.ReflectionCategory ? JSONOutput.ReflectionCategory :
-    T extends M.SignatureReflection ? JSONOutput.SignatureReflection :
-    T extends M.ParameterReflection ? JSONOutput.ParameterReflection :
-    T extends M.DeclarationReflection ? JSONOutput.DeclarationReflection | JSONOutput.ReflectionPointer :
-    T extends M.TypeParameterReflection ? JSONOutput.TypeParameterReflection :
-    T extends M.ProjectReflection ? JSONOutput.ProjectReflection :
-    T extends M.ContainerReflection ? JSONOutput.ContainerReflection :
-    T extends M.Reflection ? JSONOutput.Reflection :
+    T extends M.ReflectionGroup ? ReflectionGroup :
+    T extends M.ReflectionCategory ? ReflectionCategory :
+    T extends M.SignatureReflection ? SignatureReflection :
+    T extends M.ParameterReflection ? ParameterReflection :
+    T extends M.DeclarationReflection ? DeclarationReflection | ReflectionPointer :
+    T extends M.TypeParameterReflection ? TypeParameterReflection :
+    T extends M.ProjectReflection ? ProjectReflection :
+    T extends M.ContainerReflection ? ContainerReflection :
+    T extends M.Reflection ? Reflection :
     // Types
-    T extends M.ArrayType ? JSONOutput.ArrayType :
-    T extends M.IntersectionType ? JSONOutput.IntersectionType :
-    T extends M.IntrinsicType ? JSONOutput.IntrinsicType :
-    T extends M.ReferenceType ? JSONOutput.ReferenceType :
-    T extends M.ReflectionType ? JSONOutput.ReflectionType :
-    T extends M.StringLiteralType ? JSONOutput.StringLiteralType :
-    T extends M.TupleType ? JSONOutput.TupleType :
-    T extends M.UnknownType ? JSONOutput.UnknownType :
-    T extends M.Type ? JSONOutput.SomeType : // Technically AbstractType, but the union is more useful
+    T extends M.ArrayType ? ArrayType :
+    T extends M.IntersectionType ? IntersectionType :
+    T extends M.IntrinsicType ? IntrinsicType :
+    T extends M.ReferenceType ? ReferenceType :
+    T extends M.ReflectionType ? ReflectionType :
+    T extends M.StringLiteralType ? StringLiteralType :
+    T extends M.TupleType ? TupleType :
+    T extends M.UnknownType ? UnknownType :
+    T extends M.Type ? SomeType : // Technically AbstractType, but the union is more useful
     // Miscellaneous
-    T extends M.Comment ? JSONOutput.Comment :
-    T extends M.CommentTag ? JSONOutput.CommentTag :
-    T extends DecoratorWrapper ? JSONOutput.Decorator :
-    T extends SourceReferenceWrapper ? JSONOutput.SourceReference :
+    T extends M.Comment ? Comment :
+    T extends M.CommentTag ? CommentTag :
+    T extends DecoratorWrapper ? Decorator :
+    T extends SourceReferenceWrapper ? SourceReference :
     never;
 
+type Primitive = string | number | undefined | null | boolean;
+
 /**
- * Contains interfaces which describe the JSON output. Each interface is related to a specific type of serializer.
- *
- * ## Plugins
- * Plugins which modify the serialization process can use declaration merging
- * to add custom properties to the exported interfaces.
- * For example, if your custom serializer adds a property to all [[Reflection]] objects:
- * ```ts
- * declare module 'typedoc/dist/lib/serialization/schema' {
- *     export namespace JSONOutput {
- *         export interface AbstractReflection {
- *             myCustomProp: boolean
- *         }
- *     }
- * }
- * ```
- *
- * If a plugin defines a new Model type, [[ModelToObject]] will not pick up the serializer type.
- * To fix this, use declaration merging to augment the [[Serializer]] class.
- * ```ts
- * declare module 'typedoc/dist/lib/serialization/serializer' {
- *     export interface Serializer {
- *         toObject(value: CustomModel, obj?: Partial<CustomModel>): CustomOutput
- *     }
- * }
- * ```
- *
- * For documentation on the JSON output properties, view the corresponding model.
+ * Helper to describe a set of serialized properties. Primitive types are returned
+ * directly, while other models are first passed through ModelToObject.
+ * This helper removes the readonly modifier from properties since the result of serialization
+ * is a plain object that consumers may modify as they choose, TypeDoc doesn't care.
  */
-export namespace JSONOutput {
+type S<T, K extends keyof T> = {
+    -readonly [K2 in K]: T[K2] extends Primitive ? T[K2] : ModelToObject<T[K2]>
+};
 
-    // Reflections
+// Reflections
 
-    export interface ReflectionGroup {
-        title: M.ReflectionGroup['title'];
-        kind: M.ReflectionGroup['kind'];
-        children?: M.ReflectionGroup['children'][number]['id'][];
-        categories?: ModelToObject<M.ReflectionGroup['categories']>;
-    }
+export interface ReflectionGroup extends S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
+    children?: M.ReflectionGroup['children'][number]['id'][];
+}
 
-    export interface ReflectionCategory {
-        title: M.ReflectionCategory['title'];
-        children?: M.ReflectionCategory['children'][number]['id'][];
-    }
+export interface ReflectionCategory extends S<M.ReflectionCategory, 'title'> {
+    children?: M.ReflectionCategory['children'][number]['id'][];
+}
 
-    export interface SignatureReflection extends Reflection {
-        type?: ModelToObject<M.SignatureReflection['implementationOf']>;
-        overwrites?: ModelToObject<M.SignatureReflection['implementationOf']>;
-        inheritedFrom?: ModelToObject<M.SignatureReflection['implementationOf']>;
-        implementationOf?: ModelToObject<M.SignatureReflection['implementationOf']>;
-    }
+export interface SignatureReflection extends Reflection, S<M.SignatureReflection,
+      'type'
+    | 'overwrites'
+    | 'inheritedFrom'
+    | 'implementationOf'> {
+}
 
-    export interface ParameterReflection extends Reflection {
-        type?: ModelToObject<M.ParameterReflection['type']>;
-        defaultValue?: M.ParameterReflection['defaultValue'];
-    }
+export interface ParameterReflection extends Reflection, S<M.ParameterReflection, 'type' | 'defaultValue'> {
+}
 
-    export interface DeclarationReflection extends ContainerReflection {
-        type?: ModelToObject<M.DeclarationReflection['type']>;
-        defaultValue?: M.DeclarationReflection['defaultValue'];
-        overwrites?: ModelToObject<M.DeclarationReflection['overwrites']>;
-        inheritedFrom?: ModelToObject<M.DeclarationReflection['inheritedFrom']>;
-        extendedTypes?: ModelToObject<M.DeclarationReflection['extendedTypes']>;
-        extendedBy?: ModelToObject<M.DeclarationReflection['extendedBy']>;
-        implementedTypes?: ModelToObject<M.DeclarationReflection['implementedTypes']>;
-        implementedBy?: ModelToObject<M.DeclarationReflection['implementedBy']>;
-        implementationOf?: ModelToObject<M.DeclarationReflection['implementationOf']>;
-    }
+export interface DeclarationReflection extends ContainerReflection, S<M.DeclarationReflection,
+      'type'
+    | 'defaultValue'
+    | 'overwrites'
+    | 'inheritedFrom'
+    | 'extendedTypes'
+    | 'extendedBy'
+    | 'implementedTypes'
+    | 'implementedBy'
+    | 'implementationOf'> {
+}
 
-    export interface TypeParameterReflection extends Reflection {
-        type?: ModelToObject<M.TypeParameterReflection['type']>;
-    }
+export interface TypeParameterReflection extends Reflection, S<M.TypeParameterReflection, 'type'> {
+}
 
-    // Nothing extra yet.
-    export interface ProjectReflection extends ContainerReflection { }
+// Nothing extra yet.
+export interface ProjectReflection extends ContainerReflection { }
 
-    export interface ContainerReflection extends Reflection {
-        groups?: ModelToObject<M.ContainerReflection['groups']>;
-        categories?: ModelToObject<M.ContainerReflection['categories']>;
-        sources?: ModelToObject<SourceReferenceWrapper[]>;
-    }
+export interface ContainerReflection extends Reflection, S<M.ContainerReflection, 'groups' | 'categories'> {
+    sources?: ModelToObject<SourceReferenceWrapper[]>;
+}
 
-    /**
-     * If a 3rd party serializer creates a loop when serializing, a pointer will be created
-     * instead of re-serializing the [[DeclarationReflection]]
-     */
-    export interface ReflectionPointer {
-        id: M.Reflection['id'];
-    }
+/**
+ * If a 3rd party serializer creates a loop when serializing, a pointer will be created
+ * instead of re-serializing the [[DeclarationReflection]]
+ */
+export interface ReflectionPointer extends S<M.Reflection, 'id'> {
+}
 
-    export interface Reflection {
-        id: M.Reflection['id'];
-        name: M.Reflection['name'];
-        originalName?: M.Reflection['originalName'];
-        kind: M.Reflection['kind'];
-        kindString: M.Reflection['kindString'];
-        flags: ReflectionFlags;
-        comment?: ModelToObject<M.Reflection['comment']>;
-        decorates?: ModelToObject<M.Reflection['decorates']>;
-        decorators?: ModelToObject<DecoratorWrapper[]>;
-    }
+export interface Reflection extends S<M.Reflection,
+      'id'
+    | 'name'
+    | 'kind'
+    | 'kindString'
+    | 'comment'
+    | 'decorates'> {
+    originalName?: M.Reflection['originalName'];
+    flags: ReflectionFlags;
+    decorators?: ModelToObject<DecoratorWrapper[]>;
+}
 
-    // Types
+// Types
 
-    export type SomeType =
-        | ArrayType
-        | IntersectionType
-        | UnionType
-        | IntrinsicType
-        | ReferenceType
-        | ReflectionType
-        | StringLiteralType
-        | TupleType
-        | TypeOperatorType
-        | TypeParameterType
-        | UnionType
-        | UnknownType;
+export type SomeType =
+    | ArrayType
+    | IntersectionType
+    | UnionType
+    | IntrinsicType
+    | ReferenceType
+    | ReflectionType
+    | StringLiteralType
+    | TupleType
+    | TypeOperatorType
+    | TypeParameterType
+    | UnionType
+    | UnknownType;
 
-    export interface ArrayType extends Type<M.ArrayType> {
-        elementType: ModelToObject<M.ArrayType['elementType']>;
-    }
+export interface ArrayType extends Type, S<M.ArrayType, 'type' | 'elementType'> {
+}
 
-    export interface IntersectionType extends Type<M.IntersectionType> {
-        types: ModelToObject<M.IntersectionType['types']>;
-    }
+export interface IntersectionType extends Type, S<M.IntersectionType, 'type' | 'types'> {
+}
 
-    export interface UnionType extends Type<M.UnionType> {
-        types: ModelToObject<M.UnionType['types']>;
-    }
+export interface UnionType extends Type, S<M.UnionType, 'type' | 'types'> {
+}
 
-    export interface IntrinsicType extends Type<M.IntrinsicType> {
-        name: M.IntrinsicType['name'];
-    }
+export interface IntrinsicType extends Type, S<M.IntrinsicType, 'type' | 'name'> {
+}
 
-    export interface ReferenceType extends Type<M.ReferenceType> {
-        name: M.ReferenceType['name'];
-        id?: number;
-        typeArguments?: ModelToObject<M.ReferenceType['typeArguments']>;
-    }
+export interface ReferenceType extends Type, S<M.ReferenceType, 'type' | 'name' | 'typeArguments'> {
+    id?: number;
+}
 
-    export interface ReflectionType extends Type<M.ReflectionType> {
-        declaration?: ModelToObject<M.ReflectionType['declaration']>;
-    }
+export interface ReflectionType extends Type, S<M.ReflectionType, 'type'> {
+    declaration?: ModelToObject<M.ReflectionType['declaration']>;
+}
 
-    export interface StringLiteralType extends Type<M.StringLiteralType> {
-        value: M.StringLiteralType['value'];
-    }
+export interface StringLiteralType extends Type, S<M.StringLiteralType, 'type' | 'value'> {
+}
 
-    export interface TupleType extends Type<M.TupleType> {
-        elements?: ModelToObject<M.TupleType['elements']>;
-    }
+export interface TupleType extends Type, S<M.TupleType, 'type'> {
+    elements?: ModelToObject<M.TupleType['elements']>;
+}
 
-    export interface TypeOperatorType extends Type<M.TypeOperatorType> {
-        operator: M.TypeOperatorType['operator'];
-        target: ModelToObject<M.TypeOperatorType['target']>;
-    }
+export interface TypeOperatorType extends Type, S<M.TypeOperatorType, 'type' | 'operator' | 'target'> {
+}
 
-    export interface TypeParameterType extends Type<M.TypeParameterType> {
-        name: M.TypeParameterType['name'];
-        constraint?: ModelToObject<M.TypeParameterType['constraint']>;
-    }
+export interface TypeParameterType extends Type, S<M.TypeParameterType, 'type' | 'name' | 'constraint'> {
+}
 
-    export interface UnknownType extends Type<M.UnknownType> {
-        name: M.UnknownType['name'];
-    }
+export interface UnknownType extends Type, S<M.UnknownType, 'type' | 'name'> {
+}
 
-    export interface Type<T extends M.Type> {
-        type: T['type'];
-    }
+/**
+ * Technically not correct, the `type` property will be set by the abstract serializer.
+ * But to allow tagged literals, the `type` property is instead defined by each child type.
+ */
+export interface Type {
+}
 
-    // Miscellaneous
+// Miscellaneous
 
-    export interface ReflectionFlags {
-        isPrivate?: boolean;
-        isProtected?: boolean;
-        isPublic?: boolean;
-        isStatic?: boolean;
-        isExported?: boolean;
-        isExternal?: boolean;
-        isOptional?: boolean;
-        isRest?: boolean;
-        hasExportAssignment?: boolean;
-        isConstructorProperty?: boolean;
-        isAbstract?: boolean;
-        isConst?: boolean;
-        isLet?: boolean;
-    }
+export interface ReflectionFlags extends Partial<S<M.ReflectionFlags,
+      'isPrivate'
+    | 'isProtected'
+    | 'isPublic'
+    | 'isStatic'
+    | 'isExported'
+    | 'isExternal'
+    | 'isOptional'
+    | 'isRest'
+    | 'hasExportAssignment'
+    | 'isConstructorProperty'
+    | 'isAbstract'
+    | 'isConst'
+    | 'isLet'>> {
+}
 
-    export interface Comment {
-        shortText?: M.Comment['shortText'];
-        text?: M.Comment['text'];
-        returns?: M.Comment['returns'];
-        tags?: ModelToObject<M.Comment['tags']>;
-    }
+export interface Comment extends Partial<S<M.Comment, 'shortText' | 'text' | 'returns' | 'tags'>> {
+}
 
-    export interface CommentTag {
-        tag: M.CommentTag['tagName'];
-        text: M.CommentTag['text'];
-        param?: M.CommentTag['paramName'];
-    }
+export interface CommentTag extends S<M.CommentTag, 'text'> {
+    tag: M.CommentTag['tagName'];
+    param?: M.CommentTag['paramName'];
+}
 
-    export interface SourceReference {
-        fileName: M.SourceReference['fileName'];
-        line: M.SourceReference['line'];
-        character: M.SourceReference['character'];
-    }
+export interface SourceReference extends S<M.SourceReference, 'fileName' | 'line' | 'character'> {
+}
 
-    export interface Decorator {
-        name: M.Decorator['name'];
-        type?: ModelToObject<M.Decorator['type']>;
-        arguments?: M.Decorator['arguments'];
-    }
+export interface Decorator extends S<M.Decorator, 'name' | 'type' | 'arguments'> {
 }
