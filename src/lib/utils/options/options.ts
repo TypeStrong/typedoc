@@ -63,11 +63,11 @@ export class DiscoverEvent extends Event {
  * Responsible for loading options via child components that read options
  * from various sources.
  */
-@Component({name: 'options', internal: true, childClass: OptionsComponent})
+@Component({ name: 'options', internal: true, childClass: OptionsComponent })
 export class Options extends ChildableComponent<Application, OptionsComponent> {
-    private declarations!: {[name: string]: OptionDeclaration};
+    private declarations!: { [name: string]: OptionDeclaration };
 
-    private values!: {[name: string]: any};
+    private values!: { [name: string]: any };
 
     private compilerOptions!: ts.CompilerOptions;
 
@@ -81,7 +81,22 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     }
 
     read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): OptionsReadResult {
-        const event  = new DiscoverEvent(DiscoverEvent.DISCOVER, mode);
+        if (typeof data.extends === 'string') {
+            const tryLoad = (name: string) => {
+                try {
+                    data = {
+                        ...data,
+                        ...require(name)
+                    };
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            };
+            if (data.extends.startsWith('@') && !data.extends.split('/')[1]) { tryLoad(`${data.extends}/typedoc-config`); } else { tryLoad(`typedoc-config-${data.extends}`) || tryLoad(data.extends); }
+        }
+
+        const event = new DiscoverEvent(DiscoverEvent.DISCOVER, mode);
         event.data = data;
 
         this.trigger(event);
@@ -162,7 +177,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
         }
     }
 
-    addDeclaration(declaration: OptionDeclaration|DeclarationOption) {
+    addDeclaration(declaration: OptionDeclaration | DeclarationOption) {
         const decl = declaration instanceof OptionDeclaration
             ? declaration
             : new OptionDeclaration(declaration);
@@ -178,7 +193,7 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
         }
     }
 
-    addDeclarations(declarations: (OptionDeclaration|DeclarationOption)[]) {
+    addDeclarations(declarations: (OptionDeclaration | DeclarationOption)[]) {
         for (let declaration of declarations) {
             this.addDeclaration(declaration);
         }
