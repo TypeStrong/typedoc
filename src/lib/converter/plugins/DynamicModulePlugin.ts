@@ -73,8 +73,8 @@ export class DynamicModulePlugin extends ConverterComponent {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, '');
             name = name.substr(0, name.length - Path.extname(name).length);
-            //When working with declaration files, we need to strip the .d as well
-            if(context.converter.includeDeclarations && name.endsWith('.d')){
+            // When working with declaration files, we need to strip the .d as well
+            if (context.converter.includeDeclarations && name.endsWith('.d')) {
                 name = name.substr(0, name.length - '.d'.length);
             }
             reflection.name = '"' + this.basePath.trim(name) + '"';
