@@ -27,7 +27,7 @@ export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {
 
         context.withScope(enumeration, () => {
             if (node.members) {
-                for (let member of node.members) {
+                for (const member of node.members) {
                     this.convertMember(context, member);
                 }
             }

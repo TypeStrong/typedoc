@@ -83,9 +83,9 @@ export class PackagePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onBeginDocument(context: Context, reflection: Reflection, node?: ts.SourceFile) {
-        let packageAndReadmeFound = () => (this.noReadmeFile || this.readmeFile) && this.packageFile;
-        let reachedTopDirectory = dirName => dirName === Path.resolve(Path.join(dirName, '..'));
-        let visitedDirBefore = dirName => this.visited.includes(dirName);
+        const packageAndReadmeFound = () => (this.noReadmeFile || this.readmeFile) && this.packageFile;
+        const reachedTopDirectory = dirName => dirName === Path.resolve(Path.join(dirName, '..'));
+        const visitedDirBefore = dirName => this.visited.includes(dirName);
 
         if (!node) {
             return;

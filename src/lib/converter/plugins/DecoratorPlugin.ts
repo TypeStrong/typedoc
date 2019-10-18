@@ -125,7 +125,7 @@ export class DecoratorPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently resolved.
      */
     private onBeginResolve(context: Context) {
-        for (let symbolID in this.usages) {
+        for (const symbolID in this.usages) {
             if (!this.usages.hasOwnProperty(symbolID)) {
                 continue;
             }

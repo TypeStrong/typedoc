@@ -68,7 +68,7 @@ export class ProjectReflection extends ContainerReflection {
      */
     getReflectionsByKind(kind: ReflectionKind): Reflection[] {
         const values: Reflection[] = [];
-        for (let id in this.reflections) {
+        for (const id in this.reflections) {
             const reflection = this.reflections[id];
             if (reflection.kindOf(kind)) {
                 values.push(reflection);
@@ -88,7 +88,7 @@ export class ProjectReflection extends ContainerReflection {
         const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
         const name = names.pop();
 
-        search: for (let key in this.reflections) {
+        search: for (const key in this.reflections) {
             const reflection = this.reflections[key];
             if (reflection.name !== name) {
                 continue;

@@ -45,7 +45,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
             return false;
         }
 
-        let common = Math.min(symbolName.length, nodeName.length);
+        const common = Math.min(symbolName.length, nodeName.length);
         symbolName = symbolName.slice(-common);
         nodeName = nodeName.slice(-common);
 
