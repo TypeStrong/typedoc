@@ -65,7 +65,7 @@ export class SourceDirectory {
     toString(indent: string = '') {
         let res = indent + this.name;
 
-        for (let key in this.directories) {
+        for (const key in this.directories) {
             if (!this.directories.hasOwnProperty(key)) {
                 continue;
             }

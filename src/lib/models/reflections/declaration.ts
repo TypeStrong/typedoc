@@ -197,7 +197,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      * @deprecated Use serializers instead
      */
     toObject(): any {
-        let result = super.toObject();
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();

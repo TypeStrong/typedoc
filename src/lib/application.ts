@@ -257,7 +257,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles: string[] = []): string[] {
-        let files: string[] = [];
+        const files: string[] = [];
 
         const exclude = this.exclude ? createMinimatch(this.exclude) : [];
 

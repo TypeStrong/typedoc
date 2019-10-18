@@ -208,7 +208,7 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        for (let id in this.comments) {
+        for (const id in this.comments) {
             if (!this.comments.hasOwnProperty(id)) {
                 continue;
             }
@@ -322,7 +322,7 @@ export class CommentPlugin extends ConverterComponent {
             CommentPlugin.removeReflection(project, reflection, deletedIds);
         });
 
-        for (let key in project.symbolMapping) {
+        for (const key in project.symbolMapping) {
             if (project.symbolMapping.hasOwnProperty(key) && deletedIds.includes(project.symbolMapping[key])) {
                 delete project.symbolMapping[key];
             }
@@ -387,14 +387,14 @@ export class CommentPlugin extends ConverterComponent {
             }
         });
 
-        let id = reflection.id;
+        const id = reflection.id;
         delete project.reflections[id];
 
         // if an array was provided, keep track of the reflections that have been deleted, otherwise clean symbol mappings
         if (deletedIds) {
             deletedIds.push(id);
         } else {
-            for (let key in project.symbolMapping) {
+            for (const key in project.symbolMapping) {
                 if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
                     delete project.symbolMapping[key];
                 }
