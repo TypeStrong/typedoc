@@ -24,7 +24,7 @@
           },
           "comment": {
             "shortText": "A Comment for a class",
-            "text": "## Some Markup\n**with more markup**\n\nA example with decorators that should not parse to tag\n```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```",
+            "text": "## Some Markup\n**with more markup**\n\nAn example with decorators that should not parse to tag\n```\n@myDecorator\n@FactoryDecorator('a', 'b', 'c')\nexport class CommentedClass {\n  myProp: string = 'myProp';\n\n  @PropDecorator() decoratedProp: string;\n\n  constructor(@ParamDecorator public param: string) { }\n\n  myMethod() { }\n}\n```",
             "tags": [
               {
                 "tag": "deprecated",
