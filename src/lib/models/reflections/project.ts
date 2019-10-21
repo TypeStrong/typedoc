@@ -110,7 +110,7 @@ export class ProjectReflection extends ContainerReflection {
     }
 }
 
-function splitUnquotedString(input: string, delimiter: string): string[] {
+export function splitUnquotedString(input: string, delimiter: string): string[] {
     if (input.startsWith(delimiter)) {
         return splitUnquotedString(input.substring(delimiter.length), delimiter);
     }
