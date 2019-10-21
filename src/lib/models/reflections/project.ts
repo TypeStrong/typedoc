@@ -109,10 +109,10 @@ export class ProjectReflection extends ContainerReflection {
         return undefined;
     }
 
-    private splitUnquotedString(input: string, delimiter: string): string[]{
-      if(input.startsWith('"') && input.endsWith('"')){
+    private splitUnquotedString(input: string, delimiter: string): string[] {
+      if (input.startsWith('"') && input.endsWith('"')) {
           return [input];
-      } else{
+      } else {
           return input.split(delimiter);
       }
     }
