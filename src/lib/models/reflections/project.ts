@@ -85,7 +85,7 @@ export class ProjectReflection extends ContainerReflection {
      * @return The found reflection or undefined.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : this.splitUnquotedString(arg, '.');
         const name = names.pop();
 
         search: for (const key in this.reflections) {
@@ -107,5 +107,13 @@ export class ProjectReflection extends ContainerReflection {
         }
 
         return undefined;
+    }
+
+    private splitUnquotedString(input: string, delimiter: string): string[]{
+      if(input.startsWith('"') && input.endsWith('"')){
+          return [input];
+      } else{
+          return input.split(delimiter);
+      }
     }
 }
