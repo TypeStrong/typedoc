@@ -5,6 +5,10 @@ export function splitUnquotedString(input: string, delimiter: string): string[] 
     if (input.startsWith('"')) {
         // the part inside the quotes should not be split, the rest should
         const closingQuoteIndex = input.indexOf('"', 1);
+        if (closingQuoteIndex === -1) {
+            // Unmatched quotes, just split it
+            return input.split(delimiter);
+        }
         if (closingQuoteIndex === input.length - 1) {
             return [input];
         } else {
