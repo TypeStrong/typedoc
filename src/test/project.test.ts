@@ -24,5 +24,12 @@ describe('Project', function() {
             Assert.strictEqual(result[0], '"foo.d"', 'Wrong split');
             Assert.strictEqual(result[1], 'bar', 'Wrong split');
         });
+
+        it('unmachted quotes', function() {
+          result = splitUnquotedString('"foo.d', '.');
+          Assert.strictEqual(result.length, 2, 'Wrong length');
+          Assert.strictEqual(result[0], '"foo', 'Wrong split');
+          Assert.strictEqual(result[1], 'd', 'Wrong split');
+        });
     });
 });
