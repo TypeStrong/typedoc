@@ -2,6 +2,7 @@ export { Reflection, ReflectionKind, ReflectionFlag, TypeParameterContainer, Dec
 export { ContainerReflection } from './container';
 export { DeclarationReflection, DeclarationHierarchy } from './declaration';
 export { ParameterReflection } from './parameter';
-export { ProjectReflection, splitUnquotedString } from './project';
+export { ProjectReflection } from './project';
 export { SignatureReflection } from './signature';
 export { TypeParameterReflection } from './type-parameter';
+export { splitUnquotedString } from './utils';
