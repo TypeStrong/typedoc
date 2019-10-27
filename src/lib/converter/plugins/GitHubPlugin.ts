@@ -58,10 +58,8 @@ export class Repository {
         this.branch = gitRevision || 'master';
         ShellJS.pushd(path);
 
-        let url: RegExpExecArray | null;
-
         for (let i = 0, c = repoLinks.length; i < c; i++) {
-            url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
+            const url = /(github(?:\.[a-z]+)*\.com)[:\/]([^\/]+)\/(.*)/.exec(repoLinks[i]);
 
             if (url) {
                 this.gitHubHostname = url[1];

@@ -2,6 +2,7 @@ import { SourceReference } from '../sources/file';
 import { Type } from '../types/index';
 import { Comment } from '../comments/comment';
 import { TypeParameterReflection } from './type-parameter';
+import { splitUnquotedString } from './utils';
 
 /**
  * Holds all data models used by TypeDoc.
@@ -260,7 +261,11 @@ export enum TraverseProperty {
 }
 
 export interface TraverseCallback {
-    (reflection: Reflection, property: TraverseProperty): void;
+    /**
+     * May return false to bail out of any further iteration. To preserve backwards compatibility, if
+     * a function returns undefined, iteration must continue.
+     */
+    (reflection: Reflection, property: TraverseProperty): boolean | void;
 }
 
 /**
@@ -474,22 +479,13 @@ export abstract class Reflection {
     }
 
     /**
-     * @param name  The name of the child to look for. Might contain a hierarchy.
-     */
-    getChildByName(name: string): Reflection;
-
-    /**
-     * @param names  The name hierarchy of the child to look for.
-     */
-    getChildByName(names: string[]): Reflection;
-
-    /**
      * Return a child by its name.
      *
-     * @returns The found child or NULL.
+     * @param names The name hierarchy of the child to look for.
+     * @returns The found child or undefined.
      */
     getChildByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
         const name = names[0];
         let result: Reflection | undefined;
 
@@ -497,9 +493,10 @@ export abstract class Reflection {
             if (child.name === name) {
                 if (names.length <= 1) {
                     result = child;
-                } else if (child) {
+                } else {
                     result = child.getChildByName(names.slice(1));
                 }
+                return false;
             }
         });
 
@@ -519,7 +516,7 @@ export abstract class Reflection {
      * @return The found reflection or null.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
 
         const reflection = this.getChildByName(names);
         if (reflection) {
@@ -615,7 +612,7 @@ export abstract class Reflection {
         const lines = [indent + this.toString()];
 
         indent += '  ';
-        this.traverse((child, property) => {
+        this.traverse((child) => {
             lines.push(child.toStringHierarchy(indent));
         });
 

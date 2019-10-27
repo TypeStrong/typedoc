@@ -210,7 +210,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private addNodeConverter(converter: ConverterNodeComponent<any>) {
-        for (let supports of converter.supports) {
+        for (const supports of converter.supports) {
             this.nodeConverters[supports] = converter;
         }
     }
@@ -241,7 +241,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private removeNodeConverter(converter: ConverterNodeComponent<any>) {
         const converters = this.nodeConverters;
         const keys = _.keys(this.nodeConverters);
-        for (let key of keys) {
+        for (const key of keys) {
             if (converters[key] === converter) {
                 delete converters[key];
             }
@@ -348,7 +348,7 @@ not be linked to the symbols they rename. Run without --excludeNotExported to ge
         if (node) {
             type = type || context.getTypeAtLocation(node);
 
-            for (let converter of this.typeNodeConverters) {
+            for (const converter of this.typeNodeConverters) {
                 if (converter.supportsNode(context, node, type)) {
                     return converter.convertNode(context, node, type);
                 }
@@ -357,7 +357,7 @@ not be linked to the symbols they rename. Run without --excludeNotExported to ge
 
         // Run all type based type conversions
         if (type) {
-            for (let converter of this.typeTypeConverters) {
+            for (const converter of this.typeTypeConverters) {
                 if (converter.supportsType(context, type)) {
                     return converter.convertType(context, type);
                 }
@@ -435,7 +435,7 @@ not be linked to the symbols they rename. Run without --excludeNotExported to ge
         this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         const project = context.project;
 
-        for (let id in project.reflections) {
+        for (const id in project.reflections) {
             if (!project.reflections.hasOwnProperty(id)) {
                 continue;
             }

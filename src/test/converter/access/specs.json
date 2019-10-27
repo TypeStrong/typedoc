@@ -58,8 +58,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "A variable that is made protected via comment."
@@ -117,8 +117,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -206,9 +206,9 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
+            "isProtected": true,
             "isExported": true,
             "hasExport": true,
-            "isProtected": true,
             "isConst": true
           },
           "comment": {
@@ -269,9 +269,9 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
+            "isProtected": true,
             "isExported": true,
-            "hasExport": true,
-            "isProtected": true
+            "hasExport": true
           },
           "signatures": [
             {

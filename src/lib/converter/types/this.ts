@@ -20,7 +20,7 @@ export class ThisConverter extends ConverterTypeComponent implements TypeNodeCon
      *
      * ```
      * class SomeClass { }
-     * var someValue:SomeClass;
+     * const someValue:SomeClass;
      * ```
      *
      * @param context  The context object describing the current state the converter is in.

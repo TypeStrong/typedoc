@@ -104,8 +104,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
             "isExported": true,
+            "hasExport": true,
             "isAbstract": true
           },
           "children": [
@@ -199,8 +199,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -306,8 +306,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "TestClass comment short text.",
@@ -316,10 +316,6 @@
               {
                 "tag": "see",
                 "text": "[[TestClass]] @ fixtures"
-              },
-              {
-                "tag": "category",
-                "text": "Test\n"
               }
             ]
           },
@@ -397,13 +393,7 @@
                 "isExported": true
               },
               "comment": {
-                "shortText": "publicProperty short text.",
-                "tags": [
-                  {
-                    "tag": "category",
-                    "text": "Test\n"
-                  }
-                ]
+                "shortText": "publicProperty short text."
               },
               "sources": [
                 {
@@ -492,13 +482,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "protectedMethod short text.",
-                    "tags": [
-                      {
-                        "tag": "category",
-                        "text": "Test\n"
-                      }
-                    ]
+                    "shortText": "protectedMethod short text."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -531,13 +515,7 @@
                   "kindString": "Call signature",
                   "flags": {},
                   "comment": {
-                    "shortText": "publicMethod short text.",
-                    "tags": [
-                      {
-                        "tag": "category",
-                        "text": "Test\n"
-                      }
-                    ]
+                    "shortText": "publicMethod short text."
                   },
                   "type": {
                     "type": "intrinsic",
@@ -667,8 +645,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "children": [
             {
@@ -860,13 +838,7 @@
                 "isExported": true
               },
               "comment": {
-                "shortText": "publicProperty short text.",
-                "tags": [
-                  {
-                    "tag": "category",
-                    "text": "Test\n"
-                  }
-                ]
+                "shortText": "publicProperty short text."
               },
               "sources": [
                 {
@@ -1040,8 +1012,8 @@
               "kindString": "Method",
               "flags": {
                 "isStatic": true,
-                "hasExport": true,
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "signatures": [
                 {

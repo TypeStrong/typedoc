@@ -19,7 +19,9 @@ export class ParameterReflection extends Reflection implements DefaultValueConta
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback(this.type.declaration, TraverseProperty.TypeLiteral);
+            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+                return;
+            }
         }
 
         super.traverse(callback);

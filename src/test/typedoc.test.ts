@@ -66,16 +66,36 @@ describe('TypeDoc', function() {
             Assert(!expanded.includes(inputFiles));
         });
         it('Honors the exclude option even if a module is imported', () => {
-            application.options.setValue('exclude', '**/b.d.ts');
+            application.options.setValue('exclude', '**/b.ts', Assert.fail);
+            application.options.setValue('module', 'commonjs', Assert.fail);
 
             function handler(context: Context) {
                 Assert.deepStrictEqual(context.fileNames, [
-                    Path.resolve(__dirname, 'module', 'a.d.ts').replace(/\\/g, '/')
+                    Path.resolve(__dirname, 'module', 'a.ts').replace(/\\/g, '/')
                 ]);
             }
-            application.converter.on(Converter.EVENT_END, handler);
-            application.convert([ Path.join(__dirname, 'module', 'a.d.ts')]);
-            application.converter.off(Converter.EVENT_END, handler);
+            application.converter.once(Converter.EVENT_END, handler);
+            application.convert([ Path.join(__dirname, 'module', 'a.ts')]);
+        });
+
+        it('supports directory excludes', function() {
+            const inputFiles = Path.join(__dirname, 'converter');
+            application.options.setValue('exclude', [ '**/access' ]);
+            const expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'class', 'class.ts')), true);
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'access', 'access.ts')), false);
+            Assert.strictEqual(expanded.includes(inputFiles), false);
+        });
+
+        it('supports negations in directory excludes', function() {
+            const inputFiles = Path.join(__dirname, 'converter');
+            application.options.setValue('exclude', [ '**/!(access)/' ]);
+            const expanded = application.expandInputFiles([inputFiles]);
+
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'class', 'class.ts')), false);
+            Assert.strictEqual(expanded.includes(Path.join(inputFiles, 'access', 'access.ts')), true);
+            Assert.strictEqual(expanded.includes(inputFiles), false);
         });
     });
 });

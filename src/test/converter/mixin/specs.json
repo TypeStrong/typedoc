@@ -20,8 +20,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Base class"
@@ -108,8 +108,8 @@
           "kind": 128,
           "kindString": "Class",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Class that inherits from Base and consumes Mixin1 and Mixin2, in order."
@@ -241,14 +241,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -260,14 +260,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
@@ -509,8 +509,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "The \"instance type\" of the Mixin1 using the interface notation (supports recursive type definition)"
@@ -592,14 +592,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -611,14 +611,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
@@ -737,8 +737,8 @@
           "kind": 256,
           "kindString": "Interface",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "The \"instance type\" of the Mixin2 using the interface notation (supports recursive type definition)"
@@ -849,14 +849,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -868,14 +868,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
@@ -1062,8 +1062,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "typeParameter": [
             {
@@ -1105,8 +1105,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "typeParameter": [
             {
@@ -1179,8 +1179,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "typeParameter": [
             {
@@ -1231,8 +1231,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "hasExport": true,
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
@@ -1263,8 +1263,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "hasExport": true,
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {
@@ -1355,8 +1355,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "hasExport": true,
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {
@@ -1467,8 +1467,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "hasExport": true,
             "isExported": true,
+            "hasExport": true,
             "isConst": true
           },
           "comment": {

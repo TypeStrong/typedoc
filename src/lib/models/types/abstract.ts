@@ -32,7 +32,7 @@ export abstract class Type {
      * @deprecated Use serializers instead
      */
     toObject(): any {
-        let result: any = {};
+        const result: any = {};
         result.type = this.type;
 
         return result;

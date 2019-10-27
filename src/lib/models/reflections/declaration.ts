@@ -4,6 +4,7 @@ import { DefaultValueContainer, Reflection, ReflectionFlag, TraverseCallback, Tr
 import { ContainerReflection } from './container';
 import { SignatureReflection } from './signature';
 import { TypeParameterReflection } from './type-parameter';
+import { toArray } from 'lodash';
 
 /**
  * Stores hierarchical type data.
@@ -159,28 +160,40 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      * @param callback  The callback function that should be applied for each child reflection.
      */
     traverse(callback: TraverseCallback) {
-        if (this.typeParameters) {
-            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+        for (const parameter of toArray(this.typeParameters)) {
+            if (callback(parameter, TraverseProperty.TypeParameter) === false) {
+                return;
+            }
         }
 
         if (this.type instanceof ReflectionType) {
-            callback(this.type.declaration, TraverseProperty.TypeLiteral);
+            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+                return;
+            }
         }
 
-        if (this.signatures) {
-            this.signatures.slice().forEach((signature) => callback(signature, TraverseProperty.Signatures));
+        for (const signature of toArray(this.signatures)) {
+            if (callback(signature, TraverseProperty.Signatures) === false) {
+                return;
+            }
         }
 
         if (this.indexSignature) {
-            callback(this.indexSignature, TraverseProperty.IndexSignature);
+            if (callback(this.indexSignature, TraverseProperty.IndexSignature) === false) {
+                return;
+            }
         }
 
         if (this.getSignature) {
-            callback(this.getSignature, TraverseProperty.GetSignature);
+            if (callback(this.getSignature, TraverseProperty.GetSignature) === false) {
+                return;
+            }
         }
 
         if (this.setSignature) {
-            callback(this.setSignature, TraverseProperty.SetSignature);
+            if (callback(this.setSignature, TraverseProperty.SetSignature) === false) {
+                return;
+            }
         }
 
         super.traverse(callback);
@@ -191,7 +204,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
      * @deprecated Use serializers instead
      */
     toObject(): any {
-        let result = super.toObject();
+        const result = super.toObject();
 
         if (this.type) {
             result.type = this.type.toObject();

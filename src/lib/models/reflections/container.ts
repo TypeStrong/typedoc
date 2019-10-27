@@ -2,6 +2,7 @@ import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from '
 import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { DeclarationReflection } from './declaration';
+import { toArray } from 'lodash';
 
 export class ContainerReflection extends Reflection {
     /**
@@ -38,10 +39,10 @@ export class ContainerReflection extends Reflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     traverse(callback: TraverseCallback) {
-        if (this.children) {
-            this.children.slice().forEach((child: DeclarationReflection) => {
-                callback(child, TraverseProperty.Children);
-            });
+        for (const child of toArray(this.children)) {
+            if (callback(child, TraverseProperty.Children) === false) {
+                return;
+            }
         }
     }
 

@@ -21,8 +21,8 @@
           "kindString": "Function",
           "flags": {
             "isExported": true,
-            "hasExport": true,
-            "hasExportAssignment": true
+            "hasExportAssignment": true,
+            "hasExport": true
           },
           "signatures": [
             {

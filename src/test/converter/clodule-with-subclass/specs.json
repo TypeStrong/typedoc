@@ -31,8 +31,8 @@
               "kindString": "Property",
               "flags": {
                 "isStatic": true,
-                 "isExported": true,
-                 "hasExport": true
+                "isExported": true,
+                "hasExport": true
               },
               "sources": [
                 {

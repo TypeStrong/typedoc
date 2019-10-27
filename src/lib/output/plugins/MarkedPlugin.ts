@@ -9,6 +9,18 @@ import { RendererEvent, MarkdownEvent } from '../events';
 import { Option } from '../../utils/component';
 import { ParameterHint } from '../../utils/options/declaration';
 
+const customMarkedRenderer = new Marked.Renderer();
+
+customMarkedRenderer.heading = (text, level, _, slugger) => {
+  const slug = slugger.slug(text);
+
+  return `
+<a href="#${slug}" id="${slug}" style="color: inherit; text-decoration: none;">
+  <h${level}>${text}</h${level}>
+</a>
+`;
+};
+
 /**
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
  *
@@ -87,7 +99,8 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         Handlebars.registerHelper('relativeURL', (url: string) => url ? this.getRelativeUrl(url) : url);
 
         Marked.setOptions({
-            highlight: (text: any, lang: any) => this.getHighlighted(text, lang)
+            highlight: (text: any, lang: any) => this.getHighlighted(text, lang),
+            renderer: customMarkedRenderer
         });
     }
 

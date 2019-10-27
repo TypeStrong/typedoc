@@ -30,7 +30,7 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
 
         if (node.parameters && node.parameters.length) {
             const comment = method ? method.comment : createComment(node);
-            for (let parameter of node.parameters) {
+            for (const parameter of node.parameters) {
                 this.addParameterProperty(context, parameter, comment);
             }
         }
