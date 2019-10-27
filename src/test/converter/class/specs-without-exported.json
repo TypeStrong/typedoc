@@ -52,8 +52,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
                 "isProtected": true,
+                "isExported": true,
                 "isAbstract": true
               },
               "signatures": [
@@ -150,8 +150,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -305,8 +305,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -387,8 +387,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -420,8 +420,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -645,8 +645,8 @@
               "kindString": "Property",
               "flags": {
                 "isPrivate": true,
-                "isConstructorProperty": true,
-                "isExported": true
+                "isExported": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Private string property"
@@ -669,9 +669,9 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
+                "isPublic": true,
                 "isExported": true,
-                "isPublic": true
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Public number property"
@@ -694,9 +694,9 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
+                "isPublic": true,
                 "isExported": true,
-                "isPublic": true
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Public implicit any property\n"
@@ -719,8 +719,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -810,8 +810,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -853,8 +853,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -897,8 +897,8 @@
               "kindString": "Method",
               "flags": {
                 "isStatic": true,
-                "hasExport": true,
-                "isExported": true
+                "isExported": true,
+                "hasExport": true
               },
               "signatures": [
                 {

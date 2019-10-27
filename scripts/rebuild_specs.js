@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const TypeDoc = require(path.join(__dirname, '..'));
+const TypeDoc = require('..');
 
 const app = new TypeDoc.Application({
     mode: 'Modules',
@@ -20,29 +20,47 @@ const app = new TypeDoc.Application({
 
 const base = path.join(__dirname, '../src/test/converter');
 
+/** @type {[string, () => void, () => void][]} */
+const conversions = [
+    ['specs', () => { }, () => { }],
+    ['specs-without-exported',
+        () => app.options.setValue('excludeNotExported', true),
+        () => app.options.setValue('excludeNotExported', false)
+    ],
+    ['specs-with-lump-categories',
+        () => app.options.setValue('categorizeByGroup', false),
+        () => app.options.setValue('categorizeByGroup', true)
+    ],
+]
+
 fs.remove(path.join(__dirname, '../src/test/renderer/specs'))
     .then(() => fs.readdir(base))
     .then(dirs => {
         // Get converter directories
         return Promise.all(dirs.map(dir => {
             const dirPath = path.join(base, dir);
-            return Promise.all([ dirPath, fs.stat(dirPath) ]);
+            return Promise.all([dirPath, fs.stat(dirPath)]);
         }));
     }).then(dirs => {
         // Rebuild converter specs
-        return dirs.map(([ fullPath, isDir ]) => {
-            if (!isDir) return;
+        return dirs.map(([fullPath, stat]) => {
+            if (!stat.isDirectory()) return;
 
             console.log(fullPath);
-            TypeDoc.resetReflectionID();
-            const src = app.expandInputFiles([ fullPath ]);
-            const out = path.join(fullPath, 'specs.json');
-            const result = app.convert(src);
-            const data = JSON.stringify(result.toObject(), null, '  ')
-                .split(TypeDoc.normalizePath(base))
-                .join('%BASE%');
-
-            return fs.writeFile(out, data);
+            const src = app.expandInputFiles([fullPath]);
+            return Promise.all(conversions.map(([file, before, after]) => {
+                const out = path.join(fullPath, `${file}.json`);
+                if (fs.existsSync(out)) {
+                    TypeDoc.resetReflectionID();
+                    before();
+                    const result = app.convert(src);
+                    const data = JSON.stringify(result.toObject(), null, '  ')
+                        .split(TypeDoc.normalizePath(base))
+                        .join('%BASE%');
+                    after();
+                    return fs.writeFile(out, data);
+                }
+            }));
         })
     }).then(() => {
         // Rebuild renderer example
