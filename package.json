@@ -65,7 +65,7 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --prof --timeout=10000 dist/test/*.test.js",
     "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
     "build": "tsc --project .",
     "postbuild": "node scripts/replace_application_version.js",
@@ -73,7 +73,7 @@
     "lint": "tslint --project .",
     "prepublishOnly": "npm run lint && npm run build_and_test",
     "prepare": "npm run build",
-    "clean": "rm -rf node_modules package-lock.json lib coverage"
+    "clean": "rimraf node_modules package-lock.json lib coverage"
   },
   "keywords": [
     "typescript",

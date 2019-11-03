@@ -62,7 +62,9 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -235,7 +237,9 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -284,7 +288,9 @@
                   "name": "classWithMixinMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -313,14 +319,18 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 39,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin1Type",
@@ -376,14 +386,18 @@
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 35,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin2"
@@ -586,7 +600,9 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -635,14 +651,18 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 11,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin1Type",
@@ -717,7 +737,9 @@
                         "name": "__type",
                         "kind": 65536,
                         "kindString": "Type literal",
-                        "flags": {}
+                        "flags": {
+                          "isExported": true
+                        }
                       }
                     }
                   ]
@@ -843,7 +865,9 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -892,14 +916,18 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 24,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin1Type",
@@ -955,14 +983,18 @@
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 20,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin2"
@@ -1037,7 +1069,9 @@
                         "name": "__type",
                         "kind": 65536,
                         "kindString": "Type literal",
-                        "flags": {}
+                        "flags": {
+                          "isExported": true
+                        }
                       }
                     }
                   ]
@@ -1071,7 +1105,9 @@
               "name": "A",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -1088,7 +1124,9 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
@@ -1114,7 +1152,9 @@
               "name": "A",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -1131,14 +1171,18 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "signatures": [
                 {
                   "id": 46,
                   "name": "__call",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 47,
@@ -1146,6 +1190,7 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
+                        "isExported": true,
                         "isRest": true
                       },
                       "type": {
@@ -1188,7 +1233,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "reference",
                 "name": "AnyFunction",
@@ -1276,7 +1323,9 @@
               "name": "Mixin1Func",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin1"
               },
@@ -1286,7 +1335,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
                     "name": "AnyConstructor",
@@ -1307,7 +1358,9 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",
@@ -1368,7 +1421,9 @@
               "name": "Mixin2",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin2"
               },
@@ -1378,7 +1433,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
                     "name": "AnyConstructor",
@@ -1409,7 +1466,9 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",
@@ -1480,7 +1539,9 @@
               "name": "Mixin3",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin3"
               },
@@ -1490,7 +1551,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
                     "name": "AnyConstructor",
@@ -1510,7 +1573,9 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",

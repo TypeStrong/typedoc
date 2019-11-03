@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { ReflectionKind, SignatureReflection, ContainerReflection, DeclarationReflection, Type } from '../../models/index';
+import { ReflectionKind, SignatureReflection, ContainerReflection, DeclarationReflection, Type, ReflectionFlag } from '../../models/index';
 import { Context } from '../context';
 import { Converter } from '../converter';
 import { createParameter } from './parameter';
@@ -22,6 +22,7 @@ export function createSignature(context: Context, node: ts.SignatureDeclaration,
     }
 
     const signature = new SignatureReflection(name, kind, container);
+    signature.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
     context.registerReflection(signature, node);
     context.withScope(signature, node.typeParameters, true, () => {
         node.parameters.forEach((parameter: ts.ParameterDeclaration) => {

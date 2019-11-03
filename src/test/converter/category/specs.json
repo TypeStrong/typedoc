@@ -146,7 +146,9 @@
                   "name": "myAbstractMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -243,7 +245,9 @@
                   "name": "myAbstractMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "void"
@@ -337,7 +341,9 @@
                   "name": "new TestClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "Constructor short text."
                   },
@@ -447,7 +453,9 @@
                   "name": "privateMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "privateMethod short text."
                   },
@@ -480,7 +488,9 @@
                   "name": "protectedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "protectedMethod short text."
                   },
@@ -513,7 +523,9 @@
                   "name": "publicMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "publicMethod short text."
                   },
@@ -546,7 +558,9 @@
                   "name": "staticMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "staticMethod short text."
                   },
@@ -666,7 +680,9 @@
                   "name": "new TestSubClass",
                   "kind": 16384,
                   "kindString": "Constructor signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "Constructor short text."
                   },
@@ -676,7 +692,9 @@
                       "name": "p1",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "comment": {
                         "shortText": "Constructor param"
                       },
@@ -690,7 +708,9 @@
                       "name": "p2",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "comment": {
                         "shortText": "Private string property"
                       },
@@ -704,7 +724,9 @@
                       "name": "p3",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "comment": {
                         "shortText": "Public number property"
                       },
@@ -718,7 +740,9 @@
                       "name": "p4",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "comment": {
                         "shortText": "Public implicit any property\n"
                       },
@@ -901,7 +925,9 @@
                   "name": "mergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "mergedMethod short text."
                   },
@@ -934,7 +960,9 @@
                   "name": "protectedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "protectedMethod short text."
                   },
@@ -977,7 +1005,9 @@
                   "name": "publicMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "publicMethod short text."
                   },
@@ -1021,7 +1051,9 @@
                   "name": "staticMergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "staticMergedMethod short text."
                   },
@@ -1054,7 +1086,9 @@
                   "name": "staticMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "staticMethod short text."
                   },

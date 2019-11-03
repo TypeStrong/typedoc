@@ -162,12 +162,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
     public convert(src: string[]): ProjectReflection | undefined {
-        this.logger.writeln(
-            'Using TypeScript %s from %s',
-            this.getTypeScriptVersion(),
-            this.getTypeScriptPath()
-        );
-
         const result = this.converter.convert(src);
         if (result.errors && result.errors.length) {
             this.logger.diagnostics(result.errors);

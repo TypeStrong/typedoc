@@ -204,7 +204,9 @@
               "name": "defaultSymbol",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "intrinsic",
                 "name": "void"
@@ -670,14 +672,18 @@
               "name": "funcFromMod",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "parameters": [
                 {
                   "id": 8,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -882,14 +888,18 @@
               "name": "funcFromMod2",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "parameters": [
                 {
                   "id": 17,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"

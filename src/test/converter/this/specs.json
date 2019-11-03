@@ -43,7 +43,9 @@
                   "name": "chain",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "Chain method that returns this."
                   },

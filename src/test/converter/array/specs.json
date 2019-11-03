@@ -32,7 +32,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [

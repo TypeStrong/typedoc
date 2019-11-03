@@ -29,7 +29,9 @@
               "name": "exportedFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a simple exported function."
               },
@@ -39,7 +41,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
                     "name": "EmptyInterface",

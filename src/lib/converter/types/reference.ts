@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 import { Type, IntrinsicType, ReflectionType } from '../../models/types/index';
-import { ReflectionKind, DeclarationReflection } from '../../models/reflections/index';
+import { ReflectionKind, DeclarationReflection, ReflectionFlag } from '../../models/reflections/index';
 import { createReferenceType } from '../factories/index';
 import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
 import { Context } from '../context';
@@ -115,16 +115,15 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
             if (context.visitStack.includes(declaration)) {
                 if (declaration.kind === ts.SyntaxKind.TypeLiteral ||
                         declaration.kind === ts.SyntaxKind.ObjectLiteralExpression) {
-                    // TODO: Check if this type assertion is safe and document.
-                    return createReferenceType(context, declaration.parent.symbol!);
+                    return createReferenceType(context, declaration.parent.symbol);
                 } else {
-                    // TODO: Check if this type assertion is safe and document.
-                    return createReferenceType(context, declaration.symbol!);
+                    return createReferenceType(context, declaration.symbol);
                 }
             }
         }
 
         const declaration = new DeclarationReflection('__type', ReflectionKind.TypeLiteral, context.scope);
+        declaration.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
 
         context.registerReflection(declaration, undefined, symbol);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);

@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { Reflection } from '../../models/index';
+import { Reflection, ReflectionFlag } from '../../models/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 
@@ -23,7 +23,10 @@ export class TypeLiteralConverter extends ConverterNodeComponent<ts.TypeLiteralN
     convert(context: Context, node: ts.TypeLiteralNode): Reflection {
         if (node.members) {
             node.members.forEach((node) => {
-                this.owner.convertNode(context, node);
+                const reflection = this.owner.convertNode(context, node);
+                if (reflection) {
+                    reflection.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
+                }
             });
         }
 

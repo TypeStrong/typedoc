@@ -62,6 +62,11 @@ export class CliApplication extends Application {
             typescript.sys.write(getOptionsHelp(this.options));
             process.exit(ExitCode.NoInputFiles);
         } else {
+            this.logger.writeln(
+                'Using TypeScript %s from %s',
+                this.getTypeScriptVersion(),
+                this.getTypeScriptPath()
+            );
             const src = this.expandInputFiles(result.inputFiles);
             const project = this.convert(src);
             if (project) {
