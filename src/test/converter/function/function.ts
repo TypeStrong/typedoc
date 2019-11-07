@@ -127,6 +127,14 @@ export function moduleFunction(arg:string):string { return ''; }
 
 
 /**
+ * This is an assertion function.
+ *
+ * @param condition The condition that is asserted to be true when this function returns.
+ */
+export function assertionFunction(condition:boolean):asserts condition { }
+
+
+/**
  * This is the module extending the function moduleFunction().
  */
 export module moduleFunction
