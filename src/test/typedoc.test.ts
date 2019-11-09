@@ -1,7 +1,6 @@
 import { Application } from '..';
 import * as Path from 'path';
 import Assert = require('assert');
-import './.dot';
 import { Converter, Context } from '../lib/converter';
 
 describe('TypeDoc', function() {
