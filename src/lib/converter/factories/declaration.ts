@@ -274,7 +274,7 @@ class ExportDeclarationConverter {
 
                 // We first need to convert the declarations for the module we depend on. This is necessary in cases where we have module A
                 // that exports a symbol which is reexported from B, and the symbol from B is reexported from C. The ExportDeclarationReflection
-                // in B must be processed befoe the one in C.
+                // in B must be processed before the one in C.
                 this.findAndConvertModule(moduleSpecifier);
 
                 if (exportClause) {

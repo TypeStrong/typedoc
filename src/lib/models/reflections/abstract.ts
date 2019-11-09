@@ -3,6 +3,7 @@ import { Type } from '../types/index';
 import { Comment } from '../comments/comment';
 import { TypeParameterReflection } from './type-parameter';
 import { splitUnquotedString } from './utils';
+import { ProjectReflection } from './project';
 
 /**
  * Holds all data models used by TypeDoc.
@@ -506,7 +507,7 @@ export abstract class Reflection {
     /**
      * Return whether this reflection is the root / project reflection.
      */
-    isProject(): boolean { // this is ProjectReflection
+    isProject(): this is ProjectReflection {
         return false;
     }
 
