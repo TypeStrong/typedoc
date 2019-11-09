@@ -279,7 +279,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @returns The path to the theme directory.
      */
     static getThemeDirectory(): string {
-        return Path.dirname(require.resolve('typedoc-default-themes'));
+        return Path.dirname(require.resolve('@gerrit0/typedoc-default-themes'));
     }
 
     /**
