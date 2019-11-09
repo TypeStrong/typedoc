@@ -218,12 +218,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private addTypeConverter(converter: ConverterTypeComponent) {
         if ('supportsNode' in converter && 'convertNode' in converter) {
             this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
-            this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+            this.typeNodeConverters.sort((a, b) => b.priority - a.priority);
         }
 
         if ('supportsType' in converter && 'convertType' in converter) {
             this.typeTypeConverters.push(<TypeTypeConverter<any>> converter);
-            this.typeTypeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+            this.typeTypeConverters.sort((a, b) => b.priority - a.priority);
         }
     }
 
