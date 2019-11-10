@@ -183,7 +183,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -191,7 +192,9 @@
               "name": "assertIsNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Asserts that an argument is not null."
               },
@@ -201,7 +204,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "parameters": [
@@ -210,7 +215,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
@@ -258,7 +265,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -266,7 +274,9 @@
               "name": "assertionFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is an assertion function."
               },
@@ -276,7 +286,9 @@
                   "name": "condition",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "The condition that is asserted to be true when this function returns.\n"
                   },
@@ -307,7 +319,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -315,7 +328,9 @@
               "name": "checkerFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Assertion function with a type."
               },
@@ -325,7 +340,9 @@
                   "name": "anything",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
@@ -756,7 +773,8 @@
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "signatures": [
             {
@@ -764,7 +782,9 @@
               "name": "isNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Checks that an argument is not null."
               },
@@ -774,7 +794,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "parameters": [
@@ -783,7 +805,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
