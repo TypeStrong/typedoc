@@ -27,7 +27,7 @@
           },
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 20,
               "character": 16
             }
@@ -88,7 +88,7 @@
               },
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1215,
                   "character": 10
                 }
@@ -113,7 +113,7 @@
               },
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1385,
                   "character": 17
                 }
@@ -160,7 +160,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
                   "line": 60,
                   "character": 21
                 }
@@ -205,7 +205,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 95,
                               "character": 18
                             }
@@ -223,7 +223,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 96,
                               "character": 15
                             }
@@ -241,7 +241,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 97,
                               "character": 12
                             }
@@ -259,7 +259,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 98,
                               "character": 12
                             }
@@ -277,7 +277,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 99,
                               "character": 17
                             }
@@ -295,7 +295,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 100,
                               "character": 12
                             }
@@ -313,7 +313,7 @@
                           "flags": {},
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                               "line": 101,
                               "character": 14
                             }
@@ -341,7 +341,7 @@
                       ],
                       "sources": [
                         {
-                          "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                          "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                           "line": 94,
                           "character": 27
                         }
@@ -356,7 +356,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
                   "line": 94,
                   "character": 24
                 }
@@ -486,12 +486,12 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1237,
                   "character": 10
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1242,
                   "character": 10
                 }
@@ -577,7 +577,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                   "line": 64,
                   "character": 14
                 }
@@ -633,7 +633,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
                   "line": 65,
                   "character": 11
                 }
@@ -734,7 +734,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1310,
                               "character": 21
                             }
@@ -771,7 +771,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1310,
                   "character": 9
                 }
@@ -860,7 +860,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                   "line": 53,
                   "character": 8
                 }
@@ -985,7 +985,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1337,
                               "character": 35
                             }
@@ -1109,7 +1109,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1343,
                               "character": 22
                             }
@@ -1150,12 +1150,12 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1337,
                   "character": 10
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1343,
                   "character": 10
                 }
@@ -1291,7 +1291,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                               "line": 31,
                               "character": 32
                             }
@@ -1415,7 +1415,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                               "line": 32,
                               "character": 19
                             }
@@ -1459,12 +1459,12 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                   "line": 31,
                   "character": 8
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                   "line": 32,
                   "character": 8
                 }
@@ -1565,7 +1565,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                               "line": 43,
                               "character": 24
                             }
@@ -1602,7 +1602,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
                   "line": 43,
                   "character": 13
                 }
@@ -1703,7 +1703,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1325,
                               "character": 23
                             }
@@ -1740,7 +1740,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1325,
                   "character": 11
                 }
@@ -1813,7 +1813,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2016.array.include.d.ts",
                   "line": 27,
                   "character": 12
                 }
@@ -1886,7 +1886,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1295,
                   "character": 11
                 }
@@ -1944,7 +1944,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1247,
                   "character": 8
                 }
@@ -1990,7 +1990,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
                   "line": 70,
                   "character": 8
                 }
@@ -2063,7 +2063,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1301,
                   "character": 15
                 }
@@ -2173,7 +2173,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1331,
                               "character": 22
                             }
@@ -2213,7 +2213,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1331,
                   "character": 7
                 }
@@ -2263,7 +2263,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1227,
                   "character": 7
                 }
@@ -2325,7 +2325,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1232,
                   "character": 8
                 }
@@ -2439,7 +2439,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1349,
                               "character": 22
                             }
@@ -2547,7 +2547,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1350,
                               "character": 22
                             }
@@ -2680,7 +2680,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1356,
                               "character": 25
                             }
@@ -2715,17 +2715,17 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1349,
                   "character": 10
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1350,
                   "character": 10
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1356,
                   "character": 10
                 }
@@ -2839,7 +2839,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1362,
                               "character": 27
                             }
@@ -2947,7 +2947,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1363,
                               "character": 27
                             }
@@ -3080,7 +3080,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1369,
                               "character": 30
                             }
@@ -3115,17 +3115,17 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1362,
                   "character": 15
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1363,
                   "character": 15
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1369,
                   "character": 15
                 }
@@ -3169,7 +3169,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1251,
                   "character": 11
                 }
@@ -3219,7 +3219,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1255,
                   "character": 9
                 }
@@ -3297,7 +3297,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1261,
                   "character": 9
                 }
@@ -3398,7 +3398,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1319,
                               "character": 20
                             }
@@ -3435,7 +3435,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1319,
                   "character": 8
                 }
@@ -3524,7 +3524,7 @@
                           ],
                           "sources": [
                             {
-                              "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                               "line": 1271,
                               "character": 20
                             }
@@ -3545,7 +3545,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1271,
                   "character": 8
                 }
@@ -3693,12 +3693,12 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1277,
                   "character": 10
                 },
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1284,
                   "character": 10
                 }
@@ -3738,7 +3738,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1223,
                   "character": 18
                 }
@@ -3778,7 +3778,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1219,
                   "character": 12
                 }
@@ -3840,7 +3840,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es5.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
                   "line": 1289,
                   "character": 11
                 }
@@ -3887,7 +3887,7 @@
               ],
               "sources": [
                 {
-                  "fileName": "C:/Users/Gerrit/Documents/GitHub/typestrong-typedoc/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
                   "line": 75,
                   "character": 10
                 }
@@ -3947,7 +3947,7 @@
           ],
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 25,
               "character": 20
             }
@@ -3988,7 +3988,7 @@
           ],
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 4,
               "character": 22
             }
@@ -4008,7 +4008,7 @@
           },
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 10,
               "character": 20
             }
@@ -4073,7 +4073,7 @@
           },
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 15,
               "character": 19
             }
@@ -4118,7 +4118,7 @@
       ],
       "sources": [
         {
-          "fileName": "array.ts",
+          "fileName": "dist/test/converter/array/array.ts",
           "line": 1,
           "character": 0
         }
