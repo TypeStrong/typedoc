@@ -89,7 +89,7 @@ describe('Converter', function() {
 
             it('matches specs', function() {
                 const specs = JSON.parse(FS.readFileSync(Path.join(path, 'specs.json')).toString());
-                let data = JSON.stringify(result!.toObject(), null, '  ');
+                let data = JSON.stringify(app.serializer.toObject(result), null, '  ');
                 data = data.split(normalizePath(base)).join('%BASE%');
 
                 compareReflections(JSON.parse(data), specs);

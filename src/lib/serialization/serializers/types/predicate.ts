@@ -13,7 +13,7 @@ export class PredicateTypeSerializer extends TypeSerializerComponent<PredicateTy
             ...obj,
             name: type.name,
             asserts: type.asserts,
-            targetType: type.targetType
+            targetType: type.targetType ? this.owner.toObject(type.targetType) : undefined
         };
     }
 }
