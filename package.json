@@ -39,7 +39,7 @@
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
-    "@gerrit0/typedoc-default-themes": "^0.6.4",
+    "typedoc-default-themes": "^0.6.1",
     "typescript": "3.7.x"
   },
   "devDependencies": {
