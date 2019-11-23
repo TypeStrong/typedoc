@@ -10,10 +10,11 @@ import * as Handlebars from 'handlebars';
  */
 export function wbr(options: any): Handlebars.SafeString {
     let str = typeof options === 'string' ? options : options.fn(this);
-    str = Handlebars.escapeExpression(str);
-
+    
     str = str.replace(/([^_\-][_\-])([^_\-])/g, (m: string, a: string, b: string) => a + '<wbr>' + b);
     str = str.replace(/([^A-Z])([A-Z][^A-Z])/g, (m: string, a: string, b: string) => a + '<wbr>' + b);
+    
+    str = Handlebars.escapeExpression(str);
 
     return new Handlebars.SafeString(str);
 }
