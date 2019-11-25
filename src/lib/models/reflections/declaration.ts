@@ -273,7 +273,7 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
 
 export function markAsExported(reflection: Reflection) {
     if (reflection instanceof DeclarationReflection) {
-        (<DeclarationReflection> reflection).setFlag(ReflectionFlag.Exported, true);
+        reflection.setFlag(ReflectionFlag.Exported, true);
     }
 
     reflection.traverse(markAsExported);
