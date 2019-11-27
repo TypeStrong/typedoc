@@ -5,3 +5,4 @@ export { ParameterReflection } from './parameter';
 export { ProjectReflection } from './project';
 export { SignatureReflection } from './signature';
 export { TypeParameterReflection } from './type-parameter';
+export { splitUnquotedString } from './utils';
