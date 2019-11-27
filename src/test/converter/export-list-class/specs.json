@@ -1,0 +1,77 @@
+{
+    "id": 0,
+    "name": "typedoc",
+    "kind": 0,
+    "flags": {},
+    "children": [
+        {
+            "id": 1,
+            "name": "\"export-list-class\"",
+            "kind": 1,
+            "kindString": "External module",
+            "flags": {
+                "isExported": true
+            },
+            "originalName": "%BASE%/export-list-class/export-list-class.ts",
+            "children": [
+                {
+                    "id": 3,
+                    "name": "Bar",
+                    "kind": 128,
+                    "kindString": "Class",
+                    "flags": {
+                        "isExported": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "export-list-class.ts",
+                            "line": 2,
+                            "character": 9
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Foo",
+                    "kind": 128,
+                    "kindString": "Class",
+                    "flags": {
+                        "isExported": true
+                    },
+                    "sources": [
+                        {
+                            "fileName": "export-list-class.ts",
+                            "line": 1,
+                            "character": 9
+                        }
+                    ]
+                }
+            ],
+            "groups": [
+                {
+                    "title": "Classes",
+                    "kind": 128,
+                    "children": [
+                        3, 2
+                    ]
+                }
+            ],
+            "sources": [
+                {
+                    "fileName": "export-list-class.ts",
+                    "line": 1,
+                    "character": 0
+                }
+            ]
+        }
+    ],
+    "groups": [
+        {
+            "title": "External modules",
+            "kind": 1,
+            "children": [
+                1
+            ]
+        }
+    ]
+}
