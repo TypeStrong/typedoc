@@ -5,7 +5,7 @@ export { ClassConverter } from './class';
 export { ConstructorConverter } from './constructor';
 export { EnumConverter } from './enum';
 export { ExportConverter } from './export';
-export { ExportDeclarationConverter} from './export-declaration';
+export { ExportDeclarationConverter } from './export-declaration';
 export { FunctionConverter } from './function';
 export { InterfaceConverter } from './interface';
 export { TypeLiteralConverter } from './literal-type';
