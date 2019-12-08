@@ -510,8 +510,8 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
-                    "isConstructorProperty": true,
-                    "isPublic": true
+                    "isPublic": true,
+                    "isConstructorProperty": true
                   },
                   "sources": [
                     {
@@ -538,8 +538,8 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
-                    "isConstructorProperty": true,
-                    "isPublic": true
+                    "isPublic": true,
+                    "isConstructorProperty": true
                   },
                   "sources": [
                     {
@@ -564,8 +564,8 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
-                    "isConstructorProperty": true,
-                    "isPublic": true
+                    "isPublic": true,
+                    "isConstructorProperty": true
                   },
                   "sources": [
                     {
@@ -597,8 +597,8 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
-                    "isConstructorProperty": true,
-                    "isPublic": true
+                    "isPublic": true,
+                    "isConstructorProperty": true
                   },
                   "sources": [
                     {

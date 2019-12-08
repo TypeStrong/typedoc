@@ -125,7 +125,7 @@
             },
             {
               "id": 210,
-              "name": "__@iterator",
+              "name": "[Symbol.iterator]",
               "kind": 2048,
               "kindString": "Method",
               "flags": {
@@ -134,7 +134,7 @@
               "signatures": [
                 {
                   "id": 211,
-                  "name": "__@iterator",
+                  "name": "[Symbol.iterator]",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
@@ -172,7 +172,7 @@
             },
             {
               "id": 218,
-              "name": "__@unscopables",
+              "name": "[Symbol.unscopables]",
               "kind": 2048,
               "kindString": "Method",
               "flags": {
@@ -181,7 +181,7 @@
               "signatures": [
                 {
                   "id": 219,
-                  "name": "__@unscopables",
+                  "name": "[Symbol.unscopables]",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},

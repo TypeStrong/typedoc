@@ -15,6 +15,120 @@
       "originalName": "%BASE%/class/class.ts",
       "children": [
         {
+          "id": 44,
+          "name": "ComputedNames",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 45,
+              "name": "[Symbol.toStringTag]",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 116,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "defaultValue": "\"computed\""
+            },
+            {
+              "id": 46,
+              "name": "[x]",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 117,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 47,
+              "name": "literal2",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 118,
+                  "character": 16
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 48,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 119,
+                  "character": 5
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "false"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                45,
+                46,
+                47,
+                48
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 115,
+              "character": 26
+            }
+          ]
+        },
+        {
           "id": 34,
           "name": "TestAbstractClass",
           "kind": 128,
@@ -51,8 +165,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
                 "isProtected": true,
+                "isExported": true,
                 "isAbstract": true
               },
               "signatures": [
@@ -148,8 +262,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -302,8 +416,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -384,8 +498,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -417,8 +531,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -641,8 +755,8 @@
               "kindString": "Property",
               "flags": {
                 "isPrivate": true,
-                "isConstructorProperty": true,
-                "isExported": true
+                "isExported": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Private string property"
@@ -665,9 +779,9 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
+                "isPublic": true,
                 "isExported": true,
-                "isPublic": true
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Public number property"
@@ -690,9 +804,9 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
+                "isPublic": true,
                 "isExported": true,
-                "isPublic": true
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Public implicit any property\n"
@@ -715,8 +829,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "publicProperty short text."
@@ -806,8 +920,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -849,8 +963,8 @@
               "kind": 2048,
               "kindString": "Method",
               "flags": {
-                "isExported": true,
-                "isPublic": true
+                "isPublic": true,
+                "isExported": true
               },
               "signatures": [
                 {
@@ -887,7 +1001,7 @@
               }
             },
             {
-              "id": 44,
+              "id": 49,
               "name": "staticMergedMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -897,7 +1011,7 @@
               },
               "signatures": [
                 {
-                  "id": 45,
+                  "id": 50,
                   "name": "staticMergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -989,7 +1103,7 @@
                 42,
                 19,
                 17,
-                44,
+                49,
                 32
               ]
             }
@@ -1025,6 +1139,7 @@
           "title": "Classes",
           "kind": 128,
           "children": [
+            44,
             34,
             38,
             2,
