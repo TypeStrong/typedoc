@@ -127,8 +127,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
+                "isPublic": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "X component of the Vector"
@@ -151,8 +151,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
+                "isPublic": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Y component of the Vector"
@@ -345,8 +345,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
+                "isPublic": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "X component of the Vector"
@@ -374,8 +374,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
+                "isPublic": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Y component of the Vector"
@@ -403,8 +403,8 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isConstructorProperty": true,
-                "isPublic": true
+                "isPublic": true,
+                "isConstructorProperty": true
               },
               "comment": {
                 "shortText": "Z component of the Vector"

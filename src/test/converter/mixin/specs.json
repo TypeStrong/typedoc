@@ -239,14 +239,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -258,14 +258,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
@@ -589,14 +589,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -608,14 +608,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
@@ -845,14 +845,14 @@
                     "name": "number"
                   },
                   "overwrites": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   },
                   "inheritedFrom": {
-                    "id": 4,
                     "type": "reference",
-                    "name": "Base.baseMethod"
+                    "name": "Base.baseMethod",
+                    "id": 4
                   }
                 }
               ],
@@ -864,14 +864,14 @@
                 }
               ],
               "overwrites": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               },
               "inheritedFrom": {
-                "id": 4,
                 "type": "reference",
-                "name": "Base.baseMethod"
+                "name": "Base.baseMethod",
+                "id": 4
               }
             },
             {
