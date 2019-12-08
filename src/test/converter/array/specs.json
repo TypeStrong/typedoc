@@ -15,6 +15,3958 @@
       "originalName": "%BASE%/array/array.ts",
       "children": [
         {
+          "id": 4,
+          "name": "Foo",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Class array class item"
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/array/array.ts",
+              "line": 20,
+              "character": 16
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "FooList",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Custom list class"
+          },
+          "indexSignature": [
+            {
+              "id": 169,
+              "name": "__index",
+              "kind": 8192,
+              "kindString": "Index signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Custom list class"
+              },
+              "parameters": [
+                {
+                  "id": 170,
+                  "name": "n",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "Foo",
+                "id": 4
+              }
+            }
+          ],
+          "children": [
+            {
+              "id": 6,
+              "name": "length",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Gets or sets the length of the array. This is a number one higher than the highest element defined in an array."
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1215,
+                  "character": 10
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.length"
+              }
+            },
+            {
+              "id": 171,
+              "name": "Array",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isStatic": true,
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1385,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ArrayConstructor"
+              }
+            },
+            {
+              "id": 210,
+              "name": "__@iterator",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 211,
+                  "name": "__@iterator",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Iterator"
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "IterableIterator",
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.[Symbol.iterator]"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "line": 60,
+                  "character": 21
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.[Symbol.iterator]"
+              }
+            },
+            {
+              "id": 218,
+              "name": "__@unscopables",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 219,
+                  "name": "__@unscopables",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns an object whose properties have the value 'true'\nwhen they will be absent when used in a 'with' statement."
+                  },
+                  "type": {
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 220,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {},
+                      "children": [
+                        {
+                          "id": 221,
+                          "name": "copyWithin",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 95,
+                              "character": 18
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 222,
+                          "name": "entries",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 96,
+                              "character": 15
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 223,
+                          "name": "fill",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 97,
+                              "character": 12
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 224,
+                          "name": "find",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 98,
+                              "character": 12
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 225,
+                          "name": "findIndex",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 99,
+                              "character": 17
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 226,
+                          "name": "keys",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 100,
+                              "character": 12
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 227,
+                          "name": "values",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                              "line": 101,
+                              "character": 14
+                            }
+                          ],
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        }
+                      ],
+                      "groups": [
+                        {
+                          "title": "Variables",
+                          "kind": 32,
+                          "children": [
+                            221,
+                            222,
+                            223,
+                            224,
+                            225,
+                            226,
+                            227
+                          ]
+                        }
+                      ],
+                      "sources": [
+                        {
+                          "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                          "line": 94,
+                          "character": 27
+                        }
+                      ]
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.[Symbol.unscopables]"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+                  "line": 94,
+                  "character": 24
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.[Symbol.unscopables]"
+              }
+            },
+            {
+              "id": 16,
+              "name": "concat",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 17,
+                  "name": "concat",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Combines two or more arrays."
+                  },
+                  "parameters": [
+                    {
+                      "id": 18,
+                      "name": "items",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "comment": {
+                        "text": "Additional items to add to the end of array1.\n"
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "name": "ConcatArray",
+                          "typeArguments": [
+                            {
+                              "type": "reference",
+                              "name": "Foo",
+                              "id": 4
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.concat"
+                  }
+                },
+                {
+                  "id": 19,
+                  "name": "concat",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Combines two or more arrays."
+                  },
+                  "parameters": [
+                    {
+                      "id": 20,
+                      "name": "items",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "comment": {
+                        "text": "Additional items to add to the end of array1.\n"
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "union",
+                          "types": [
+                            {
+                              "type": "unknown",
+                              "name": "T"
+                            },
+                            {
+                              "type": "reference",
+                              "name": "ConcatArray",
+                              "typeArguments": [
+                                {
+                                  "type": "unknown",
+                                  "name": "T"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.concat"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1237,
+                  "character": 10
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1242,
+                  "character": 10
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.concat"
+              }
+            },
+            {
+              "id": 205,
+              "name": "copyWithin",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 206,
+                  "name": "copyWithin",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the this object after copying a section of the array identified by start and end\nto the same array starting at position target"
+                  },
+                  "parameters": [
+                    {
+                      "id": 207,
+                      "name": "target",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "If target is negative, it is treated as length+target where length is the\nlength of the array."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 208,
+                      "name": "start",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "If start is negative, it is treated as length+start. If end is negative, it\nis treated as length+end."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 209,
+                      "name": "end",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "If not specified, length of the this object is used as its default value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "this"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.copyWithin"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "line": 64,
+                  "character": 14
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.copyWithin"
+              }
+            },
+            {
+              "id": 212,
+              "name": "entries",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 213,
+                  "name": "entries",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns an iterable of key, value pairs for every entry in the array"
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "IterableIterator",
+                    "typeArguments": [
+                      {
+                        "type": "tuple",
+                        "elements": [
+                          {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          {
+                            "type": "reference",
+                            "name": "Foo",
+                            "id": 4
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.entries"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "line": 65,
+                  "character": 11
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.entries"
+              }
+            },
+            {
+              "id": 58,
+              "name": "every",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 59,
+                  "name": "every",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Determines whether all the members of an array satisfy the specified test."
+                  },
+                  "parameters": [
+                    {
+                      "id": 60,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The every method calls\nthe callbackfn function for each element in the array until the callbackfn returns a value\nwhich is coercible to the Boolean value false, or until the end of the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 61,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 62,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 63,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 64,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 65,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1310,
+                              "character": 21
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 66,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function.\nIf thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.every"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1310,
+                  "character": 9
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.every"
+              }
+            },
+            {
+              "id": 200,
+              "name": "fill",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 201,
+                  "name": "fill",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the this object after filling the section identified by start and end with value"
+                  },
+                  "parameters": [
+                    {
+                      "id": 202,
+                      "name": "value",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "value to fill array section with"
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    },
+                    {
+                      "id": 203,
+                      "name": "start",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "index to start filling the array at. If start is negative, it is treated as\nlength+start where length is the length of the array."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 204,
+                      "name": "end",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "index to stop filling the array at. If end is negative, it is treated as\nlength+end.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "this"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.fill"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "line": 53,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.fill"
+              }
+            },
+            {
+              "id": 95,
+              "name": "filter",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 96,
+                  "name": "filter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 97,
+                      "name": "S",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 98,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 99,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 100,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 101,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 102,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 103,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "predicate",
+                                "name": "value",
+                                "asserts": false,
+                                "targetType": {
+                                  "type": "typeParameter",
+                                  "name": "S",
+                                  "constraint": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1337,
+                              "character": 35
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 104,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "S",
+                      "constraint": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.filter"
+                  }
+                },
+                {
+                  "id": 105,
+                  "name": "filter",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
+                  },
+                  "parameters": [
+                    {
+                      "id": 106,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 107,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 108,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 109,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 110,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 111,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1343,
+                              "character": 22
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 112,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.filter"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1337,
+                  "character": 10
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1343,
+                  "character": 10
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.filter"
+              }
+            },
+            {
+              "id": 172,
+              "name": "find",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 173,
+                  "name": "find",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the value of the first element in the array where predicate is true, and undefined\notherwise."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 174,
+                      "name": "S",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 175,
+                      "name": "predicate",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found, find\nimmediately returns that element value. Otherwise, find returns undefined."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 176,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 177,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 178,
+                                  "name": "this",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "void"
+                                  }
+                                },
+                                {
+                                  "id": 179,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 180,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 181,
+                                  "name": "obj",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "predicate",
+                                "name": "value",
+                                "asserts": false,
+                                "targetType": {
+                                  "type": "typeParameter",
+                                  "name": "S",
+                                  "constraint": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "line": 31,
+                              "character": 32
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 182,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "If provided, it will be used as the this value for each invocation of\npredicate. If it is not provided, undefined is used instead.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "typeParameter",
+                        "name": "S",
+                        "constraint": {
+                          "type": "reference",
+                          "name": "Foo",
+                          "id": 4
+                        }
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.find"
+                  }
+                },
+                {
+                  "id": 183,
+                  "name": "find",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 184,
+                      "name": "predicate",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 185,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 186,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 187,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 188,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 189,
+                                  "name": "obj",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "line": 32,
+                              "character": 19
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 190,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.find"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "line": 31,
+                  "character": 8
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "line": 32,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.find"
+              }
+            },
+            {
+              "id": 191,
+              "name": "findIndex",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 192,
+                  "name": "findIndex",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the index of the first element in the array where predicate is true, and -1\notherwise."
+                  },
+                  "parameters": [
+                    {
+                      "id": 193,
+                      "name": "predicate",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found,\nfindIndex immediately returns that element index. Otherwise, findIndex returns -1."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 194,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 195,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 196,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 197,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 198,
+                                  "name": "obj",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                              "line": 43,
+                              "character": 24
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 199,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "If provided, it will be used as the this value for each invocation of\npredicate. If it is not provided, undefined is used instead.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.findIndex"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
+                  "line": 43,
+                  "character": 13
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.findIndex"
+              }
+            },
+            {
+              "id": 76,
+              "name": "forEach",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 77,
+                  "name": "forEach",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Performs the specified action for each element in an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 78,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 79,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 80,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 81,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 82,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 83,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "void"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1325,
+                              "character": 23
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 84,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.forEach"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1325,
+                  "character": 11
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.forEach"
+              }
+            },
+            {
+              "id": 228,
+              "name": "includes",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 229,
+                  "name": "includes",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Determines whether an array includes a certain element, returning true or false as appropriate."
+                  },
+                  "parameters": [
+                    {
+                      "id": 230,
+                      "name": "searchElement",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The element to search for."
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    },
+                    {
+                      "id": 231,
+                      "name": "fromIndex",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The position in this array at which to begin searching for searchElement.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.includes"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+                  "line": 27,
+                  "character": 12
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.includes"
+              }
+            },
+            {
+              "id": 50,
+              "name": "indexOf",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 51,
+                  "name": "indexOf",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the index of the first occurrence of a value in an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 52,
+                      "name": "searchElement",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The value to locate in the array."
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    },
+                    {
+                      "id": 53,
+                      "name": "fromIndex",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.indexOf"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1295,
+                  "character": 11
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.indexOf"
+              }
+            },
+            {
+              "id": 21,
+              "name": "join",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 22,
+                  "name": "join",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Adds all the elements of an array separated by the specified separator string."
+                  },
+                  "parameters": [
+                    {
+                      "id": 23,
+                      "name": "separator",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.join"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1247,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.join"
+              }
+            },
+            {
+              "id": 214,
+              "name": "keys",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 215,
+                  "name": "keys",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns an iterable of keys in the array"
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "IterableIterator",
+                    "typeArguments": [
+                      {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.keys"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "line": 70,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.keys"
+              }
+            },
+            {
+              "id": 54,
+              "name": "lastIndexOf",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 55,
+                  "name": "lastIndexOf",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns the index of the last occurrence of a specified value in an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 56,
+                      "name": "searchElement",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The value to locate in the array."
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    },
+                    {
+                      "id": 57,
+                      "name": "fromIndex",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.lastIndexOf"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1301,
+                  "character": 15
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.lastIndexOf"
+              }
+            },
+            {
+              "id": 85,
+              "name": "map",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 86,
+                  "name": "map",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Calls a defined callback function on each element of an array, and returns an array that contains the results."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 87,
+                      "name": "U",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {}
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 88,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 89,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 90,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 91,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 92,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 93,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "typeParameter",
+                                "name": "U"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1331,
+                              "character": 22
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 94,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "U"
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.map"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1331,
+                  "character": 7
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.map"
+              }
+            },
+            {
+              "id": 11,
+              "name": "pop",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 12,
+                  "name": "pop",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Removes the last element from an array and returns it."
+                  },
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.pop"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1227,
+                  "character": 7
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.pop"
+              }
+            },
+            {
+              "id": 13,
+              "name": "push",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 14,
+                  "name": "push",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Appends new elements to an array, and returns the new length of the array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 15,
+                      "name": "items",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "comment": {
+                        "text": "New elements of the Array.\n"
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "name": "Foo",
+                          "id": 4
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.push"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1232,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.push"
+              }
+            },
+            {
+              "id": 113,
+              "name": "reduce",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 114,
+                  "name": "reduce",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+                  },
+                  "parameters": [
+                    {
+                      "id": 115,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 116,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 117,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 118,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 119,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 120,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 121,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "reference",
+                                "name": "Foo",
+                                "id": 4
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1349,
+                              "character": 22
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Foo",
+                    "id": 4
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduce"
+                  }
+                },
+                {
+                  "id": 122,
+                  "name": "reduce",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 123,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 124,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 125,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 126,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 127,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 128,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 129,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "reference",
+                                "name": "Foo",
+                                "id": 4
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1350,
+                              "character": 22
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 130,
+                      "name": "initialValue",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Foo",
+                    "id": 4
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduce"
+                  }
+                },
+                {
+                  "id": 131,
+                  "name": "reduce",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 132,
+                      "name": "U",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {}
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 133,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 134,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 135,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 136,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "typeParameter",
+                                    "name": "U"
+                                  }
+                                },
+                                {
+                                  "id": 137,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 138,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 139,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "typeParameter",
+                                "name": "U"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1356,
+                              "character": 25
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 140,
+                      "name": "initialValue",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "U"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "U"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduce"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1349,
+                  "character": 10
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1350,
+                  "character": 10
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1356,
+                  "character": 10
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.reduce"
+              }
+            },
+            {
+              "id": 141,
+              "name": "reduceRight",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 142,
+                  "name": "reduceRight",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+                  },
+                  "parameters": [
+                    {
+                      "id": 143,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 144,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 145,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 146,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 147,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 148,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 149,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "reference",
+                                "name": "Foo",
+                                "id": 4
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1362,
+                              "character": 27
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Foo",
+                    "id": 4
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduceRight"
+                  }
+                },
+                {
+                  "id": 150,
+                  "name": "reduceRight",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "parameters": [
+                    {
+                      "id": 151,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 152,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 153,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 154,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 155,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 156,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 157,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "reference",
+                                "name": "Foo",
+                                "id": 4
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1363,
+                              "character": 27
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 158,
+                      "name": "initialValue",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "type": {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "Foo",
+                    "id": 4
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduceRight"
+                  }
+                },
+                {
+                  "id": 159,
+                  "name": "reduceRight",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 160,
+                      "name": "U",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {}
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 161,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 162,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 163,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 164,
+                                  "name": "previousValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "typeParameter",
+                                    "name": "U"
+                                  }
+                                },
+                                {
+                                  "id": 165,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 166,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 167,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "typeParameter",
+                                "name": "U"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1369,
+                              "character": 30
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 168,
+                      "name": "initialValue",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "U"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "U"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reduceRight"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1362,
+                  "character": 15
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1363,
+                  "character": 15
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1369,
+                  "character": 15
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.reduceRight"
+              }
+            },
+            {
+              "id": 24,
+              "name": "reverse",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 25,
+                  "name": "reverse",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Reverses the elements in an Array."
+                  },
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.reverse"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1251,
+                  "character": 11
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.reverse"
+              }
+            },
+            {
+              "id": 26,
+              "name": "shift",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 27,
+                  "name": "shift",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Removes the first element from an array and returns it."
+                  },
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.shift"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1255,
+                  "character": 9
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.shift"
+              }
+            },
+            {
+              "id": 28,
+              "name": "slice",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 29,
+                  "name": "slice",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns a section of an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 30,
+                      "name": "start",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The beginning of the specified portion of the array."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 31,
+                      "name": "end",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The end of the specified portion of the array. This is exclusive of the element at the index 'end'.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.slice"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1261,
+                  "character": 9
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.slice"
+              }
+            },
+            {
+              "id": 67,
+              "name": "some",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 68,
+                  "name": "some",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Determines whether the specified callback function returns true for any element of an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 69,
+                      "name": "callbackfn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The some method calls\nthe callbackfn function for each element in the array until the callbackfn returns a value\nwhich is coercible to the Boolean value true, or until the end of the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 70,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 71,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 72,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 73,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 74,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "name": "Foo",
+                                      "id": 4
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "unknown"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1319,
+                              "character": 20
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 75,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callbackfn function.\nIf thisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.some"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1319,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.some"
+              }
+            },
+            {
+              "id": 32,
+              "name": "sort",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 33,
+                  "name": "sort",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Sorts an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 34,
+                      "name": "compareFn",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "Function used to determine the order of the elements. It is expected to return\na negative value if first argument is less than second argument, zero if they're equal and a positive\nvalue otherwise. If omitted, the elements are sorted in ascending, ASCII character order.\n```ts\n[11,2,22,1].sort((a, b) => a - b)\n```\n"
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 35,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "signatures": [
+                            {
+                              "id": 36,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {},
+                              "parameters": [
+                                {
+                                  "id": 37,
+                                  "name": "a",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                },
+                                {
+                                  "id": 38,
+                                  "name": "b",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "name": "Foo",
+                                    "id": 4
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "number"
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                              "line": 1271,
+                              "character": 20
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "this"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.sort"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1271,
+                  "character": 8
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.sort"
+              }
+            },
+            {
+              "id": 39,
+              "name": "splice",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 40,
+                  "name": "splice",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
+                  },
+                  "parameters": [
+                    {
+                      "id": 41,
+                      "name": "start",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The zero-based location in the array from which to start removing elements."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 42,
+                      "name": "deleteCount",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The number of elements to remove.\n"
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.splice"
+                  }
+                },
+                {
+                  "id": 43,
+                  "name": "splice",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
+                  },
+                  "parameters": [
+                    {
+                      "id": 44,
+                      "name": "start",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The zero-based location in the array from which to start removing elements."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 45,
+                      "name": "deleteCount",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {},
+                      "comment": {
+                        "text": "The number of elements to remove."
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 46,
+                      "name": "items",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "comment": {
+                        "text": "Elements to insert into the array in place of the deleted elements.\n"
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "name": "Foo",
+                          "id": 4
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "name": "Foo",
+                      "id": 4
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.splice"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1277,
+                  "character": 10
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1284,
+                  "character": 10
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.splice"
+              }
+            },
+            {
+              "id": 9,
+              "name": "toLocaleString",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 10,
+                  "name": "toLocaleString",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns a string representation of an array. The elements are converted to string using their toLocalString methods."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.toLocaleString"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1223,
+                  "character": 18
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.toLocaleString"
+              }
+            },
+            {
+              "id": 7,
+              "name": "toString",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 8,
+                  "name": "toString",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns a string representation of an array."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.toString"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1219,
+                  "character": 12
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.toString"
+              }
+            },
+            {
+              "id": 47,
+              "name": "unshift",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 48,
+                  "name": "unshift",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Inserts new elements at the start of an array."
+                  },
+                  "parameters": [
+                    {
+                      "id": 49,
+                      "name": "items",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isRest": true
+                      },
+                      "comment": {
+                        "text": "Elements to insert at the start of the Array.\n"
+                      },
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "name": "Foo",
+                          "id": 4
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.unshift"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
+                  "line": 1289,
+                  "character": 11
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.unshift"
+              }
+            },
+            {
+              "id": 216,
+              "name": "values",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 217,
+                  "name": "values",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Returns an iterable of values in the array"
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "IterableIterator",
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "Foo",
+                        "id": 4
+                      }
+                    ]
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "name": "Array.values"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+                  "line": 75,
+                  "character": 10
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "name": "Array.values"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                6,
+                171
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                210,
+                218,
+                16,
+                205,
+                212,
+                58,
+                200,
+                95,
+                172,
+                191,
+                76,
+                228,
+                50,
+                21,
+                214,
+                54,
+                85,
+                11,
+                13,
+                113,
+                141,
+                24,
+                26,
+                28,
+                67,
+                32,
+                39,
+                9,
+                7,
+                47,
+                216
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/array/array.ts",
+              "line": 25,
+              "character": 20
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "Array",
+              "typeArguments": [
+                {
+                  "type": "reference",
+                  "name": "Foo",
+                  "id": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": 2,
           "name": "Array",
           "kind": 256,
@@ -36,14 +3988,14 @@
           ],
           "sources": [
             {
-              "fileName": "array.ts",
+              "fileName": "dist/test/converter/array/array.ts",
               "line": 4,
               "character": 22
             }
           ]
         },
         {
-          "id": 4,
+          "id": 232,
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
@@ -56,8 +4008,8 @@
           },
           "sources": [
             {
-              "fileName": "array.ts",
-              "line": 11,
+              "fileName": "dist/test/converter/array/array.ts",
+              "line": 10,
               "character": 20
             }
           ],
@@ -108,7 +4060,7 @@
           "defaultValue": " []"
         },
         {
-          "id": 5,
+          "id": 233,
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
@@ -121,8 +4073,8 @@
           },
           "sources": [
             {
-              "fileName": "array.ts",
-              "line": 16,
+              "fileName": "dist/test/converter/array/array.ts",
+              "line": 15,
               "character": 19
             }
           ],
@@ -141,6 +4093,14 @@
       ],
       "groups": [
         {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            4,
+            5
+          ]
+        },
+        {
           "title": "Interfaces",
           "kind": 256,
           "children": [
@@ -151,14 +4111,14 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            4,
-            5
+            232,
+            233
           ]
         }
       ],
       "sources": [
         {
-          "fileName": "array.ts",
+          "fileName": "dist/test/converter/array/array.ts",
           "line": 1,
           "character": 0
         }

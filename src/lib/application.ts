@@ -257,7 +257,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * @returns  The list of input files with expanded directories.
      */
     public expandInputFiles(inputFiles: string[] = []): string[] {
-        let files: string[] = [];
+        const files: string[] = [];
 
         const exclude = this.exclude ? createMinimatch(this.exclude) : [];
 
@@ -266,14 +266,19 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
-        function add(file: string) {
-            if (isExcluded(file.replace(/\\/g, '/'))) {
+        function add(file: string, entryPoint: boolean) {
+            const fileIsDir = FS.statSync(file).isDirectory();
+            if (fileIsDir && file.slice(-1) !== '/') {
+                file = `${file}/`;
+            }
+
+            if ((!fileIsDir || !entryPoint) && isExcluded(file.replace(/\\/g, '/'))) {
                 return;
             }
 
-            if (FS.statSync(file).isDirectory()) {
+            if (fileIsDir) {
                 FS.readdirSync(file).forEach(next => {
-                    add(Path.join(file, next));
+                    add(Path.join(file, next), false);
                 });
             } else if (supportedFileRegex.test(file)) {
                 files.push(file);
@@ -281,7 +286,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         inputFiles.forEach(file => {
-            add(Path.resolve(file));
+            add(Path.resolve(file), true);
         });
 
         return files;

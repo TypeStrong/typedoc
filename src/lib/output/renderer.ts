@@ -105,7 +105,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
 
     @Option({
         name: 'toc',
-        help: 'Specifies the top level table of contents.',
+        help: 'Define the contents of the top level table of contents as a comma-separated list of global symbols.',
         type: ParameterType.Array
     })
     toc!: string[];

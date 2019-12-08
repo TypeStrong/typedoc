@@ -2,6 +2,7 @@ import { SourceReference } from '../sources/file';
 import { Type } from '../types/index';
 import { Comment } from '../comments/comment';
 import { TypeParameterReflection } from './type-parameter';
+import { splitUnquotedString } from './utils';
 
 /**
  * Holds all data models used by TypeDoc.
@@ -480,7 +481,7 @@ export abstract class Reflection {
      * @returns The found child or undefined.
      */
     getChildByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
         const name = names[0];
         let result: Reflection | undefined;
 
@@ -511,7 +512,7 @@ export abstract class Reflection {
      * @return The found reflection or null.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
 
         const reflection = this.getChildByName(names);
         if (reflection) {

@@ -227,7 +227,7 @@ export class Context {
             return;
         }
 
-        let isDeclaration = node.isDeclarationFile;
+        const isDeclaration = node.isDeclarationFile;
         if (isDeclaration) {
             const lib = this.converter.getDefaultLib();
             const isLib = node.fileName.substr(-lib.length) === lib;

@@ -19,9 +19,10 @@ export class TypeScriptSource extends OptionsComponent {
      * A list of all TypeScript parameters that should be ignored.
      */
     static IGNORED: string[] = [
-        'out', 'version', 'help',
+        'out', 'version', 'help', 'emitDeclarationOnly',
         'watch', 'declaration', 'declarationDir', 'declarationMap', 'mapRoot',
-        'sourceMap', 'inlineSources', 'removeComments'
+        'sourceMap', 'inlineSources', 'removeComments', 'incremental',
+        'tsBuildInfoFile'
     ];
 
     initialize() {

@@ -1,6 +1,7 @@
 import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
+import { splitUnquotedString } from './utils';
 
 /**
  * A reflection that represents the root of the project.
@@ -68,7 +69,7 @@ export class ProjectReflection extends ContainerReflection {
      */
     getReflectionsByKind(kind: ReflectionKind): Reflection[] {
         const values: Reflection[] = [];
-        for (let id in this.reflections) {
+        for (const id in this.reflections) {
             const reflection = this.reflections[id];
             if (reflection.kindOf(kind)) {
                 values.push(reflection);
@@ -85,10 +86,10 @@ export class ProjectReflection extends ContainerReflection {
      * @return The found reflection or undefined.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : arg.split('.');
+        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
         const name = names.pop();
 
-        search: for (let key in this.reflections) {
+        search: for (const key in this.reflections) {
             const reflection = this.reflections[key];
             if (reflection.name !== name) {
                 continue;

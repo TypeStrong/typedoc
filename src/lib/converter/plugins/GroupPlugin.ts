@@ -103,7 +103,7 @@ export class GroupPlugin extends ConverterComponent {
         function walkDirectory(directory: SourceDirectory) {
             directory.groups = GroupPlugin.getReflectionGroups(directory.getAllReflections());
 
-            for (let key in directory.directories) {
+            for (const key in directory.directories) {
                 if (!directory.directories.hasOwnProperty(key)) {
                     continue;
                 }
