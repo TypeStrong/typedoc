@@ -69,7 +69,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
 
                     typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
-                        typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
+                        typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
                             context.inherit(declaration, baseType.typeArguments);
                         });
                     });
