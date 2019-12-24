@@ -103,12 +103,14 @@
           "id": 4,
           "name": "A",
           "kind": 64,
+          "kindString": "Function",
           "flags": {},
           "signatures": [
             {
               "id": 5,
               "name": "A",
               "kind": 4096,
+              "kindString": "Call signature",
               "flags": {},
               "typeParameter": [
                 {
@@ -155,7 +157,7 @@
           ],
           "sources": [
             {
-              "fileName": "%BASE%/conditional-type/conditional-type.ts",
+              "fileName": "conditional-type.ts",
               "line": 5,
               "character": 10
             }
