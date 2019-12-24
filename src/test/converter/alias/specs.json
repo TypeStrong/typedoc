@@ -15,6 +15,102 @@
       "originalName": "%BASE%/alias/alias.ts",
       "children": [
         {
+          "id": 9,
+          "name": "IsString",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {},
+          "comment": {
+            "shortText": "Conditional types from TS2.8"
+          },
+          "typeParameter": [
+            {
+              "id": 10,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 14,
+              "character": 13
+            }
+          ],
+          "type": {
+            "type": "conditional",
+            "checkType": {
+              "type": "typeParameter",
+              "name": "T"
+            },
+            "extendsType": {
+              "type": "intrinsic",
+              "name": "string"
+            },
+            "trueType": {
+              "type": "stringLiteral",
+              "value": "string"
+            },
+            "falseType": {
+              "type": "stringLiteral",
+              "value": "not string"
+            }
+          }
+        },
+        {
+          "id": 11,
+          "name": "PromiseType",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {},
+          "comment": {
+            "shortText": "Extracts the type of a promise."
+          },
+          "typeParameter": [
+            {
+              "id": 12,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 19,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "conditional",
+            "checkType": {
+              "type": "typeParameter",
+              "name": "T"
+            },
+            "extendsType": {
+              "type": "reference",
+              "name": "PromiseLike",
+              "typeArguments": [
+                {
+                  "type": "inferred",
+                  "name": "U"
+                }
+              ]
+            },
+            "trueType": {
+              "type": "typeParameter",
+              "name": "U"
+            },
+            "falseType": {
+              "type": "typeParameter",
+              "name": "T"
+            }
+          }
+        },
+        {
           "id": 2,
           "name": "TCompareFunction",
           "kind": 4194304,
@@ -130,6 +226,8 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
+            9,
+            11,
             2,
             8
           ]

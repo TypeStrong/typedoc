@@ -4,6 +4,7 @@ export { BindingArrayConverter } from './binding-array';
 export { BindingObjectConverter } from './binding-object';
 export { ConditionalConverter } from './conditional';
 export { EnumConverter } from './enum';
+export { InferredConverter } from './inferred';
 export { IntrinsicConverter } from './intrinsic';
 export { PredicateConverter } from './predicate';
 export { StringLiteralConverter } from './string-literal';
