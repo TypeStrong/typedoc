@@ -2,6 +2,7 @@ export { AliasConverter } from './alias';
 export { ArrayConverter } from './array';
 export { BindingArrayConverter } from './binding-array';
 export { BindingObjectConverter } from './binding-object';
+export { ConditionalConverter } from './conditional';
 export { EnumConverter } from './enum';
 export { IntrinsicConverter } from './intrinsic';
 export { PredicateConverter } from './predicate';
