@@ -15,11 +15,448 @@
       "originalName": "%BASE%/alias/alias.ts",
       "children": [
         {
+          "id": 22,
+          "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite\nloop, which is undesirable."
+          },
+          "typeParameter": [
+            {
+              "id": 23,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "any"
+                }
+              }
+            },
+            {
+              "id": 24,
+              "name": "R",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 30,
+              "character": 60
+            }
+          ],
+          "type": {
+            "type": "indexedAccess",
+            "objectType": {
+              "type": "reflection",
+              "declaration": {
+                "id": 25,
+                "name": "__type",
+                "kind": 65536,
+                "kindString": "Type literal",
+                "flags": {},
+                "children": [
+                  {
+                    "id": 26,
+                    "name": "0",
+                    "kind": 32,
+                    "kindString": "Variable",
+                    "flags": {},
+                    "sources": [
+                      {
+                        "fileName": "alias.ts",
+                        "line": 31,
+                        "character": 5
+                      }
+                    ],
+                    "type": {
+                      "type": "typeParameter",
+                      "name": "R"
+                    }
+                  },
+                  {
+                    "id": 27,
+                    "name": "1",
+                    "kind": 32,
+                    "kindString": "Variable",
+                    "flags": {},
+                    "sources": [
+                      {
+                        "fileName": "alias.ts",
+                        "line": 32,
+                        "character": 5
+                      }
+                    ],
+                    "type": {
+                      "type": "reference",
+                      "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
+                      "id": 22,
+                      "typeArguments": [
+                        {
+                          "type": "reference",
+                          "name": "PopFront",
+                          "id": 13,
+                          "typeArguments": [
+                            {
+                              "type": "typeParameter",
+                              "name": "T",
+                              "constraint": {
+                                "type": "array",
+                                "elementType": {
+                                  "type": "intrinsic",
+                                  "name": "any"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "reflection",
+                          "declaration": {
+                            "id": 28,
+                            "name": "__type",
+                            "kind": 65536,
+                            "kindString": "Type literal",
+                            "flags": {},
+                            "sources": [
+                              {
+                                "fileName": "alias.ts",
+                                "line": 32,
+                                "character": 68
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "groups": [
+                  {
+                    "title": "Variables",
+                    "kind": 32,
+                    "children": [
+                      26,
+                      27
+                    ]
+                  }
+                ],
+                "sources": [
+                  {
+                    "fileName": "alias.ts",
+                    "line": 30,
+                    "character": 87
+                  }
+                ]
+              }
+            },
+            "indexType": {
+              "type": "conditional",
+              "checkType": {
+                "type": "indexedAccess",
+                "objectType": {
+                  "type": "typeParameter",
+                  "name": "T",
+                  "constraint": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "any"
+                    }
+                  }
+                },
+                "indexType": {
+                  "type": "stringLiteral",
+                  "value": "length"
+                }
+              },
+              "extendsType": {
+                "type": "unknown",
+                "name": "0"
+              },
+              "trueType": {
+                "type": "unknown",
+                "name": "0"
+              },
+              "falseType": {
+                "type": "unknown",
+                "name": "1"
+              }
+            }
+          }
+        },
+        {
+          "id": 9,
+          "name": "IsString",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Conditional types from TS2.8"
+          },
+          "typeParameter": [
+            {
+              "id": 10,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 14,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "conditional",
+            "checkType": {
+              "type": "typeParameter",
+              "name": "T"
+            },
+            "extendsType": {
+              "type": "intrinsic",
+              "name": "string"
+            },
+            "trueType": {
+              "type": "stringLiteral",
+              "value": "string"
+            },
+            "falseType": {
+              "type": "stringLiteral",
+              "value": "not string"
+            }
+          }
+        },
+        {
+          "id": 13,
+          "name": "PopFront",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Conditional type with infer"
+          },
+          "typeParameter": [
+            {
+              "id": 14,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {},
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "intrinsic",
+                  "name": "any"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 24,
+              "character": 20
+            }
+          ],
+          "type": {
+            "type": "conditional",
+            "checkType": {
+              "type": "reflection",
+              "declaration": {
+                "id": 15,
+                "name": "__type",
+                "kind": 65536,
+                "kindString": "Type literal",
+                "flags": {},
+                "signatures": [
+                  {
+                    "id": 16,
+                    "name": "__call",
+                    "kind": 4096,
+                    "kindString": "Call signature",
+                    "flags": {},
+                    "parameters": [
+                      {
+                        "id": 17,
+                        "name": "args",
+                        "kind": 32768,
+                        "kindString": "Parameter",
+                        "flags": {
+                          "isRest": true
+                        },
+                        "type": {
+                          "type": "typeParameter",
+                          "name": "T",
+                          "constraint": {
+                            "type": "array",
+                            "elementType": {
+                              "type": "intrinsic",
+                              "name": "any"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "any"
+                    }
+                  }
+                ],
+                "sources": [
+                  {
+                    "fileName": "alias.ts",
+                    "line": 24,
+                    "character": 39
+                  }
+                ]
+              }
+            },
+            "extendsType": {
+              "type": "reflection",
+              "declaration": {
+                "id": 18,
+                "name": "__type",
+                "kind": 65536,
+                "kindString": "Type literal",
+                "flags": {},
+                "signatures": [
+                  {
+                    "id": 19,
+                    "name": "__call",
+                    "kind": 4096,
+                    "kindString": "Call signature",
+                    "flags": {},
+                    "parameters": [
+                      {
+                        "id": 20,
+                        "name": "a",
+                        "kind": 32768,
+                        "kindString": "Parameter",
+                        "flags": {},
+                        "type": {
+                          "type": "intrinsic",
+                          "name": "any"
+                        }
+                      },
+                      {
+                        "id": 21,
+                        "name": "r",
+                        "kind": 32768,
+                        "kindString": "Parameter",
+                        "flags": {
+                          "isRest": true
+                        },
+                        "type": {
+                          "type": "inferred",
+                          "name": "R"
+                        }
+                      }
+                    ],
+                    "type": {
+                      "type": "intrinsic",
+                      "name": "any"
+                    }
+                  }
+                ],
+                "sources": [
+                  {
+                    "fileName": "alias.ts",
+                    "line": 24,
+                    "character": 69
+                  }
+                ]
+              }
+            },
+            "trueType": {
+              "type": "typeParameter",
+              "name": "R"
+            },
+            "falseType": {
+              "type": "intrinsic",
+              "name": "never"
+            }
+          }
+        },
+        {
+          "id": 11,
+          "name": "PromiseType",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "Extracts the type of a promise."
+          },
+          "typeParameter": [
+            {
+              "id": 12,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "alias.ts",
+              "line": 19,
+              "character": 23
+            }
+          ],
+          "type": {
+            "type": "conditional",
+            "checkType": {
+              "type": "typeParameter",
+              "name": "T"
+            },
+            "extendsType": {
+              "type": "reference",
+              "name": "PromiseLike",
+              "typeArguments": [
+                {
+                  "type": "inferred",
+                  "name": "U"
+                }
+              ]
+            },
+            "trueType": {
+              "type": "typeParameter",
+              "name": "U"
+            },
+            "falseType": {
+              "type": "typeParameter",
+              "name": "T"
+            }
+          }
+        },
+        {
           "id": 2,
           "name": "TCompareFunction",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {},
+          "flags": {
+            "isExported": true
+          },
           "comment": {
             "shortText": "A type that describes a compare function, e.g. for array.sort()."
           },
@@ -36,7 +473,7 @@
             {
               "fileName": "alias.ts",
               "line": 4,
-              "character": 29
+              "character": 28
             }
           ],
           "type": {
@@ -88,7 +525,7 @@
                 {
                   "fileName": "alias.ts",
                   "line": 4,
-                  "character": 34
+                  "character": 33
                 }
               ]
             }
@@ -99,7 +536,9 @@
           "name": "TId",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {},
+          "flags": {
+            "isExported": true
+          },
           "comment": {
             "shortText": "A type for IDs."
           },
@@ -107,7 +546,7 @@
             {
               "fileName": "alias.ts",
               "line": 9,
-              "character": 16
+              "character": 15
             }
           ],
           "type": {
@@ -130,6 +569,10 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
+            22,
+            9,
+            13,
+            11,
             2,
             8
           ]

@@ -81,6 +81,13 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="_generics_.html#horriblerecursivetypethatshouldnotbeusedbyanyone" class="tsd-kind-icon">Horrible<wbr>Recursive<wbr>Type<wbr>That<wbr>Should<wbr>Not<wbr>BeUsed<wbr>ByAnyone</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported"><a href="_generics_.html#popfront" class="tsd-kind-icon">Pop<wbr>Front</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_generics_.html#getgenericarray" class="tsd-kind-icon">get<wbr>Generic<wbr>Array</a></li>
@@ -88,6 +95,55 @@
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+					<a name="horriblerecursivetypethatshouldnotbeusedbyanyone" class="tsd-anchor"></a>
+					<h3>Horrible<wbr>Recursive<wbr>Type<wbr>That<wbr>Should<wbr>Not<wbr>BeUsed<wbr>ByAnyone</h3>
+					<div class="tsd-signature tsd-kind-icon">Horrible<wbr>Recursive<wbr>Type<wbr>That<wbr>Should<wbr>Not<wbr>BeUsed<wbr>ByAnyone&lt;T, R&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object[T[&quot;length&quot;] extends 0 ? 0 : 1]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sebastian-lenz/typedoc/blob/master/examples/basic/src/generics.ts#L84">generics.ts:84</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite
+							loop, which is undesirable.</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+						<li>
+							<h4>R</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+					<a name="popfront" class="tsd-anchor"></a>
+					<h3>Pop<wbr>Front</h3>
+					<div class="tsd-signature tsd-kind-icon">Pop<wbr>Front&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function extends function ? R : never</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sebastian-lenz/typedoc/blob/master/examples/basic/src/generics.ts#L78">generics.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Conditional type with infer</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
@@ -102,7 +158,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sebastian-lenz/typedoc/blob/master/examples/basic/src/generics.ts#L78">generics.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/sebastian-lenz/typedoc/blob/master/examples/basic/src/generics.ts#L71">generics.ts:71</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -224,6 +280,12 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../interfaces/_generics_.b.html" class="tsd-kind-icon">B</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="_generics_.html#horriblerecursivetypethatshouldnotbeusedbyanyone" class="tsd-kind-icon">Horrible<wbr>Recursive<wbr>Type<wbr>That<wbr>Should<wbr>Not<wbr>BeUsed<wbr>ByAnyone</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="_generics_.html#popfront" class="tsd-kind-icon">Pop<wbr>Front</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_generics_.html#getgenericarray" class="tsd-kind-icon">get<wbr>Generic<wbr>Array</a>

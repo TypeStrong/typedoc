@@ -1,5 +1,6 @@
 // @ts-check
 
+const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
 const TypeDoc = require('..');
@@ -49,7 +50,13 @@ function rebuildConverterTests(dirs) {
                 TypeDoc.resetReflectionID();
                 before();
                 const result = app.convert(src);
-                const data = JSON.stringify(result.toObject(), null, '  ')
+                // Until GH#936 lands, removing toObject, ensure toObject remains consistent
+                // with the serializers.
+                const serialized = result.toObject();
+                const serialized2 = app.serializer.toObject(result);
+                assert.deepStrictEqual(serialized, serialized2);
+
+                const data = JSON.stringify(serialized, null, '  ')
                     .split(TypeDoc.normalizePath(base))
                     .join('%BASE%');
                 after();
