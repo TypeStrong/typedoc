@@ -20,7 +20,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite\nloop, which is undesirable."
@@ -31,7 +32,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "array",
                 "elementType": {
@@ -45,7 +48,9 @@
               "name": "R",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -64,14 +69,18 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {},
+                "flags": {
+                  "isExported": true
+                },
                 "children": [
                   {
                     "id": 26,
                     "name": "0",
                     "kind": 32,
                     "kindString": "Variable",
-                    "flags": {},
+                    "flags": {
+                      "isExported": true
+                    },
                     "sources": [
                       {
                         "fileName": "alias.ts",
@@ -89,7 +98,9 @@
                     "name": "1",
                     "kind": 32,
                     "kindString": "Variable",
-                    "flags": {},
+                    "flags": {
+                      "isExported": true
+                    },
                     "sources": [
                       {
                         "fileName": "alias.ts",
@@ -127,7 +138,9 @@
                             "name": "__type",
                             "kind": 65536,
                             "kindString": "Type literal",
-                            "flags": {},
+                            "flags": {
+                              "isExported": true
+                            },
                             "sources": [
                               {
                                 "fileName": "alias.ts",
@@ -201,7 +214,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Conditional types from TS2.8"
@@ -212,7 +226,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -248,7 +264,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Conditional type with infer"
@@ -259,7 +276,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "array",
                 "elementType": {
@@ -285,14 +304,18 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {},
+                "flags": {
+                  "isExported": true
+                },
                 "signatures": [
                   {
                     "id": 16,
                     "name": "__call",
                     "kind": 4096,
                     "kindString": "Call signature",
-                    "flags": {},
+                    "flags": {
+                      "isExported": true
+                    },
                     "parameters": [
                       {
                         "id": 17,
@@ -300,6 +323,7 @@
                         "kind": 32768,
                         "kindString": "Parameter",
                         "flags": {
+                          "isExported": true,
                           "isRest": true
                         },
                         "type": {
@@ -337,21 +361,27 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {},
+                "flags": {
+                  "isExported": true
+                },
                 "signatures": [
                   {
                     "id": 19,
                     "name": "__call",
                     "kind": 4096,
                     "kindString": "Call signature",
-                    "flags": {},
+                    "flags": {
+                      "isExported": true
+                    },
                     "parameters": [
                       {
                         "id": 20,
                         "name": "a",
                         "kind": 32768,
                         "kindString": "Parameter",
-                        "flags": {},
+                        "flags": {
+                          "isExported": true
+                        },
                         "type": {
                           "type": "intrinsic",
                           "name": "any"
@@ -363,6 +393,7 @@
                         "kind": 32768,
                         "kindString": "Parameter",
                         "flags": {
+                          "isExported": true,
                           "isRest": true
                         },
                         "type": {
@@ -402,7 +433,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "Extracts the type of a promise."
@@ -413,7 +445,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -455,7 +489,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "A type that describes a compare function, e.g. for array.sort()."
@@ -466,7 +501,9 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
@@ -483,21 +520,27 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "signatures": [
                 {
                   "id": 5,
                   "name": "__call",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 6,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "typeParameter",
                         "name": "T"
@@ -508,7 +551,9 @@
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "typeParameter",
                         "name": "T"
@@ -537,7 +582,8 @@
           "kind": 4194304,
           "kindString": "Type alias",
           "flags": {
-            "isExported": true
+            "isExported": true,
+            "hasExport": true
           },
           "comment": {
             "shortText": "A type for IDs."
