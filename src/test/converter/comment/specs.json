@@ -109,13 +109,7 @@
       },
       "originalName": "%BASE%/comment/comment2.ts",
       "comment": {
-        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function.",
-        "tags": [
-          {
-            "tag": "packagedocumentation",
-            "text": "\n"
-          }
-        ]
+        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
       },
       "children": [
         {
