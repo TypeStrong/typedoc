@@ -109,3 +109,12 @@ abstract class NotExportedClass {
         a + b;
     }
 }
+
+const x = 'literal';
+
+export class ComputedNames {
+    [Symbol.toStringTag] = 'computed';
+    [x] = true;
+    ['literal2'] = true;
+    y = false;
+}

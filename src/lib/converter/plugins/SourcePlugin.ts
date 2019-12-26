@@ -92,6 +92,7 @@ export class SourcePlugin extends ConverterComponent {
         }
         const sourceFile = node.getSourceFile();
         const fileName = sourceFile.fileName;
+        this.basePath.add(fileName);
         const file: SourceFile = this.getSourceFile(fileName, context.project);
 
         let position: ts.LineAndCharacter;

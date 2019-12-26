@@ -124,7 +124,7 @@ export class PackagePlugin extends ConverterComponent {
         if (this.packageFile) {
             project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
             if (!project.name) {
-                project.name = project.packageInfo.name;
+                project.name = `${project.packageInfo.name} - v${project.packageInfo.version}`;
             }
         }
     }

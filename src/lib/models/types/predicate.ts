@@ -83,7 +83,7 @@ export class PredicateType extends Type {
             ...super.toObject(),
             name: this.name,
             asserts: this.asserts,
-            targetType: this.targetType
+            targetType: this.targetType?.toObject()
         };
     }
 

@@ -15,6 +15,120 @@
       "originalName": "%BASE%/class/class.ts",
       "children": [
         {
+          "id": 49,
+          "name": "ComputedNames",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 50,
+              "name": "[Symbol.toStringTag]",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 116,
+                  "character": 24
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "defaultValue": "\"computed\""
+            },
+            {
+              "id": 51,
+              "name": "[x]",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 117,
+                  "character": 7
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 52,
+              "name": "literal2",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 118,
+                  "character": 16
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 53,
+              "name": "y",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 119,
+                  "character": 5
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "false"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                50,
+                51,
+                52,
+                53
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 115,
+              "character": 26
+            }
+          ]
+        },
+        {
           "id": 44,
           "name": "NotExportedClass",
           "kind": 128,
@@ -1005,7 +1119,7 @@
               }
             },
             {
-              "id": 49,
+              "id": 54,
               "name": "staticMergedMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -1016,7 +1130,7 @@
               },
               "signatures": [
                 {
-                  "id": 50,
+                  "id": 55,
                   "name": "staticMergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -1112,7 +1226,7 @@
                 42,
                 19,
                 17,
-                49,
+                54,
                 32
               ]
             }
@@ -1141,6 +1255,27 @@
               "id": 2
             }
           ]
+        },
+        {
+          "id": 56,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 113,
+              "character": 7
+            }
+          ],
+          "type": {
+            "type": "stringLiteral",
+            "value": "literal"
+          },
+          "defaultValue": "\"literal\""
         }
       ],
       "groups": [
@@ -1148,11 +1283,19 @@
           "title": "Classes",
           "kind": 128,
           "children": [
+            49,
             44,
             34,
             38,
             2,
             16
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            56
           ]
         }
       ],

@@ -50,7 +50,7 @@ export class PluginHost extends AbstractComponent<Application> {
                     : instance                // support legacy plugins
                     ;
                 if (typeof initFunction === 'function') {
-                    instance(this);
+                    initFunction(this);
                     logger.write('Loaded plugin %s', plugin);
                 } else {
                     logger.error('Invalid structure in plugin %s, no function found.', plugin);
@@ -98,7 +98,7 @@ export class PluginHost extends AbstractComponent<Application> {
             const candidates: string[] = [];
             FS.readdirSync(basePath).forEach((name) => {
                 const dir = Path.join(basePath, name);
-                if (name.startsWith('@')) {
+                if (name.startsWith('@') && FS.statSync(dir).isDirectory()) {
                     FS.readdirSync(dir).forEach((n) => {
                         candidates.push(Path.join(name, n));
                     });

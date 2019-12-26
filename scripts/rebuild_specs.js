@@ -1,5 +1,6 @@
 // @ts-check
 
+const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
 const TypeDoc = require('..');
@@ -16,9 +17,12 @@ const app = new TypeDoc.Application({
         "lib.es2015.iterable.d.ts",
         "lib.es2015.collection.d.ts"
     ],
+    name: 'typedoc'
 });
 
-const base = path.join(__dirname, '../src/test/converter');
+// Note that this uses the test files in dist, not in src, this is important since
+// when running the tests we copy the tests to dist and then convert them.
+const base = path.join(__dirname, '../dist/test/converter');
 
 /** @type {[string, () => void, () => void][]} */
 const conversions = [
@@ -47,11 +51,17 @@ function rebuildConverterTests(dirs) {
                 TypeDoc.resetReflectionID();
                 before();
                 const result = app.convert(src);
-                const data = JSON.stringify(result.toObject(), null, '  ')
+                // Until GH#936 lands, removing toObject, ensure toObject remains consistent
+                // with the serializers.
+                const serialized = result.toObject();
+                const serialized2 = app.serializer.toObject(result);
+                assert.deepStrictEqual(serialized, serialized2);
+
+                const data = JSON.stringify(serialized, null, '  ')
                     .split(TypeDoc.normalizePath(base))
                     .join('%BASE%');
                 after();
-                return fs.writeFile(out, data);
+                return fs.writeFile(out.replace('dist', 'src'), data);
             }
         }));
     }));

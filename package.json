@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.15.0",
+  "version": "0.15.5",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -32,8 +32,8 @@
   "dependencies": {
     "@types/minimatch": "3.0.3",
     "fs-extra": "^8.1.0",
-    "handlebars": "^4.5.1",
-    "highlight.js": "^9.16.2",
+    "handlebars": "^4.5.3",
+    "highlight.js": "^9.17.1",
     "lodash": "^4.17.15",
     "marked": "^0.7.0",
     "minimatch": "^3.0.0",
@@ -44,16 +44,15 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.1",
-    "@types/lodash": "^4.14.146",
-    "@types/marked": "^0.6.5",
+    "@types/lodash": "^4.14.149",
+    "@types/marked": "^0.7.2",
     "@types/mocha": "^5.2.7",
     "@types/mockery": "^1.4.29",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.17",
     "@types/shelljs": "^0.8.6",
     "mocha": "^6.2.2",
     "mockery": "^2.1.0",
     "nyc": "15.0.0-beta.0",
-    "ts-node": "^8.4.1",
     "tslint": "^5.20.1"
   },
   "files": [
@@ -65,8 +64,9 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --prof --timeout=10000 dist/test/*.test.js",
-    "test:ts": "mocha --require ts-node/register --watch-extensions ts --timeout=10000 src/test/*.test.ts",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+    "prerebuild_specs": "npm run pretest",
+    "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "tsc --project .",
     "postbuild": "node scripts/replace_application_version.js",
     "build_and_test": "npm run build && npm run test",
@@ -78,8 +78,7 @@
   "keywords": [
     "typescript",
     "documentation",
-    "generator",
-    "gruntplugin"
+    "generator"
   ],
   "nyc": {
     "extension": [

@@ -402,6 +402,10 @@ not be linked to the symbols they rename. Run without --excludeNotExported to ge
             this.convertNode(context, sourceFile);
         });
 
+        if (this.application.ignoreCompilerErrors) {
+            return [];
+        }
+
         let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;

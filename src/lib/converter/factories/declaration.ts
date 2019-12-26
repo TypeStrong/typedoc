@@ -24,6 +24,8 @@ const nonStaticMergeKinds = [
     ts.SyntaxKind.InterfaceDeclaration
 ];
 
+const builtInSymbolRegExp = /^__@(\w+)$/;
+
 /**
  * Create a declaration reflection from the given TypeScript node.
  *
@@ -44,6 +46,21 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
             name = node.symbol.name;
         } else {
             return;
+        }
+
+        // rename built-in symbols
+        const match = builtInSymbolRegExp.exec(name);
+        if (match) {
+            name = `[Symbol.${match[1]}]`;
+        } else if (kind & ReflectionKind.ClassMember && name === '__computed') {
+            // rename computed properties
+            const declName = ts.getNameOfDeclaration(node);
+            const symbol = declName && context.checker.getSymbolAtLocation(declName);
+            if (symbol) {
+                name = context.checker.symbolToString(symbol, /*enclosingDeclaration*/ undefined, ts.SymbolFlags.ClassMember);
+            } else if (declName) {
+                name = declName.getText();
+            }
         }
     }
 

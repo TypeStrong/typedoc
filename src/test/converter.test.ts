@@ -19,7 +19,8 @@ describe('Converter', function() {
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
-            jsx: 'react'
+            jsx: 'react',
+            name: 'typedoc'
         });
     });
 
@@ -71,13 +72,14 @@ describe('Converter with categorizeByGroup=false', function() {
 
     before('constructs', function() {
         app = new Application({
-            mode:   'Modules',
+            mode: 'Modules',
             logger: 'none',
             target: 'ES5',
             module: 'CommonJS',
             experimentalDecorators: true,
             categorizeByGroup: false,
-            jsx: 'react'
+            jsx: 'react',
+            name: 'typedoc'
         });
     });
 
