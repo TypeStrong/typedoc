@@ -56,6 +56,6 @@ export class IndexedAccessType extends Type {
      * Return a string representation of this type.
      */
     toString() {
-        return `${this.objectType.toString()}[${this.indexType.toString()}]`
+        return `${this.objectType.toString()}[${this.indexType.toString()}]`;
     }
 }
