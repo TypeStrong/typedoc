@@ -387,6 +387,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             this.convertNode(context, sourceFile);
         });
 
+        if (this.application.ignoreCompilerErrors) {
+            return [];
+        }
+
         let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
