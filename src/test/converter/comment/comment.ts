@@ -1,4 +1,10 @@
 /**
+ * This is a module doc comment with legacy behavior.
+ */
+/** dummy comment */
+import './comment2';
+
+/**
  * A Comment for a class
  *
  * ## Some Markup

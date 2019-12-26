@@ -78,8 +78,7 @@
   "keywords": [
     "typescript",
     "documentation",
-    "generator",
-    "gruntplugin"
+    "generator"
   ],
   "nyc": {
     "extension": [
