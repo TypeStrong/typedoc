@@ -17,6 +17,7 @@ const app = new TypeDoc.Application({
         "lib.es2015.iterable.d.ts",
         "lib.es2015.collection.d.ts"
     ],
+    name: 'typedoc'
 });
 
 // Note that this uses the test files in dist, not in src, this is important since
