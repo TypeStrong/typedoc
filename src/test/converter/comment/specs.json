@@ -5,7 +5,7 @@
   "flags": {},
   "children": [
     {
-      "id": 1,
+      "id": 6,
       "name": "\"comment\"",
       "kind": 1,
       "kindString": "External module",
@@ -13,9 +13,12 @@
         "isExported": true
       },
       "originalName": "%BASE%/comment/comment.ts",
+      "comment": {
+        "shortText": "This is a module doc comment with legacy behavior."
+      },
       "children": [
         {
-          "id": 2,
+          "id": 7,
           "name": "CommentedClass",
           "kind": 128,
           "kindString": "Class",
@@ -38,7 +41,7 @@
           },
           "children": [
             {
-              "id": 3,
+              "id": 8,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
@@ -51,7 +54,7 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 28,
+                  "line": 34,
                   "character": 6
                 }
               ],
@@ -66,14 +69,14 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                3
+                8
               ]
             }
           ],
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 24,
+              "line": 30,
               "character": 27
             }
           ]
@@ -84,13 +87,103 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            2
+            7
           ]
         }
       ],
       "sources": [
         {
           "fileName": "comment.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"comment2\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/comment/comment2.ts",
+      "comment": {
+        "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function.",
+        "tags": [
+          {
+            "tag": "packagedocumentation",
+            "text": "\n"
+          }
+        ]
+      },
+      "children": [
+        {
+          "id": 2,
+          "name": "multiply",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 3,
+              "name": "multiply",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 4,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "b",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "comment2.ts",
+              "line": 8,
+              "character": 24
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "comment2.ts",
           "line": 1,
           "character": 0
         }
@@ -102,6 +195,7 @@
       "title": "External modules",
       "kind": 1,
       "children": [
+        6,
         1
       ]
     }

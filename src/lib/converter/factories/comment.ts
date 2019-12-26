@@ -102,13 +102,26 @@ export function getRawComment(node: ts.Node): string | undefined {
     const comments = getJSDocCommentRanges(node, sourceFile.text);
     if (comments.length) {
         let comment: ts.CommentRange;
+        const explicitPackageComment = comments.find(comment =>
+            sourceFile.text.substring(comment.pos, comment.end).includes('@packageDocumentation'));
         if (node.kind === ts.SyntaxKind.SourceFile) {
-            if (comments.length === 1) {
+            if (explicitPackageComment) {
+                comment = explicitPackageComment;
+            } else if (comments.length > 1) {
+                // Legacy behavior, require more than one comment and use the first comment.
+                // TODO: GH#1083, follow deprecation process to phase this out.
+                comment = comments[0];
+            } else {
+                // Single comment that may be a license comment, bail.
                 return;
             }
-            comment = comments[0];
         } else {
             comment = comments[comments.length - 1];
+            // If a non-SourceFile node comment has this tag, it should not be attached to the node
+            // as it documents the whole file by convention.
+            if (sourceFile.text.substring(comment.pos, comment.end).includes('@packageDocumentation')) {
+                return;
+            }
         }
 
         return sourceFile.text.substring(comment.pos, comment.end);

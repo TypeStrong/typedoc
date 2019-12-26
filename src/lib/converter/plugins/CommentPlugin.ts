@@ -119,6 +119,10 @@ export class CommentPlugin extends ConverterComponent {
             }
             this.hidden.push(reflection);
         }
+
+        if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+            CommentPlugin.removeTags(comment, 'packageDocumentation');
+        }
     }
 
     /**
