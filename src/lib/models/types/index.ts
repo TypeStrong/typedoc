@@ -1,6 +1,7 @@
 export { Type } from './abstract';
 export { ArrayType } from './array';
 export { ConditionalType } from './conditional';
+export { IndexedAccessType } from './indexed-access';
 export { InferredType } from './inferred';
 export { IntersectionType } from './intersection';
 export { IntrinsicType } from './intrinsic';

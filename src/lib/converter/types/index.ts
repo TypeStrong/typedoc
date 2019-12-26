@@ -5,6 +5,7 @@ export { BindingObjectConverter } from './binding-object';
 export { ConditionalConverter } from './conditional';
 export { EnumConverter } from './enum';
 export { InferredConverter } from './inferred';
+export { IndexedAccessConverter } from './indexed-access';
 export { IntrinsicConverter } from './intrinsic';
 export { PredicateConverter } from './predicate';
 export { StringLiteralConverter } from './string-literal';
