@@ -121,7 +121,7 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
-            CommentPlugin.removeTags(comment, 'packageDocumentation');
+            CommentPlugin.removeTags(comment, 'packagedocumentation');
         }
     }
 
