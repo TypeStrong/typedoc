@@ -35,7 +35,7 @@
               "sources": [
                 {
                   "fileName": "interface-empty.ts",
-                  "line": 12,
+                  "line": 11,
                   "character": 16
                 }
               ],
@@ -68,7 +68,7 @@
               "sources": [
                 {
                   "fileName": "interface-empty.ts",
-                  "line": 13,
+                  "line": 12,
                   "character": 15
                 }
               ]
@@ -93,7 +93,7 @@
           "sources": [
             {
               "fileName": "interface-empty.ts",
-              "line": 11,
+              "line": 10,
               "character": 37
             }
           ],

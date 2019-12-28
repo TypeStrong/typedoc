@@ -151,6 +151,14 @@ export class Context {
         return nodeType;
     }
 
+    getSymbolAtLocation(node: ts.Node): ts.Symbol | undefined {
+        let symbol = this.checker.getSymbolAtLocation(node);
+        if (!symbol && isNamedNode(node)) {
+            symbol = this.checker.getSymbolAtLocation(node.name);
+        }
+        return symbol;
+    }
+
     /**
      * Return the current logger instance.
      *
@@ -389,4 +397,11 @@ export class Context {
 
         return typeParameters;
     }
+}
+
+function isNamedNode(node: ts.Node): node is ts.Node & { name: ts.Identifier | ts.ComputedPropertyName } {
+    return node.hasOwnProperty('name') && (
+        ts.isIdentifier(node['name']) ||
+        ts.isComputedPropertyName(node['name'])
+    );
 }

@@ -1,9 +1,10 @@
-class EventDispatcher
-{
+class EventDispatcher {
     /**
      * This is an event documentation.
      * @event
      */
-    static EVENT_CLICK:string = 'click';
+    static EVENT_CLICK = 'click';
 
 }
+
+export {};

@@ -60,7 +60,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 57,
+                      "line": 47,
                       "character": 29
                     }
                   ],
@@ -159,7 +159,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 59,
+                      "line": 49,
                       "character": 11
                     }
                   ],
@@ -198,7 +198,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 69,
+                      "line": 59,
                       "character": 13
                     }
                   ],
@@ -250,7 +250,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 65,
+                      "line": 55,
                       "character": 16
                     }
                   ],
@@ -289,7 +289,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 71,
+                      "line": 61,
                       "character": 20
                     }
                   ],
@@ -348,7 +348,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 63,
+                      "line": 53,
                       "character": 14
                     }
                   ],
@@ -382,7 +382,7 @@
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",
-                  "line": 55,
+                  "line": 46,
                   "character": 32
                 }
               ],
@@ -499,8 +499,8 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 29,
-                      "character": 5
+                      "line": 23,
+                      "character": 55
                     }
                   ]
                 },
@@ -516,8 +516,8 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 30,
-                      "character": 115
+                      "line": 24,
+                      "character": 118
                     }
                   ],
                   "type": {
@@ -544,8 +544,8 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 30,
-                      "character": 68
+                      "line": 24,
+                      "character": 69
                     }
                   ],
                   "type": {
@@ -570,7 +570,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 30,
+                      "line": 24,
                       "character": 35
                     }
                   ],
@@ -603,8 +603,8 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 30,
-                      "character": 89
+                      "line": 24,
+                      "character": 91
                     }
                   ],
                   "type": {
@@ -644,7 +644,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 32,
+                      "line": 26,
                       "character": 19
                     }
                   ],
@@ -684,7 +684,7 @@
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",
-                  "line": 28,
+                  "line": 23,
                   "character": 22
                 }
               ],
@@ -800,7 +800,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 43,
+                      "line": 35,
                       "character": 11
                     }
                   ]
@@ -829,7 +829,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 46,
+                      "line": 38,
                       "character": 13
                     }
                   ]
@@ -871,7 +871,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 45,
+                      "line": 37,
                       "character": 16
                     }
                   ]
@@ -900,7 +900,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 47,
+                      "line": 39,
                       "character": 20
                     }
                   ]
@@ -949,7 +949,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 44,
+                      "line": 36,
                       "character": 14
                     }
                   ]
@@ -971,7 +971,7 @@
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",
-                  "line": 41,
+                  "line": 34,
                   "character": 37
                 }
               ],
@@ -1033,7 +1033,7 @@
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",
-                  "line": 6,
+                  "line": 5,
                   "character": 28
                 }
               ]
@@ -1066,7 +1066,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 19,
+                      "line": 15,
                       "character": 14
                     }
                   ],
@@ -1084,7 +1084,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 17,
+                      "line": 13,
                       "character": 16
                     }
                   ],
@@ -1109,7 +1109,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 18,
+                      "line": 14,
                       "character": 16
                     }
                   ],
@@ -1143,7 +1143,7 @@
                   "sources": [
                     {
                       "fileName": "interface-implementation.ts",
-                      "line": 24,
+                      "line": 20,
                       "character": 19
                     }
                   ]
@@ -1170,7 +1170,7 @@
               "sources": [
                 {
                   "fileName": "interface-implementation.ts",
-                  "line": 15,
+                  "line": 12,
                   "character": 27
                 }
               ],

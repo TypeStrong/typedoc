@@ -1,8 +1,7 @@
 /**
  * Destructuring objects.
  */
-const {destructObjectA, destructObjectB, destructObjectC} = {destructObjectA:0, destructObjectB:'string', destructObjectC:0};
-
+const {destructObjectA, destructObjectB, destructObjectC} = {destructObjectA: 0, destructObjectB: 'string', destructObjectC: 0};
 
 /**
  * Destructuring arrays.
@@ -22,4 +21,6 @@ const [destructArrayWithIgnoresA, , ...destructArrayWithIgnoresRest] = [1, 2, 3,
 /**
  * Destructuring function parameters.
  */
-function drawText({text = "", location:[x, y] = [0, 0], bold = false}) { }
+function drawText({text = '', location: [x, y] = [0, 0], bold = false}) { }
+
+export {};

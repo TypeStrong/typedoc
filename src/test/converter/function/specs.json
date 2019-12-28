@@ -444,7 +444,7 @@
                     "type": "intrinsic",
                     "name": "number"
                   },
-                  "defaultValue": " Number.NaN"
+                  "defaultValue": "Number.NaN"
                 },
                 {
                   "id": 23,
@@ -474,7 +474,7 @@
                     "type": "intrinsic",
                     "name": "boolean"
                   },
-                  "defaultValue": " null"
+                  "defaultValue": "null"
                 }
               ],
               "type": {

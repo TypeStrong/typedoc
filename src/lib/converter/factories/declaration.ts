@@ -71,19 +71,13 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     // Test whether the node is exported
     let isExported: boolean;
-    if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
-        isExported = false; // Don't inherit exported state in modules and namespaces
+    if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
+        isExported = true;
+    } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
+        const symbol = context.getSymbolAtLocation(node);
+        isExported = !!symbol?.parent?.exports?.get(symbol.escapedName);
     } else {
         isExported = container.flags.isExported;
-    }
-
-    if (kind === ReflectionKind.ExternalModule) {
-        isExported = true; // Always mark external modules as exported
-    } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
-        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration);
-        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
-    } else {
-        isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
     if (!isExported && context.converter.excludeNotExported) {

@@ -6,18 +6,18 @@ class GenericClass<T> {
     /**
      * Generic property.
      */
-    protected value:T;
+    protected value: T;
 
     /**
      * Generic property array.
      */
-    protected values:T[];
+    protected values: T[];
 
     /**
      * Constructor short text.
      * @param value  Constructor parameter.
      */
-    constructor(value:T) {
+    constructor(value: T) {
         this.value = value;
     }
 
@@ -25,13 +25,14 @@ class GenericClass<T> {
      * getValue short text.
      * @return Return value comment.
      */
-    getValue():T {
+    getValue(): T {
         return this.value;
     }
 }
-
 
 /**
  * NonGenericClass short text.
  */
 class NonGenericClass extends GenericClass<string> {}
+
+export {};

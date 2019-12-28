@@ -68,7 +68,7 @@
                       "kindString": "Parameter",
                       "flags": {},
                       "comment": {
-                        "text": "The handler called when the event occure.\n"
+                        "text": "The handler called when the event occurs.\n"
                       },
                       "type": {
                         "type": "reflection",
@@ -107,7 +107,7 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 15,
+                              "line": 14,
                               "character": 30
                             }
                           ]
@@ -190,7 +190,7 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 24,
+                              "line": 23,
                               "character": 31
                             }
                           ]
@@ -273,7 +273,7 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 33,
+                              "line": 32,
                               "character": 34
                             }
                           ]
@@ -356,7 +356,7 @@
                           "sources": [
                             {
                               "fileName": "events-overloads.ts",
-                              "line": 42,
+                              "line": 41,
                               "character": 34
                             }
                           ]
@@ -373,22 +373,22 @@
               "sources": [
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 15,
+                  "line": 14,
                   "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 24,
+                  "line": 23,
                   "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 33,
+                  "line": 32,
                   "character": 6
                 },
                 {
                   "fileName": "events-overloads.ts",
-                  "line": 42,
+                  "line": 41,
                   "character": 6
                 }
               ]

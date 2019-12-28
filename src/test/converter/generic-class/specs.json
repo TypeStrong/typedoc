@@ -82,7 +82,7 @@
                 {
                   "fileName": "generic-class.ts",
                   "line": 14,
-                  "character": 25
+                  "character": 26
                 }
               ]
             },
@@ -267,7 +267,7 @@
                 {
                   "fileName": "generic-class.ts",
                   "line": 14,
-                  "character": 25
+                  "character": 26
                 }
               ],
               "inheritedFrom": {
@@ -404,7 +404,7 @@
           "sources": [
             {
               "fileName": "generic-class.ts",
-              "line": 37,
+              "line": 36,
               "character": 21
             }
           ],

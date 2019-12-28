@@ -62,7 +62,8 @@ describe('Renderer', function() {
             readme: Path.join(src, '..', 'README.md'),
             module: 'CommonJS',
             gaSite: 'foo.com', // verify theme option without modifying output
-            name: 'typedoc'
+            name: 'typedoc',
+            ignoreCompilerErrors: true
         });
     });
 

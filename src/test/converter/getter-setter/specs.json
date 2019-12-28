@@ -32,7 +32,7 @@
               "sources": [
                 {
                   "fileName": "getter-setter.ts",
-                  "line": 3,
+                  "line": 2,
                   "character": 17
                 }
               ],
@@ -89,12 +89,12 @@
               "sources": [
                 {
                   "fileName": "getter-setter.ts",
-                  "line": 6,
+                  "line": 4,
                   "character": 12
                 },
                 {
                   "fileName": "getter-setter.ts",
-                  "line": 7,
+                  "line": 5,
                   "character": 12
                 }
               ]
@@ -121,7 +121,7 @@
               "sources": [
                 {
                   "fileName": "getter-setter.ts",
-                  "line": 9,
+                  "line": 7,
                   "character": 20
                 }
               ]
@@ -161,7 +161,7 @@
               "sources": [
                 {
                   "fileName": "getter-setter.ts",
-                  "line": 11,
+                  "line": 9,
                   "character": 21
                 }
               ]

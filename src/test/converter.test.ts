@@ -69,7 +69,8 @@ describe('Converter', function() {
             module: 'CommonJS',
             experimentalDecorators: true,
             jsx: 'react',
-            name: 'typedoc'
+            name: 'typedoc',
+            ignoreCompilerErrors: true
         });
     });
 
@@ -114,7 +115,8 @@ describe('Converter with categorizeByGroup=false', function() {
             experimentalDecorators: true,
             categorizeByGroup: false,
             jsx: 'react',
-            name: 'typedoc'
+            name: 'typedoc',
+            ignoreCompilerErrors: true
         });
     });
 
@@ -169,7 +171,8 @@ describe('Converter with excludeNotExported=true', function() {
             experimentalDecorators: true,
             excludeNotExported: true,
             jsx: 'react',
-            name: 'typedoc'
+            name: 'typedoc',
+            ignoreCompilerErrors: true
         });
     });
 

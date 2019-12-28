@@ -181,7 +181,7 @@
                                             {
                                               "fileName": "literal-type.ts",
                                               "line": 6,
-                                              "character": 29
+                                              "character": 32
                                             }
                                           ],
                                           "type": {
@@ -199,7 +199,7 @@
                                             {
                                               "fileName": "literal-type.ts",
                                               "line": 6,
-                                              "character": 39
+                                              "character": 43
                                             }
                                           ],
                                           "type": {
@@ -222,7 +222,7 @@
                                         {
                                           "fileName": "literal-type.ts",
                                           "line": 6,
-                                          "character": 27
+                                          "character": 29
                                         }
                                       ]
                                     }
