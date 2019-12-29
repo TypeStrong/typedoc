@@ -67,7 +67,7 @@ export class ReferenceReflection extends DeclarationReflection {
      */
     getTargetReflection(): Reflection {
         this._ensureProject();
-        this._ensureResolved();
+        this._ensureResolved(true);
 
         return this._project!.reflections[this._state[1]];
     }
@@ -91,16 +91,18 @@ export class ReferenceReflection extends DeclarationReflection {
     toObject() {
         return {
             ...super.toObject(),
-            target: this.getTargetReflection().id
+            target: this.tryGetTargetReflection()?.id ?? -1
         };
     }
 
-    private _ensureResolved() {
+    private _ensureResolved(throwIfFail: boolean) {
         if (this._state[0] === ReferenceState.Unresolved) {
             const target = this._project!.symbolMapping[this._state[1]];
             if (!target) {
-                console.log({ ...this, parent: null, _project: null }, this._project!.symbolMapping);
-                throw new Error(`Tried to reference reflection for ${this.name} that does not exist.`);
+                if (throwIfFail) {
+                    throw new Error(`Tried to reference reflection for ${this.name} that does not exist.`);
+                }
+                return;
             }
             this._state = [ReferenceState.Resolved, target];
         }
