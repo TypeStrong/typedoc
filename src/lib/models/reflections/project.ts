@@ -2,6 +2,7 @@ import { SourceFile, SourceDirectory } from '../sources/index';
 import { Reflection, ReflectionKind } from './abstract';
 import { ContainerReflection } from './container';
 import { splitUnquotedString } from './utils';
+import { ReferenceReflection } from './reference';
 
 /**
  * A reflection that represents the root of the project.
@@ -108,5 +109,22 @@ export class ProjectReflection extends ContainerReflection {
         }
 
         return undefined;
+    }
+
+    /**
+     * When excludeNotExported is set, if a symbol is exported only under a different name
+     * there will be a reference which points to the symbol, but the symbol will not be converted
+     * and the rename will point to nothing. Warn the user if this happens.
+     */
+    getDanglingReferences() {
+        const dangling = new Set<string>();
+        for (const ref of Object.values(this.reflections)) {
+            if (ref instanceof ReferenceReflection) {
+                if (!ref.tryGetTargetReflection()) {
+                    dangling.add(ref.name);
+                }
+            }
+        }
+        return [...dangling];
     }
 }

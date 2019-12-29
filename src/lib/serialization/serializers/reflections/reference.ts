@@ -12,7 +12,7 @@ export class ReferenceReflectionSerializer extends ReflectionSerializerComponent
     toObject(ref: ReferenceReflection, obj?: any): any {
         return {
             ...obj,
-            target: ref.getTargetReflection().id
+            target: ref.tryGetTargetReflection()?.id ?? -1
         };
     }
 }

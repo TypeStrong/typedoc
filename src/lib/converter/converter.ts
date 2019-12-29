@@ -285,6 +285,16 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         const errors = this.compile(context);
         const project = this.resolve(context);
 
+        const dangling = project.getDanglingReferences();
+        if (dangling.length) {
+            this.owner.logger.warn([
+                'Some names refer to reflections that do not exist.',
+                'This can be caused by exporting a reflection only under a different name than it is declared',
+                'or by a plugin removing reflections. The names that cannot be resolved are:',
+                ...dangling
+            ].join('\n'));
+        }
+
         this.trigger(Converter.EVENT_END, context);
 
         return {

@@ -40,6 +40,28 @@ export class ReferenceReflection extends DeclarationReflection {
     }
 
     /**
+     * Tries to get the reflection that is referenced. This may be another reference reflection.
+     * To fully resolve any references, use [[tryGetTargetReflectionDeep]].
+     */
+    tryGetTargetReflection(): Reflection | undefined {
+        this._ensureProject();
+        this._ensureResolved(false);
+        return this._state[0] === ReferenceState.Resolved ? this._project!.reflections[this._state[1]] : undefined;
+    }
+
+    /**
+     * Tries to get the reflection that is referenced, this will fully resolve references.
+     * To only resolve one reference, use [[tryGetTargetReflection]].
+     */
+    tryGetTargetReflectionDeep(): Reflection | undefined {
+        let result = this.tryGetTargetReflection();
+        while (result instanceof ReferenceReflection) {
+            result = result.tryGetTargetReflection();
+        }
+        return result;
+    }
+
+    /**
      * Gets the reflection that is referenced. This may be another reference reflection.
      * To fully resolve any references, use [[getTargetReflectionDeep]].
      */

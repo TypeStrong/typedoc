@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { ReferenceType, ReferenceReflection, ContainerReflection } from '../../models';
 import { Context } from '../context';
 import { ReferenceState } from '../../models/reflections/reference';
+import { Converter } from '../converter';
 
 /**
  * Create a new reference type pointing to the given symbol.
@@ -39,6 +40,7 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
     }
     context.scope.children.push(reflection);
     context.registerReflection(reflection, undefined, source);
+    context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
 
     return reflection;
 }
