@@ -1,7 +1,8 @@
 import * as ts from 'typescript';
 
-import { ReferenceType } from '../../models/types/index';
+import { ReferenceType, ReferenceReflection, ContainerReflection } from '../../models';
 import { Context } from '../context';
+import { ReferenceState } from '../../models/reflections/reference';
 
 /**
  * Create a new reference type pointing to the given symbol.
@@ -25,4 +26,19 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
     }
 
     return new ReferenceType(name, id);
+}
+
+export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection {
+    if (!(context.scope instanceof ContainerReflection)) {
+        throw new Error('Cannot add reference to a non-container');
+    }
+
+    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.getSymbolID(target)!], context.scope);
+    if (!context.scope.children) {
+        context.scope.children = [];
+    }
+    context.scope.children.push(reflection);
+    context.registerReflection(reflection, undefined, source);
+
+    return reflection;
 }

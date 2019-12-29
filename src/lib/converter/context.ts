@@ -400,7 +400,7 @@ export class Context {
 }
 
 function isNamedNode(node: ts.Node): node is ts.Node & { name: ts.Identifier | ts.ComputedPropertyName } {
-    return node.hasOwnProperty('name') && (
+    return node['name'] && (
         ts.isIdentifier(node['name']) ||
         ts.isComputedPropertyName(node['name'])
     );

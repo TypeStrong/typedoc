@@ -57,7 +57,7 @@ export class ProjectReflection extends ContainerReflection {
     /**
      * Return whether this reflection is the root / project reflection.
      */
-    isProject(): boolean {
+    isProject(): this is ProjectReflection {
         return true;
     }
 
