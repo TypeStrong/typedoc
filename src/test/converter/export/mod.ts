@@ -9,6 +9,11 @@ export const a = 1;
 export { a as b };
 
 /**
+ * An export with a module specifier that comes from this file.
+ */
+export { a as c } from './mod';
+
+/**
  * Will not be re-exported from export.ts using export * from...
  */
 export default function() {

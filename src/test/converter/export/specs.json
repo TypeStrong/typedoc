@@ -5,7 +5,7 @@
   "flags": {},
   "children": [
     {
-      "id": 6,
+      "id": 7,
       "name": "\"export\"",
       "kind": 1,
       "kindString": "External module",
@@ -15,27 +15,7 @@
       "originalName": "%BASE%/export/export.ts",
       "children": [
         {
-          "id": 10,
-          "name": "Mod",
-          "kind": 16777216,
-          "kindString": "Reference",
-          "flags": {
-            "isExported": true
-          },
-          "target": 1
-        },
-        {
-          "id": 11,
-          "name": "ModDefault",
-          "kind": 16777216,
-          "kindString": "Reference",
-          "flags": {
-            "isExported": true
-          },
-          "target": 4
-        },
-        {
-          "id": 7,
+          "id": 8,
           "name": "a",
           "kind": 16777216,
           "kindString": "Reference",
@@ -45,7 +25,7 @@
           "target": 2
         },
         {
-          "id": 8,
+          "id": 9,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
@@ -55,7 +35,17 @@
           "target": 3
         },
         {
-          "id": 9,
+          "id": 10,
+          "name": "c",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 4
+        },
+        {
+          "id": 11,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
@@ -161,11 +151,10 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            10,
-            11,
-            7,
             8,
-            9
+            9,
+            10,
+            11
           ]
         },
         {
@@ -206,6 +195,16 @@
           "target": 2
         },
         {
+          "id": 4,
+          "name": "c",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 2
+        },
+        {
           "id": 2,
           "name": "a",
           "kind": 32,
@@ -231,14 +230,14 @@
           "defaultValue": "1"
         },
         {
-          "id": 4,
+          "id": 5,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 5,
+              "id": 6,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
@@ -255,8 +254,8 @@
           "sources": [
             {
               "fileName": "mod.ts",
-              "line": 9,
-              "character": 18
+              "line": 14,
+              "character": 31
             }
           ]
         }
@@ -266,7 +265,8 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            3
+            3,
+            4
           ]
         },
         {
@@ -280,7 +280,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            4
+            5
           ]
         }
       ],
@@ -298,7 +298,7 @@
       "title": "External modules",
       "kind": 1,
       "children": [
-        6,
+        7,
         1
       ]
     }
