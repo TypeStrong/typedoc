@@ -75,7 +75,15 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         isExported = true;
     } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         const symbol = context.getSymbolAtLocation(node);
-        isExported = !!symbol?.parent?.exports?.get(symbol.escapedName);
+        if (!symbol) {
+            isExported = false;
+        } else {
+            let parentNode = node.parent;
+            while (![ts.SyntaxKind.SourceFile, ts.SyntaxKind.ModuleDeclaration].includes(parentNode.kind)) {
+                parentNode = parentNode.parent;
+            }
+            isExported = !!context.getSymbolAtLocation(parentNode)?.exports?.get(symbol.escapedName);
+        }
     } else {
         isExported = container.flags.isExported;
     }

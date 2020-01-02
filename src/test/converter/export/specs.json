@@ -59,7 +59,9 @@
           "name": "add",
           "kind": 64,
           "kindString": "Function",
-          "flags": {},
+          "flags": {
+            "isExported": true
+          },
           "signatures": [
             {
               "id": 13,
