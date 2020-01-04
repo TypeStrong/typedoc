@@ -21,11 +21,10 @@ import {
     AbstractComponent,
     ChildableComponent,
     Component,
-    Option,
     DUMMY_APPLICATION_OWNER
 } from './utils/component';
-import { Options, OptionsReadMode, OptionsReadResult } from './utils/options/index';
-import { ParameterType } from './utils/options/declaration';
+import { Option, Options, ParameterType } from './utils';
+import { TypeDocOptions, ParameterHint } from './utils/options';
 
 /**
  * The default TypeDoc main application class.
@@ -42,9 +41,10 @@ import { ParameterType } from './utils/options/declaration';
  * to control the application flow or alter the output.
  */
 @Component({ name: 'application', internal: true })
-export class Application extends ChildableComponent<Application, AbstractComponent<Application>> {
-    options: Options;
-
+export class Application extends ChildableComponent<
+    Application,
+    AbstractComponent<Application>
+> {
     /**
      * The converter used to create the declaration reflections.
      */
@@ -64,6 +64,8 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      * The logger that should be used to output messages.
      */
     logger: Logger;
+
+    options: Options;
 
     plugins: PluginHost;
 
@@ -89,6 +91,22 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     })
     exclude!: Array<string>;
 
+    @Option({
+        name: 'inputFiles',
+        help: 'The initial input files to expand and then pass to TS.',
+        type: ParameterType.Array
+    })
+    inputFiles!: string[];
+
+    @Option({
+        name: 'options',
+        help: 'Specify a json option file that should be loaded. If not specified TypeDoc will look for \'typedoc.json\' in the current directory.',
+        type: ParameterType.String,
+        hint: ParameterHint.File,
+        defaultValue: process.cwd()
+    })
+    optionsFile!: string;
+
     /**
      * The version number of TypeDoc.
      */
@@ -103,11 +121,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         super(DUMMY_APPLICATION_OWNER);
 
         this.logger = new ConsoleLogger();
+        this.options = new Options(this.logger);
+        this.options.addDefaultDeclarations();
         this.converter = this.addComponent<Converter>('converter', Converter);
         this.serializer = this.addComponent<Serializer>('serializer', Serializer);
         this.renderer = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins = this.addComponent('plugins', PluginHost);
-        this.options = this.addComponent('options', Options);
 
         this.bootstrap(options);
     }
@@ -117,8 +136,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?: Object): OptionsReadResult {
-        this.options.read(options, OptionsReadMode.Prefetch);
+    protected bootstrap(options: Partial<TypeDocOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
+        this.options.setValues(options); // Ignore result, plugins might declare an option
+        this.options.read(new Logger());
 
         const logger = this.loggerType;
         if (typeof logger === 'function') {
@@ -128,7 +148,18 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         }
 
         this.plugins.load();
-        return this.options.read(this.options.getRawValues(), OptionsReadMode.Fetch);
+
+        this.options.setValues(options).mapErr(errors => {
+            for (const error of errors) {
+                this.logger.error(error.message);
+            }
+        });
+        this.options.read(this.logger);
+
+        return {
+            hasErrors: this.logger.hasErrors(),
+            inputFiles: this.inputFiles
+        };
     }
 
     /**
@@ -295,11 +326,11 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     /**
      * Print the version number.
      */
-    public toString() {
+    toString() {
         return [
             '',
-            'TypeDoc ' + Application.VERSION,
-            'Using TypeScript ' + this.getTypeScriptVersion() + ' from ' + this.getTypeScriptPath(),
+            `TypeDoc ${Application.VERSION}`,
+            `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
             ''
         ].join(typescript.sys.newLine);
     }

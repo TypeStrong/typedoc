@@ -1,4 +1,20 @@
 import * as _ from 'lodash';
+import { Result } from '../result';
+
+export interface TypeDocOptions {
+    help: boolean;
+    inputFiles: string[];
+    out: string;
+    options: string;
+}
+
+export type KeyToDeclaration<K extends keyof TypeDocOptions> =
+    TypeDocOptions[K] extends boolean ? BooleanDeclarationOption :
+    TypeDocOptions[K] extends string ? StringDeclarationOption :
+    TypeDocOptions[K] extends number ? NumberDeclarationOption :
+    TypeDocOptions[K] extends string[] ? ArrayDeclarationOption :
+    TypeDocOptions[K] extends unknown ? MapDeclarationOption<any> : // @TODO, I think this can be improved.
+    MixedDeclarationOption;
 
 export enum ParameterHint {
     File,
@@ -19,112 +35,182 @@ export enum ParameterScope {
     TypeScript
 }
 
-/**
- * Option-bag passed to Option decorator.
- *
- * TODO: This should be a union type of multiple possible option types.
- */
-export interface DeclarationOption {
+export interface DeclarationOptionBase {
+    /**
+     * The option name.
+     */
     name: string;
-    component?: string;
-    short?: string;
-    help: string;
-    type?: ParameterType;
-    hint?: ParameterHint;
-    scope?: ParameterScope;
-    map?: 'object' | Map<string | number, any> | { [ key: string]: any };
-    mapError?: string;
-    defaultValue?: any;
-    convert?: (param: OptionDeclaration, value?: any) => any;
-}
-
-/**
- * Runtime structure describing a configuration option.
- * Used by option parsing and validation.
- */
-export class OptionDeclaration {
-    name!: string;
-
-    component?: string;
-
-    short?: string;
-
-    help!: string;
-
-    type: ParameterType = ParameterType.String;
-
-    hint?: ParameterHint;
-
-    scope: ParameterScope = ParameterScope.TypeDoc;
-
-    protected map?: { [k: string]: any } | 'object';
-
-    mapError?: string;
-
-    defaultValue: any;
-
-    constructor(data: DeclarationOption) {
-        for (let key in data) {
-            this[key] = data[key];
-        }
-    }
-
-    getNames(): string[] {
-        const result = [this.name.toLowerCase()];
-
-        if (this.short) {
-            result.push(this.short.toLowerCase());
-        }
-
-        return result;
-    }
 
     /**
-     *
-     * @param value the value the user passed in
-     * @param errorCallback
+     * An optional short name for the option.
      */
-    convert(value: unknown, errorCallback?: (format: string, ...args: string[]) => void): any {
-        switch (this.type) {
-            case ParameterType.Number:
-                value = parseInt(value + '', 10);
-                break;
-            case ParameterType.Boolean:
-                value = !!value;
-                break;
-            case ParameterType.String:
-                value = value ? value + '' : '';
-                break;
-            case ParameterType.Array:
-                if (!value) {
-                    value = [];
-                // TSLint *should* be correct here, but tslint doesn't know about user config files.
-                // tslint:disable-next-line:strict-type-predicates
-                } else if (typeof value === 'string') {
-                    value = value.split(',');
-                }
-                break;
-            case ParameterType.Map:
-                const map = this.map || {};
-                if (map !== 'object') {
-                    const key = value ? (value + '').toLowerCase() : '';
-                    const values = _.values(map);
+    short?: string;
 
-                    if (map instanceof Map) {
-                        value = map.has(key) ? map.get(key) : value;
-                    } else if (key in map) {
-                        value = map[key];
-                    } else if (!values.includes(value) && errorCallback) {
-                        if (this.mapError) {
-                            errorCallback(this.mapError);
-                        } else {
-                            errorCallback('Invalid value for option "%s".', this.name);
-                        }
-                    }
-                }
-                break;
-        }
+    /**
+     * The help text to be displayed to the user when --help is passed.
+     */
+    help: string;
 
-        return value;
+    /**
+     * The parameter type, used to convert user configuration values into the expected type.
+     * If not set, the type will be a string.
+     */
+    type?: ParameterType;
+
+    /**
+     * Whether the option belongs to TypeDoc or TypeScript.
+     * If not specified will be defaulted to TypeDoc.
+     */
+    scope?: ParameterScope;
+}
+
+export interface StringDeclarationOption extends DeclarationOptionBase {
+    type?: ParameterType.String;
+
+    /**
+     * If not specified defaults to the empty string.
+     */
+    defaultValue?: string;
+
+    /**
+     * An optional hint for the type of input expected, will be displayed in the help output.
+     */
+    hint?: ParameterHint;
+}
+
+export interface NumberDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.Number;
+
+    /**
+     * If not specified defaults to 0.
+     */
+    defaultValue?: number;
+}
+
+export interface BooleanDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.Boolean;
+
+    /**
+     * If not specified defaults to false.
+     */
+    defaultValue?: boolean;
+}
+
+export interface ArrayDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.Array;
+
+    /**
+     * If not specified defaults to an empty array.
+     */
+    defaultValue?: string[];
+}
+
+export interface MixedDeclarationOption extends DeclarationOptionBase {
+    type: ParameterType.Mixed;
+
+    /**
+     * If not specified defaults to undefined.
+     */
+    defaultValue?: unknown;
+}
+
+export interface MapDeclarationOption<T> extends DeclarationOptionBase {
+    type: ParameterType.Map;
+    /**
+     * Maps a given value to the option type. The map type may be a TypeScript enum.
+     * In that case, when generating an error message for a mismatched key, the numeric
+     * keys will not be listed.
+     */
+    map: Map<string, T> | Record<string | number, T>;
+
+    /**
+     * Unlike the rest of the option types, there is no sensible generic default for mapped option types.
+     * The default value for a mapped type must be specified.
+     */
+    defaultValue: T;
+
+    /**
+     * Optional override for the error reported when an invalid key is provided.
+     */
+    mapError?: string;
+}
+
+export type DeclarationOption =
+    | StringDeclarationOption
+    | NumberDeclarationOption
+    | BooleanDeclarationOption
+    | MixedDeclarationOption
+    | MapDeclarationOption<unknown>
+    | ArrayDeclarationOption;
+
+export type DeclarationOptionToOptionType<T extends DeclarationOption> =
+    T extends StringDeclarationOption ? string :
+    T extends NumberDeclarationOption ? number :
+    T extends BooleanDeclarationOption ? boolean :
+    T extends MixedDeclarationOption ? unknown :
+    T extends MapDeclarationOption<infer U> ? U :
+    T extends ArrayDeclarationOption ? string[] :
+    never;
+
+/**
+ * The default conversion function used by the Options container. Readers may
+ * re-use this conversion function or implement their own. The arguments reader
+ * implements its own since 'false' should not be converted to true for a boolean option.
+ *
+ * @param value
+ * @param option
+ */
+export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<DeclarationOptionToOptionType<T>, string>;
+export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<unknown, string> {
+    switch (option.type) {
+        case undefined:
+        case ParameterType.String:
+            return Result.Ok(value == null ? '' : String(value));
+        case ParameterType.Number:
+            return Result.Ok(parseInt(String(value), 10) || 0);
+        case ParameterType.Boolean:
+            return Result.Ok(Boolean(value));
+        case ParameterType.Array:
+            if (Array.isArray(value)) {
+                return Result.Ok(value.map(String));
+            } else if (typeof value === 'string') {
+                return Result.Ok(value.split(','));
+            }
+            return Result.Ok([]);
+        case ParameterType.Map:
+            const optionMap = option as MapDeclarationOption<unknown>;
+            const key = String(value).toLowerCase();
+            if (optionMap.map instanceof Map) {
+                if (optionMap.map.has(key)) {
+                    return Result.Ok(optionMap.map.get(key));
+                }
+                if ([...optionMap.map.values()].includes(value)) {
+                    return Result.Ok(value);
+                }
+            } else {
+                if (optionMap.map.hasOwnProperty(key)) {
+                    return Result.Ok(optionMap.map[key]);
+                }
+                if (Object.values(optionMap.map).includes(value)) {
+                    return Result.Ok(value);
+                }
+            }
+            return Result.Err(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
+        case ParameterType.Mixed:
+            return Result.Ok(value);
     }
+}
+
+function getMapError(map: MapDeclarationOption<unknown>['map'], name: string) {
+    let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
+    const getString = (key: string) => String(map instanceof Map ? map.get(key) : map[key]);
+
+    // If the map is a TS numeric enum we need to filter out the numeric keys.
+    // TS numeric enums have the property that every key maps to a value, which maps back to that key.
+    if (!(map instanceof Map) && keys.every(key => getString(getString(key)) === key)) {
+        // This works because TS enum keys may not be numeric.
+        keys = keys.filter(key => Number.isNaN(parseInt(key, 10)));
+    }
+
+    return `${name} must be one of ${keys.join(', ')}`;
 }

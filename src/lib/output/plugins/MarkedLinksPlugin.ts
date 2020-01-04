@@ -3,8 +3,7 @@ import * as Util from 'util';
 import { Reflection } from '../../models/reflections/abstract';
 import { Component, ContextAwareRendererComponent } from '../components';
 import { MarkdownEvent, RendererEvent } from '../events';
-import { Option } from '../../utils/component';
-import { ParameterType } from '../../utils/options/declaration';
+import { ParameterType, Option } from '../../utils';
 
 /**
  * A plugin that builds links in markdown texts.

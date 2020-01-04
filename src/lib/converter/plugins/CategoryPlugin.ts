@@ -3,8 +3,7 @@ import { ReflectionCategory } from '../../models/ReflectionCategory';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils/component';
-import { ParameterType } from '../../utils/options/declaration';
+import { ParameterType, Option } from '../../utils';
 import { Comment } from '../../models/comments/index';
 
 /**

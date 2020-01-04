@@ -73,31 +73,6 @@ export function Component(options: ComponentOptions): ClassDecorator {
     };
 }
 
-/**
- * Decorator that declares a configuration option.
- *
- * Use it on an instance property of a Component class.
- */
-export function Option(options: DeclarationOption): PropertyDecorator {
-    return function(target: object, propertyKey: string | symbol) {
-        if (!(target instanceof AbstractComponent)) {
-            throw new Error('The `Option` decorator can only be used on properties within an `AbstractComponent` subclass.');
-        }
-
-        options.component = target['_componentName'];
-        target['_componentOptions'] = target['_componentOptions'] || [];
-        target['_componentOptions'].push(options);
-
-        Object.defineProperty(target, propertyKey, {
-            get: function (this: AbstractComponent<ComponentHost>) {
-                return this.application.options.getValue(options.name);
-            },
-            enumerable: true,
-            configurable: true
-        });
-    };
-}
-
 export class ComponentEvent extends Event {
     owner: ComponentHost;
 

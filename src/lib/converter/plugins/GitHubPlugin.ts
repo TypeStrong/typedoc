@@ -6,8 +6,7 @@ import { Component, ConverterComponent } from '../components';
 import { BasePath } from '../utils/base-path';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils/component';
-import { ParameterType } from '../../utils/options/declaration';
+import { Option, ParameterType } from '../../utils';
 
 /**
  * Stores data of a repository.

@@ -6,7 +6,7 @@ import { Reflection } from '../../models/reflections/abstract';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils/component';
+import { Option } from '../../utils';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
