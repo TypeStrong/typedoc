@@ -58,11 +58,10 @@ export class Options {
 
     reset() {
         for (const declaration of this._declarations.values()) {
-            const bag = declaration.scope === ParameterScope.TypeScript
-                ? this._compilerOptions
-                : this._values;
-            bag[declaration.name] = convert(declaration.defaultValue, declaration)
-                .expect(`Failed to validate default value for ${declaration.name}`);
+            if (declaration.scope !== ParameterScope.TypeScript) {
+                this._values[declaration.name] = convert(declaration.defaultValue, declaration)
+                    .expect(`Failed to validate default value for ${declaration.name}`);
+            }
         }
     }
 
@@ -90,9 +89,10 @@ export class Options {
             }
         }
 
-        const bag = declaration.scope === ParameterScope.TypeScript ? this._compilerOptions : this._values;
-        bag[declaration.name] = convert(declaration.defaultValue, declaration)
-            .expect(`Failed to validate default value for ${declaration.name}`);
+        if (declaration.scope !== ParameterScope.TypeScript) {
+            this._values[declaration.name] = convert(declaration.defaultValue, declaration)
+                .expect(`Failed to validate default value for ${declaration.name}`);
+        }
     }
 
     addDeclarations(declarations: readonly DeclarationOption[]): void {
