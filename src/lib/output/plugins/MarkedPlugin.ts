@@ -6,8 +6,7 @@ import * as Handlebars from 'handlebars';
 
 import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
-import { Option } from '../../utils/component';
-import { ParameterHint } from '../../utils/options/declaration';
+import { Option, ParameterHint } from '../../utils';
 
 const customMarkedRenderer = new Marked.Renderer();
 

@@ -7,7 +7,8 @@ const copy = [
     'test/converter',
     'test/renderer',
     'test/.dot',
-    'test/module'
+    'test/module',
+    'test/utils/options/readers/data',
 ];
 
 const copies = copy.map(dir => {

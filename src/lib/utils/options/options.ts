@@ -1,206 +1,204 @@
 import * as _ from 'lodash';
-import * as Util from 'util';
 import * as ts from 'typescript';
 
-import { Event } from '../events';
-import { Component, AbstractComponent, ChildableComponent } from '../component';
-import { Application } from '../../application';
-import { OptionDeclaration, DeclarationOption, ParameterScope } from './declaration';
+import { DeclarationOption, ParameterScope, convert, TypeDocOptions, KeyToDeclaration } from './declaration';
+import { Logger } from '../loggers';
+import { Result, Ok, Err } from '../result';
+import { insertPrioritySorted } from '../array';
+import { addTSOptions, addDecoratedOptions } from './sources';
 
-/**
- * Child of the master Options component.  Options === configuration
- *
- * Serves one of two roles:
- *
- * - Aggregates and contributes configuration declarations declared by components or plugins
- * - Parses option values from various sources (config file, command-line args, etc)
- */
-export class OptionsComponent extends AbstractComponent<Options> { }
-
-export enum OptionsReadMode {
-    Prefetch,
-    Fetch
-}
-
-export interface OptionsReadResult {
-    hasErrors: boolean;
-    inputFiles: string[];
-}
-
-export class DiscoverEvent extends Event {
-    readonly mode: OptionsReadMode;
-    data: any;
-
-    constructor(name: string, mode: OptionsReadMode) {
-        super(name);
-        this.mode = mode;
-    }
-
-    inputFiles: string[] = [];
-
-    errors: string[] = [];
-
-    static DISCOVER = 'optionsDiscover';
+export interface OptionsReader {
+    /**
+     * Readers will be processed according to their priority.
+     * A higher priority indicates that the reader should be called *later* so that
+     * it can override options set by lower priority readers.
+     *
+     * Note that to preserve expected behavior, the argv reader must have both the lowest
+     * priority so that it may set the location of config files used by other readers and
+     * the highest priority so that it can override settings from lower priority readers.
+     */
+    priority: number;
 
     /**
-     * Add an input/source file.
-     *
-     * The input files will be used as source files for the compiler. All command line
-     * arguments without parameter will be interpreted as being input files.
-     *
-     * @param fileName The path and filename of the input file.
+     * The name of this reader so that it may be removed by plugins without the plugin
+     * accessing the instance performing the read. Multiple readers may have the same
+     * name.
      */
-    addInputFile(fileName: string) {
-        this.inputFiles.push(fileName);
-    }
+    name: string;
 
-    addError(message: string, ...args: string[]) {
-        this.errors.push(Util.format.apply(this, arguments));
-    }
+    /**
+     * Read options from the reader's source and place them in the options parameter.
+     * Options without a declared name may be treated as if they were declared with type
+     * [[ParameterType.Mixed]]. Options which have been declared must be converted to the
+     * correct type. As an alternative to doing this conversion in the reader,
+     * the reader may use [[Options.setValue]], which will correctly convert values.
+     * @param options
+     * @param compilerOptions
+     * @param container the options container that provides declarations
+     * @param logger
+     */
+    read(container: Options, logger: Logger): void;
 }
 
-/**
- * Responsible for loading options via child components that read options
- * from various sources.
- */
-@Component({name: 'options', internal: true, childClass: OptionsComponent})
-export class Options extends ChildableComponent<Application, OptionsComponent> {
-    private declarations!: {[name: string]: OptionDeclaration};
+export class Options {
+    private _readers: OptionsReader[] = [];
+    private _declarations = new Map<string, Readonly<DeclarationOption>>();
+    private _values: Partial<TypeDocOptions> = {};
+    private _compilerOptions: ts.CompilerOptions = {};
+    private _logger: Logger;
 
-    private values!: {[name: string]: any};
-
-    private compilerOptions!: ts.CompilerOptions;
-
-    initialize() {
-        this.declarations = {};
-        this.values = {};
-        this.compilerOptions = {
-            target: ts.ScriptTarget.ES3,
-            module: ts.ModuleKind.None
-        };
+    constructor(logger: Logger) {
+        this._logger = logger;
     }
 
-    read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): OptionsReadResult {
-        const event  = new DiscoverEvent(DiscoverEvent.DISCOVER, mode);
-        event.data = data;
+    addDefaultDeclarations() {
+        addTSOptions(this);
+        addDecoratedOptions(this);
+    }
 
-        this.trigger(event);
-        this.setValues(event.data, '', event.addError.bind(event));
+    reset() {
+        for (const declaration of this._declarations.values()) {
+            const bag = declaration.scope === ParameterScope.TypeScript
+                ? this._compilerOptions
+                : this._values;
+            bag[declaration.name] = convert(declaration.defaultValue, declaration)
+                .expect(`Failed to validate default value for ${declaration.name}`);
+        }
+    }
 
-        if (mode === OptionsReadMode.Fetch) {
-            const logger = this.application.logger;
-            for (let error of event.errors) {
-                logger.error(error);
+    addReader(reader: OptionsReader): void {
+        insertPrioritySorted(this._readers, reader);
+    }
+
+    removeReaderByName(name: string): void {
+        this._readers = this._readers.filter(reader => reader.name !== name);
+    }
+
+    addDeclaration<K extends keyof TypeDocOptions>(declaration: { name: K } & KeyToDeclaration<K>): void;
+    addDeclaration(declaration: Readonly<DeclarationOption>): void;
+    addDeclaration(declaration: Readonly<DeclarationOption>): void {
+        const names = [declaration.name];
+        if (declaration.short) {
+            names.push(declaration.short);
+        }
+
+        for (const name of names) {
+            if (this.getDeclaration(name)) {
+                this._logger.error(`The option ${name} has already been registered`);
+            } else {
+                this._declarations.set(name.toLowerCase(), declaration);
             }
         }
 
-        return {
-            hasErrors: event.errors.length > 0,
-            inputFiles: event.inputFiles
-        };
+        const bag = declaration.scope === ParameterScope.TypeScript ? this._compilerOptions : this._values;
+        bag[declaration.name] = convert(declaration.defaultValue, declaration)
+            .expect(`Failed to validate default value for ${declaration.name}`);
     }
 
-    getValue(name: string): any {
+    addDeclarations(declarations: readonly DeclarationOption[]): void {
+        for (const decl of declarations) {
+            this.addDeclaration(decl);
+        }
+    }
+
+    removeDeclaration(declaration: DeclarationOption): void {
+        this.removeDeclarationByName(declaration.name);
+    }
+
+    removeDeclarationByName(name: string): void {
+        const declaration = this.getDeclaration(name);
+        if (declaration) {
+            this._declarations.delete(declaration.name);
+            if (declaration.short) {
+                this._declarations.delete(declaration.short);
+            }
+            delete this._values[declaration.name];
+        }
+    }
+
+    getDeclaration(name: string): Readonly<DeclarationOption> | undefined {
+        return this._declarations.get(name.toLowerCase());
+    }
+
+    getDeclarationsByScope(scope: ParameterScope) {
+        return _.uniq(Array.from(this._declarations.values()))
+            .filter(declaration => (declaration.scope ?? ParameterScope.TypeDoc) === scope);
+    }
+
+    read(logger: Logger) {
+        for (const reader of this._readers) {
+            reader.read(this, logger);
+        }
+    }
+
+    getRawValues(): Partial<TypeDocOptions> {
+        return _.cloneDeep(this._values);
+    }
+
+    isDefault(name: keyof TypeDocOptions): boolean;
+    isDefault(name: string): boolean;
+    isDefault(name: string): boolean {
+        return this.getValue(name) === this.getDeclaration(name)?.defaultValue;
+    }
+
+    getValue<K extends keyof TypeDocOptions>(name: K): TypeDocOptions[K];
+    getValue(name: string): unknown;
+    getValue(name: string): unknown {
+        return this.tryGetValue(name).match({
+            ok: v => v,
+            err(err) { throw err;  }
+        });
+    }
+
+    tryGetValue<K extends keyof TypeDocOptions>(name: K): Result<TypeDocOptions[K], Error>;
+    tryGetValue(name: string): Result<unknown, Error>;
+    tryGetValue(name: string): Result<unknown, Error> {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
-            throw new Error(Util.format('Unknown option `%s`.', name));
+            return Err(new Error(`Unknown option '${name}'`));
         }
 
         if (declaration.scope === ParameterScope.TypeScript) {
-            throw new Error('TypeScript options cannot be fetched using `getValue`, use `getCompilerOptions` instead.');
+            return Err(new Error('TypeScript options must be fetched with getCompilerOptions.'));
         }
 
-        if (name in this.values) {
-            return this.values[name];
-        } else {
-            return declaration.defaultValue;
-        }
-    }
-
-    getRawValues(): any {
-        return _.clone(this.values);
-    }
-
-    getDeclaration(name: string): OptionDeclaration | undefined {
-        return this.declarations[name.toLowerCase()];
-    }
-
-    getDeclarationsByScope(scope: ParameterScope): OptionDeclaration[] {
-        const result = _.values(this.declarations)
-            .filter(declaration => declaration.scope === scope);
-        return _.uniq(result);
+        return Ok(this._values[declaration.name]);
     }
 
     getCompilerOptions(): ts.CompilerOptions {
-        return this.compilerOptions;
+        return _.cloneDeep(this._compilerOptions);
     }
 
-    setValue(name: string | OptionDeclaration, value: any, errorCallback?: (format: string, ...args: string[]) => void) {
-        const declaration = name instanceof OptionDeclaration ? name : this.getDeclaration(name);
-        if (!declaration) {
-            return;
-        }
-
-        const key = declaration.name;
-        if (declaration.scope === ParameterScope.TypeScript) {
-            this.compilerOptions[key] = declaration.convert(value, errorCallback);
-        } else {
-            this.values[key] = declaration.convert(value, errorCallback);
-        }
-    }
-
-    setValues(obj: Object, prefix: string = '', errorCallback?: (format: string, ...args: string[]) => void) {
-        for (let key in obj) {
-            const value = obj[key];
-            const declaration = this.getDeclaration(key);
-            const shouldValueBeAnObject = declaration && declaration['map'] === 'object';
-            if (!Array.isArray(value) && typeof value === 'object' && !shouldValueBeAnObject) {
-                this.setValues(value, prefix + key + '.', errorCallback);
-            } else {
-                this.setValue(prefix + key, value, errorCallback);
-            }
-        }
-    }
-
-    addDeclaration(declaration: OptionDeclaration|DeclarationOption) {
-        const decl = declaration instanceof OptionDeclaration
-            ? declaration
-            : new OptionDeclaration(declaration);
-
-        for (let name of decl.getNames()) {
-            if (name in this.declarations) {
-                this.application.logger.error('The option "%s" has already been registered by the "%s" component.',
-                    name,
-                    this.declarations[name].component || '__unknown');
-            } else {
-                this.declarations[name] = decl;
-            }
-        }
-    }
-
-    addDeclarations(declarations: (OptionDeclaration|DeclarationOption)[]) {
-        for (let declaration of declarations) {
-            this.addDeclaration(declaration);
-        }
-    }
-
-    removeDeclaration(declaration: OptionDeclaration) {
-        const names = _.keys(this.declarations);
-        for (const name of names) {
-            if (this.declarations[name] === declaration) {
-                delete this.declarations[name];
-            }
-        }
-
-        if (declaration.name in this.values) {
-            delete this.values[declaration.name];
-        }
-    }
-
-    removeDeclarationByName(name: string) {
+    setValue<K extends keyof TypeDocOptions>(name: K, value: TypeDocOptions[K]): Result<void, Error>;
+    setValue(name: string, value: unknown): Result<void, Error>;
+    setValue(name: string, value: unknown): Result<void, Error> {
         const declaration = this.getDeclaration(name);
-        if (declaration) {
-            this.removeDeclaration(declaration);
+        if (!declaration) {
+            return Err(Error(`Tried to set an option (${name}) that was not declared.`));
         }
+
+        return convert(value, declaration).match({
+            ok: value => {
+                const bag = declaration.scope === ParameterScope.TypeScript
+                    ? this._compilerOptions
+                    : this._values;
+                bag[declaration.name] = value;
+                return Ok(void 0);
+            },
+            err: err => Err(Error(err))
+        });
+    }
+
+    setValues(obj: Partial<TypeDocOptions>): Result<void, Error[]> {
+        const errors: Error[] = [];
+        for (const [name, value] of Object.entries(obj)) {
+            this.setValue(name, value).match({
+                ok() {},
+                err(error) {
+                    errors.push(error);
+                }
+            });
+        }
+        return errors.length ? Err(errors) : Ok(void 0);
     }
 }

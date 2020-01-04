@@ -2,8 +2,8 @@ import * as FS from 'fs';
 import * as Path from 'path';
 
 import { Application } from '../application';
-import { AbstractComponent, Component, Option } from './component';
-import { ParameterType } from './options/declaration';
+import { AbstractComponent, Component } from './component';
+import { ParameterType, Option } from './options';
 
 /**
  * Responsible for discovering and loading plugins.

@@ -1,2 +1,2 @@
-export { ComponentSource } from './component';
-export { TypeScriptSource } from './typescript';
+export { addTSOptions } from './typescript';
+export { addDecoratedOptions, Option } from './decorator';

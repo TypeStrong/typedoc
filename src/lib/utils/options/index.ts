@@ -1,4 +1,3 @@
-export { Options, OptionsReadMode, OptionsReadResult } from './options';
-
-import './readers/index';
-import './sources/index';
+export { Options, OptionsReader } from './options';
+export { Option } from './sources';
+export { TypeDocOptions, ParameterType, ParameterHint, ParameterScope } from './declaration';

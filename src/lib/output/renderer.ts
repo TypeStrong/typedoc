@@ -20,8 +20,8 @@ import { UrlMapping } from './models/UrlMapping';
 import { writeFile } from '../utils/fs';
 import { DefaultTheme } from './themes/DefaultTheme';
 import { RendererComponent } from './components';
-import { Component, ChildableComponent, Option } from '../utils/component';
-import { ParameterType } from '../utils/options/declaration';
+import { Component, ChildableComponent } from '../utils/component';
+import { ParameterType, Option } from '../utils';
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes

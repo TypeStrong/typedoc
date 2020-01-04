@@ -7,7 +7,8 @@ import { ParameterType } from '../utils/options/declaration';
 import { Reflection, Type, ProjectReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
+import { Component, ChildableComponent, ComponentClass } from '../utils/component';
+import { Option } from '../utils';
 import { normalizePath } from '../utils/fs';
 import { createMinimatch } from '../utils/paths';
 

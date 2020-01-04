@@ -65,8 +65,8 @@ describe('TypeDoc', function() {
             Assert(!expanded.includes(inputFiles));
         });
         it('Honors the exclude option even if a module is imported', () => {
-            application.options.setValue('exclude', '**/b.ts', Assert.fail);
-            application.options.setValue('module', 'commonjs', Assert.fail);
+            application.options.setValue('exclude', '**/b.ts').unwrap();
+            application.options.setValue('module', 'commonjs').unwrap();
 
             function handler(context: Context) {
                 Assert.deepStrictEqual(context.fileNames, [

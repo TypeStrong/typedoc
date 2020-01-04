@@ -1,9 +1,7 @@
 import * as typescript from 'typescript';
 
 import { Application } from './application';
-import { Option } from './utils/component';
-import { OptionsReadResult } from './utils/options/options';
-import { ParameterHint, ParameterType } from './utils/options/declaration';
+import { Option, ParameterHint, ParameterType } from './utils/options';
 import { getOptionsHelp } from './utils/options/help';
 
 export const enum ExitCode {
@@ -48,7 +46,7 @@ export class CliApplication extends Application {
     /**
      * Run TypeDoc from the command line.
      */
-    protected bootstrap(options?: Object): OptionsReadResult {
+    protected bootstrap(options?: Object) {
         const result = super.bootstrap(options);
         if (result.hasErrors) {
             return process.exit(ExitCode.OptionError);

@@ -64,7 +64,7 @@
   ],
   "scripts": {
     "pretest": "node scripts/copy_test_files.js",
-    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/*.test.js",
+    "test": "nyc --reporter=html --reporter=text-summary mocha --timeout=10000 dist/test/**/*.test.js",
     "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "tsc --project .",
