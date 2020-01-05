@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { ReferenceType, ReferenceReflection, ContainerReflection } from '../../models';
+import { ReferenceType, ReferenceReflection, ContainerReflection, ReflectionFlag } from '../../models';
 import { Context } from '../context';
 import { ReferenceState } from '../../models/reflections/reference';
 import { Converter } from '../converter';
@@ -35,6 +35,7 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
     }
 
     const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.getSymbolID(target)!], context.scope);
+    reflection.flags.setFlag(ReflectionFlag.Exported, true); // References are exported by necessity
     if (!context.scope.children) {
         context.scope.children = [];
     }

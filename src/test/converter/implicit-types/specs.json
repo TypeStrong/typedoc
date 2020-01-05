@@ -239,7 +239,9 @@
               "name": "getBreakpoints",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "reflection",
                 "declaration": {
@@ -247,14 +249,18 @@
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "children": [
                     {
                       "id": 17,
                       "name": "large",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
@@ -273,7 +279,9 @@
                       "name": "medium",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
@@ -292,7 +300,9 @@
                       "name": "small",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
@@ -311,7 +321,9 @@
                       "name": "xlarge",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",
@@ -330,7 +342,9 @@
                       "name": "xxlarge",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "sources": [
                         {
                           "fileName": "implicit-types.ts",

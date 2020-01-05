@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { Type, ReflectionKind, DeclarationReflection, ReflectionType } from '../../models/index';
+import { Type, ReflectionKind, DeclarationReflection, ReflectionType, ReflectionFlag } from '../../models/index';
 import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
 import { Context } from '../context';
 import { Converter } from '../converter';
@@ -23,6 +23,7 @@ export class BindingObjectConverter extends ConverterTypeComponent implements Ty
      */
     convertNode(context: Context, node: ts.BindingPattern): Type {
         const declaration = new DeclarationReflection('__type', ReflectionKind.TypeLiteral, context.scope);
+        declaration.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
 
         context.registerReflection(declaration);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);

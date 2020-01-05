@@ -44,7 +44,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "children": [
@@ -93,14 +95,18 @@
                       "name": "add",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 50,
                           "name": "listener",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "reference",
                             "name": "IEventListener",
@@ -118,7 +124,9 @@
                           "name": "filter",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -130,7 +138,9 @@
                           "name": "priority",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "number"
@@ -183,7 +193,9 @@
                       "name": "clear",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -222,14 +234,18 @@
                       "name": "dispatch",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 58,
                           "name": "event",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "typeParameter",
                             "name": "T"
@@ -274,7 +290,9 @@
                       "name": "hasListeners",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -313,14 +331,18 @@
                       "name": "remove",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 55,
                           "name": "subscription",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "reference",
                             "name": "ISubscription",
@@ -719,7 +741,9 @@
                   "name": "U",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "children": [
@@ -737,14 +761,18 @@
                       "name": "add",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 32,
                           "name": "listener",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "reference",
                             "name": "IEventListener",
@@ -763,6 +791,7 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
+                            "isExported": true,
                             "isOptional": true
                           },
                           "type": {
@@ -776,6 +805,7 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
+                            "isExported": true,
                             "isOptional": true
                           },
                           "type": {
@@ -819,7 +849,9 @@
                       "name": "clear",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -848,14 +880,18 @@
                       "name": "dispatch",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 40,
                           "name": "parameter",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "typeParameter",
                             "name": "U"
@@ -890,7 +926,9 @@
                       "name": "hasListeners",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -919,14 +957,18 @@
                       "name": "remove",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 37,
                           "name": "subscription",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "reference",
                             "name": "ISubscription",

@@ -91,7 +91,8 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {
-                    "isPrivate": true
+                    "isPrivate": true,
+                    "isExported": true
                   },
                   "comment": {
                     "shortText": "A function that is made private via comment."
@@ -126,7 +127,8 @@
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {
-                    "isProtected": true
+                    "isProtected": true,
+                    "isExported": true
                   },
                   "comment": {
                     "shortText": "A function that is made protected via comment."
@@ -240,7 +242,8 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {
-                "isPrivate": true
+                "isPrivate": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "A function that is made private via comment."
@@ -275,7 +278,8 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {
-                "isProtected": true
+                "isProtected": true,
+                "isExported": true
               },
               "comment": {
                 "shortText": "A function that is made protected via comment."

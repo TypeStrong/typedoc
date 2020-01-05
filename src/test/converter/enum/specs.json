@@ -124,7 +124,9 @@
                   "name": "enumFunction",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "This is a function appended to an enumeration."
                   },

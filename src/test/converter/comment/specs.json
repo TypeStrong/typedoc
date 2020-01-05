@@ -126,14 +126,18 @@
               "name": "multiply",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "parameters": [
                 {
                   "id": 4,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -144,7 +148,9 @@
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"

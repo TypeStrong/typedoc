@@ -31,7 +31,9 @@
               "name": "moduleFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function that is extended by a module."
               },
@@ -41,7 +43,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "An argument.\n"
                   },
@@ -186,7 +190,9 @@
               "name": "assertIsNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Asserts that an argument is not null."
               },
@@ -196,7 +202,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "parameters": [
@@ -205,7 +213,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
@@ -261,7 +271,9 @@
               "name": "assertionFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is an assertion function."
               },
@@ -271,7 +283,9 @@
                   "name": "condition",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "The condition that is asserted to be true when this function returns.\n"
                   },
@@ -310,7 +324,9 @@
               "name": "checkerFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Assertion function with a type."
               },
@@ -320,7 +336,9 @@
                   "name": "anything",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
@@ -363,7 +381,9 @@
               "name": "exportedFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a simple exported function."
               },
@@ -395,7 +415,9 @@
               "name": "functionWithDefaults",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with a parameter that has a default value.",
                 "returns": "This is the return value of the function.\n"
@@ -406,7 +428,9 @@
                   "name": "valueA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default string value."
                   },
@@ -421,7 +445,9 @@
                   "name": "valueB",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default numeric value."
                   },
@@ -436,7 +462,9 @@
                   "name": "valueC",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default NaN value."
                   },
@@ -451,7 +479,9 @@
                   "name": "valueD",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default boolean value."
                   },
@@ -466,7 +496,9 @@
                   "name": "valueE",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default null value."
                   },
@@ -505,7 +537,9 @@
               "name": "functionWithOptionalValue",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with a parameter that is optional."
               },
@@ -515,7 +549,9 @@
                   "name": "requiredParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A normal parameter."
                   },
@@ -530,6 +566,7 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {
+                    "isExported": true,
                     "isOptional": true
                   },
                   "comment": {
@@ -569,7 +606,9 @@
               "name": "functionWithParameters",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with multiple arguments and a return value.",
                 "returns": "This is the return value of the function.\n"
@@ -580,7 +619,9 @@
                   "name": "paramZ",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "This is a string parameter."
                   },
@@ -594,7 +635,9 @@
                   "name": "paramG",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
@@ -608,7 +651,9 @@
                   "name": "paramA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
                   },
@@ -728,7 +773,9 @@
               "name": "isNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "Checks that an argument is not null."
               },
@@ -738,7 +785,9 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {}
+                  "flags": {
+                    "isExported": true
+                  }
                 }
               ],
               "parameters": [
@@ -747,7 +796,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n"
                   },
@@ -807,7 +858,9 @@
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is the first signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
@@ -818,7 +871,9 @@
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "The name value.\n"
                   },
@@ -838,7 +893,9 @@
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is the second signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
@@ -849,7 +906,9 @@
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "An object containing the name value."
                   },
@@ -860,14 +919,18 @@
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "children": [
                         {
                           "id": 34,
                           "name": "name",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "comment": {
                             "text": "A value of the object.\n"
                           },
@@ -947,7 +1010,9 @@
               "name": "variableFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function that is assigned to a variable.",
                 "returns": "This is the return value of the function.\n"
@@ -958,7 +1023,9 @@
                   "name": "someParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "This is some numeric parameter."
                   },
