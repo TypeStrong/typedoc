@@ -74,7 +74,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
                     const original = (target.flags & ts.SymbolFlags.Alias) ? context.checker.getAliasedSymbol(target) : target;
                     // If the original declaration is in this file, export {} was used with something
                     // defined in this file and we don't need to create a reference unless the name is different.
-                    if (original.valueDeclaration.getSourceFile() === specifier.getSourceFile() && !specifier.propertyName) {
+                    if (!node.moduleSpecifier && !specifier.propertyName) {
                         return;
                     }
 
