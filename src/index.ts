@@ -11,3 +11,12 @@ export { Renderer } from './lib/output/renderer';
 export { DefaultTheme } from './lib/output/themes/DefaultTheme';
 export { NavigationItem } from './lib/output/models/NavigationItem';
 export { UrlMapping } from './lib/output/models/UrlMapping';
+
+export {
+    Options,
+    OptionsReader,
+    ParameterHint,
+    ParameterScope,
+    ParameterType,
+    TypeDocOptions
+} from './lib/utils/options';
