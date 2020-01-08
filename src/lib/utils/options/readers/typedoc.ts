@@ -39,7 +39,7 @@ export class TypeDocReader implements OptionsReader {
             logger.error(`The file ${file} is not an object.`);
             return;
         }
-        // deprecate: data.src is alias to inputFiles, warn in 0.17, remove in 0.19
+        // deprecate: data.src is alias to inputFiles as of 0.16, warn in 0.17, remove in 0.19
         if ('src' in data && !('inputFiles' in data)) {
             data.inputFiles = Array.isArray(data.src) ? data.src : [data.src];
             delete data.src;

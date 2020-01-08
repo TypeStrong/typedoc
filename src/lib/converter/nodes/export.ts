@@ -5,7 +5,6 @@ import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 import { createReferenceReflection } from '../factories/reference';
 
-// TODO: With 9c3114d this converter should no longer be necessary. Verify and remove.
 @Component({name: 'node:export'})
 export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
     /**

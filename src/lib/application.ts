@@ -24,7 +24,8 @@ import {
     DUMMY_APPLICATION_OWNER
 } from './utils/component';
 import { Option, Options, ParameterType } from './utils';
-import { TypeDocOptions, ParameterHint } from './utils/options';
+import { ParameterHint } from './utils/options';
+import { TypeDocAndTSOptions } from './utils/options/declaration';
 
 /**
  * The default TypeDoc main application class.
@@ -100,12 +101,21 @@ export class Application extends ChildableComponent<
 
     @Option({
         name: 'options',
-        help: 'Specify a json option file that should be loaded. If not specified TypeDoc will look for \'typedoc.json\' in the current directory.',
+        help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
         type: ParameterType.String,
         hint: ParameterHint.File,
         defaultValue: process.cwd()
     })
     optionsFile!: string;
+
+    @Option({
+        name: 'tsconfig',
+        help: "Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
+        type: ParameterType.String,
+        hint: ParameterHint.File,
+        defaultValue: process.cwd()
+    })
+    project!: string;
 
     /**
      * The version number of TypeDoc.
@@ -117,7 +127,7 @@ export class Application extends ChildableComponent<
      *
      * @param options An object containing the options that should be used.
      */
-    constructor(options?: Object) {
+    constructor(options?: Partial<TypeDocAndTSOptions>) {
         super(DUMMY_APPLICATION_OWNER);
 
         this.logger = new ConsoleLogger();
@@ -136,7 +146,7 @@ export class Application extends ChildableComponent<
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options: Partial<TypeDocOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
+    protected bootstrap(options: Partial<TypeDocAndTSOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
         this.options.setValues(options); // Ignore result, plugins might declare an option
         this.options.read(new Logger());
 
@@ -149,6 +159,7 @@ export class Application extends ChildableComponent<
 
         this.plugins.load();
 
+        this.options.reset();
         this.options.setValues(options).mapErr(errors => {
             for (const error of errors) {
                 this.logger.error(error.message);
@@ -167,10 +178,6 @@ export class Application extends ChildableComponent<
      */
     get application(): Application {
         return this;
-    }
-
-    get isCLI(): boolean {
-        return false;
     }
 
     /**

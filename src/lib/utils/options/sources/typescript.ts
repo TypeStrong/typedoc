@@ -1,13 +1,9 @@
-import * as ts from 'typescript';
 import * as _ts from '../../../ts-internal';
 
 import { DeclarationOption, ParameterScope, ParameterType, MapDeclarationOption } from '../declaration';
 import { Options } from '../options';
 
-/**
- * A list of all TypeScript parameters that should be ignored.
- */
-const IGNORED = new Set([
+const IGNORED_OPTIONS = [
     'out',
     'version',
     'help',
@@ -22,7 +18,17 @@ const IGNORED = new Set([
     'removeComments',
     'incremental',
     'tsBuildInfoFile'
-]);
+] as const;
+
+/**
+ * The ignored option keys as a type.
+ */
+export type IgnoredTsOptionKeys = typeof IGNORED_OPTIONS[number];
+
+/**
+ * A list of all TypeScript parameters that should be ignored.
+ */
+export const IGNORED: ReadonlySet<string> = new Set(IGNORED_OPTIONS);
 
 /**
  * Discovers and contributes options declared by TypeScript.
@@ -63,15 +69,6 @@ function createTSDeclaration(option: _ts.CommandLineOption): DeclarationOption {
         default:
             param.type = ParameterType.Map;
             (param as MapDeclarationOption<any>).map = option.type;
-            // Just take the first value defined in the map.
-            param.defaultValue = option.type.values().next().value;
-            if (option['error']) {
-                const error = _ts.createCompilerDiagnostic(option['error']);
-                (param as MapDeclarationOption<any>).mapError = ts.flattenDiagnosticMessageText(
-                    error.messageText,
-                    ', '
-                );
-            }
     }
 
     return param as DeclarationOption;

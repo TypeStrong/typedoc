@@ -32,12 +32,14 @@ describe('Array utils', () => {
     });
 
     describe('binaryFindPartition', () => {
+        const always = () => true;
+
         it('works with empty array', () => {
-            equal(binaryFindPartition([], () => true), -1);
+            equal(binaryFindPartition([], always), -1);
         });
 
         it('works with one item', () => {
-            equal(binaryFindPartition([1], () => true), 0);
+            equal(binaryFindPartition([1], always), 0);
         });
 
         it('works with more items', () => {

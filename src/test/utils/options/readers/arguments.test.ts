@@ -4,7 +4,7 @@ import { Options, Logger } from '../../../../lib/utils';
 import { ArgumentsReader } from '../../../../lib/utils/options/readers';
 import { ParameterType } from '../../../../lib/utils/options';
 
-describe('ArgumentsReader', () => {
+describe('Options - ArgumentsReader', () => {
     const options = new Options(new Logger());
     options.addDefaultDeclarations();
     options.addDeclaration({

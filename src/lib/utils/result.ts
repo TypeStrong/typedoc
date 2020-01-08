@@ -40,7 +40,7 @@ export class Result<T, E> {
      * Unwraps a result type, throwing if the result is an Err.
      */
     unwrap(): T {
-        return this.expect('Tried to unwrap ok type an error result.');
+        return this.expect('Tried to unwrap as Ok an Err.');
     }
 
     /**
@@ -48,7 +48,7 @@ export class Result<T, E> {
      */
     unwrapErr(): E {
         if (this._data[0]) {
-            throw new Error('Tried to unwrap error type of an ok result.');
+            throw new Error('Tried to unwrap an Err as Ok.');
         }
         return this._data[1];
     }

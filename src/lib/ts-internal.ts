@@ -23,13 +23,6 @@ declare module 'typescript' {
 // Everything past here is required for supporting TypeScript's command line options.
 // If TypeDoc dropped support for allowing all of tsc's cli flags, this can all go.
 
-// https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/core.ts#L1133-LL1134
-export function createCompilerDiagnostic(message: ts.DiagnosticMessage, ...args: (string | number)[]): ts.Diagnostic;
-export function createCompilerDiagnostic(message: ts.DiagnosticMessage): ts.Diagnostic;
-export function createCompilerDiagnostic() {
-  return tsany.createCompilerDiagnostic.apply(this, arguments);
-}
-
 export const optionDeclarations: CommandLineOption[] = tsany.optionDeclarations;
 
 /**

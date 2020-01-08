@@ -1,61 +1,8 @@
 import { Application, resetReflectionID, normalizePath, ProjectReflection } from '..';
 import * as FS from 'fs';
 import * as Path from 'path';
-import Assert = require('assert');
-
-function compareReflections(fixture, spec, path?: string) {
-    path = (path ? path + '/' : '') + spec.name;
-    Assert.deepEqual(fixture, spec);
-
-    for (let key in spec) {
-        if (!spec.hasOwnProperty(key)) {
-            continue;
-        }
-        Assert(fixture.hasOwnProperty(key), path + ': Missing property "' + key + '"');
-    }
-
-    for (let key in fixture) {
-        if (!fixture.hasOwnProperty(key) || typeof fixture[key] === 'undefined') {
-            continue;
-        }
-        Assert(spec.hasOwnProperty(key), path + ': Unknown property "' + key + '"');
-
-        const a = fixture[key];
-        const b = spec[key];
-        Assert(a instanceof Object === b instanceof Object, path + ': Property "' + key + '" type mismatch');
-
-        if (a instanceof Object) {
-            switch (key) {
-                case 'signatures':
-                case 'typeParameters':
-                case 'children':
-                    compareChildren(a, b, path);
-                    break;
-                case 'indexSignature':
-                case 'getSignature':
-                case 'setSignature':
-                    compareReflections(a, b, path);
-                    break;
-                default:
-                    Assert.deepEqual(a, b, path + ': Property "' + key + '" value mismatch');
-            }
-        } else {
-            Assert(a === b, path + ': Property "' + key + '" value mismatch');
-        }
-    }
-}
-
-function compareChildren(fixture, spec, path) {
-    const a = fixture.map(function(child) { return child.id; });
-    const b = spec.map(function(child) { return child.id; });
-
-    Assert(a.length === b.length, path + ': Number of children differs');
-    Assert(a.every(function(u, i) { return u === b[i]; }), path + ': Children are different');
-
-    fixture.forEach(function(a, index) {
-        compareReflections(a, spec[index], path);
-    });
-}
+import { deepStrictEqual as equal, ok } from 'assert';
+import { JsxEmit, ModuleKind, ScriptTarget } from 'typescript';
 
 describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
@@ -65,10 +12,10 @@ describe('Converter', function() {
         app = new Application({
             mode:   'Modules',
             logger: 'none',
-            target: 'ES5',
-            module: 'CommonJS',
+            target: ScriptTarget.ES5,
+            module: ModuleKind.CommonJS,
             experimentalDecorators: true,
-            jsx: 'react',
+            jsx: JsxEmit.React,
             name: 'typedoc',
             ignoreCompilerErrors: true
         });
@@ -86,7 +33,7 @@ describe('Converter', function() {
             it('converts fixtures', function() {
                 resetReflectionID();
                 result = app.convert(app.expandInputFiles([path]));
-                Assert(result instanceof ProjectReflection, 'No reflection returned');
+                ok(result instanceof ProjectReflection, 'No reflection returned');
             });
 
             it('matches specs', function() {
@@ -94,7 +41,7 @@ describe('Converter', function() {
                 let data = JSON.stringify(app.serializer.toObject(result), null, '  ');
                 data = data.split(normalizePath(base)).join('%BASE%');
 
-                compareReflections(JSON.parse(data), specs);
+                equal(JSON.parse(data), specs);
             });
         });
     });
@@ -110,11 +57,11 @@ describe('Converter with categorizeByGroup=false', function() {
         app = new Application({
             mode: 'Modules',
             logger: 'none',
-            target: 'ES5',
-            module: 'CommonJS',
+            target: ScriptTarget.ES5,
+            module: ModuleKind.CommonJS,
             experimentalDecorators: true,
             categorizeByGroup: false,
-            jsx: 'react',
+            jsx: JsxEmit.React,
             name: 'typedoc',
             ignoreCompilerErrors: true
         });
@@ -126,7 +73,7 @@ describe('Converter with categorizeByGroup=false', function() {
         it('converts fixtures', function() {
             resetReflectionID();
             result = app.convert(app.expandInputFiles([categoryDir]));
-            Assert(result instanceof ProjectReflection, 'No reflection returned');
+            ok(result instanceof ProjectReflection, 'No reflection returned');
         });
 
         it('matches specs', function() {
@@ -134,7 +81,7 @@ describe('Converter with categorizeByGroup=false', function() {
             let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
-            compareReflections(JSON.parse(data), specs);
+            equal(JSON.parse(data), specs);
         });
     });
 
@@ -143,7 +90,7 @@ describe('Converter with categorizeByGroup=false', function() {
         it('converts fixtures', function() {
             resetReflectionID();
             result = app.convert(app.expandInputFiles([classDir]));
-            Assert(result instanceof ProjectReflection, 'No reflection returned');
+            ok(result instanceof ProjectReflection, 'No reflection returned');
         });
 
         it('matches specs', function() {
@@ -151,7 +98,7 @@ describe('Converter with categorizeByGroup=false', function() {
             let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
-            compareReflections(JSON.parse(data), specs);
+            equal(JSON.parse(data), specs);
         });
     });
 });
@@ -166,11 +113,11 @@ describe('Converter with excludeNotExported=true', function() {
         app = new Application({
             mode: 'Modules',
             logger: 'none',
-            target: 'ES5',
-            module: 'CommonJS',
+            target: ScriptTarget.ES5,
+            module: ModuleKind.CommonJS,
             experimentalDecorators: true,
             excludeNotExported: true,
-            jsx: 'react',
+            jsx: JsxEmit.React,
             name: 'typedoc',
             ignoreCompilerErrors: true
         });
@@ -182,7 +129,7 @@ describe('Converter with excludeNotExported=true', function() {
         it('converts fixtures', function() {
             resetReflectionID();
             result = app.convert(app.expandInputFiles([exportWithLocalDir]));
-            Assert(result instanceof ProjectReflection, 'No reflection returned');
+            ok(result instanceof ProjectReflection, 'No reflection returned');
         });
 
         it('matches specs', function() {
@@ -190,7 +137,7 @@ describe('Converter with excludeNotExported=true', function() {
             let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
-            compareReflections(JSON.parse(data), specs);
+            equal(JSON.parse(data), specs);
         });
     });
 
@@ -198,7 +145,7 @@ describe('Converter with excludeNotExported=true', function() {
         it('converts fixtures', function() {
             resetReflectionID();
             result = app.convert(app.expandInputFiles([classDir]));
-            Assert(result instanceof ProjectReflection, 'No reflection returned');
+            ok(result instanceof ProjectReflection, 'No reflection returned');
         });
 
         it('matches specs', function() {
@@ -206,7 +153,7 @@ describe('Converter with excludeNotExported=true', function() {
             let data = JSON.stringify(result!.toObject(), null, '  ');
             data = data.split(normalizePath(base)).join('%BASE%');
 
-            compareReflections(JSON.parse(data), specs);
+            equal(JSON.parse(data), specs);
         });
     });
 

@@ -2,7 +2,7 @@ import { convert, DeclarationOption, ParameterType, MapDeclarationOption } from 
 import { deepStrictEqual as equal } from 'assert';
 import { Result } from '../../../lib/utils';
 
-describe('Default convert function', () => {
+describe('Options - Default convert function', () => {
     const optionWithType = (type: ParameterType) => ({
         type,
         defaultValue: null,

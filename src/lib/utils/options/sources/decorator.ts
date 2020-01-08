@@ -1,4 +1,4 @@
-import { DeclarationOption } from '../declaration';
+import { DeclarationOption, TypeDocOptionMap, KeyToDeclaration } from '../declaration';
 import { Options } from '..';
 import { Application } from '../../../application';
 
@@ -12,7 +12,7 @@ export function addDecoratedOptions(options: Options) {
  * Declares the given option and binds it to the decorated property.
  * @param option
  */
-export function Option(option: DeclarationOption) {
+export function Option<K extends keyof TypeDocOptionMap>(option: { name: K } & KeyToDeclaration<K>) {
     declared.push(option);
 
     return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
@@ -22,13 +22,6 @@ export function Option(option: DeclarationOption) {
                     return this.options.getValue(option.name);
                 } else {
                     return this.application.options.getValue(option.name);
-                }
-            },
-            set(this: { application: Application } | { options: Options }, value: unknown) {
-                if ('options' in this) {
-                    this.options.setValue(option.name, value).unwrap();
-                } else {
-                    this.application.options.setValue(option.name, value).unwrap();
                 }
             },
             enumerable: true,

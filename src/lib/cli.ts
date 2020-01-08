@@ -3,6 +3,9 @@ import * as typescript from 'typescript';
 import { Application } from './application';
 import { Option, ParameterHint, ParameterType } from './utils/options';
 import { getOptionsHelp } from './utils/options/help';
+import { ArgumentsReader, TypeDocReader } from './utils/options/readers';
+import { TSConfigReader } from './utils/options/readers/tsconfig';
+import { TypeDocAndTSOptions } from './utils/options/declaration';
 
 export const enum ExitCode {
     OptionError = 1,
@@ -46,7 +49,12 @@ export class CliApplication extends Application {
     /**
      * Run TypeDoc from the command line.
      */
-    protected bootstrap(options?: Object) {
+    protected bootstrap(options?: Partial<TypeDocAndTSOptions>) {
+        this.options.addReader(new ArgumentsReader(0));
+        this.options.addReader(new TypeDocReader());
+        this.options.addReader(new TSConfigReader());
+        this.options.addReader(new ArgumentsReader(300));
+
         const result = super.bootstrap(options);
         if (result.hasErrors) {
             return process.exit(ExitCode.OptionError);
@@ -83,9 +91,5 @@ export class CliApplication extends Application {
         }
 
         return result;
-    }
-
-    get isCLI(): boolean {
-        return true;
     }
 }

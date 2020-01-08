@@ -4,7 +4,7 @@ import { deepStrictEqual as equal } from 'assert';
 import { TypeDocReader } from '../../../../lib/utils/options/readers';
 import { Logger, Options, ConsoleLogger } from '../../../../lib/utils';
 
-describe('TypeDocReader', () => {
+describe('Options - TypeDocReader', () => {
     const options = new Options(new Logger());
     options.addDefaultDeclarations();
     options.addReader(new TypeDocReader());
@@ -26,46 +26,21 @@ describe('TypeDocReader', () => {
         equal(options.getValue('inputFiles'), ['a']);
     });
 
-    it('Errors if the file cannot be found', () => {
-        options.reset();
-        options.setValue('options', join(__dirname, 'data/non-existent-file.json')).unwrap();
-        let errored = false;
-        options.read(new class extends Logger {
-            error(msg: string) {
-                equal(msg.includes('not be found'), true);
-                errored = true;
-            }
+    function testError(name: string, file: string) {
+        it(name, () => {
+            options.reset();
+            options.setValue('options', file).unwrap();
+            const logger = new Logger();
+            options.read(logger);
+            equal(logger.hasErrors(), true, 'No error was logged');
         });
-        equal(errored, true, 'No error was logged');
-    });
+    }
 
-    it('Errors if the data is invalid', () => {
-        options.reset();
-        options.setValue('options', join(__dirname, 'data/invalid.json')).unwrap();
-        let errored = false;
-        options.read(new class extends Logger {
-            error(msg: string) {
-                equal(msg.includes('not an object'), true);
-                errored = true;
-            }
-        });
-        equal(errored, true, 'No error was logged');
-    });
-
-    it('Errors if any set option errors', () => {
-        options.reset();
-        options.setValue('options', join(__dirname, 'data/unknown.json')).unwrap();
-        let errored = false;
-        options.read(new class extends Logger {
-            error(msg: string) {
-                errored = true;
-            }
-        });
-        equal(errored, true, 'No error was logged');
-    });
+    testError('Errors if the file cannot be found', join(__dirname, 'data/non-existent-file.json'));
+    testError('Errors if the data is invalid', join(__dirname, 'data/invalid.json'));
+    testError('Errors if any set option errors', join(__dirname, 'data/unknown.json'));
 
     it('Does not error if the option file cannot be found but was not set.', () => {
-        let errored = false;
         const options = new class LyingOptions extends Options {
             isDefault() {
                 return true;
@@ -74,11 +49,8 @@ describe('TypeDocReader', () => {
 
         options.addDefaultDeclarations();
         options.addReader(new TypeDocReader());
-        options.read(new class extends Logger {
-            error() {
-                errored = true;
-            }
-        });
-        equal(errored, false);
+        const logger = new Logger();
+        options.read(logger);
+        equal(logger.hasErrors(), false);
     });
 });

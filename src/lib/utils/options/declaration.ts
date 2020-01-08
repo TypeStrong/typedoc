@@ -1,20 +1,87 @@
 import * as _ from 'lodash';
+import { CompilerOptions } from 'typescript';
 import { Result } from '../result';
+import { SourceFileMode } from '../../converter/nodes/block';
+import { IgnoredTsOptionKeys } from './sources/typescript';
 
-export interface TypeDocOptions {
+/**
+ * An interface describing all TypeDoc specific options options. Generated from a
+ * map which contains more information about each option for better types when
+ * defining said options.
+ */
+export type TypeDocOptions = {
+    [K in keyof TypeDocOptionMap]: TypeDocOptionMap[K] extends Record<string, infer U>
+        ? Exclude<U, string> | keyof TypeDocOptionMap[K]
+        : TypeDocOptionMap[K];
+};
+
+/**
+ * The CompilerOptions interface includes an index signature to avoid errors when unknown
+ * options are passed. TypeDoc's option parsing is stricter, so we need to remove it.
+ *
+ * @see https://github.com/Microsoft/TypeScript/issues/25987#issuecomment-408339599
+ */
+type KnownKeys<T> = {
+    [K in keyof T]: string extends K ? never : number extends K ? never : K
+} extends {[_ in keyof T]: infer U} ? U : never;
+
+/**
+ * All supported options, includes both TypeDoc and TypeScript options.
+ */
+export type TypeDocAndTSOptions = TypeDocOptions
+    & Pick<CompilerOptions, Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>>;
+
+/**
+ * Describes all TypeDoc options.
+ */
+export interface TypeDocOptionMap {
     help: boolean;
     inputFiles: string[];
     out: string;
     options: string;
+    tsconfig: string;
+    plugin: string[];
+    theme: string;
+    disableOutputCheck: boolean;
+    gaID: string;
+    gaSite: string;
+    hideGenerator: boolean;
+    entryPoint: string;
+    toc: string[];
+    logger: unknown; // string | Function
+    ignoreCompilerErrors: boolean;
+    exclude: string[];
+    includes: string;
+    media: string;
+    listInvalidSymbolLinks: boolean;
+    readme: string;
+    gitRevision: string;
+    defaultCategory: string;
+    categoryOrder: string[];
+    categorizeByGroup: boolean;
+    mode: typeof SourceFileMode;
+    name: string;
+    externalPattern: string[];
+    includeDeclarations: boolean;
+    excludeExternals: boolean;
+    excludeNotExported: boolean;
+    excludePrivate: boolean;
+    excludeProtected: boolean;
+    json: string;
+    version: boolean;
 }
 
-export type KeyToDeclaration<K extends keyof TypeDocOptions> =
-    TypeDocOptions[K] extends boolean ? BooleanDeclarationOption :
-    TypeDocOptions[K] extends string ? StringDeclarationOption :
-    TypeDocOptions[K] extends number ? NumberDeclarationOption :
-    TypeDocOptions[K] extends string[] ? ArrayDeclarationOption :
-    TypeDocOptions[K] extends unknown ? MapDeclarationOption<any> : // @TODO, I think this can be improved.
-    MixedDeclarationOption;
+/**
+ * Converts a given TypeDoc option key to the type of the declaration expected.
+ */
+export type KeyToDeclaration<K extends keyof TypeDocOptionMap> =
+    TypeDocOptionMap[K] extends boolean ? BooleanDeclarationOption :
+    TypeDocOptionMap[K] extends string ? StringDeclarationOption :
+    TypeDocOptionMap[K] extends number ? NumberDeclarationOption :
+    TypeDocOptionMap[K] extends string[] ? ArrayDeclarationOption :
+    unknown extends TypeDocOptionMap[K] ? MixedDeclarationOption :
+    TypeDocOptionMap[K] extends Record<string | number, infer U> ? MapDeclarationOption<U> :
+    never;
 
 export enum ParameterHint {
     File,
