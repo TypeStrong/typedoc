@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/minimatch": "3.0.3",
     "fs-extra": "^8.1.0",
-    "handlebars": "~4.5.3",
+    "handlebars": "^4.7.0",
     "highlight.js": "^9.17.1",
     "lodash": "^4.17.15",
     "marked": "^0.8.0",

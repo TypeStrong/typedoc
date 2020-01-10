@@ -17,9 +17,9 @@ export class Template<T = any> extends Resource {
         return this.template;
     }
 
-    render(context: any, options?: any): string {
+    render(context: any, options?: Handlebars.RuntimeOptions): string {
         const template = this.getTemplate();
-        return template(context, options);
+        return template(context, { ...options, allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
     }
 }
 
