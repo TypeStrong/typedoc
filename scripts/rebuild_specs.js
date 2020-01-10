@@ -17,7 +17,8 @@ const app = new TypeDoc.Application({
         "lib.es2015.iterable.d.ts",
         "lib.es2015.collection.d.ts"
     ],
-    name: 'typedoc'
+    name: 'typedoc',
+    excludeExternals: true
 });
 
 // Note that this uses the test files in dist, not in src, this is important since
@@ -27,6 +28,10 @@ const base = path.join(__dirname, '../dist/test/converter');
 /** @type {[string, () => void, () => void][]} */
 const conversions = [
     ['specs', () => { }, () => { }],
+    ['specs.d',
+        () => app.options.setValue('includeDeclarations', true),
+        () => app.options.setValue('includeDeclarations', false)
+    ],
     ['specs-without-exported',
         () => app.options.setValue('excludeNotExported', true),
         () => app.options.setValue('excludeNotExported', false)
@@ -73,7 +78,9 @@ async function rebuildRendererTest() {
     const out = path.join(__dirname, '../src/test/renderer/specs');
 
     await fs.remove(out)
+    app.options.setValue('excludeExternals', false);
     app.generateDocs(app.expandInputFiles([src]), out)
+    app.options.setValue('excludeExternals', true);
     await fs.remove(path.join(out, 'assets'))
 
     /**

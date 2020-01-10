@@ -138,7 +138,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                     const contents = FS.readFileSync(path, 'utf-8');
                     if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
                         const template = Handlebars.compile(contents);
-                        return template(context);
+                        return template(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
                     } else {
                         return contents;
                     }

@@ -1,0 +1,182 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"declaration.d\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/declaration/declaration.d.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "Decl",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "prop",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "declaration.d.ts",
+                  "line": 2,
+                  "character": 8
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                3
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 1,
+              "character": 18
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "declaration.d.ts",
+              "line": 5,
+              "character": 15
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "number"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            2
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            4
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "declaration.d.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "\"export-declaration.d\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/declaration/export-declaration.d.ts",
+      "children": [
+        {
+          "id": 6,
+          "name": "Exported",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 1,
+              "character": 29
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "NotExported",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "sources": [
+            {
+              "fileName": "export-declaration.d.ts",
+              "line": 3,
+              "character": 25
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Classes",
+          "kind": 128,
+          "children": [
+            6,
+            7
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-declaration.d.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1,
+        5
+      ]
+    }
+  ]
+}

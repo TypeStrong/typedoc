@@ -163,7 +163,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
 
         // Theme must be set as this is only called in render, and render ensures theme is set.
         page.template = page.template || this.theme!.resources.templates.getResource(page.templateName)!.getTemplate();
-        page.contents = page.template(page);
+        page.contents = page.template(page, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {

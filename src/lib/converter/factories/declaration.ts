@@ -73,6 +73,9 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     let isExported: boolean;
     if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
         isExported = true;
+    } else if (container.kind === ReflectionKind.Global) {
+        // In file mode, everything is exported.
+        isExported = true;
     } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         const symbol = context.getSymbolAtLocation(node);
         if (!symbol) {
@@ -82,7 +85,14 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
             while (![ts.SyntaxKind.SourceFile, ts.SyntaxKind.ModuleDeclaration].includes(parentNode.kind)) {
                 parentNode = parentNode.parent;
             }
-            isExported = !!context.getSymbolAtLocation(parentNode)?.exports?.get(symbol.escapedName);
+            const parentSymbol = context.getSymbolAtLocation(parentNode);
+            if (!parentSymbol) {
+                // This is a file with no imports/exports, so everything is
+                // global and therefore exported.
+                isExported = true;
+            } else {
+                isExported = !!parentSymbol.exports?.get(symbol.escapedName);
+            }
         }
     } else {
         isExported = container.flags.isExported;
