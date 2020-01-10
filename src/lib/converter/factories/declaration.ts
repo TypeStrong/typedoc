@@ -73,6 +73,9 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     let isExported: boolean;
     if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
         isExported = true;
+    } else if (container.kind === ReflectionKind.Global) {
+        // In file mode, everything is exported.
+        isExported = true;
     } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
         const symbol = context.getSymbolAtLocation(node);
         if (!symbol) {
