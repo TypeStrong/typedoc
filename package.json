@@ -48,9 +48,9 @@
     "@types/marked": "^0.7.2",
     "@types/mocha": "^5.2.7",
     "@types/mockery": "^1.4.29",
-    "@types/node": "^13.1.1",
+    "@types/node": "^13.1.6",
     "@types/shelljs": "^0.8.6",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.0",
     "mockery": "^2.1.0",
     "nyc": "15.0.0",
     "tslint": "^5.20.1"
