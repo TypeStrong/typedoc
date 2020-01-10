@@ -35,40 +35,44 @@ export type TypeDocAndTSOptions = TypeDocOptions
  * Describes all TypeDoc options.
  */
 export interface TypeDocOptionMap {
-    help: boolean;
-    inputFiles: string[];
-    out: string;
     options: string;
     tsconfig: string;
-    plugin: string[];
-    theme: string;
-    disableOutputCheck: boolean;
-    gaID: string;
-    gaSite: string;
-    hideGenerator: boolean;
-    entryPoint: string;
-    toc: string[];
-    logger: unknown; // string | Function
-    ignoreCompilerErrors: boolean;
-    exclude: string[];
-    includes: string;
-    media: string;
-    listInvalidSymbolLinks: boolean;
-    readme: string;
-    gitRevision: string;
-    defaultCategory: string;
-    categoryOrder: string[];
-    categorizeByGroup: boolean;
+
+    inputFiles: string[];
     mode: typeof SourceFileMode;
-    name: string;
-    externalPattern: string[];
     includeDeclarations: boolean;
+    entryPoint: string;
+    exclude: string[];
+    externalPattern: string[];
     excludeExternals: boolean;
     excludeNotExported: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
+    ignoreCompilerErrors: boolean;
+    includes: string;
+    media: string;
+
+    out: string;
     json: string;
+
+    theme: string;
+    name: string;
+    readme: string;
+    defaultCategory: string;
+    categoryOrder: string[];
+    categorizeByGroup: boolean;
+    gitRevision: string;
+    gaID: string;
+    gaSite: string;
+    hideGenerator: boolean;
+    toc: string[];
+    disableOutputCheck: boolean;
+
+    help: boolean;
     version: boolean;
+    plugin: string[];
+    logger: unknown; // string | Function
+    listInvalidSymbolLinks: boolean;
 }
 
 /**
