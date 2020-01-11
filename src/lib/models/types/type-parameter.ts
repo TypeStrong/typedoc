@@ -57,21 +57,6 @@ export class TypeParameterType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-
-        if (this.constraint) {
-            result.constraint = this.constraint.toObject();
-        }
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

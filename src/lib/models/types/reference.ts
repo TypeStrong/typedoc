@@ -12,7 +12,7 @@ export class ReferenceType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'reference';
+    readonly type = 'reference';
 
     /**
      * The name of the referenced type.
@@ -86,25 +86,6 @@ export class ReferenceType extends Type {
     equals(type: ReferenceType): boolean {
         return type instanceof ReferenceType &&
             (type.symbolID === this.symbolID || type.reflection === this.reflection);
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-
-        if (this.reflection) {
-            result.id = this.reflection.id;
-        }
-
-        if (this.typeArguments && this.typeArguments.length) {
-            result.typeArguments = this.typeArguments.map((t) => t.toObject());
-        }
-
-        return result;
     }
 
     /**

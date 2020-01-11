@@ -17,7 +17,7 @@ export class ArrayType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'array';
+    readonly type = 'array';
 
     /**
      * Create a new TupleType instance.
@@ -49,17 +49,6 @@ export class ArrayType extends Type {
             return false;
         }
         return type.elementType.equals(this.elementType);
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.elementType = this.elementType.toObject();
-
-        return result;
     }
 
     /**

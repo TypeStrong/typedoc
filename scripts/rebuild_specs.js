@@ -4,13 +4,14 @@ const assert = require('assert');
 const fs = require('fs-extra');
 const path = require('path');
 const TypeDoc = require('..');
+const ts = require('typescript');
 
 const app = new TypeDoc.Application({
     mode: 'Modules',
-    target: 'ES5',
-    module: 'CommonJS',
+    target: ts.ScriptTarget.ES5,
+    module: ts.ModuleKind.CommonJS,
     experimentalDecorators: true,
-    jsx: 'react',
+    jsx: ts.JsxEmit.React,
     lib: [
         "lib.dom.d.ts",
         "lib.es5.d.ts",
@@ -56,11 +57,7 @@ function rebuildConverterTests(dirs) {
                 TypeDoc.resetReflectionID();
                 before();
                 const result = app.convert(src);
-                // Until GH#936 lands, removing toObject, ensure toObject remains consistent
-                // with the serializers.
-                const serialized = result.toObject();
-                const serialized2 = app.serializer.toObject(result);
-                assert.deepStrictEqual(serialized, serialized2);
+                const serialized = app.serializer.toObject(result);
 
                 const data = JSON.stringify(serialized, null, '  ')
                     .split(TypeDoc.normalizePath(base))

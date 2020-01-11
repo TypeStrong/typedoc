@@ -92,35 +92,4 @@ export class ReflectionGroup {
 
         return onlyOwnDocuments;
     }
-
-    /**
-     * Return a raw object representation of this reflection group.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = {
-            title: this.title,
-            kind:  this.kind
-        };
-
-        if (this.children) {
-            const children: any[] = [];
-            this.children.forEach((child) => {
-                children.push(child.id);
-            });
-
-            result['children'] = children;
-        }
-
-        if (this.categories) {
-            const categories: any[] = [];
-            this.categories.forEach((category) => {
-                categories.push(category.toObject());
-            });
-
-            result['categories'] = categories;
-        }
-
-        return result;
-    }
 }

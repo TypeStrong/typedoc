@@ -48,25 +48,4 @@ export class ReflectionCategory {
 
         return onlyOwnDocuments;
     }
-
-    /**
-     * Return a raw object representation of this reflection category.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = {
-            title: this.title
-        };
-
-        if (this.children) {
-            const children: any[] = [];
-            this.children.forEach((child) => {
-                children.push(child.id);
-            });
-
-            result['children'] = children;
-        }
-
-        return result;
-    }
 }

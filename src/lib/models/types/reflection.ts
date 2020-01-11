@@ -17,7 +17,7 @@ export class ReflectionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'reflection';
+    readonly type = 'reflection';
 
     /**
      * Create a new instance of ReflectionType.
@@ -46,20 +46,6 @@ export class ReflectionType extends Type {
      */
     equals(type: ReflectionType): boolean {
         return type === this;
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-
-        if (this.declaration) {
-            result.declaration = this.declaration.toObject();
-        }
-
-        return result;
     }
 
     /**

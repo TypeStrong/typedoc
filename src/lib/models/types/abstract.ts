@@ -28,17 +28,6 @@ export abstract class Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = {};
-        result.type = this.type;
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString(): string {

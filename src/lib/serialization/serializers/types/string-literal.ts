@@ -1,21 +1,17 @@
-import { Component } from '../../../utils/component';
 import { StringLiteralType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { StringLiteralType as JSONStringLiteralType } from '../../schema';
 
-@Component({name: 'serializer:string-literal-type'})
 export class StringLiteralTypeSerializer extends TypeSerializerComponent<StringLiteralType> {
+    supports(t: unknown) {
+        return t instanceof StringLiteralType;
+    }
 
-  supports(t: unknown) {
-    return t instanceof StringLiteralType;
-  }
-
-  toObject(stringLiteral: StringLiteralType, obj?: any): any {
-    obj = obj || {};
-
-    obj.value = stringLiteral.value;
-
-    return obj;
-  }
-
+    toObject(type: StringLiteralType, obj: Pick<JSONStringLiteralType, 'type'>): JSONStringLiteralType {
+        return {
+            ...obj,
+            value: type.value
+        };
+    }
 }

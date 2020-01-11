@@ -133,10 +133,10 @@ export class Application extends ChildableComponent<
         this.logger = new ConsoleLogger();
         this.options = new Options(this.logger);
         this.options.addDefaultDeclarations();
+        this.serializer = new Serializer();
         this.converter = this.addComponent<Converter>('converter', Converter);
-        this.serializer = this.addComponent<Serializer>('serializer', Serializer);
-        this.renderer = this.addComponent<Renderer>('renderer', Renderer);
-        this.plugins = this.addComponent('plugins', PluginHost);
+        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
+        this.plugins   = this.addComponent('plugins', PluginHost);
 
         this.bootstrap(options);
     }

@@ -40,17 +40,6 @@ export class InferredType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        return {
-            ...super.toObject(),
-            name: this.name
-        };
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

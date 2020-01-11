@@ -20,3 +20,5 @@ export {
     ParameterType,
     TypeDocOptions
 } from './lib/utils/options';
+
+export { JSONOutput } from './lib/serialization';

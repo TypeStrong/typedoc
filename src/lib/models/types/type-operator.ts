@@ -12,7 +12,7 @@ export class TypeOperatorType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'typeOperator';
+    readonly type = 'typeOperator';
 
     target: Type;
 
@@ -46,16 +46,6 @@ export class TypeOperatorType extends Type {
         }
 
         return type.target.equals(this.target);
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.operator = this.operator;
-        result.target = this.target.toObject();
-        return result;
     }
 
     /**

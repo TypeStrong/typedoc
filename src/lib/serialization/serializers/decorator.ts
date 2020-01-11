@@ -1,45 +1,35 @@
-import { Component } from '../../utils/component';
-
 import { SerializerComponent } from '../components';
 import { DecoratorWrapper } from './models/decorator-wrapper';
+import { Decorator } from '../schema';
 
-@Component({name: 'serializer:decorator-container'})
 export class DecoratorContainerSerializer extends SerializerComponent<DecoratorWrapper> {
+    static PRIORITY = 1000;
 
-  static PRIORITY = 1000;
+    /**
+     * Filter for instances of [[DecoratorWrapper]]
+     */
+    serializeGroup(instance: unknown): boolean {
+        return instance instanceof DecoratorWrapper;
+    }
 
-  /**
-   * Filter for instances of [[DecoratorWrapper]]
-   */
-  serializeGroup(instance: any): boolean {
-    return instance instanceof DecoratorWrapper;
-  }
+    supports(_: unknown) {
+        return true;
+    }
 
-  serializeGroupSymbol = DecoratorWrapper;
+    toObject({ decorator }: DecoratorWrapper, obj?: Partial<Decorator>): Decorator {
+        const result: Decorator = {
+            ...obj,
+            name: decorator.name
+        };
 
-  initialize(): void {
-      super.initialize();
-  }
+        if (decorator.type) {
+            result.type = this.owner.toObject(decorator.type);
+        }
 
-  supports(s: unknown) {
-    return s instanceof DecoratorWrapper;
-  }
+        if (decorator.arguments) {
+            result.arguments = decorator.arguments;
+        }
 
-  toObject(decoratorWrapper: DecoratorWrapper, obj?: any): any {
-      obj = obj || {};
-
-      const decorator = decoratorWrapper.decorator;
-      obj.name = decorator.name;
-
-      if (decorator.type) {
-        obj.type = this.owner.toObject(decorator.type);
-      }
-
-      if (decorator.arguments) {
-        obj.arguments = decorator.arguments;
-      }
-
-      return obj;
-  }
-
+        return result;
+    }
 }

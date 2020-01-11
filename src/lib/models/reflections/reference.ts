@@ -91,17 +91,6 @@ export class ReferenceReflection extends DeclarationReflection {
         return result;
     }
 
-    /**
-     * Get a raw object representation of this reflection.
-     * @deprecated use serializers instead.
-     */
-    toObject() {
-        return {
-            ...super.toObject(),
-            target: this.tryGetTargetReflection()?.id ?? -1
-        };
-    }
-
     private _ensureResolved(throwIfFail: boolean) {
         if (this._state[0] === ReferenceState.Unresolved) {
             const target = this._project!.symbolMapping[this._state[1]];

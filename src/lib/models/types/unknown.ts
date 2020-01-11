@@ -12,7 +12,7 @@ export class UnknownType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'unknown';
+    readonly type = 'unknown';
 
     /**
      * Create a new instance of UnknownType.
@@ -42,16 +42,6 @@ export class UnknownType extends Type {
     equals(type: UnknownType): boolean {
         return type instanceof UnknownType &&
             type.name === this.name;
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-        return result;
     }
 
     /**

@@ -1,29 +1,28 @@
-import { Component } from '../../../utils/component';
 import { ReferenceType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { ReferenceType as JSONReferenceType } from '../../schema';
 
-@Component({name: 'serializer:reference-type'})
 export class ReferenceTypeSerializer extends TypeSerializerComponent<ReferenceType> {
-
-  supports(t: unknown) {
-    return t instanceof ReferenceType;
-  }
-
-  toObject(reference: ReferenceType, obj?: any): any {
-    obj = obj || {};
-
-    obj.name = reference.name;
-
-    if (reference.reflection) {
-      obj.id = reference.reflection.id;
+    supports(t: unknown) {
+        return t instanceof ReferenceType;
     }
 
-    if (reference.typeArguments && reference.typeArguments.length > 0) {
-      obj.typeArguments = reference.typeArguments.map( t => this.owner.toObject(t) );
+    toObject(
+        type: ReferenceType,
+        obj: Pick<JSONReferenceType, 'type'> & Partial<JSONReferenceType>
+    ): JSONReferenceType {
+        if (type.reflection) {
+            obj.id = type.reflection.id;
+        }
+
+        if (type.typeArguments && type.typeArguments.length > 0) {
+            obj.typeArguments = type.typeArguments.map(t => this.owner.toObject(t));
+        }
+
+        return {
+            ...obj,
+            name: type.name
+        };
     }
-
-    return obj;
-  }
-
 }

@@ -1,7 +1,7 @@
 import { Reflection, Type } from '../models';
-import { AbstractComponent } from '../utils';
 
 import { Serializer } from './serializer';
+import { ModelToObject } from './schema';
 
 /**
  * Represents Serializer plugin component.
@@ -9,87 +9,76 @@ import { Serializer } from './serializer';
  * Like [[Converter]] plugins each [[Serializer]] plugin defines a predicate that instructs if an
  * object can be serialized by it, this is done dynamically at runtime via a `supports` method.
  *
- * Additionally, each [[Serializer]] plugin must defines a predicate that instructs the group
+ * Additionally, each [[Serializer]] plugin must define a predicate that instructs the group
  * it belongs to.
  *
- * Grouping serializers is required due to performance, we don't need to check all the reflection
- * serializers when we are looking for type (or any other) serializers.
+ * Serializers are grouped to improve performance when finding serializers that apply to a node,
+ * this makes it possible to skip the `supports` calls for `Type`s when searching for a
+ * `Reflection` and vise versa.
  */
-export abstract class SerializerComponent<T> extends AbstractComponent<Serializer> {
+export abstract class SerializerComponent<T> {
+    /**
+     * The priority this serializer should be executed with.
+     * A higher priority means the [[Serializer]] will be applied earlier.
+     */
+    static PRIORITY = 0;
 
-  /**
-   * The priority this serializer should be executed with.
-   * A higher priority means the [[Serializer]] will be applied earlier.
-   */
-  static PRIORITY = 0;
+    constructor(owner: Serializer) {
+        this.owner = owner;
+    }
 
-  /**
-   * A high-level predicate filtering which group this serializer belongs to.
-   * This is a high-level filter before the [[SerializerComponent.supports]] predicate filter.
-   *
-   * When the filter returns true the group identifier is taken from
-   * [[SerializerComponentType.serializeGroupSymbol]].
-   *
-   * For example, use the [[Reflection]] class class to group all reflection based serializers:
-   * ```typescript
-   * class ReflectionSerializer {
-   *  serializeGroup(instance) { return instance instanceof Reflection }
-   *  serializeGroupSymbol = Reflection;
-   * }
-   * ```
-   *
-   * Use the [[Type]] class to group all type based serializers:
-   * ```typescript
-   * class TypeSerializer {
-   *  serializeGroup(instance) { return instance instanceof Type }
-   *  serializeGroupSymbol = Type;
-   * }
-   * ```
-   *
-   * > When a serializer component extends a parent serializer component the SERIALIZE_GROUP
-   * and SERIALIZE_GROUP_SYMBOL are also inherited so child serializers of the same group do not
-   * need to declare a predicate nor a group.
-   */
-  abstract serializeGroup(instance: unknown): boolean;
-  /**
-   * The symbol representing the group this serializer belongs to.
-   */
-  abstract serializeGroupSymbol: any;
+    /**
+     * Set when the SerializerComponent is added to the serializer.
+     */
+    protected owner: Serializer;
 
-  /**
-   * The priority this serializer should be executed with.
-   * A higher priority means the [[Serializer]] will be applied earlier.
-   */
-  get priority(): number {
-    return this.constructor['PRIORITY'];
-  }
+    /**
+     * A high-level predicate filtering which group this serializer belongs to.
+     * This is a high-level filter before the [[SerializerComponent.supports]] predicate filter.
+     *
+     * For example, use the [[Reflection]] class class to group all reflection based serializers:
+     * ```typescript
+     * class ReflectionSerializer {
+     *  serializeGroup(instance) { return instance instanceof Reflection }
+     * }
+     * ```
+     *
+     * Use the [[Type]] class to group all type based serializers:
+     * ```typescript
+     * class TypeSerializer {
+     *  serializeGroup(instance) { return instance instanceof Type }
+     * }
+     * ```
+     */
+    abstract serializeGroup(instance: unknown): boolean;
 
-  abstract supports(item: unknown): boolean;
+    /**
+     * The priority this serializer should be executed with.
+     * A higher priority means the [[Serializer]] will be applied earlier.
+     */
+    get priority(): number {
+        return this.constructor['PRIORITY'] || SerializerComponent.PRIORITY;
+    }
 
-  abstract toObject(item: T, obj?: any): any;
+    abstract supports(item: unknown): boolean;
 
+    abstract toObject(item: T, obj?: object): Partial<ModelToObject<T>>;
 }
 
 export abstract class ReflectionSerializerComponent<T extends Reflection> extends SerializerComponent<T> {
-
-  /**
-   * Filter for instances of [[Reflection]]
-   */
-  serializeGroup(instance: unknown): boolean {
-    return instance instanceof Reflection;
-  }
-
-  serializeGroupSymbol = Reflection;
+    /**
+     * Filter for instances of [[Reflection]]
+     */
+    serializeGroup(instance: unknown): boolean {
+        return instance instanceof Reflection;
+    }
 }
 
 export abstract class TypeSerializerComponent<T extends Type> extends SerializerComponent<T> {
-
-  /**
-   * Filter for instances of [[Type]]
-   */
-  serializeGroup(instance: unknown): boolean {
-    return instance instanceof Type;
-  }
-
-  serializeGroupSymbol = Type;
+    /**
+     * Filter for instances of [[Type]]
+     */
+    serializeGroup(instance: unknown): boolean {
+        return instance instanceof Type;
+    }
 }

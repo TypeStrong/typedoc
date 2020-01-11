@@ -1,47 +1,37 @@
-import { Component } from '../../utils/component';
 import { ReflectionGroup } from '../../models/ReflectionGroup';
 
 import { SerializerComponent } from '../components';
+import { ReflectionGroup as JSONReflectionGroup } from '../schema';
 
-@Component({name: 'serializer:reflection-group'})
 export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
+    static PRIORITY = 1000;
 
-  static PRIORITY = 1000;
-
-  /**
-   * Filter for instances of [[ReflectionGroup]]
-   */
-  serializeGroup(instance: any): boolean {
-    return instance instanceof ReflectionGroup;
-  }
-
-  serializeGroupSymbol = ReflectionGroup;
-
-  initialize(): void {
-    super.initialize();
-  }
-
-  supports(r: unknown) {
-    return r instanceof ReflectionGroup;
-  }
-
-  toObject(group: ReflectionGroup, obj?: any): any {
-    obj = obj || {};
-
-    Object.assign(obj, {
-      title: group.title,
-      kind:  group.kind
-    });
-
-    if (group.children && group.children.length > 0) {
-      obj.children = group.children.map( child => child.id );
+    /**
+     * Filter for instances of [[ReflectionGroup]]
+     */
+    serializeGroup(instance: unknown): boolean {
+        return instance instanceof ReflectionGroup;
     }
 
-    if (group.categories && group.categories.length > 0) {
-      obj.categories = group.categories.map( category => this.owner.toObject(category) );
+    supports(r: unknown) {
+        return true;
     }
 
-    return obj;
-  }
+    toObject(group: ReflectionGroup, obj?: Partial<JSONReflectionGroup>): JSONReflectionGroup {
+        const result: JSONReflectionGroup = {
+            ...obj,
+            title: group.title,
+            kind: group.kind
+        };
 
+        if (group.children && group.children.length > 0) {
+            result.children = group.children.map(child => child.id);
+        }
+
+        if (group.categories && group.categories.length > 0) {
+            result.categories = group.categories.map(category => this.owner.toObject(category));
+        }
+
+        return result;
+    }
 }

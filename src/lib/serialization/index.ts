@@ -1,8 +1,4 @@
-export {
-  ReflectionSerializerComponent,
-  SerializerComponent,
-  TypeSerializerComponent
-} from './components';
+export { ReflectionSerializerComponent, SerializerComponent, TypeSerializerComponent } from './components';
 
 export { Serializer } from './serializer';
 
@@ -17,7 +13,6 @@ export {
   ArrayTypeSerializer,
   DeclarationReflectionSerializer,
   IntersectionTypeSerializer,
-  IntersectionUnion,
   IntrinsicTypeSerializer,
   ParameterReflectionSerializer,
   ProjectReflectionSerializer,
@@ -38,4 +33,5 @@ export {
 
 export { SerializeEvent } from './events';
 
-export * from './browser';
+import * as JSONOutput from './schema';
+export { JSONOutput };

@@ -1,8 +1,6 @@
-import { Component } from '../../../utils/component';
 import { IndexedAccessType } from '../../../models';
 import { TypeSerializerComponent } from '../../components';
 
-@Component({ name: 'serializer:indexed-access-type' })
 export class IndexedAccessTypeSerializer extends TypeSerializerComponent<IndexedAccessType> {
     supports(item: unknown): boolean {
         return item instanceof IndexedAccessType;

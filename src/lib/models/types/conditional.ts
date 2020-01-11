@@ -49,21 +49,6 @@ export class ConditionalType extends Type {
     }
 
     /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-
-        result.checkType = this.checkType.toObject();
-        result.extendsType = this.extendsType.toObject();
-        result.trueType = this.trueType.toObject();
-        result.falseType = this.falseType.toObject();
-
-        return result;
-    }
-
-    /**
      * Return a string representation of this type.
      */
     toString() {

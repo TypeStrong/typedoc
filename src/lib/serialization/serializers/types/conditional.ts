@@ -1,8 +1,6 @@
-import { Component } from '../../../utils/component';
 import { ConditionalType } from '../../../models';
 import { TypeSerializerComponent } from '../../components';
 
-@Component({ name: 'serializer:conditional-type' })
 export class ConditionalTypeSerializer extends TypeSerializerComponent<ConditionalType> {
     supports(item: unknown): boolean {
         return item instanceof ConditionalType;

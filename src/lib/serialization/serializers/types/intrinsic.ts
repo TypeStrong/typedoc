@@ -1,21 +1,22 @@
-import { Component } from '../../../utils/component';
 import { IntrinsicType } from '../../../models';
 
 import { TypeSerializerComponent } from '../../components';
+import { IntrinsicType as JSONIntrinsicType } from '../../schema';
 
-@Component({name: 'serializer:intrinsic-type'})
 export class IntrinsicTypeSerializer extends TypeSerializerComponent<IntrinsicType> {
+    supports(t: unknown) {
+        return t instanceof IntrinsicType;
+    }
 
-  supports(t: unknown) {
-    return t instanceof IntrinsicType;
-  }
-
-  toObject(intrinsic: IntrinsicType, obj?: any): any {
-    obj = obj || {};
-
-    obj.name = intrinsic.name;
-
-    return obj;
-  }
-
+    /**
+     * Will be run after [[TypeSerializer]] so `type` will already be set.
+     * @param type
+     * @param obj
+     */
+    toObject(type: IntrinsicType, obj: Pick<JSONIntrinsicType, 'type'>): JSONIntrinsicType {
+        return {
+            ...obj,
+            name: type.name
+        };
+    }
 }
