@@ -17,7 +17,10 @@ const IGNORED_OPTIONS = [
     'inlineSources',
     'removeComments',
     'incremental',
-    'tsBuildInfoFile'
+    'tsBuildInfoFile',
+    // This is not a TS option, but TypeScript will add it to the compiler options
+    // so we need to remove it or TypeDoc will error since it isn't declared.
+    'configFilePath'
 ] as const;
 
 /**
