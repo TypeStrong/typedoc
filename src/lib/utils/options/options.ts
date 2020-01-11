@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as Util from 'util';
 import * as ts from 'typescript';
+import * as fs from 'fs-extra';
 
 import { Event } from '../events';
 import { Component, AbstractComponent, ChildableComponent } from '../component';
@@ -81,19 +82,20 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     }
 
     read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): OptionsReadResult {
-        if (typeof data.extends === 'string') {
-            const tryLoad = (name: string) => {
-                try {
-                    data = {
-                        ...data,
-                        ...require(name)
-                    };
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            };
-            if (data.extends.startsWith('@') && !data.extends.split('/')[1]) { tryLoad(`${data.extends}/typedoc-config`); } else { tryLoad(`typedoc-config-${data.extends}`) || tryLoad(data.extends); }
+        function loadData(filename: string): void {
+            let res = fs.readJSONSync(filename);
+            if (_.isString(res.extends)) {
+                res = _.merge(res, loadData(res.extends));
+            } else if (_.isArray(res.extends)) {
+                res.extends.map((val: string) => res = _.merge(res, loadData(val)));
+            }
+            return _.merge(data, res);
+        }
+
+        if (_.isString(data.extends)) {
+            data = loadData(data.extends);
+        } else if (_.isArray(data.extends)) {
+            data.extends.map((val: string) => { data = loadData(val); });
         }
 
         const event = new DiscoverEvent(DiscoverEvent.DISCOVER, mode);
