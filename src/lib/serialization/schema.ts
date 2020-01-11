@@ -47,11 +47,16 @@ type _ModelToObject<T> =
     T extends M.TypeParameterReflection ? TypeParameterReflection :
     T extends M.ProjectReflection ? ProjectReflection :
     T extends M.ContainerReflection ? ContainerReflection :
+    T extends M.ReferenceReflection ? ReferenceReflection :
     T extends M.Reflection ? Reflection :
     // Types
     T extends M.ArrayType ? ArrayType :
+    T extends M.ConditionalType ? ConditionalType :
+    T extends M.IndexedAccessType ? IndexedAccessType :
+    T extends M.InferredType ? InferredType :
     T extends M.IntersectionType ? IntersectionType :
     T extends M.IntrinsicType ? IntrinsicType :
+    T extends M.PredicateType ? PredicateType :
     T extends M.ReferenceType ? ReferenceType :
     T extends M.ReflectionType ? ReflectionType :
     T extends M.StringLiteralType ? StringLiteralType :
@@ -79,12 +84,20 @@ type S<T, K extends keyof T> = {
 
 // Reflections
 
-export interface ReflectionGroup extends S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
+export interface ReflectionGroup extends Reflection, S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
     children?: M.ReflectionGroup['children'][number]['id'][];
 }
 
-export interface ReflectionCategory extends S<M.ReflectionCategory, 'title'> {
+export interface ReflectionCategory extends Reflection, S<M.ReflectionCategory, 'title'> {
     children?: M.ReflectionCategory['children'][number]['id'][];
+}
+
+export interface ReferenceReflection extends DeclarationReflection, S<M.ReferenceReflection, never> {
+    /**
+     * -1 if the reference refers to a symbol that does not exist in the documentation.
+     * Otherwise, the reflection ID.
+     */
+    target: number;
 }
 
 export interface SignatureReflection extends Reflection, S<M.SignatureReflection,
@@ -142,9 +155,12 @@ export interface Reflection extends S<M.Reflection,
 
 export type SomeType =
     | ArrayType
+    | ConditionalType
+    | IndexedAccessType
+    | InferredType
     | IntersectionType
-    | UnionType
     | IntrinsicType
+    | PredicateType
     | ReferenceType
     | ReflectionType
     | StringLiteralType
@@ -157,13 +173,24 @@ export type SomeType =
 export interface ArrayType extends Type, S<M.ArrayType, 'type' | 'elementType'> {
 }
 
+export interface ConditionalType extends Type, S<M.ConditionalType,
+    'type' | 'checkType' | 'extendsType' | 'trueType' | 'falseType'> {
+
+}
+
+export interface IndexedAccessType extends Type, S<M.IndexedAccessType, 'type' | 'indexType' | 'objectType'> {
+}
+
+export interface InferredType extends Type, S<M.InferredType, 'type' | 'name'> {
+}
+
 export interface IntersectionType extends Type, S<M.IntersectionType, 'type' | 'types'> {
 }
 
-export interface UnionType extends Type, S<M.UnionType, 'type' | 'types'> {
+export interface IntrinsicType extends Type, S<M.IntrinsicType, 'type' | 'name'> {
 }
 
-export interface IntrinsicType extends Type, S<M.IntrinsicType, 'type' | 'name'> {
+export interface PredicateType extends Type, S<M.PredicateType, 'type' | 'name' | 'asserts' | 'targetType'> {
 }
 
 export interface ReferenceType extends Type, S<M.ReferenceType, 'type' | 'name' | 'typeArguments'> {
@@ -185,6 +212,9 @@ export interface TypeOperatorType extends Type, S<M.TypeOperatorType, 'type' | '
 }
 
 export interface TypeParameterType extends Type, S<M.TypeParameterType, 'type' | 'name' | 'constraint'> {
+}
+
+export interface UnionType extends Type, S<M.UnionType, 'type' | 'types'> {
 }
 
 export interface UnknownType extends Type, S<M.UnknownType, 'type' | 'name'> {

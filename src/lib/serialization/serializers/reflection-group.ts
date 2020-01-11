@@ -1,7 +1,10 @@
 import { ReflectionGroup } from '../../models/ReflectionGroup';
 
 import { SerializerComponent } from '../components';
-import { ReflectionGroup as JSONReflectionGroup } from '../schema';
+import {
+    Reflection as JSONReflection,
+    ReflectionGroup as JSONReflectionGroup
+} from '../schema';
 
 export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
     static PRIORITY = 1000;
@@ -17,7 +20,7 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
         return true;
     }
 
-    toObject(group: ReflectionGroup, obj?: Partial<JSONReflectionGroup>): JSONReflectionGroup {
+    toObject(group: ReflectionGroup, obj: JSONReflection): JSONReflectionGroup {
         const result: JSONReflectionGroup = {
             ...obj,
             title: group.title,
