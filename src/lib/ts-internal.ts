@@ -6,8 +6,6 @@ const tsany = ts as any;
  */
 declare module 'typescript' {
   interface Symbol {
-    // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L2658
-    id?: number;
     // https://github.com/Microsoft/TypeScript/blob/v2.1.4/src/compiler/types.ts#L2660
     parent?: ts.Symbol;
   }

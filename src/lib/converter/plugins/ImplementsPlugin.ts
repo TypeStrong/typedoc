@@ -58,7 +58,7 @@ export class ImplementsPlugin extends ConverterComponent {
             }
 
             const interfaceMemberName = interfaceReflection.name + '.' + interfaceMember.name;
-            classMember.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceMember);
+            classMember.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_FQN_RESOLVED, interfaceMember);
             this.copyComment(classMember, interfaceMember);
 
             if (interfaceMember.kindOf(ReflectionKind.FunctionOrMethod) && interfaceMember.signatures && classMember.signatures) {
@@ -66,7 +66,7 @@ export class ImplementsPlugin extends ConverterComponent {
                     const interfaceParameters = interfaceSignature.getParameterTypes();
                     (classMember!.signatures || []).forEach((classSignature: SignatureReflection) => {
                         if (Type.isTypeListEqual(interfaceParameters, classSignature.getParameterTypes())) {
-                            classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_ID_RESOLVED, interfaceSignature);
+                            classSignature.implementationOf = new ReferenceType(interfaceMemberName, ReferenceType.SYMBOL_FQN_RESOLVED, interfaceSignature);
                             this.copyComment(classSignature, interfaceSignature);
                         }
                     });

@@ -50,6 +50,6 @@ describe('Options', () => {
     });
 
     it('Supports getting by scope', () => {
-        equal(options.getDeclarationsByScope(ParameterScope.TypeDoc).length !== 0, true)
-    })
+        equal(options.getDeclarationsByScope(ParameterScope.TypeDoc).length !== 0, true);
+    });
 });

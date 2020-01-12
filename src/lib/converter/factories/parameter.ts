@@ -24,7 +24,7 @@ export function createParameter(context: Context, node: ts.ParameterDeclaration)
 
     const parameter = new ParameterReflection(node.symbol.name, ReflectionKind.Parameter, signature);
     parameter.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
-    context.registerReflection(parameter, node);
+    context.registerReflection(parameter);
     context.withScope(parameter, () => {
         if (ts.isArrayBindingPattern(node.name) || ts.isObjectBindingPattern(node.name)) {
             parameter.type = context.converter.convertType(context, node.name);

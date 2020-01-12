@@ -1,6 +1,9 @@
-import { deepStrictEqual as equal } from 'assert';
-import { insertPrioritySorted } from '../../lib/utils';
-import { binaryFindPartition } from '../../lib/utils/array';
+import { deepStrictEqual as equal, doesNotThrow } from 'assert';
+import {
+    binaryFindPartition,
+    insertPrioritySorted,
+    removeIfPresent
+} from '../../lib/utils/array';
 
 describe('Array utils', () => {
     describe('insertPrioritySorted', () => {
@@ -58,6 +61,24 @@ describe('Array utils', () => {
                 .fill(1, index);
 
             equal(binaryFindPartition(arr, v => v === 1), index);
+        });
+    });
+
+    describe('removeIfPresent', () => {
+        it('Supports a missing array', () => {
+            doesNotThrow(() => removeIfPresent(undefined, true));
+        });
+
+        it('Does not remove items if the item is not in the array', () => {
+            const arr = [1, 2, 3];
+            removeIfPresent(arr, 4);
+            equal(arr, [1, 2, 3]);
+        });
+
+        it('Removes a single item if it is present in the array', () => {
+            const arr = [1, 2, 1];
+            removeIfPresent(arr, 1);
+            equal(arr, [2, 1]);
         });
     });
 });

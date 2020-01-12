@@ -46,6 +46,11 @@ export class TestClass {
      * staticMethod short text.
      */
     static staticMethod() {}
+
+    /**
+     * arrow method
+     */
+    arrowMethod = () => {};
 }
 
 export class TestSubClass extends TestClass {

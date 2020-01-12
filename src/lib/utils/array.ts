@@ -35,3 +35,19 @@ export function binaryFindPartition<T>(arr: readonly T[], partition: (item: T) =
 
     return partition(arr[low]) ? low : -1;
 }
+
+/**
+ * Removes an item from the array if the array exists and the item is included
+ * within it.
+ * @param arr
+ * @param item
+ */
+export function removeIfPresent<T>(arr: T[] | undefined, item: T) {
+    if (!arr) {
+        return;
+    }
+    const index = arr.indexOf(item);
+    if (index !== -1) {
+        arr.splice(index, 1);
+    }
+}

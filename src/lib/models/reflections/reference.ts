@@ -21,7 +21,7 @@ export enum ReferenceState {
  * ```
  */
 export class ReferenceReflection extends DeclarationReflection {
-    private _state: [ReferenceState.Unresolved, number] | [ReferenceState.Resolved, number];
+    private _state: [ReferenceState.Unresolved, string] | [ReferenceState.Resolved, number];
     private _project?: ProjectReflection;
 
     /**
@@ -53,7 +53,7 @@ export class ReferenceReflection extends DeclarationReflection {
     tryGetTargetReflection(): Reflection | undefined {
         this._ensureProject();
         this._ensureResolved(false);
-        return this._state[0] === ReferenceState.Resolved ? this._project!.reflections[this._state[1]] : undefined;
+        return this._state[0] === ReferenceState.Resolved ? this._project!.getReflectionById(this._state[1]) : undefined;
     }
 
     /**
@@ -76,7 +76,7 @@ export class ReferenceReflection extends DeclarationReflection {
         this._ensureProject();
         this._ensureResolved(true);
 
-        return this._project!.reflections[this._state[1]];
+        return this._project!.getReflectionById(this._state[1] as number)!;
     }
 
     /**
@@ -93,14 +93,14 @@ export class ReferenceReflection extends DeclarationReflection {
 
     private _ensureResolved(throwIfFail: boolean) {
         if (this._state[0] === ReferenceState.Unresolved) {
-            const target = this._project!.symbolMapping[this._state[1]];
+            const target = this._project!.getReflectionFromFQN(this._state[1]);
             if (!target) {
                 if (throwIfFail) {
                     throw new Error(`Tried to reference reflection for ${this.name} that does not exist.`);
                 }
                 return;
             }
-            this._state = [ReferenceState.Resolved, target];
+            this._state = [ReferenceState.Resolved, target.id];
         }
     }
 

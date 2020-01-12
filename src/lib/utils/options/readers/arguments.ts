@@ -37,7 +37,7 @@ export class ArgumentsReader implements OptionsReader {
                     if (value === 'true' || value === 'false') {
                         container.setValue(decl.name, value === 'true');
                     } else {
-                        container.setValue(decl.name, !container.getValue(decl.name));
+                        container.setValue(decl.name, true);
                         // Bool option didn't consume the next argument as expected.
                         index--;
                     }

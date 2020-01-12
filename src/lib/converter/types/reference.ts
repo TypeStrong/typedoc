@@ -125,7 +125,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
         const declaration = new DeclarationReflection('__type', ReflectionKind.TypeLiteral, context.scope);
         declaration.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
 
-        context.registerReflection(declaration, undefined, symbol);
+        context.registerReflection(declaration, symbol);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
             symbol.declarations.forEach((node) => {

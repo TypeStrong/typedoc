@@ -43,15 +43,15 @@
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "name": "DemoProps",
-                        "id": 2
+                        "id": 2,
+                        "name": "DemoProps"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "name": "Demo",
-                    "id": 5
+                    "id": 5,
+                    "name": "Demo"
                   },
                   "overwrites": {
                     "type": "reference",
@@ -86,10 +86,12 @@
               ],
               "type": {
                 "type": "reference",
+                "id": 15,
                 "name": "__type"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 34,
                 "name": "Component.context"
               }
             },
@@ -128,11 +130,12 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "DemoProps",
-                "id": 2
+                "id": 2,
+                "name": "DemoProps"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 32,
                 "name": "Component.props"
               }
             },
@@ -179,7 +182,6 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "name": "Component",
                         "typeArguments": [
                           {
                             "type": "intrinsic",
@@ -189,7 +191,8 @@
                             "type": "intrinsic",
                             "name": "any"
                           }
-                        ]
+                        ],
+                        "name": "Component"
                       }
                     }
                   ],
@@ -204,6 +207,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 35,
                 "name": "Component.refs"
               }
             },
@@ -226,6 +230,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 33,
                 "name": "Component.state"
               }
             },
@@ -289,6 +294,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 27,
                     "name": "Component.forceUpdate"
                   }
                 }
@@ -302,6 +308,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 27,
                 "name": "Component.forceUpdate"
               }
             },
@@ -395,8 +402,8 @@
                                   "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "name": "DemoProps",
-                                    "id": 2
+                                    "id": 2,
+                                    "name": "DemoProps"
                                   }
                                 }
                               ],
@@ -462,6 +469,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 12,
                     "name": "Component.setState"
                   }
                 },
@@ -529,6 +537,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 12,
                     "name": "Component.setState"
                   }
                 }
@@ -547,6 +556,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 12,
                 "name": "Component.setState"
               }
             }
@@ -590,18 +600,18 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "name": "Component",
               "typeArguments": [
                 {
                   "type": "reference",
-                  "name": "DemoProps",
-                  "id": 2
+                  "id": 2,
+                  "name": "DemoProps"
                 },
                 {
                   "type": "intrinsic",
                   "name": "any"
                 }
-              ]
+              ],
+              "name": "Component"
             }
           ]
         },

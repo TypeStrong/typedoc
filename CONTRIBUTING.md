@@ -59,6 +59,7 @@ If you would like to improve the documentation in any of these areas, please ope
 Unsure of where to begin contributing to TypeDoc? You can start by looking through the issues labeled [good-first-issue] and [help-wanted]. Issues labeled with [good-first-issue] should only require changing a few lines of code and a test or two. Issues labeled with [help-wanted] can be considerably more involved and may require changing multiple files.
 
 For instructions on setting up your environment, see the [setup](#setup---git-github-and-node) instructions in this document.
+Once set up, you may find the [development](https://typedoc.org/guides/development/) page useful for an overview of TypeDoc's architecture.
 
 If you have started work on an issue and get stuck or want a second opinion on your implementation feel free to reach out through [Gitter].
 

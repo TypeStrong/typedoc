@@ -28,12 +28,13 @@ export class ReferenceType extends Type {
     typeArguments?: Type[];
 
     /**
-     * The symbol id of the referenced type as returned from the TypeScript compiler.
+     * The fully qualified name of the referenced type as returned from the TypeScript compiler.
      *
      * After the all reflections have been generated this is can be used to lookup the
-     * relevant reflection with [[ProjectReflection.symbolMapping]].
+     * relevant reflection with [[ProjectReflection.getSymbolFromFQN]]. This property used to be
+     * the internal ts.Symbol.id, but symbol IDs are not stable when dealing with imports.
      */
-    symbolID: number;
+    symbolFullyQualifiedName: string;
 
     /**
      * The resolved reflection.
@@ -43,14 +44,14 @@ export class ReferenceType extends Type {
     reflection?: Reflection;
 
     /**
-     * Special symbol ID noting that the reference of a ReferenceType was known when creating the type.
+     * Special symbol FQN noting that the reference of a ReferenceType was known when creating the type.
      */
-    static SYMBOL_ID_RESOLVED = -1;
+    static SYMBOL_FQN_RESOLVED = '///resolved';
 
     /**
      * Special symbol ID noting that the reference should be resolved by the type name.
      */
-    static SYMBOL_ID_RESOLVE_BY_NAME = -2;
+    static SYMBOL_FQN_RESOLVE_BY_NAME = '///resolve_by_name';
 
     /**
      * Create a new instance of ReferenceType.
@@ -59,10 +60,10 @@ export class ReferenceType extends Type {
      * @param symbolID    The symbol id of the referenced type as returned from the TypeScript compiler.
      * @param reflection  The resolved reflection if already known.
      */
-    constructor(name: string, symbolID: number, reflection?: Reflection) {
+    constructor(name: string, symbolFQN: string, reflection?: Reflection) {
         super();
         this.name = name;
-        this.symbolID = symbolID;
+        this.symbolFullyQualifiedName = symbolFQN;
         this.reflection = reflection;
     }
 
@@ -72,7 +73,7 @@ export class ReferenceType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new ReferenceType(this.name, this.symbolID, this.reflection);
+        const clone = new ReferenceType(this.name, this.symbolFullyQualifiedName, this.reflection);
         clone.typeArguments = this.typeArguments;
         return clone;
     }
@@ -80,12 +81,11 @@ export class ReferenceType extends Type {
     /**
      * Test whether this type equals the given type.
      *
-     * @param type  The type that should be checked for equality.
+     * @param other  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: ReferenceType): boolean {
-        return type instanceof ReferenceType &&
-            (type.symbolID === this.symbolID || type.reflection === this.reflection);
+    equals(other: ReferenceType): boolean {
+        return other instanceof ReferenceType && (other.symbolFullyQualifiedName === this.symbolFullyQualifiedName || other.reflection === this.reflection);
     }
 
     /**

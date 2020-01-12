@@ -142,7 +142,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
         if (child) {
             children.push(child);
-            context.registerReflection(child, node);
+            context.registerReflection(child, context.getSymbolAtLocation(node) ?? node.symbol);
         }
     } else {
         // Merge the existent reflection with the given node

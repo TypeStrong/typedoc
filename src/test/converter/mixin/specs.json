@@ -137,13 +137,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -189,10 +189,12 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -218,6 +220,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 17,
                 "name": "Mixin2.property2"
               }
             },
@@ -244,13 +247,13 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   }
                 }
               ],
@@ -263,13 +266,13 @@
               ],
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               }
             },
             {
@@ -331,8 +334,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -340,16 +343,18 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -363,10 +368,12 @@
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             },
@@ -411,6 +418,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 18,
                     "name": "Mixin2.method2"
                   }
                 }
@@ -424,6 +432,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 18,
                 "name": "Mixin2.method2"
               }
             }
@@ -463,7 +472,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin2",
                   "typeArguments": [
                     {
                       "type": "intersection",
@@ -474,8 +482,8 @@
                         },
                         {
                           "type": "reference",
-                          "name": "Base",
-                          "id": 2
+                          "id": 2,
+                          "name": "Base"
                         }
                       ]
                     },
@@ -483,33 +491,34 @@
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Mixin2"
                 },
                 {
                   "type": "reference",
-                  "name": "Mixin1Class",
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "name": "Base",
-                      "id": 2
+                      "id": 2,
+                      "name": "Base"
                     },
                     {
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Mixin1Class"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
                   "id": 2,
                   "typeArguments": [
                     {
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Base"
                 }
               ]
             }
@@ -549,13 +558,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -580,6 +589,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -606,13 +616,13 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   }
                 }
               ],
@@ -625,13 +635,13 @@
               ],
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               }
             },
             {
@@ -662,8 +672,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -671,12 +681,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -690,6 +701,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             }
@@ -725,7 +737,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin1Class",
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -739,12 +750,13 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "name": "Mixin1Class"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
-                  "id": 2
+                  "id": 2,
+                  "name": "Base"
                 }
               ]
             }
@@ -784,13 +796,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -815,10 +827,12 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -844,6 +858,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 17,
                 "name": "Mixin2.property2"
               }
             },
@@ -870,13 +885,13 @@
                   },
                   "overwrites": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "name": "Base.baseMethod",
-                    "id": 4
+                    "id": 4,
+                    "name": "Base.baseMethod"
                   }
                 }
               ],
@@ -889,13 +904,13 @@
               ],
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseMethod",
-                "id": 4
+                "id": 4,
+                "name": "Base.baseMethod"
               }
             },
             {
@@ -926,8 +941,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -935,16 +950,18 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -958,10 +975,12 @@
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             },
@@ -1006,6 +1025,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 18,
                     "name": "Mixin2.method2"
                   }
                 }
@@ -1019,6 +1039,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 18,
                 "name": "Mixin2.method2"
               }
             }
@@ -1056,7 +1077,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin2",
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -1070,17 +1090,18 @@
                         }
                       }
                     }
-                  ]
+                  ],
+                  "name": "Mixin2"
                 },
                 {
                   "type": "reference",
-                  "name": "Mixin1Type",
-                  "id": 6
+                  "id": 6,
+                  "name": "Mixin1Type"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
-                  "id": 2
+                  "id": 2,
+                  "name": "Base"
                 }
               ]
             }
@@ -1231,8 +1252,8 @@
               },
               "type": {
                 "type": "reference",
-                "name": "AnyFunction",
-                "id": 43
+                "id": 43,
+                "name": "AnyFunction"
               }
             }
           ],
@@ -1245,24 +1266,24 @@
           ],
           "type": {
             "type": "reference",
-            "name": "InstanceType",
             "typeArguments": [
               {
                 "type": "reference",
-                "name": "ReturnType",
                 "typeArguments": [
                   {
                     "type": "typeParameter",
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyFunction",
-                      "id": 43
+                      "id": 43,
+                      "name": "AnyFunction"
                     }
                   }
-                ]
+                ],
+                "name": "ReturnType"
               }
-            ]
+            ],
+            "name": "InstanceType"
           }
         },
         {
@@ -1285,15 +1306,14 @@
           ],
           "type": {
             "type": "reference",
-            "name": "Mixin",
             "id": 51,
             "typeArguments": [
               {
                 "type": "reference",
-                "name": "Mixin3",
-                "id": 62
+                "name": "Mixin3"
               }
-            ]
+            ],
+            "name": "Mixin"
           }
         },
         {
@@ -1331,15 +1351,15 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "name": "Base",
-                        "id": 2
+                        "id": 2,
+                        "name": "Base"
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1357,15 +1377,15 @@
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "name": "Base",
-                          "id": 2
+                          "id": 2,
+                          "name": "Base"
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }
@@ -1428,7 +1448,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
@@ -1436,17 +1455,18 @@
                         "types": [
                           {
                             "type": "reference",
-                            "name": "Mixin1Type",
-                            "id": 6
+                            "id": 6,
+                            "name": "Mixin1Type"
                           },
                           {
                             "type": "reference",
-                            "name": "Base",
-                            "id": 2
+                            "id": 2,
+                            "name": "Base"
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1464,7 +1484,6 @@
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
@@ -1472,17 +1491,18 @@
                           "types": [
                             {
                               "type": "reference",
-                              "name": "Mixin1Type",
-                              "id": 6
+                              "id": 6,
+                              "name": "Mixin1Type"
                             },
                             {
                               "type": "reference",
-                              "name": "Base",
-                              "id": 2
+                              "id": 2,
+                              "name": "Base"
                             }
                           ]
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }
@@ -1545,14 +1565,14 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
                         "type": "intrinsic",
                         "name": "object"
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1570,14 +1590,14 @@
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
                           "type": "intrinsic",
                           "name": "object"
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }

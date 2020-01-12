@@ -4,7 +4,6 @@ import { ReflectionKind, SignatureReflection, ContainerReflection, DeclarationRe
 import { Context } from '../context';
 import { Converter } from '../converter';
 import { createParameter } from './parameter';
-import { createReferenceType } from './reference';
 
 /**
  * Create a new signature reflection from the given node.
@@ -23,7 +22,7 @@ export function createSignature(context: Context, node: ts.SignatureDeclaration,
 
     const signature = new SignatureReflection(name, kind, container);
     signature.flags.setFlag(ReflectionFlag.Exported, container.flags.isExported);
-    context.registerReflection(signature, node);
+    context.registerReflection(signature);
     context.withScope(signature, node.typeParameters, true, () => {
         node.parameters.forEach((parameter: ts.ParameterDeclaration) => {
             createParameter(context, parameter);
@@ -32,7 +31,7 @@ export function createSignature(context: Context, node: ts.SignatureDeclaration,
         signature.type = extractSignatureType(context, node);
 
         if (container.inheritedFrom) {
-            signature.inheritedFrom = createReferenceType(context, node.symbol, true);
+            signature.inheritedFrom = container.inheritedFrom.clone();
         }
     });
 

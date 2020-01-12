@@ -73,8 +73,8 @@
               ],
               "type": {
                 "type": "reference",
-                "name": "Foo",
-                "id": 4
+                "id": 4,
+                "name": "Foo"
               }
             }
           ],
@@ -103,6 +103,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 6,
                 "name": "Array.length"
               }
             },
@@ -125,7 +126,14 @@
               "type": {
                 "type": "reference",
                 "name": "ArrayConstructor"
-              }
+              },
+              "extendedBy": [
+                {
+                  "type": "reference",
+                  "id": 5,
+                  "name": "FooList"
+                }
+              ]
             },
             {
               "id": 210,
@@ -149,17 +157,18 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "IterableIterator",
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
-                    ]
+                    ],
+                    "name": "IterableIterator"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 210,
                     "name": "Array.[Symbol.iterator]"
                   }
                 }
@@ -173,6 +182,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 210,
                 "name": "Array.[Symbol.iterator]"
               }
             },
@@ -374,6 +384,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 218,
                     "name": "Array.[Symbol.unscopables]"
                   }
                 }
@@ -387,6 +398,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 218,
                 "name": "Array.[Symbol.unscopables]"
               }
             },
@@ -427,14 +439,14 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "name": "ConcatArray",
                           "typeArguments": [
                             {
                               "type": "reference",
-                              "name": "Foo",
-                              "id": 4
+                              "id": 4,
+                              "name": "Foo"
                             }
-                          ]
+                          ],
+                          "name": "ConcatArray"
                         }
                       }
                     }
@@ -443,12 +455,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 16,
                     "name": "Array.concat"
                   }
                 },
@@ -487,13 +500,13 @@
                             },
                             {
                               "type": "reference",
-                              "name": "ConcatArray",
                               "typeArguments": [
                                 {
                                   "type": "unknown",
                                   "name": "T"
                                 }
-                              ]
+                              ],
+                              "name": "ConcatArray"
                             }
                           ]
                         }
@@ -504,12 +517,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 16,
                     "name": "Array.concat"
                   }
                 }
@@ -528,6 +542,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 16,
                 "name": "Array.concat"
               }
             },
@@ -608,6 +623,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 205,
                     "name": "Array.copyWithin"
                   }
                 }
@@ -621,6 +637,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 205,
                 "name": "Array.copyWithin"
               }
             },
@@ -646,7 +663,6 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "IterableIterator",
                     "typeArguments": [
                       {
                         "type": "tuple",
@@ -657,15 +673,17 @@
                           },
                           {
                             "type": "reference",
-                            "name": "Foo",
-                            "id": 4
+                            "id": 4,
+                            "name": "Foo"
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "name": "IterableIterator"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 212,
                     "name": "Array.entries"
                   }
                 }
@@ -679,6 +697,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 212,
                 "name": "Array.entries"
               }
             },
@@ -744,8 +763,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -773,8 +792,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -819,6 +838,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 58,
                     "name": "Array.every"
                   }
                 }
@@ -832,6 +852,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 58,
                 "name": "Array.every"
               }
             },
@@ -869,8 +890,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     },
                     {
@@ -914,6 +935,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 200,
                     "name": "Array.fill"
                   }
                 }
@@ -927,6 +949,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 200,
                 "name": "Array.fill"
               }
             },
@@ -961,8 +984,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     }
                   ],
@@ -1008,8 +1031,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1037,8 +1060,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1052,8 +1075,8 @@
                                   "name": "S",
                                   "constraint": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 }
                               }
@@ -1094,13 +1117,14 @@
                       "name": "S",
                       "constraint": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 95,
                     "name": "Array.filter"
                   }
                 },
@@ -1157,8 +1181,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1186,8 +1210,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1230,12 +1254,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 95,
                     "name": "Array.filter"
                   }
                 }
@@ -1254,6 +1279,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 95,
                 "name": "Array.filter"
               }
             },
@@ -1288,8 +1314,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     }
                   ],
@@ -1348,8 +1374,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1377,8 +1403,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1392,8 +1418,8 @@
                                   "name": "S",
                                   "constraint": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 }
                               }
@@ -1435,8 +1461,8 @@
                         "name": "S",
                         "constraint": {
                           "type": "reference",
-                          "name": "Foo",
-                          "id": 4
+                          "id": 4,
+                          "name": "Foo"
                         }
                       },
                       {
@@ -1447,6 +1473,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 172,
                     "name": "Array.find"
                   }
                 },
@@ -1497,8 +1524,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1526,8 +1553,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1568,8 +1595,8 @@
                     "types": [
                       {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       },
                       {
                         "type": "intrinsic",
@@ -1579,6 +1606,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 172,
                     "name": "Array.find"
                   }
                 }
@@ -1597,6 +1625,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 172,
                 "name": "Array.find"
               }
             },
@@ -1662,8 +1691,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1691,8 +1720,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1737,6 +1766,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 191,
                     "name": "Array.findIndex"
                   }
                 }
@@ -1750,6 +1780,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 191,
                 "name": "Array.findIndex"
               }
             },
@@ -1815,8 +1846,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -1844,8 +1875,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -1890,6 +1921,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 76,
                     "name": "Array.forEach"
                   }
                 }
@@ -1903,6 +1935,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 76,
                 "name": "Array.forEach"
               }
             },
@@ -1940,8 +1973,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     },
                     {
@@ -1968,6 +2001,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 228,
                     "name": "Array.includes"
                   }
                 }
@@ -1981,6 +2015,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 228,
                 "name": "Array.includes"
               }
             },
@@ -2018,8 +2053,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     },
                     {
@@ -2046,6 +2081,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 50,
                     "name": "Array.indexOf"
                   }
                 }
@@ -2059,6 +2095,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 50,
                 "name": "Array.indexOf"
               }
             },
@@ -2107,6 +2144,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 21,
                     "name": "Array.join"
                   }
                 }
@@ -2120,6 +2158,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 21,
                 "name": "Array.join"
               }
             },
@@ -2145,16 +2184,17 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "IterableIterator",
                     "typeArguments": [
                       {
                         "type": "intrinsic",
                         "name": "number"
                       }
-                    ]
+                    ],
+                    "name": "IterableIterator"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 214,
                     "name": "Array.keys"
                   }
                 }
@@ -2168,6 +2208,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 214,
                 "name": "Array.keys"
               }
             },
@@ -2205,8 +2246,8 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     },
                     {
@@ -2233,6 +2274,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 54,
                     "name": "Array.lastIndexOf"
                   }
                 }
@@ -2246,6 +2288,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 54,
                 "name": "Array.lastIndexOf"
               }
             },
@@ -2322,8 +2365,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2351,8 +2394,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -2400,6 +2443,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 85,
                     "name": "Array.map"
                   }
                 }
@@ -2413,6 +2457,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 85,
                 "name": "Array.map"
               }
             },
@@ -2441,8 +2486,8 @@
                     "types": [
                       {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       },
                       {
                         "type": "intrinsic",
@@ -2452,6 +2497,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 11,
                     "name": "Array.pop"
                   }
                 }
@@ -2465,6 +2511,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 11,
                 "name": "Array.pop"
               }
             },
@@ -2505,8 +2552,8 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "name": "Foo",
-                          "id": 4
+                          "id": 4,
+                          "name": "Foo"
                         }
                       }
                     }
@@ -2517,6 +2564,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 13,
                     "name": "Array.push"
                   }
                 }
@@ -2530,6 +2578,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 13,
                 "name": "Array.push"
               }
             },
@@ -2595,8 +2644,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2609,8 +2658,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2638,16 +2687,16 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
                               ],
                               "type": {
                                 "type": "reference",
-                                "name": "Foo",
-                                "id": 4
+                                "id": 4,
+                                "name": "Foo"
                               }
                             }
                           ],
@@ -2664,11 +2713,12 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "name": "Foo",
-                    "id": 4
+                    "id": 4,
+                    "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 113,
                     "name": "Array.reduce"
                   }
                 },
@@ -2719,8 +2769,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2733,8 +2783,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2762,16 +2812,16 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
                               ],
                               "type": {
                                 "type": "reference",
-                                "name": "Foo",
-                                "id": 4
+                                "id": 4,
+                                "name": "Foo"
                               }
                             }
                           ],
@@ -2795,18 +2845,19 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "name": "Foo",
-                    "id": 4
+                    "id": 4,
+                    "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 113,
                     "name": "Array.reduce"
                   }
                 },
@@ -2887,8 +2938,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -2916,8 +2967,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -2961,6 +3012,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 113,
                     "name": "Array.reduce"
                   }
                 }
@@ -2984,6 +3036,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 113,
                 "name": "Array.reduce"
               }
             },
@@ -3049,8 +3102,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3063,8 +3116,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3092,16 +3145,16 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
                               ],
                               "type": {
                                 "type": "reference",
-                                "name": "Foo",
-                                "id": 4
+                                "id": 4,
+                                "name": "Foo"
                               }
                             }
                           ],
@@ -3118,11 +3171,12 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "name": "Foo",
-                    "id": 4
+                    "id": 4,
+                    "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 141,
                     "name": "Array.reduceRight"
                   }
                 },
@@ -3173,8 +3227,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3187,8 +3241,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3216,16 +3270,16 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
                               ],
                               "type": {
                                 "type": "reference",
-                                "name": "Foo",
-                                "id": 4
+                                "id": 4,
+                                "name": "Foo"
                               }
                             }
                           ],
@@ -3249,18 +3303,19 @@
                       },
                       "type": {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
                     }
                   ],
                   "type": {
                     "type": "reference",
-                    "name": "Foo",
-                    "id": 4
+                    "id": 4,
+                    "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 141,
                     "name": "Array.reduceRight"
                   }
                 },
@@ -3341,8 +3396,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3370,8 +3425,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -3415,6 +3470,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 141,
                     "name": "Array.reduceRight"
                   }
                 }
@@ -3438,6 +3494,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 141,
                 "name": "Array.reduceRight"
               }
             },
@@ -3465,12 +3522,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 24,
                     "name": "Array.reverse"
                   }
                 }
@@ -3484,6 +3542,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 24,
                 "name": "Array.reverse"
               }
             },
@@ -3512,8 +3571,8 @@
                     "types": [
                       {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       },
                       {
                         "type": "intrinsic",
@@ -3523,6 +3582,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 26,
                     "name": "Array.shift"
                   }
                 }
@@ -3536,6 +3596,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 26,
                 "name": "Array.shift"
               }
             },
@@ -3599,12 +3660,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 28,
                     "name": "Array.slice"
                   }
                 }
@@ -3618,6 +3680,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 28,
                 "name": "Array.slice"
               }
             },
@@ -3683,8 +3746,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3712,8 +3775,8 @@
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "name": "Foo",
-                                      "id": 4
+                                      "id": 4,
+                                      "name": "Foo"
                                     }
                                   }
                                 }
@@ -3758,6 +3821,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 67,
                     "name": "Array.some"
                   }
                 }
@@ -3771,6 +3835,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 67,
                 "name": "Array.some"
               }
             },
@@ -3837,8 +3902,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 },
                                 {
@@ -3851,8 +3916,8 @@
                                   },
                                   "type": {
                                     "type": "reference",
-                                    "name": "Foo",
-                                    "id": 4
+                                    "id": 4,
+                                    "name": "Foo"
                                   }
                                 }
                               ],
@@ -3879,6 +3944,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 32,
                     "name": "Array.sort"
                   }
                 }
@@ -3892,6 +3958,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 32,
                 "name": "Array.sort"
               }
             },
@@ -3954,12 +4021,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 39,
                     "name": "Array.splice"
                   }
                 },
@@ -4023,8 +4091,8 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "name": "Foo",
-                          "id": 4
+                          "id": 4,
+                          "name": "Foo"
                         }
                       }
                     }
@@ -4033,12 +4101,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Foo",
-                      "id": 4
+                      "id": 4,
+                      "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 39,
                     "name": "Array.splice"
                   }
                 }
@@ -4057,6 +4126,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 39,
                 "name": "Array.splice"
               }
             },
@@ -4086,6 +4156,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Array.toLocaleString"
                   }
                 }
@@ -4099,6 +4170,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Array.toLocaleString"
               }
             },
@@ -4128,6 +4200,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 7,
                     "name": "Array.toString"
                   }
                 }
@@ -4141,6 +4214,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 7,
                 "name": "Array.toString"
               }
             },
@@ -4181,8 +4255,8 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "name": "Foo",
-                          "id": 4
+                          "id": 4,
+                          "name": "Foo"
                         }
                       }
                     }
@@ -4193,6 +4267,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 47,
                     "name": "Array.unshift"
                   }
                 }
@@ -4206,6 +4281,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 47,
                 "name": "Array.unshift"
               }
             },
@@ -4231,17 +4307,18 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "IterableIterator",
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "name": "Foo",
-                        "id": 4
+                        "id": 4,
+                        "name": "Foo"
                       }
-                    ]
+                    ],
+                    "name": "IterableIterator"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 216,
                     "name": "Array.values"
                   }
                 }
@@ -4255,6 +4332,7 @@
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 216,
                 "name": "Array.values"
               }
             }
@@ -4316,14 +4394,15 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "name": "Array",
+              "id": 171,
               "typeArguments": [
                 {
                   "type": "reference",
-                  "name": "Foo",
-                  "id": 4
+                  "id": 4,
+                  "name": "Foo"
                 }
-              ]
+              ],
+              "name": "Array"
             }
           ]
         },
@@ -4396,14 +4475,14 @@
                           "type": "array",
                           "elementType": {
                             "type": "reference",
-                            "name": "Array",
                             "id": 2,
                             "typeArguments": [
                               {
                                 "type": "intrinsic",
                                 "name": "string"
                               }
-                            ]
+                            ],
+                            "name": "Array"
                           }
                         },
                         {
@@ -4443,14 +4522,14 @@
           ],
           "type": {
             "type": "reference",
-            "name": "Array",
             "id": 2,
             "typeArguments": [
               {
                 "type": "intrinsic",
                 "name": "number"
               }
-            ]
+            ],
+            "name": "Array"
           }
         }
       ],

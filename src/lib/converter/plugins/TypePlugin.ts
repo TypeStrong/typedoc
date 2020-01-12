@@ -53,7 +53,7 @@ export class TypePlugin extends ConverterComponent {
                 if (!target.implementedBy) {
                     target.implementedBy = [];
                 }
-                target.implementedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
+                target.implementedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_FQN_RESOLVED, reflection));
             });
 
             walk(reflection.extendedTypes, (target) => {
@@ -61,7 +61,7 @@ export class TypePlugin extends ConverterComponent {
                 if (!target.extendedBy) {
                     target.extendedBy = [];
                 }
-                target.extendedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
+                target.extendedBy.push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_FQN_RESOLVED, reflection));
             });
         }
 
@@ -91,10 +91,10 @@ export class TypePlugin extends ConverterComponent {
 
         function resolveType(reflection: Reflection, type: Type) {
             if (type instanceof ReferenceType) {
-                if (type.symbolID === ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                if (type.symbolFullyQualifiedName === ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME) {
                     type.reflection = reflection.findReflectionByName(type.name);
-                } else if (!type.reflection && type.symbolID !== ReferenceType.SYMBOL_ID_RESOLVED) {
-                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
+                } else if (!type.reflection && type.symbolFullyQualifiedName !== ReferenceType.SYMBOL_FQN_RESOLVED) {
+                    type.reflection = project.getReflectionFromFQN(type.symbolFullyQualifiedName);
                 }
 
                 if (type.typeArguments) {
@@ -148,7 +148,7 @@ export class TypePlugin extends ConverterComponent {
                 push(reflection.extendedTypes);
             }
 
-            push([new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection)]);
+            push([new ReferenceType(reflection.name, ReferenceType.SYMBOL_FQN_RESOLVED, reflection)]);
             hierarchy.isTarget = true;
 
             if (reflection.extendedBy) {

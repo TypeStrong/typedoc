@@ -19,14 +19,13 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
     }
 
     const checker = context.checker;
-    const id = context.getSymbolID(symbol)!;
     let name = checker.symbolToString(symbol);
 
     if (includeParent && symbol.parent) {
         name = checker.symbolToString(symbol.parent) + '.' + name;
     }
 
-    return new ReferenceType(name, id);
+    return new ReferenceType(name, context.checker.getFullyQualifiedName(symbol));
 }
 
 export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection {
@@ -34,13 +33,13 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
         throw new Error('Cannot add reference to a non-container');
     }
 
-    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.getSymbolID(target)!], context.scope);
+    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.checker.getFullyQualifiedName(target)], context.scope);
     reflection.flags.setFlag(ReflectionFlag.Exported, true); // References are exported by necessity
     if (!context.scope.children) {
         context.scope.children = [];
     }
     context.scope.children.push(reflection);
-    context.registerReflection(reflection, undefined, source);
+    context.registerReflection(reflection, source);
     context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
 
     return reflection;

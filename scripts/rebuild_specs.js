@@ -127,6 +127,8 @@ async function main(command = 'all', filter = '') {
             if (!stat.isDirectory()) return false;
             return fullPath.endsWith(filter);
         }).map(([path]) => path));
+    } else if (filter !== '') {
+        console.warn('Specifying a filter when rebuilding render specs only has no effect.');
     }
 
     if (['all', 'renderer'].includes(command)) {

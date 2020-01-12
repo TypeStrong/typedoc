@@ -30,7 +30,7 @@ export function createTypeParameter(context: Context, node: ts.TypeParameterDecl
     }
     reflection.typeParameters.push(typeParameterReflection);
 
-    context.registerReflection(typeParameterReflection, node);
+    context.registerReflection(typeParameterReflection);
     context.trigger(Converter.EVENT_CREATE_TYPE_PARAMETER, typeParameterReflection, node);
 
     return typeParameter;

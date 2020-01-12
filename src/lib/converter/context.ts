@@ -73,9 +73,9 @@ export class Context {
     inheritParent?: ts.Node;
 
     /**
-     * List symbol ids of inherited children already visited while inheriting.
+     * List symbol fqns of inherited children already visited while inheriting.
      */
-    inheritedChildren?: number[];
+    inheritedChildren?: string[];
 
     /**
      * The names of the children of the scope before inheritance has been started.
@@ -86,11 +86,6 @@ export class Context {
      * A list of parent nodes that have been passed to the visit function.
      */
     visitStack: ts.Node[];
-
-    /**
-     * Next free symbol id used by [[getSymbolID]].
-     */
-    private symbolID = -1024;
 
     /**
      * The pattern that should be used to flag external source files.
@@ -159,6 +154,12 @@ export class Context {
         return symbol;
     }
 
+    resolveAliasedSymbol(symbol: ts.Symbol): ts.Symbol;
+    resolveAliasedSymbol(symbol: ts.Symbol | undefined): ts.Symbol | undefined;
+    resolveAliasedSymbol(symbol: ts.Symbol | undefined) {
+        return (symbol && ts.SymbolFlags.Alias & symbol.flags) ? this.checker.getAliasedSymbol(symbol) : symbol;
+    }
+
     /**
      * Return the current logger instance.
      *
@@ -169,40 +170,18 @@ export class Context {
     }
 
     /**
-     * Return the symbol id of the given symbol.
-     *
-     * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.
-     * It will assign negative ids if they are not set.
-     *
-     * @param symbol  The symbol whose id should be returned.
-     * @returns The id of the given symbol or undefined if no symbol is provided.
-     */
-    getSymbolID(symbol: ts.Symbol | undefined): number | undefined {
-        if (!symbol) {
-            return;
-        }
-        if (!symbol.id) {
-            symbol.id = this.symbolID--;
-        }
-        return symbol.id;
-    }
-
-    /**
-     * Register a newly generated reflection.
-     *
-     * Ensures that the reflection is both listed in [[Project.reflections]] and
-     * [[Project.symbolMapping]] if applicable.
+     * Register a newly generated reflection. All created reflections should be
+     * passed to this method to ensure that the project helper functions work correctly.
      *
      * @param reflection  The reflection that should be registered.
      * @param node  The node the given reflection was resolved from.
      * @param symbol  The symbol the given reflection was resolved from.
      */
-    registerReflection(reflection: Reflection, node?: ts.Node, symbol?: ts.Symbol) {
-        this.project.reflections[reflection.id] = reflection;
-
-        const id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : undefined));
-        if (!this.isInherit && id && !this.project.symbolMapping[id]) {
-            this.project.symbolMapping[id] = reflection.id;
+    registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
+        if (symbol) {
+            this.project.registerReflection(reflection, this.checker.getFullyQualifiedName(symbol));
+        } else {
+            this.project.registerReflection(reflection);
         }
     }
 
@@ -329,7 +308,7 @@ export class Context {
         }
 
         if (baseNode.symbol) {
-            const id = this.getSymbolID(baseNode.symbol)!;
+            const id = this.checker.getFullyQualifiedName(baseNode.symbol);
             if (this.inheritedChildren && this.inheritedChildren.includes(id)) {
                 return target;
             } else {

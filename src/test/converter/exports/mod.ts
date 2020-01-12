@@ -19,3 +19,11 @@ export { a as c } from './mod';
 export default function() {
     console.log('Default');
 }
+
+/**
+ * This is annotated with the hidden tag and will therefore not be included in the generated documentation.
+ * This *would* cause a broken link since it is also re-exported from export.ts, but the CommentPlugin removes
+ * broken links caused by hidden/ignore/internal tags.
+ * @hidden
+ */
+export const hidden = true;
