@@ -305,8 +305,15 @@ export class Application extends ChildableComponent<
 
         const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
         function add(file: string, entryPoint: boolean) {
-            const fileIsDir = FS.statSync(file).isDirectory();
-            if (fileIsDir && file.slice(-1) !== '/') {
+            let stats: FS.Stats;
+            try {
+                stats = FS.statSync(file);
+            } catch {
+                // No permission or a symbolic link, do not resolve.
+                return;
+            }
+            const fileIsDir = stats.isDirectory();
+            if (fileIsDir && !file.endsWith('/')) {
                 file = `${file}/`;
             }
 
