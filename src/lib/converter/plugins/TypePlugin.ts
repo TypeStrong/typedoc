@@ -1,5 +1,5 @@
 import { Reflection, ReflectionKind, Decorator, DeclarationReflection, DeclarationHierarchy } from '../../models/reflections/index';
-import { Type, ReferenceType, TupleType, UnionType, IntersectionType, ArrayType } from '../../models/types/index';
+import { Type, ReferenceType, TupleType, UnionType, IntersectionType, ArrayType, TypeOperatorType } from '../../models/types/index';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
@@ -106,6 +106,8 @@ export class TypePlugin extends ConverterComponent {
                 resolveTypes(reflection, type.types);
             } else if (type instanceof ArrayType) {
                 resolveType(reflection, type.elementType);
+            } else if (type instanceof TypeOperatorType) {
+                resolveType(reflection, type.target);
             }
         }
     }

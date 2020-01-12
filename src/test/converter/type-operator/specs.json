@@ -35,6 +35,7 @@
                 "type": "typeOperator",
                 "operator": "keyof",
                 "target": {
+                  "id": 2,
                   "type": "reference",
                   "name": "TestClass"
                 }
@@ -64,6 +65,7 @@
                   "type": "typeOperator",
                   "operator": "keyof",
                   "target": {
+                    "id": 2,
                     "type": "reference",
                     "name": "TestClass"
                   }
