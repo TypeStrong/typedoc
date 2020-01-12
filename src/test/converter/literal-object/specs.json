@@ -20,6 +20,7 @@
           "kind": 2097152,
           "kindString": "Object literal",
           "flags": {
+            "isExported": true,
             "isConst": true
           },
           "comment": {
@@ -31,7 +32,9 @@
               "name": "valueA",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "sources": [
                 {
                   "fileName": "literal-object.ts",
@@ -50,7 +53,9 @@
               "name": "valueB",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "sources": [
                 {
                   "fileName": "literal-object.ts",
@@ -69,7 +74,9 @@
               "name": "valueZ",
               "kind": 32,
               "kindString": "Variable",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "sources": [
                 {
                   "fileName": "literal-object.ts",
@@ -88,14 +95,18 @@
               "name": "valueY",
               "kind": 64,
               "kindString": "Function",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "signatures": [
                 {
                   "id": 5,
                   "name": "valueY",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -115,14 +126,18 @@
               "name": "valueX",
               "kind": 2097152,
               "kindString": "Object literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "children": [
                 {
                   "id": 14,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "sources": [
                     {
                       "fileName": "literal-object.ts",
@@ -144,7 +159,9 @@
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "sources": [
                     {
                       "fileName": "literal-object.ts",
@@ -163,21 +180,27 @@
                   "name": "valueY",
                   "kind": 64,
                   "kindString": "Function",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "signatures": [
                     {
                       "id": 9,
                       "name": "valueY",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "parameters": [
                         {
                           "id": 10,
                           "name": "z",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -191,14 +214,18 @@
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "children": [
                             {
                               "id": 12,
                               "name": "a",
                               "kind": 32,
                               "kindString": "Variable",
-                              "flags": {},
+                              "flags": {
+                                "isExported": true
+                              },
                               "sources": [
                                 {
                                   "fileName": "literal-object.ts",
@@ -217,7 +244,9 @@
                               "name": "b",
                               "kind": 32,
                               "kindString": "Variable",
-                              "flags": {},
+                              "flags": {
+                                "isExported": true
+                              },
                               "sources": [
                                 {
                                   "fileName": "literal-object.ts",

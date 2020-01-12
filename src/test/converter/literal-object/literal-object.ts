@@ -13,4 +13,4 @@ const objectLiteral = {
     valueB: true
 };
 
-export {};
+export { objectLiteral };
