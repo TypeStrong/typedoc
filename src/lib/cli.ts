@@ -49,7 +49,7 @@ export class CliApplication extends Application {
     /**
      * Run TypeDoc from the command line.
      */
-    protected bootstrap(options?: Partial<TypeDocAndTSOptions>) {
+    bootstrap(options?: Partial<TypeDocAndTSOptions>) {
         this.options.addReader(new ArgumentsReader(0));
         this.options.addReader(new TypeDocReader());
         this.options.addReader(new TSConfigReader());

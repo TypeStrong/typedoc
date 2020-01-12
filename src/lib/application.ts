@@ -127,7 +127,7 @@ export class Application extends ChildableComponent<
      *
      * @param options An object containing the options that should be used.
      */
-    constructor(options?: Partial<TypeDocAndTSOptions>) {
+    constructor() {
         super(DUMMY_APPLICATION_OWNER);
 
         this.logger = new ConsoleLogger();
@@ -137,8 +137,6 @@ export class Application extends ChildableComponent<
         this.converter = this.addComponent<Converter>('converter', Converter);
         this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
-
-        this.bootstrap(options);
     }
 
     /**
@@ -146,15 +144,17 @@ export class Application extends ChildableComponent<
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options: Partial<TypeDocAndTSOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
+    bootstrap(options: Partial<TypeDocAndTSOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
         this.options.setValues(options); // Ignore result, plugins might declare an option
         this.options.read(new Logger());
 
         const logger = this.loggerType;
         if (typeof logger === 'function') {
             this.logger = new CallbackLogger(<any> logger);
+            this.options.setLogger(this.logger);
         } else if (logger === 'none') {
             this.logger = new Logger();
+            this.options.setLogger(this.logger);
         }
 
         this.plugins.load();

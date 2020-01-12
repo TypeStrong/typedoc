@@ -6,7 +6,8 @@ const path = require('path');
 const TypeDoc = require('..');
 const ts = require('typescript');
 
-const app = new TypeDoc.Application({
+const app = new TypeDoc.Application();
+app.bootstrap({
     mode: 'Modules',
     target: ts.ScriptTarget.ES5,
     module: ts.ModuleKind.CommonJS,

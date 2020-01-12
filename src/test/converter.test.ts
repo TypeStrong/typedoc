@@ -7,7 +7,8 @@ import { ScriptTarget, ModuleKind, JsxEmit } from 'typescript';
 
 describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
-    const app = new Application({
+    const app = new Application();
+    app.bootstrap({
         mode: SourceFileMode.Modules,
         logger: 'none',
         target: ScriptTarget.ES5,

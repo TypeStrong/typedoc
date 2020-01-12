@@ -17,7 +17,8 @@ describe('PluginHost', function () {
   });
 
   it('parses plugins correctly', function () {
-    let app = new Application({
+    const app = new Application();
+    app.bootstrap({
       plugin: ['typedoc-plugin-1', 'typedoc-plugin-2']
     });
 

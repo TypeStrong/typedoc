@@ -56,7 +56,8 @@ describe('Renderer', function() {
     });
 
     it('constructs', function() {
-        app = new Application({
+        app = new Application();
+        app.bootstrap({
             mode:   'Modules',
             logger: 'console',
             target: ScriptTarget.ES5,

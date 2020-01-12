@@ -18,7 +18,11 @@ export {
     ParameterHint,
     ParameterScope,
     ParameterType,
-    TypeDocOptions
+    TypeDocOptions,
+
+    TSConfigReader,
+    TypeDocReader,
+    ArgumentsReader
 } from './lib/utils/options';
 
 export { JSONOutput } from './lib/serialization';

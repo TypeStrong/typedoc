@@ -88,6 +88,14 @@ export class Options {
     }
 
     /**
+     * Sets the logger used when an option declaration fails to be added.
+     * @param logger
+     */
+    setLogger(logger: Logger) {
+        this._logger = logger;
+    }
+
+    /**
      * Adds the option declarations declared by TypeDoc's `@Option` decorator
      * and all supported TypeScript declarations.
      */
