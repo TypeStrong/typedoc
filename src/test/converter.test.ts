@@ -5,6 +5,9 @@ import { deepStrictEqual as equal, ok } from 'assert';
 import { SourceFileMode } from '../lib/converter/nodes/block';
 import { ScriptTarget, ModuleKind, JsxEmit } from 'typescript';
 
+import json = require('./converter/class/specs.json');
+import { JSONOutput } from '../lib/serialization';
+
 describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
     const app = new Application();
@@ -68,5 +71,12 @@ describe('Converter', function() {
                 });
             }
         });
+    });
+});
+
+describe('Serializer', () => {
+    it('Type checks', () => {
+        const typed: JSONOutput.ProjectReflection = json;
+        equal(json, typed);
     });
 });

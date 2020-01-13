@@ -84,11 +84,11 @@ type S<T, K extends keyof T> = {
 
 // Reflections
 
-export interface ReflectionGroup extends Reflection, S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
+export interface ReflectionGroup extends S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
     children?: M.ReflectionGroup['children'][number]['id'][];
 }
 
-export interface ReflectionCategory extends Reflection, S<M.ReflectionCategory, 'title'> {
+export interface ReflectionCategory extends S<M.ReflectionCategory, 'title'> {
     children?: M.ReflectionCategory['children'][number]['id'][];
 }
 
@@ -149,6 +149,14 @@ export interface Reflection extends S<M.Reflection,
     originalName?: M.Reflection['originalName'];
     flags: ReflectionFlags;
     decorators?: ModelToObject<DecoratorWrapper[]>;
+
+    children?: ModelToObject<M.Reflection>[];
+    parameters?: ModelToObject<M.Reflection>[];
+    typeParameter?: ModelToObject<M.Reflection>[];
+    signatures?: ModelToObject<M.Reflection>[];
+    indexSignature?: ModelToObject<M.Reflection>[];
+    getSignature?: ModelToObject<M.Reflection>[];
+    setSignature?: ModelToObject<M.Reflection>[];
 }
 
 // Types

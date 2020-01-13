@@ -2,7 +2,6 @@ import { ReflectionCategory } from '../../models/ReflectionCategory';
 
 import { SerializerComponent } from '../components';
 import {
-    Reflection as JSONReflection,
     ReflectionCategory as JSONReflectionCategory
 } from '../schema';
 
@@ -20,7 +19,7 @@ export class ReflectionCategorySerializer extends SerializerComponent<Reflection
         return r instanceof ReflectionCategory;
     }
 
-    toObject(category: ReflectionCategory, obj: JSONReflection): JSONReflectionCategory {
+    toObject(category: ReflectionCategory, obj?: Partial<JSONReflectionCategory>): JSONReflectionCategory {
         const result: JSONReflectionCategory = {
             ...obj,
             title: category.title
