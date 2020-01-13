@@ -39,7 +39,7 @@ export interface TypeDocOptionMap {
     tsconfig: string;
 
     inputFiles: string[];
-    mode: typeof SourceFileMode;
+    mode: { file: SourceFileMode.File, modules: SourceFileMode.Modules };
     includeDeclarations: boolean;
     entryPoint: string;
     exclude: string[];

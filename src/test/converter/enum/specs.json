@@ -15,6 +15,71 @@
       "originalName": "%BASE%/enum/enum.ts",
       "children": [
         {
+          "id": 10,
+          "name": "ConstEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is a const enum."
+          },
+          "children": [
+            {
+              "id": 11,
+              "name": "a",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 60,
+                  "character": 5
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 12,
+              "name": "b",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 61,
+                  "character": 5
+                }
+              ],
+              "defaultValue": "a + 1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                11,
+                12
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 59,
+              "character": 27
+            }
+          ]
+        },
+        {
           "id": 6,
           "name": "ModuleEnum",
           "kind": 4,
@@ -40,7 +105,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 31,
+                  "line": 28,
                   "character": 14
                 }
               ],
@@ -60,7 +125,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 36,
+                  "line": 33,
                   "character": 14
                 }
               ],
@@ -80,14 +145,14 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 41,
+                  "line": 38,
                   "character": 14
                 }
               ],
               "defaultValue": "4"
             },
             {
-              "id": 10,
+              "id": 13,
               "name": "enumValue",
               "kind": 32,
               "kindString": "Variable",
@@ -101,7 +166,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 53,
+                  "line": 48,
                   "character": 17
                 }
               ],
@@ -111,7 +176,7 @@
               }
             },
             {
-              "id": 11,
+              "id": 14,
               "name": "enumFunction",
               "kind": 64,
               "kindString": "Function",
@@ -120,7 +185,7 @@
               },
               "signatures": [
                 {
-                  "id": 12,
+                  "id": 15,
                   "name": "enumFunction",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -139,7 +204,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 59,
+                  "line": 53,
                   "character": 25
                 }
               ]
@@ -159,26 +224,26 @@
               "title": "Variables",
               "kind": 32,
               "children": [
-                10
+                13
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                11
+                14
               ]
             }
           ],
           "sources": [
             {
               "fileName": "enum.ts",
-              "line": 26,
+              "line": 24,
               "character": 22
             },
             {
               "fileName": "enum.ts",
-              "line": 48,
+              "line": 44,
               "character": 24
             }
           ]
@@ -209,7 +274,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 9,
+                  "line": 8,
                   "character": 14
                 }
               ],
@@ -229,7 +294,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 14,
+                  "line": 13,
                   "character": 14
                 }
               ],
@@ -249,7 +314,7 @@
               "sources": [
                 {
                   "fileName": "enum.ts",
-                  "line": 19,
+                  "line": 18,
                   "character": 14
                 }
               ],
@@ -281,6 +346,7 @@
           "title": "Enumerations",
           "kind": 4,
           "children": [
+            10,
             6,
             2
           ]

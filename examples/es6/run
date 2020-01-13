@@ -1,3 +1,0 @@
-#!/bin/sh
-cd ${0%/*}
-node ../../bin/typedoc --target ES6 --out doc/ src/

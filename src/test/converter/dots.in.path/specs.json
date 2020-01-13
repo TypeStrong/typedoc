@@ -45,8 +45,8 @@
                   },
                   "type": {
                     "type": "reference",
-                    "name": "EmptyInterface",
-                    "id": 2
+                    "id": 2,
+                    "name": "EmptyInterface"
                   }
                 }
               ],

@@ -29,11 +29,13 @@ export class TestClass {
 
     /**
      * publicMethod short text.
+     * @category Test
      */
     public publicMethod() {}
 
     /**
      * protectedMethod short text.
+     * @category Test
      */
     protected protectedMethod() {}
 

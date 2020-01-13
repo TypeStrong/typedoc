@@ -37,7 +37,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -73,7 +73,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ]
@@ -98,7 +98,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 8,
+              "line": 21,
               "character": 17
             }
           ]
@@ -126,7 +126,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -157,7 +157,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 81,
+                  "line": 90,
                   "character": 26
                 }
               ],
@@ -178,7 +178,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -209,7 +209,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 47,
+                  "line": 58,
                   "character": 13
                 }
               ],
@@ -260,7 +260,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
@@ -301,7 +301,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 83,
+                  "line": 92,
                   "character": 24
                 }
               ]
@@ -362,7 +362,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
@@ -426,7 +426,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 50,
+                  "line": 60,
                   "character": 11
                 }
               ],
@@ -462,7 +462,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 80,
+              "line": 89,
               "character": 31
             }
           ],
@@ -547,7 +547,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -578,7 +578,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -629,7 +629,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
@@ -695,7 +695,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
@@ -727,7 +727,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 36,
+              "line": 48,
               "character": 27
             }
           ],
@@ -785,7 +785,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -816,7 +816,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -847,7 +847,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 47,
+                  "line": 58,
                   "character": 13
                 }
               ],
@@ -898,7 +898,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
@@ -969,7 +969,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
@@ -1033,7 +1033,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 50,
+                  "line": 60,
                   "character": 11
                 }
               ],
@@ -1067,7 +1067,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 58,
+              "line": 68,
               "character": 23
             }
           ],
@@ -1115,6 +1115,9 @@
           "flags": {
             "isExported": true
           },
+          "comment": {
+            "shortText": "Any constructor function"
+          },
           "typeParameter": [
             {
               "id": 49,
@@ -1129,7 +1132,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 2,
+              "line": 11,
               "character": 26
             }
           ],
@@ -1146,7 +1149,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 2,
+                  "line": 11,
                   "character": 40
                 }
               ]
@@ -1160,6 +1163,9 @@
           "kindString": "Type alias",
           "flags": {
             "isExported": true
+          },
+          "comment": {
+            "shortText": "Any function"
           },
           "typeParameter": [
             {
@@ -1175,7 +1181,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 1,
+              "line": 6,
               "character": 23
             }
           ],
@@ -1226,7 +1232,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 1,
+                  "line": 6,
                   "character": 34
                 }
               ]
@@ -1240,6 +1246,9 @@
           "kindString": "Type alias",
           "flags": {
             "isExported": true
+          },
+          "comment": {
+            "shortText": "Mixin type helper"
           },
           "typeParameter": [
             {
@@ -1260,7 +1269,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 3,
+              "line": 16,
               "character": 17
             }
           ],
@@ -1300,7 +1309,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 75,
+              "line": 84,
               "character": 18
             }
           ],
@@ -1408,7 +1417,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 19,
+              "line": 32,
               "character": 23
             }
           ]
@@ -1525,7 +1534,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 42,
+              "line": 53,
               "character": 19
             }
           ]
@@ -1620,7 +1629,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 64,
+              "line": 73,
               "character": 19
             }
           ]

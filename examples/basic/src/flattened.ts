@@ -1,8 +1,7 @@
 /**
  * A class that contains members with flattened properties.
  */
-class flattenedClass
-{
+class FlattenedClass {
     /**
      * A member that accepts an option object defined inline.
      *
@@ -11,11 +10,11 @@ class flattenedClass
      * @param options.moreOptions             A typed child object of the options object.
      * @param options.moreOptions.moreValues  A value of the typed child object.
      */
-    options:{
-        value?:string;
-        anotherValue?:string;
-        moreOptions?:{
-            moreValues:number;
+    options: {
+        value?: string;
+        anotherValue?: string;
+        moreOptions?: {
+            moreValues: number;
         };
     };
 
@@ -25,7 +24,7 @@ class flattenedClass
      * @param callback.param          A parameter of the typed function callback.
      * @param callback.optionalParam  An optional parameter of the typed function callback.
      */
-    callback:(param:number, optionalParam?:string) => string;
+    callback: (param: number, optionalParam?: string) => string;
 
     /**
      * A member that holds an index signature.
@@ -33,9 +32,9 @@ class flattenedClass
      * @param indexed.index  The index property comment.
      * @param indexed.test   A property of the index signature instance.
      */
-    indexed:{
-        [index:number]:{name:string; value?:number;};
-        test:string;
+    indexed: {
+        [index: number]: {name: string; value?: number; };
+        test: string;
     };
 
     /**
@@ -53,9 +52,8 @@ class flattenedClass
          * @param value The desired value.
          * @returns The calling Foo.
          */
-        (value:number):flattenedClass;
+        (value: number): FlattenedClass;
     };
-
 
     /**
      * A constructor that accepts an option object defined inline.
@@ -66,15 +64,14 @@ class flattenedClass
      * @param options.moreOptions             A typed child object of the options object.
      * @param options.moreOptions.moreValues  A value of the typed child object.
      */
-    constructor(options:{
-        value?:string;
-        anotherValue?:string;
-        moreOptions?:{
-            moreValues:number;
+    constructor(options: {
+        value?: string;
+        anotherValue?: string;
+        moreOptions?: {
+            moreValues: number;
         };
     }) { }
 }
-
 
 /**
  * A function that has a parameter that requires a typed function callback.
@@ -83,8 +80,7 @@ class flattenedClass
  * @param callback.param          A parameter of the typed function callback.
  * @param callback.optionalParam  An optional parameter of the typed function callback.
  */
-function flattenedCallback(callback:(param:number, optionalParam?:string) => string) { }
-
+function flattenedCallback(callback: (param: number, optionalParam?: string) => string) { }
 
 /**
  * A function that accepts an option object defined inline.
@@ -95,15 +91,14 @@ function flattenedCallback(callback:(param:number, optionalParam?:string) => str
  * @param options.moreOptions             A typed child object of the options object.
  * @param options.moreOptions.moreValues  A value of the typed child object.
  */
-function flattenedParameter(options:{
-    [name:string]:any;
-    value?:string;
-    anotherValue?:string;
-    moreOptions?:{
-        moreValues:number;
+function flattenedParameter(options: {
+    [name: string]: any;
+    value?: string;
+    anotherValue?: string;
+    moreOptions?: {
+        moreValues: number;
     };
 }) { }
-
 
 /**
  * A function that accepts an index signature parameter.
@@ -112,7 +107,7 @@ function flattenedParameter(options:{
  * @param indexed.index  The index property comment.
  * @param indexed.test   A property of the index signature instance.
  */
-function flattenedIndexSignature(indexed:{
-    [index:number]:{name:string; value?:number;};
-    test:string;
+function flattenedIndexSignature(indexed: {
+    [index: number]: {name: string; value?: number; };
+    test: string;
 }) { }

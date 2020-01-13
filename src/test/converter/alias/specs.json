@@ -61,6 +61,39 @@
           ],
           "type": {
             "type": "indexedAccess",
+            "indexType": {
+              "type": "conditional",
+              "checkType": {
+                "type": "indexedAccess",
+                "indexType": {
+                  "type": "stringLiteral",
+                  "value": "length"
+                },
+                "objectType": {
+                  "type": "typeParameter",
+                  "name": "T",
+                  "constraint": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "intrinsic",
+                      "name": "any"
+                    }
+                  }
+                }
+              },
+              "extendsType": {
+                "type": "unknown",
+                "name": "0"
+              },
+              "trueType": {
+                "type": "unknown",
+                "name": "0"
+              },
+              "falseType": {
+                "type": "unknown",
+                "name": "1"
+              }
+            },
             "objectType": {
               "type": "reflection",
               "declaration": {
@@ -109,12 +142,10 @@
                     ],
                     "type": {
                       "type": "reference",
-                      "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
                       "id": 22,
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "name": "PopFront",
                           "id": 13,
                           "typeArguments": [
                             {
@@ -128,7 +159,8 @@
                                 }
                               }
                             }
-                          ]
+                          ],
+                          "name": "PopFront"
                         },
                         {
                           "type": "reflection",
@@ -149,7 +181,8 @@
                             ]
                           }
                         }
-                      ]
+                      ],
+                      "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone"
                     }
                   }
                 ],
@@ -170,39 +203,6 @@
                     "character": 87
                   }
                 ]
-              }
-            },
-            "indexType": {
-              "type": "conditional",
-              "checkType": {
-                "type": "indexedAccess",
-                "objectType": {
-                  "type": "typeParameter",
-                  "name": "T",
-                  "constraint": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "any"
-                    }
-                  }
-                },
-                "indexType": {
-                  "type": "stringLiteral",
-                  "value": "length"
-                }
-              },
-              "extendsType": {
-                "type": "unknown",
-                "name": "0"
-              },
-              "trueType": {
-                "type": "unknown",
-                "name": "0"
-              },
-              "falseType": {
-                "type": "unknown",
-                "name": "1"
               }
             }
           }
@@ -461,13 +461,13 @@
             },
             "extendsType": {
               "type": "reference",
-              "name": "PromiseLike",
               "typeArguments": [
                 {
                   "type": "inferred",
                   "name": "U"
                 }
-              ]
+              ],
+              "name": "PromiseLike"
             },
             "trueType": {
               "type": "typeParameter",

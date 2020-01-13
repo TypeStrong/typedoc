@@ -1,8 +1,7 @@
 /**
  * This is a simple enumeration.
  */
-export enum SimpleEnum
-{
+export enum SimpleEnum {
     /**
      * This is the first enum member.
      */
@@ -18,13 +17,11 @@ export enum SimpleEnum
      */
     EnumValue3 = 4
 }
-
 
 /**
  * This is an enumeration extended by a module.
  */
-export enum ModuleEnum
-{
+export enum ModuleEnum {
     /**
      * This is the first enum member.
      */
@@ -41,20 +38,25 @@ export enum ModuleEnum
     EnumValue3 = 4
 }
 
-
 /**
  * This is a module extending an enumeration.
  */
-export module ModuleEnum
-{
+export module ModuleEnum {
     /**
      * This is a variable appended to an enumeration.
      */
-    let enumValue:string;
-
+    let enumValue: string;
 
     /**
      * This is a function appended to an enumeration.
      */
     function enumFunction() {}
+}
+
+/**
+ * This is a const enum.
+ */
+export const enum ConstEnum {
+    a = 1,
+    b = a + 1
 }
