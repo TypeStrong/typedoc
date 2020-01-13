@@ -43,3 +43,12 @@ export class CommentedClass {
    */
   ignoredprop: string;
 }
+
+/** Function description
+ *
+ *  @param scope Test description.
+ *  @returns Test description.
+ */
+export function gh1164(scope: string) {
+    return scope;
+}

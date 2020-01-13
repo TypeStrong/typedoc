@@ -167,7 +167,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     function readTagLine(line: string, tag: RegExpExecArray) {
         let tagName = tag[1].toLowerCase();
         let paramName: string | undefined;
-        line = line.substr(tagName.length + 1).trim();
+        line = tag[2].trim();
 
         if (tagName === 'return') { tagName = 'returns'; }
         if (tagName === 'param' || tagName === 'typeparam') {
@@ -199,7 +199,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         }
 
         if (!inCode) {
-          const tag = /^@(\S+)/.exec(line);
+          const tag = /^\s*@(\S+)(.*)$/.exec(line);
           if (tag) {
             return readTagLine(line, tag);
           }
