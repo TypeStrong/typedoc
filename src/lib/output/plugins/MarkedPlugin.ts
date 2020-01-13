@@ -8,6 +8,7 @@ import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
 import { Option } from '../../utils/component';
 import { ParameterHint } from '../../utils/options/declaration';
+import { getTemplate } from '../utils/hbs-utils';
 
 /**
  * A plugin that exposes the markdown, compact and relativeURL helper to handlebars.
@@ -125,7 +126,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
                     const contents = FS.readFileSync(path, 'utf-8');
                     if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
-                        const template = Handlebars.compile(contents);
+                        const template = getTemplate(contents);
                         return template(context);
                     } else {
                         return contents;

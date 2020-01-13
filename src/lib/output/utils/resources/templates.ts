@@ -2,6 +2,7 @@ import * as Handlebars from 'handlebars';
 
 import { readFile } from '../../../utils/fs';
 import { ResourceStack, Resource } from './stack';
+import { getTemplate } from '../hbs-utils';
 
 export class Template extends Resource {
     private template?: HandlebarsTemplateDelegate;
@@ -9,7 +10,7 @@ export class Template extends Resource {
     getTemplate(): HandlebarsTemplateDelegate {
         if (!this.template) {
             const raw = readFile(this.fileName);
-            this.template = Handlebars.compile(raw, {
+            this.template = getTemplate(raw, {
                 preventIndent: true
             });
         }
