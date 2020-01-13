@@ -12,7 +12,18 @@ export function addDecoratedOptions(options: Options) {
  * Declares the given option and binds it to the decorated property.
  * @param option
  */
-export function Option<K extends keyof TypeDocOptionMap>(option: { name: K } & KeyToDeclaration<K>) {
+export function Option<K extends keyof TypeDocOptionMap>(option: { name: K } & KeyToDeclaration<K>);
+
+/**
+ * Declares the given option and binds it to the decorated property without strict checks.
+ *
+ * @privateRemarks
+ * Intended for plugin use only. SHOULD NOT BE USED INTERNALLY.
+ * @param option
+ */
+export function Option<K extends keyof TypeDocOptionMap>(option: DeclarationOption);
+
+export function Option(option: DeclarationOption) {
     declared.push(option);
 
     return function(target: { application: Application } | { options: Options }, key: PropertyKey) {

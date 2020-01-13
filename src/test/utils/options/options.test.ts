@@ -16,6 +16,15 @@ describe('Options', () => {
         equal(logger.hasErrors(), true);
     });
 
+    it('Does not error if the same declaration is registered twice', () => {
+        logger.resetErrors();
+        const declaration = { name: 'test-declaration', help: '' };
+        options.addDeclaration(declaration);
+        options.addDeclaration(declaration);
+        equal(logger.hasErrors(), false);
+        options.removeDeclarationByName(declaration.name);
+    });
+
     it('Supports removing a declaration by name', () => {
         options.addDeclaration({ name: 'not-an-option', help: '' });
         options.removeDeclarationByName('not-an-option');

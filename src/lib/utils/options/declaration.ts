@@ -32,7 +32,8 @@ export type TypeDocAndTSOptions = TypeDocOptions
     & Pick<CompilerOptions, Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>>;
 
 /**
- * Describes all TypeDoc options.
+ * Describes all TypeDoc options. Used internally to provide better types when fetching options.
+ * External consumers should likely use either [[TypeDocAndTSOptions]] or [[TypeDocOptions]].
  */
 export interface TypeDocOptionMap {
     options: string;

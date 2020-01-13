@@ -160,7 +160,9 @@ export class Options {
         }
 
         for (const name of names) {
-            if (this.getDeclaration(name)) {
+            // Check for registering the same declaration twice, should not be an error.
+            const decl = this.getDeclaration(name);
+            if (decl && decl !== declaration) {
                 this._logger.error(`The option ${name} has already been registered`);
             } else {
                 this._declarations.set(name.toLowerCase(), declaration);

@@ -13,16 +13,36 @@ export { NavigationItem } from './lib/output/models/NavigationItem';
 export { UrlMapping } from './lib/output/models/UrlMapping';
 
 export {
+    SourceFileMode
+} from './lib/converter';
+
+export {
+    Option,
     Options,
     OptionsReader,
     ParameterHint,
     ParameterScope,
     ParameterType,
+
     TypeDocOptions,
+    TypeDocAndTSOptions,
+    TypeDocOptionMap,
+    KeyToDeclaration,
 
     TSConfigReader,
     TypeDocReader,
-    ArgumentsReader
+    ArgumentsReader,
+
+    DeclarationOption,
+
+    DeclarationOptionBase,
+    StringDeclarationOption,
+    NumberDeclarationOption,
+    BooleanDeclarationOption,
+    ArrayDeclarationOption,
+    MixedDeclarationOption,
+    MapDeclarationOption,
+    DeclarationOptionToOptionType
 } from './lib/utils/options';
 
 export { JSONOutput } from './lib/serialization';
