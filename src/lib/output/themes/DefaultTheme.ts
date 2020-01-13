@@ -392,10 +392,44 @@ export class NavigationBuilder {
         if (modules.length < 10) {
             this.buildGroups(modules, root);
         } else {
-            this.buildGroups(this.entryPoint.getChildrenByKind(ReflectionKind.SomeModule), root, this.buildChildren);
+            this.buildGroups(this.entryPoint.getChildrenByKind(ReflectionKind.SomeModule), root, true);
         }
 
         return root;
+    }
+
+    /**
+     * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
+     * an "internal" and an "external" section when applicable.
+     *
+     * @param reflections  The list of reflections which should be transformed into navigation nodes.
+     * @param parent       The parent NavigationItem of the newly created nodes.
+     * @param buildChildren Whether navigation nodes should also be built for the children of each reflection.
+     */
+    protected buildGroups(
+        reflections: DeclarationReflection[],
+        parent: NavigationItem,
+        buildChildren: boolean = false
+    ) {
+        let state = -1;
+        const hasExternals = this.containsExternals(reflections);
+        this.sortReflections(reflections);
+
+        reflections.forEach((reflection) => {
+            if (hasExternals && !reflection.flags.isExternal && state !== 1) {
+                new NavigationItem('Internals', undefined, parent, 'tsd-is-external');
+                state = 1;
+            } else if (hasExternals && reflection.flags.isExternal && state !== 2) {
+                new NavigationItem('Externals', undefined, parent, 'tsd-is-external');
+                state = 2;
+            }
+
+            const item = NavigationItem.create(reflection, parent);
+            this.includeDedicatedUrls(reflection, item);
+            if (buildChildren) {
+                this.buildChildren(reflection, item);
+            }
+        });
     }
 
     /**
@@ -414,40 +448,6 @@ export class NavigationBuilder {
             const item = NavigationItem.create(reflection, parent);
             this.includeDedicatedUrls(reflection, item);
             this.buildChildren(reflection, item);
-        });
-    }
-
-    /**
-     * Create navigation nodes for the given list of reflections. The resulting nodes will be grouped into
-     * an "internal" and an "external" section when applicable.
-     *
-     * @param reflections  The list of reflections which should be transformed into navigation nodes.
-     * @param parent       The parent NavigationItem of the newly created nodes.
-     * @param callback     Optional callback invoked for each generated node.
-     */
-    protected buildGroups(
-        reflections: DeclarationReflection[],
-        parent: NavigationItem,
-        callback?: (reflection: DeclarationReflection, item: NavigationItem) => void
-    ) {
-        let state = -1;
-        const hasExternals = this.containsExternals(reflections);
-        this.sortReflections(reflections);
-
-        reflections.forEach((reflection) => {
-            if (hasExternals && !reflection.flags.isExternal && state !== 1) {
-                new NavigationItem('Internals', undefined, parent, 'tsd-is-external');
-                state = 1;
-            } else if (hasExternals && reflection.flags.isExternal && state !== 2) {
-                new NavigationItem('Externals', undefined, parent, 'tsd-is-external');
-                state = 2;
-            }
-
-            const item = NavigationItem.create(reflection, parent);
-            this.includeDedicatedUrls(reflection, item);
-            if (callback) {
-                callback(reflection, item);
-            }
         });
     }
 
