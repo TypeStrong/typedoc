@@ -62,6 +62,78 @@
                 "type": "intrinsic",
                 "name": "string"
               }
+            },
+            {
+              "id": 22,
+              "name": "mixedHidden",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 25,
+                  "name": "mixedHidden",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "shortText": "Mixed hidden 2"
+                  },
+                  "parameters": [
+                    {
+                      "id": 26,
+                      "name": "arg1",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    },
+                    {
+                      "id": 27,
+                      "name": "arg2",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "any"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "comment.ts",
+                  "line": 70,
+                  "character": 13
+                },
+                {
+                  "fileName": "comment.ts",
+                  "line": 74,
+                  "character": 13
+                },
+                {
+                  "fileName": "comment.ts",
+                  "line": 75,
+                  "character": 13
+                }
+              ]
             }
           ],
           "groups": [
@@ -70,6 +142,13 @@
               "kind": 1024,
               "children": [
                 8
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                22
               ]
             }
           ],
@@ -82,7 +161,7 @@
           ]
         },
         {
-          "id": 11,
+          "id": 29,
           "name": "gh1164",
           "kind": 64,
           "kindString": "Function",
@@ -91,7 +170,7 @@
           },
           "signatures": [
             {
-              "id": 12,
+              "id": 30,
               "name": "gh1164",
               "kind": 4096,
               "kindString": "Call signature",
@@ -104,7 +183,7 @@
               },
               "parameters": [
                 {
-                  "id": 13,
+                  "id": 31,
                   "name": "scope",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -129,7 +208,7 @@
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 52,
+              "line": 88,
               "character": 22
             }
           ]
@@ -147,7 +226,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            11
+            29
           ]
         }
       ],

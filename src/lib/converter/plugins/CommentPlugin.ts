@@ -47,11 +47,6 @@ export class CommentPlugin extends ConverterComponent {
     private comments!: {[id: number]: ModuleComment};
 
     /**
-     * List of hidden reflections.
-     */
-    private hidden?: Reflection[];
-
-    /**
      * Create a new CommentPlugin instance.
      */
     initialize() {
@@ -114,16 +109,6 @@ export class CommentPlugin extends ConverterComponent {
             CommentPlugin.removeTags(comment, 'event');
         }
 
-        if (comment.hasTag('hidden')
-            || comment.hasTag('ignore')
-            || (comment.hasTag('internal') && this.application.options.getCompilerOptions().stripInternal)
-        ) {
-            if (!this.hidden) {
-                this.hidden = [];
-            }
-            this.hidden.push(reflection);
-        }
-
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
             CommentPlugin.removeTags(comment, 'packagedocumentation');
         }
@@ -135,7 +120,6 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBegin(context: Context) {
-        this.hidden = undefined;
         this.comments = {};
     }
 
@@ -232,12 +216,22 @@ export class CommentPlugin extends ConverterComponent {
             info.reflection.comment = comment;
         }
 
-        if (this.hidden) {
-            const project = context.project;
-            for (const reflection of this.hidden) {
-                project.removeReflection(reflection, true);
-            }
-        }
+        const stripInternal = this.application.options.getCompilerOptions().stripInternal;
+
+        const project = context.project;
+        const reflections = Object.values(project.reflections);
+
+        // remove signatures
+        const hidden = reflections.filter(reflection => CommentPlugin.isHidden(reflection, stripInternal));
+        hidden.forEach(reflection => project.removeReflection(reflection, true));
+
+        // remove functions with empty signatures after their signatures have been removed
+        const hiddenMethods = hidden.map(reflection => reflection.parent!)
+            .filter(method =>
+                method.kindOf(ReflectionKind.FunctionOrMethod)
+                && method instanceof DeclarationReflection
+                && method.signatures?.length === 0);
+        hiddenMethods.forEach(reflection => project.removeReflection(reflection, true));
     }
 
     /**
@@ -344,5 +338,24 @@ export class CommentPlugin extends ConverterComponent {
      */
     static removeReflection(project: ProjectReflection, reflection: Reflection) {
         project.removeReflection(reflection, true);
+    }
+
+    /**
+     * Determins whether or not a reflection has been hidden
+     *
+     * @param reflection Reflection to check if hidden
+     */
+    private static isHidden(reflection: Reflection, stripInternal: boolean | undefined) {
+        const comment = reflection.comment;
+
+        if (!comment) {
+            return false;
+        }
+
+        return (
+            comment.hasTag('hidden')
+            || comment.hasTag('ignore')
+            || (comment.hasTag('internal') && stripInternal)
+        );
     }
 }
