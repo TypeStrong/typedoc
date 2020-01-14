@@ -32,7 +32,7 @@
           "flags": {
             "isExported": true
           },
-          "target": 11
+          "target": 10
         },
         {
           "id": 17,
@@ -42,7 +42,7 @@
           "flags": {
             "isExported": true
           },
-          "target": 12
+          "target": 10
         },
         {
           "id": 19,

@@ -28,9 +28,15 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
     return new ReferenceType(name, context.checker.getFullyQualifiedName(symbol));
 }
 
-export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection {
+export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection | undefined {
     if (!(context.scope instanceof ContainerReflection)) {
         throw new Error('Cannot add reference to a non-container');
+    }
+
+    // If any declaration is outside, the symbol should be considered outside. Some declarations may
+    // be inside due to declaration merging.
+    if (target.declarations.some(d => context.isOutsideDocumentation(d.getSourceFile().fileName))) {
+        return;
     }
 
     const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.checker.getFullyQualifiedName(target)], context.scope);

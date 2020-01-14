@@ -205,12 +205,8 @@ export class Context {
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node: ts.SourceFile, callback: Function) {
-        let isExternal = !this.fileNames.includes(node.fileName);
-        if (!isExternal && this.externalPattern) {
-            isExternal = this.externalPattern.some(mm => mm.match(node.fileName));
-        }
-
-        if (isExternal && this.converter.excludeExternals) {
+        const isExternal = this.isExternalFile(node.fileName);
+        if (this.isOutsideDocumentation(node.fileName, isExternal)) {
             return;
         }
 
@@ -341,6 +337,32 @@ export class Context {
         }
 
         return target;
+    }
+
+    /**
+     * Determines if the given file is outside of the project's generated documentation.
+     * This is not, and is not intended to be, foolproof. Plugins may remove reflections
+     * in the file that this method returns true for, See GH#1166 for discussion on tradeoffs.
+     *
+     * @param fileName
+     * @internal
+     */
+    isOutsideDocumentation(fileName: string, isExternal = this.isExternalFile(fileName)) {
+        return isExternal && this.converter.excludeExternals;
+    }
+
+    /**
+     * Checks if the given file is external.
+     *
+     * @param fileName
+     * @internal
+     */
+    isExternalFile(fileName: string) {
+        let isExternal = !this.fileNames.includes(fileName);
+        if (!isExternal && this.externalPattern) {
+            isExternal = this.externalPattern.some(mm => mm.match(fileName));
+        }
+        return isExternal;
     }
 
     /**

@@ -27,3 +27,9 @@ export default function() {
  * @hidden
  */
 export const hidden = true;
+
+/**
+ * This export is from a file external to the documentation that will not be included in the resulting docs.
+ * No reference should be created.
+ */
+export { Node } from 'typescript';

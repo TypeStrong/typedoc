@@ -93,7 +93,8 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
                 }
                 const source = context.checker.tryGetMemberInModuleExports(key.toString().replace(/^__/, '_'), thisModule);
                 if (source) {
-                    createReferenceReflection(context, source, symbol);
+                    const target = context.resolveAliasedSymbol(symbol);
+                    createReferenceReflection(context, source, target);
                 }
             });
         }
