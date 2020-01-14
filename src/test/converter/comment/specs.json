@@ -120,17 +120,7 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 70,
-                  "character": 13
-                },
-                {
-                  "fileName": "comment.ts",
                   "line": 74,
-                  "character": 13
-                },
-                {
-                  "fileName": "comment.ts",
-                  "line": 75,
                   "character": 13
                 }
               ]

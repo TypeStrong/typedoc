@@ -13,6 +13,8 @@ import { Component, ConverterComponent } from '../components';
 import { parseComment, getRawComment } from '../factories/comment';
 import { Converter } from '../converter';
 import { Context } from '../context';
+import { partition, uniq } from 'lodash';
+import { SourceReference } from '../../models';
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
@@ -226,12 +228,15 @@ export class CommentPlugin extends ConverterComponent {
         hidden.forEach(reflection => project.removeReflection(reflection, true));
 
         // remove functions with empty signatures after their signatures have been removed
-        const hiddenMethods = hidden.map(reflection => reflection.parent!)
-            .filter(method =>
-                method.kindOf(ReflectionKind.FunctionOrMethod)
-                && method instanceof DeclarationReflection
-                && method.signatures?.length === 0);
-        hiddenMethods.forEach(reflection => project.removeReflection(reflection, true));
+        const [ allRemoved, someRemoved ] = partition(
+            hidden.map(reflection => reflection.parent!)
+                .filter(method => method.kindOf(ReflectionKind.FunctionOrMethod)) as DeclarationReflection[],
+            method => method.signatures?.length === 0
+        );
+        allRemoved.forEach(reflection => project.removeReflection(reflection, true));
+        someRemoved.forEach(reflection => {
+            reflection.sources = uniq(reflection.signatures!.reduce<SourceReference[]>((c, s) => c.concat(s.sources || []), []));
+        });
     }
 
     /**
