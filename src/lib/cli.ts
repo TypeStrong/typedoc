@@ -1,7 +1,7 @@
 import * as typescript from 'typescript';
 
 import { Application } from './application';
-import { Option, ParameterHint, ParameterType } from './utils/options';
+import { BindOption } from './utils/options';
 import { getOptionsHelp } from './utils/options/help';
 import { ArgumentsReader, TypeDocReader } from './utils/options/readers';
 import { TSConfigReader } from './utils/options/readers/tsconfig';
@@ -16,34 +16,16 @@ export const enum ExitCode {
 }
 
 export class CliApplication extends Application {
-    @Option({
-        name: 'out',
-        help: 'Specifies the location the documentation should be written to.',
-        hint: ParameterHint.Directory
-    })
+    @BindOption('out')
     out!: string;
 
-    @Option({
-        name: 'json',
-        help: 'Specifies the location and file name a json file describing the project is written to.',
-        hint: ParameterHint.File
-    })
+    @BindOption('json')
     json!: string;
 
-    @Option({
-        name: 'version',
-        short: 'v',
-        help: 'Print the TypeDoc\'s version.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('version')
     version!: boolean;
 
-    @Option({
-        name: 'help',
-        short: 'h',
-        help: 'Print this message.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('help')
     help!: boolean;
 
     /**

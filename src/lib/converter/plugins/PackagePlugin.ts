@@ -6,7 +6,7 @@ import { Reflection } from '../../models/reflections/abstract';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils';
+import { BindOption } from '../../utils';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -18,10 +18,7 @@ import { Option } from '../../utils';
  */
 @Component({name: 'package'})
 export class PackagePlugin extends ConverterComponent {
-    @Option({
-        name: 'readme',
-        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
-    })
+    @BindOption('readme')
     readme!: string;
 
     /**

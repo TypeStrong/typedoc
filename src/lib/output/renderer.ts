@@ -21,12 +21,12 @@ import { writeFile } from '../utils/fs';
 import { DefaultTheme } from './themes/DefaultTheme';
 import { RendererComponent } from './components';
 import { Component, ChildableComponent } from '../utils/component';
-import { ParameterType, Option } from '../utils';
+import { BindOption } from '../utils';
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
  * the emitted html documents to a output directory. You can specify which theme should be used
- * using the ```--theme <name>``` commandline argument.
+ * using the ```--theme <name>``` command line argument.
  *
  * Subclasses of [[BasePlugin]] that have registered themselves in the [[Renderer.PLUGIN_CLASSES]]
  * will be automatically initialized. Most of the core functionality is provided as separate plugins.
@@ -61,53 +61,25 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      */
     theme?: Theme;
 
-    @Option({
-        name: 'theme',
-        help: 'Specify the path to the theme that should be used or \'default\' or \'minimal\' to use built-in themes.',
-        type: ParameterType.String,
-        defaultValue: 'default'
-    })
+    @BindOption('theme')
     themeName!: string;
 
-    @Option({
-        name: 'disableOutputCheck',
-        help: 'Should TypeDoc disable the testing and cleaning of the output directory?',
-        type: ParameterType.Boolean
-    })
+    @BindOption('disableOutputCheck')
     disableOutputCheck!: boolean;
 
-    @Option({
-        name: 'gaID',
-        help: 'Set the Google Analytics tracking ID and activate tracking code.'
-    })
+    @BindOption('gaID')
     gaID!: string;
 
-    @Option({
-        name: 'gaSite',
-        help: 'Set the site name for Google Analytics. Defaults to `auto`.',
-        defaultValue: 'auto'
-    })
+    @BindOption('gaSite')
     gaSite!: string;
 
-    @Option({
-        name: 'hideGenerator',
-        help: 'Do not print the TypeDoc link at the end of the page.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('hideGenerator')
     hideGenerator!: boolean;
 
-    @Option({
-        name: 'entryPoint',
-        help: 'Specifies the fully qualified name of the root symbol. Defaults to global namespace.',
-        type: ParameterType.String
-    })
+    @BindOption('entryPoint')
     entryPoint!: string;
 
-    @Option({
-        name: 'toc',
-        help: 'Define the contents of the top level table of contents as a comma-separated list of global symbols.',
-        type: ParameterType.Array
-    })
+    @BindOption('toc')
     toc!: string[];
 
     /**

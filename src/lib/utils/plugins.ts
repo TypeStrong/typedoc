@@ -3,18 +3,14 @@ import * as Path from 'path';
 
 import { Application } from '../application';
 import { AbstractComponent, Component } from './component';
-import { ParameterType, Option } from './options';
+import { BindOption } from './options';
 
 /**
  * Responsible for discovering and loading plugins.
  */
 @Component({ name: 'plugin-host', internal: true })
 export class PluginHost extends AbstractComponent<Application> {
-    @Option({
-        name: 'plugin',
-        help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
-        type: ParameterType.Array
-    })
+    @BindOption('plugin')
     plugins!: string[];
 
     /**

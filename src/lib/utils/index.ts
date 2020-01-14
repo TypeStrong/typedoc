@@ -1,4 +1,4 @@
-export { Option, Options, ParameterType, ParameterHint, ParameterScope } from './options';
+export { Option, Options, ParameterType, ParameterHint, ParameterScope, BindOption } from './options';
 export { insertPrioritySorted, removeIfPresent } from './array';
 export { Component, AbstractComponent, ChildableComponent } from './component';
 export { Event, EventDispatcher } from './events';

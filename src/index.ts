@@ -17,7 +17,8 @@ export {
 } from './lib/converter';
 
 export {
-    Option,
+    Option, // deprecated
+    BindOption,
     Options,
     OptionsReader,
     ParameterHint,

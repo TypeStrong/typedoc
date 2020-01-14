@@ -1,11 +1,12 @@
 import * as _ from 'lodash';
 import * as ts from 'typescript';
 
-import { DeclarationOption, ParameterScope, convert, TypeDocOptions, KeyToDeclaration, TypeDocAndTSOptions } from './declaration';
+import { DeclarationOption, ParameterScope, convert, TypeDocOptions, KeyToDeclaration, TypeDocAndTSOptions, TypeDocOptionMap } from './declaration';
 import { Logger } from '../loggers';
 import { Result, Ok, Err } from '../result';
 import { insertPrioritySorted } from '../array';
-import { addTSOptions, addDecoratedOptions } from './sources';
+import { addTSOptions, addTypeDocOptions } from './sources';
+import { Application } from '../../..';
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -96,12 +97,11 @@ export class Options {
     }
 
     /**
-     * Adds the option declarations declared by TypeDoc's `@Option` decorator
-     * and all supported TypeScript declarations.
+     * Adds the option declarations declared by the TypeDoc and all supported TypeScript declarations.
      */
     addDefaultDeclarations() {
         addTSOptions(this);
-        addDecoratedOptions(this);
+        addTypeDocOptions(this);
     }
 
     /**
@@ -320,4 +320,41 @@ export class Options {
         }
         return errors.length ? Err(errors) : Ok(void 0);
     }
+}
+
+/**
+ * Binds an option to the given property. Does not register the option.
+ *
+ * @since v0.16.3
+ */
+export function BindOption<K extends keyof TypeDocOptionMap>(name: K):
+    <IK extends PropertyKey>(
+        target: ({ application: Application } | { options: Options }) & { [K2 in IK]: TypeDocOptions[K] },
+        key: IK
+    ) => void;
+
+/**
+ * Binds an option to the given property. Does not register the option.
+ * @since v0.16.3
+ *
+ * @privateRemarks
+ * This overload is intended for plugin use only with looser type checks. Do not use internally.
+ */
+export function BindOption(name: string):
+    (target: { application: Application } | { options: Options }) => void;
+
+export function BindOption(name: string) {
+    return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
+        Object.defineProperty(target, key, {
+            get(this: { application: Application } | { options: Options }) {
+                if ('options' in this) {
+                    return this.options.getValue(name);
+                } else {
+                    return this.application.options.getValue(name);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+    };
 }

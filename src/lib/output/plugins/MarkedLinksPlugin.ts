@@ -3,7 +3,7 @@ import * as Util from 'util';
 import { Reflection } from '../../models/reflections/abstract';
 import { Component, ContextAwareRendererComponent } from '../components';
 import { MarkdownEvent, RendererEvent } from '../events';
-import { ParameterType, Option } from '../../utils';
+import { BindOption } from '../../utils';
 
 /**
  * A plugin that builds links in markdown texts.
@@ -20,11 +20,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
      */
     private inlineTag: RegExp = /(?:\[(.+?)\])?\{@(link|linkcode|linkplain)\s+((?:.|\n)+?)\}/gi;
 
-    @Option({
-        name: 'listInvalidSymbolLinks',
-        help: 'Emits a list of broken symbol [[navigation]] links after documentation generation',
-        type: ParameterType.Boolean
-    })
+    @BindOption('listInvalidSymbolLinks')
     listInvalidSymbolLinks!: boolean;
 
     private warnings: string[] = [];

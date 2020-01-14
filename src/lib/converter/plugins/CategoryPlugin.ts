@@ -3,7 +3,7 @@ import { ReflectionCategory } from '../../models/ReflectionCategory';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { ParameterType, Option } from '../../utils';
+import { BindOption } from '../../utils';
 import { Comment } from '../../models/comments/index';
 
 /**
@@ -13,27 +13,13 @@ import { Comment } from '../../models/comments/index';
  */
 @Component({name: 'category'})
 export class CategoryPlugin extends ConverterComponent {
-    @Option({
-        name: 'defaultCategory',
-        help: 'Specifies the default category for reflections without a category.',
-        type: ParameterType.String,
-        defaultValue: 'Other'
-    })
+    @BindOption('defaultCategory')
     defaultCategory!: string;
 
-    @Option({
-        name: 'categoryOrder',
-        help: 'Specifies the order in which categories appear. * indicates the relative order for categories not in the list.',
-        type: ParameterType.Array
-    })
+    @BindOption('categoryOrder')
     categoryOrder!: string[];
 
-    @Option({
-        name: 'categorizeByGroup',
-        help: 'Specifies whether categorization will be done at the group level.',
-        type: ParameterType.Boolean,
-        defaultValue: true
-    })
+    @BindOption('categorizeByGroup')
     categorizeByGroup!: boolean;
 
     // For use in static methods

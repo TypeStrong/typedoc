@@ -23,8 +23,7 @@ import {
     Component,
     DUMMY_APPLICATION_OWNER
 } from './utils/component';
-import { Option, Options, ParameterType } from './utils';
-import { ParameterHint } from './utils/options';
+import { Options, BindOption } from './utils';
 import { TypeDocAndTSOptions } from './utils/options/declaration';
 import { addDecoratedOptions } from './utils/options/sources';
 
@@ -71,51 +70,22 @@ export class Application extends ChildableComponent<
 
     plugins: PluginHost;
 
-    @Option({
-        name: 'logger',
-        help: "Specify the logger that should be used, 'none' or 'console'",
-        defaultValue: 'console',
-        type: ParameterType.Mixed
-    })
+    @BindOption('logger')
     loggerType!: string | Function;
 
-    @Option({
-        name: 'ignoreCompilerErrors',
-        help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
-        type: ParameterType.Boolean
-    })
+    @BindOption('ignoreCompilerErrors')
     ignoreCompilerErrors!: boolean;
 
-    @Option({
-        name: 'exclude',
-        help: 'Define patterns for excluded files when specifying paths.',
-        type: ParameterType.Array
-    })
+    @BindOption('exclude')
     exclude!: Array<string>;
 
-    @Option({
-        name: 'inputFiles',
-        help: 'The initial input files to expand and then pass to TS.',
-        type: ParameterType.Array
-    })
+    @BindOption('inputFiles')
     inputFiles!: string[];
 
-    @Option({
-        name: 'options',
-        help: "Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.",
-        type: ParameterType.String,
-        hint: ParameterHint.File,
-        defaultValue: process.cwd()
-    })
+    @BindOption('options')
     optionsFile!: string;
 
-    @Option({
-        name: 'tsconfig',
-        help: "Specify a typescript config file that should be loaded. If not specified TypeDoc will look for 'tsconfig.json' in the current directory.",
-        type: ParameterType.String,
-        hint: ParameterHint.File,
-        defaultValue: process.cwd()
-    })
+    @BindOption('tsconfig')
     project!: string;
 
     /**

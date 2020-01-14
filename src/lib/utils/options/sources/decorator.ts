@@ -1,6 +1,6 @@
-import { DeclarationOption, TypeDocOptionMap, KeyToDeclaration } from '../declaration';
+import { DeclarationOption } from '../declaration';
 import { Options } from '..';
-import { Application } from '../../../application';
+import { BindOption } from '../options';
 
 const declared: DeclarationOption[] = [];
 
@@ -9,34 +9,15 @@ export function addDecoratedOptions(options: Options) {
 }
 
 /**
- * Declares the given option and binds it to the decorated property.
- * @param option
- */
-export function Option<K extends keyof TypeDocOptionMap>(option: { name: K } & KeyToDeclaration<K>);
-
-/**
  * Declares the given option and binds it to the decorated property without strict checks.
  *
- * @privateRemarks
- * Intended for plugin use only. SHOULD NOT BE USED INTERNALLY.
+ * @deprecated Options should be declared on the options object. Will be removed in 0.17.
  * @param option
  */
-export function Option<K extends keyof TypeDocOptionMap>(option: DeclarationOption);
-
-export function Option(option: DeclarationOption) {
+export function Option(option: DeclarationOption): PropertyDecorator {
+    console.warn('The @Option decorator is deprecated and will be removed in v0.17.');
+    console.warn(`  (Used to register ${option.name})`);
     declared.push(option);
 
-    return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
-        Object.defineProperty(target, key, {
-            get(this: { application: Application } | { options: Options }) {
-                if ('options' in this) {
-                    return this.options.getValue(option.name);
-                } else {
-                    return this.application.options.getValue(option.name);
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-    };
+    return BindOption(option.name) as any;
 }

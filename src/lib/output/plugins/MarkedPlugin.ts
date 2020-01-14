@@ -6,7 +6,7 @@ import * as Handlebars from 'handlebars';
 
 import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
-import { Option, ParameterHint } from '../../utils';
+import { BindOption } from '../../utils';
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -52,18 +52,10 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
  */
 @Component({name: 'marked'})
 export class MarkedPlugin extends ContextAwareRendererComponent {
-    @Option({
-        name: 'includes',
-        help: 'Specifies the location to look for included documents (use [[include:FILENAME]] in comments).',
-        hint: ParameterHint.Directory
-    })
+    @BindOption('includes')
     includeSource!: string;
 
-    @Option({
-        name: 'media',
-        help: 'Specifies the location with media files that should be copied to the output directory.',
-        hint: ParameterHint.Directory
-    })
+    @BindOption('media')
     mediaSource!: string;
 
     /**
@@ -104,9 +96,9 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     }
 
     /**
-     * Highlight the synatx of the given text using HighlightJS.
+     * Highlight the syntax of the given text using HighlightJS.
      *
-     * @param text  The text taht should be highlightes.
+     * @param text  The text that should be highlighted.
      * @param lang  The language that should be used to highlight the string.
      * @return A html string with syntax highlighting.
      */
