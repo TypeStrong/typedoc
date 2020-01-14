@@ -39,6 +39,42 @@ export class CommentedClass {
   hiddenprop: string;
 
   /**
+   * Hidden function
+   * @hidden
+   */
+  hidden(...args: any[]): void {}
+
+  /**
+   * Single hidden signature
+   * @hidden
+   */
+  hiddenWithImplementation(arg: any);
+  hiddenWithImplementation(...args: any[]): void {}
+
+  /**
+   * Multiple hidden 1
+   * @hidden
+   */
+  multipleHidden(arg: any);
+  /**
+   * Multiple hidden 2
+   * @hidden
+   */
+  multipleHidden(arg1: any, arg2: any);
+  multipleHidden(...args: any[]): void {}
+
+  /**
+   * Mixed hidden 1
+   * @hidden
+   */
+  mixedHidden(arg: any);
+  /**
+   * Mixed hidden 2
+   */
+  mixedHidden(arg1: any, arg2: any);
+  mixedHidden(...args: any[]): void {}
+
+  /**
    * @ignore
    */
   ignoredprop: string;
