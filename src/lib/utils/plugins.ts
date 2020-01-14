@@ -14,31 +14,18 @@ export class PluginHost extends AbstractComponent<Application> {
     plugins!: string[];
 
     /**
-     * Load the given list of npm plugins.
-     *
-     * @param plugins  A list of npm modules that should be loaded as plugins. When not specified
-     *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
+     * Load all npm plugins.
      * @returns TRUE on success, otherwise FALSE.
      */
     load(): boolean {
         const logger = this.application.logger;
-        const plugins = this.plugins || this.discoverNpmPlugins();
+        const plugins = this.plugins.length ? this.plugins : this.discoverNpmPlugins();
 
-        let i: number, c: number = plugins.length;
-        for (i = 0; i < c; i++) {
-            const plugin = plugins[i];
-            // TSLint would be correct here, but it doesn't take into account user config files.
-            // tslint:disable-next-line:strict-type-predicates
-            if (typeof plugin !== 'string') {
-                logger.error('Unknown plugin %s', plugin);
-                return false;
-            } else if (plugin.toLowerCase() === 'none') {
-                return true;
-            }
+        if (plugins.some(plugin => plugin.toLowerCase() === 'none')) {
+            return true;
         }
 
-        for (i = 0; i < c; i++) {
-            const plugin = plugins[i];
+        for (const plugin of plugins) {
             try {
                 const instance = require(plugin);
                 const initFunction = typeof instance.load === 'function'
