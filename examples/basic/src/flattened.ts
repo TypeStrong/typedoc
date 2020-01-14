@@ -56,6 +56,16 @@ class FlattenedClass {
     };
 
     /**
+     * Single call signature.
+     */
+    public singleCallSignature: (...args: string[]) => () => string;
+
+    /**
+     * Rendering edge case: the function needs to be wrapped in parens or the type changes.
+     */
+    unionAndFunction: (() => 1) | 2;
+
+    /**
      * A constructor that accepts an option object defined inline.
      *
      * @param options                         The inline typed options object.
