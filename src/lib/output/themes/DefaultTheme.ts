@@ -384,7 +384,7 @@ export class NavigationBuilder {
                 target = target.parent;
             }
 
-            if (inScope && someModule instanceof DeclarationReflection) {
+            if (inScope && someModule instanceof DeclarationReflection && someModule.children && someModule.children.length > 0) {
                 modules.push(someModule);
             }
         });
