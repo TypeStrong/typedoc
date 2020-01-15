@@ -1,6 +1,6 @@
 export { AccessorConverter } from './accessor';
 export { AliasConverter } from './alias';
-export { BlockConverter, SourceFileMode } from './block';
+export { BlockConverter } from './block';
 export { ClassConverter } from './class';
 export { ConstructorConverter } from './constructor';
 export { EnumConverter } from './enum';

@@ -13,10 +13,6 @@ export { NavigationItem } from './lib/output/models/NavigationItem';
 export { UrlMapping } from './lib/output/models/UrlMapping';
 
 export {
-    SourceFileMode
-} from './lib/converter';
-
-export {
     Option, // deprecated
     BindOption,
     Options,
@@ -29,6 +25,7 @@ export {
     TypeDocAndTSOptions,
     TypeDocOptionMap,
     KeyToDeclaration,
+    SourceFileMode,
 
     TSConfigReader,
     TypeDocReader,

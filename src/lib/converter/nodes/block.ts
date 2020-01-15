@@ -4,17 +4,13 @@ import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
-import { BindOption } from '../../utils';
+import { BindOption, SourceFileMode } from '../../utils';
 
 const preferred: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.InterfaceDeclaration,
     ts.SyntaxKind.EnumDeclaration
 ];
-
-export enum SourceFileMode {
-    File, Modules
-}
 
 @Component({name: 'node:block'})
 export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock> {

@@ -2,7 +2,6 @@ import { Application, resetReflectionID, normalizePath, ProjectReflection } from
 import * as FS from 'fs';
 import * as Path from 'path';
 import { deepStrictEqual as equal, ok } from 'assert';
-import { SourceFileMode } from '../lib/converter/nodes/block';
 import { ScriptTarget, ModuleKind, JsxEmit } from 'typescript';
 
 import json = require('./converter/class/specs.json');
@@ -12,7 +11,7 @@ describe('Converter', function() {
     const base = Path.join(__dirname, 'converter');
     const app = new Application();
     app.bootstrap({
-        mode: SourceFileMode.Modules,
+        mode: 'modules',
         logger: 'none',
         target: ScriptTarget.ES5,
         module: ModuleKind.CommonJS,

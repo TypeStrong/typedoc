@@ -1,6 +1,5 @@
 import { Options } from '..';
-import { ParameterType, ParameterHint } from '../declaration';
-import { SourceFileMode } from '../../../..';
+import { ParameterType, ParameterHint, SourceFileMode } from '../declaration';
 
 export function addTypeDocOptions(options: Options) {
     options.addDeclaration({

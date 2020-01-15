@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { CompilerOptions } from 'typescript';
 import { Result } from '../result';
-import { SourceFileMode } from '../../converter/nodes/block';
 import { IgnoredTsOptionKeys } from './sources/typescript';
 
 /**
@@ -30,6 +29,10 @@ type KnownKeys<T> = {
  */
 export type TypeDocAndTSOptions = TypeDocOptions
     & Pick<CompilerOptions, Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>>;
+
+export enum SourceFileMode {
+    File, Modules
+}
 
 /**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.

@@ -1,6 +1,6 @@
 import { DeclarationOption } from '../declaration';
 import { Options } from '..';
-import { BindOption } from '../options';
+import { Application } from '../../../application';
 
 const declared: DeclarationOption[] = [];
 
@@ -14,10 +14,22 @@ export function addDecoratedOptions(options: Options) {
  * @deprecated Options should be declared on the options object. Will be removed in 0.17.
  * @param option
  */
-export function Option(option: DeclarationOption): PropertyDecorator {
+export function Option(option: DeclarationOption) {
     console.warn('The @Option decorator is deprecated and will be removed in v0.17.');
     console.warn(`  (Used to register ${option.name})`);
     declared.push(option);
 
-    return BindOption(option.name) as any;
+    return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
+        Object.defineProperty(target, key, {
+            get(this: { application: Application } | { options: Options }) {
+                if ('options' in this) {
+                    return this.options.getValue(name);
+                } else {
+                    return this.application.options.getValue(name);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+    };
 }
