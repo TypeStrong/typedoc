@@ -207,6 +207,8 @@ export class ProjectReflection extends ContainerReflection {
         for (const id of ids ?? []) {
             this.symbolIdToReflectionIdMap.delete(id);
         }
+
+        delete this.reflections[reflection.id];
     }
 
     /**
