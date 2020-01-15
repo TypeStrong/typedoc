@@ -8,7 +8,7 @@ const ts = require('typescript');
 
 const app = new TypeDoc.Application();
 app.bootstrap({
-    mode: 'Modules',
+    mode: TypeDoc.SourceFileMode.Modules,
     target: ts.ScriptTarget.ES5,
     module: ts.ModuleKind.CommonJS,
     experimentalDecorators: true,
