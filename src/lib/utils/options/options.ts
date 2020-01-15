@@ -341,7 +341,7 @@ export function BindOption<K extends keyof TypeDocOptionMap>(name: K):
  * This overload is intended for plugin use only with looser type checks. Do not use internally.
  */
 export function BindOption(name: string):
-    (target: { application: Application } | { options: Options }) => void;
+    (target: { application: Application } | { options: Options }, key: PropertyKey) => void;
 
 export function BindOption(name: string) {
     return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
