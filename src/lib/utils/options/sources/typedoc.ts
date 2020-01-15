@@ -109,6 +109,11 @@ export function addTypeDocOptions(options: Options) {
         help: 'Set the name of the project that will be used in the header of the template.'
     });
     options.addDeclaration({
+        name: 'includeVersion',
+        help: 'Add the package version to the project name',
+        type: ParameterType.Boolean
+    });
+    options.addDeclaration({
         name: 'readme',
         help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
     });

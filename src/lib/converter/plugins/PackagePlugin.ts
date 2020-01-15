@@ -21,6 +21,9 @@ export class PackagePlugin extends ConverterComponent {
     @BindOption('readme')
     readme!: string;
 
+    @BindOption('includeVersion')
+    includeVersion!: boolean;
+
     /**
      * The file name of the found readme.md file.
      */
@@ -121,7 +124,10 @@ export class PackagePlugin extends ConverterComponent {
         if (this.packageFile) {
             project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
             if (!project.name) {
-                project.name = `${project.packageInfo.name} - v${project.packageInfo.version}`;
+                project.name = String(project.packageInfo.name);
+            }
+            if (this.includeVersion) {
+                project.name = `${project.name} - v${project.packageInfo.version}`;
             }
         }
     }
