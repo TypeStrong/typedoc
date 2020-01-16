@@ -8,7 +8,7 @@ labels: bug
     
     First, please use a clear and descriptive title for the issue to identify the bug.
 
-    Please be as specific as possible! Provide codes, sreenshots, repositories, explanations, issues, links ... anything that could describe your point.
+    Please be as specific as possible! Provide codes, screenshots, repositories, explanations, issues, links ... anything that could describe your point.
 -->
 
 - [ ] I have checked [issues with bug label](https://github.com/TypeStrong/typedoc/labels/bug) and found no duplicates
