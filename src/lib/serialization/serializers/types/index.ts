@@ -6,6 +6,7 @@ export * from './inferred';
 export * from './intersection';
 export * from './intrinsic';
 export * from './predicate';
+export * from './query';
 export * from './reference';
 export * from './reflection';
 export * from './string-literal';

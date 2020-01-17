@@ -6,6 +6,87 @@
   "children": [
     {
       "id": 1,
+      "name": "\"query\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/types/query.ts",
+      "children": [
+        {
+          "id": 3,
+          "name": "TypeOfX",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {
+            "isExported": true
+          },
+          "sources": [
+            {
+              "fileName": "query.ts",
+              "line": 3,
+              "character": 19
+            }
+          ],
+          "type": {
+            "type": "query",
+            "queryType": {
+              "type": "reference",
+              "id": 2,
+              "name": "x"
+            }
+          }
+        },
+        {
+          "id": 2,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "query.ts",
+              "line": 1,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Type aliases",
+          "kind": 4194304,
+          "children": [
+            3
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "query.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
       "name": "\"union-or-intersection\"",
       "kind": 1,
       "kindString": "External module",
@@ -15,7 +96,7 @@
       "originalName": "%BASE%/types/union-or-intersection.ts",
       "children": [
         {
-          "id": 2,
+          "id": 5,
           "name": "FirstType",
           "kind": 256,
           "kindString": "Interface",
@@ -27,7 +108,7 @@
           },
           "children": [
             {
-              "id": 3,
+              "id": 6,
               "name": "firstProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -55,7 +136,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                3
+                6
               ]
             }
           ],
@@ -68,7 +149,7 @@
           ]
         },
         {
-          "id": 4,
+          "id": 7,
           "name": "SecondType",
           "kind": 256,
           "kindString": "Interface",
@@ -80,7 +161,7 @@
           },
           "children": [
             {
-              "id": 5,
+              "id": 8,
               "name": "secondProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -108,7 +189,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                5
+                8
               ]
             }
           ],
@@ -121,7 +202,7 @@
           ]
         },
         {
-          "id": 6,
+          "id": 9,
           "name": "ThirdType",
           "kind": 256,
           "kindString": "Interface",
@@ -133,7 +214,7 @@
           },
           "children": [
             {
-              "id": 9,
+              "id": 12,
               "name": "thirdComplexProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -166,12 +247,12 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 2,
+                            "id": 5,
                             "name": "FirstType"
                           },
                           {
                             "type": "reference",
-                            "id": 4,
+                            "id": 7,
                             "name": "SecondType"
                           }
                         ]
@@ -182,7 +263,7 @@
               }
             },
             {
-              "id": 8,
+              "id": 11,
               "name": "thirdIntersectionProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -204,19 +285,19 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 2,
+                    "id": 5,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 6,
+                    "id": 9,
                     "name": "ThirdType"
                   }
                 ]
               }
             },
             {
-              "id": 7,
+              "id": 10,
               "name": "thirdUnionProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -238,12 +319,12 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 2,
+                    "id": 5,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 4,
+                    "id": 7,
                     "name": "SecondType"
                   }
                 ]
@@ -255,9 +336,9 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                9,
-                8,
-                7
+                12,
+                11,
+                10
               ]
             }
           ],
@@ -275,9 +356,9 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            2,
-            4,
-            6
+            5,
+            7,
+            9
           ]
         }
       ],
@@ -295,7 +376,8 @@
       "title": "External modules",
       "kind": 1,
       "children": [
-        1
+        1,
+        4
       ]
     }
   ]

@@ -1318,8 +1318,12 @@
             "id": 51,
             "typeArguments": [
               {
-                "type": "reference",
-                "name": "Mixin3"
+                "type": "query",
+                "queryType": {
+                  "type": "reference",
+                  "id": 61,
+                  "name": "Mixin3"
+                }
               }
             ],
             "name": "Mixin"
