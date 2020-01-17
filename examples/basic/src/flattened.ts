@@ -9,6 +9,7 @@ class FlattenedClass {
      * @param options.anotherValue            Another value on the options object parameter.
      * @param options.moreOptions             A typed child object of the options object.
      * @param options.moreOptions.moreValues  A value of the typed child object.
+     * @param options.emptyObject             An empty object
      */
     options: {
         value?: string;
@@ -16,6 +17,7 @@ class FlattenedClass {
         moreOptions?: {
             moreValues: number;
         };
+        emptyObject: {}
     };
 
     /**
