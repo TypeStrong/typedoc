@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.16.7",
+  "version": "0.17.0-0",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     }
   ],
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">= 8.0.0"
   },
   "dependencies": {
     "@types/minimatch": "3.0.3",
@@ -42,7 +42,7 @@
     "typedoc-default-themes": "0.8.0-0"
   },
   "peerDependencies": {
-    "typescript": "3.x"
+    "typescript": ">=3.7"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.1",
@@ -55,7 +55,8 @@
     "mocha": "^7.0.0",
     "mockery": "^2.1.0",
     "nyc": "15.0.0",
-    "tslint": "^5.20.1"
+    "tslint": "^5.20.1",
+    "typescript": "3.7.x"
   },
   "files": [
     "bin",
