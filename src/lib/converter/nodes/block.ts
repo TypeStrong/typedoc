@@ -55,9 +55,15 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
 
         context.withSourceFile(node, () => {
             if (this.mode === SourceFileMode.Modules) {
-                result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
+                result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
+                    result!.setFlag(ReflectionFlag.Exported);
+                });
+            } else if (this.mode === SourceFileMode.Library) {
+                result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
+                context.withScope(result, () => {
+                    this.convertVisibleDeclarations(context, node);
                     result!.setFlag(ReflectionFlag.Exported);
                 });
             } else {
@@ -83,6 +89,20 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             statements.forEach((statement) => {
                 this.owner.convertNode(context, statement);
             });
+        }
+    }
+
+    private convertVisibleDeclarations(context: Context, node: ts.SourceFile) {
+        const moduleSymbol = context.getSymbolAtLocation(node);
+        if (!moduleSymbol) {
+            this.application.logger.warn(`File ${node.fileName} is not a module and cannot be converted in library mode`);
+            return;
+        }
+
+        for (const symbol of context.checker.getExportsOfModule(moduleSymbol)) {
+            for (const declaration of symbol.declarations) {
+                this.owner.convertNode(context, declaration);
+            }
         }
     }
 }

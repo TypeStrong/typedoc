@@ -7,7 +7,7 @@ import { Reflection, Type, ProjectReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
 import { Component, ChildableComponent, ComponentClass } from '../utils/component';
-import { BindOption } from '../utils';
+import { BindOption, SourceFileMode } from '../utils';
 import { normalizePath } from '../utils/fs';
 import { createMinimatch } from '../utils/paths';
 
@@ -366,9 +366,20 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             .filter(file => !isExcluded(file));
         const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
 
-        includedSourceFiles.forEach((sourceFile) => {
-            this.convertNode(context, sourceFile);
-        });
+        if (this.application.options.getValue('mode') === SourceFileMode.Library) {
+            for (const fileName of context.fileNames) {
+                const sourceFile = includedSourceFiles.find(file => fileName === file.fileName);
+                if (sourceFile) {
+                    this.convertNode(context, sourceFile);
+                } else {
+                    this.application.logger.warn(`Failed to find source file of entry point ${fileName}`);
+                }
+            }
+        } else {
+            includedSourceFiles.forEach((sourceFile) => {
+                this.convertNode(context, sourceFile);
+            });
+        }
 
         if (this.application.ignoreCompilerErrors) {
             return [];

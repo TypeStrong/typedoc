@@ -31,7 +31,7 @@ export type TypeDocAndTSOptions = TypeDocOptions
     & Pick<CompilerOptions, Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>>;
 
 export enum SourceFileMode {
-    File, Modules
+    File, Modules, Library
 }
 
 /**
@@ -43,7 +43,7 @@ export interface TypeDocOptionMap {
     tsconfig: string;
 
     inputFiles: string[];
-    mode: { file: SourceFileMode.File, modules: SourceFileMode.Modules };
+    mode: { file: SourceFileMode.File, modules: SourceFileMode.Modules, library: SourceFileMode.Library };
     includeDeclarations: boolean;
     entryPoint: string;
     exclude: string[];

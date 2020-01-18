@@ -52,7 +52,7 @@ export class DynamicModulePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
-        if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+        if (reflection.kindOf(ReflectionKind.Module)) {
             let name = reflection.name;
             if (!name.includes('/')) {
                 return;

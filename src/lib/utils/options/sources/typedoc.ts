@@ -26,8 +26,9 @@ export function addTypeDocOptions(options: Options) {
         help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
         type: ParameterType.Map,
         map: {
-            'file': SourceFileMode.File,
-            'modules': SourceFileMode.Modules
+            file: SourceFileMode.File,
+            modules: SourceFileMode.Modules,
+            library: SourceFileMode.Library
         },
         defaultValue: SourceFileMode.Modules
     });

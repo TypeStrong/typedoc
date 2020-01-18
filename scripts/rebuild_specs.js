@@ -42,6 +42,10 @@ const conversions = [
         () => app.options.setValue('categorizeByGroup', false),
         () => app.options.setValue('categorizeByGroup', true)
     ],
+    ['specs.lib',
+        () => app.options.setValue('mode', 'library'),
+        () => app.options.setValue('mode', 'modules'),
+    ]
 ];
 
 /**

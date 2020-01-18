@@ -111,7 +111,7 @@ export class CommentPlugin extends ConverterComponent {
             CommentPlugin.removeTags(comment, 'event');
         }
 
-        if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+        if (reflection.kindOf(ReflectionKind.Module)) {
             CommentPlugin.removeTags(comment, 'packagedocumentation');
         }
     }
@@ -172,7 +172,7 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
-        } else if (reflection.kindOf(ReflectionKind.Module)) {
+        } else if (reflection.kindOf(ReflectionKind.Namespace)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
