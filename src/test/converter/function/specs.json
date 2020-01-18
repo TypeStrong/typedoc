@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"function\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -18,7 +18,7 @@
           "id": 35,
           "name": "moduleFunction",
           "kind": 2,
-          "kindString": "Module",
+          "kindString": "Namespace",
           "flags": {
             "isExported": true
           },
@@ -1052,7 +1052,7 @@
       ],
       "groups": [
         {
-          "title": "Modules",
+          "title": "Namespaces",
           "kind": 2,
           "children": [
             35
@@ -1089,7 +1089,7 @@
       "id": 57,
       "name": "\"generic-function\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -1265,7 +1265,7 @@
       "id": 67,
       "name": "\"implicit-types\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -1676,7 +1676,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1,
