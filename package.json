@@ -29,7 +29,10 @@
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
     "typedoc-default-themes": "^0.8.0",
-    "typescript": "3.7.x"
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=3.8.3"
   },
   "devDependencies": {
     "@types/minimatch": "3.0.3",

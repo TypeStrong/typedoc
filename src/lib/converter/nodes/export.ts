@@ -69,23 +69,29 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
             throw new Error('Expected to be within a container');
         }
 
-        if (node.exportClause) { // export { a, a as b }
+        if (node.exportClause && node.exportClause.kind === ts.SyntaxKind.NamedExports) { // export { a, a as b }
             node.exportClause.elements.forEach(specifier => {
-                const source = context.getSymbolAtLocation(specifier.name);
-                const target = context.resolveAliasedSymbol(context.getSymbolAtLocation(specifier.propertyName ?? specifier.name));
-                if (source && target) {
-                    // If the original declaration is in this file, export {} was used with something
-                    // defined in this file and we don't need to create a reference unless the name is different.
-                    if (!node.moduleSpecifier && !specifier.propertyName) {
-                        return;
-                    }
-
-                    createReferenceReflection(context, source, target);
+                const source = context.expectSymbolAtLocation(specifier.name);
+                const target = context.resolveAliasedSymbol(context.expectSymbolAtLocation(specifier.propertyName ?? specifier.name));
+                // If the original declaration is in this file, export {} was used with something
+                // defined in this file and we don't need to create a reference unless the name is different.
+                if (!node.moduleSpecifier && !specifier.propertyName) {
+                    return;
                 }
+
+                createReferenceReflection(context, source, target);
             });
+        } else if (node.exportClause && node.exportClause.kind === ts.SyntaxKind.NamespaceExport) { // export * as ns
+            const source = context.expectSymbolAtLocation(node.exportClause.name);
+            if (!node.moduleSpecifier) {
+                throw new Error('Namespace export is missing a module specifier.');
+            }
+            const target = context.resolveAliasedSymbol(context.expectSymbolAtLocation(node.moduleSpecifier));
+            createReferenceReflection(context, source, target);
+
         } else if (node.moduleSpecifier) { // export * from ...
-            const sourceFileSymbol = context.getSymbolAtLocation(node.moduleSpecifier);
-            for (const symbol of context.checker.getExportsOfModule(sourceFileSymbol!)) {
+            const sourceFileSymbol = context.expectSymbolAtLocation(node.moduleSpecifier);
+            for (const symbol of context.checker.getExportsOfModule(sourceFileSymbol)) {
                 if (symbol.name === 'default') { // Default exports are not re-exported with export *
                     continue;
                 }

@@ -33,3 +33,6 @@ export const hidden = true;
  * No reference should be created.
  */
 export { Node } from 'typescript';
+
+// TS 3.8 namespace exports
+export * as ThisModule from './mod';

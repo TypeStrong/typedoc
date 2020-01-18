@@ -154,6 +154,14 @@ export class Context {
         return symbol;
     }
 
+    expectSymbolAtLocation(node: ts.Node): ts.Symbol {
+        const symbol = this.getSymbolAtLocation(node);
+        if (!symbol) {
+            throw new Error(`Expected a symbol for node with kind ${ts.SyntaxKind[node.kind]}`);
+        }
+        return symbol;
+    }
+
     resolveAliasedSymbol(symbol: ts.Symbol): ts.Symbol;
     resolveAliasedSymbol(symbol: ts.Symbol | undefined): ts.Symbol | undefined;
     resolveAliasedSymbol(symbol: ts.Symbol | undefined) {
