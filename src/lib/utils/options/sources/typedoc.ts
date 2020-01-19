@@ -74,7 +74,12 @@ export function addTypeDocOptions(options: Options) {
     });
     options.addDeclaration({
         name: 'ignoreCompilerErrors',
-        help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+        help: 'Skips checking for TypeScript compilation errors if set.',
+        type: ParameterType.Boolean
+    });
+    options.addDeclaration({
+        name: 'disableSources',
+        help: 'Disables setting the source of a reflection when documenting it.',
         type: ParameterType.Boolean
     });
     options.addDeclaration({
