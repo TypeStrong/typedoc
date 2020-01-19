@@ -23,7 +23,7 @@ export function addTypeDocOptions(options: Options) {
 
     options.addDeclaration({
         name: 'mode',
-        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        help: "Specifies the output mode the project is used to be compiled with: 'file', 'modules' or 'library'",
         type: ParameterType.Map,
         map: {
             file: SourceFileMode.File,

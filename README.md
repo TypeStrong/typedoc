@@ -50,8 +50,8 @@ For a complete list of the command line arguments run `typedoc --help` or visit 
 
 * `--out <path/to/documentation/>`<br>
   Specifies the location the documentation should be written to. Defaults to `./docs`
-* `--mode <file|modules>`<br>
-  Specifies the output mode the project is used to be compiled with.
+* `--mode <file|modules|library>`<br>
+  Specifies the output mode the project is used to be compiled with. See [the documentation](https://typedoc.org/guides/options/#mode) for a comparison of each mode.
 * `--options`<br>
   Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.
 * `--json <path/to/output.json>`<br>
