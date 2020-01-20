@@ -68,6 +68,7 @@ export interface TypeDocOptionMap {
     categoryOrder: string[];
     categorizeByGroup: boolean;
     gitRevision: string;
+    gitRemote: string;
     gaID: string;
     gaSite: string;
     hideGenerator: boolean;

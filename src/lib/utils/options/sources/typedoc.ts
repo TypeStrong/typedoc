@@ -144,6 +144,11 @@ export function addTypeDocOptions(options: Options) {
         help: 'Use specified revision instead of the last revision for linking to GitHub source files.'
     });
     options.addDeclaration({
+        name: 'gitRemote',
+        help: 'Use the specified remote for linking to GitHub source files.',
+        defaultValue: 'origin'
+    });
+    options.addDeclaration({
         name: 'gaID',
         help: 'Set the Google Analytics tracking ID and activate tracking code.'
     });

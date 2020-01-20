@@ -130,7 +130,7 @@ export class Repository {
      * @param path  The potential repository root.
      * @returns A new instance of [[Repository]] or undefined.
      */
-    static tryCreateRepository(path: string, gitRevision: string): Repository | undefined {
+    static tryCreateRepository(path: string, gitRevision: string, gitRemote: string): Repository | undefined {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
         ShellJS.popd();
@@ -139,7 +139,7 @@ export class Repository {
             return;
         }
 
-        let remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git ls-remote --get-url', {silent: true});
+        const remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec(`git remote get-url ${gitRemote}`, {silent: true});
         let remotes: string[] = (remotesOutput.code === 0) ? remotesOutput.stdout.split('\n') : [];
 
         return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision, remotes);
@@ -163,7 +163,10 @@ export class GitHubPlugin extends ConverterComponent {
     private ignoredPaths: string[] = [];
 
     @BindOption('gitRevision')
-    gitRevision!: string;
+    readonly gitRevision!: string;
+
+    @BindOption('gitRemote')
+    readonly gitRemote!: string;
 
     /**
      * Create a new GitHubHandler instance.
@@ -203,7 +206,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Try to create a new repository
-        const repository = Repository.tryCreateRepository(dirName, this.gitRevision);
+        const repository = Repository.tryCreateRepository(dirName, this.gitRevision, this.gitRemote);
         if (repository) {
             this.repositories[repository.path.toLowerCase()] = repository;
             return repository;
