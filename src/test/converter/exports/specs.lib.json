@@ -5,7 +5,7 @@
   "flags": {},
   "children": [
     {
-      "id": 9,
+      "id": 10,
       "name": "\"export\"",
       "kind": 1,
       "kindString": "Module",
@@ -15,7 +15,2246 @@
       "originalName": "%BASE%/exports/export.ts",
       "children": [
         {
-          "id": 13,
+          "id": 19,
+          "name": "\"mod\"",
+          "kind": 1,
+          "kindString": "Module",
+          "flags": {
+            "isExported": true
+          },
+          "originalName": "%BASE%/exports/mod.ts",
+          "children": [
+            {
+              "id": 24,
+              "name": "Node",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {
+                "isExported": true
+              },
+              "children": [
+                {
+                  "id": 27,
+                  "name": "decorators",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true,
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 499,
+                      "character": 18
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "Decorator"
+                      }
+                    ],
+                    "name": "NodeArray"
+                  }
+                },
+                {
+                  "id": 31,
+                  "name": "end",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 73,
+                      "character": 11
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 31,
+                    "name": "TextRange.end"
+                  }
+                },
+                {
+                  "id": 26,
+                  "name": "flags",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 498,
+                      "character": 13
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "NodeFlags"
+                  }
+                },
+                {
+                  "id": 25,
+                  "name": "kind",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 497,
+                      "character": 12
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "SyntaxKind"
+                  }
+                },
+                {
+                  "id": 28,
+                  "name": "modifiers",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true,
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 500,
+                      "character": 17
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "ModifiersArray"
+                  }
+                },
+                {
+                  "id": 29,
+                  "name": "parent",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 501,
+                      "character": 14
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 24,
+                    "name": "Node"
+                  }
+                },
+                {
+                  "id": 30,
+                  "name": "pos",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 72,
+                      "character": 11
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 30,
+                    "name": "TextRange.pos"
+                  }
+                },
+                {
+                  "id": 72,
+                  "name": "forEachChild",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 73,
+                      "name": "forEachChild",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "typeParameter": [
+                        {
+                          "id": 74,
+                          "name": "T",
+                          "kind": 131072,
+                          "kindString": "Type parameter",
+                          "flags": {
+                            "isExported": true
+                          }
+                        }
+                      ],
+                      "parameters": [
+                        {
+                          "id": 75,
+                          "name": "cbNode",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 76,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "signatures": [
+                                {
+                                  "id": 77,
+                                  "name": "__call",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "parameters": [
+                                    {
+                                      "id": 78,
+                                      "name": "node",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {
+                                        "isExported": true
+                                      },
+                                      "type": {
+                                        "type": "reference",
+                                        "id": 24,
+                                        "name": "Node"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "union",
+                                    "types": [
+                                      {
+                                        "type": "typeParameter",
+                                        "name": "T"
+                                      },
+                                      {
+                                        "type": "intrinsic",
+                                        "name": "undefined"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "sources": [
+                                {
+                                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                                  "line": 4871,
+                                  "character": 31
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "id": 79,
+                          "name": "cbNodeArray",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reflection",
+                            "declaration": {
+                              "id": 80,
+                              "name": "__type",
+                              "kind": 65536,
+                              "kindString": "Type literal",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "signatures": [
+                                {
+                                  "id": 81,
+                                  "name": "__call",
+                                  "kind": 4096,
+                                  "kindString": "Call signature",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "parameters": [
+                                    {
+                                      "id": 82,
+                                      "name": "nodes",
+                                      "kind": 32768,
+                                      "kindString": "Parameter",
+                                      "flags": {
+                                        "isExported": true
+                                      },
+                                      "type": {
+                                        "type": "reference",
+                                        "typeArguments": [
+                                          {
+                                            "type": "reference",
+                                            "id": 24,
+                                            "name": "Node"
+                                          }
+                                        ],
+                                        "name": "NodeArray"
+                                      }
+                                    }
+                                  ],
+                                  "type": {
+                                    "type": "union",
+                                    "types": [
+                                      {
+                                        "type": "typeParameter",
+                                        "name": "T"
+                                      },
+                                      {
+                                        "type": "intrinsic",
+                                        "name": "undefined"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ],
+                              "sources": [
+                                {
+                                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                                  "line": 4871,
+                                  "character": 76
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "typeParameter",
+                            "name": "T"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "undefined"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4871,
+                      "character": 20
+                    }
+                  ]
+                },
+                {
+                  "id": 37,
+                  "name": "getChildAt",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 38,
+                      "name": "getChildAt",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 39,
+                          "name": "index",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          }
+                        },
+                        {
+                          "id": 40,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 24,
+                        "name": "Node"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4859,
+                      "character": 18
+                    }
+                  ]
+                },
+                {
+                  "id": 34,
+                  "name": "getChildCount",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 35,
+                      "name": "getChildCount",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 36,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4858,
+                      "character": 21
+                    }
+                  ]
+                },
+                {
+                  "id": 41,
+                  "name": "getChildren",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 42,
+                      "name": "getChildren",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 43,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "id": 24,
+                          "name": "Node"
+                        }
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4860,
+                      "character": 19
+                    }
+                  ]
+                },
+                {
+                  "id": 50,
+                  "name": "getEnd",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 51,
+                      "name": "getEnd",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4863,
+                      "character": 14
+                    }
+                  ]
+                },
+                {
+                  "id": 66,
+                  "name": "getFirstToken",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 67,
+                      "name": "getFirstToken",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 68,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reference",
+                            "id": 24,
+                            "name": "Node"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "undefined"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4869,
+                      "character": 21
+                    }
+                  ]
+                },
+                {
+                  "id": 48,
+                  "name": "getFullStart",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 49,
+                      "name": "getFullStart",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4862,
+                      "character": 20
+                    }
+                  ]
+                },
+                {
+                  "id": 60,
+                  "name": "getFullText",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 61,
+                      "name": "getFullText",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 62,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4867,
+                      "character": 19
+                    }
+                  ]
+                },
+                {
+                  "id": 55,
+                  "name": "getFullWidth",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 56,
+                      "name": "getFullWidth",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4865,
+                      "character": 20
+                    }
+                  ]
+                },
+                {
+                  "id": 69,
+                  "name": "getLastToken",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 70,
+                      "name": "getLastToken",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 71,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "union",
+                        "types": [
+                          {
+                            "type": "reference",
+                            "id": 24,
+                            "name": "Node"
+                          },
+                          {
+                            "type": "intrinsic",
+                            "name": "undefined"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4870,
+                      "character": 20
+                    }
+                  ]
+                },
+                {
+                  "id": 57,
+                  "name": "getLeadingTriviaWidth",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 58,
+                      "name": "getLeadingTriviaWidth",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 59,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4866,
+                      "character": 29
+                    }
+                  ]
+                },
+                {
+                  "id": 32,
+                  "name": "getSourceFile",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 33,
+                      "name": "getSourceFile",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4857,
+                      "character": 21
+                    }
+                  ]
+                },
+                {
+                  "id": 44,
+                  "name": "getStart",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 45,
+                      "name": "getStart",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 46,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        },
+                        {
+                          "id": 47,
+                          "name": "includeJsDocComment",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4861,
+                      "character": 16
+                    }
+                  ]
+                },
+                {
+                  "id": 63,
+                  "name": "getText",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 64,
+                      "name": "getText",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 65,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFile"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "string"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4868,
+                      "character": 15
+                    }
+                  ]
+                },
+                {
+                  "id": 52,
+                  "name": "getWidth",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 53,
+                      "name": "getWidth",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 54,
+                          "name": "sourceFile",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true,
+                            "isOptional": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "name": "SourceFileLike"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 4864,
+                      "character": 16
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    27,
+                    31,
+                    26,
+                    25,
+                    28,
+                    29,
+                    30
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    72,
+                    37,
+                    34,
+                    41,
+                    50,
+                    66,
+                    48,
+                    60,
+                    55,
+                    69,
+                    57,
+                    32,
+                    44,
+                    63,
+                    52
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 496,
+                  "character": 25
+                },
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4856,
+                  "character": 18
+                }
+              ],
+              "extendedTypes": [
+                {
+                  "type": "reference",
+                  "name": "TextRange"
+                }
+              ]
+            },
+            {
+              "id": 22,
+              "name": "a",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isConst": true
+              },
+              "comment": {
+                "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
+              },
+              "sources": [
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                },
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                },
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "1"
+              },
+              "defaultValue": "1"
+            },
+            {
+              "id": 20,
+              "name": "default",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 21,
+                  "name": "default",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Will not be re-exported from export.ts using export * from..."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 14,
+                  "character": 31
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Interfaces",
+              "kind": 256,
+              "children": [
+                24
+              ]
+            },
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                22
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                20
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 1,
+              "character": 0
+            }
+          ]
+        },
+        {
+          "id": 84,
+          "name": "Node",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 87,
+              "name": "decorators",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 499,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "typeArguments": [
+                  {
+                    "type": "reference",
+                    "name": "Decorator"
+                  }
+                ],
+                "name": "NodeArray"
+              }
+            },
+            {
+              "id": 91,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 73,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 31,
+                "name": "TextRange.end"
+              }
+            },
+            {
+              "id": 86,
+              "name": "flags",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 498,
+                  "character": 13
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "NodeFlags"
+              }
+            },
+            {
+              "id": 85,
+              "name": "kind",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 497,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SyntaxKind"
+              }
+            },
+            {
+              "id": 88,
+              "name": "modifiers",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 500,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ModifiersArray"
+              }
+            },
+            {
+              "id": 89,
+              "name": "parent",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 501,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "id": 24,
+                "name": "Node"
+              }
+            },
+            {
+              "id": 90,
+              "name": "pos",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 72,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 30,
+                "name": "TextRange.pos"
+              }
+            },
+            {
+              "id": 132,
+              "name": "forEachChild",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 133,
+                  "name": "forEachChild",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 134,
+                      "name": "T",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 135,
+                      "name": "cbNode",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 136,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "signatures": [
+                            {
+                              "id": 137,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "parameters": [
+                                {
+                                  "id": 138,
+                                  "name": "node",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "reference",
+                                    "id": 24,
+                                    "name": "Node"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "union",
+                                "types": [
+                                  {
+                                    "type": "typeParameter",
+                                    "name": "T"
+                                  },
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "undefined"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                              "line": 4871,
+                              "character": 31
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 139,
+                      "name": "cbNodeArray",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 140,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "signatures": [
+                            {
+                              "id": 141,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "parameters": [
+                                {
+                                  "id": 142,
+                                  "name": "nodes",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "reference",
+                                    "typeArguments": [
+                                      {
+                                        "type": "reference",
+                                        "id": 24,
+                                        "name": "Node"
+                                      }
+                                    ],
+                                    "name": "NodeArray"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "union",
+                                "types": [
+                                  {
+                                    "type": "typeParameter",
+                                    "name": "T"
+                                  },
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "undefined"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                              "line": 4871,
+                              "character": 76
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "typeParameter",
+                        "name": "T"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4871,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 97,
+              "name": "getChildAt",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 98,
+                  "name": "getChildAt",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 99,
+                      "name": "index",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 100,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 24,
+                    "name": "Node"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4859,
+                  "character": 18
+                }
+              ]
+            },
+            {
+              "id": 94,
+              "name": "getChildCount",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 95,
+                  "name": "getChildCount",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 96,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4858,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 101,
+              "name": "getChildren",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 102,
+                  "name": "getChildren",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 103,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "id": 24,
+                      "name": "Node"
+                    }
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4860,
+                  "character": 19
+                }
+              ]
+            },
+            {
+              "id": 110,
+              "name": "getEnd",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 111,
+                  "name": "getEnd",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4863,
+                  "character": 14
+                }
+              ]
+            },
+            {
+              "id": 126,
+              "name": "getFirstToken",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 127,
+                  "name": "getFirstToken",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 128,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "id": 24,
+                        "name": "Node"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4869,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 108,
+              "name": "getFullStart",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 109,
+                  "name": "getFullStart",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4862,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 120,
+              "name": "getFullText",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 121,
+                  "name": "getFullText",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 122,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4867,
+                  "character": 19
+                }
+              ]
+            },
+            {
+              "id": 115,
+              "name": "getFullWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 116,
+                  "name": "getFullWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4865,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 129,
+              "name": "getLastToken",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 130,
+                  "name": "getLastToken",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 131,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "id": 24,
+                        "name": "Node"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4870,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 117,
+              "name": "getLeadingTriviaWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 118,
+                  "name": "getLeadingTriviaWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 119,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4866,
+                  "character": 29
+                }
+              ]
+            },
+            {
+              "id": 92,
+              "name": "getSourceFile",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 93,
+                  "name": "getSourceFile",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "SourceFile"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4857,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 104,
+              "name": "getStart",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 105,
+                  "name": "getStart",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 106,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    },
+                    {
+                      "id": 107,
+                      "name": "includeJsDocComment",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4861,
+                  "character": 16
+                }
+              ]
+            },
+            {
+              "id": 123,
+              "name": "getText",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 124,
+                  "name": "getText",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 125,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4868,
+                  "character": 15
+                }
+              ]
+            },
+            {
+              "id": 112,
+              "name": "getWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 113,
+                  "name": "getWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 114,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFileLike"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4864,
+                  "character": 16
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                87,
+                91,
+                86,
+                85,
+                88,
+                89,
+                90
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                132,
+                97,
+                94,
+                101,
+                110,
+                126,
+                108,
+                120,
+                115,
+                129,
+                117,
+                92,
+                104,
+                123,
+                112
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 496,
+              "character": 25
+            },
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 4856,
+              "character": 18
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TextRange"
+            }
+          ]
+        },
+        {
+          "id": 14,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -24,11 +2263,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "A simple named export that will be exported from export.ts"
+            "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
           },
           "sources": [
             {
-              "fileName": "mod.ts",
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
               "line": 4,
               "character": 14
             }
@@ -40,138 +2289,7 @@
           "defaultValue": "1"
         },
         {
-          "id": 10,
-          "name": "default",
-          "kind": 64,
-          "kindString": "Function",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 11,
-              "name": "default",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 12,
-                  "name": "a",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "number"
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "void"
-              }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 9,
-              "character": 1
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Variables",
-          "kind": 32,
-          "children": [
-            13
-          ]
-        },
-        {
-          "title": "Functions",
-          "kind": 64,
-          "children": [
-            10
-          ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "name": "\"export-assignment\"",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
-      "originalName": "%BASE%/exports/export-assignment.ts",
-      "sources": [
-        {
-          "fileName": "export-assignment.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "\"export-default\"",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
-      "originalName": "%BASE%/exports/export-default.ts",
-      "sources": [
-        {
-          "fileName": "export-default.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "\"export-with-local\"",
-      "kind": 1,
-      "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
-      "originalName": "%BASE%/exports/export-with-local.ts",
-      "children": [
-        {
-          "id": 8,
-          "name": "x",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {
-            "isExported": true,
-            "isConst": true
-          },
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 1,
-              "character": 14
-            }
-          ],
-          "type": {
-            "type": "unknown",
-            "name": "5"
-          },
-          "defaultValue": "5"
-        },
-        {
-          "id": 4,
+          "id": 15,
           "name": "add",
           "kind": 64,
           "kindString": "Function",
@@ -180,7 +2298,7 @@
           },
           "signatures": [
             {
-              "id": 5,
+              "id": 16,
               "name": "add",
               "kind": 4096,
               "kindString": "Call signature",
@@ -189,7 +2307,7 @@
               },
               "parameters": [
                 {
-                  "id": 6,
+                  "id": 17,
                   "name": "x",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -202,7 +2320,7 @@
                   }
                 },
                 {
-                  "id": 7,
+                  "id": 18,
                   "name": "y",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -223,7 +2341,255 @@
           ],
           "sources": [
             {
-              "fileName": "export-with-local.ts",
+              "fileName": "dist/test/converter/exports/export.ts",
+              "line": 7,
+              "character": 12
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "default",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "comment": {
+            "shortText": "Will not be re-exported from export.ts using export * from..."
+          },
+          "signatures": [
+            {
+              "id": 12,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Will not be re-exported from export.ts using export * from..."
+              },
+              "parameters": [
+                {
+                  "id": 13,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export.ts",
+              "line": 9,
+              "character": 1
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 14,
+              "character": 31
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Modules",
+          "kind": 1,
+          "children": [
+            19
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            84
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            14
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            15,
+            11
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"export-assignment\"",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-assignment.ts",
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export-assignment.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "\"export-default\"",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-default.ts",
+      "children": [
+        {
+          "id": 3,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-default.ts",
+              "line": 1,
+              "character": 7
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            3
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export-default.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "\"export-with-local\"",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-with-local.ts",
+      "children": [
+        {
+          "id": 9,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-with-local.ts",
+              "line": 1,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        },
+        {
+          "id": 5,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 6,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "parameters": [
+                {
+                  "id": 7,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 8,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-with-local.ts",
               "line": 3,
               "character": 19
             }
@@ -235,27 +2601,27 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            8
+            9
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            4
+            5
           ]
         }
       ],
       "sources": [
         {
-          "fileName": "export-with-local.ts",
+          "fileName": "dist/test/converter/exports/export-with-local.ts",
           "line": 1,
           "character": 0
         }
       ]
     },
     {
-      "id": 15,
+      "id": 143,
       "name": "\"mod\"",
       "kind": 1,
       "kindString": "Module",
@@ -265,7 +2631,1073 @@
       "originalName": "%BASE%/exports/mod.ts",
       "children": [
         {
-          "id": 18,
+          "id": 148,
+          "name": "Node",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 151,
+              "name": "decorators",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 499,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "typeArguments": [
+                  {
+                    "type": "reference",
+                    "name": "Decorator"
+                  }
+                ],
+                "name": "NodeArray"
+              }
+            },
+            {
+              "id": 155,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 73,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 31,
+                "name": "TextRange.end"
+              }
+            },
+            {
+              "id": 150,
+              "name": "flags",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 498,
+                  "character": 13
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "NodeFlags"
+              }
+            },
+            {
+              "id": 149,
+              "name": "kind",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 497,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SyntaxKind"
+              }
+            },
+            {
+              "id": 152,
+              "name": "modifiers",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 500,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ModifiersArray"
+              }
+            },
+            {
+              "id": 153,
+              "name": "parent",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 501,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "id": 24,
+                "name": "Node"
+              }
+            },
+            {
+              "id": 154,
+              "name": "pos",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 72,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 30,
+                "name": "TextRange.pos"
+              }
+            },
+            {
+              "id": 196,
+              "name": "forEachChild",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 197,
+                  "name": "forEachChild",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 198,
+                      "name": "T",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 199,
+                      "name": "cbNode",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 200,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "signatures": [
+                            {
+                              "id": 201,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "parameters": [
+                                {
+                                  "id": 202,
+                                  "name": "node",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "reference",
+                                    "id": 24,
+                                    "name": "Node"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "union",
+                                "types": [
+                                  {
+                                    "type": "typeParameter",
+                                    "name": "T"
+                                  },
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "undefined"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                              "line": 4871,
+                              "character": 31
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 203,
+                      "name": "cbNodeArray",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 204,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "signatures": [
+                            {
+                              "id": 205,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "parameters": [
+                                {
+                                  "id": 206,
+                                  "name": "nodes",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "reference",
+                                    "typeArguments": [
+                                      {
+                                        "type": "reference",
+                                        "id": 24,
+                                        "name": "Node"
+                                      }
+                                    ],
+                                    "name": "NodeArray"
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "union",
+                                "types": [
+                                  {
+                                    "type": "typeParameter",
+                                    "name": "T"
+                                  },
+                                  {
+                                    "type": "intrinsic",
+                                    "name": "undefined"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "sources": [
+                            {
+                              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                              "line": 4871,
+                              "character": 76
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "typeParameter",
+                        "name": "T"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4871,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 161,
+              "name": "getChildAt",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 162,
+                  "name": "getChildAt",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 163,
+                      "name": "index",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    },
+                    {
+                      "id": 164,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 24,
+                    "name": "Node"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4859,
+                  "character": 18
+                }
+              ]
+            },
+            {
+              "id": 158,
+              "name": "getChildCount",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 159,
+                  "name": "getChildCount",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 160,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4858,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 165,
+              "name": "getChildren",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 166,
+                  "name": "getChildren",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 167,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "id": 24,
+                      "name": "Node"
+                    }
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4860,
+                  "character": 19
+                }
+              ]
+            },
+            {
+              "id": 174,
+              "name": "getEnd",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 175,
+                  "name": "getEnd",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4863,
+                  "character": 14
+                }
+              ]
+            },
+            {
+              "id": 190,
+              "name": "getFirstToken",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 191,
+                  "name": "getFirstToken",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 192,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "id": 24,
+                        "name": "Node"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4869,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 172,
+              "name": "getFullStart",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 173,
+                  "name": "getFullStart",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4862,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 184,
+              "name": "getFullText",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 185,
+                  "name": "getFullText",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 186,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4867,
+                  "character": 19
+                }
+              ]
+            },
+            {
+              "id": 179,
+              "name": "getFullWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 180,
+                  "name": "getFullWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4865,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 193,
+              "name": "getLastToken",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 194,
+                  "name": "getLastToken",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 195,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "reference",
+                        "id": 24,
+                        "name": "Node"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4870,
+                  "character": 20
+                }
+              ]
+            },
+            {
+              "id": 181,
+              "name": "getLeadingTriviaWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 182,
+                  "name": "getLeadingTriviaWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 183,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4866,
+                  "character": 29
+                }
+              ]
+            },
+            {
+              "id": 156,
+              "name": "getSourceFile",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 157,
+                  "name": "getSourceFile",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "SourceFile"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4857,
+                  "character": 21
+                }
+              ]
+            },
+            {
+              "id": 168,
+              "name": "getStart",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 169,
+                  "name": "getStart",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 170,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    },
+                    {
+                      "id": 171,
+                      "name": "includeJsDocComment",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "boolean"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4861,
+                  "character": 16
+                }
+              ]
+            },
+            {
+              "id": 187,
+              "name": "getText",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 188,
+                  "name": "getText",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 189,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFile"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4868,
+                  "character": 15
+                }
+              ]
+            },
+            {
+              "id": 176,
+              "name": "getWidth",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 177,
+                  "name": "getWidth",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "parameters": [
+                    {
+                      "id": 178,
+                      "name": "sourceFile",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "type": {
+                        "type": "reference",
+                        "name": "SourceFileLike"
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 4864,
+                  "character": 16
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                151,
+                155,
+                150,
+                149,
+                152,
+                153,
+                154
+              ]
+            },
+            {
+              "title": "Methods",
+              "kind": 2048,
+              "children": [
+                196,
+                161,
+                158,
+                165,
+                174,
+                190,
+                172,
+                184,
+                179,
+                193,
+                181,
+                156,
+                168,
+                187,
+                176
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 496,
+              "character": 25
+            },
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 4856,
+              "character": 18
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TextRange"
+            }
+          ]
+        },
+        {
+          "id": 146,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -274,11 +3706,21 @@
             "isConst": true
           },
           "comment": {
-            "shortText": "A simple named export that will be exported from export.ts"
+            "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
           },
           "sources": [
             {
-              "fileName": "mod.ts",
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
               "line": 4,
               "character": 14
             }
@@ -290,14 +3732,14 @@
           "defaultValue": "1"
         },
         {
-          "id": 16,
+          "id": 144,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 17,
+              "id": 145,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
@@ -313,7 +3755,7 @@
           ],
           "sources": [
             {
-              "fileName": "mod.ts",
+              "fileName": "dist/test/converter/exports/mod.ts",
               "line": 14,
               "character": 31
             }
@@ -322,23 +3764,30 @@
       ],
       "groups": [
         {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            148
+          ]
+        },
+        {
           "title": "Variables",
           "kind": 32,
           "children": [
-            18
+            146
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            16
+            144
           ]
         }
       ],
       "sources": [
         {
-          "fileName": "mod.ts",
+          "fileName": "dist/test/converter/exports/mod.ts",
           "line": 1,
           "character": 0
         }
@@ -350,11 +3799,11 @@
       "title": "Modules",
       "kind": 1,
       "children": [
-        9,
+        10,
         1,
         2,
-        3,
-        15
+        4,
+        143
       ]
     }
   ]

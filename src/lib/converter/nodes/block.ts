@@ -100,7 +100,8 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         }
 
         for (const symbol of context.checker.getExportsOfModule(moduleSymbol)) {
-            for (const declaration of symbol.declarations) {
+            const resolved = context.resolveAliasedSymbol(symbol);
+            for (const declaration of resolved.declarations) {
                 this.owner.convertNode(context, declaration);
             }
         }
