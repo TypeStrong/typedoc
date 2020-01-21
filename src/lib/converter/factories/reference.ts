@@ -45,7 +45,10 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
         context.scope.children = [];
     }
     context.scope.children.push(reflection);
-    context.registerReflection(reflection, source);
+
+    // target === source happens when doing export * from ...
+    // and the original symbol is not renamed and exported from the imported module.
+    context.registerReflection(reflection, target === source ? undefined : source);
     context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
 
     return reflection;

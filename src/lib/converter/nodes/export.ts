@@ -84,19 +84,13 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
                 }
             });
         } else if (node.moduleSpecifier) { // export * from ...
-            const thisModule = context.getSymbolAtLocation(node.getSourceFile())!;
             const sourceFileSymbol = context.getSymbolAtLocation(node.moduleSpecifier);
-            sourceFileSymbol?.exports?.forEach((symbol, key) => {
-                // Default exports are not re-exported with export * from
-                if (key === 'default' as ts.__String) {
-                    return;
+            for (const symbol of context.checker.getExportsOfModule(sourceFileSymbol!)) {
+                if (symbol.name === 'default') { // Default exports are not re-exported with export *
+                    continue;
                 }
-                const source = context.checker.tryGetMemberInModuleExports(key.toString().replace(/^__/, '_'), thisModule);
-                if (source) {
-                    const target = context.resolveAliasedSymbol(symbol);
-                    createReferenceReflection(context, source, target);
-                }
-            });
+                createReferenceReflection(context, symbol, context.resolveAliasedSymbol(symbol));
+            }
         }
 
         return context.scope;
