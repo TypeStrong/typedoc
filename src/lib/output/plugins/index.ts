@@ -6,3 +6,4 @@ export { MarkedPlugin } from './MarkedPlugin';
 export { NavigationPlugin } from './NavigationPlugin';
 export { PrettyPrintPlugin } from './PrettyPrintPlugin';
 export { TocPlugin } from './TocPlugin';
+export { LegendPlugin } from './LegendPlugin';
