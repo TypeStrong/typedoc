@@ -361,41 +361,19 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      */
     private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
         const program = context.program;
-
         const exclude = createMinimatch(this.application.exclude || []);
         const isExcluded = (file: ts.SourceFile) => exclude.some(mm => mm.match(file.fileName));
-
         const includedSourceFiles = program.getSourceFiles()
             .filter(file => !isExcluded(file));
-        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+
+        const errors = this.getCompilerErrors(program, includedSourceFiles);
+        if (errors.length) {
+            return errors;
+        }
 
         includedSourceFiles.forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
         });
-
-        if (this.application.ignoreCompilerErrors) {
-            return [];
-        }
-
-        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
-        if (diagnostics.length) {
-            return diagnostics;
-        }
-
-        diagnostics = program.getSyntacticDiagnostics().filter(isRelevantError);
-        if (diagnostics.length) {
-            return diagnostics;
-        }
-
-        diagnostics = program.getGlobalDiagnostics().filter(isRelevantError);
-        if (diagnostics.length) {
-            return diagnostics;
-        }
-
-        diagnostics = program.getSemanticDiagnostics().filter(isRelevantError);
-        if (diagnostics.length) {
-            return diagnostics;
-        }
 
         return [];
     }
@@ -419,6 +397,36 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         this.trigger(Converter.EVENT_RESOLVE_END, context);
         return project;
+    }
+
+    private getCompilerErrors(program: ts.Program, includedSourceFiles: readonly ts.SourceFile[]): ReadonlyArray<ts.Diagnostic> {
+        if (this.application.ignoreCompilerErrors) {
+            return [];
+        }
+
+        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+
+        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
+        if (diagnostics.length) {
+            return diagnostics;
+        }
+
+        diagnostics = program.getSyntacticDiagnostics().filter(isRelevantError);
+        if (diagnostics.length) {
+            return diagnostics;
+        }
+
+        diagnostics = program.getGlobalDiagnostics().filter(isRelevantError);
+        if (diagnostics.length) {
+            return diagnostics;
+        }
+
+        diagnostics = program.getSemanticDiagnostics().filter(isRelevantError);
+        if (diagnostics.length) {
+            return diagnostics;
+        }
+
+        return [];
     }
 
     /**
