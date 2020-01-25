@@ -6,7 +6,7 @@ import * as Handlebars from 'handlebars';
 
 import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
-import { BindOption } from '../../utils';
+import { BindOption, readFile } from '../../utils';
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -127,7 +127,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
             text = text.replace(this.includePattern, (match: string, path: string) => {
                 path = Path.join(this.includes!, path.trim());
                 if (FS.existsSync(path) && FS.statSync(path).isFile()) {
-                    const contents = FS.readFileSync(path, 'utf-8');
+                    const contents = readFile(path);
                     if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
                         const template = Handlebars.compile(contents);
                         return template(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });

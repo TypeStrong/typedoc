@@ -4,6 +4,7 @@ import * as Path from 'path';
 import { Application } from '../application';
 import { AbstractComponent, Component } from './component';
 import { BindOption } from './options';
+import { readFile } from './fs';
 
 /**
  * Responsible for discovering and loading plugins.
@@ -106,7 +107,7 @@ export class PluginHost extends AbstractComponent<Application> {
          */
         function loadPackageInfo(fileName: string): any {
             try {
-                return JSON.parse(FS.readFileSync(fileName, { encoding: 'utf-8' }));
+                return JSON.parse(readFile(fileName));
             } catch (error) {
                 logger.error('Could not parse %s', fileName);
                 return {};

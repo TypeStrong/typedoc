@@ -14,7 +14,8 @@ export {
     normalizePath,
     directoryExists,
     ensureDirectoriesExist,
-    writeFile
+    writeFile,
+    readFile
 } from './fs';
 export { Logger, LogLevel, ConsoleLogger, CallbackLogger } from './loggers';
 export { PluginHost } from './plugins';
