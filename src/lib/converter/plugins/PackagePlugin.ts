@@ -6,7 +6,7 @@ import { Reflection } from '../../models/reflections/abstract';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { BindOption } from '../../utils';
+import { BindOption, readFile } from '../../utils';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -118,11 +118,11 @@ export class PackagePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         if (this.readmeFile) {
-            project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
+            project.readme = readFile(this.readmeFile);
         }
 
         if (this.packageFile) {
-            project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+            project.packageInfo = JSON.parse(readFile(this.packageFile));
             if (!project.name) {
                 project.name = String(project.packageInfo.name);
             }

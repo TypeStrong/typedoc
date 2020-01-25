@@ -14,7 +14,7 @@ import { Converter } from './converter/index';
 import { Renderer } from './output/renderer';
 import { Serializer } from './serialization';
 import { ProjectReflection } from './models/index';
-import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile } from './utils/index';
+import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile, readFile } from './utils/index';
 import { createMinimatch } from './utils/paths';
 
 import {
@@ -162,7 +162,7 @@ export class Application extends ChildableComponent<
 
     public getTypeScriptVersion(): string {
         const tsPath = this.getTypeScriptPath();
-        const json = JSON.parse(FS.readFileSync(Path.join(tsPath, '..', 'package.json'), 'utf8'));
+        const json = JSON.parse(readFile(Path.join(tsPath, '..', 'package.json')));
         return json.version;
     }
 
