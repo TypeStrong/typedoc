@@ -1,6 +1,7 @@
 import { Application } from '..';
 import Assert = require('assert');
 import * as mockery from 'mockery';
+import * as path from 'path';
 
 describe('PluginHost', function () {
   before (function () {
@@ -25,6 +26,29 @@ describe('PluginHost', function () {
     Assert.deepEqual(app.plugins.plugins, [
       'typedoc-plugin-1',
       'typedoc-plugin-2'
+    ]);
+  });
+
+  it('loads a plugin with relative path', function () {
+    const app = new Application();
+    app.bootstrap({
+      plugin: ['./dist/test/plugins/relative']
+    });
+
+    Assert.deepEqual(app.plugins.plugins, [
+      './dist/test/plugins/relative'
+    ]);
+  });
+
+  it('loads a plugin with absolute path', function () {
+    const app = new Application();
+    const absolutePath = path.resolve(__dirname, './plugins/absolute');
+    app.bootstrap({
+      plugin: [absolutePath]
+    });
+
+    Assert.deepEqual(app.plugins.plugins, [
+        absolutePath
     ]);
   });
 });
