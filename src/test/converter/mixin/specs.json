@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"mixin\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -1318,8 +1318,12 @@
             "id": 51,
             "typeArguments": [
               {
-                "type": "reference",
-                "name": "Mixin3"
+                "type": "query",
+                "queryType": {
+                  "type": "reference",
+                  "id": 61,
+                  "name": "Mixin3"
+                }
               }
             ],
             "name": "Mixin"
@@ -1683,7 +1687,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1

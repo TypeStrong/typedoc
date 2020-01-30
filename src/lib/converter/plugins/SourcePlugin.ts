@@ -8,12 +8,16 @@ import { Component, ConverterComponent } from '../components';
 import { BasePath } from '../utils/base-path';
 import { Converter } from '../converter';
 import { Context } from '../context';
+import { BindOption } from '../../utils';
 
 /**
  * A handler that attaches source file information to reflections.
  */
 @Component({name: 'source'})
 export class SourcePlugin extends ConverterComponent {
+    @BindOption('disableSources')
+    readonly disableSources!: boolean;
+
     /**
      * Helper for resolving the base path of all source files.
      */
@@ -87,7 +91,7 @@ export class SourcePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
-        if (!node) {
+        if (!node || this.disableSources) {
             return;
         }
         const sourceFile = node.getSourceFile();

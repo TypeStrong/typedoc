@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"constructor-type\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -210,7 +210,7 @@
       "id": 14,
       "name": "\"interface-empty\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -360,7 +360,7 @@
       "id": 20,
       "name": "\"interface-implementation\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -370,7 +370,7 @@
           "id": 21,
           "name": "Forms",
           "kind": 2,
-          "kindString": "Module",
+          "kindString": "Namespace",
           "flags": {},
           "children": [
             {
@@ -1607,7 +1607,7 @@
       ],
       "groups": [
         {
-          "title": "Modules",
+          "title": "Namespaces",
           "kind": 2,
           "children": [
             21
@@ -1625,7 +1625,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1,

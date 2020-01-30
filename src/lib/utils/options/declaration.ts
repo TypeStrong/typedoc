@@ -31,7 +31,7 @@ export type TypeDocAndTSOptions = TypeDocOptions
     & Pick<CompilerOptions, Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>>;
 
 export enum SourceFileMode {
-    File, Modules
+    File, Modules, Library
 }
 
 /**
@@ -43,7 +43,7 @@ export interface TypeDocOptionMap {
     tsconfig: string;
 
     inputFiles: string[];
-    mode: { file: SourceFileMode.File, modules: SourceFileMode.Modules };
+    mode: { file: SourceFileMode.File, modules: SourceFileMode.Modules, library: SourceFileMode.Library };
     includeDeclarations: boolean;
     entryPoint: string;
     exclude: string[];
@@ -53,6 +53,7 @@ export interface TypeDocOptionMap {
     excludePrivate: boolean;
     excludeProtected: boolean;
     ignoreCompilerErrors: boolean;
+    disableSources: boolean;
     includes: string;
     media: string;
 
@@ -67,6 +68,7 @@ export interface TypeDocOptionMap {
     categoryOrder: string[];
     categorizeByGroup: boolean;
     gitRevision: string;
+    gitRemote: string;
     gaID: string;
     gaSite: string;
     hideGenerator: boolean;

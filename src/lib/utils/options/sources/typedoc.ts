@@ -23,11 +23,12 @@ export function addTypeDocOptions(options: Options) {
 
     options.addDeclaration({
         name: 'mode',
-        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
+        help: "Specifies the output mode the project is used to be compiled with: 'file', 'modules' or 'library'",
         type: ParameterType.Map,
         map: {
-            'file': SourceFileMode.File,
-            'modules': SourceFileMode.Modules
+            file: SourceFileMode.File,
+            modules: SourceFileMode.Modules,
+            library: SourceFileMode.Library
         },
         defaultValue: SourceFileMode.Modules
     });
@@ -73,7 +74,12 @@ export function addTypeDocOptions(options: Options) {
     });
     options.addDeclaration({
         name: 'ignoreCompilerErrors',
-        help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
+        help: 'Skips checking for TypeScript compilation errors if set.',
+        type: ParameterType.Boolean
+    });
+    options.addDeclaration({
+        name: 'disableSources',
+        help: 'Disables setting the source of a reflection when documenting it.',
         type: ParameterType.Boolean
     });
     options.addDeclaration({
@@ -136,6 +142,11 @@ export function addTypeDocOptions(options: Options) {
     options.addDeclaration({
         name: 'gitRevision',
         help: 'Use specified revision instead of the last revision for linking to GitHub source files.'
+    });
+    options.addDeclaration({
+        name: 'gitRemote',
+        help: 'Use the specified remote for linking to GitHub source files.',
+        defaultValue: 'origin'
     });
     options.addDeclaration({
         name: 'gaID',

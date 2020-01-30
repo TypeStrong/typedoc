@@ -17,8 +17,8 @@ export class GroupPlugin extends ConverterComponent {
      */
     static WEIGHTS = [
         ReflectionKind.Global,
-        ReflectionKind.ExternalModule,
         ReflectionKind.Module,
+        ReflectionKind.Namespace,
         ReflectionKind.Enum,
         ReflectionKind.EnumMember,
         ReflectionKind.Class,

@@ -1,7 +1,7 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.16.6",
+  "version": "0.17.0-3",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,20 +27,22 @@
     }
   ],
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">= 8.0.0"
   },
   "dependencies": {
     "@types/minimatch": "3.0.3",
     "fs-extra": "^8.1.0",
     "handlebars": "^4.7.2",
-    "highlight.js": "^9.17.1",
+    "highlight.js": "^9.18.0",
     "lodash": "^4.17.15",
     "marked": "^0.8.0",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
-    "typedoc-default-themes": "^0.7.1",
-    "typescript": "3.7.x"
+    "typedoc-default-themes": "0.8.0-0"
+  },
+  "peerDependencies": {
+    "typescript": ">=3.7"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.1",
@@ -48,12 +50,13 @@
     "@types/marked": "^0.7.2",
     "@types/mocha": "^5.2.7",
     "@types/mockery": "^1.4.29",
-    "@types/node": "^13.1.6",
+    "@types/node": "^13.5.0",
     "@types/shelljs": "^0.8.6",
     "mocha": "^7.0.0",
     "mockery": "^2.1.0",
     "nyc": "15.0.0",
-    "tslint": "^5.20.1"
+    "tslint": "^5.20.1",
+    "typescript": "3.7.x"
   },
   "files": [
     "bin",

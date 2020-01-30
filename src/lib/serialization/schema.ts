@@ -198,6 +198,9 @@ export interface IntersectionType extends Type, S<M.IntersectionType, 'type' | '
 export interface IntrinsicType extends Type, S<M.IntrinsicType, 'type' | 'name'> {
 }
 
+export interface QueryType extends Type, S<M.QueryType, 'type' | 'queryType'> {
+}
+
 export interface PredicateType extends Type, S<M.PredicateType, 'type' | 'name' | 'asserts' | 'targetType'> {
 }
 

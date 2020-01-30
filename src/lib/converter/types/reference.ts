@@ -47,7 +47,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
     convertNode(context: Context, node: ts.TypeReferenceNode, type: ts.TypeReference): Type | undefined {
         if (!type.symbol) {
             return new IntrinsicType('Object');
-        } else if (type.symbol.declarations && (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral)) {
+        } else if (type.symbol.flags & (ts.SymbolFlags.TypeLiteral | ts.SymbolFlags.ObjectLiteral)) {
             return this.convertLiteral(context, type.symbol, node);
         }
 
@@ -76,7 +76,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
     convertType(context: Context, type: ts.TypeReference): Type | undefined {
         if (!type.symbol) {
             return new IntrinsicType('Object');
-        } else if (type.symbol.declarations && (type.symbol.flags & ts.SymbolFlags.TypeLiteral || type.symbol.flags & ts.SymbolFlags.ObjectLiteral)) {
+        } else if (type.symbol.flags & (ts.SymbolFlags.TypeLiteral | ts.SymbolFlags.ObjectLiteral)) {
             return this.convertLiteral(context, type.symbol);
         }
 
@@ -111,7 +111,8 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
      * @returns A type reflection representing the given type literal.
      */
     private convertLiteral(context: Context, symbol: ts.Symbol, node?: ts.Node): Type | undefined {
-        for (const declaration of symbol.declarations) {
+        // The TS types lie. symbol.declarations is undefined for the type {}
+        for (const declaration of symbol.declarations ?? []) {
             if (context.visitStack.includes(declaration)) {
                 if (declaration.kind === ts.SyntaxKind.TypeLiteral ||
                         declaration.kind === ts.SyntaxKind.ObjectLiteralExpression) {
@@ -128,7 +129,7 @@ export class ReferenceConverter extends ConverterTypeComponent implements TypeNo
         context.registerReflection(declaration, symbol);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
-            symbol.declarations.forEach((node) => {
+            (symbol.declarations ?? []).forEach((node) => {
                 this.owner.convertNode(context, node);
             });
         });

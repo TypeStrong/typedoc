@@ -114,6 +114,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>
     S.InferredTypeSerializer,
     S.IntersectionTypeSerializer,
     S.IntrinsicTypeSerializer,
+    S.QueryTypeSerializer,
     S.PredicateTypeSerializer,
     S.ReferenceTypeSerializer,
     S.ReferenceTypeSerializer,

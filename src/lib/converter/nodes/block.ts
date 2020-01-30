@@ -1,4 +1,5 @@
 import * as ts from 'typescript';
+import { resolve } from 'path';
 
 import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
 import { createDeclaration } from '../factories/index';
@@ -16,6 +17,9 @@ const preferred: ts.SyntaxKind[] = [
 export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock> {
     @BindOption('mode')
     mode!: SourceFileMode;
+
+    @BindOption('inputFiles')
+    inputFiles!: string[];
 
     /**
      * List of supported TypeScript syntax kinds.
@@ -53,13 +57,26 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
     private convertSourceFile(context: Context, node: ts.SourceFile): Reflection | undefined {
         let result: Reflection | undefined = context.scope;
 
+        const inputFiles = this.inputFiles.map(file => resolve(file).replace(/\\/g, '/'));
+        const isInputFile = (node: ts.SourceFile) => inputFiles.includes(node.fileName);
+
         context.withSourceFile(node, () => {
             if (this.mode === SourceFileMode.Modules) {
-                result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
+                result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
                     result!.setFlag(ReflectionFlag.Exported);
                 });
+            } else if (this.mode === SourceFileMode.Library) {
+                if (inputFiles.length > 1 || !isInputFile(node)) {
+                    result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
+                    context.withScope(result, () => {
+                        this.convertVisibleDeclarations(context, node);
+                        result!.setFlag(ReflectionFlag.Exported);
+                    });
+                } else {
+                    this.convertVisibleDeclarations(context, node);
+                }
             } else {
                 this.convertStatements(context, node);
             }
@@ -83,6 +100,21 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             statements.forEach((statement) => {
                 this.owner.convertNode(context, statement);
             });
+        }
+    }
+
+    private convertVisibleDeclarations(context: Context, node: ts.SourceFile) {
+        const moduleSymbol = context.getSymbolAtLocation(node);
+        if (!moduleSymbol) {
+            this.application.logger.warn(`File ${node.fileName} is not a module and cannot be converted in library mode`);
+            return;
+        }
+
+        for (const symbol of context.checker.getExportsOfModule(moduleSymbol)) {
+            const resolved = context.resolveAliasedSymbol(symbol);
+            for (const declaration of resolved.declarations) {
+                this.owner.convertNode(context, declaration);
+            }
         }
     }
 }

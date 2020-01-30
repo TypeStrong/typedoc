@@ -61,7 +61,7 @@ export class DefaultTheme extends Theme {
         directory: 'enums',
         template:  'reflection.hbs'
     }, {
-        kind:      [ReflectionKind.Module, ReflectionKind.ExternalModule],
+        kind:      [ReflectionKind.Namespace, ReflectionKind.Module],
         isLeaf:    false,
         directory: 'modules',
         template:  'reflection.hbs'
@@ -375,7 +375,7 @@ export class NavigationBuilder {
             let target = someModule.parent;
             let inScope = (someModule === this.entryPoint);
             while (target) {
-                if (target.kindOf(ReflectionKind.ExternalModule)) {
+                if (target.kindOf(ReflectionKind.Module)) {
                     return;
                 }
                 if (this.entryPoint === target) {

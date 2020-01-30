@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"access\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -336,7 +336,7 @@
       "id": 15,
       "name": "\"class\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -1741,7 +1741,7 @@
       "id": 75,
       "name": "\"clodule-with-subclass\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -1887,7 +1887,7 @@
       "id": 80,
       "name": "\"constructor-properties\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -2358,7 +2358,7 @@
       "id": 101,
       "name": "\"decorators\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -2725,7 +2725,7 @@
       "id": 145,
       "name": "\"events\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -2802,7 +2802,7 @@
       "id": 118,
       "name": "\"events-overloads\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -3227,7 +3227,7 @@
       "id": 148,
       "name": "\"generic-class\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -3664,7 +3664,7 @@
       "id": 166,
       "name": "\"getter-setter\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -3871,7 +3871,7 @@
       "id": 178,
       "name": "\"this\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -3965,7 +3965,7 @@
       "id": 182,
       "name": "\"type-operator\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -4147,7 +4147,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1,

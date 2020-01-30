@@ -49,8 +49,9 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
      */
     private replaceBrackets(text: string): string {
         return text.replace(this.brackets, (match: string, content: string): string => {
-            const split = MarkedLinksPlugin.splitLinkText(content);
-            return this.buildLink(match, split.target, split.caption);
+            const monospace = content[0] === '`' && content[content.length - 1] === '`';
+            const split = MarkedLinksPlugin.splitLinkText(monospace ? content.slice(1, -1) : content);
+            return this.buildLink(match, split.target, split.caption, monospace);
         });
     }
 
