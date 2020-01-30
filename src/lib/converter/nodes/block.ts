@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { resolve } from 'path';
 
 import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
-import { createDeclaration } from '../factories/index';
+import { createDeclaration, createReferenceReflection } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 import { BindOption, SourceFileMode } from '../../utils';
@@ -112,8 +112,18 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
 
         for (const symbol of context.checker.getExportsOfModule(moduleSymbol)) {
             const resolved = context.resolveAliasedSymbol(symbol);
-            for (const declaration of resolved.declarations) {
-                this.owner.convertNode(context, declaration);
+
+            const declarationsProcess = () => {
+                for (const declaration of resolved.declarations) {
+                    this.owner.convertNode(context, declaration);
+                }
+            };
+
+            if (symbol.getName() !== resolved.getName()) {
+                const reflection = createReferenceReflection(context, symbol, resolved);
+                context.withScope(reflection, declarationsProcess);
+            } else {
+                declarationsProcess();
             }
         }
     }
