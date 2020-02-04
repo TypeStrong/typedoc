@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"access\"",
+      "name": "access",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -334,7 +334,7 @@
     },
     {
       "id": 15,
-      "name": "\"class\"",
+      "name": "class",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1622,7 +1622,7 @@
     },
     {
       "id": 69,
-      "name": "\"clodule-with-subclass\"",
+      "name": "clodule-with-subclass",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1768,7 +1768,7 @@
     },
     {
       "id": 74,
-      "name": "\"constructor-properties\"",
+      "name": "constructor-properties",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1785,7 +1785,7 @@
     },
     {
       "id": 75,
-      "name": "\"decorators\"",
+      "name": "decorators",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1802,7 +1802,7 @@
     },
     {
       "id": 77,
-      "name": "\"events\"",
+      "name": "events",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1819,7 +1819,7 @@
     },
     {
       "id": 76,
-      "name": "\"events-overloads\"",
+      "name": "events-overloads",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1836,7 +1836,7 @@
     },
     {
       "id": 78,
-      "name": "\"generic-class\"",
+      "name": "generic-class",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1853,7 +1853,7 @@
     },
     {
       "id": 79,
-      "name": "\"getter-setter\"",
+      "name": "getter-setter",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1870,7 +1870,7 @@
     },
     {
       "id": 80,
-      "name": "\"this\"",
+      "name": "this",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1964,7 +1964,7 @@
     },
     {
       "id": 84,
-      "name": "\"type-operator\"",
+      "name": "type-operator",
       "kind": 1,
       "kindString": "Module",
       "flags": {

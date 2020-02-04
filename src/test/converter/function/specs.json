@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"function\"",
+      "name": "function",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1087,7 +1087,7 @@
     },
     {
       "id": 57,
-      "name": "\"generic-function\"",
+      "name": "generic-function",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1263,7 +1263,7 @@
     },
     {
       "id": 67,
-      "name": "\"implicit-types\"",
+      "name": "implicit-types",
       "kind": 1,
       "kindString": "Module",
       "flags": {

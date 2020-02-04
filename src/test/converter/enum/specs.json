@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"enum\"",
+      "name": "enum",
       "kind": 1,
       "kindString": "Module",
       "flags": {

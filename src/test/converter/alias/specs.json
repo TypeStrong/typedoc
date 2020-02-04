@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"alias\"",
+      "name": "alias",
       "kind": 1,
       "kindString": "Module",
       "flags": {

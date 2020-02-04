@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"access\"",
+      "name": "access",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -334,7 +334,7 @@
     },
     {
       "id": 15,
-      "name": "\"class\"",
+      "name": "class",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1735,7 +1735,7 @@
     },
     {
       "id": 75,
-      "name": "\"clodule-with-subclass\"",
+      "name": "clodule-with-subclass",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -1881,7 +1881,7 @@
     },
     {
       "id": 80,
-      "name": "\"constructor-properties\"",
+      "name": "constructor-properties",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -2352,7 +2352,7 @@
     },
     {
       "id": 101,
-      "name": "\"decorators\"",
+      "name": "decorators",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -2719,7 +2719,7 @@
     },
     {
       "id": 145,
-      "name": "\"events\"",
+      "name": "events",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -2796,7 +2796,7 @@
     },
     {
       "id": 118,
-      "name": "\"events-overloads\"",
+      "name": "events-overloads",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -3221,7 +3221,7 @@
     },
     {
       "id": 148,
-      "name": "\"generic-class\"",
+      "name": "generic-class",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -3658,7 +3658,7 @@
     },
     {
       "id": 166,
-      "name": "\"getter-setter\"",
+      "name": "getter-setter",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -3865,7 +3865,7 @@
     },
     {
       "id": 178,
-      "name": "\"this\"",
+      "name": "this",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -3959,7 +3959,7 @@
     },
     {
       "id": 182,
-      "name": "\"type-operator\"",
+      "name": "type-operator",
       "kind": 1,
       "kindString": "Module",
       "flags": {

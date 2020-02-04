@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"array\"",
+      "name": "array",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -4568,7 +4568,7 @@
     },
     {
       "id": 234,
-      "name": "\"destructuring\"",
+      "name": "destructuring",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -4975,7 +4975,7 @@
     },
     {
       "id": 253,
-      "name": "\"literal\"",
+      "name": "literal",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -6032,7 +6032,7 @@
     },
     {
       "id": 310,
-      "name": "\"variable\"",
+      "name": "variable",
       "kind": 1,
       "kindString": "Module",
       "flags": {

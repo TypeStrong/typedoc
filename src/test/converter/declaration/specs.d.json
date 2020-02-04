@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"declaration\"",
+      "name": "declaration",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -109,7 +109,7 @@
     },
     {
       "id": 5,
-      "name": "\"export-declaration\"",
+      "name": "export-declaration",
       "kind": 1,
       "kindString": "Module",
       "flags": {

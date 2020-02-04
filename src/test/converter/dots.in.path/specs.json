@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 3,
-      "name": "\"function\"",
+      "name": "function",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -84,7 +84,7 @@
     },
     {
       "id": 1,
-      "name": "\"interface-empty\"",
+      "name": "interface-empty",
       "kind": 1,
       "kindString": "Module",
       "flags": {

@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 6,
-      "name": "\"comment\"",
+      "name": "comment",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -230,7 +230,7 @@
     },
     {
       "id": 1,
-      "name": "\"comment2\"",
+      "name": "comment2",
       "kind": 1,
       "kindString": "Module",
       "flags": {

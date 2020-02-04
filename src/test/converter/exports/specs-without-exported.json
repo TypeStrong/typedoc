@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 14,
-      "name": "\"export\"",
+      "name": "export",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -143,7 +143,7 @@
     },
     {
       "id": 1,
-      "name": "\"export-assignment\"",
+      "name": "export-assignment",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -160,7 +160,7 @@
     },
     {
       "id": 2,
-      "name": "\"export-default\"",
+      "name": "export-default",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -177,7 +177,7 @@
     },
     {
       "id": 3,
-      "name": "\"export-with-local\"",
+      "name": "export-with-local",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -293,7 +293,7 @@
     },
     {
       "id": 9,
-      "name": "\"mod\"",
+      "name": "mod",
       "kind": 1,
       "kindString": "Module",
       "flags": {

@@ -6,7 +6,7 @@
   "children": [
     {
       "id": 1,
-      "name": "\"constructor-type\"",
+      "name": "constructor-type",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -208,7 +208,7 @@
     },
     {
       "id": 14,
-      "name": "\"interface-empty\"",
+      "name": "interface-empty",
       "kind": 1,
       "kindString": "Module",
       "flags": {
@@ -358,7 +358,7 @@
     },
     {
       "id": 20,
-      "name": "\"interface-implementation\"",
+      "name": "interface-implementation",
       "kind": 1,
       "kindString": "Module",
       "flags": {
