@@ -23,6 +23,9 @@ export class DynamicModulePlugin extends ConverterComponent {
      */
     private reflections!: Reflection[];
 
+    private hiddenExtension = ['.ts', '.d'];
+    private hiddenPathPart = ['/index', '/lib', '/src'];
+
     /**
      * Create a new DynamicModuleHandler instance.
      */
@@ -72,8 +75,24 @@ export class DynamicModulePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, '');
-            name = name.substr(0, name.length - Path.extname(name).length);
-            reflection.name = '"' + this.basePath.trim(name) + '"';
+
+            const currentExtension = Path.extname(name);
+            const hiddenExtensions = (this.hiddenExtension.includes(currentExtension)) ?
+                this.hiddenExtension : [currentExtension, ...this.hiddenExtension];
+
+            hiddenExtensions.forEach((extension) => {
+                if (name.endsWith(extension)) {
+                    name = name.substr(0, name.length - extension.length);
+                }
+            });
+
+            this.hiddenPathPart.forEach((pathPart) => {
+                if (name.endsWith(pathPart)) {
+                    name = name.substr(0, name.length - pathPart.length);
+                }
+            });
+
+            reflection.name = this.basePath.trim(name);
         });
     }
 }
