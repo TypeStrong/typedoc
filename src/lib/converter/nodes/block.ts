@@ -116,19 +116,19 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             // export declaration is always unique: no need of loop
             const declaration = resolved?.declarations?.[0];
             if (declaration) {
-                const declarationReflexion = this.owner.convertNode(context, declaration);
-                if (declarationReflexion) {
-                    if (!declarationReflexion.kindOf([ReflectionKind.ClassOrInterface, ReflectionKind.SomeModule])) {
+                const declarationReflection = this.owner.convertNode(context, declaration);
+                if (declarationReflection) {
+                    if (!declarationReflection.kindOf([ReflectionKind.ClassOrInterface, ReflectionKind.SomeModule])) {
                         // rename the declaration to the exported one
-                        declarationReflexion.name = symbol.name;
-                        declarationReflexion.flags.setFlag(ReflectionFlag.Exported, true);
-                    } else if (declarationReflexion.name !== symbol.name) {
+                        declarationReflection.name = symbol.name;
+                        declarationReflection.flags.setFlag(ReflectionFlag.Exported, true);
+                    } else if (declarationReflection.name !== symbol.name) {
                         // create a extra reference to the declaration
-                        declarationReflexion.flags.setFlag(ReflectionFlag.Exported, false);
+                        declarationReflection.flags.setFlag(ReflectionFlag.Exported, false);
                         createReferenceReflection(context, symbol, resolved);
                     }
 
-                    declarationReflexion.flags.setFlag(ReflectionFlag.External, false);
+                    declarationReflection.flags.setFlag(ReflectionFlag.External, false);
                 }
             }
         }
