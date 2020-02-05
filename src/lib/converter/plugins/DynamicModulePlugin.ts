@@ -74,6 +74,10 @@ export class DynamicModulePlugin extends ConverterComponent {
      */
     private onBeginResolve(context: Context) {
         this.reflections.forEach((reflection) => {
+            // in case of mono-repo (node_modules outside the project), trunk the module name after the node_modules folder
+            const nodeModulesRegexp = new RegExp('^(.*)node_modules/');
+            reflection.name = reflection.name.replace(nodeModulesRegexp, '');
+
             let name = reflection.name.replace(/"/g, '');
 
             const currentExtension = Path.extname(name);
