@@ -113,17 +113,23 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         for (const symbol of context.checker.getExportsOfModule(moduleSymbol)) {
             const resolved = context.resolveAliasedSymbol(symbol);
 
-            const declarationsProcess = () => {
-                for (const declaration of resolved.declarations) {
-                    this.owner.convertNode(context, declaration);
-                }
-            };
+            // export declaration is always unique: no need of loop
+            const declaration = resolved?.declarations?.[0];
+            if (declaration) {
+                const declarationReflexion = this.owner.convertNode(context, declaration);
+                if (declarationReflexion) {
+                    if (!declarationReflexion.kindOf([ReflectionKind.ClassOrInterface, ReflectionKind.SomeModule])) {
+                        // rename the declaration to the exported one
+                        declarationReflexion.name = symbol.name;
+                        declarationReflexion.flags.setFlag(ReflectionFlag.Exported, true);
+                    } else if (declarationReflexion.name !== symbol.name) {
+                        // create a extra reference to the declaration
+                        declarationReflexion.flags.setFlag(ReflectionFlag.Exported, false);
+                        createReferenceReflection(context, symbol, resolved);
+                    }
 
-            if (symbol.getName() !== resolved.getName()) {
-                const reflection = createReferenceReflection(context, symbol, resolved);
-                context.withScope(reflection, declarationsProcess);
-            } else {
-                declarationsProcess();
+                    declarationReflexion.flags.setFlag(ReflectionFlag.External, false);
+                }
             }
         }
     }
