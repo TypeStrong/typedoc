@@ -32,8 +32,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
             return true;
         }
 
-        const checker = context.checker;
-        const fqn = checker.getFullyQualifiedName(type.symbol);
+        const fqn = context.getFullyQualifiedName(type.symbol);
 
         let symbolName = fqn.replace(/".*"\./, '').split('.');
         if (!symbolName.length) {

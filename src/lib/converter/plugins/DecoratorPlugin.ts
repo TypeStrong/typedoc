@@ -95,7 +95,7 @@ export class DecoratorPlugin extends ConverterComponent {
 
             const type = context.checker.getTypeAtLocation(identifier);
             if (type && type.symbol) {
-                const fqn = context.checker.getFullyQualifiedName(type.symbol);
+                const fqn = context.getFullyQualifiedName(type.symbol);
                 info.type = new ReferenceType(info.name, fqn);
 
                 if (callExpression && callExpression.arguments) {

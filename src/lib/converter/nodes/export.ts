@@ -32,7 +32,7 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
                     return;
                 }
 
-                const reflection = project.getReflectionFromFQN(context.checker.getFullyQualifiedName(declaration.symbol));
+                const reflection = project.getReflectionFromFQN(context.getFullyQualifiedName(declaration.symbol));
                 if (node.isExportEquals && reflection instanceof DeclarationReflection) {
                     reflection.setFlag(ReflectionFlag.ExportAssignment, true);
                 }

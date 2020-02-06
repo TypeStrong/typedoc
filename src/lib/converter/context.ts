@@ -179,7 +179,7 @@ export class Context {
      */
     registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
         if (symbol) {
-            this.project.registerReflection(reflection, this.checker.getFullyQualifiedName(symbol));
+            this.project.registerReflection(reflection, this.getFullyQualifiedName(symbol));
         } else {
             this.project.registerReflection(reflection);
         }
@@ -304,7 +304,7 @@ export class Context {
         }
 
         if (baseNode.symbol) {
-            const id = this.checker.getFullyQualifiedName(baseNode.symbol);
+            const id = this.getFullyQualifiedName(baseNode.symbol);
             if (this.inheritedChildren && this.inheritedChildren.includes(id)) {
                 return target;
             } else {
@@ -397,6 +397,28 @@ export class Context {
         });
 
         return typeParameters;
+    }
+
+    /**
+     * Typscript getFullyQualifiedName method don't always return unique string
+     * in this case prefix it with sourcefile name
+     *
+     * @param symbol
+     */
+    getFullyQualifiedName(symbol: ts.Symbol): string {
+        let fullyQualifiedName = this.checker.getFullyQualifiedName(symbol);
+        if (!fullyQualifiedName.startsWith(`"`)) {
+            if (symbol.declarations) {
+                const node = symbol.declarations[0];
+                if (node) {
+                    const sourceFile = node.getSourceFile();
+                    const filePath = sourceFile.fileName;
+                    fullyQualifiedName = `"${filePath}".${fullyQualifiedName}`;
+                }
+            }
+        }
+
+        return fullyQualifiedName;
     }
 }
 

@@ -25,7 +25,7 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
         name = checker.symbolToString(symbol.parent) + '.' + name;
     }
 
-    return new ReferenceType(name, context.checker.getFullyQualifiedName(symbol));
+    return new ReferenceType(name, context.getFullyQualifiedName(symbol));
 }
 
 export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection | undefined {
@@ -39,7 +39,7 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
         return;
     }
 
-    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.checker.getFullyQualifiedName(target)], context.scope);
+    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.getFullyQualifiedName(target)], context.scope);
     reflection.flags.setFlag(ReflectionFlag.Exported, true); // References are exported by necessity
     if (!context.scope.children) {
         context.scope.children = [];
