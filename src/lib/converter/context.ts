@@ -407,7 +407,7 @@ export class Context {
      */
     getFullyQualifiedName(symbol: ts.Symbol): string {
         let fullyQualifiedName = this.checker.getFullyQualifiedName(symbol);
-        if (!fullyQualifiedName.startsWith(`"`)) {
+        if (!fullyQualifiedName.startsWith('"')) {
             if (symbol.declarations) {
                 const node = symbol.declarations[0];
                 if (node) {
