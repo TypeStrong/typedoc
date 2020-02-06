@@ -10,7 +10,7 @@ import {
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 import { createReferenceReflection } from '../factories/reference';
-import {BindOption, SourceFileMode} from '../../utils';
+import { BindOption, SourceFileMode } from '../../utils';
 
 @Component({name: 'node:export'})
 export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
