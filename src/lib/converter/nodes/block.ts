@@ -126,6 +126,8 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
                         // create a extra reference to the declaration
                         declarationReflection.flags.setFlag(ReflectionFlag.Exported, false);
                         createReferenceReflection(context, symbol, resolved);
+                    } else {
+                        declarationReflection.flags.setFlag(ReflectionFlag.Exported, true);
                     }
 
                     declarationReflection.flags.setFlag(ReflectionFlag.External, false);
