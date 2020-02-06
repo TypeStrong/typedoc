@@ -114,7 +114,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
             const resolved = context.resolveAliasedSymbol(symbol);
 
             // export declaration is always unique: no need of loop
-            const declaration = resolved?.declarations?.[0];
+            const declaration = resolved.declarations?.[0];
             if (declaration) {
                 const declarationReflection = this.owner.convertNode(context, declaration);
                 if (declarationReflection) {

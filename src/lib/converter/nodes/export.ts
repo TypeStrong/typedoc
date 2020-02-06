@@ -1,10 +1,16 @@
 import * as ts from 'typescript';
 
-import { Reflection, ReflectionFlag, DeclarationReflection, ContainerReflection } from '../../models/index';
+import {
+    Reflection,
+    ReflectionFlag,
+    DeclarationReflection,
+    ContainerReflection,
+    ReflectionKind
+} from '../../models/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 import { createReferenceReflection } from '../factories/reference';
-import { SourceFileMode } from '../../utils';
+import {BindOption, SourceFileMode} from '../../utils';
 
 @Component({name: 'node:export'})
 export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment> {
@@ -58,9 +64,12 @@ export class ExportConverter extends ConverterNodeComponent<ts.ExportAssignment>
 export class ExportDeclarationConverter extends ConverterNodeComponent<ts.ExportDeclaration> {
     supports = [ts.SyntaxKind.ExportDeclaration];
 
+    @BindOption('mode')
+    mode!: SourceFileMode;
+
     convert(context: Context, node: ts.ExportDeclaration): Reflection | undefined {
         // It doesn't make sense to convert export declarations if we are pretending everything is global.
-        if (this.application.options.getValue('mode') === SourceFileMode.File) {
+        if (this.mode === SourceFileMode.File) {
             return;
         }
 
@@ -74,7 +83,35 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
                 const source = context.getSymbolAtLocation(specifier.name);
                 const target = context.resolveAliasedSymbol(context.getSymbolAtLocation(specifier.propertyName ?? specifier.name));
                 if (source && target) {
-                    createReferenceReflection(context, source, target);
+                    if (this.mode === SourceFileMode.Library) {
+                        // export declaration is always unique: no need of loop
+                        const declaration = target.declarations?.[0];
+                        if (declaration) {
+                            const declarationReflection = this.owner.convertNode(context, declaration);
+                            if (declarationReflection) {
+                                if (!declarationReflection.kindOf([ReflectionKind.ClassOrInterface, ReflectionKind.SomeModule])) {
+                                    // rename the declaration to the exported one
+                                    declarationReflection.name = source.name;
+                                    declarationReflection.flags.setFlag(ReflectionFlag.Exported, true);
+                                } else if (declarationReflection.name !== source.name) {
+                                    // create a extra reference to the declaration
+                                    declarationReflection.flags.setFlag(ReflectionFlag.Exported, false);
+                                    createReferenceReflection(context, source, target);
+                                } else {
+                                    declarationReflection.flags.setFlag(ReflectionFlag.Exported, true);
+                                }
+                            }
+                        }
+
+                    } else {
+                        // If the original declaration is in this file, export {} was used with something
+                        // defined in this file and we don't need to create a reference unless the name is different.
+                        if (!node.moduleSpecifier && !specifier.propertyName) {
+                            return;
+                        }
+
+                        createReferenceReflection(context, source, target);
+                    }
                 }
             });
         } else if (node.moduleSpecifier) { // export * from ...
