@@ -23,6 +23,11 @@ export class Logger {
      * How many error messages have been logged?
      */
     errorCount = 0;
+    
+    /**
+     * How many warning messages have been logged?
+     */
+    warningCount = 0;
 
     /**
      * Has an error been raised through the log method?
@@ -30,12 +35,26 @@ export class Logger {
     public hasErrors(): boolean {
         return this.errorCount > 0;
     }
+    
+    /**
+     * Has a warning been raised through the log method?
+     */
+    public hasErrors(): boolean {
+        return this.warningCount > 0;
+    }
 
     /**
      * Reset the error counter.
      */
     public resetErrors() {
         this.errorCount = 0;
+    }
+    
+    /**
+     * Reset the warning counter.
+     */
+    public resetWarnings() {
+        this.warningCount = 0;
     }
 
     /**
@@ -108,6 +127,9 @@ export class Logger {
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
+        }
+        if (level === LogLevel.Warning) {
+            this.warningCount += 1;
         }
     }
 
