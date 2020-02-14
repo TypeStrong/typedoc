@@ -23,7 +23,7 @@ export class Logger {
      * How many error messages have been logged?
      */
     errorCount = 0;
-    
+
     /**
      * How many warning messages have been logged?
      */
@@ -35,7 +35,7 @@ export class Logger {
     public hasErrors(): boolean {
         return this.errorCount > 0;
     }
-    
+
     /**
      * Has a warning been raised through the log method?
      */
@@ -49,7 +49,7 @@ export class Logger {
     public resetErrors() {
         this.errorCount = 0;
     }
-    
+
     /**
      * Reset the warning counter.
      */
