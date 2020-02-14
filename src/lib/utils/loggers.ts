@@ -39,7 +39,7 @@ export class Logger {
     /**
      * Has a warning been raised through the log method?
      */
-    public hasErrors(): boolean {
+    public hasWarnings(): boolean {
         return this.warningCount > 0;
     }
 
