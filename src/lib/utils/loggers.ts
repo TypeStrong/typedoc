@@ -128,7 +128,7 @@ export class Logger {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
-        if (level === LogLevel.Warning) {
+        if (level === LogLevel.Warn) {
             this.warningCount += 1;
         }
     }
