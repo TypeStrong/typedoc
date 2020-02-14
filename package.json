@@ -30,7 +30,6 @@
     "node": ">= 6.0.0"
   },
   "dependencies": {
-    "@types/minimatch": "3.0.3",
     "fs-extra": "^8.1.0",
     "handlebars": "^4.7.2",
     "highlight.js": "^9.17.1",
@@ -43,6 +42,7 @@
     "typescript": "3.7.x"
   },
   "devDependencies": {
+    "@types/minimatch": "3.0.3",
     "@types/fs-extra": "^8.0.1",
     "@types/lodash": "^4.14.149",
     "@types/marked": "^0.7.2",
