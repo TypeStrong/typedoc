@@ -69,7 +69,12 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                     const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
 
                     typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
-                        typeToInheritFrom.symbol && typeToInheritFrom.symbol.declarations.forEach((declaration) => {
+                        // TODO: The TS declaration file claims that:
+                        // 1. type.symbol is non-nullable
+                        // 2. symbol.declarations is non-nullable
+                        // These are both incorrect, GH#1207 for #2 and existing tests for #1.
+                        // Figure out why this is the case and document.
+                        typeToInheritFrom.symbol?.declarations?.forEach((declaration) => {
                             context.inherit(declaration, baseType.typeArguments);
                         });
                     });
