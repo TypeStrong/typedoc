@@ -181,7 +181,7 @@
                     "isExported": true
                   },
                   "comment": {
-                    "text": "Test description."
+                    "text": "{@link CommentedClass} Test description."
                   },
                   "type": {
                     "type": "intrinsic",

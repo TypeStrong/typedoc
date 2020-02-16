@@ -142,7 +142,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     let shortText = 0;
 
     function consumeTypeData(line: string): string {
-        line = line.replace(/^\{[^\}]*\}+/, '');
+        line = line.replace(/^\{(?!@)[^\}]*\}+/, '');
         line = line.replace(/^\[[^\[][^\]]*\]+/, '');
         return line.trim();
     }
