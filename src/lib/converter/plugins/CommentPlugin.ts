@@ -17,6 +17,28 @@ import { partition, uniq } from 'lodash';
 import { SourceReference } from '../../models';
 
 /**
+ * These tags are not useful to display in the generated documentation.
+ * They should be ignored when parsing comments. Any relevant type information
+ * (for JS users) will be consumed by TypeScript and need not be preserved
+ * in the comment.
+ *
+ * Note that param/arg/argument/return/returns are not present.
+ * These tags will have their type information stripped when parsing, but still
+ * provide useful information for documentation.
+ */
+const TAG_BLACKLIST = [
+    'augments',
+    'callback',
+    'class',
+    'constructor',
+    'enum',
+    'extends',
+    'this',
+    'type',
+    'typedef'
+];
+
+/**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
  */
 interface ModuleComment {
@@ -37,7 +59,7 @@ interface ModuleComment {
 }
 
 /**
- * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
+ * A handler that parses TypeDoc comments and attaches [[Comment]] instances to
  * the generated reflections.
  */
 @Component({name: 'comment'})
@@ -92,27 +114,27 @@ export class CommentPlugin extends ConverterComponent {
     private applyModifiers(reflection: Reflection, comment: Comment) {
         if (comment.hasTag('private')) {
             reflection.setFlag(ReflectionFlag.Private);
-            CommentPlugin.removeTags(comment, 'private');
+            comment.removeTags('private');
         }
 
         if (comment.hasTag('protected')) {
             reflection.setFlag(ReflectionFlag.Protected);
-            CommentPlugin.removeTags(comment, 'protected');
+            comment.removeTags('protected');
         }
 
         if (comment.hasTag('public')) {
             reflection.setFlag(ReflectionFlag.Public);
-            CommentPlugin.removeTags(comment, 'public');
+            comment.removeTags('public');
         }
 
         if (comment.hasTag('event')) {
             reflection.kind = ReflectionKind.Event;
             // reflection.setFlag(ReflectionFlag.Event);
-            CommentPlugin.removeTags(comment, 'event');
+            comment.removeTags('event');
         }
 
         if (reflection.kindOf(ReflectionKind.ExternalModule)) {
-            CommentPlugin.removeTags(comment, 'packagedocumentation');
+            comment.removeTags('packagedocumentation');
         }
     }
 
@@ -172,11 +194,13 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
+            this.removeBlacklistedTags(comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
+            this.removeBlacklistedTags(comment);
             reflection.comment = comment;
         }
     }
@@ -212,7 +236,7 @@ export class CommentPlugin extends ConverterComponent {
 
             const info    = this.comments[id];
             const comment = parseComment(info.fullText);
-            CommentPlugin.removeTags(comment, 'preferred');
+            comment.removeTags('preferred');
 
             this.applyModifiers(info.reflection, comment);
             info.reflection.comment = comment;
@@ -261,14 +285,14 @@ export class CommentPlugin extends ConverterComponent {
             const comment = reflection.comment;
             if (comment && comment.hasTag('returns')) {
                 comment.returns = comment.getTag('returns')!.text;
-                CommentPlugin.removeTags(comment, 'returns');
+                comment.removeTags('returns');
             }
 
             signatures.forEach((signature) => {
                 let childComment = signature.comment;
                 if (childComment && childComment.hasTag('returns')) {
                     childComment.returns = childComment.getTag('returns')!.text;
-                    CommentPlugin.removeTags(childComment, 'returns');
+                    childComment.removeTags('returns');
                 }
 
                 if (comment) {
@@ -296,33 +320,29 @@ export class CommentPlugin extends ConverterComponent {
                     });
                 }
 
-                CommentPlugin.removeTags(childComment, 'param');
+                childComment?.removeTags('param');
             });
 
-            CommentPlugin.removeTags(comment, 'param');
+            comment?.removeTags('param');
+        }
+    }
+
+    private removeBlacklistedTags(comment: Comment) {
+        for (const tag of TAG_BLACKLIST) {
+            comment.removeTags(tag);
         }
     }
 
     /**
      * Remove all tags with the given name from the given comment instance.
+     * @deprecated Use [[Comment.removeTags]] instead.
+     * Warn in 0.17, remove in 0.18.
      *
      * @param comment  The comment that should be modified.
      * @param tagName  The name of the that that should be removed.
      */
     static removeTags(comment: Comment | undefined, tagName: string) {
-        if (!comment || !comment.tags) {
-            return;
-        }
-
-        let i = 0, c = comment.tags.length;
-        while (i < c) {
-            if (comment.tags[i].tagName === tagName) {
-                comment.tags.splice(i, 1);
-                c--;
-            } else {
-                i++;
-            }
-        }
+        comment?.removeTags(tagName);
     }
 
     /**
@@ -346,7 +366,7 @@ export class CommentPlugin extends ConverterComponent {
     }
 
     /**
-     * Determins whether or not a reflection has been hidden
+     * Determines whether or not a reflection has been hidden
      *
      * @param reflection Reflection to check if hidden
      */

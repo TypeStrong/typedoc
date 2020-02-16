@@ -26,6 +26,9 @@ import './comment2';
  * ```
  * @deprecated
  * @todo something
+ *
+ * @class will be removed
+ * @type {Data<object>} will also be removed
  */
 export class CommentedClass {
   /**

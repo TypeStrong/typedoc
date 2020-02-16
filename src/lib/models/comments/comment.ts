@@ -79,6 +79,26 @@ export class Comment {
     }
 
     /**
+     * Removes all tags with the given tag name from teh comment.
+     * @param tagName
+     */
+    removeTags(tagName: string) {
+        if (!this.tags) {
+            return;
+        }
+
+        let i = 0, c = this.tags.length ?? 0;
+        while (i < c) {
+            if (this.tags[i].tagName === tagName) {
+                this.tags.splice(i, 1);
+                c--;
+            } else {
+                i++;
+            }
+        }
+    }
+
+    /**
      * Copy the data of the given comment into this comment.
      *
      * @param comment

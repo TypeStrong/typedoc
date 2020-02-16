@@ -54,7 +54,7 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 34,
+                  "line": 37,
                   "character": 6
                 }
               ],
@@ -120,7 +120,7 @@
               "sources": [
                 {
                   "fileName": "comment.ts",
-                  "line": 74,
+                  "line": 77,
                   "character": 13
                 }
               ]
@@ -145,7 +145,7 @@
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 30,
+              "line": 33,
               "character": 27
             }
           ]
@@ -198,7 +198,7 @@
           "sources": [
             {
               "fileName": "comment.ts",
-              "line": 88,
+              "line": 91,
               "character": 22
             }
           ]
