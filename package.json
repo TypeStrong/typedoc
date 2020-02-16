@@ -1,16 +1,12 @@
 {
   "name": "typedoc",
   "description": "Create api documentation for TypeScript projects.",
-  "version": "0.16.9",
+  "version": "0.16.10",
   "homepage": "https://typedoc.org",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
     "typedoc": "bin/typedoc"
-  },
-  "author": {
-    "name": "Sebastian Lenz",
-    "url": "http://www.sebastian-lenz.de/"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -20,14 +16,8 @@
   "bugs": {
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "https://github.com/TypeStrong/TypeDoc/blob/master/LICENSE"
-    }
-  ],
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">= 8.0.0"
   },
   "dependencies": {
     "@types/minimatch": "3.0.3",
