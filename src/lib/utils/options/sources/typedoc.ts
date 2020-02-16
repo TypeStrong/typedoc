@@ -110,8 +110,13 @@ export function addTypeDocOptions(options: Options) {
     });
     options.addDeclaration({
         name: 'includeVersion',
-        help: 'Add the package version to the project name',
+        help: 'Add the package version to the project name.',
         type: ParameterType.Boolean
+    });
+    options.addDeclaration({
+        name: 'excludeTags',
+        help: 'Remove the listed tags from doc comments.',
+        type: ParameterType.Array
     });
     options.addDeclaration({
         name: 'readme',

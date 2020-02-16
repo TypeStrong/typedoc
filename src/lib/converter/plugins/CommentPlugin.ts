@@ -15,6 +15,7 @@ import { Converter } from '../converter';
 import { Context } from '../context';
 import { partition, uniq } from 'lodash';
 import { SourceReference } from '../../models';
+import { BindOption } from '../../utils';
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -64,6 +65,9 @@ interface ModuleComment {
  */
 @Component({name: 'comment'})
 export class CommentPlugin extends ConverterComponent {
+    @BindOption('excludeTags')
+    excludeTags!: string[];
+
     /**
      * List of discovered module comments.
      * Defined in this.onBegin
@@ -194,13 +198,13 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
-            this.removeBlacklistedTags(comment);
+            this.removeExcludedTags(comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
-            this.removeBlacklistedTags(comment);
+            this.removeExcludedTags(comment);
             reflection.comment = comment;
         }
     }
@@ -327,8 +331,11 @@ export class CommentPlugin extends ConverterComponent {
         }
     }
 
-    private removeBlacklistedTags(comment: Comment) {
+    private removeExcludedTags(comment: Comment) {
         for (const tag of TAG_BLACKLIST) {
+            comment.removeTags(tag);
+        }
+        for (const tag of this.excludeTags) {
             comment.removeTags(tag);
         }
     }
