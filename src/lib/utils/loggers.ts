@@ -184,9 +184,7 @@ export class ConsoleLogger extends Logger {
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
-        if (level === LogLevel.Error) {
-            this.errorCount += 1;
-        }
+        super.log(message, level, newLine);
 
         let output = '';
         if (level === LogLevel.Error) {
@@ -234,9 +232,7 @@ export class CallbackLogger extends Logger {
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
-        if (level === LogLevel.Error) {
-            this.errorCount += 1;
-        }
+        super.log(message, level, newLine);
 
         this.callback(message, level, newLine);
     }
