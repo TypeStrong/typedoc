@@ -1,5 +1,6 @@
 export { Application } from './lib/application';
 export { CliApplication } from './lib/cli';
+export * from './lib/stringifiers';
 
 export { EventDispatcher, Event } from './lib/utils/events';
 export { createMinimatch } from './lib/utils/paths';
