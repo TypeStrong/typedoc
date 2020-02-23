@@ -44,3 +44,6 @@ export {
 } from './lib/utils/options';
 
 export { JSONOutput } from './lib/serialization';
+
+import * as TypeScript from 'typescript';
+export { TypeScript };
