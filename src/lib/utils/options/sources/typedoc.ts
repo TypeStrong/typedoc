@@ -62,6 +62,11 @@ export function addTypeDocOptions(options: Options) {
         type: ParameterType.Boolean
     });
     options.addDeclaration({
+        name: 'excludeNotDocumented',
+        help: 'Prevent symbols that are not explicitly documented from appearing in the results.',
+        type: ParameterType.Boolean
+    });
+    options.addDeclaration({
         name: 'excludePrivate',
         help: 'Ignores private variables and methods',
         type: ParameterType.Boolean
