@@ -14,18 +14,4 @@ export class TypeParameterReflection extends Reflection implements TypeContainer
         super(type.name, ReflectionKind.TypeParameter, parent);
         this.type = type.constraint;
     }
-
-    /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = super.toObject();
-
-        if (this.type) {
-            result.type = this.type.toObject();
-        }
-
-        return result;
-    }
 }

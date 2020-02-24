@@ -31,7 +31,9 @@
               "name": "moduleFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function that is extended by a module."
               },
@@ -41,7 +43,9 @@
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "An argument.\n"
                   },
@@ -59,7 +63,7 @@
           ],
           "children": [
             {
-              "id": 38,
+              "id": 52,
               "name": "functionVariable",
               "kind": 32,
               "kindString": "Variable",
@@ -72,7 +76,7 @@
               "sources": [
                 {
                   "fileName": "function.ts",
-                  "line": 137,
+                  "line": 160,
                   "character": 24
                 }
               ],
@@ -82,14 +86,14 @@
               }
             },
             {
-              "id": 39,
+              "id": 53,
               "name": "append",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 40,
+                  "id": 54,
                   "name": "append",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -106,20 +110,20 @@
               "sources": [
                 {
                   "fileName": "function.ts",
-                  "line": 143,
+                  "line": 165,
                   "character": 19
                 }
               ]
             },
             {
-              "id": 41,
+              "id": 55,
               "name": "prepend",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 42,
+                  "id": 56,
                   "name": "prepend",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -136,7 +140,7 @@
               "sources": [
                 {
                   "fileName": "function.ts",
-                  "line": 150,
+                  "line": 172,
                   "character": 20
                 }
               ]
@@ -147,28 +151,219 @@
               "title": "Variables",
               "kind": 32,
               "children": [
-                38
+                52
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                39,
-                41
+                53,
+                55
               ]
             }
           ],
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 126,
+              "line": 118,
               "character": 30
             },
             {
               "fileName": "function.ts",
-              "line": 132,
+              "line": 156,
               "character": 28
+            }
+          ]
+        },
+        {
+          "id": 44,
+          "name": "assertIsNonNull",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 45,
+              "name": "assertIsNonNull",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Asserts that an argument is not null."
+              },
+              "typeParameter": [
+                {
+                  "id": 46,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {
+                    "isExported": true
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 47,
+                  "name": "arg",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "text": "\n"
+                  },
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "typeParameter",
+                        "name": "T"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "null"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "arg",
+                "asserts": true,
+                "targetType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 139,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 38,
+          "name": "assertionFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 39,
+              "name": "assertionFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is an assertion function."
+              },
+              "parameters": [
+                {
+                  "id": 40,
+                  "name": "condition",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "text": "The condition that is asserted to be true when this function returns.\n"
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "boolean"
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "condition",
+                "asserts": true
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 125,
+              "character": 33
+            }
+          ]
+        },
+        {
+          "id": 41,
+          "name": "checkerFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 42,
+              "name": "checkerFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Assertion function with a type."
+              },
+              "parameters": [
+                {
+                  "id": 43,
+                  "name": "anything",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "text": "\n"
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "any"
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "anything",
+                "asserts": false,
+                "targetType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 131,
+              "character": 31
             }
           ]
         },
@@ -176,6 +371,7 @@
           "id": 4,
           "name": "exportedFunction",
           "kind": 64,
+          "kindString": "Function",
           "flags": {
             "isExported": true
           },
@@ -184,7 +380,10 @@
               "id": 5,
               "name": "exportedFunction",
               "kind": 4096,
-              "flags": {},
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a simple exported function."
               },
@@ -196,8 +395,8 @@
           ],
           "sources": [
             {
-              "fileName": "%BASE%/function/function.ts",
-              "line": 10,
+              "fileName": "function.ts",
+              "line": 9,
               "character": 32
             }
           ]
@@ -216,7 +415,9 @@
               "name": "functionWithDefaults",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with a parameter that has a default value.",
                 "returns": "This is the return value of the function.\n"
@@ -227,7 +428,9 @@
                   "name": "valueA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default string value."
                   },
@@ -242,7 +445,9 @@
                   "name": "valueB",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default numeric value."
                   },
@@ -257,7 +462,9 @@
                   "name": "valueC",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default NaN value."
                   },
@@ -265,14 +472,16 @@
                     "type": "intrinsic",
                     "name": "number"
                   },
-                  "defaultValue": " Number.NaN"
+                  "defaultValue": "Number.NaN"
                 },
                 {
                   "id": 23,
                   "name": "valueD",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default boolean value."
                   },
@@ -287,7 +496,9 @@
                   "name": "valueE",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A parameter with a default null value."
                   },
@@ -295,7 +506,7 @@
                     "type": "intrinsic",
                     "name": "boolean"
                   },
-                  "defaultValue": " null"
+                  "defaultValue": "null"
                 }
               ],
               "type": {
@@ -307,7 +518,7 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 65,
+              "line": 60,
               "character": 36
             }
           ]
@@ -326,7 +537,9 @@
               "name": "functionWithOptionalValue",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with a parameter that is optional."
               },
@@ -336,7 +549,9 @@
                   "name": "requiredParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "A normal parameter."
                   },
@@ -351,6 +566,7 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {
+                    "isExported": true,
                     "isOptional": true
                   },
                   "comment": {
@@ -371,7 +587,7 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 52,
+              "line": 48,
               "character": 41
             }
           ]
@@ -390,7 +606,9 @@
               "name": "functionWithParameters",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function with multiple arguments and a return value.",
                 "returns": "This is the return value of the function.\n"
@@ -401,7 +619,9 @@
                   "name": "paramZ",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "This is a string parameter."
                   },
@@ -415,7 +635,9 @@
                   "name": "paramG",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
@@ -429,7 +651,9 @@
                   "name": "paramA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
                   },
@@ -448,7 +672,7 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 30,
+              "line": 28,
               "character": 38
             }
           ]
@@ -500,7 +724,7 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 82,
+              "line": 76,
               "character": 25
             }
           ]
@@ -536,6 +760,87 @@
           ]
         },
         {
+          "id": 48,
+          "name": "isNonNull",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 49,
+              "name": "isNonNull",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Checks that an argument is not null."
+              },
+              "typeParameter": [
+                {
+                  "id": 50,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {
+                    "isExported": true
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 51,
+                  "name": "arg",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "text": "\n"
+                  },
+                  "type": {
+                    "type": "union",
+                    "types": [
+                      {
+                        "type": "typeParameter",
+                        "name": "T"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "null"
+                      },
+                      {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "type": {
+                "type": "predicate",
+                "name": "arg",
+                "asserts": false,
+                "targetType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "function.ts",
+              "line": 149,
+              "character": 25
+            }
+          ]
+        },
+        {
           "id": 28,
           "name": "multipleSignatures",
           "kind": 64,
@@ -553,7 +858,9 @@
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is the first signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
@@ -564,7 +871,9 @@
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "The name value.\n"
                   },
@@ -584,7 +893,9 @@
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is the second signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
@@ -595,7 +906,9 @@
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "text": "An object containing the name value."
                   },
@@ -606,22 +919,26 @@
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "children": [
                         {
                           "id": 34,
                           "name": "name",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {},
+                          "flags": {
+                            "isExported": true
+                          },
                           "comment": {
                             "text": "A value of the object.\n"
                           },
                           "sources": [
                             {
                               "fileName": "function.ts",
-                              "line": 100,
-                              "character": 46
+                              "line": 93,
+                              "character": 47
                             }
                           ],
                           "type": {
@@ -642,7 +959,7 @@
                       "sources": [
                         {
                           "fileName": "function.ts",
-                          "line": 100,
+                          "line": 93,
                           "character": 41
                         }
                       ]
@@ -659,17 +976,17 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 92,
+              "line": 85,
               "character": 34
             },
             {
               "fileName": "function.ts",
-              "line": 100,
+              "line": 93,
               "character": 34
             },
             {
               "fileName": "function.ts",
-              "line": 108,
+              "line": 101,
               "character": 34
             }
           ]
@@ -693,7 +1010,9 @@
               "name": "variableFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "This is a function that is assigned to a variable.",
                 "returns": "This is the return value of the function.\n"
@@ -704,7 +1023,9 @@
                   "name": "someParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "comment": {
                     "shortText": "This is some numeric parameter."
                   },
@@ -723,7 +1044,7 @@
           "sources": [
             {
               "fileName": "function.ts",
-              "line": 41,
+              "line": 38,
               "character": 29
             }
           ]
@@ -741,12 +1062,16 @@
           "title": "Functions",
           "kind": 64,
           "children": [
+            44,
+            38,
+            41,
             4,
             18,
             14,
             6,
             25,
             2,
+            48,
             28,
             11
           ]
@@ -759,6 +1084,594 @@
           "character": 0
         }
       ]
+    },
+    {
+      "id": 57,
+      "name": "\"generic-function\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/function/generic-function.ts",
+      "children": [
+        {
+          "id": 62,
+          "name": "functionWithGenericArrayParameter",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 63,
+              "name": "functionWithGenericArrayParameter",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "A function with a generic type array parameter.",
+                "returns": "A generic array.\n"
+              },
+              "typeParameter": [
+                {
+                  "id": 64,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 65,
+                  "name": "param",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "A generic parameter."
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                },
+                {
+                  "id": 66,
+                  "name": "params",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "A generic array parameter."
+                  },
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "T"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "array",
+                "elementType": {
+                  "type": "typeParameter",
+                  "name": "T"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 18,
+              "character": 42
+            }
+          ]
+        },
+        {
+          "id": 58,
+          "name": "genericFunction",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 59,
+              "name": "genericFunction",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Generic function short text.",
+                "returns": "Generic function return value.\n"
+              },
+              "typeParameter": [
+                {
+                  "id": 60,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function type parameter."
+                  },
+                  "type": {
+                    "type": "reference",
+                    "name": "Object"
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 61,
+                  "name": "value",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "Generic function parameter."
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T",
+                    "constraint": {
+                      "type": "reference",
+                      "name": "Object"
+                    }
+                  }
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T",
+                "constraint": {
+                  "type": "reference",
+                  "name": "Object"
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "generic-function.ts",
+              "line": 7,
+              "character": 24
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            62,
+            58
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "generic-function.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "name": "\"implicit-types\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/function/implicit-types.ts",
+      "children": [
+        {
+          "id": 68,
+          "name": "BreakpointRange",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 70,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 1,
+                  "character": 53
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            },
+            {
+              "id": 69,
+              "name": "start",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 1,
+                  "character": 40
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                70,
+                69
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 1,
+              "character": 32
+            }
+          ]
+        },
+        {
+          "id": 71,
+          "name": "_breakpoints",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 3,
+              "character": 16
+            }
+          ],
+          "type": {
+            "type": "reflection",
+            "declaration": {
+              "id": 72,
+              "name": "__type",
+              "kind": 65536,
+              "kindString": "Type literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 75,
+                  "name": "large",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 6,
+                      "character": 9
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 68,
+                    "name": "BreakpointRange"
+                  }
+                },
+                {
+                  "id": 74,
+                  "name": "medium",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 5,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 68,
+                    "name": "BreakpointRange"
+                  }
+                },
+                {
+                  "id": 73,
+                  "name": "small",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 4,
+                      "character": 9
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 68,
+                    "name": "BreakpointRange"
+                  }
+                },
+                {
+                  "id": 76,
+                  "name": "xlarge",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 7,
+                      "character": 10
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 68,
+                    "name": "BreakpointRange"
+                  }
+                },
+                {
+                  "id": 77,
+                  "name": "xxlarge",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "sources": [
+                    {
+                      "fileName": "implicit-types.ts",
+                      "line": 8,
+                      "character": 11
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 68,
+                    "name": "BreakpointRange"
+                  }
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Variables",
+                  "kind": 32,
+                  "children": [
+                    75,
+                    74,
+                    73,
+                    76,
+                    77
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "implicit-types.ts",
+                  "line": 3,
+                  "character": 17
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 78,
+          "name": "getBreakpoints",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 79,
+              "name": "getBreakpoints",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "type": {
+                "type": "reflection",
+                "declaration": {
+                  "id": 80,
+                  "name": "__type",
+                  "kind": 65536,
+                  "kindString": "Type literal",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "children": [
+                    {
+                      "id": 83,
+                      "name": "large",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 6,
+                          "character": 9
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 68,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 82,
+                      "name": "medium",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 5,
+                          "character": 10
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 68,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 81,
+                      "name": "small",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 4,
+                          "character": 9
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 68,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 84,
+                      "name": "xlarge",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 7,
+                          "character": 10
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 68,
+                        "name": "BreakpointRange"
+                      }
+                    },
+                    {
+                      "id": 85,
+                      "name": "xxlarge",
+                      "kind": 32,
+                      "kindString": "Variable",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "sources": [
+                        {
+                          "fileName": "implicit-types.ts",
+                          "line": 8,
+                          "character": 11
+                        }
+                      ],
+                      "type": {
+                        "type": "reference",
+                        "id": 68,
+                        "name": "BreakpointRange"
+                      }
+                    }
+                  ],
+                  "groups": [
+                    {
+                      "title": "Variables",
+                      "kind": 32,
+                      "children": [
+                        83,
+                        82,
+                        81,
+                        84,
+                        85
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "implicit-types.ts",
+              "line": 11,
+              "character": 30
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            68
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            71
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            78
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "implicit-types.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
     }
   ],
   "groups": [
@@ -766,7 +1679,9 @@
       "title": "External modules",
       "kind": 1,
       "children": [
-        1
+        1,
+        57,
+        67
       ]
     }
   ]

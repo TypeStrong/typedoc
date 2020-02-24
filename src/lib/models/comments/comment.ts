@@ -79,6 +79,26 @@ export class Comment {
     }
 
     /**
+     * Removes all tags with the given tag name from teh comment.
+     * @param tagName
+     */
+    removeTags(tagName: string) {
+        if (!this.tags) {
+            return;
+        }
+
+        let i = 0, c = this.tags.length ?? 0;
+        while (i < c) {
+            if (this.tags[i].tagName === tagName) {
+                this.tags.splice(i, 1);
+                c--;
+            } else {
+                i++;
+            }
+        }
+    }
+
+    /**
      * Copy the data of the given comment into this comment.
      *
      * @param comment
@@ -88,29 +108,5 @@ export class Comment {
         this.text = comment.text;
         this.returns = comment.returns;
         this.tags = comment.tags ? comment.tags.map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)) : undefined;
-    }
-
-    /**
-     * Return a raw object representation of this comment.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = {};
-        if (this.shortText) {
-            result.shortText = this.shortText;
-        }
-        if (this.text) {
-            result.text      = this.text;
-        }
-        if (this.returns) {
-            result.returns   = this.returns;
-        }
-
-        if (this.tags && this.tags.length) {
-            result.tags = [];
-            this.tags.forEach((tag) => result.tags.push(tag.toObject()));
-        }
-
-        return result;
     }
 }

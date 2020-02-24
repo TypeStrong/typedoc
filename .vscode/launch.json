@@ -7,6 +7,26 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Debug self run",
+            "program": "${workspaceFolder}/bin/typedoc",
+            "cwd": "${workspaceFolder}/examples/self",
+            "args": [
+                "--mode",
+                "file",
+                "--name",
+                "TypeDoc Documentation",
+                "--tsconfig",
+                "../../tsconfig.json",
+                "--readme",
+                "../../README.md",
+                "--out",
+                "doc/",
+                "../../src/lib/"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",

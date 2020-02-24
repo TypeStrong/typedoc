@@ -16,7 +16,7 @@ export class IntrinsicType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'intrinsic';
+    readonly type = 'intrinsic';
 
     /**
      * Create a new instance of IntrinsicType.
@@ -46,16 +46,6 @@ export class IntrinsicType extends Type {
     equals(type: IntrinsicType): boolean {
         return type instanceof IntrinsicType &&
             type.name === this.name;
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.name = this.name;
-        return result;
     }
 
     /**

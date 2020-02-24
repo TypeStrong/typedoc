@@ -1,10 +1,11 @@
 import * as typescript from 'typescript';
 
 import { Application } from './application';
-import { Option } from './utils/component';
-import { OptionsReadResult } from './utils/options/options';
-import { ParameterHint, ParameterType } from './utils/options/declaration';
+import { BindOption } from './utils/options';
 import { getOptionsHelp } from './utils/options/help';
+import { ArgumentsReader, TypeDocReader } from './utils/options/readers';
+import { TSConfigReader } from './utils/options/readers/tsconfig';
+import { TypeDocAndTSOptions } from './utils/options/declaration';
 
 export const enum ExitCode {
     OptionError = 1,
@@ -15,40 +16,27 @@ export const enum ExitCode {
 }
 
 export class CliApplication extends Application {
-    @Option({
-        name: 'out',
-        help: 'Specifies the location the documentation should be written to.',
-        hint: ParameterHint.Directory
-    })
+    @BindOption('out')
     out!: string;
 
-    @Option({
-        name: 'json',
-        help: 'Specifies the location and file name a json file describing the project is written to.',
-        hint: ParameterHint.File
-    })
+    @BindOption('json')
     json!: string;
 
-    @Option({
-        name: 'version',
-        short: 'v',
-        help: 'Print the TypeDoc\'s version.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('version')
     version!: boolean;
 
-    @Option({
-        name: 'help',
-        short: 'h',
-        help: 'Print this message.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('help')
     help!: boolean;
 
     /**
      * Run TypeDoc from the command line.
      */
-    protected bootstrap(options?: Object): OptionsReadResult {
+    bootstrap(options?: Partial<TypeDocAndTSOptions>) {
+        this.options.addReader(new ArgumentsReader(0));
+        this.options.addReader(new TypeDocReader());
+        this.options.addReader(new TSConfigReader());
+        this.options.addReader(new ArgumentsReader(300));
+
         const result = super.bootstrap(options);
         if (result.hasErrors) {
             return process.exit(ExitCode.OptionError);
@@ -85,9 +73,5 @@ export class CliApplication extends Application {
         }
 
         return result;
-    }
-
-    get isCLI(): boolean {
-        return true;
     }
 }

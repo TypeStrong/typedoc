@@ -2,6 +2,7 @@ import { Application, ProjectReflection } from '..';
 import * as FS from 'fs-extra';
 import * as Path from 'path';
 import Assert = require('assert');
+import { ScriptTarget, ModuleKind } from 'typescript';
 
 function getFileIndex(base, dir: string = '', results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
@@ -55,13 +56,16 @@ describe('Renderer', function() {
     });
 
     it('constructs', function() {
-        app = new Application({
-            mode:   'Modules',
+        app = new Application();
+        app.bootstrap({
+            mode: 'modules',
             logger: 'console',
-            target: 'ES5',
+            target: ScriptTarget.ES5,
             readme: Path.join(src, '..', 'README.md'),
-            module: 'CommonJS',
-            gaSite: 'foo.com' // verify theme option without modifying output
+            module: ModuleKind.CommonJS,
+            gaSite: 'foo.com', // verify theme option without modifying output
+            name: 'typedoc',
+            ignoreCompilerErrors: true
         });
     });
 

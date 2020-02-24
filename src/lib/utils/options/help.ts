@@ -1,13 +1,23 @@
 import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
 
 import { Options } from './options';
-import { ParameterScope, ParameterHint } from './declaration';
+import {
+    ParameterScope,
+    ParameterHint,
+    StringDeclarationOption,
+    ParameterType,
+    DeclarationOption
+} from './declaration';
 
 export interface ParameterHelp {
     names: string[];
     helps: string[];
     margin: number;
+}
+
+function hasHint(parameter: DeclarationOption):
+    parameter is StringDeclarationOption & { hint: ParameterHint } {
+    return (parameter.type ?? ParameterType.String) === ParameterType.String && typeof parameter['hint'] !== 'undefined';
 }
 
 /**
@@ -24,8 +34,7 @@ function getParameterHelp(options: Options, scope: ParameterScope): ParameterHel
     const helps: string[] = [];
     let margin = 0;
 
-    for (let i = 0; i < parameters.length; i++) {
-        const parameter = parameters[i];
+    for (const parameter of parameters) {
         if (!parameter.help) {
             continue;
         }
@@ -33,14 +42,14 @@ function getParameterHelp(options: Options, scope: ParameterScope): ParameterHel
         let name = ' ';
         if (parameter.short) {
             name += '-' + parameter.short;
-            if (typeof parameter.hint !== 'undefined') {
+            if (hasHint(parameter)) {
                 name += ' ' + ParameterHint[parameter.hint].toUpperCase();
             }
             name += ', ';
         }
 
         name += '--' + parameter.name;
-        if (parameter.hint) {
+        if (hasHint(parameter)) {
             name += ' ' + ParameterHint[parameter.hint].toUpperCase();
         }
 
@@ -49,7 +58,7 @@ function getParameterHelp(options: Options, scope: ParameterScope): ParameterHel
         margin = Math.max(name.length, margin);
     }
 
-    return {names: names, helps: helps, margin: margin};
+    return { names, helps, margin };
 }
 
 /**
@@ -68,7 +77,7 @@ export function getOptionsHelp(options: Options): string {
     pushHelp(typeDoc);
 
     output.push('', 'TypeScript options:');
-    output.push('See https://www.typescriptlang.org/docs/handbook/compiler-options.html');
+    output.push('  See https://www.typescriptlang.org/docs/handbook/compiler-options.html');
 
     output.push('');
     return output.join(ts.sys.newLine);

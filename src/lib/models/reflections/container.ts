@@ -2,6 +2,7 @@ import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from '
 import { ReflectionCategory } from '../ReflectionCategory';
 import { ReflectionGroup } from '../ReflectionGroup';
 import { DeclarationReflection } from './declaration';
+import { toArray } from 'lodash';
 
 export class ContainerReflection extends Reflection {
     /**
@@ -38,53 +39,10 @@ export class ContainerReflection extends Reflection {
      * @param callback  The callback function that should be applied for each child reflection.
      */
     traverse(callback: TraverseCallback) {
-        if (this.children) {
-            this.children.slice().forEach((child: DeclarationReflection) => {
-                callback(child, TraverseProperty.Children);
-            });
-        }
-    }
-
-    /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = super.toObject();
-
-        if (this.groups) {
-            const groups: any[] = [];
-            this.groups.forEach((group) => {
-                groups.push(group.toObject());
-            });
-
-            result['groups'] = groups;
-        }
-
-        if (this.categories) {
-            const categories: any[] = [];
-            this.categories.forEach((category) => {
-                categories.push(category.toObject());
-            });
-
-            if (categories.length > 0) {
-                result['categories'] = categories;
+        for (const child of toArray(this.children)) {
+            if (callback(child, TraverseProperty.Children) === false) {
+                return;
             }
         }
-
-        if (this.sources) {
-          const sources: any[] = [];
-          this.sources.forEach((source) => {
-              sources.push({
-                fileName: source.fileName,
-                line: source.line,
-                character: source.character
-              });
-          });
-
-          result['sources'] = sources;
-        }
-
-        return result;
     }
 }

@@ -1,3 +1,4 @@
+import { TemplateDelegate } from 'handlebars';
 import * as Path from 'path';
 
 import { Event } from '../utils/events';
@@ -110,7 +111,7 @@ export class PageEvent extends Event {
     /**
      * The template that should be used to render this page.
      */
-    template?: HandlebarsTemplateDelegate;
+    template?: TemplateDelegate;
 
     /**
      * The name of the template that should be used to render this page.

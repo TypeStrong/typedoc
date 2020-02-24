@@ -1,30 +1,27 @@
-import { Component } from '../../../utils/component';
-
 import { SerializerComponent } from '../../components';
-import { SourceReferenceWrapper } from '../models/source-reference-wrapper';
+import { SourceReferenceWrapper } from '../models';
+import { SourceReference as JSONSourceReference } from '../../schema';
 
-@Component({name: 'serializer:source-reference-container'})
 export class SourceReferenceContainerSerializer extends SerializerComponent<SourceReferenceWrapper> {
+    static PRIORITY = 1000;
 
-  static PRIORITY = 1000;
+    serializeGroup(instance: unknown) {
+        return instance instanceof SourceReferenceWrapper;
+    }
 
-  serializeGroupSymbol = SourceReferenceWrapper;
-  serializeGroup(instance: unknown) {
-      return instance instanceof SourceReferenceWrapper;
-  }
+    supports(_: unknown) {
+        return true;
+    }
 
-  supports(t: unknown) {
-    return t instanceof SourceReferenceWrapper;
-  }
-
-  toObject(sourceReferenceContainer: SourceReferenceWrapper, obj?: any): any {
-      obj = obj || {};
-
-      const sourceReference = sourceReferenceContainer.sourceReference;
-      obj.fileName = sourceReference.fileName;
-      obj.line = sourceReference.line;
-      obj.character = sourceReference.character;
-
-      return obj;
-  }
+    toObject(
+        { sourceReference: ref }: SourceReferenceWrapper,
+        obj?: Partial<JSONSourceReference>
+    ): JSONSourceReference {
+        return {
+            ...obj,
+            fileName: ref.fileName,
+            line: ref.line,
+            character: ref.character
+        };
+    }
 }

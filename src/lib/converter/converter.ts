@@ -3,11 +3,11 @@ import * as _ts from '../ts-internal';
 import * as _ from 'lodash';
 
 import { Application } from '../application';
-import { ParameterType } from '../utils/options/declaration';
 import { Reflection, Type, ProjectReflection } from '../models/index';
 import { Context } from './context';
 import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { Component, Option, ChildableComponent, ComponentClass } from '../utils/component';
+import { Component, ChildableComponent, ComponentClass } from '../utils/component';
+import { BindOption } from '../utils';
 import { normalizePath } from '../utils/fs';
 import { createMinimatch } from '../utils/paths';
 
@@ -34,59 +34,28 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     /**
      * The human readable name of the project. Used within the templates to set the title of the document.
      */
-    @Option({
-        name: 'name',
-        help: 'Set the name of the project that will be used in the header of the template.'
-    })
+    @BindOption('name')
     name!: string;
 
-    @Option({
-        name: 'externalPattern',
-        help: 'Define patterns for files that should be considered being external.',
-        type: ParameterType.Array
-    })
+    @BindOption('externalPattern')
     externalPattern!: Array<string>;
 
-    @Option({
-        name: 'includeDeclarations',
-        help: 'Turn on parsing of .d.ts declaration files.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('includeDeclarations')
     includeDeclarations!: boolean;
 
-    @Option({
-        name: 'excludeExternals',
-        help: 'Prevent externally resolved TypeScript files from being documented.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('excludeExternals')
     excludeExternals!: boolean;
 
-    @Option({
-        name: 'excludeNotExported',
-        help: 'Prevent symbols that are not exported from being documented.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('excludeNotExported')
     excludeNotExported!: boolean;
 
-    @Option({
-        name: 'excludeNotDocumented',
-        help: 'Prevent symbols that are not explicitly documented from appearing in the results.',
-        type: ParameterType.Boolean
-    })
+    @BindOption('excludeNotDocumented')
     excludeNotDocumented!: boolean;
 
-    @Option({
-        name: 'excludePrivate',
-        help: 'Ignores private variables and methods',
-        type: ParameterType.Boolean
-    })
+    @BindOption('excludePrivate')
     excludePrivate!: boolean;
 
-    @Option({
-        name: 'excludeProtected',
-        help: 'Ignores protected variables and methods',
-        type: ParameterType.Boolean
-    })
+    @BindOption('excludeProtected')
     excludeProtected!: boolean;
 
     /**
@@ -217,7 +186,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private addNodeConverter(converter: ConverterNodeComponent<any>) {
-        for (let supports of converter.supports) {
+        for (const supports of converter.supports) {
             this.nodeConverters[supports] = converter;
         }
     }
@@ -225,12 +194,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private addTypeConverter(converter: ConverterTypeComponent) {
         if ('supportsNode' in converter && 'convertNode' in converter) {
             this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
-            this.typeNodeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+            this.typeNodeConverters.sort((a, b) => b.priority - a.priority);
         }
 
         if ('supportsType' in converter && 'convertType' in converter) {
             this.typeTypeConverters.push(<TypeTypeConverter<any>> converter);
-            this.typeTypeConverters.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+            this.typeTypeConverters.sort((a, b) => b.priority - a.priority);
         }
     }
 
@@ -248,7 +217,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private removeNodeConverter(converter: ConverterNodeComponent<any>) {
         const converters = this.nodeConverters;
         const keys = _.keys(this.nodeConverters);
-        for (let key of keys) {
+        for (const key of keys) {
             if (converters[key] === converter) {
                 delete converters[key];
             }
@@ -291,6 +260,16 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         const errors = this.compile(context);
         const project = this.resolve(context);
+
+        const dangling = project.getDanglingReferences();
+        if (dangling.length) {
+            this.owner.logger.warn([
+                'Some names refer to reflections that do not exist.',
+                'This can be caused by exporting a reflection only under a different name than it is declared when excludeNotExported is set',
+                'or by a plugin removing reflections without removing references. The names that cannot be resolved are:',
+                ...dangling
+            ].join('\n'));
+        }
 
         this.trigger(Converter.EVENT_END, context);
 
@@ -340,7 +319,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         if (node) {
             type = type || context.getTypeAtLocation(node);
 
-            for (let converter of this.typeNodeConverters) {
+            for (const converter of this.typeNodeConverters) {
                 if (converter.supportsNode(context, node, type)) {
                     return converter.convertNode(context, node, type);
                 }
@@ -349,7 +328,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         // Run all type based type conversions
         if (type) {
-            for (let converter of this.typeTypeConverters) {
+            for (const converter of this.typeTypeConverters) {
                 if (converter.supportsType(context, type)) {
                     return converter.convertType(context, type);
                 }
@@ -394,6 +373,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
             this.convertNode(context, sourceFile);
         });
 
+        if (this.application.ignoreCompilerErrors) {
+            return [];
+        }
+
         let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
@@ -427,7 +410,7 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         const project = context.project;
 
-        for (let id in project.reflections) {
+        for (const id in project.reflections) {
             if (!project.reflections.hasOwnProperty(id)) {
                 continue;
             }

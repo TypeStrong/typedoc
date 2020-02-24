@@ -15,7 +15,7 @@ export class DecoratorPlugin extends ConverterComponent {
     /**
      * Defined in this.onBegin
      */
-    private usages!: {[symbolID: number]: ReferenceType[]};
+    private usages!: {[fqn: number]: ReferenceType[]};
 
     /**
      * Create a new ImplementsPlugin instance.
@@ -95,8 +95,8 @@ export class DecoratorPlugin extends ConverterComponent {
 
             const type = context.checker.getTypeAtLocation(identifier);
             if (type && type.symbol) {
-                const symbolID = context.getSymbolID(type.symbol)!;
-                info.type = new ReferenceType(info.name, symbolID);
+                const fqn = context.checker.getFullyQualifiedName(type.symbol);
+                info.type = new ReferenceType(info.name, fqn);
 
                 if (callExpression && callExpression.arguments) {
                     const signature = context.checker.getResolvedSignature(callExpression);
@@ -105,10 +105,10 @@ export class DecoratorPlugin extends ConverterComponent {
                     }
                 }
 
-                if (!this.usages[symbolID]) {
-                    this.usages[symbolID] = [];
+                if (!this.usages[fqn]) {
+                    this.usages[fqn] = [];
                 }
-                this.usages[symbolID].push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_ID_RESOLVED, reflection));
+                this.usages[fqn].push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_FQN_RESOLVED, reflection));
             }
 
             if (!reflection.decorators) {
@@ -125,19 +125,14 @@ export class DecoratorPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently resolved.
      */
     private onBeginResolve(context: Context) {
-        for (let symbolID in this.usages) {
-            if (!this.usages.hasOwnProperty(symbolID)) {
+        for (const fqn in this.usages) {
+            if (!this.usages.hasOwnProperty(fqn)) {
                 continue;
             }
 
-            const id = context.project.symbolMapping[symbolID];
-            if (!id) {
-                continue;
-            }
-
-            const reflection = context.project.reflections[id];
+            const reflection = context.project.getReflectionFromFQN(fqn);
             if (reflection) {
-                reflection.decorates = this.usages[symbolID];
+                reflection.decorates = this.usages[fqn];
             }
         }
     }

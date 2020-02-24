@@ -1,0 +1,639 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 26,
+      "name": "\"export\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export.ts",
+      "children": [
+        {
+          "id": 27,
+          "name": "a",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 28,
+          "name": "b",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 29,
+          "name": "c",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 31,
+          "name": "c",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 32,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 33,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "parameters": [
+                {
+                  "id": 34,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 35,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 7,
+              "character": 12
+            }
+          ]
+        },
+        {
+          "id": 36,
+          "name": "default",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 37,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 38,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export.ts",
+              "line": 9,
+              "character": 1
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "References",
+          "kind": 16777216,
+          "children": [
+            27,
+            28,
+            29,
+            31
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            32,
+            36
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "\"export-assignment\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-assignment.ts",
+      "children": [
+        {
+          "id": 2,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true,
+            "hasExportAssignment": true
+          },
+          "signatures": [
+            {
+              "id": 3,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 4,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 5,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-assignment.ts",
+              "line": 1,
+              "character": 12
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-assignment.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "\"export-default\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-default.ts",
+      "children": [
+        {
+          "id": 7,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-default.ts",
+              "line": 1,
+              "character": 7
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            7
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-default.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "\"export-with-local\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-with-local.ts",
+      "children": [
+        {
+          "id": 14,
+          "name": "localVar",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isLet": true
+          },
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 9,
+              "character": 12
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "string"
+          },
+          "defaultValue": "\"local\""
+        },
+        {
+          "id": 9,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 1,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        },
+        {
+          "id": 10,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 11,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "parameters": [
+                {
+                  "id": 12,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 3,
+              "character": 19
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "times",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 16,
+              "name": "times",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 17,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 18,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "export-with-local.ts",
+              "line": 11,
+              "character": 14
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            14,
+            9
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            10,
+            15
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "export-with-local.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "\"mod\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/mod.ts",
+      "children": [
+        {
+          "id": 21,
+          "name": "b",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 22,
+          "name": "c",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 20
+        },
+        {
+          "id": 20,
+          "name": "a",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "A simple named export that will be exported from export.ts"
+          },
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 4,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 23,
+          "name": "default",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 24,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Will not be re-exported from export.ts using export * from..."
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "mod.ts",
+              "line": 14,
+              "character": 31
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "References",
+          "kind": 16777216,
+          "children": [
+            21,
+            22
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            20
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            23
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "mod.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        26,
+        1,
+        6,
+        8,
+        19
+      ]
+    }
+  ]
+}

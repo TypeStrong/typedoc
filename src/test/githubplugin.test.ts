@@ -3,7 +3,7 @@ import Assert = require('assert');
 
 describe('GitHubRepository', function() {
 
-    describe('contructor', function() {
+    describe('constructor', function() {
         it('must default to github.com hostname', function() {
             let repository = new github.Repository('', '', []);
 

@@ -3,6 +3,7 @@ import { Reflection, TypeContainer, TypeParameterContainer, TraverseProperty, Tr
 import { ContainerReflection } from './container';
 import { ParameterReflection } from './parameter';
 import { TypeParameterReflection } from './type-parameter';
+import { toArray } from 'lodash';
 
 export class SignatureReflection extends Reflection implements TypeContainer, TypeParameterContainer {
     parent?: ContainerReflection;
@@ -57,44 +58,24 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            callback(this.type.declaration, TraverseProperty.TypeLiteral);
+            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+                return;
+            }
         }
 
-        if (this.typeParameters) {
-            this.typeParameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.TypeParameter));
+        for (const parameter of toArray(this.typeParameters)) {
+            if (callback(parameter, TraverseProperty.TypeParameter) === false) {
+                return;
+            }
         }
 
-        if (this.parameters) {
-            this.parameters.slice().forEach((parameter) => callback(parameter, TraverseProperty.Parameters));
+        for (const parameter of toArray(this.parameters)) {
+            if (callback(parameter, TraverseProperty.Parameters) === false) {
+                return;
+            }
         }
 
         super.traverse(callback);
-    }
-
-    /**
-     * Return a raw object representation of this reflection.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result = super.toObject();
-
-        if (this.type) {
-            result.type = this.type.toObject();
-        }
-
-        if (this.overwrites) {
-            result.overwrites = this.overwrites.toObject();
-        }
-
-        if (this.inheritedFrom) {
-            result.inheritedFrom = this.inheritedFrom.toObject();
-        }
-
-        if (this.implementationOf) {
-            result.implementationOf = this.implementationOf.toObject();
-        }
-
-        return result;
     }
 
     /**

@@ -33,12 +33,11 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
         }
 
         const checker = context.checker;
-        let symbolName = checker.getFullyQualifiedName(type.symbol).split('.');
+        const fqn = checker.getFullyQualifiedName(type.symbol);
+
+        let symbolName = fqn.replace(/".*"\./, '').split('.');
         if (!symbolName.length) {
             return false;
-        }
-        if (symbolName[0].substr(0, 1) === '"') {
-            symbolName.shift();
         }
 
         let nodeName = node.typeName.getText().split('.');
@@ -46,7 +45,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
             return false;
         }
 
-        let common = Math.min(symbolName.length, nodeName.length);
+        const common = Math.min(symbolName.length, nodeName.length);
         symbolName = symbolName.slice(-common);
         nodeName = nodeName.slice(-common);
 
@@ -71,7 +70,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
      */
     convertNode(context: Context, node: ts.TypeReferenceNode): ReferenceType {
         const name = node.typeName.getText();
-        const result = new ReferenceType(name, ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME);
+        const result = new ReferenceType(name, ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME);
 
         if (node.typeArguments) {
             result.typeArguments = this.owner.convertTypes(context, node.typeArguments);

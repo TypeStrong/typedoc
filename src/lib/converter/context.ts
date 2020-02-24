@@ -73,9 +73,9 @@ export class Context {
     inheritParent?: ts.Node;
 
     /**
-     * List symbol ids of inherited children already visited while inheriting.
+     * List symbol fqns of inherited children already visited while inheriting.
      */
-    inheritedChildren?: number[];
+    inheritedChildren?: string[];
 
     /**
      * The names of the children of the scope before inheritance has been started.
@@ -86,11 +86,6 @@ export class Context {
      * A list of parent nodes that have been passed to the visit function.
      */
     visitStack: ts.Node[];
-
-    /**
-     * Next free symbol id used by [[getSymbolID]].
-     */
-    private symbolID = -1024;
 
     /**
      * The pattern that should be used to flag external source files.
@@ -151,6 +146,20 @@ export class Context {
         return nodeType;
     }
 
+    getSymbolAtLocation(node: ts.Node): ts.Symbol | undefined {
+        let symbol = this.checker.getSymbolAtLocation(node);
+        if (!symbol && isNamedNode(node)) {
+            symbol = this.checker.getSymbolAtLocation(node.name);
+        }
+        return symbol;
+    }
+
+    resolveAliasedSymbol(symbol: ts.Symbol): ts.Symbol;
+    resolveAliasedSymbol(symbol: ts.Symbol | undefined): ts.Symbol | undefined;
+    resolveAliasedSymbol(symbol: ts.Symbol | undefined) {
+        return (symbol && ts.SymbolFlags.Alias & symbol.flags) ? this.checker.getAliasedSymbol(symbol) : symbol;
+    }
+
     /**
      * Return the current logger instance.
      *
@@ -161,40 +170,18 @@ export class Context {
     }
 
     /**
-     * Return the symbol id of the given symbol.
-     *
-     * The compiler sometimes does not assign an id to symbols, this method makes sure that we have one.
-     * It will assign negative ids if they are not set.
-     *
-     * @param symbol  The symbol whose id should be returned.
-     * @returns The id of the given symbol or undefined if no symbol is provided.
-     */
-    getSymbolID(symbol: ts.Symbol | undefined): number | undefined {
-        if (!symbol) {
-            return;
-        }
-        if (!symbol.id) {
-            symbol.id = this.symbolID--;
-        }
-        return symbol.id;
-    }
-
-    /**
-     * Register a newly generated reflection.
-     *
-     * Ensures that the reflection is both listed in [[Project.reflections]] and
-     * [[Project.symbolMapping]] if applicable.
+     * Register a newly generated reflection. All created reflections should be
+     * passed to this method to ensure that the project helper functions work correctly.
      *
      * @param reflection  The reflection that should be registered.
      * @param node  The node the given reflection was resolved from.
      * @param symbol  The symbol the given reflection was resolved from.
      */
-    registerReflection(reflection: Reflection, node?: ts.Node, symbol?: ts.Symbol) {
-        this.project.reflections[reflection.id] = reflection;
-
-        const id = this.getSymbolID(symbol ? symbol : (node ? node.symbol : undefined));
-        if (!this.isInherit && id && !this.project.symbolMapping[id]) {
-            this.project.symbolMapping[id] = reflection.id;
+    registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
+        if (symbol) {
+            this.project.registerReflection(reflection, this.checker.getFullyQualifiedName(symbol));
+        } else {
+            this.project.registerReflection(reflection);
         }
     }
 
@@ -218,16 +205,12 @@ export class Context {
      * @param callback  The callback that should be executed.
      */
     withSourceFile(node: ts.SourceFile, callback: Function) {
-        let isExternal = !this.fileNames.includes(node.fileName);
-        if (!isExternal && this.externalPattern) {
-            isExternal = this.externalPattern.some(mm => mm.match(node.fileName));
-        }
-
-        if (isExternal && this.converter.excludeExternals) {
+        const isExternal = this.isExternalFile(node.fileName);
+        if (this.isOutsideDocumentation(node.fileName, isExternal)) {
             return;
         }
 
-        let isDeclaration = node.isDeclarationFile;
+        const isDeclaration = node.isDeclarationFile;
         if (isDeclaration) {
             const lib = this.converter.getDefaultLib();
             const isLib = node.fileName.substr(-lib.length) === lib;
@@ -321,7 +304,7 @@ export class Context {
         }
 
         if (baseNode.symbol) {
-            const id = this.getSymbolID(baseNode.symbol)!;
+            const id = this.checker.getFullyQualifiedName(baseNode.symbol);
             if (this.inheritedChildren && this.inheritedChildren.includes(id)) {
                 return target;
             } else {
@@ -357,6 +340,32 @@ export class Context {
     }
 
     /**
+     * Determines if the given file is outside of the project's generated documentation.
+     * This is not, and is not intended to be, foolproof. Plugins may remove reflections
+     * in the file that this method returns true for, See GH#1166 for discussion on tradeoffs.
+     *
+     * @param fileName
+     * @internal
+     */
+    isOutsideDocumentation(fileName: string, isExternal = this.isExternalFile(fileName)) {
+        return isExternal && this.converter.excludeExternals;
+    }
+
+    /**
+     * Checks if the given file is external.
+     *
+     * @param fileName
+     * @internal
+     */
+    isExternalFile(fileName: string) {
+        let isExternal = !this.fileNames.includes(fileName);
+        if (!isExternal && this.externalPattern) {
+            isExternal = this.externalPattern.some(mm => mm.match(fileName));
+        }
+        return isExternal;
+    }
+
+    /**
      * Convert the given list of type parameter declarations into a type mapping.
      *
      * @param parameters  The list of type parameter declarations that should be converted.
@@ -389,4 +398,11 @@ export class Context {
 
         return typeParameters;
     }
+}
+
+function isNamedNode(node: ts.Node): node is ts.Node & { name: ts.Identifier | ts.ComputedPropertyName } {
+    return node['name'] && (
+        ts.isIdentifier(node['name']) ||
+        ts.isComputedPropertyName(node['name'])
+    );
 }

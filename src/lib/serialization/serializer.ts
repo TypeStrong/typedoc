@@ -1,124 +1,138 @@
-import { ChildableComponent } from '../utils';
-import { Component, ComponentClass } from '../utils/component';
-import { Application } from '../application';
+import { EventDispatcher } from '../utils';
 import { ProjectReflection } from '../models';
 
 import { SerializerComponent } from './components';
-import { SerializeEvent } from './events';
+import { SerializeEvent, SerializeEventData } from './events';
+import { ModelToObject } from './schema';
+import * as S from './serializers';
 
-@Component({name: 'serializer', internal: true, childClass: SerializerComponent})
-export class Serializer extends ChildableComponent<Application, SerializerComponent<any>> {
+export class Serializer extends EventDispatcher {
+    /**
+     * Triggered when the [[Serializer]] begins transforming a project.
+     * @event EVENT_BEGIN
+     */
+    static EVENT_BEGIN = 'begin';
 
-  /**
-   * Triggered when the [[Serializer]] begins transforming a project.
-   * @event EVENT_BEGIN
-   */
-  static EVENT_BEGIN = 'begin';
+    /**
+     * Triggered when the [[Serializer]] has finished transforming a project.
+     * @event EVENT_END
+     */
+    static EVENT_END = 'end';
 
-  /**
-   * Triggered when the [[Serializer]] has finished transforming a project.
-   * @event EVENT_END
-   */
-  static EVENT_END = 'end';
+    /**
+     * Serializers, sorted by their `serializeGroup` function to enable higher performance.
+     */
+    private serializers = new Map<(instance: unknown) => boolean, SerializerComponent<any>[]>();
 
-  private router!: Map<any, { symbol: any, group: SerializerComponent<any>[] }>;
-  private routes!: any[];
-
-  initialize(): void {
-    this.router = new Map<any, { symbol: any, group: SerializerComponent<any>[] }>();
-    this.routes = [];
-  }
-
-  addComponent<T extends SerializerComponent<any> & Component>(name: string, componentClass: T | ComponentClass<T>): T {
-    const component = super.addComponent(name, componentClass);
-
-    if (component.serializeGroup && component.serializeGroupSymbol) {
-      let match = this.router.get(component.serializeGroup);
-
-      if (!match) {
-        match = Array.from(this.router.values()).find( v => v.symbol === component.serializeGroupSymbol)
-          || { symbol: component.serializeGroupSymbol , group: [] };
-        this.router.set(component.serializeGroup, match);
-        this.routes.push(component.serializeGroup);
-      }
-      match.group.push(component);
-      match.group.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+    constructor() {
+        super();
+        addSerializers(this);
     }
 
-    return component;
-  }
+    addSerializer(serializer: SerializerComponent<any>): void {
+        let group = this.serializers.get(serializer.serializeGroup);
 
-  /**
-   * Remove a child component from the registry.
-   * @param name The name the component registered as
-   */
-  removeComponent(name: string): SerializerComponent<any> | undefined {
-    const component = super.removeComponent(name);
-    const symbol = component && component.serializeGroupSymbol;
-    if (symbol) {
-      const values = Array.from(this.router.values());
-      for (let i = 0, len = values.length; i < len; i++) {
-        const idx = values[i].group.findIndex( o => o === symbol );
-        if (idx > -1) {
-          values[i].group.splice(idx, 1);
-          break;
+        if (!group) {
+            this.serializers.set(serializer.serializeGroup, (group = []));
         }
-      }
+
+        group.push(serializer);
+        group.sort((a, b) => b.priority - a.priority);
     }
-    return component;
-  }
 
-  removeAllComponents() {
-    super.removeAllComponents();
-
-    this.router = new Map<any, { symbol: any, group: SerializerComponent<any>[] }>();
-    this.routes = [];
-  }
-
-  toObject(value: any, obj?: any): any {
-    return this.findRoutes(value)
-      .reduce( (result, curr) => curr.toObject(value, result), obj);
-  }
-
-  /**
-   * Same as toObject but emits [[ Serializer#EVENT_BEGIN ]] and [[ Serializer#EVENT_END ]] events.
-   * @param value
-   * @param eventData Partial information to set in the event
-   * @return {any}
-   */
-  projectToObject(value: ProjectReflection, eventData?: { begin?: any, end?: any }): any {
-    const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value);
-
-    if (eventData && eventData.begin) {
-      Object.assign(eventBegin, eventData.begin);
+    toObject<T>(value: T, init: object = {}): ModelToObject<T> {
+        // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
+        // the defined property, but the benefit of being mostly typed is probably worth it.
+        // TypeScript errors out if init is correctly typed as `Partial<ModelToObject<T>>`
+        return this.findSerializers(value).reduce<any>((result, curr) => curr.toObject(value, result), init);
     }
-    let project: any = eventBegin.output = {};
 
-    this.trigger(eventBegin);
-    project = this.toObject(value, project);
-
-    const eventEnd = new SerializeEvent(Serializer.EVENT_END, value);
-    if (eventData && eventData.end) {
-      Object.assign(eventEnd, eventData.end);
-    }
-    eventEnd.output = project;
-    this.trigger(eventEnd);
-
-    return project;
-  }
-
-  private findRoutes(value: any): SerializerComponent<any>[] {
-    const routes: SerializerComponent<any>[] = [];
-    for (let i = 0, len = this.routes.length; i < len; i++) {
-      if (this.routes[i](value)) {
-        const serializers = this.router.get(this.routes[i])!.group;
-        for (let serializer of serializers) {
-          if (serializer.supports(value)) {
-            routes.push(serializer);
-          }
+    /**
+     * Same as toObject but emits [[ Serializer#EVENT_BEGIN ]] and [[ Serializer#EVENT_END ]] events.
+     * @param value
+     * @param eventData Partial information to set in the event
+     */
+    projectToObject(
+        value: ProjectReflection,
+        eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
+    ): ModelToObject<ProjectReflection> {
+        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value, {});
+        if (eventData.begin) {
+            eventBegin.outputDirectory = eventData.begin.outputDirectory;
+            eventBegin.outputFile = eventData.begin.outputFile;
         }
-      }
+        this.trigger(eventBegin);
+
+        const project = this.toObject(value, eventBegin.output);
+
+        const eventEnd = new SerializeEvent(Serializer.EVENT_END, value, project);
+        if (eventData.end) {
+            eventBegin.outputDirectory = eventData.end.outputDirectory;
+            eventBegin.outputFile = eventData.end.outputFile;
+        }
+        this.trigger(eventEnd);
+
+        return project;
     }
-    return routes;
-  }
+
+    private findSerializers<T>(value: T): SerializerComponent<T>[] {
+        const routes: SerializerComponent<any>[] = [];
+
+        for (const [groupSupports, components] of this.serializers.entries()) {
+            if (groupSupports(value)) {
+                for (const component of components) {
+                    if (component.supports(value)) {
+                        routes.push(component);
+                    }
+                }
+            }
+        }
+
+        return routes as any;
+    }
+}
+
+const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>)[] = [
+    S.CommentTagSerializer,
+    S.CommentSerializer,
+
+    S.ReflectionSerializer,
+    S.ReferenceReflectionSerializer,
+    S.ContainerReflectionSerializer,
+    S.DeclarationReflectionSerializer,
+    S.ParameterReflectionSerializer,
+    S.ProjectReflectionSerializer,
+    S.SignatureReflectionSerializer,
+    S.TypeParameterReflectionSerializer,
+
+    S.SourceReferenceContainerSerializer,
+
+    S.TypeSerializer,
+    S.ArrayTypeSerializer,
+    S.ConditionalTypeSerializer,
+    S.IndexedAccessTypeSerializer,
+    S.InferredTypeSerializer,
+    S.IntersectionTypeSerializer,
+    S.IntrinsicTypeSerializer,
+    S.QueryTypeSerializer,
+    S.PredicateTypeSerializer,
+    S.ReferenceTypeSerializer,
+    S.ReferenceTypeSerializer,
+    S.ReflectionTypeSerializer,
+    S.StringLiteralTypeSerializer,
+    S.TupleTypeSerializer,
+    S.TypeOperatorTypeSerializer,
+    S.TypeParameterTypeSerializer,
+    S.UnionTypeSerializer,
+    S.UnknownTypeSerializer,
+
+    S.DecoratorContainerSerializer,
+    S.ReflectionCategorySerializer,
+    S.ReflectionGroupSerializer
+];
+
+function addSerializers(owner: Serializer) {
+    for (const component of serializerComponents) {
+        owner.addSerializer(new component(owner));
+    }
 }

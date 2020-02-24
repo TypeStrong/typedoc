@@ -24,7 +24,8 @@
     "outDir": "dist/",
     "rootDir": "src/",
     "experimentalDecorators": true,
-    "newLine": "LF"
+    "newLine": "LF",
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*.ts"

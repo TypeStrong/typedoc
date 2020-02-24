@@ -47,7 +47,7 @@ function isTopmostModuleDeclaration(node: ts.ModuleDeclaration): boolean {
  */
 function getRootModuleDeclaration(node: ts.ModuleDeclaration): ts.Node {
     while (node.parent && node.parent.kind === ts.SyntaxKind.ModuleDeclaration) {
-        let parent = <ts.ModuleDeclaration> node.parent;
+        const parent = <ts.ModuleDeclaration> node.parent;
         if (node.name.pos === parent.name.end + 1) {
             node = parent;
         } else {
@@ -102,13 +102,26 @@ export function getRawComment(node: ts.Node): string | undefined {
     const comments = getJSDocCommentRanges(node, sourceFile.text);
     if (comments.length) {
         let comment: ts.CommentRange;
+        const explicitPackageComment = comments.find(comment =>
+            sourceFile.text.substring(comment.pos, comment.end).includes('@packageDocumentation'));
         if (node.kind === ts.SyntaxKind.SourceFile) {
-            if (comments.length === 1) {
+            if (explicitPackageComment) {
+                comment = explicitPackageComment;
+            } else if (comments.length > 1) {
+                // Legacy behavior, require more than one comment and use the first comment.
+                // TODO: GH#1083, follow deprecation process to phase this out.
+                comment = comments[0];
+            } else {
+                // Single comment that may be a license comment, bail.
                 return;
             }
-            comment = comments[0];
         } else {
             comment = comments[comments.length - 1];
+            // If a non-SourceFile node comment has this tag, it should not be attached to the node
+            // as it documents the whole file by convention.
+            if (sourceFile.text.substring(comment.pos, comment.end).includes('@packageDocumentation')) {
+                return;
+            }
         }
 
         return sourceFile.text.substring(comment.pos, comment.end);
@@ -129,7 +142,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     let shortText = 0;
 
     function consumeTypeData(line: string): string {
-        line = line.replace(/^\{[^\}]*\}+/, '');
+        line = line.replace(/^\{(?!@)[^\}]*\}+/, '');
         line = line.replace(/^\[[^\[][^\]]*\]+/, '');
         return line.trim();
     }
@@ -154,7 +167,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     function readTagLine(line: string, tag: RegExpExecArray) {
         let tagName = tag[1].toLowerCase();
         let paramName: string | undefined;
-        line = line.substr(tagName.length + 1).trim();
+        line = tag[2].trim();
 
         if (tagName === 'return') { tagName = 'returns'; }
         if (tagName === 'param' || tagName === 'typeparam') {
@@ -186,7 +199,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         }
 
         if (!inCode) {
-          const tag = /^@(\S+)/.exec(line);
+          const tag = /^\s*@(\S+)(.*)$/.exec(line);
           if (tag) {
             return readTagLine(line, tag);
           }

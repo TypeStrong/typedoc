@@ -27,21 +27,4 @@ export class CommentTag {
         this.paramName = paramName || '';
         this.text = text || '';
     }
-
-    /**
-     * Return a raw object representation of this tag.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = {
-            tag:  this.tagName,
-            text: this.text
-        };
-
-        if (this.paramName) {
-            result.param = this.paramName;
-        }
-
-        return result;
-    }
 }

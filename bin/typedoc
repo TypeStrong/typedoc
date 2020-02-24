@@ -1,4 +1,5 @@
 #!/usr/bin/env node
 
-var td = require('../dist/lib/cli.js');
-new td.CliApplication();
+const td = require('../dist/lib/cli.js');
+const app = new td.CliApplication();
+app.bootstrap();

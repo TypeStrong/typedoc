@@ -1,14 +1,43 @@
 import * as ts from 'typescript';
 
 import { Comment, CommentTag } from '../../models/comments/index';
-import { IntrinsicType } from '../../models/types/index';
-import { Reflection, ReflectionFlag, ReflectionKind, TraverseProperty,
-    TypeParameterReflection, DeclarationReflection, ProjectReflection,
-    SignatureReflection, ParameterReflection } from '../../models/reflections/index';
+import {
+    Reflection,
+    ReflectionFlag,
+    ReflectionKind,
+    TypeParameterReflection,
+    DeclarationReflection,
+    ProjectReflection
+} from '../../models/reflections/index';
 import { Component, ConverterComponent } from '../components';
 import { parseComment, getRawComment } from '../factories/comment';
 import { Converter } from '../converter';
 import { Context } from '../context';
+import { partition, uniq } from 'lodash';
+import { SourceReference } from '../../models';
+import { BindOption } from '../../utils';
+
+/**
+ * These tags are not useful to display in the generated documentation.
+ * They should be ignored when parsing comments. Any relevant type information
+ * (for JS users) will be consumed by TypeScript and need not be preserved
+ * in the comment.
+ *
+ * Note that param/arg/argument/return/returns are not present.
+ * These tags will have their type information stripped when parsing, but still
+ * provide useful information for documentation.
+ */
+const TAG_BLACKLIST = [
+    'augments',
+    'callback',
+    'class',
+    'constructor',
+    'enum',
+    'extends',
+    'this',
+    'type',
+    'typedef'
+];
 
 /**
  * Structure used by [[ContainerCommentHandler]] to store discovered module comments.
@@ -31,21 +60,19 @@ interface ModuleComment {
 }
 
 /**
- * A handler that parses javadoc comments and attaches [[Models.Comment]] instances to
+ * A handler that parses TypeDoc comments and attaches [[Comment]] instances to
  * the generated reflections.
  */
 @Component({name: 'comment'})
 export class CommentPlugin extends ConverterComponent {
+    @BindOption('excludeTags')
+    excludeTags!: string[];
+
     /**
      * List of discovered module comments.
      * Defined in this.onBegin
      */
     private comments!: {[id: number]: ModuleComment};
-
-    /**
-     * List of hidden reflections.
-     */
-    private hidden?: Reflection[];
 
     /**
      * Create a new CommentPlugin instance.
@@ -91,30 +118,27 @@ export class CommentPlugin extends ConverterComponent {
     private applyModifiers(reflection: Reflection, comment: Comment) {
         if (comment.hasTag('private')) {
             reflection.setFlag(ReflectionFlag.Private);
-            CommentPlugin.removeTags(comment, 'private');
+            comment.removeTags('private');
         }
 
         if (comment.hasTag('protected')) {
             reflection.setFlag(ReflectionFlag.Protected);
-            CommentPlugin.removeTags(comment, 'protected');
+            comment.removeTags('protected');
         }
 
         if (comment.hasTag('public')) {
             reflection.setFlag(ReflectionFlag.Public);
-            CommentPlugin.removeTags(comment, 'public');
+            comment.removeTags('public');
         }
 
         if (comment.hasTag('event')) {
             reflection.kind = ReflectionKind.Event;
             // reflection.setFlag(ReflectionFlag.Event);
-            CommentPlugin.removeTags(comment, 'event');
+            comment.removeTags('event');
         }
 
-        if (comment.hasTag('hidden') || comment.hasTag('ignore')) {
-            if (!this.hidden) {
-                this.hidden = [];
-            }
-            this.hidden.push(reflection);
+        if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+            comment.removeTags('packagedocumentation');
         }
     }
 
@@ -174,11 +198,13 @@ export class CommentPlugin extends ConverterComponent {
         if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
+            this.removeExcludedTags(comment);
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
+            this.removeExcludedTags(comment);
             reflection.comment = comment;
         }
     }
@@ -207,23 +233,38 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        for (let id in this.comments) {
+        for (const id in this.comments) {
             if (!this.comments.hasOwnProperty(id)) {
                 continue;
             }
 
             const info    = this.comments[id];
             const comment = parseComment(info.fullText);
-            CommentPlugin.removeTags(comment, 'preferred');
+            comment.removeTags('preferred');
 
             this.applyModifiers(info.reflection, comment);
             info.reflection.comment = comment;
         }
 
-        if (this.hidden) {
-            const project = context.project;
-            CommentPlugin.removeReflections(project, this.hidden);
-        }
+        const stripInternal = this.application.options.getCompilerOptions().stripInternal;
+
+        const project = context.project;
+        const reflections = Object.values(project.reflections);
+
+        // remove signatures
+        const hidden = reflections.filter(reflection => CommentPlugin.isHidden(reflection, stripInternal));
+        hidden.forEach(reflection => project.removeReflection(reflection, true));
+
+        // remove functions with empty signatures after their signatures have been removed
+        const [ allRemoved, someRemoved ] = partition(
+            hidden.map(reflection => reflection.parent!)
+                .filter(method => method.kindOf(ReflectionKind.FunctionOrMethod)) as DeclarationReflection[],
+            method => method.signatures?.length === 0
+        );
+        allRemoved.forEach(reflection => project.removeReflection(reflection, true));
+        someRemoved.forEach(reflection => {
+            reflection.sources = uniq(reflection.signatures!.reduce<SourceReference[]>((c, s) => c.concat(s.sources || []), []));
+        });
     }
 
     /**
@@ -248,14 +289,14 @@ export class CommentPlugin extends ConverterComponent {
             const comment = reflection.comment;
             if (comment && comment.hasTag('returns')) {
                 comment.returns = comment.getTag('returns')!.text;
-                CommentPlugin.removeTags(comment, 'returns');
+                comment.removeTags('returns');
             }
 
             signatures.forEach((signature) => {
                 let childComment = signature.comment;
                 if (childComment && childComment.hasTag('returns')) {
                     childComment.returns = childComment.getTag('returns')!.text;
-                    CommentPlugin.removeTags(childComment, 'returns');
+                    childComment.removeTags('returns');
                 }
 
                 if (comment) {
@@ -283,122 +324,70 @@ export class CommentPlugin extends ConverterComponent {
                     });
                 }
 
-                CommentPlugin.removeTags(childComment, 'param');
+                childComment?.removeTags('param');
             });
 
-            CommentPlugin.removeTags(comment, 'param');
+            comment?.removeTags('param');
+        }
+    }
+
+    private removeExcludedTags(comment: Comment) {
+        for (const tag of TAG_BLACKLIST) {
+            comment.removeTags(tag);
+        }
+        for (const tag of this.excludeTags) {
+            comment.removeTags(tag);
         }
     }
 
     /**
      * Remove all tags with the given name from the given comment instance.
+     * @deprecated Use [[Comment.removeTags]] instead.
+     * Warn in 0.17, remove in 0.18.
      *
      * @param comment  The comment that should be modified.
      * @param tagName  The name of the that that should be removed.
      */
     static removeTags(comment: Comment | undefined, tagName: string) {
-        if (!comment || !comment.tags) {
-            return;
-        }
-
-        let i = 0, c = comment.tags.length;
-        while (i < c) {
-            if (comment.tags[i].tagName === tagName) {
-                comment.tags.splice(i, 1);
-                c--;
-            } else {
-                i++;
-            }
-        }
+        comment?.removeTags(tagName);
     }
 
     /**
      * Remove the specified reflections from the project.
+     * @deprecated use [[ProjectReflection.removeReflection]]
+     * Warn in 0.17, remove in 0.18
      */
     static removeReflections(project: ProjectReflection, reflections: Reflection[]) {
-        const deletedIds: number[] = [];
-        reflections.forEach((reflection) => {
-            CommentPlugin.removeReflection(project, reflection, deletedIds);
-        });
-
-        for (let key in project.symbolMapping) {
-            if (project.symbolMapping.hasOwnProperty(key) && deletedIds.includes(project.symbolMapping[key])) {
-                delete project.symbolMapping[key];
-            }
+        for (const reflection of reflections) {
+            project.removeReflection(reflection, true);
         }
     }
 
     /**
      * Remove the given reflection from the project.
+     * @deprecated use [[ProjectReflection.removeReflection]]
+     * Warn in 0.17, remove in 0.18
      */
-    static removeReflection(project: ProjectReflection, reflection: Reflection, deletedIds?: number[]) {
-        reflection.traverse((child) => CommentPlugin.removeReflection(project, child, deletedIds));
+    static removeReflection(project: ProjectReflection, reflection: Reflection) {
+        project.removeReflection(reflection, true);
+    }
 
-        const parent = <DeclarationReflection> reflection.parent;
-        parent.traverse((child: Reflection, property: TraverseProperty) => {
-            if (child === reflection) {
-                switch (property) {
-                    case TraverseProperty.Children:
-                        if (parent.children) {
-                            const index = parent.children.indexOf(<DeclarationReflection> reflection);
-                            if (index !== -1) {
-                                parent.children.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.GetSignature:
-                        delete parent.getSignature;
-                        break;
-                    case TraverseProperty.IndexSignature:
-                        delete parent.indexSignature;
-                        break;
-                    case TraverseProperty.Parameters:
-                        if ((<SignatureReflection> reflection.parent).parameters) {
-                            const index = (<SignatureReflection> reflection.parent).parameters!.indexOf(<ParameterReflection> reflection);
-                            if (index !== -1) {
-                                (<SignatureReflection> reflection.parent).parameters!.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.SetSignature:
-                        delete parent.setSignature;
-                        break;
-                    case TraverseProperty.Signatures:
-                        if (parent.signatures) {
-                            const index = parent.signatures.indexOf(<SignatureReflection> reflection);
-                            if (index !== -1) {
-                                parent.signatures.splice(index, 1);
-                            }
-                        }
-                        break;
-                    case TraverseProperty.TypeLiteral:
-                        parent.type = new IntrinsicType('Object');
-                        break;
-                    case TraverseProperty.TypeParameter:
-                        if (parent.typeParameters) {
-                            const index = parent.typeParameters.indexOf(<TypeParameterReflection> reflection);
-                            if (index !== -1) {
-                                parent.typeParameters.splice(index, 1);
-                            }
-                        }
-                        break;
-                }
-            }
-        });
+    /**
+     * Determines whether or not a reflection has been hidden
+     *
+     * @param reflection Reflection to check if hidden
+     */
+    private static isHidden(reflection: Reflection, stripInternal: boolean | undefined) {
+        const comment = reflection.comment;
 
-        let id = reflection.id;
-        delete project.reflections[id];
-
-        // if an array was provided, keep track of the reflections that have been deleted, otherwise clean symbol mappings
-        if (deletedIds) {
-            deletedIds.push(id);
-        } else {
-            for (let key in project.symbolMapping) {
-                if (project.symbolMapping.hasOwnProperty(key) && project.symbolMapping[key] === id) {
-                    delete project.symbolMapping[key];
-                }
-            }
+        if (!comment) {
+            return false;
         }
 
+        return (
+            comment.hasTag('hidden')
+            || comment.hasTag('ignore')
+            || (comment.hasTag('internal') && stripInternal)
+        );
     }
 }

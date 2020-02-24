@@ -6,7 +6,7 @@ import { Reflection } from '../../models/reflections/abstract';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils/component';
+import { BindOption, readFile } from '../../utils';
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -18,11 +18,11 @@ import { Option } from '../../utils/component';
  */
 @Component({name: 'package'})
 export class PackagePlugin extends ConverterComponent {
-    @Option({
-        name: 'readme',
-        help: 'Path to the readme file that should be displayed on the index page. Pass `none` to disable the index page and start the documentation on the globals page.'
-    })
+    @BindOption('readme')
     readme!: string;
+
+    @BindOption('includeVersion')
+    includeVersion!: boolean;
 
     /**
      * The file name of the found readme.md file.
@@ -83,35 +83,31 @@ export class PackagePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onBeginDocument(context: Context, reflection: Reflection, node?: ts.SourceFile) {
+        const packageAndReadmeFound = () => (this.noReadmeFile || this.readmeFile) && this.packageFile;
+        const reachedTopDirectory = dirName => dirName === Path.resolve(Path.join(dirName, '..'));
+        const visitedDirBefore = dirName => this.visited.includes(dirName);
+
         if (!node) {
-            return;
-        }
-        if (this.readmeFile && this.packageFile) {
             return;
         }
 
         const fileName = node.fileName;
-        let dirName: string, parentDir = Path.resolve(Path.dirname(fileName));
-        do {
-            dirName = parentDir;
-            if (this.visited.includes(dirName)) {
-                break;
-            }
-
+        let dirName = Path.resolve(Path.dirname(fileName));
+        while (!packageAndReadmeFound() && !reachedTopDirectory(dirName) && !visitedDirBefore(dirName)) {
             FS.readdirSync(dirName).forEach((file) => {
-                const lfile = file.toLowerCase();
-                if (!this.noReadmeFile && !this.readmeFile && lfile === 'readme.md') {
+                const lowercaseFileName = file.toLowerCase();
+                if (!this.noReadmeFile && !this.readmeFile && lowercaseFileName === 'readme.md') {
                     this.readmeFile = Path.join(dirName, file);
                 }
 
-                if (!this.packageFile && lfile === 'package.json') {
+                if (!this.packageFile && lowercaseFileName === 'package.json') {
                     this.packageFile = Path.join(dirName, file);
                 }
             });
 
             this.visited.push(dirName);
-            parentDir = Path.resolve(Path.join(dirName, '..'));
-        } while (dirName !== parentDir);
+            dirName = Path.resolve(Path.join(dirName, '..'));
+        }
     }
 
     /**
@@ -122,13 +118,16 @@ export class PackagePlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         if (this.readmeFile) {
-            project.readme = FS.readFileSync(this.readmeFile, 'utf-8');
+            project.readme = readFile(this.readmeFile);
         }
 
         if (this.packageFile) {
-            project.packageInfo = JSON.parse(FS.readFileSync(this.packageFile, 'utf-8'));
+            project.packageInfo = JSON.parse(readFile(this.packageFile));
             if (!project.name) {
-                project.name = project.packageInfo.name;
+                project.name = String(project.packageInfo.name);
+            }
+            if (this.includeVersion) {
+                project.name = `${project.name} - v${project.packageInfo.version}`;
             }
         }
     }

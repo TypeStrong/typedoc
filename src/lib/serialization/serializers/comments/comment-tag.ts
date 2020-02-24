@@ -1,36 +1,32 @@
-import { Component } from '../../../utils/component';
 import { CommentTag } from '../../../models';
 
 import { SerializerComponent } from '../../components';
+import { CommentTag as JSONCommentTag } from '../../schema';
 
-@Component({name: 'serializer:comment-tag'})
 export class CommentTagSerializer extends SerializerComponent<CommentTag> {
+    static PRIORITY = 1000;
 
-  static PRIORITY = 1000;
-
-  /**
-   * Filter for instances of [[CommentTag]]
-   */
-  serializeGroup(instance: unknown): boolean {
-    return instance instanceof CommentTag;
-  }
-
-  serializeGroupSymbol = CommentTag;
-
-  supports(t: unknown) {
-    return true;
-  }
-
-  toObject(tag: CommentTag, obj?: any): any {
-    obj = obj || {};
-
-    obj.tag = tag.tagName;
-    obj.text = tag.text;
-
-    if (tag.paramName) {
-      obj.param = tag.paramName;
+    /**
+     * Filter for instances of [[CommentTag]]
+     */
+    serializeGroup(instance: unknown): boolean {
+        return instance instanceof CommentTag;
     }
 
-    return obj;
-  }
+    supports(t: unknown) {
+        return true;
+    }
+
+    toObject(tag: CommentTag, obj: Partial<JSONCommentTag> = {}): JSONCommentTag {
+        const result: JSONCommentTag = {
+            tag: tag.tagName,
+            text: tag.text
+        };
+
+        if (tag.paramName) {
+            result.param = tag.paramName;
+        }
+
+        return { ...obj, ...result };
+    }
 }

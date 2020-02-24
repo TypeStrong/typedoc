@@ -26,8 +26,9 @@ export function convertExpression(expression: ts.Expression): string {
             return 'true';
         case ts.SyntaxKind.FalseKeyword:
             return 'false';
+        case ts.SyntaxKind.NullKeyword:
+            return 'null';
         default:
-            const source = expression.getSourceFile();
-            return source.text.substring(expression.pos, expression.end);
+            return expression.getText(expression.getSourceFile());
     }
 }

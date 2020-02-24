@@ -25,6 +25,11 @@ export class Logger {
     errorCount = 0;
 
     /**
+     * How many warning messages have been logged?
+     */
+    warningCount = 0;
+
+    /**
      * Has an error been raised through the log method?
      */
     public hasErrors(): boolean {
@@ -32,10 +37,24 @@ export class Logger {
     }
 
     /**
+     * Has a warning been raised through the log method?
+     */
+    public hasWarnings(): boolean {
+        return this.warningCount > 0;
+    }
+
+    /**
      * Reset the error counter.
      */
     public resetErrors() {
         this.errorCount = 0;
+    }
+
+    /**
+     * Reset the warning counter.
+     */
+    public resetWarnings() {
+        this.warningCount = 0;
     }
 
     /**
@@ -109,6 +128,9 @@ export class Logger {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
+        if (level === LogLevel.Warn) {
+            this.warningCount += 1;
+        }
     }
 
     /**
@@ -162,9 +184,7 @@ export class ConsoleLogger extends Logger {
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
-        if (level === LogLevel.Error) {
-            this.errorCount += 1;
-        }
+        super.log(message, level, newLine);
 
         let output = '';
         if (level === LogLevel.Error) {
@@ -212,9 +232,7 @@ export class CallbackLogger extends Logger {
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
-        if (level === LogLevel.Error) {
-            this.errorCount += 1;
-        }
+        super.log(message, level, newLine);
 
         this.callback(message, level, newLine);
     }

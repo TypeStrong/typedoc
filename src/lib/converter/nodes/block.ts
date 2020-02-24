@@ -4,8 +4,7 @@ import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
 import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
-import { Option } from '../../utils/component';
-import { ParameterType } from '../../utils/options/declaration';
+import { BindOption, SourceFileMode } from '../../utils';
 
 const preferred: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
@@ -13,22 +12,9 @@ const preferred: ts.SyntaxKind[] = [
     ts.SyntaxKind.EnumDeclaration
 ];
 
-export enum SourceFileMode {
-    File, Modules
-}
-
 @Component({name: 'node:block'})
 export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock> {
-    @Option({
-        name: 'mode',
-        help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
-        type: ParameterType.Map,
-        map: {
-            'file': SourceFileMode.File,
-            'modules': SourceFileMode.Modules
-        },
-        defaultValue: SourceFileMode.Modules
-    })
+    @BindOption('mode')
     mode!: SourceFileMode;
 
     /**

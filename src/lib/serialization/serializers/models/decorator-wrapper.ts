@@ -5,5 +5,5 @@ import { Decorator } from '../../../models';
  * so it can be identified
  */
 export class DecoratorWrapper {
-  constructor(public decorator: Decorator) { }
+    constructor(public decorator: Decorator) {}
 }

@@ -1,24 +1,16 @@
-/// <reference path="react.d.ts" />
-
-import * as React from "react";
-
+declare const React: unknown;
 
 interface DemoProps {
-    name:string;
-    age:number;
+    name: string;
+    age: number;
 }
 
+class Demo {
+    private foo: number;
 
-class Demo extends React.Component<DemoProps, any>
-{
-    private foo:number;
-
-
-    constructor(props:DemoProps) {
-        super(props);
+    constructor(props: DemoProps) {
         this.foo = 42;
     }
-
 
     render() {
         return (

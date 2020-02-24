@@ -24,6 +24,8 @@ const nonStaticMergeKinds = [
     ts.SyntaxKind.InterfaceDeclaration
 ];
 
+const builtInSymbolRegExp = /^__@(\w+)$/;
+
 /**
  * Create a declaration reflection from the given TypeScript node.
  *
@@ -49,25 +51,52 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         } else {
             return;
         }
+
+        // rename built-in symbols
+        const match = builtInSymbolRegExp.exec(name);
+        if (match) {
+            name = `[Symbol.${match[1]}]`;
+        } else if (kind & ReflectionKind.ClassMember && name === '__computed') {
+            // rename computed properties
+            const declName = ts.getNameOfDeclaration(node);
+            const symbol = declName && context.checker.getSymbolAtLocation(declName);
+            if (symbol) {
+                name = context.checker.symbolToString(symbol, /*enclosingDeclaration*/ undefined, ts.SymbolFlags.ClassMember);
+            } else if (declName) {
+                name = declName.getText();
+            }
+        }
     }
 
     const modifiers = ts.getCombinedModifierFlags(node);
 
     // Test whether the node is exported
     let isExported: boolean;
-    if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
-        isExported = false; // Don't inherit exported state in modules and namespaces
+    if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
+        isExported = true;
+    } else if (container.kind === ReflectionKind.Global) {
+        // In file mode, everything is exported.
+        isExported = true;
+    } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
+        const symbol = context.getSymbolAtLocation(node);
+        if (!symbol) {
+            isExported = false;
+        } else {
+            let parentNode = node.parent;
+            while (![ts.SyntaxKind.SourceFile, ts.SyntaxKind.ModuleDeclaration].includes(parentNode.kind)) {
+                parentNode = parentNode.parent;
+            }
+            const parentSymbol = context.getSymbolAtLocation(parentNode);
+            if (!parentSymbol) {
+                // This is a file with no imports/exports, so everything is
+                // global and therefore exported.
+                isExported = true;
+            } else {
+                isExported = !!parentSymbol.exports?.get(symbol.escapedName);
+            }
+        }
     } else {
         isExported = container.flags.isExported;
-    }
-
-    if (kind === ReflectionKind.ExternalModule) {
-        isExported = true; // Always mark external modules as exported
-    } else if (node.parent && node.parent.kind === ts.SyntaxKind.VariableDeclarationList) {
-        const parentModifiers = ts.getCombinedModifierFlags(node.parent.parent as ts.Declaration);
-        isExported = isExported || !!(parentModifiers & ts.ModifierFlags.Export);
-    } else {
-        isExported = isExported || !!(modifiers & ts.ModifierFlags.Export);
     }
 
     if (
@@ -118,7 +147,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
         if (child) {
             children.push(child);
-            context.registerReflection(child, node);
+            context.registerReflection(child, context.getSymbolAtLocation(node) ?? node.symbol);
         }
     } else {
         // Merge the existent reflection with the given node

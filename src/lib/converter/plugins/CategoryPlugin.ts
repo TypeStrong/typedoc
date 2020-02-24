@@ -3,8 +3,7 @@ import { ReflectionCategory } from '../../models/ReflectionCategory';
 import { Component, ConverterComponent } from '../components';
 import { Converter } from '../converter';
 import { Context } from '../context';
-import { Option } from '../../utils/component';
-import { ParameterType } from '../../utils/options/declaration';
+import { BindOption } from '../../utils';
 import { Comment } from '../../models/comments/index';
 
 /**
@@ -14,27 +13,13 @@ import { Comment } from '../../models/comments/index';
  */
 @Component({name: 'category'})
 export class CategoryPlugin extends ConverterComponent {
-    @Option({
-        name: 'defaultCategory',
-        help: 'Specifies the default category for reflections without a category.',
-        type: ParameterType.String,
-        defaultValue: 'Other'
-    })
+    @BindOption('defaultCategory')
     defaultCategory!: string;
 
-    @Option({
-        name: 'categoryOrder',
-        help: 'Specifies the order in which categories appear. * indicates the relative order for categories not in the list.',
-        type: ParameterType.Array
-    })
+    @BindOption('categoryOrder')
     categoryOrder!: string[];
 
-    @Option({
-        name: 'categorizeByGroup',
-        help: 'Specifies whether categorization will be done at the group level.',
-        type: ParameterType.Boolean,
-        defaultValue: true
-    })
+    @BindOption('categorizeByGroup')
     categorizeByGroup!: boolean;
 
     // For use in static methods
@@ -113,13 +98,15 @@ export class CategoryPlugin extends ConverterComponent {
     }
 
     private lumpCategorize(obj: ContainerReflection) {
-        if (obj instanceof ContainerReflection) {
-            if (obj.children && obj.children.length > 0) {
-                obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
-            }
-            if (obj.categories && obj.categories.length > 1) {
-                obj.categories.sort(CategoryPlugin.sortCatCallback);
-            }
+        if (!obj.children || obj.children.length === 0) {
+            return;
+        }
+        obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
+        if (obj.categories && obj.categories.length > 1) {
+            obj.categories.sort(CategoryPlugin.sortCatCallback);
+        } else if (obj.categories.length === 1 && obj.categories[0].title === CategoryPlugin.defaultCategory) {
+            // no categories if everything is uncategorized
+            obj.categories = undefined;
         }
     }
 
@@ -167,11 +154,11 @@ export class CategoryPlugin extends ConverterComponent {
         function extractCategoryTag(comment: Comment) {
             const tags = comment.tags;
             if (tags) {
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].tagName === 'category') {
-                        let tag = tags[i].text;
-                        return tag.trim();
-                    }
+                const tagIndex = tags.findIndex(tag => tag.tagName === 'category');
+                if (tagIndex >= 0) {
+                    const tag = tags[tagIndex].text;
+                    tags.splice(tagIndex, 1);
+                    return tag.trim();
                 }
             }
             return '';

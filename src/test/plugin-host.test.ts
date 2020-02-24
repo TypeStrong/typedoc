@@ -17,8 +17,9 @@ describe('PluginHost', function () {
   });
 
   it('parses plugins correctly', function () {
-    let app = new Application({
-      plugin: 'typedoc-plugin-1,typedoc-plugin-2'
+    const app = new Application();
+    app.bootstrap({
+      plugin: ['typedoc-plugin-1', 'typedoc-plugin-2']
     });
 
     Assert.deepEqual(app.plugins.plugins, [

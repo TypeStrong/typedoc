@@ -24,7 +24,7 @@ export class DeepCommentPlugin extends ConverterComponent {
     private onBeginResolve(context: Context) {
         const project = context.project;
         let name: string;
-        for (let key in project.reflections) {
+        for (const key in project.reflections) {
             const reflection = project.reflections[key];
             if (!reflection.comment) {
                 findDeepComment(reflection);

@@ -5,12 +5,11 @@
 /**
  * This is a module.
  */
-export module MyModule
-{
+export module MyModule {
     /**
      * This is an object literal.
      */
-    export var object = {
+    export let object = {
         /**
          * An object literal value.
          */
@@ -19,69 +18,65 @@ export module MyModule
         /**
          * An object literal function.
          */
-        print: function(value:string) { }
+        print: function(value: string) { }
     };
-
 
     /**
      * This is a submodule.
      */
-    export module MySubmodule
-    {
-        var a:string;
+    export module MySubmodule {
+        let a: string;
     }
 
+    export let exportedModuleVariable = 'foo';
 
-    export var exportedModuleVariable = 'foo';
+    let moduleVariable = [100, 200];
 
-    var moduleVariable = [100, 200];
-
-    var moduleVariable2:number[];
+    let moduleVariable2: number[];
 }
 
 /**
  * This is a submodule with the preferred comment.
  * @preferred
  */
-export module MyModule.MySubmodule
-{
-    var b:string;
+export module MyModule.MySubmodule {
+    let b: string;
 }
 
 /**
  * An exported global variable.
  */
-export var exportedGlobalVariable = 'foo';
+export let exportedGlobalVariable = 'foo';
 
 /**
  * A non-exported global variable.
  */
-var globalVariable = 'foo';
+let globalVariable = 'foo';
 
 /**
  * An object literal.
  */
-var objectLiteral = {
+let objectLiteral = {
     valueZ: 'foo',
     valueY: function() { return 'foo'; },
     valueX: {
         valueZ: 'foo',
-        valueY: (z:string) => { return {a:'test', b:z}; },
+        valueY: (z: string) => { return {a: 'test', b: z}; },
         valueA: [100, 200, 300]
     },
     valueA: 100,
     valueB: true
 };
 
-var typeLiteral:{
-    ():string;
-    valueZ:string;
-    valueY:{():string;};
-    valueX:{
-        valueZ:string;
-        valueY:{(z:string):{a:string; b:string}; };
-        valueA:number[];
+let typeLiteral: {
+    (): string;
+    valueZ: string;
+    valueY: {(): string; };
+    valueX: {
+        valueZ: string;
+        valueY: {(z: string): {a: string; b: string}; };
+        valueA: number[];
     };
-    valueA?:number;
-    valueB?:boolean;
+    valueA?: number;
+    valueB?: boolean;
 };

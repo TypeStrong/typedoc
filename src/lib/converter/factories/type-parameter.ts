@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-import { TypeParameterContainer, TypeParameterReflection, TypeParameterType } from '../../models/index';
+import { TypeParameterContainer, TypeParameterReflection, TypeParameterType, ReflectionFlag } from '../../models/index';
 import { Context } from '../context';
 import { Converter } from '../converter';
 
@@ -23,13 +23,14 @@ export function createTypeParameter(context: Context, node: ts.TypeParameterDecl
 
     const reflection = <TypeParameterContainer> context.scope;
     const typeParameterReflection = new TypeParameterReflection(typeParameter, reflection);
+    typeParameterReflection.flags.setFlag(ReflectionFlag.Exported, reflection.flags.isExported);
 
     if (!reflection.typeParameters) {
         reflection.typeParameters = [];
     }
     reflection.typeParameters.push(typeParameterReflection);
 
-    context.registerReflection(typeParameterReflection, node);
+    context.registerReflection(typeParameterReflection);
     context.trigger(Converter.EVENT_CREATE_TYPE_PARAMETER, typeParameterReflection, node);
 
     return typeParameter;

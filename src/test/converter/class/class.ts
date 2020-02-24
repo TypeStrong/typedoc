@@ -29,11 +29,13 @@ export class TestClass {
 
     /**
      * publicMethod short text.
+     * @category Test
      */
     public publicMethod() {}
 
     /**
      * protectedMethod short text.
+     * @category Test
      */
     protected protectedMethod() {}
 
@@ -46,6 +48,11 @@ export class TestClass {
      * staticMethod short text.
      */
     static staticMethod() {}
+
+    /**
+     * arrow method
+     */
+    arrowMethod = () => {};
 }
 
 export class TestSubClass extends TestClass {
@@ -108,4 +115,13 @@ abstract class NotExportedClass {
     add(a: number, b: number) {
         a + b;
     }
+}
+
+const x = 'literal';
+
+export class ComputedNames {
+    [Symbol.toStringTag] = 'computed';
+    [x] = true;
+    ['literal2'] = true;
+    y = false;
 }

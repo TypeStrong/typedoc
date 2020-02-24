@@ -2,47 +2,31 @@ import * as FS from 'fs';
 import * as Path from 'path';
 
 import { Application } from '../application';
-import { AbstractComponent, Component, Option } from './component';
-import { ParameterType } from './options/declaration';
+import { AbstractComponent, Component } from './component';
+import { BindOption } from './options';
+import { readFile } from './fs';
 
 /**
  * Responsible for discovering and loading plugins.
  */
 @Component({ name: 'plugin-host', internal: true })
 export class PluginHost extends AbstractComponent<Application> {
-    @Option({
-        name: 'plugin',
-        help: 'Specify the npm plugins that should be loaded. Omit to load all installed plugins, set to \'none\' to load no plugins.',
-        type: ParameterType.Array
-    })
+    @BindOption('plugin')
     plugins!: string[];
 
     /**
-     * Load the given list of npm plugins.
-     *
-     * @param plugins  A list of npm modules that should be loaded as plugins. When not specified
-     *   this function will invoke [[discoverNpmPlugins]] to find a list of all installed plugins.
+     * Load all npm plugins.
      * @returns TRUE on success, otherwise FALSE.
      */
     load(): boolean {
         const logger = this.application.logger;
-        const plugins = this.plugins || this.discoverNpmPlugins();
+        const plugins = this.plugins.length ? this.plugins : this.discoverNpmPlugins();
 
-        let i: number, c: number = plugins.length;
-        for (i = 0; i < c; i++) {
-            const plugin = plugins[i];
-            // TSLint would be correct here, but it doesn't take into account user config files.
-            // tslint:disable-next-line:strict-type-predicates
-            if (typeof plugin !== 'string') {
-                logger.error('Unknown plugin %s', plugin);
-                return false;
-            } else if (plugin.toLowerCase() === 'none') {
-                return true;
-            }
+        if (plugins.some(plugin => plugin.toLowerCase() === 'none')) {
+            return true;
         }
 
-        for (i = 0; i < c; i++) {
-            const plugin = plugins[i];
+        for (const plugin of plugins) {
             try {
                 const instance = require(plugin);
                 const initFunction = typeof instance.load === 'function'
@@ -50,7 +34,7 @@ export class PluginHost extends AbstractComponent<Application> {
                     : instance                // support legacy plugins
                     ;
                 if (typeof initFunction === 'function') {
-                    instance(this);
+                    initFunction(this);
                     logger.write('Loaded plugin %s', plugin);
                 } else {
                     logger.error('Invalid structure in plugin %s, no function found.', plugin);
@@ -98,7 +82,7 @@ export class PluginHost extends AbstractComponent<Application> {
             const candidates: string[] = [];
             FS.readdirSync(basePath).forEach((name) => {
                 const dir = Path.join(basePath, name);
-                if (name.startsWith('@')) {
+                if (name.startsWith('@') && FS.statSync(dir).isDirectory()) {
                     FS.readdirSync(dir).forEach((n) => {
                         candidates.push(Path.join(name, n));
                     });
@@ -123,7 +107,7 @@ export class PluginHost extends AbstractComponent<Application> {
          */
         function loadPackageInfo(fileName: string): any {
             try {
-                return JSON.parse(FS.readFileSync(fileName, { encoding: 'utf-8' }));
+                return JSON.parse(readFile(fileName));
             } catch (error) {
                 logger.error('Could not parse %s', fileName);
                 return {};

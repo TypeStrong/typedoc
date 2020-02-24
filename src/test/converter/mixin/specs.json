@@ -37,7 +37,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -51,6 +51,7 @@
               "id": 4,
               "name": "baseMethod",
               "kind": 2048,
+              "kindString": "Method",
               "flags": {
                 "isExported": true
               },
@@ -59,7 +60,10 @@
                   "id": 5,
                   "name": "baseMethod",
                   "kind": 4096,
-                  "flags": {},
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -68,8 +72,8 @@
               ],
               "sources": [
                 {
-                  "fileName": "%BASE%/mixin/mixin.ts",
-                  "line": 11,
+                  "fileName": "mixin.ts",
+                  "line": 24,
                   "character": 14
                 }
               ]
@@ -94,7 +98,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 8,
+              "line": 21,
               "character": 17
             }
           ]
@@ -122,7 +126,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -133,13 +137,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -153,7 +157,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 81,
+                  "line": 90,
                   "character": 26
                 }
               ],
@@ -174,7 +178,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -185,10 +189,12 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -203,7 +209,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 47,
+                  "line": 58,
                   "character": 13
                 }
               ],
@@ -214,6 +220,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 17,
                 "name": "Mixin2.property2"
               }
             },
@@ -231,17 +238,21 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   }
                 }
@@ -249,16 +260,18 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               }
             },
@@ -276,7 +289,9 @@
                   "name": "classWithMixinMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
@@ -286,7 +301,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 83,
+                  "line": 92,
                   "character": 24
                 }
               ]
@@ -305,18 +320,22 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 39,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -324,16 +343,18 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -341,16 +362,18 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             },
@@ -368,14 +391,18 @@
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 35,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin2"
@@ -391,6 +418,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 18,
                     "name": "Mixin2.method2"
                   }
                 }
@@ -398,12 +426,13 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 50,
+                  "line": 60,
                   "character": 11
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 18,
                 "name": "Mixin2.method2"
               }
             }
@@ -433,7 +462,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 80,
+              "line": 89,
               "character": 31
             }
           ],
@@ -443,7 +472,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin2",
                   "typeArguments": [
                     {
                       "type": "intersection",
@@ -454,8 +482,8 @@
                         },
                         {
                           "type": "reference",
-                          "name": "Base",
-                          "id": 2
+                          "id": 2,
+                          "name": "Base"
                         }
                       ]
                     },
@@ -463,33 +491,34 @@
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Mixin2"
                 },
                 {
                   "type": "reference",
-                  "name": "Mixin1Class",
                   "typeArguments": [
                     {
                       "type": "reference",
-                      "name": "Base",
-                      "id": 2
+                      "id": 2,
+                      "name": "Base"
                     },
                     {
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Mixin1Class"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
                   "id": 2,
                   "typeArguments": [
                     {
                       "type": "unknown",
                       "name": "this"
                     }
-                  ]
+                  ],
+                  "name": "Base"
                 }
               ]
             }
@@ -518,7 +547,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -529,13 +558,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -549,7 +578,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -560,6 +589,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -577,17 +607,21 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   }
                 }
@@ -595,16 +629,18 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               }
             },
@@ -622,18 +658,22 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 11,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -641,12 +681,13 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -654,12 +695,13 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             }
@@ -685,7 +727,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 36,
+              "line": 48,
               "character": 27
             }
           ],
@@ -695,7 +737,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin1Class",
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -704,15 +745,18 @@
                         "name": "__type",
                         "kind": 65536,
                         "kindString": "Type literal",
-                        "flags": {}
+                        "flags": {
+                          "isExported": true
+                        }
                       }
                     }
-                  ]
+                  ],
+                  "name": "Mixin1Class"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
-                  "id": 2
+                  "id": 2,
+                  "name": "Base"
                 }
               ]
             }
@@ -741,7 +785,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 9,
+                  "line": 22,
                   "character": 16
                 }
               ],
@@ -752,13 +796,13 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               },
               "inheritedFrom": {
                 "type": "reference",
-                "name": "Base.baseProperty",
-                "id": 3
+                "id": 3,
+                "name": "Base.baseProperty"
               }
             },
             {
@@ -772,7 +816,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 25,
+                  "line": 38,
                   "character": 13
                 }
               ],
@@ -783,10 +827,12 @@
               "defaultValue": "\"init\"",
               "overwrites": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 8,
                 "name": "Mixin1Class.property1"
               }
             },
@@ -801,7 +847,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 47,
+                  "line": 58,
                   "character": 13
                 }
               ],
@@ -812,6 +858,7 @@
               "defaultValue": "\"init\"",
               "inheritedFrom": {
                 "type": "reference",
+                "id": 17,
                 "name": "Mixin2.property2"
               }
             },
@@ -829,17 +876,21 @@
                   "name": "baseMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 4,
                     "name": "Base.baseMethod"
                   }
                 }
@@ -847,16 +898,18 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 11,
+                  "line": 24,
                   "character": 14
                 }
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 4,
                 "name": "Base.baseMethod"
               }
             },
@@ -874,18 +927,22 @@
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 24,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
-                        "name": "Mixin1Type",
-                        "id": 6
+                        "id": 6,
+                        "name": "Mixin1Type"
                       }
                     }
                   ],
@@ -893,16 +950,18 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "name": "Mixin1Type",
-                      "id": 6
+                      "id": 6,
+                      "name": "Mixin1Type"
                     }
                   },
                   "overwrites": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 9,
                     "name": "Mixin1Class.method1"
                   }
                 }
@@ -910,16 +969,18 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 28,
+                  "line": 40,
                   "character": 11
                 }
               ],
               "overwrites": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               },
               "inheritedFrom": {
                 "type": "reference",
+                "id": 9,
                 "name": "Mixin1Class.method1"
               }
             },
@@ -937,14 +998,18 @@
                   "name": "method2",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 20,
                       "name": "arg",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {},
+                      "flags": {
+                        "isExported": true
+                      },
                       "type": {
                         "type": "reference",
                         "name": "Mixin2"
@@ -960,6 +1025,7 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
+                    "id": 18,
                     "name": "Mixin2.method2"
                   }
                 }
@@ -967,12 +1033,13 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 50,
+                  "line": 60,
                   "character": 11
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
+                "id": 18,
                 "name": "Mixin2.method2"
               }
             }
@@ -1000,7 +1067,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 58,
+              "line": 68,
               "character": 23
             }
           ],
@@ -1010,7 +1077,6 @@
               "types": [
                 {
                   "type": "reference",
-                  "name": "Mixin2",
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -1019,20 +1085,23 @@
                         "name": "__type",
                         "kind": 65536,
                         "kindString": "Type literal",
-                        "flags": {}
+                        "flags": {
+                          "isExported": true
+                        }
                       }
                     }
-                  ]
+                  ],
+                  "name": "Mixin2"
                 },
                 {
                   "type": "reference",
-                  "name": "Mixin1Type",
-                  "id": 6
+                  "id": 6,
+                  "name": "Mixin1Type"
                 },
                 {
                   "type": "reference",
-                  "name": "Base",
-                  "id": 2
+                  "id": 2,
+                  "name": "Base"
                 }
               ]
             }
@@ -1046,19 +1115,24 @@
           "flags": {
             "isExported": true
           },
+          "comment": {
+            "shortText": "Any constructor function"
+          },
           "typeParameter": [
             {
               "id": 49,
               "name": "A",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 2,
+              "line": 11,
               "character": 26
             }
           ],
@@ -1069,11 +1143,13 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 2,
+                  "line": 11,
                   "character": 40
                 }
               ]
@@ -1088,19 +1164,24 @@
           "flags": {
             "isExported": true
           },
+          "comment": {
+            "shortText": "Any function"
+          },
           "typeParameter": [
             {
               "id": 44,
               "name": "A",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {
+                "isExported": true
+              }
             }
           ],
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 1,
+              "line": 6,
               "character": 23
             }
           ],
@@ -1111,14 +1192,18 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "signatures": [
                 {
                   "id": 46,
                   "name": "__call",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "parameters": [
                     {
                       "id": 47,
@@ -1126,6 +1211,7 @@
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
+                        "isExported": true,
                         "isRest": true
                       },
                       "type": {
@@ -1146,7 +1232,7 @@
               "sources": [
                 {
                   "fileName": "mixin.ts",
-                  "line": 1,
+                  "line": 6,
                   "character": 34
                 }
               ]
@@ -1161,47 +1247,52 @@
           "flags": {
             "isExported": true
           },
+          "comment": {
+            "shortText": "Mixin type helper"
+          },
           "typeParameter": [
             {
               "id": 52,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "type": {
                 "type": "reference",
-                "name": "AnyFunction",
-                "id": 43
+                "id": 43,
+                "name": "AnyFunction"
               }
             }
           ],
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 3,
+              "line": 16,
               "character": 17
             }
           ],
           "type": {
             "type": "reference",
-            "name": "InstanceType",
             "typeArguments": [
               {
                 "type": "reference",
-                "name": "ReturnType",
                 "typeArguments": [
                   {
                     "type": "typeParameter",
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyFunction",
-                      "id": 43
+                      "id": 43,
+                      "name": "AnyFunction"
                     }
                   }
-                ]
+                ],
+                "name": "ReturnType"
               }
-            ]
+            ],
+            "name": "InstanceType"
           }
         },
         {
@@ -1218,21 +1309,24 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 75,
+              "line": 84,
               "character": 18
             }
           ],
           "type": {
             "type": "reference",
-            "name": "Mixin",
             "id": 51,
             "typeArguments": [
               {
-                "type": "reference",
-                "name": "Mixin3",
-                "id": 62
+                "type": "query",
+                "queryType": {
+                  "type": "reference",
+                  "id": 61,
+                  "name": "Mixin3"
+                }
               }
-            ]
+            ],
+            "name": "Mixin"
           }
         },
         {
@@ -1253,7 +1347,9 @@
               "name": "Mixin1Func",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin1"
               },
@@ -1263,18 +1359,20 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "name": "Base",
-                        "id": 2
+                        "id": 2,
+                        "name": "Base"
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1284,21 +1382,23 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
                           "type": "reference",
-                          "name": "Base",
-                          "id": 2
+                          "id": 2,
+                          "name": "Base"
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }
@@ -1321,7 +1421,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 19,
+              "line": 32,
               "character": 23
             }
           ]
@@ -1344,7 +1444,9 @@
               "name": "Mixin2",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin2"
               },
@@ -1354,10 +1456,11 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
@@ -1365,17 +1468,18 @@
                         "types": [
                           {
                             "type": "reference",
-                            "name": "Mixin1Type",
-                            "id": 6
+                            "id": 6,
+                            "name": "Mixin1Type"
                           },
                           {
                             "type": "reference",
-                            "name": "Base",
-                            "id": 2
+                            "id": 2,
+                            "name": "Base"
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1385,13 +1489,14 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
@@ -1399,17 +1504,18 @@
                           "types": [
                             {
                               "type": "reference",
-                              "name": "Mixin1Type",
-                              "id": 6
+                              "id": 6,
+                              "name": "Mixin1Type"
                             },
                             {
                               "type": "reference",
-                              "name": "Base",
-                              "id": 2
+                              "id": 2,
+                              "name": "Base"
                             }
                           ]
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }
@@ -1432,7 +1538,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 42,
+              "line": 53,
               "character": 19
             }
           ]
@@ -1455,7 +1561,9 @@
               "name": "Mixin3",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {},
+              "flags": {
+                "isExported": true
+              },
               "comment": {
                 "shortText": "The \"mixin function\" of the Mixin3"
               },
@@ -1465,17 +1573,19 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "reference",
-                    "name": "AnyConstructor",
                     "id": 48,
                     "typeArguments": [
                       {
                         "type": "intrinsic",
                         "name": "object"
                       }
-                    ]
+                    ],
+                    "name": "AnyConstructor"
                   }
                 }
               ],
@@ -1485,20 +1595,22 @@
                   "name": "base",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {},
+                  "flags": {
+                    "isExported": true
+                  },
                   "type": {
                     "type": "typeParameter",
                     "name": "T",
                     "constraint": {
                       "type": "reference",
-                      "name": "AnyConstructor",
                       "id": 48,
                       "typeArguments": [
                         {
                           "type": "intrinsic",
                           "name": "object"
                         }
-                      ]
+                      ],
+                      "name": "AnyConstructor"
                     }
                   }
                 }
@@ -1521,7 +1633,7 @@
           "sources": [
             {
               "fileName": "mixin.ts",
-              "line": 64,
+              "line": 73,
               "character": 19
             }
           ]

@@ -16,7 +16,7 @@ export class StringLiteralType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'stringLiteral';
+    readonly type = 'stringLiteral';
 
     /**
      * Create a new instance of StringLiteralType.
@@ -46,16 +46,6 @@ export class StringLiteralType extends Type {
     equals(type: StringLiteralType): boolean {
         return type instanceof StringLiteralType &&
             type.value === this.value;
-    }
-
-    /**
-     * Return a raw object representation of this type.
-     * @deprecated Use serializers instead
-     */
-    toObject(): any {
-        const result: any = super.toObject();
-        result.value = this.value;
-        return result;
     }
 
     /**
