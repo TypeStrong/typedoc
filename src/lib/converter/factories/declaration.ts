@@ -70,10 +70,12 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     const modifiers = ts.getCombinedModifierFlags(node);
 
+    let hasComment: boolean = Boolean(getRawComment(node));
     // Test whether the node is exported
     let isExported: boolean;
     if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
         isExported = true;
+        hasComment = true;
     } else if (container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
@@ -102,7 +104,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     if (
         (!isExported && context.converter.excludeNotExported)
         ||
-        (context.converter.excludeNotDocumented && kind !== ReflectionKind.EnumMember && !getRawComment(node))
+        (context.converter.excludeNotDocumented && kind !== ReflectionKind.EnumMember && !hasComment)
     ) {
         return;
     }
