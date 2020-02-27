@@ -199,6 +199,7 @@ export class CommentPlugin extends ConverterComponent {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             this.removeExcludedTags(comment);
+            reflection.comment = comment;
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
