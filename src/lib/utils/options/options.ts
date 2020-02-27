@@ -82,7 +82,11 @@ export class Options extends ChildableComponent<Application, OptionsComponent> {
     }
 
     read(data: any = {}, mode: OptionsReadMode = OptionsReadMode.Fetch): OptionsReadResult {
+        const loadedDirectories = new Set()
+
         function loadData(filename: string): void {
+            if (loadedDirectories.has(filename)) throw new Error("Recursion is not allowed.")
+            loadedDirectories.add(filename)
             let res = fs.readJSONSync(filename);
             if (_.isString(res.extends)) {
                 res = _.merge(res, loadData(res.extends));
