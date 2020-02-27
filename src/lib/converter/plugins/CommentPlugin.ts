@@ -199,7 +199,6 @@ export class CommentPlugin extends ConverterComponent {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             this.removeExcludedTags(comment);
-            reflection.comment = comment;
         } else if (reflection.kindOf(ReflectionKind.Module)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
@@ -304,10 +303,7 @@ export class CommentPlugin extends ConverterComponent {
                     if (!childComment) {
                         childComment = signature.comment = new Comment();
                     }
-
-                    childComment.shortText = childComment.shortText || comment.shortText;
-                    childComment.text      = childComment.text      || comment.text;
-                    childComment.returns   = childComment.returns   || comment.returns;
+                    childComment.copyFrom(comment);
                 }
 
                 if (signature.parameters) {
