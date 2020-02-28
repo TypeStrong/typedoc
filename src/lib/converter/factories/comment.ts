@@ -189,16 +189,17 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
     }
 
     const CODE_FENCE = /^\s*```(?!.*```)/;
-    let inCode = false;
+    let inFencedCode = false;
     function readLine(line: string) {
         line = line.replace(/^\s*\*? ?/, '');
         line = line.replace(/\s*$/, '');
 
-        if (CODE_FENCE.test(line) ) {
-          inCode = !inCode;
+        if (CODE_FENCE.test(line)) {
+          inFencedCode = !inFencedCode;
         }
 
-        if (!inCode) {
+        // Four spaces can be used to make code blocks too.
+        if (!inFencedCode && !line.startsWith('    ')) {
           const tag = /^\s*@(\S+)(.*)$/.exec(line);
           if (tag) {
             return readTagLine(line, tag);
