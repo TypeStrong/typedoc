@@ -26,6 +26,11 @@ describe('Options - TypeDocReader', () => {
         equal(options.getValue('inputFiles'), ['a']);
     });
 
+    test('Supports extends', join(__dirname, 'data/extends.json'), () => {
+        equal(options.getValue('name'), 'extends');
+        equal(options.getValue('inputFiles'), ['a']);
+    });
+
     function testError(name: string, file: string) {
         it(name, () => {
             options.reset();
@@ -39,6 +44,7 @@ describe('Options - TypeDocReader', () => {
     testError('Errors if the file cannot be found', join(__dirname, 'data/non-existent-file.json'));
     testError('Errors if the data is invalid', join(__dirname, 'data/invalid.json'));
     testError('Errors if any set option errors', join(__dirname, 'data/unknown.json'));
+    testError('Errors if extends results in a loop', join(__dirname, 'data/circular-extends.json'));
 
     it('Does not error if the option file cannot be found but was not set.', () => {
         const options = new class LyingOptions extends Options {

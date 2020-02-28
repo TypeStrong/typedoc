@@ -25,7 +25,7 @@ export class TypeDocReader implements OptionsReader {
      */
     read(container: Options, logger: Logger): void {
         const path = container.getValue('options');
-        const file = this.findTypedocFile(path, logger);
+        const file = this.findTypedocFile(path);
 
         if (!file) {
             if (!container.isDefault('options')) {
@@ -34,15 +34,43 @@ export class TypeDocReader implements OptionsReader {
             return;
         }
 
-        let data: any = require(file);
-        if (typeof data !== 'object') {
+        const seen = new Set<string>();
+        this.readFile(file, container, logger, seen);
+    }
+
+    /**
+     * Read the given options file + any extended files.
+     * @param file
+     * @param container
+     * @param logger
+     */
+    private readFile(file: string, container: Options, logger: Logger, seen: Set<string>) {
+        if (seen.has(file)) {
+            logger.error(`Tried to load the options file ${file} multiple times.`);
+            return;
+        }
+        seen.add(file);
+
+        const data: unknown = require(file);
+
+        if (typeof data !== 'object' || !data) {
             logger.error(`The file ${file} is not an object.`);
             return;
         }
+
+        if ('extends' in data) {
+            const extended: string[] = getStringArray(data['extends']);
+            for (const extendedFile of extended) {
+                // Extends is relative to the file it appears in.
+                this.readFile(Path.resolve(Path.dirname(file), extendedFile), container, logger, seen);
+            }
+            delete data['extends'];
+        }
+
         // deprecate: data.src is alias to inputFiles as of 0.16, warn in 0.17, remove in 0.19
         if ('src' in data && !('inputFiles' in data)) {
-            data.inputFiles = Array.isArray(data.src) ? data.src : [data.src];
-            delete data.src;
+            data['inputFiles'] = getStringArray(data['src']);
+            delete data['src'];
         }
 
         container.setValues(data).match({
@@ -63,7 +91,7 @@ export class TypeDocReader implements OptionsReader {
      * @param logger
      * @return the typedoc.(js|json) file path or undefined
      */
-    private findTypedocFile(path: string, logger: Logger): string | undefined {
+    private findTypedocFile(path: string): string | undefined {
         path = Path.resolve(path);
 
         return [
@@ -72,4 +100,8 @@ export class TypeDocReader implements OptionsReader {
             Path.join(path, 'typedoc.js')
         ].find(path => FS.existsSync(path) && FS.statSync(path).isFile());
     }
+}
+
+function getStringArray(arg: unknown): string[] {
+    return Array.isArray(arg) ? arg.map(String) : [String(arg)];
 }

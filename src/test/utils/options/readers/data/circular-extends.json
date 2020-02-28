@@ -1,0 +1,3 @@
+{
+    "extends": ["./circular-extends.json"]
+}
