@@ -307,6 +307,7 @@ export class CommentPlugin extends ConverterComponent {
                     childComment.shortText = childComment.shortText || comment.shortText;
                     childComment.text      = childComment.text      || comment.text;
                     childComment.returns   = childComment.returns   || comment.returns;
+                    childComment.tags      = childComment.tags      || comment.tags;
                 }
 
                 if (signature.parameters) {
