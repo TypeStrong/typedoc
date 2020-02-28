@@ -1,0 +1,373 @@
+{
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 1,
+      "name": "\"enum\"",
+      "kind": 1,
+      "kindString": "External module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/enum/enum.ts",
+      "children": [
+        {
+          "id": 10,
+          "name": "ConstEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is a const enum."
+          },
+          "children": [
+            {
+              "id": 11,
+              "name": "a",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 60,
+                  "character": 5
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 12,
+              "name": "b",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 61,
+                  "character": 5
+                }
+              ],
+              "defaultValue": "a + 1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                11,
+                12
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 59,
+              "character": 27
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "ModuleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is an enumeration extended by a module.\nThis is a module extending an enumeration."
+          },
+          "children": [
+            {
+              "id": 7,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the first enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 28,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 8,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the second enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 33,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "2"
+            },
+            {
+              "id": 9,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the third enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 38,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "4"
+            },
+            {
+              "id": 13,
+              "name": "enumValue",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isLet": true
+              },
+              "comment": {
+                "shortText": "This is a variable appended to an enumeration."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 48,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              }
+            },
+            {
+              "id": 14,
+              "name": "enumFunction",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 15,
+                  "name": "enumFunction",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "shortText": "This is a function appended to an enumeration."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 53,
+                  "character": 25
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                7,
+                8,
+                9
+              ]
+            },
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                13
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                14
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 24,
+              "character": 22
+            },
+            {
+              "fileName": "enum.ts",
+              "line": 44,
+              "character": 24
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "SimpleEnum",
+          "kind": 4,
+          "kindString": "Enumeration",
+          "flags": {
+            "isExported": true
+          },
+          "comment": {
+            "shortText": "This is a simple enumeration."
+          },
+          "children": [
+            {
+              "id": 3,
+              "name": "EnumValue1",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the first enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 8,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "1"
+            },
+            {
+              "id": 4,
+              "name": "EnumValue2",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the second enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 13,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "2"
+            },
+            {
+              "id": 5,
+              "name": "EnumValue3",
+              "kind": 16,
+              "kindString": "Enumeration member",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "This is the third enum member."
+              },
+              "sources": [
+                {
+                  "fileName": "enum.ts",
+                  "line": 18,
+                  "character": 14
+                }
+              ],
+              "defaultValue": "4"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Enumeration members",
+              "kind": 16,
+              "children": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "enum.ts",
+              "line": 4,
+              "character": 22
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Enumerations",
+          "kind": 4,
+          "children": [
+            10,
+            6,
+            2
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "enum.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "External modules",
+      "kind": 1,
+      "children": [
+        1
+      ]
+    }
+  ]
+}

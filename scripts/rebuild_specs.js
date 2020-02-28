@@ -42,6 +42,10 @@ const conversions = [
         () => app.options.setValue('categorizeByGroup', false),
         () => app.options.setValue('categorizeByGroup', true)
     ],
+    ['specs.nodoc',
+        () => app.options.setValue('excludeNotDocumented', true),
+        () => app.options.setValue('excludeNotDocumented', false)
+    ]
 ];
 
 /**

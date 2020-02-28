@@ -49,6 +49,9 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     @BindOption('excludeNotExported')
     excludeNotExported!: boolean;
 
+    @BindOption('excludeNotDocumented')
+    excludeNotDocumented!: boolean;
+
     @BindOption('excludePrivate')
     excludePrivate!: boolean;
 

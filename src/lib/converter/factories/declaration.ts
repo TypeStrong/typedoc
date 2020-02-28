@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import { ContainerReflection, DeclarationReflection, ReflectionFlag, ReflectionKind } from '../../models/index';
 import { Context } from '../context';
 import { Converter } from '../converter';
+import { getRawComment } from './comment.js';
 import { createReferenceType } from './reference';
 
 /**
@@ -69,10 +70,12 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     const modifiers = ts.getCombinedModifierFlags(node);
 
+    let hasComment: boolean = Boolean(getRawComment(node));
     // Test whether the node is exported
     let isExported: boolean;
     if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
         isExported = true;
+        hasComment = true;
     } else if (container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
@@ -98,7 +101,11 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         isExported = container.flags.isExported;
     }
 
-    if (!isExported && context.converter.excludeNotExported) {
+    if (
+        (!isExported && context.converter.excludeNotExported)
+        ||
+        (context.converter.excludeNotDocumented && kind !== ReflectionKind.EnumMember && !hasComment)
+    ) {
         return;
     }
 
