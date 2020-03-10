@@ -66,6 +66,9 @@ For a complete list of the command line arguments run `typedoc --help` or visit 
   Turn on parsing of .d.ts declaration files.
 * `--excludeExternals`<br>
   Do not document external files, highly recommended if turning on `--includeDeclarations`.
+* `--excludeNotDocumented`<br>
+  Do not include the code symbols, that don't have doc comments. This option is useful,
+  if you want to document only small part of your symbols and do not show the remaining ones in the documentation.
 
 #### TypeScript compiler
 * `--tsconfig <path/to/tsconfig.json>`<br>
@@ -81,6 +84,8 @@ For a complete list of the command line arguments run `typedoc --help` or visit 
   and start the documentation on the globals page.
 
 #### Miscellaneous
+* `--listInvalidSymbolLinks`<br>
+  Display the list of links that don't point to actual code symbols.
 * `--version`<br>
   Display the version number of TypeDoc.
 * `--help`<br>
@@ -98,5 +103,5 @@ For more information, read the [contribution guide](https://github.com/TypeStron
 ## License
 
 Copyright (c) 2015 [Sebastian Lenz](https://typedoc.org).<br>
-Copyright (c) 2016-2018 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
+Copyright (c) 2016-2020 [TypeDoc Contributors](https://github.com/TypeStrong/typedoc/graphs/contributors).<br>
 Licensed under the Apache License 2.0.
