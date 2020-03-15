@@ -22,7 +22,7 @@ const ignoredClasses = [
 
 const completeLegend: LegendItem[][] = [
     [
-        { name: 'Module', classes: ['tsd-kind-module'] },
+        { name: 'Namespace', classes: ['tsd-kind-namespace'] },
         { name: 'Object literal', classes: ['tsd-kind-object-literal'] },
         { name: 'Variable', classes: ['tsd-kind-variable'] },
         { name: 'Function', classes: ['tsd-kind-function'] },
