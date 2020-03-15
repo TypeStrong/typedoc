@@ -19,4 +19,12 @@ function functionWithGenericArrayParameter<T>(param: T, params: T[]): T[] {
     return params;
 }
 
+/**
+ * @param param this describes param
+ * @template T this describes T
+ */
+function functionWithTemplate<T>(param: T): T {
+    return param;
+}
+
 export {};

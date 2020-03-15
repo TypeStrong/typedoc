@@ -1017,6 +1017,55 @@
           ]
         },
         {
+          "id": 67,
+          "name": "functionWithTemplate",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 68,
+              "name": "functionWithTemplate",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {},
+              "typeParameter": [
+                {
+                  "id": 69,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "this describes T\n"
+                  }
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 70,
+                  "name": "param",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "comment": {
+                    "text": "this describes param"
+                  },
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ],
+              "type": {
+                "type": "typeParameter",
+                "name": "T"
+              }
+            }
+          ]
+        },
+        {
           "id": 58,
           "name": "genericFunction",
           "kind": 64,
@@ -1087,13 +1136,14 @@
           "kind": 64,
           "children": [
             62,
+            67,
             58
           ]
         }
       ]
     },
     {
-      "id": 67,
+      "id": 71,
       "name": "\"implicit-types\"",
       "kind": 1,
       "kindString": "Module",
@@ -1103,7 +1153,7 @@
       "originalName": "%BASE%/function/implicit-types.ts",
       "children": [
         {
-          "id": 68,
+          "id": 72,
           "name": "BreakpointRange",
           "kind": 256,
           "kindString": "Interface",
@@ -1112,7 +1162,7 @@
           },
           "children": [
             {
-              "id": 70,
+              "id": 74,
               "name": "end",
               "kind": 1024,
               "kindString": "Property",
@@ -1125,7 +1175,7 @@
               }
             },
             {
-              "id": 69,
+              "id": 73,
               "name": "start",
               "kind": 1024,
               "kindString": "Property",
@@ -1143,14 +1193,14 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                70,
-                69
+                74,
+                73
               ]
             }
           ]
         },
         {
-          "id": 71,
+          "id": 75,
           "name": "_breakpoints",
           "kind": 32,
           "kindString": "Variable",
@@ -1160,69 +1210,69 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 72,
+              "id": 76,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 75,
+                  "id": 79,
                   "name": "large",
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 68,
+                    "id": 72,
                     "name": "BreakpointRange"
                   }
                 },
                 {
-                  "id": 74,
+                  "id": 78,
                   "name": "medium",
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 68,
+                    "id": 72,
                     "name": "BreakpointRange"
                   }
                 },
                 {
-                  "id": 73,
+                  "id": 77,
                   "name": "small",
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 68,
+                    "id": 72,
                     "name": "BreakpointRange"
                   }
                 },
                 {
-                  "id": 76,
+                  "id": 80,
                   "name": "xlarge",
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 68,
+                    "id": 72,
                     "name": "BreakpointRange"
                   }
                 },
                 {
-                  "id": 77,
+                  "id": 81,
                   "name": "xxlarge",
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 68,
+                    "id": 72,
                     "name": "BreakpointRange"
                   }
                 }
@@ -1232,11 +1282,11 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    75,
-                    74,
-                    73,
-                    76,
-                    77
+                    79,
+                    78,
+                    77,
+                    80,
+                    81
                   ]
                 }
               ]
@@ -1244,7 +1294,7 @@
           }
         },
         {
-          "id": 78,
+          "id": 82,
           "name": "getBreakpoints",
           "kind": 64,
           "kindString": "Function",
@@ -1253,7 +1303,7 @@
           },
           "signatures": [
             {
-              "id": 79,
+              "id": 83,
               "name": "getBreakpoints",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1263,7 +1313,7 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 80,
+                  "id": 84,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
@@ -1272,7 +1322,7 @@
                   },
                   "children": [
                     {
-                      "id": 83,
+                      "id": 87,
                       "name": "large",
                       "kind": 32,
                       "kindString": "Variable",
@@ -1281,12 +1331,12 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 68,
+                        "id": 72,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 82,
+                      "id": 86,
                       "name": "medium",
                       "kind": 32,
                       "kindString": "Variable",
@@ -1295,12 +1345,12 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 68,
+                        "id": 72,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 81,
+                      "id": 85,
                       "name": "small",
                       "kind": 32,
                       "kindString": "Variable",
@@ -1309,12 +1359,12 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 68,
+                        "id": 72,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 84,
+                      "id": 88,
                       "name": "xlarge",
                       "kind": 32,
                       "kindString": "Variable",
@@ -1323,12 +1373,12 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 68,
+                        "id": 72,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 85,
+                      "id": 89,
                       "name": "xxlarge",
                       "kind": 32,
                       "kindString": "Variable",
@@ -1337,7 +1387,7 @@
                       },
                       "type": {
                         "type": "reference",
-                        "id": 68,
+                        "id": 72,
                         "name": "BreakpointRange"
                       }
                     }
@@ -1347,11 +1397,11 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        83,
-                        82,
-                        81,
-                        84,
-                        85
+                        87,
+                        86,
+                        85,
+                        88,
+                        89
                       ]
                     }
                   ]
@@ -1366,21 +1416,21 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            68
+            72
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            71
+            75
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            78
+            82
           ]
         }
       ]
@@ -1393,7 +1443,7 @@
       "children": [
         1,
         57,
-        67
+        71
       ]
     }
   ]

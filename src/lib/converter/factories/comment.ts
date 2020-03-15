@@ -170,7 +170,7 @@ export function parseComment(text: string, comment: Comment = new Comment()): Co
         line = tag[2].trim();
 
         if (tagName === 'return') { tagName = 'returns'; }
-        if (tagName === 'param' || tagName === 'typeparam') {
+        if (tagName === 'param' || tagName === 'typeparam' || tagName === 'template') {
             line = consumeTypeData(line);
             const param = /[^\s]+/.exec(line);
             if (param) {

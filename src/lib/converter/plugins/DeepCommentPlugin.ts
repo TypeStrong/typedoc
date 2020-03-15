@@ -54,6 +54,9 @@ export class DeepCommentPlugin extends ConverterComponent {
                     if (reflection instanceof TypeParameterReflection) {
                         tag = target.comment.getTag('typeparam', reflection.name);
                         if (!tag) {
+                            tag = target.comment.getTag('template', reflection.name);
+                        }
+                        if (!tag) {
                             tag = target.comment.getTag('param', '<' + reflection.name + '>');
                         }
                     }

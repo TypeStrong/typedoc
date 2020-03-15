@@ -163,6 +163,9 @@ export class CommentPlugin extends ConverterComponent {
         if (comment) {
             let tag = comment.getTag('typeparam', reflection.name);
             if (!tag) {
+                tag = comment.getTag('template', reflection.name);
+            }
+            if (!tag) {
                 tag = comment.getTag('param', `<${reflection.name}>`);
             }
             if (!tag) {
