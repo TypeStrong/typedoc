@@ -9,7 +9,7 @@ const ts = require('typescript');
 const app = new TypeDoc.Application();
 app.bootstrap({
     mode: TypeDoc.SourceFileMode.Modules,
-    target: ts.ScriptTarget.ES5,
+    target: ts.ScriptTarget.ES2016,
     module: ts.ModuleKind.CommonJS,
     experimentalDecorators: true,
     jsx: ts.JsxEmit.React,

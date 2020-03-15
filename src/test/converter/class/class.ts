@@ -125,3 +125,8 @@ export class ComputedNames {
     ['literal2'] = true;
     y = false;
 }
+
+export class Ts38PrivateFields {
+    /** Docs */
+    #foo = 1;
+}

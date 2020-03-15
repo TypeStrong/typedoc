@@ -1461,7 +1461,7 @@
               }
             },
             {
-              "id": 67,
+              "id": 69,
               "name": "staticMergedMethod",
               "kind": 2048,
               "kindString": "Method",
@@ -1471,7 +1471,7 @@
               },
               "signatures": [
                 {
-                  "id": 68,
+                  "id": 70,
                   "name": "staticMergedMethod",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -1568,7 +1568,7 @@
                 60,
                 35,
                 33,
-                67,
+                69,
                 48
               ]
             }
@@ -1597,6 +1597,58 @@
               "name": "TestClass"
             }
           ]
+        },
+        {
+          "id": 67,
+          "name": "Ts38PrivateFields",
+          "kind": 128,
+          "kindString": "Class",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 68,
+              "name": "#foo",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isPrivate": true,
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Docs"
+              },
+              "sources": [
+                {
+                  "fileName": "class.ts",
+                  "line": 131,
+                  "character": 8
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "defaultValue": "1"
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                68
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "class.ts",
+              "line": 129,
+              "character": 30
+            }
+          ]
         }
       ],
       "groups": [
@@ -1608,7 +1660,8 @@
             52,
             56,
             16,
-            32
+            32,
+            67
           ]
         }
       ],
@@ -1621,7 +1674,7 @@
       ]
     },
     {
-      "id": 69,
+      "id": 71,
       "name": "\"clodule-with-subclass\"",
       "kind": 1,
       "kindString": "External module",
@@ -1631,7 +1684,7 @@
       "originalName": "%BASE%/class/clodule-with-subclass.ts",
       "children": [
         {
-          "id": 71,
+          "id": 73,
           "name": "Bar",
           "kind": 128,
           "kindString": "Class",
@@ -1640,7 +1693,7 @@
           },
           "children": [
             {
-              "id": 72,
+              "id": 74,
               "name": "x",
               "kind": 1024,
               "kindString": "Property",
@@ -1667,7 +1720,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                72
+                74
               ]
             }
           ],
@@ -1681,13 +1734,13 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 70,
+              "id": 72,
               "name": "Foo"
             }
           ]
         },
         {
-          "id": 70,
+          "id": 72,
           "name": "Foo",
           "kind": 128,
           "kindString": "Class",
@@ -1696,7 +1749,7 @@
           },
           "children": [
             {
-              "id": 73,
+              "id": 75,
               "name": "x",
               "kind": 1024,
               "kindString": "Property",
@@ -1723,7 +1776,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                73
+                75
               ]
             }
           ],
@@ -1742,7 +1795,7 @@
           "extendedBy": [
             {
               "type": "reference",
-              "id": 71,
+              "id": 73,
               "name": "Bar"
             }
           ]
@@ -1753,8 +1806,8 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            71,
-            70
+            73,
+            72
           ]
         }
       ],
@@ -1767,7 +1820,7 @@
       ]
     },
     {
-      "id": 74,
+      "id": 76,
       "name": "\"constructor-properties\"",
       "kind": 1,
       "kindString": "External module",
@@ -1784,7 +1837,7 @@
       ]
     },
     {
-      "id": 75,
+      "id": 77,
       "name": "\"decorators\"",
       "kind": 1,
       "kindString": "External module",
@@ -1801,7 +1854,7 @@
       ]
     },
     {
-      "id": 77,
+      "id": 79,
       "name": "\"events\"",
       "kind": 1,
       "kindString": "External module",
@@ -1818,7 +1871,7 @@
       ]
     },
     {
-      "id": 76,
+      "id": 78,
       "name": "\"events-overloads\"",
       "kind": 1,
       "kindString": "External module",
@@ -1835,7 +1888,7 @@
       ]
     },
     {
-      "id": 78,
+      "id": 80,
       "name": "\"generic-class\"",
       "kind": 1,
       "kindString": "External module",
@@ -1852,7 +1905,7 @@
       ]
     },
     {
-      "id": 79,
+      "id": 81,
       "name": "\"getter-setter\"",
       "kind": 1,
       "kindString": "External module",
@@ -1869,7 +1922,7 @@
       ]
     },
     {
-      "id": 80,
+      "id": 82,
       "name": "\"this\"",
       "kind": 1,
       "kindString": "External module",
@@ -1879,7 +1932,7 @@
       "originalName": "%BASE%/class/this.ts",
       "children": [
         {
-          "id": 81,
+          "id": 83,
           "name": "ChainClass",
           "kind": 128,
           "kindString": "Class",
@@ -1892,7 +1945,7 @@
           },
           "children": [
             {
-              "id": 82,
+              "id": 84,
               "name": "chain",
               "kind": 2048,
               "kindString": "Method",
@@ -1902,7 +1955,7 @@
               },
               "signatures": [
                 {
-                  "id": 83,
+                  "id": 85,
                   "name": "chain",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -1932,7 +1985,7 @@
               "title": "Methods",
               "kind": 2048,
               "children": [
-                82
+                84
               ]
             }
           ],
@@ -1950,7 +2003,7 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            81
+            83
           ]
         }
       ],
@@ -1963,7 +2016,7 @@
       ]
     },
     {
-      "id": 84,
+      "id": 86,
       "name": "\"type-operator\"",
       "kind": 1,
       "kindString": "External module",
@@ -1973,7 +2026,7 @@
       "originalName": "%BASE%/class/type-operator.ts",
       "children": [
         {
-          "id": 88,
+          "id": 90,
           "name": "GenericClass",
           "kind": 128,
           "kindString": "Class",
@@ -1982,7 +2035,7 @@
           },
           "typeParameter": [
             {
-              "id": 89,
+              "id": 91,
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -1994,7 +2047,7 @@
                 "operator": "keyof",
                 "target": {
                   "type": "reference",
-                  "id": 85,
+                  "id": 87,
                   "name": "TestClass"
                 }
               }
@@ -2002,7 +2055,7 @@
           ],
           "children": [
             {
-              "id": 90,
+              "id": 92,
               "name": "c",
               "kind": 1024,
               "kindString": "Property",
@@ -2024,7 +2077,7 @@
                   "operator": "keyof",
                   "target": {
                     "type": "reference",
-                    "id": 85,
+                    "id": 87,
                     "name": "TestClass"
                   }
                 }
@@ -2036,7 +2089,7 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                90
+                92
               ]
             }
           ],
@@ -2049,7 +2102,7 @@
           ]
         },
         {
-          "id": 85,
+          "id": 87,
           "name": "TestClass",
           "kind": 128,
           "kindString": "Class",
@@ -2068,7 +2121,7 @@
           },
           "children": [
             {
-              "id": 86,
+              "id": 88,
               "name": "a",
               "kind": 1024,
               "kindString": "Property",
@@ -2088,7 +2141,7 @@
               }
             },
             {
-              "id": 87,
+              "id": 89,
               "name": "b",
               "kind": 1024,
               "kindString": "Property",
@@ -2113,8 +2166,8 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                86,
-                87
+                88,
+                89
               ]
             }
           ],
@@ -2132,8 +2185,8 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            88,
-            85
+            90,
+            87
           ]
         }
       ],
@@ -2153,15 +2206,15 @@
       "children": [
         1,
         15,
-        69,
-        74,
-        75,
-        77,
+        71,
         76,
-        78,
+        77,
         79,
+        78,
         80,
-        84
+        81,
+        82,
+        86
       ]
     }
   ]

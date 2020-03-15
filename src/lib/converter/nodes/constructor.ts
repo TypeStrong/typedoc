@@ -68,16 +68,6 @@ export class ConstructorConverter extends ConverterNodeComponent<ts.ConstructorD
             return;
         }
 
-        const privateParameter = modifiers & ts.ModifierFlags.Private;
-        if (privateParameter && context.converter.excludePrivate) {
-            return;
-        }
-
-        const protectedParameter = modifiers & ts.ModifierFlags.Protected;
-        if (protectedParameter && context.converter.excludeProtected) {
-            return;
-        }
-
         const property = createDeclaration(context, parameter, ReflectionKind.Property);
         if (!property) {
             return;

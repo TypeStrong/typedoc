@@ -39,14 +39,10 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
         context.withScope(reflection, node.typeParameters, () => {
             if (node.members) {
                 node.members.forEach((member) => {
-                    const modifiers = ts.getCombinedModifierFlags(member);
-                    const privateMember = (modifiers & ts.ModifierFlags.Private) > 0;
-                    const protectedMember = (modifiers & ts.ModifierFlags.Protected) > 0;
-                    const exclude = (context.converter.excludePrivate && privateMember)
-                        || (context.converter.excludeProtected && protectedMember);
-
-                    if (!exclude) {
-                        this.owner.convertNode(context, member);
+                    const child = this.owner.convertNode(context, member);
+                    // class Foo { #foo = 1 }
+                    if (child && member.name && ts.isPrivateIdentifier(member.name)) {
+                        child.flags.setFlag(ReflectionFlag.Private, true);
                     }
                 });
             }

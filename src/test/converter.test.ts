@@ -13,7 +13,7 @@ describe('Converter', function() {
     app.bootstrap({
         mode: 'modules',
         logger: 'none',
-        target: ScriptTarget.ES5,
+        target: ScriptTarget.ES2016,
         module: ModuleKind.CommonJS,
         experimentalDecorators: true,
         jsx: JsxEmit.React,

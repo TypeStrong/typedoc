@@ -246,13 +246,18 @@ export class CommentPlugin extends ConverterComponent {
             info.reflection.comment = comment;
         }
 
-        const stripInternal = this.application.options.getCompilerOptions().stripInternal;
+        const stripInternal = !!this.application.options.getCompilerOptions().stripInternal;
+        const excludePrivate = this.application.options.getValue('excludePrivate');
+        const excludeProtected = this.application.options.getValue('excludeProtected');
 
         const project = context.project;
         const reflections = Object.values(project.reflections);
 
         // remove signatures
-        const hidden = reflections.filter(reflection => CommentPlugin.isHidden(reflection, stripInternal));
+        // TODO: This doesn't really belong here. Removing comments due to @hidden yes, but private/protected no.
+        //   it needs to be here for now because users can use @public/@private/@protected to override visibility.
+        //   the converter should probably have a post resolve step in which it handles the excludePrivate/protected options.
+        const hidden = reflections.filter(reflection => CommentPlugin.isHidden(reflection, stripInternal, excludePrivate, excludeProtected));
         hidden.forEach(reflection => project.removeReflection(reflection, true));
 
         // remove functions with empty signatures after their signatures have been removed
@@ -378,8 +383,21 @@ export class CommentPlugin extends ConverterComponent {
      *
      * @param reflection Reflection to check if hidden
      */
-    private static isHidden(reflection: Reflection, stripInternal: boolean | undefined) {
+    private static isHidden(
+        reflection: Reflection,
+        stripInternal: boolean,
+        excludePrivate: boolean,
+        excludeProtected: boolean
+    ) {
         const comment = reflection.comment;
+
+        if (reflection.flags.hasFlag(ReflectionFlag.Private) && excludePrivate) {
+            return true;
+        }
+
+        if (reflection.flags.hasFlag(ReflectionFlag.Protected) && excludeProtected) {
+            return true;
+        }
 
         if (!comment) {
             return false;
