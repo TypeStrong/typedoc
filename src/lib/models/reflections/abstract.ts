@@ -36,8 +36,8 @@ export function resetReflectionID() {
  */
 export enum ReflectionKind {
     Global = 0,
-    ExternalModule = 1 << 0,
-    Module = 1 << 1,
+    Module = 1 << 0,
+    Namespace = 1 << 1,
     Enum = 1 << 2,
     EnumMember = 1 << 4,
     Variable = 1 << 5,
@@ -66,7 +66,7 @@ export enum ReflectionKind {
     FunctionOrMethod = ReflectionKind.Function | Method,
     ClassMember = Accessor | Constructor | Method | Property | Event,
     SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
-    SomeModule = Module | ExternalModule,
+    SomeModule = Namespace | Module,
     SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
     SomeValue = Variable | Function | ObjectLiteral
 }

@@ -12,7 +12,7 @@ import { createReferenceType } from './reference';
 const nonStaticKinds = [
     ReflectionKind.Class,
     ReflectionKind.Interface,
-    ReflectionKind.Module
+    ReflectionKind.Namespace
 ];
 
 /**
@@ -73,13 +73,13 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     let hasComment: boolean = Boolean(getRawComment(node));
     // Test whether the node is exported
     let isExported: boolean;
-    if (kind === ReflectionKind.ExternalModule || kind === ReflectionKind.Global) {
+    if (kind === ReflectionKind.Module || kind === ReflectionKind.Global) {
         isExported = true;
         hasComment = true;
     } else if (container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
-    } else if (container.kindOf([ReflectionKind.Module, ReflectionKind.ExternalModule])) {
+    } else if (container.kindOf([ReflectionKind.Namespace, ReflectionKind.Module])) {
         const symbol = context.getSymbolAtLocation(node);
         if (!symbol) {
             isExported = false;
@@ -220,7 +220,7 @@ function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind)
  */
 function mergeDeclarations(context: Context, reflection: DeclarationReflection, node: ts.Node, kind: ReflectionKind) {
     if (reflection.kind !== kind) {
-        const weights = [ReflectionKind.Module, ReflectionKind.Enum, ReflectionKind.Class];
+        const weights = [ReflectionKind.Namespace, ReflectionKind.Enum, ReflectionKind.Class];
         const kindWeight = weights.indexOf(kind);
         const childKindWeight = weights.indexOf(reflection.kind);
         if (kindWeight > childKindWeight) {

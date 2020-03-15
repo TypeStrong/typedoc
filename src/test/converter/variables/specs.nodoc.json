@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"array\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -3957,7 +3957,7 @@
       "id": 200,
       "name": "\"destructuring\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -4042,7 +4042,7 @@
       "id": 205,
       "name": "\"literal\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -4137,7 +4137,7 @@
       "id": 209,
       "name": "\"variable\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -4153,7 +4153,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1,

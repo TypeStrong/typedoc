@@ -8,7 +8,7 @@
       "id": 1,
       "name": "\"enum\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -363,7 +363,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         1

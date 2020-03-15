@@ -8,7 +8,7 @@
       "id": 15,
       "name": "\"export\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -156,7 +156,7 @@
       "id": 1,
       "name": "\"export-assignment\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -173,7 +173,7 @@
       "id": 2,
       "name": "\"export-default\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -190,7 +190,7 @@
       "id": 3,
       "name": "\"export-with-local\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -306,7 +306,7 @@
       "id": 9,
       "name": "\"mod\"",
       "kind": 1,
-      "kindString": "External module",
+      "kindString": "Module",
       "flags": {
         "isExported": true
       },
@@ -397,7 +397,7 @@
   ],
   "groups": [
     {
-      "title": "External modules",
+      "title": "Modules",
       "kind": 1,
       "children": [
         15,

@@ -55,7 +55,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
 
         context.withSourceFile(node, () => {
             if (this.mode === SourceFileMode.Modules) {
-                result = createDeclaration(context, node, ReflectionKind.ExternalModule, node.fileName);
+                result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
                     result!.setFlag(ReflectionFlag.Exported);

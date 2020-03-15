@@ -137,7 +137,7 @@ export class CommentPlugin extends ConverterComponent {
             comment.removeTags('event');
         }
 
-        if (reflection.kindOf(ReflectionKind.ExternalModule)) {
+        if (reflection.kindOf(ReflectionKind.Module)) {
             comment.removeTags('packagedocumentation');
         }
     }
@@ -199,7 +199,7 @@ export class CommentPlugin extends ConverterComponent {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             this.removeExcludedTags(comment);
-        } else if (reflection.kindOf(ReflectionKind.Module)) {
+        } else if (reflection.kindOf(ReflectionKind.Namespace)) {
             this.storeModuleComment(rawComment, reflection);
         } else {
             const comment = parseComment(rawComment, reflection.comment);
