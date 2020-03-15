@@ -20,7 +20,7 @@ export class PluginHost extends AbstractComponent<Application> {
      */
     load(): boolean {
         const logger = this.application.logger;
-        const plugins = this.plugins.length ? this.plugins : this.discoverNpmPlugins();
+        const plugins = this.plugins.length ? this.resolvePluginPaths(this.plugins) : this.discoverNpmPlugins();
 
         if (plugins.some(plugin => plugin.toLowerCase() === 'none')) {
             return true;
@@ -132,5 +132,30 @@ export class PluginHost extends AbstractComponent<Application> {
 
             return false;
         }
+    }
+
+    /**
+     * Resolves plugin paths to absolute paths from the current working directory
+     * (`process.cwd()`).
+     *
+     * ```txt
+     * ./plugin   -> resolve
+     * ../plugin  -> resolve
+     * plugin     -> don't resolve (module resolution)
+     * /plugin    -> don't resolve (already absolute path)
+     * c:\plugin  -> don't resolve (already absolute path)
+     * ```
+     *
+     * @param plugins
+     */
+    private resolvePluginPaths(plugins: string[]) {
+        const cwd = process.cwd();
+        return plugins.map(plugin => {
+            // treat plugins that start with `.` as relative, requiring resolution
+            if (plugin.startsWith('.')) {
+                return Path.resolve(cwd, plugin);
+            }
+            return plugin;
+        });
     }
 }
