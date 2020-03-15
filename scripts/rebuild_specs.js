@@ -20,7 +20,8 @@ app.bootstrap({
         "lib.es2015.collection.d.ts"
     ],
     name: 'typedoc',
-    excludeExternals: true
+    excludeExternals: true,
+    disableSources: true
 });
 
 // Note that this uses the test files in dist, not in src, this is important since

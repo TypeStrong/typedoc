@@ -52,13 +52,6 @@
               }
             }
           ],
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 30,
-              "character": 60
-            }
-          ],
           "type": {
             "type": "indexedAccess",
             "indexType": {
@@ -113,13 +106,6 @@
                     "flags": {
                       "isExported": true
                     },
-                    "sources": [
-                      {
-                        "fileName": "alias.ts",
-                        "line": 31,
-                        "character": 5
-                      }
-                    ],
                     "type": {
                       "type": "typeParameter",
                       "name": "R"
@@ -133,13 +119,6 @@
                     "flags": {
                       "isExported": true
                     },
-                    "sources": [
-                      {
-                        "fileName": "alias.ts",
-                        "line": 32,
-                        "character": 5
-                      }
-                    ],
                     "type": {
                       "type": "reference",
                       "id": 22,
@@ -171,14 +150,7 @@
                             "kindString": "Type literal",
                             "flags": {
                               "isExported": true
-                            },
-                            "sources": [
-                              {
-                                "fileName": "alias.ts",
-                                "line": 32,
-                                "character": 68
-                              }
-                            ]
+                            }
                           }
                         }
                       ],
@@ -194,13 +166,6 @@
                       26,
                       27
                     ]
-                  }
-                ],
-                "sources": [
-                  {
-                    "fileName": "alias.ts",
-                    "line": 30,
-                    "character": 87
                   }
                 ]
               }
@@ -227,13 +192,6 @@
               "flags": {
                 "isExported": true
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 14,
-              "character": 20
             }
           ],
           "type": {
@@ -285,13 +243,6 @@
               }
             }
           ],
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 24,
-              "character": 20
-            }
-          ],
           "type": {
             "type": "conditional",
             "checkType": {
@@ -340,13 +291,6 @@
                       "type": "intrinsic",
                       "name": "any"
                     }
-                  }
-                ],
-                "sources": [
-                  {
-                    "fileName": "alias.ts",
-                    "line": 24,
-                    "character": 39
                   }
                 ]
               }
@@ -404,13 +348,6 @@
                       "name": "any"
                     }
                   }
-                ],
-                "sources": [
-                  {
-                    "fileName": "alias.ts",
-                    "line": 24,
-                    "character": 69
-                  }
                 ]
               }
             },
@@ -444,13 +381,6 @@
               "flags": {
                 "isExported": true
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 19,
-              "character": 23
             }
           ],
           "type": {
@@ -499,13 +429,6 @@
               "flags": {
                 "isExported": true
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 4,
-              "character": 28
             }
           ],
           "type": {
@@ -560,13 +483,6 @@
                     "name": "number"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "alias.ts",
-                  "line": 4,
-                  "character": 33
-                }
               ]
             }
           }
@@ -582,13 +498,6 @@
           "comment": {
             "shortText": "A type for IDs."
           },
-          "sources": [
-            {
-              "fileName": "alias.ts",
-              "line": 9,
-              "character": 15
-            }
-          ],
           "type": {
             "type": "union",
             "types": [
@@ -616,13 +525,6 @@
             2,
             8
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "alias.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

@@ -73,13 +73,6 @@
               "comment": {
                 "shortText": "This variable is appended to a function."
               },
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 160,
-                  "character": 24
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -106,13 +99,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 165,
-                  "character": 19
-                }
               ]
             },
             {
@@ -136,13 +122,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "function.ts",
-                  "line": 172,
-                  "character": 20
-                }
               ]
             }
           ],
@@ -161,18 +140,6 @@
                 53,
                 55
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 118,
-              "character": 30
-            },
-            {
-              "fileName": "function.ts",
-              "line": 156,
-              "character": 28
             }
           ]
         },
@@ -248,13 +215,6 @@
                 }
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 139,
-              "character": 31
-            }
           ]
         },
         {
@@ -300,13 +260,6 @@
                 "name": "condition",
                 "asserts": true
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 125,
-              "character": 33
             }
           ]
         },
@@ -358,13 +311,6 @@
                 }
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 131,
-              "character": 31
-            }
           ]
         },
         {
@@ -391,13 +337,6 @@
                 "type": "intrinsic",
                 "name": "void"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 9,
-              "character": 32
             }
           ]
         },
@@ -514,13 +453,6 @@
                 "name": "string"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 60,
-              "character": 36
-            }
           ]
         },
         {
@@ -582,13 +514,6 @@
                 "type": "intrinsic",
                 "name": "void"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 48,
-              "character": 41
             }
           ]
         },
@@ -668,13 +593,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 28,
-              "character": 38
-            }
           ]
         },
         {
@@ -720,13 +638,6 @@
                 "name": "string"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 76,
-              "character": 25
-            }
           ]
         },
         {
@@ -749,13 +660,6 @@
                 "type": "intrinsic",
                 "name": "void"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 4,
-              "character": 25
             }
           ]
         },
@@ -830,13 +734,6 @@
                   "name": "T"
                 }
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 149,
-              "character": 25
             }
           ]
         },
@@ -934,13 +831,6 @@
                           "comment": {
                             "text": "A value of the object.\n"
                           },
-                          "sources": [
-                            {
-                              "fileName": "function.ts",
-                              "line": 93,
-                              "character": 47
-                            }
-                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -955,13 +845,6 @@
                             34
                           ]
                         }
-                      ],
-                      "sources": [
-                        {
-                          "fileName": "function.ts",
-                          "line": 93,
-                          "character": 41
-                        }
                       ]
                     }
                   }
@@ -971,23 +854,6 @@
                 "type": "intrinsic",
                 "name": "string"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 85,
-              "character": 34
-            },
-            {
-              "fileName": "function.ts",
-              "line": 93,
-              "character": 34
-            },
-            {
-              "fileName": "function.ts",
-              "line": 101,
-              "character": 34
             }
           ]
         },
@@ -1040,13 +906,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 38,
-              "character": 29
-            }
           ]
         }
       ],
@@ -1075,13 +934,6 @@
             28,
             11
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "function.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -1162,13 +1014,6 @@
                 }
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "generic-function.ts",
-              "line": 18,
-              "character": 42
-            }
           ]
         },
         {
@@ -1233,13 +1078,6 @@
                 }
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "generic-function.ts",
-              "line": 7,
-              "character": 24
-            }
           ]
         }
       ],
@@ -1251,13 +1089,6 @@
             62,
             58
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "generic-function.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -1288,13 +1119,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "implicit-types.ts",
-                  "line": 1,
-                  "character": 53
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1308,13 +1132,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "implicit-types.ts",
-                  "line": 1,
-                  "character": 40
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1330,13 +1147,6 @@
                 69
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "implicit-types.ts",
-              "line": 1,
-              "character": 32
-            }
           ]
         },
         {
@@ -1347,13 +1157,6 @@
           "flags": {
             "isLet": true
           },
-          "sources": [
-            {
-              "fileName": "implicit-types.ts",
-              "line": 3,
-              "character": 16
-            }
-          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1369,13 +1172,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "implicit-types.ts",
-                      "line": 6,
-                      "character": 9
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 68,
@@ -1388,13 +1184,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "implicit-types.ts",
-                      "line": 5,
-                      "character": 10
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 68,
@@ -1407,13 +1196,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "implicit-types.ts",
-                      "line": 4,
-                      "character": 9
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 68,
@@ -1426,13 +1208,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "implicit-types.ts",
-                      "line": 7,
-                      "character": 10
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 68,
@@ -1445,13 +1220,6 @@
                   "kind": 32,
                   "kindString": "Variable",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "implicit-types.ts",
-                      "line": 8,
-                      "character": 11
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 68,
@@ -1470,13 +1238,6 @@
                     76,
                     77
                   ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "implicit-types.ts",
-                  "line": 3,
-                  "character": 17
                 }
               ]
             }
@@ -1518,13 +1279,6 @@
                       "flags": {
                         "isExported": true
                       },
-                      "sources": [
-                        {
-                          "fileName": "implicit-types.ts",
-                          "line": 6,
-                          "character": 9
-                        }
-                      ],
                       "type": {
                         "type": "reference",
                         "id": 68,
@@ -1539,13 +1293,6 @@
                       "flags": {
                         "isExported": true
                       },
-                      "sources": [
-                        {
-                          "fileName": "implicit-types.ts",
-                          "line": 5,
-                          "character": 10
-                        }
-                      ],
                       "type": {
                         "type": "reference",
                         "id": 68,
@@ -1560,13 +1307,6 @@
                       "flags": {
                         "isExported": true
                       },
-                      "sources": [
-                        {
-                          "fileName": "implicit-types.ts",
-                          "line": 4,
-                          "character": 9
-                        }
-                      ],
                       "type": {
                         "type": "reference",
                         "id": 68,
@@ -1581,13 +1321,6 @@
                       "flags": {
                         "isExported": true
                       },
-                      "sources": [
-                        {
-                          "fileName": "implicit-types.ts",
-                          "line": 7,
-                          "character": 10
-                        }
-                      ],
                       "type": {
                         "type": "reference",
                         "id": 68,
@@ -1602,13 +1335,6 @@
                       "flags": {
                         "isExported": true
                       },
-                      "sources": [
-                        {
-                          "fileName": "implicit-types.ts",
-                          "line": 8,
-                          "character": 11
-                        }
-                      ],
                       "type": {
                         "type": "reference",
                         "id": 68,
@@ -1631,13 +1357,6 @@
                   ]
                 }
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "implicit-types.ts",
-              "line": 11,
-              "character": 30
             }
           ]
         }
@@ -1663,13 +1382,6 @@
           "children": [
             78
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "implicit-types.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

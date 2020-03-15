@@ -19,7 +19,8 @@ describe('Converter', function() {
         jsx: JsxEmit.React,
         name: 'typedoc',
         ignoreCompilerErrors: true,
-        excludeExternals: true
+        excludeExternals: true,
+        disableSources: true
     });
 
     const checks: [string, () => void, () => void][] = [

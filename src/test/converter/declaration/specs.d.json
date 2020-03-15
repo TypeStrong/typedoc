@@ -31,13 +31,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "declaration.d.ts",
-                  "line": 2,
-                  "character": 8
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -52,13 +45,6 @@
                 3
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "declaration.d.ts",
-              "line": 1,
-              "character": 18
-            }
           ]
         },
         {
@@ -70,13 +56,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "declaration.d.ts",
-              "line": 5,
-              "character": 15
-            }
-          ],
           "type": {
             "type": "intrinsic",
             "name": "number"
@@ -98,13 +77,6 @@
             4
           ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "declaration.d.ts",
-          "line": 1,
-          "character": 0
-        }
       ]
     },
     {
@@ -124,14 +96,7 @@
           "kindString": "Class",
           "flags": {
             "isExported": true
-          },
-          "sources": [
-            {
-              "fileName": "export-declaration.d.ts",
-              "line": 1,
-              "character": 29
-            }
-          ]
+          }
         },
         {
           "id": 7,
@@ -140,14 +105,7 @@
           "kindString": "Class",
           "flags": {
             "isExported": true
-          },
-          "sources": [
-            {
-              "fileName": "export-declaration.d.ts",
-              "line": 3,
-              "character": 25
-            }
-          ]
+          }
         }
       ],
       "groups": [
@@ -158,13 +116,6 @@
             6,
             7
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export-declaration.d.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

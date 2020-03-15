@@ -114,13 +114,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 7,
-              "character": 12
-            }
           ]
         },
         {
@@ -154,13 +147,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 9,
-              "character": 1
-            }
           ]
         }
       ],
@@ -183,13 +169,6 @@
             34,
             38
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -248,13 +227,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export-assignment.ts",
-              "line": 1,
-              "character": 12
-            }
           ]
         }
       ],
@@ -265,13 +237,6 @@
           "children": [
             2
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export-assignment.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -294,13 +259,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "export-default.ts",
-              "line": 1,
-              "character": 7
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "5"
@@ -315,13 +273,6 @@
           "children": [
             7
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export-default.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -343,13 +294,6 @@
           "flags": {
             "isLet": true
           },
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 9,
-              "character": 12
-            }
-          ],
           "type": {
             "type": "intrinsic",
             "name": "string"
@@ -365,13 +309,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 1,
-              "character": 14
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "5"
@@ -428,13 +365,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 3,
-              "character": 19
-            }
           ]
         },
         {
@@ -479,13 +409,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 11,
-              "character": 14
-            }
           ]
         }
       ],
@@ -505,13 +428,6 @@
             10,
             15
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export-with-local.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -567,13 +483,6 @@
           "comment": {
             "shortText": "A simple named export that will be exported from export.ts"
           },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 4,
-              "character": 14
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "1"
@@ -601,13 +510,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 14,
-              "character": 31
-            }
           ]
         }
       ],
@@ -634,13 +536,6 @@
           "children": [
             23
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mod.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

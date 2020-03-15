@@ -39,13 +39,6 @@
               "comment": {
                 "shortText": "A variable that is made private via comment."
               },
-              "sources": [
-                {
-                  "fileName": "access.ts",
-                  "line": 34,
-                  "character": 23
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -63,13 +56,6 @@
               "comment": {
                 "shortText": "A variable that is made protected via comment."
               },
-              "sources": [
-                {
-                  "fileName": "access.ts",
-                  "line": 40,
-                  "character": 25
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -102,13 +88,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "access.ts",
-                  "line": 46,
-                  "character": 23
-                }
               ]
             },
             {
@@ -138,13 +117,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "access.ts",
-                  "line": 52,
-                  "character": 25
-                }
               ]
             }
           ],
@@ -165,13 +137,6 @@
                 7
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "access.ts",
-              "line": 29,
-              "character": 25
-            }
           ]
         },
         {
@@ -187,13 +152,6 @@
           "comment": {
             "shortText": "A variable that is made private via comment."
           },
-          "sources": [
-            {
-              "fileName": "access.ts",
-              "line": 5,
-              "character": 32
-            }
-          ],
           "type": {
             "type": "stringLiteral",
             "value": "test"
@@ -213,13 +171,6 @@
           "comment": {
             "shortText": "A variable that is made protected via comment."
           },
-          "sources": [
-            {
-              "fileName": "access.ts",
-              "line": 11,
-              "character": 34
-            }
-          ],
           "type": {
             "type": "stringLiteral",
             "value": "test"
@@ -253,13 +204,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "access.ts",
-              "line": 17,
-              "character": 35
-            }
           ]
         },
         {
@@ -289,13 +233,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "access.ts",
-              "line": 23,
-              "character": 37
-            }
           ]
         }
       ],
@@ -322,13 +259,6 @@
             11,
             13
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "access.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -359,13 +289,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 123,
-                  "character": 24
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -380,13 +303,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 124,
-                  "character": 7
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -401,13 +317,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 125,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -422,13 +331,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 126,
-                  "character": 5
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "boolean"
@@ -446,13 +348,6 @@
                 70,
                 71
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 122,
-              "character": 26
             }
           ]
         },
@@ -513,13 +408,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 115,
-                  "character": 7
-                }
               ]
             }
           ],
@@ -530,13 +418,6 @@
               "children": [
                 63
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 111,
-              "character": 31
             }
           ]
         },
@@ -559,13 +440,6 @@
                 "isExported": true,
                 "isAbstract": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 83,
-                  "character": 31
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -595,13 +469,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 85,
-                  "character": 39
-                }
               ]
             }
           ],
@@ -619,13 +486,6 @@
               "children": [
                 54
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 82,
-              "character": 39
             }
           ],
           "extendedBy": [
@@ -653,13 +513,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 89,
-                  "character": 22
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -699,13 +552,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 91,
-                  "character": 30
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 54,
@@ -727,13 +573,6 @@
               "children": [
                 58
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 88,
-              "character": 44
             }
           ],
           "extendedTypes": [
@@ -792,13 +631,6 @@
                     "name": "TestClass"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 23,
-                  "character": 37
-                }
               ]
             },
             {
@@ -813,13 +645,6 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 18,
-                  "character": 27
-                }
-              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -840,13 +665,6 @@
               "comment": {
                 "shortText": "publicProperty short text."
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 13,
-                  "character": 25
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -864,13 +682,6 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 23,
-                  "character": 25
-                }
-              ],
               "type": {
                 "type": "reference",
                 "id": 16,
@@ -905,13 +716,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 55,
-                  "character": 15
-                }
               ]
             },
             {
@@ -939,13 +743,6 @@
                     "type": "intrinsic",
                     "name": "void"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 45,
-                  "character": 25
                 }
               ]
             },
@@ -975,13 +772,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 40,
-                  "character": 29
-                }
               ]
             },
             {
@@ -1010,13 +800,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 34,
-                  "character": 23
-                }
               ]
             },
             {
@@ -1044,13 +827,6 @@
                     "type": "intrinsic",
                     "name": "void"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 50,
-                  "character": 23
                 }
               ]
             }
@@ -1099,13 +875,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 8,
-              "character": 22
             }
           ],
           "extendedBy": [
@@ -1226,13 +995,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 67,
-                  "character": 34
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 20,
@@ -1252,13 +1014,6 @@
               "comment": {
                 "shortText": "Private string property"
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 77,
-                  "character": 30
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1277,13 +1032,6 @@
               "comment": {
                 "shortText": "Public number property"
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 77,
-                  "character": 49
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1302,13 +1050,6 @@
               "comment": {
                 "shortText": "Public implicit any property\n"
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 77,
-                  "character": 68
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "any"
@@ -1326,13 +1067,6 @@
               "comment": {
                 "shortText": "publicProperty short text."
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 13,
-                  "character": 25
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -1355,13 +1089,6 @@
               "comment": {
                 "shortText": "privateProperty short text."
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 23,
-                  "character": 25
-                }
-              ],
               "type": {
                 "type": "reference",
                 "id": 16,
@@ -1407,13 +1134,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 55,
-                  "character": 15
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 30,
@@ -1444,13 +1164,6 @@
                     "type": "intrinsic",
                     "name": "any"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 98,
-                  "character": 16
                 }
               ]
             },
@@ -1484,13 +1197,6 @@
                     "id": 24,
                     "name": "TestClass.protectedMethod"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 67,
-                  "character": 29
                 }
               ],
               "overwrites": {
@@ -1531,13 +1237,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 62,
-                  "character": 23
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 22,
@@ -1569,13 +1268,6 @@
                     "type": "intrinsic",
                     "name": "void"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 105,
-                  "character": 38
                 }
               ]
             },
@@ -1609,13 +1301,6 @@
                     "id": 28,
                     "name": "TestClass.staticMethod"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 50,
-                  "character": 23
                 }
               ],
               "inheritedFrom": {
@@ -1657,23 +1342,6 @@
               ]
             }
           ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 58,
-              "character": 25
-            },
-            {
-              "fileName": "class.ts",
-              "line": 94,
-              "character": 29
-            },
-            {
-              "fileName": "class.ts",
-              "line": 101,
-              "character": 26
-            }
-          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -1703,13 +1371,6 @@
               "comment": {
                 "shortText": "Docs"
               },
-              "sources": [
-                {
-                  "fileName": "class.ts",
-                  "line": 131,
-                  "character": 8
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1725,13 +1386,6 @@
                 73
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 129,
-              "character": 30
-            }
           ]
         },
         {
@@ -1742,13 +1396,6 @@
           "flags": {
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "class.ts",
-              "line": 120,
-              "character": 7
-            }
-          ],
           "type": {
             "type": "stringLiteral",
             "value": "literal"
@@ -1776,13 +1423,6 @@
           "children": [
             76
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "class.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -1814,13 +1454,6 @@
                 "isStatic": true,
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "clodule-with-subclass.ts",
-                  "line": 4,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "unknown",
                 "name": "1"
@@ -1835,13 +1468,6 @@
               "children": [
                 80
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "clodule-with-subclass.ts",
-              "line": 7,
-              "character": 16
             }
           ],
           "extendedTypes": [
@@ -1870,13 +1496,6 @@
                 "isStatic": true,
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "clodule-with-subclass.ts",
-                  "line": 4,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "unknown",
                 "name": "1"
@@ -1891,18 +1510,6 @@
               "children": [
                 81
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "clodule-with-subclass.ts",
-              "line": 2,
-              "character": 16
-            },
-            {
-              "fileName": "clodule-with-subclass.ts",
-              "line": 3,
-              "character": 20
             }
           ],
           "extendedBy": [
@@ -1922,13 +1529,6 @@
             79,
             78
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "clodule-with-subclass.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -2017,13 +1617,6 @@
                     "name": "Vector2"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 4,
-                  "character": 15
-                }
               ]
             },
             {
@@ -2037,13 +1630,6 @@
               "comment": {
                 "shortText": "Vector name\n"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 11,
-                  "character": 29
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2061,13 +1647,6 @@
               "comment": {
                 "shortText": "X component of the Vector"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 24
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2085,13 +1664,6 @@
               "comment": {
                 "shortText": "Y component of the Vector"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 42
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2114,13 +1686,6 @@
                 85,
                 86
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "constructor-properties.ts",
-              "line": 4,
-              "character": 13
             }
           ],
           "extendedBy": [
@@ -2226,13 +1791,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 18,
-                  "character": 31
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 84,
@@ -2250,13 +1808,6 @@
               "comment": {
                 "shortText": "Vector name\n"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 26,
-                  "character": 29
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2279,13 +1830,6 @@
               "comment": {
                 "shortText": "X component of the Vector"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 10,
-                  "character": 24
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2308,13 +1852,6 @@
               "comment": {
                 "shortText": "Y component of the Vector"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 25,
-                  "character": 35
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2337,13 +1874,6 @@
               "comment": {
                 "shortText": "Z component of the Vector"
               },
-              "sources": [
-                {
-                  "fileName": "constructor-properties.ts",
-                  "line": 25,
-                  "character": 53
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -2369,13 +1899,6 @@
               ]
             }
           ],
-          "sources": [
-            {
-              "fileName": "constructor-properties.ts",
-              "line": 18,
-              "character": 13
-            }
-          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -2393,13 +1916,6 @@
             83,
             92
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "constructor-properties.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -2478,13 +1994,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "decorators.ts",
-                  "line": 13,
-                  "character": 19
-                }
               ]
             }
           ],
@@ -2495,13 +2004,6 @@
               "children": [
                 105
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "decorators.ts",
-              "line": 7,
-              "character": 20
             }
           ]
         },
@@ -2583,13 +2085,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "decorators.ts",
-              "line": 19,
-              "character": 22
-            }
           ]
         },
         {
@@ -2643,13 +2138,6 @@
                           "comment": {
                             "text": "A property on the options object of this decorator.\n"
                           },
-                          "sources": [
-                            {
-                              "fileName": "decorators.ts",
-                              "line": 40,
-                              "character": 44
-                            }
-                          ],
                           "type": {
                             "type": "intrinsic",
                             "name": "string"
@@ -2664,13 +2152,6 @@
                             119
                           ]
                         }
-                      ],
-                      "sources": [
-                        {
-                          "fileName": "decorators.ts",
-                          "line": 40,
-                          "character": 38
-                        }
                       ]
                     }
                   }
@@ -2680,13 +2161,6 @@
                 "type": "reference",
                 "name": "ClassDecorator"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "decorators.ts",
-              "line": 40,
-              "character": 29
             }
           ]
         },
@@ -2734,13 +2208,6 @@
                 "name": "MethodDecorator"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "decorators.ts",
-              "line": 28,
-              "character": 27
-            }
           ]
         }
       ],
@@ -2760,13 +2227,6 @@
             115,
             112
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "decorators.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -2798,13 +2258,6 @@
               "comment": {
                 "shortText": "This is an event documentation."
               },
-              "sources": [
-                {
-                  "fileName": "events.ts",
-                  "line": 6,
-                  "character": 22
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -2820,13 +2273,6 @@
                 149
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "events.ts",
-              "line": 1,
-              "character": 21
-            }
           ]
         }
       ],
@@ -2837,13 +2283,6 @@
           "children": [
             148
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "events.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -2946,13 +2385,6 @@
                                 "name": "void"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "events-overloads.ts",
-                              "line": 14,
-                              "character": 30
-                            }
                           ]
                         }
                       }
@@ -3028,13 +2460,6 @@
                                 "type": "intrinsic",
                                 "name": "void"
                               }
-                            }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "events-overloads.ts",
-                              "line": 23,
-                              "character": 31
                             }
                           ]
                         }
@@ -3112,13 +2537,6 @@
                                 "name": "void"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "events-overloads.ts",
-                              "line": 32,
-                              "character": 34
-                            }
                           ]
                         }
                       }
@@ -3195,13 +2613,6 @@
                                 "name": "void"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "events-overloads.ts",
-                              "line": 41,
-                              "character": 34
-                            }
                           ]
                         }
                       }
@@ -3211,28 +2622,6 @@
                     "type": "intrinsic",
                     "name": "void"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "events-overloads.ts",
-                  "line": 14,
-                  "character": 6
-                },
-                {
-                  "fileName": "events-overloads.ts",
-                  "line": 23,
-                  "character": 6
-                },
-                {
-                  "fileName": "events-overloads.ts",
-                  "line": 32,
-                  "character": 6
-                },
-                {
-                  "fileName": "events-overloads.ts",
-                  "line": 41,
-                  "character": 6
                 }
               ]
             }
@@ -3245,13 +2634,6 @@
                 122
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "events-overloads.ts",
-              "line": 6,
-              "character": 14
-            }
           ]
         }
       ],
@@ -3262,13 +2644,6 @@
           "children": [
             121
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "events-overloads.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -3345,13 +2720,6 @@
                     "name": "GenericClass"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 14,
-                  "character": 26
-                }
               ]
             },
             {
@@ -3365,13 +2733,6 @@
               "comment": {
                 "shortText": "Generic property."
               },
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 9,
-                  "character": 19
-                }
-              ],
               "type": {
                 "type": "typeParameter",
                 "name": "T"
@@ -3388,13 +2749,6 @@
               "comment": {
                 "shortText": "Generic property array."
               },
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 14,
-                  "character": 20
-                }
-              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -3425,13 +2779,6 @@
                     "name": "T"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 28,
-                  "character": 12
-                }
               ]
             }
           ],
@@ -3457,13 +2804,6 @@
               "children": [
                 158
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "generic-class.ts",
-              "line": 5,
-              "character": 18
             }
           ],
           "extendedBy": [
@@ -3531,13 +2871,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 14,
-                  "character": 26
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 155,
@@ -3555,13 +2888,6 @@
               "comment": {
                 "shortText": "Generic property."
               },
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 9,
-                  "character": 19
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3583,13 +2909,6 @@
               "comment": {
                 "shortText": "Generic property array."
               },
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 14,
-                  "character": 20
-                }
-              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -3631,13 +2950,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "generic-class.ts",
-                  "line": 28,
-                  "character": 12
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 158,
@@ -3669,13 +2981,6 @@
               ]
             }
           ],
-          "sources": [
-            {
-              "fileName": "generic-class.ts",
-              "line": 36,
-              "character": 21
-            }
-          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -3699,13 +3004,6 @@
             151,
             160
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "generic-class.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -3734,13 +3032,6 @@
               "flags": {
                 "isPrivate": true
               },
-              "sources": [
-                {
-                  "fileName": "getter-setter.ts",
-                  "line": 2,
-                  "character": 17
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -3790,18 +3081,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "getter-setter.ts",
-                  "line": 4,
-                  "character": 12
-                },
-                {
-                  "fileName": "getter-setter.ts",
-                  "line": 5,
-                  "character": 12
-                }
               ]
             },
             {
@@ -3821,13 +3100,6 @@
                     "type": "intrinsic",
                     "name": "string"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "getter-setter.ts",
-                  "line": 7,
-                  "character": 20
                 }
               ]
             },
@@ -3862,13 +3134,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "getter-setter.ts",
-                  "line": 9,
-                  "character": 21
-                }
               ]
             }
           ],
@@ -3889,13 +3154,6 @@
                 177
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "getter-setter.ts",
-              "line": 1,
-              "character": 18
-            }
           ]
         }
       ],
@@ -3906,13 +3164,6 @@
           "children": [
             169
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "getter-setter.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -3965,13 +3216,6 @@
                     "name": "this"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "this.ts",
-                  "line": 10,
-                  "character": 16
-                }
               ]
             }
           ],
@@ -3983,13 +3227,6 @@
                 182
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "this.ts",
-              "line": 6,
-              "character": 23
-            }
           ]
         }
       ],
@@ -4000,13 +3237,6 @@
           "children": [
             181
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "this.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -4057,13 +3287,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "type-operator.ts",
-                  "line": 14,
-                  "character": 5
-                }
-              ],
               "type": {
                 "type": "typeParameter",
                 "name": "T",
@@ -4086,13 +3309,6 @@
               "children": [
                 190
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 13,
-              "character": 25
             }
           ]
         },
@@ -4123,13 +3339,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "type-operator.ts",
-                  "line": 9,
-                  "character": 5
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -4143,13 +3352,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "type-operator.ts",
-                  "line": 10,
-                  "character": 5
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -4165,13 +3367,6 @@
                 187
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "type-operator.ts",
-              "line": 8,
-              "character": 22
-            }
           ]
         }
       ],
@@ -4183,13 +3378,6 @@
             188,
             185
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "type-operator.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

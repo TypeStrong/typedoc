@@ -22,13 +22,6 @@
           "flags": {
             "isExported": true
           },
-          "sources": [
-            {
-              "fileName": "query.ts",
-              "line": 3,
-              "character": 19
-            }
-          ],
           "type": {
             "type": "query",
             "queryType": {
@@ -47,13 +40,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "query.ts",
-              "line": 1,
-              "character": 14
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "1"
@@ -75,13 +61,6 @@
           "children": [
             2
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "query.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -118,13 +97,6 @@
               "comment": {
                 "shortText": "Property of first type."
               },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 8,
-                  "character": 17
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -138,13 +110,6 @@
               "children": [
                 6
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 4,
-              "character": 26
             }
           ]
         },
@@ -171,13 +136,6 @@
               "comment": {
                 "shortText": "Property of second type."
               },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 18,
-                  "character": 18
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -191,13 +149,6 @@
               "children": [
                 8
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 14,
-              "character": 27
             }
           ]
         },
@@ -224,13 +175,6 @@
               "comment": {
                 "shortText": "Complex Property of third type."
               },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 38,
-                  "character": 24
-                }
-              ],
               "type": {
                 "type": "array",
                 "elementType": {
@@ -273,13 +217,6 @@
               "comment": {
                 "shortText": "Intersection Property of third type."
               },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 33,
-                  "character": 29
-                }
-              ],
               "type": {
                 "type": "intersection",
                 "types": [
@@ -307,13 +244,6 @@
               "comment": {
                 "shortText": "Union Property of third type."
               },
-              "sources": [
-                {
-                  "fileName": "union-or-intersection.ts",
-                  "line": 28,
-                  "character": 22
-                }
-              ],
               "type": {
                 "type": "union",
                 "types": [
@@ -341,13 +271,6 @@
                 10
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "union-or-intersection.ts",
-              "line": 24,
-              "character": 26
-            }
           ]
         }
       ],
@@ -360,13 +283,6 @@
             7,
             9
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "union-or-intersection.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

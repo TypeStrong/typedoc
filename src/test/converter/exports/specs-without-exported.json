@@ -114,13 +114,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export.ts",
-              "line": 7,
-              "character": 12
-            }
           ]
         }
       ],
@@ -143,13 +136,6 @@
             22
           ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "export.ts",
-          "line": 1,
-          "character": 0
-        }
       ]
     },
     {
@@ -160,14 +146,7 @@
       "flags": {
         "isExported": true
       },
-      "originalName": "%BASE%/exports/export-assignment.ts",
-      "sources": [
-        {
-          "fileName": "export-assignment.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
+      "originalName": "%BASE%/exports/export-assignment.ts"
     },
     {
       "id": 2,
@@ -177,14 +156,7 @@
       "flags": {
         "isExported": true
       },
-      "originalName": "%BASE%/exports/export-default.ts",
-      "sources": [
-        {
-          "fileName": "export-default.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
+      "originalName": "%BASE%/exports/export-default.ts"
     },
     {
       "id": 3,
@@ -205,13 +177,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 1,
-              "character": 14
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "5"
@@ -268,13 +233,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "export-with-local.ts",
-              "line": 3,
-              "character": 19
-            }
           ]
         }
       ],
@@ -292,13 +250,6 @@
           "children": [
             5
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "export-with-local.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -354,13 +305,6 @@
           "comment": {
             "shortText": "A simple named export that will be exported from export.ts"
           },
-          "sources": [
-            {
-              "fileName": "mod.ts",
-              "line": 4,
-              "character": 14
-            }
-          ],
           "type": {
             "type": "unknown",
             "name": "1"
@@ -384,13 +328,6 @@
           "children": [
             10
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mod.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

@@ -55,13 +55,6 @@
                 "name": "void"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "function.ts",
-              "line": 6,
-              "character": 32
-            }
           ]
         }
       ],
@@ -72,13 +65,6 @@
           "children": [
             4
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "function.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -102,14 +88,7 @@
           },
           "comment": {
             "shortText": "This is a simple interface"
-          },
-          "sources": [
-            {
-              "fileName": "interface-empty.ts",
-              "line": 4,
-              "character": 31
-            }
-          ]
+          }
         }
       ],
       "groups": [
@@ -119,13 +98,6 @@
           "children": [
             2
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "interface-empty.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

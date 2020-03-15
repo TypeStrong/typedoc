@@ -34,13 +34,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -69,13 +62,6 @@
                     "name": "number"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 24,
-                  "character": 14
-                }
               ]
             }
           ],
@@ -93,13 +79,6 @@
               "children": [
                 4
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 21,
-              "character": 17
             }
           ]
         },
@@ -123,13 +102,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -154,13 +126,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 90,
-                  "character": 26
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -175,13 +140,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 38,
-                  "character": 13
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -206,13 +164,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 58,
-                  "character": 13
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -257,13 +208,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 24,
-                  "character": 14
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 4,
@@ -296,13 +240,6 @@
                     "type": "intrinsic",
                     "name": "string"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 92,
-                  "character": 24
                 }
               ]
             },
@@ -357,13 +294,6 @@
                     "id": 9,
                     "name": "Mixin1Class.method1"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 40,
-                  "character": 11
                 }
               ],
               "overwrites": {
@@ -423,13 +353,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 60,
-                  "character": 11
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 18,
@@ -457,13 +380,6 @@
                 37,
                 33
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 89,
-              "character": 31
             }
           ],
           "extendedTypes": [
@@ -544,13 +460,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -575,13 +484,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 38,
-                  "character": 13
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -624,13 +526,6 @@
                     "id": 4,
                     "name": "Base.baseMethod"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 24,
-                  "character": 14
                 }
               ],
               "overwrites": {
@@ -692,13 +587,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 40,
-                  "character": 11
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 9,
@@ -722,13 +610,6 @@
                 13,
                 9
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 48,
-              "character": 27
             }
           ],
           "extendedTypes": [
@@ -782,13 +663,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 22,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -813,13 +687,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 38,
-                  "character": 13
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -844,13 +711,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 58,
-                  "character": 13
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -893,13 +753,6 @@
                     "id": 4,
                     "name": "Base.baseMethod"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 24,
-                  "character": 14
                 }
               ],
               "overwrites": {
@@ -966,13 +819,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 40,
-                  "character": 11
-                }
-              ],
               "overwrites": {
                 "type": "reference",
                 "id": 9,
@@ -1030,13 +876,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 60,
-                  "character": 11
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 18,
@@ -1062,13 +901,6 @@
                 22,
                 18
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 68,
-              "character": 23
             }
           ],
           "extendedTypes": [
@@ -1129,13 +961,6 @@
               }
             }
           ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 11,
-              "character": 26
-            }
-          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -1145,14 +970,7 @@
               "kindString": "Type literal",
               "flags": {
                 "isExported": true
-              },
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 11,
-                  "character": 40
-                }
-              ]
+              }
             }
           }
         },
@@ -1176,13 +994,6 @@
               "flags": {
                 "isExported": true
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 6,
-              "character": 23
             }
           ],
           "type": {
@@ -1228,13 +1039,6 @@
                     "name": "A"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "mixin.ts",
-                  "line": 6,
-                  "character": 34
-                }
               ]
             }
           }
@@ -1264,13 +1068,6 @@
                 "id": 43,
                 "name": "AnyFunction"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 16,
-              "character": 17
             }
           ],
           "type": {
@@ -1306,13 +1103,6 @@
           "comment": {
             "shortText": "The \"instance type\" of the Mixin3 using the regular type notation (does not work well for recursive type definition)\nIs not well supported by the TypeDoc"
           },
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 84,
-              "character": 18
-            }
-          ],
           "type": {
             "type": "reference",
             "id": 51,
@@ -1416,13 +1206,6 @@
                   }
                 ]
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 32,
-              "character": 23
             }
           ]
         },
@@ -1534,13 +1317,6 @@
                 ]
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 53,
-              "character": 19
-            }
           ]
         },
         {
@@ -1629,13 +1405,6 @@
                 ]
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "mixin.ts",
-              "line": 73,
-              "character": 19
-            }
           ]
         }
       ],
@@ -1674,13 +1443,6 @@
             57,
             61
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "mixin.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

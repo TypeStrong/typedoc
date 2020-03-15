@@ -24,14 +24,7 @@
           },
           "comment": {
             "shortText": "Class array class item"
-          },
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/array.ts",
-              "line": 20,
-              "character": 16
-            }
-          ]
+          }
         },
         {
           "id": 5,
@@ -90,13 +83,6 @@
               "comment": {
                 "shortText": "Gets or sets the length of the array. This is a number one higher than the highest element defined in an array."
               },
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1215,
-                  "character": 10
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -145,13 +131,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-                  "line": 60,
-                  "character": 21
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 183,
@@ -187,14 +166,7 @@
                       "kindString": "Type literal",
                       "flags": {
                         "isExported": true
-                      },
-                      "sources": [
-                        {
-                          "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-                          "line": 94,
-                          "character": 27
-                        }
-                      ]
+                      }
                     }
                   },
                   "inheritedFrom": {
@@ -202,13 +174,6 @@
                     "id": 191,
                     "name": "Array.[Symbol.unscopables]"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-                  "line": 94,
-                  "character": 24
                 }
               ],
               "inheritedFrom": {
@@ -343,18 +308,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1237,
-                  "character": 10
-                },
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1242,
-                  "character": 10
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 16,
@@ -443,13 +396,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                  "line": 64,
-                  "character": 14
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 178,
@@ -501,13 +447,6 @@
                     "id": 185,
                     "name": "Array.entries"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-                  "line": 65,
-                  "character": 11
                 }
               ],
               "inheritedFrom": {
@@ -618,13 +557,6 @@
                                 "name": "unknown"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1310,
-                              "character": 21
-                            }
                           ]
                         }
                       }
@@ -656,13 +588,6 @@
                     "id": 58,
                     "name": "Array.every"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1310,
-                  "character": 9
                 }
               ],
               "inheritedFrom": {
@@ -753,13 +678,6 @@
                     "id": 173,
                     "name": "Array.fill"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                  "line": 53,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -896,13 +814,6 @@
                                 }
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1337,
-                              "character": 35
-                            }
                           ]
                         }
                       }
@@ -1036,13 +947,6 @@
                                 "name": "unknown"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1343,
-                              "character": 22
-                            }
                           ]
                         }
                       }
@@ -1078,18 +982,6 @@
                     "id": 95,
                     "name": "Array.filter"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1337,
-                  "character": 10
-                },
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1343,
-                  "character": 10
                 }
               ],
               "inheritedFrom": {
@@ -1239,13 +1131,6 @@
                                 }
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                              "line": 31,
-                              "character": 32
-                            }
                           ]
                         }
                       }
@@ -1291,13 +1176,6 @@
                     "id": 153,
                     "name": "Array.find"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                  "line": 31,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -1408,13 +1286,6 @@
                                 "name": "unknown"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                              "line": 43,
-                              "character": 24
-                            }
                           ]
                         }
                       }
@@ -1446,13 +1317,6 @@
                     "id": 164,
                     "name": "Array.findIndex"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.core.d.ts",
-                  "line": 43,
-                  "character": 13
                 }
               ],
               "inheritedFrom": {
@@ -1563,13 +1427,6 @@
                                 "name": "void"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1325,
-                              "character": 23
-                            }
                           ]
                         }
                       }
@@ -1601,13 +1458,6 @@
                     "id": 76,
                     "name": "Array.forEach"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1325,
-                  "character": 11
                 }
               ],
               "inheritedFrom": {
@@ -1683,13 +1533,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2016.array.include.d.ts",
-                  "line": 27,
-                  "character": 12
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 194,
@@ -1763,13 +1606,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1295,
-                  "character": 11
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 50,
@@ -1826,13 +1662,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1247,
-                  "character": 8
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 21,
@@ -1874,13 +1703,6 @@
                     "id": 187,
                     "name": "Array.keys"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-                  "line": 70,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -1954,13 +1776,6 @@
                     "id": 54,
                     "name": "Array.lastIndexOf"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1301,
-                  "character": 15
                 }
               ],
               "inheritedFrom": {
@@ -2082,13 +1897,6 @@
                                 "name": "U"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1331,
-                              "character": 22
-                            }
                           ]
                         }
                       }
@@ -2123,13 +1931,6 @@
                     "id": 85,
                     "name": "Array.map"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1331,
-                  "character": 7
                 }
               ],
               "inheritedFrom": {
@@ -2177,13 +1978,6 @@
                     "id": 11,
                     "name": "Array.pop"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1227,
-                  "character": 7
                 }
               ],
               "inheritedFrom": {
@@ -2244,13 +2038,6 @@
                     "id": 13,
                     "name": "Array.push"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1232,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -2375,13 +2162,6 @@
                                 "id": 4,
                                 "name": "Foo"
                               }
-                            }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1349,
-                              "character": 22
                             }
                           ]
                         }
@@ -2516,13 +2296,6 @@
                                 "name": "U"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1356,
-                              "character": 25
-                            }
                           ]
                         }
                       }
@@ -2553,18 +2326,6 @@
                     "id": 113,
                     "name": "Array.reduce"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1349,
-                  "character": 10
-                },
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1356,
-                  "character": 10
                 }
               ],
               "inheritedFrom": {
@@ -2689,13 +2450,6 @@
                                 "id": 4,
                                 "name": "Foo"
                               }
-                            }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1362,
-                              "character": 27
                             }
                           ]
                         }
@@ -2830,13 +2584,6 @@
                                 "name": "U"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1369,
-                              "character": 30
-                            }
                           ]
                         }
                       }
@@ -2867,18 +2614,6 @@
                     "id": 132,
                     "name": "Array.reduceRight"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1362,
-                  "character": 15
-                },
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1369,
-                  "character": 15
                 }
               ],
               "inheritedFrom": {
@@ -2920,13 +2655,6 @@
                     "id": 24,
                     "name": "Array.reverse"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1251,
-                  "character": 11
                 }
               ],
               "inheritedFrom": {
@@ -2974,13 +2702,6 @@
                     "id": 26,
                     "name": "Array.shift"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1255,
-                  "character": 9
                 }
               ],
               "inheritedFrom": {
@@ -3058,13 +2779,6 @@
                     "id": 28,
                     "name": "Array.slice"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1261,
-                  "character": 9
                 }
               ],
               "inheritedFrom": {
@@ -3175,13 +2889,6 @@
                                 "name": "unknown"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1319,
-                              "character": 20
-                            }
                           ]
                         }
                       }
@@ -3213,13 +2920,6 @@
                     "id": 67,
                     "name": "Array.some"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1319,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -3315,13 +3015,6 @@
                                 "name": "number"
                               }
                             }
-                          ],
-                          "sources": [
-                            {
-                              "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                              "line": 1271,
-                              "character": 20
-                            }
                           ]
                         }
                       }
@@ -3336,13 +3029,6 @@
                     "id": 32,
                     "name": "Array.sort"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1271,
-                  "character": 8
                 }
               ],
               "inheritedFrom": {
@@ -3501,18 +3187,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1277,
-                  "character": 10
-                },
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1284,
-                  "character": 10
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 39,
@@ -3550,13 +3224,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1223,
-                  "character": 18
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 9,
@@ -3592,13 +3259,6 @@
                     "id": 7,
                     "name": "Array.toString"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1219,
-                  "character": 12
                 }
               ],
               "inheritedFrom": {
@@ -3661,13 +3321,6 @@
                   }
                 }
               ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es5.d.ts",
-                  "line": 1289,
-                  "character": 11
-                }
-              ],
               "inheritedFrom": {
                 "type": "reference",
                 "id": 47,
@@ -3710,13 +3363,6 @@
                     "id": 189,
                     "name": "Array.values"
                   }
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-                  "line": 75,
-                  "character": 10
                 }
               ],
               "inheritedFrom": {
@@ -3772,13 +3418,6 @@
               ]
             }
           ],
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/array.ts",
-              "line": 25,
-              "character": 20
-            }
-          ],
           "extendedTypes": [
             {
               "type": "reference",
@@ -3814,13 +3453,6 @@
                 "isExported": true
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/array.ts",
-              "line": 4,
-              "character": 22
-            }
           ]
         },
         {
@@ -3835,13 +3467,6 @@
           "comment": {
             "shortText": "A const of a complex type."
           },
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/array.ts",
-              "line": 10,
-              "character": 20
-            }
-          ],
           "type": {
             "type": "array",
             "elementType": {
@@ -3900,13 +3525,6 @@
           "comment": {
             "shortText": "An exported const of the custom array type."
           },
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/array.ts",
-              "line": 15,
-              "character": 19
-            }
-          ],
           "type": {
             "type": "reference",
             "id": 2,
@@ -3943,13 +3561,6 @@
             198,
             199
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "dist/test/converter/variables/array.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -3994,14 +3605,7 @@
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {},
-                      "sources": [
-                        {
-                          "fileName": "dist/test/converter/variables/destructuring.ts",
-                          "line": 24,
-                          "character": 18
-                        }
-                      ]
+                      "flags": {}
                     }
                   }
                 }
@@ -4010,13 +3614,6 @@
                 "type": "intrinsic",
                 "name": "void"
               }
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/destructuring.ts",
-              "line": 24,
-              "character": 17
             }
           ]
         }
@@ -4028,13 +3625,6 @@
           "children": [
             201
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "dist/test/converter/variables/destructuring.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -4059,13 +3649,6 @@
           "comment": {
             "shortText": "A typed literal without an initializer."
           },
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/literal.ts",
-              "line": 19,
-              "character": 15
-            }
-          ],
           "type": {
             "type": "reflection",
             "declaration": {
@@ -4073,14 +3656,7 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {},
-              "sources": [
-                {
-                  "fileName": "dist/test/converter/variables/literal.ts",
-                  "line": 19,
-                  "character": 16
-                }
-              ]
+              "flags": {}
             }
           }
         },
@@ -4096,13 +3672,6 @@
           "comment": {
             "shortText": "An object literal."
           },
-          "sources": [
-            {
-              "fileName": "dist/test/converter/variables/literal.ts",
-              "line": 4,
-              "character": 19
-            }
-          ],
           "type": {
             "type": "intrinsic",
             "name": "object"
@@ -4124,13 +3693,6 @@
             206
           ]
         }
-      ],
-      "sources": [
-        {
-          "fileName": "dist/test/converter/variables/literal.ts",
-          "line": 1,
-          "character": 0
-        }
       ]
     },
     {
@@ -4141,14 +3703,7 @@
       "flags": {
         "isExported": true
       },
-      "originalName": "%BASE%/variables/variable.ts",
-      "sources": [
-        {
-          "fileName": "dist/test/converter/variables/variable.ts",
-          "line": 1,
-          "character": 0
-        }
-      ]
+      "originalName": "%BASE%/variables/variable.ts"
     }
   ],
   "groups": [

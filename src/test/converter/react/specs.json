@@ -62,13 +62,6 @@
                     "name": "Demo"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "react.tsx",
-                  "line": 9,
-                  "character": 24
-                }
               ]
             },
             {
@@ -80,13 +73,6 @@
                 "isPrivate": true,
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "react.tsx",
-                  "line": 9,
-                  "character": 15
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -114,13 +100,6 @@
                     "name": "any"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "react.tsx",
-                  "line": 15,
-                  "character": 10
-                }
               ]
             }
           ],
@@ -146,13 +125,6 @@
                 10
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 8,
-              "character": 10
-            }
           ]
         },
         {
@@ -172,13 +144,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "react.tsx",
-                  "line": 5,
-                  "character": 7
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -192,13 +157,6 @@
               "flags": {
                 "isExported": true
               },
-              "sources": [
-                {
-                  "fileName": "react.tsx",
-                  "line": 4,
-                  "character": 8
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -214,13 +172,6 @@
                 3
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 3,
-              "character": 19
-            }
           ]
         },
         {
@@ -232,13 +183,6 @@
             "isExported": true,
             "isConst": true
           },
-          "sources": [
-            {
-              "fileName": "react.tsx",
-              "line": 1,
-              "character": 19
-            }
-          ],
           "type": {
             "type": "intrinsic",
             "name": "unknown"
@@ -266,13 +210,6 @@
           "children": [
             12
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "react.tsx",
-          "line": 1,
-          "character": 0
         }
       ]
     }

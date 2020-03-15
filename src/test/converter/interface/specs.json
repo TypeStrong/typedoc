@@ -136,23 +136,6 @@
                     "name": "Instance"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "constructor-type.ts",
-                  "line": 1,
-                  "character": 23
-                },
-                {
-                  "fileName": "constructor-type.ts",
-                  "line": 3,
-                  "character": 30
-                },
-                {
-                  "fileName": "constructor-type.ts",
-                  "line": 6,
-                  "character": 43
-                }
               ]
             }
           ],
@@ -164,13 +147,6 @@
                 3
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "constructor-type.ts",
-              "line": 1,
-              "character": 21
-            }
           ]
         },
         {
@@ -178,14 +154,7 @@
           "name": "Instance",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {},
-          "sources": [
-            {
-              "fileName": "constructor-type.ts",
-              "line": 12,
-              "character": 18
-            }
-          ]
+          "flags": {}
         }
       ],
       "groups": [
@@ -196,13 +165,6 @@
             2,
             13
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "constructor-type.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -234,13 +196,6 @@
               "flags": {
                 "isPrivate": true
               },
-              "sources": [
-                {
-                  "fileName": "interface-empty.ts",
-                  "line": 11,
-                  "character": 16
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -266,13 +221,6 @@
                     "name": "void"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-empty.ts",
-                  "line": 12,
-                  "character": 15
-                }
               ]
             }
           ],
@@ -292,13 +240,6 @@
               ]
             }
           ],
-          "sources": [
-            {
-              "fileName": "interface-empty.ts",
-              "line": 10,
-              "character": 37
-            }
-          ],
           "implementedTypes": [
             {
               "type": "reference",
@@ -316,13 +257,6 @@
           "comment": {
             "shortText": "An empty interface"
           },
-          "sources": [
-            {
-              "fileName": "interface-empty.ts",
-              "line": 4,
-              "character": 24
-            }
-          ],
           "implementedBy": [
             {
               "type": "reference",
@@ -346,13 +280,6 @@
           "children": [
             15
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "interface-empty.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -411,13 +338,6 @@
                     "isPrivate": true,
                     "isExported": true
                   },
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 47,
-                      "character": 29
-                    }
-                  ],
                   "type": {
                     "type": "array",
                     "elementType": {
@@ -518,13 +438,6 @@
                       }
                     }
                   ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 49,
-                      "character": 11
-                    }
-                  ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 49,
@@ -557,13 +470,6 @@
                         "id": 61,
                         "name": "EventDispatcherInt.clear"
                       }
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 59,
-                      "character": 13
                     }
                   ],
                   "implementationOf": {
@@ -615,13 +521,6 @@
                       }
                     }
                   ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 55,
-                      "character": 16
-                    }
-                  ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 57,
@@ -654,13 +553,6 @@
                         "id": 63,
                         "name": "EventDispatcherInt.hasListeners"
                       }
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 61,
-                      "character": 20
                     }
                   ],
                   "implementationOf": {
@@ -719,13 +611,6 @@
                       }
                     }
                   ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 53,
-                      "character": 14
-                    }
-                  ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 54,
@@ -751,13 +636,6 @@
                     80,
                     72
                   ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-implementation.ts",
-                  "line": 46,
-                  "character": 32
                 }
               ],
               "implementedTypes": [
@@ -869,13 +747,6 @@
                         "name": "Subscription"
                       }
                     }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 23,
-                      "character": 57
-                    }
                   ]
                 },
                 {
@@ -887,13 +758,6 @@
                     "isPublic": true,
                     "isConstructorProperty": true
                   },
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 24,
-                      "character": 117
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 64,
@@ -915,13 +779,6 @@
                     "isPublic": true,
                     "isConstructorProperty": true
                   },
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 24,
-                      "character": 68
-                    }
-                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -941,13 +798,6 @@
                     "isPublic": true,
                     "isConstructorProperty": true
                   },
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 24,
-                      "character": 35
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 22,
@@ -974,13 +824,6 @@
                     "isPublic": true,
                     "isConstructorProperty": true
                   },
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 24,
-                      "character": 90
-                    }
-                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1015,13 +858,6 @@
                       }
                     }
                   ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 26,
-                      "character": 19
-                    }
-                  ],
                   "implementationOf": {
                     "type": "reference",
                     "id": 31,
@@ -1053,13 +889,6 @@
                   "children": [
                     45
                   ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-implementation.ts",
-                  "line": 23,
-                  "character": 22
                 }
               ],
               "implementedTypes": [
@@ -1178,13 +1007,6 @@
                         "name": "SubscriptionInt"
                       }
                     }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 35,
-                      "character": 11
-                    }
                   ]
                 },
                 {
@@ -1208,13 +1030,6 @@
                         "type": "intrinsic",
                         "name": "void"
                       }
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 38,
-                      "character": 13
                     }
                   ]
                 },
@@ -1255,13 +1070,6 @@
                         "name": "boolean"
                       }
                     }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 37,
-                      "character": 16
-                    }
                   ]
                 },
                 {
@@ -1285,13 +1093,6 @@
                         "type": "intrinsic",
                         "name": "boolean"
                       }
-                    }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 39,
-                      "character": 20
                     }
                   ]
                 },
@@ -1339,13 +1140,6 @@
                         "name": "void"
                       }
                     }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 36,
-                      "character": 14
-                    }
                   ]
                 }
               ],
@@ -1360,13 +1154,6 @@
                     62,
                     54
                   ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-implementation.ts",
-                  "line": 34,
-                  "character": 39
                 }
               ],
               "implementedBy": [
@@ -1423,13 +1210,6 @@
                     "name": "any"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-implementation.ts",
-                  "line": 5,
-                  "character": 27
-                }
               ]
             },
             {
@@ -1457,13 +1237,6 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 15,
-                      "character": 14
-                    }
-                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -1475,13 +1248,6 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 13,
-                      "character": 16
-                    }
-                  ],
                   "type": {
                     "type": "reference",
                     "id": 22,
@@ -1500,13 +1266,6 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {},
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 14,
-                      "character": 16
-                    }
-                  ],
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -1533,13 +1292,6 @@
                         "name": "void"
                       }
                     }
-                  ],
-                  "sources": [
-                    {
-                      "fileName": "interface-implementation.ts",
-                      "line": 20,
-                      "character": 19
-                    }
                   ]
                 }
               ],
@@ -1559,13 +1311,6 @@
                   "children": [
                     31
                   ]
-                }
-              ],
-              "sources": [
-                {
-                  "fileName": "interface-implementation.ts",
-                  "line": 12,
-                  "character": 29
                 }
               ],
               "implementedBy": [
@@ -1595,13 +1340,6 @@
                 26
               ]
             }
-          ],
-          "sources": [
-            {
-              "fileName": "interface-implementation.ts",
-              "line": 1,
-              "character": 12
-            }
           ]
         }
       ],
@@ -1612,13 +1350,6 @@
           "children": [
             21
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "interface-implementation.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }

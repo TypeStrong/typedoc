@@ -51,13 +51,6 @@
               "comment": {
                 "shortText": "The main prop"
               },
-              "sources": [
-                {
-                  "fileName": "comment.ts",
-                  "line": 37,
-                  "character": 6
-                }
-              ],
               "type": {
                 "type": "intrinsic",
                 "name": "string"
@@ -116,13 +109,6 @@
                     "name": "any"
                   }
                 }
-              ],
-              "sources": [
-                {
-                  "fileName": "comment.ts",
-                  "line": 77,
-                  "character": 13
-                }
               ]
             }
           ],
@@ -140,13 +126,6 @@
               "children": [
                 22
               ]
-            }
-          ],
-          "sources": [
-            {
-              "fileName": "comment.ts",
-              "line": 33,
-              "character": 27
             }
           ]
         },
@@ -194,13 +173,6 @@
                 "name": "string"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "comment.ts",
-              "line": 91,
-              "character": 22
-            }
           ]
         }
       ],
@@ -218,13 +190,6 @@
           "children": [
             29
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "comment.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     },
@@ -291,13 +256,6 @@
                 "name": "number"
               }
             }
-          ],
-          "sources": [
-            {
-              "fileName": "comment2.ts",
-              "line": 8,
-              "character": 24
-            }
           ]
         }
       ],
@@ -308,13 +266,6 @@
           "children": [
             2
           ]
-        }
-      ],
-      "sources": [
-        {
-          "fileName": "comment2.ts",
-          "line": 1,
-          "character": 0
         }
       ]
     }
