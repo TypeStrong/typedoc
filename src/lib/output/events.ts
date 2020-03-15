@@ -5,6 +5,7 @@ import { Event } from '../utils/events';
 import { ProjectReflection } from '../models/reflections/project';
 import { UrlMapping } from './models/UrlMapping';
 import { NavigationItem } from './models/NavigationItem';
+import { LegendItem } from './plugins/LegendPlugin';
 
 /**
  * An event emitted by the [[Renderer]] class at the very beginning and
@@ -127,6 +128,11 @@ export class PageEvent extends Event {
      * The table of contents structure of this page.
      */
     toc?: NavigationItem;
+
+    /**
+     * The legend items that are applicable for this page
+     */
+    legend?: LegendItem[][];
 
     /**
      * The final html content of this page.
