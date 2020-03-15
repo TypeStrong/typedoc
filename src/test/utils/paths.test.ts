@@ -4,7 +4,7 @@ import { Minimatch } from 'minimatch';
 import isEqual = require('lodash/isEqual');
 import Assert = require('assert');
 
-import { createMinimatch } from '../..';
+import { createMinimatch } from '../../lib/utils/paths';
 
 // Used to ensure uniform path cross OS
 const absolutePath = (path: string) => Path.resolve(path.replace(/^\w:/, '')).replace(/[\\]/g, '/');
