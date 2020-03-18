@@ -69,6 +69,7 @@ export class TypeDocReader implements OptionsReader {
 
         // deprecate: data.src is alias to inputFiles as of 0.16, warn in 0.17, remove in 0.19
         if ('src' in data && !('inputFiles' in data)) {
+            logger.warn('The `src` configuration option has been deprecated in favor of `inputFiles` and will be removed in a future release.');
             data['inputFiles'] = getStringArray(data['src']);
             delete data['src'];
         }

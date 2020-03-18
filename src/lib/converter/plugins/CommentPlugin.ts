@@ -358,6 +358,8 @@ export class CommentPlugin extends ConverterComponent {
      * @param tagName  The name of the that that should be removed.
      */
     static removeTags(comment: Comment | undefined, tagName: string) {
+        // Can't use a logger here, we don't have one.
+        console.warn('Using deprecated function removeTags. This function will be removed in the next minor release.');
         comment?.removeTags(tagName);
     }
 
@@ -367,6 +369,8 @@ export class CommentPlugin extends ConverterComponent {
      * Warn in 0.17, remove in 0.18
      */
     static removeReflections(project: ProjectReflection, reflections: Reflection[]) {
+        // Can't use a logger here, we don't have one.
+        console.warn('Using deprecated function removeReflections. This function will be removed in the next minor release.');
         for (const reflection of reflections) {
             project.removeReflection(reflection, true);
         }
@@ -378,6 +382,8 @@ export class CommentPlugin extends ConverterComponent {
      * Warn in 0.17, remove in 0.18
      */
     static removeReflection(project: ProjectReflection, reflection: Reflection) {
+        // Can't use a logger here, we don't have one.
+        console.warn('Using deprecated function removeReflections. This function will be removed in the next minor release.');
         project.removeReflection(reflection, true);
     }
 
