@@ -12,7 +12,6 @@ export { NavigationItem } from './lib/output/models/NavigationItem';
 export { UrlMapping } from './lib/output/models/UrlMapping';
 
 export {
-    Option, // deprecated
     BindOption,
     Options,
     OptionsReader,

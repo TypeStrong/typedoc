@@ -25,7 +25,6 @@ import {
 } from './utils/component';
 import { Options, BindOption } from './utils';
 import { TypeDocAndTSOptions } from './utils/options/declaration';
-import { addDecoratedOptions } from './utils/options/sources';
 
 /**
  * The default TypeDoc main application class.
@@ -129,8 +128,6 @@ export class Application extends ChildableComponent<
         }
 
         this.plugins.load();
-        // Load decorated options from the plugins.
-        addDecoratedOptions(this.options);
 
         this.options.reset();
         this.options.setValues(options).mapErr(errors => {

@@ -1,5 +1,4 @@
 export { Options, OptionsReader, BindOption } from './options';
-export { Option } from './sources';
 export { ArgumentsReader, TypeDocReader, TSConfigReader } from './readers';
 export {
     TypeDocOptions,
