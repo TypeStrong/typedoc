@@ -19,6 +19,8 @@ export class ArgumentsReader implements OptionsReader {
         const seen = new Set<string>();
         let index = 0;
 
+        const error = (error: Error) => logger.error(error.message);
+
         while (index < this.args.length) {
             const name = this.args[index];
             const decl = name.startsWith('-')
@@ -30,19 +32,19 @@ export class ArgumentsReader implements OptionsReader {
                     container.setValue(
                         decl.name,
                         (container.getValue(decl.name) as string[]).concat(this.args[index])
-                    );
+                    ).mapErr(error);
                 } else if (decl.type === ParameterType.Boolean) {
                     const value = String(this.args[index]).toLowerCase();
 
                     if (value === 'true' || value === 'false') {
-                        container.setValue(decl.name, value === 'true');
+                        container.setValue(decl.name, value === 'true').mapErr(error);
                     } else {
-                        container.setValue(decl.name, true);
+                        container.setValue(decl.name, true).mapErr(error);
                         // Bool option didn't consume the next argument as expected.
                         index--;
                     }
                 } else {
-                    container.setValue(decl.name, this.args[index]);
+                    container.setValue(decl.name, this.args[index]).mapErr(error);
                 }
                 seen.add(decl.name);
             } else {

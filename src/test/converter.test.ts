@@ -26,16 +26,16 @@ describe('Converter', function() {
     const checks: [string, () => void, () => void][] = [
         ['specs', () => { }, () => { }],
         ['specs.d',
-            () => app.options.setValue('includeDeclarations', true),
-            () => app.options.setValue('includeDeclarations', false)
+            () => app.options.setValue('includeDeclarations', true).unwrap(),
+            () => app.options.setValue('includeDeclarations', false).unwrap()
         ],
         ['specs-without-exported',
-            () => app.options.setValue('excludeNotExported', true),
-            () => app.options.setValue('excludeNotExported', false)
+            () => app.options.setValue('excludeNotExported', true).unwrap(),
+            () => app.options.setValue('excludeNotExported', false).unwrap()
         ],
         ['specs-with-lump-categories',
-            () => app.options.setValue('categorizeByGroup', false),
-            () => app.options.setValue('categorizeByGroup', true)
+            () => app.options.setValue('categorizeByGroup', false).unwrap(),
+            () => app.options.setValue('categorizeByGroup', true).unwrap()
         ]
     ];
 
