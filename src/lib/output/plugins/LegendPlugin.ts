@@ -14,11 +14,11 @@ export interface LegendItem {
     classes: string[];
 }
 
-const ignoredClasses = [
-    'tsd-parent-kind-external-module',
+const ignoredClasses = new Set([
+    'tsd-parent-kind-module',
     'tsd-is-not-exported',
     'tsd-is-overwrite'
-];
+]);
 
 const completeLegend: LegendItem[][] = [
     [
@@ -100,7 +100,7 @@ export class LegendBuilder {
 
     registerCssClasses(classArray: string[]) {
         let exists = false;
-        const items = classArray.filter(css => !ignoredClasses.some(ignored => ignored === css));
+        const items = classArray.filter(cls => !ignoredClasses.has(cls));
 
         for (const classes of this._classesList) {
             if (this.isArrayEqualToSet(items, classes)) {
