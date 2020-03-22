@@ -49,7 +49,7 @@ describe('LegendBuilder', function () {
 
     it('returns single item when includes ignored classes', function () {
         const builder = new LegendBuilder();
-        builder.registerCssClasses(['tsd-kind-class', 'tsd-parent-kind-external-module']);
+        builder.registerCssClasses(['tsd-kind-class', 'tsd-parent-kind-module']);
         const results = builder.build().map(items => items.map(item => item.name));
 
         equal(results, [['Class']]);
