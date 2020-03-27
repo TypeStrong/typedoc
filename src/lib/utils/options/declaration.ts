@@ -258,27 +258,38 @@ export function convert<T extends DeclarationOption>(value: unknown, option: T):
             return Result.Ok([]);
         case ParameterType.Map:
             const optionMap = option as MapDeclarationOption<unknown>;
-            if (getTypeOf(value) === getTypeOf(optionMap.defaultValue)) {
-                return Result.Ok(value);
+            const key = String(value).toLowerCase();
+            if (optionMap.map instanceof Map) {
+                if (optionMap.map.has(key)) {
+                    return Result.Ok(optionMap.map.get(key));
+                }
+                if ([...optionMap.map.values()].includes(value)) {
+                    return Result.Ok(value);
+                }
+            } else {
+                if (optionMap.map.hasOwnProperty(key)) {
+                    return Result.Ok(optionMap.map[key]);
+                }
+                if (Object.values(optionMap.map).includes(value)) {
+                    return Result.Ok(value);
+                }
             }
-            return Result.Err(optionMap.mapError ?? `Invalid type for value of ${optionMap.name}`);
+            return Result.Err(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
         case ParameterType.Mixed:
             return Result.Ok(value);
     }
 }
 
-/**
- * Returns the type of a value.
- * @param value The value whoes type is wanted.
- * @returns The type of the value;
- */
-function getTypeOf(value: unknown): unknown {
-    const typeOfValue = typeof value;
+function getMapError(map: MapDeclarationOption<unknown>['map'], name: string) {
+    let keys = map instanceof Map ? [...map.keys()] : Object.keys(map);
+    const getString = (key: string) => String(map instanceof Map ? map.get(key) : map[key]);
 
-    // null is also of type 'object'
-    if (typeOfValue === 'object' && value) {
-        return Object.getPrototypeOf(value) as unknown;
-    } else {
-        return typeOfValue;
+    // If the map is a TS numeric enum we need to filter out the numeric keys.
+    // TS numeric enums have the property that every key maps to a value, which maps back to that key.
+    if (!(map instanceof Map) && keys.every(key => getString(getString(key)) === key)) {
+        // This works because TS enum keys may not be numeric.
+        keys = keys.filter(key => Number.isNaN(parseInt(key, 10)));
     }
+
+    return `${name} must be one of ${keys.join(', ')}`;
 }
