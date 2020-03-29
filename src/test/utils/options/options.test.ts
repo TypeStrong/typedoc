@@ -25,6 +25,21 @@ describe('Options', () => {
         options.removeDeclarationByName(declaration.name);
     });
 
+    it('Does not error if a map declaration has a default value that is not part of the map of possible values', () => {
+        logger.resetErrors();
+        options.addDeclaration({
+            name: 'testMapDeclarationWithForeignDefaultValue',
+            help: '',
+            type: ParameterType.Map,
+            map: new Map([
+                ['a', 1],
+                ['b', 2]
+            ]),
+            defaultValue: 0
+        });
+        equal(logger.hasErrors(), false);
+    });
+
     it('Supports removing a declaration by name', () => {
         options.addDeclaration({ name: 'not-an-option', help: '' });
         options.removeDeclarationByName('not-an-option');

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as ts from 'typescript';
 
-import { DeclarationOption, ParameterScope, convert, TypeDocOptions, KeyToDeclaration, TypeDocAndTSOptions, TypeDocOptionMap } from './declaration';
+import { DeclarationOption, ParameterScope, ParameterType, convert, TypeDocOptions, KeyToDeclaration, TypeDocAndTSOptions, TypeDocOptionMap } from './declaration';
 import { Logger } from '../loggers';
 import { Result, Ok, Err } from '../result';
 import { insertPrioritySorted } from '../array';
@@ -109,10 +109,7 @@ export class Options {
      */
     reset() {
         for (const declaration of this._declarations.values()) {
-            if (declaration.scope !== ParameterScope.TypeScript) {
-                this._values[declaration.name] = convert(declaration.defaultValue, declaration)
-                    .expect(`Failed to validate default value for ${declaration.name}`);
-            }
+            this.setOptionValueToDefault(declaration);
         }
         this._compilerOptions = {};
     }
@@ -169,10 +166,7 @@ export class Options {
             }
         }
 
-        if (declaration.scope !== ParameterScope.TypeScript) {
-            this._values[declaration.name] = convert(declaration.defaultValue, declaration)
-                .expect(`Failed to validate default value for ${declaration.name}`);
-        }
+        this.setOptionValueToDefault(declaration);
     }
 
     /**
@@ -319,6 +313,22 @@ export class Options {
             });
         }
         return errors.length ? Err(errors) : Ok(void 0);
+    }
+
+    /**
+     * Sets the value of a given option to its default value.
+     * @param declaration The option whoes value should be reset.
+     */
+    private setOptionValueToDefault(declaration: Readonly<DeclarationOption>): void {
+        if (declaration.scope !== ParameterScope.TypeScript) {
+            // No nead to convert the defaultValue for a map type as it has to be of a specific type
+            if (declaration.type === ParameterType.Map) {
+                this._values[declaration.name] = declaration.defaultValue;
+            } else {
+                this._values[declaration.name] = convert(declaration.defaultValue, declaration)
+                    .expect(`Failed to validate default value for ${declaration.name}`);
+            }
+        }
     }
 }
 
