@@ -66,12 +66,18 @@ export class JavascriptIndexPlugin extends RendererComponent {
             rows.push(row);
         }
 
-        const fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-        const data =
-            `var typedoc = typedoc || {};
+        const jsFileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
+        const jsData =
+            `console.warn('[typedoc] search.js file is deprecated. Please, use search.json file in your custom theme instead.');
+            var typedoc = typedoc || {};
             typedoc.search = typedoc.search || {};
             typedoc.search.data = ${JSON.stringify({kinds: kinds, rows: rows})};`;
 
-        writeFile(fileName, data, false);
+        writeFile(jsFileName, jsData, false);
+
+        const jsonFileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.json');
+        const jsonData = JSON.stringify({kinds: kinds, rows: rows});
+
+        writeFile(jsonFileName, jsonData, false);
     }
 }
