@@ -1,23 +1,14 @@
 ---
 name: Feature Request
-about: Suggest an improvement or a feature
+about: Suggest improvements or new features
+labels: enhancement
 ---
-<!--
-    Thank you for contributing to Typedoc! 
-    
-    First, please use a clear and descriptive title for the issue to identify the suggestion.
-    
-    Please be as specific as possible! Provide codes, screenshots, repositories, explanations, issues, links ... anything that could describe your point.
--->
 
-- [ ] I have checked [issues with enhancement label](https://github.com/TypeStrong/typedoc/labels/enhancement) and found no duplicates
+## Search Terms
+<!-- Include keywords that might help others with the same problem find this issue -->
 
 ## Problem
-<!--
-    What is missing or inconvenient without this improvement or feature?
--->
+<!-- What is missing or inconvenient without this improvement or feature? -->
 
 ## Suggested Solution
-<!--
-    How do you suggest fixing the problem?
--->
+<!-- How do you suggest fixing the problem? Do any other tools already do it? -->

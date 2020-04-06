@@ -1,38 +1,31 @@
 ---
-name: Bug report
-about: Tell about typedoc's bug
+name: Bug Report
+about: Report a bug in TypeDoc
 labels: bug
 ---
-<!--
-    Thank you for contributing to Typedoc! 
-    
-    First, please use a clear and descriptive title for the issue to identify the bug.
 
-    Please be as specific as possible! Provide codes, screenshots, repositories, explanations, issues, links ... anything that could describe your point.
--->
-
-- [ ] I have checked [issues with bug label](https://github.com/TypeStrong/typedoc/labels/bug) and found no duplicates
+## Search terms
+<!-- Include keywords that might help others with the same problem find this issue -->
 
 ## Expected Behavior
-<!--
-    According to your expectations, how is Typedoc supposed to work?
--->
+<!-- How did you expect Typedoc to work? -->
 
 ## Actual Behavior
-<!--
-    What does Typedoc fail to do?  
--->
+<!-- What does Typedoc fail to do? -->
 
 ## Steps to reproduce the bug
 <!--
-    Tell us how we could reproduce the bug. Possible ways are providing:
-    - Typedoc command (typedoc --out ...)
-    - Configuration (typedoc.js or your custom option file)
-    - Code that causes a bug in the documentation generated
-    - Project (Github repository, CodePen, ...) where the issue can be reproduced.
+If possible, please create a *minimal* repo reproducing your problem and link it.
+
+If this is not possible, include at least:
+    1. Installed packages + versions
+    2. The code TypeDoc doesn't work on
+    3. tsconfig.json
+    4. How you are running TypeDoc + any relevant configuration files
 -->
 
 ## Environment
-  - Typedoc version:
-  - Node.js version:
-  - OS:
+- Typedoc version:
+- TypeScript version:
+- Node.js version:
+- OS:
