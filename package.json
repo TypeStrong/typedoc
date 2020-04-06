@@ -21,15 +21,15 @@
   },
   "dependencies": {
     "fs-extra": "^8.1.0",
-    "handlebars": "^4.7.3",
+    "handlebars": "^4.7.6",
     "highlight.js": "^9.18.1",
     "lodash": "^4.17.15",
     "lunr": "^2.3.8",
-    "marked": "0.8.0",
+    "marked": "0.8.2",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.3",
-    "typedoc-default-themes": "^0.9.0"
+    "typedoc-default-themes": "^0.10.0"
   },
   "peerDependencies": {
     "typescript": ">=3.8.3"
@@ -42,11 +42,11 @@
     "@types/minimatch": "3.0.3",
     "@types/mocha": "^7.0.2",
     "@types/mockery": "^1.4.29",
-    "@types/node": "^13.9.2",
-    "@types/shelljs": "^0.8.6",
+    "@types/node": "^13.11.0",
+    "@types/shelljs": "^0.8.7",
     "mocha": "^7.1.1",
     "mockery": "^2.1.0",
-    "nyc": "15.0.0",
+    "nyc": "15.0.1",
     "tslint": "^5.20.1",
     "typescript": "^3.8.3"
   },
