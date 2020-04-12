@@ -54,7 +54,7 @@ describe('Options - TSConfigReader', () => {
         options.setValue('tsconfig', join(__dirname, 'data/valid.tsconfig.json')).unwrap();
         options.read(new Logger());
         equal(options.getValue('inputFiles').map(f => resolve(f)), [resolve(__dirname, './data/file.ts')]);
-    })
+    });
 
     it('Does not set inputFiles if they have been set', () => {
         options.reset();
@@ -62,5 +62,5 @@ describe('Options - TSConfigReader', () => {
         options.setValue('inputFiles', ['foo.ts']).unwrap();
         options.read(new Logger());
         equal(options.getValue('inputFiles'), ['foo.ts']);
-    })
+    });
 });
