@@ -51,14 +51,19 @@ export class TSConfigReader implements OptionsReader {
         fileToRead = resolve(fileToRead);
 
         const { config } = ts.readConfigFile(fileToRead, ts.sys.readFile);
-        const { fileNames, options, raw: { typedocOptions = {} }} = ts.parseJsonConfigFileContent(
+        const { fileNames, errors, options, raw: { typedocOptions = {} }} = ts.parseJsonConfigFileContent(
             config,
             ts.sys,
             dirname(fileToRead),
             {},
             fileToRead);
 
-        container.setValue('inputFiles', fileNames).unwrap();
+        logger?.diagnostics(errors);
+
+        if (container.isDefault('inputFiles')) {
+            container.setValue('inputFiles', fileNames).unwrap();
+        }
+
         for (const key of IGNORED) {
             delete options[key];
         }

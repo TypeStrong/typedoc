@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'util';
 import * as _ from 'lodash';
 import * as ts from 'typescript';
 
@@ -214,14 +215,14 @@ export class Options {
     }
 
     /**
-     * Checks if the given option has a set value or if the value is the default value.
+     * Checks if the given option's value is deeply strict equal to the default.
      * @param name
      */
     isDefault(name: keyof TypeDocAndTSOptions): boolean;
     isDefault(name: string): boolean;
     isDefault(name: string): boolean {
         // getValue will throw if the declaration does not exist.
-        return this.getValue(name) === this.getDeclaration(name)!.defaultValue;
+        return isDeepStrictEqual(this.getValue(name), this.getDefaultOptionValue(this.getDeclaration(name)!));
     }
 
     /**
@@ -317,17 +318,21 @@ export class Options {
 
     /**
      * Sets the value of a given option to its default value.
-     * @param declaration The option whoes value should be reset.
+     * @param declaration The option whose value should be reset.
      */
     private setOptionValueToDefault(declaration: Readonly<DeclarationOption>): void {
         if (declaration.scope !== ParameterScope.TypeScript) {
-            // No nead to convert the defaultValue for a map type as it has to be of a specific type
-            if (declaration.type === ParameterType.Map) {
-                this._values[declaration.name] = declaration.defaultValue;
-            } else {
-                this._values[declaration.name] = convert(declaration.defaultValue, declaration)
-                    .expect(`Failed to validate default value for ${declaration.name}`);
-            }
+            this._values[declaration.name] = this.getDefaultOptionValue(declaration);
+        }
+    }
+
+    private getDefaultOptionValue(declaration: Readonly<DeclarationOption>): unknown {
+        // No need to convert the defaultValue for a map type as it has to be of a specific type
+        if (declaration.type === ParameterType.Map) {
+            return declaration.defaultValue;
+        } else {
+            return convert(declaration.defaultValue, declaration)
+                .expect(`Failed to validate default value for ${declaration.name}`);
         }
     }
 }
