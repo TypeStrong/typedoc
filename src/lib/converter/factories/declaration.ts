@@ -179,6 +179,7 @@ function setupDeclaration(context: Context, reflection: DeclarationReflection, n
     reflection.setFlag(ReflectionFlag.Protected, !!(modifiers & ts.ModifierFlags.Protected));
     reflection.setFlag(ReflectionFlag.Public,    !!(modifiers & ts.ModifierFlags.Public));
     reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
+    reflection.setFlag(ReflectionFlag.Readonly,  !!(modifiers & ts.ModifierFlags.Readonly));
 
     if (
         context.isInherit &&
