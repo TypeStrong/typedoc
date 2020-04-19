@@ -115,9 +115,6 @@ export class Application extends ChildableComponent<
      * @param options  The desired options to set.
      */
     bootstrap(options: Partial<TypeDocAndTSOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
-        this.options.setValues(options); // Ignore result, plugins might declare an option
-        this.options.read(new Logger());
-
         const logger = this.loggerType;
         if (typeof logger === 'function') {
             this.logger = new CallbackLogger(<any> logger);
@@ -128,8 +125,7 @@ export class Application extends ChildableComponent<
         }
 
         this.plugins.load();
-
-        this.options.reset();
+        
         this.options.setValues(options).mapErr(errors => {
             for (const error of errors) {
                 this.logger.error(error.message);
