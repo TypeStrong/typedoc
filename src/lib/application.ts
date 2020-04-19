@@ -125,7 +125,7 @@ export class Application extends ChildableComponent<
         }
 
         this.plugins.load();
-        
+
         this.options.setValues(options).mapErr(errors => {
             for (const error of errors) {
                 this.logger.error(error.message);
