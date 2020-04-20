@@ -58,6 +58,7 @@ export class TypeDocReader implements OptionsReader {
             return;
         }
 
+        // clone option object to avoid of property changes in re-calling this file
         const data: object = cloneDeep(fileContent);
 
         if ('extends' in data) {
