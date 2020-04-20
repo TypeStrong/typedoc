@@ -22,6 +22,11 @@ export function addTypeDocOptions(options: Options) {
     });
 
     options.addDeclaration({
+        name: 'extends',
+        help: 'Path to base configuration file to inherit from.',
+        type: ParameterType.Array
+    });
+    options.addDeclaration({
         name: 'mode',
         help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
         type: ParameterType.Map,
