@@ -20,7 +20,7 @@ export function addTypeDocOptions(options: Options) {
         help: 'The initial input files to expand and then pass to TS.',
         type: ParameterType.Array
     });
-    
+
     options.addDeclaration({
         name: 'mode',
         help: "Specifies the output mode the project is used to be compiled with: 'file' or 'modules'",
