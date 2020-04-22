@@ -1,4 +1,5 @@
 import * as Path from 'path';
+import { Builder, trimmer } from 'lunr';
 
 import { DeclarationReflection, ProjectReflection } from '../../models/reflections/index';
 import { GroupPlugin } from '../../converter/plugins/GroupPlugin';
@@ -66,12 +67,24 @@ export class JavascriptIndexPlugin extends RendererComponent {
             rows.push(row);
         }
 
-        const fileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.js');
-        const data =
-            `var typedoc = typedoc || {};
-            typedoc.search = typedoc.search || {};
-            typedoc.search.data = ${JSON.stringify({kinds: kinds, rows: rows})};`;
+        const builder = new Builder();
+        builder.pipeline.add(trimmer);
 
-        writeFile(fileName, data, false);
+        builder.ref('id');
+        builder.field('name', {boost: 10});
+        builder.field('parent');
+
+        rows.forEach(row => builder.add(row));
+
+        const index = builder.build();
+
+        const jsonFileName = Path.join(event.outputDirectory, 'assets', 'js', 'search.json');
+        const jsonData = JSON.stringify({
+            kinds,
+            rows,
+            index
+        });
+
+        writeFile(jsonFileName, jsonData, false);
     }
 }
