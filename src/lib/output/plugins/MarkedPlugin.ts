@@ -135,6 +135,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                         return contents;
                     }
                 } else {
+                    this.application.logger.warn('Could not find file for include: ' + path);
                     return '';
                 }
             });
