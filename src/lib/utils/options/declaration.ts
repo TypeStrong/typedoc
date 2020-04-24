@@ -161,6 +161,16 @@ export interface NumberDeclarationOption extends DeclarationOptionBase {
     type: ParameterType.Number;
 
     /**
+     * Lowest possible value.
+     */
+    minValue?: number;
+
+    /**
+     * Highest possible value.
+     */
+    maxValue?: number;
+
+    /**
      * If not specified defaults to 0.
      */
     defaultValue?: number;
@@ -246,7 +256,14 @@ export function convert<T extends DeclarationOption>(value: unknown, option: T):
         case ParameterType.String:
             return Result.Ok(value == null ? '' : String(value));
         case ParameterType.Number:
-            return Result.Ok(parseInt(String(value), 10) || 0);
+            const numberOption = option as NumberDeclarationOption;
+            const numValue = parseInt(String(value), 10) || 0;
+            if (typeof numberOption.minValue === 'number' &&  numValue < numberOption.minValue) {
+                return Result.Err(`${numberOption.name} must be >= ${numberOption.minValue}`);
+            } else if (typeof numberOption.maxValue === 'number' &&  numValue > numberOption.maxValue) {
+                return Result.Err(`${numberOption.name} must be <= ${numberOption.maxValue}`);
+            }
+            return Result.Ok(numValue);
         case ParameterType.Boolean:
             return Result.Ok(Boolean(value));
         case ParameterType.Array:

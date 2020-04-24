@@ -1,5 +1,6 @@
 import { Logger, Options, ParameterType, ParameterScope } from '../../../lib/utils';
-import { deepStrictEqual as equal, throws } from 'assert';
+import { NumberDeclarationOption } from '../../../lib/utils/options';
+import { deepStrictEqual as equal, doesNotThrow, throws } from 'assert';
 
 describe('Options', () => {
     const logger = new Logger();
@@ -22,6 +23,43 @@ describe('Options', () => {
         options.addDeclaration(declaration);
         options.addDeclaration(declaration);
         equal(logger.hasErrors(), false);
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Does not throw if number declaration has no min and max values', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            defaultValue: 1
+        };
+        doesNotThrow(() => options.addDeclaration(declaration));
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Does not throw if default value is within range for number declaration', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            minValue: 1,
+            maxValue: 10,
+            defaultValue: 5
+        };
+        doesNotThrow(() => options.addDeclaration(declaration));
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Throws if default value is out of range for number declaration', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            minValue: 1,
+            maxValue: 10,
+            defaultValue: 0
+        };
+        throws(() => options.addDeclaration(declaration));
         options.removeDeclarationByName(declaration.name);
     });
 
