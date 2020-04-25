@@ -258,8 +258,7 @@ export function convert<T extends DeclarationOption>(value: unknown, option: T):
         case ParameterType.Number:
             const numberOption = option as NumberDeclarationOption;
             const numValue = parseInt(String(value), 10) || 0;
-            if (hasBounds(numberOption) &&
-                !valueIsWithinBounds(numValue, numberOption.minValue, numberOption.maxValue)) {
+            if (!valueIsWithinBounds(numValue, numberOption.minValue, numberOption.maxValue)) {
                 return Result.Err(getBoundsError(numberOption.name, numberOption.minValue, numberOption.maxValue));
             }
             return Result.Ok(numValue);
@@ -317,7 +316,7 @@ function getMapError(map: MapDeclarationOption<unknown>['map'], name: string): s
 }
 
 /**
- * Returns an error message for a value that is out ot bounds of the given min and/or max values.
+ * Returns an error message for a value that is out of bounds of the given min and/or max values.
  * @param name The name of the thing the value represents.
  * @param minValue The lower bound of the range of allowed values.
  * @param maxValue The upper bound of the range of allowed values.
@@ -330,22 +329,14 @@ function getBoundsError(name: string, minValue?: number, maxValue?: number): str
         return `${name} must be >= ${minValue}`;
     } else if (isFiniteNumber(maxValue)) {
         return `${name} must be <= ${maxValue}`;
-    } else {
-        return '';
     }
-}
-
-/**
- * Checks if the given number option has bounds specified.
- * @param numberOption The number option being checked.
- * @retursn True, if the given number option has bounds specified, otherwise false.
- */
-function hasBounds(numberOption: NumberDeclarationOption): boolean {
-    return isFiniteNumber(numberOption.minValue) || isFiniteNumber(numberOption.maxValue);
+    throw new Error('Unreachable')
 }
 
 /**
  * Checks if the given value is a finite number.
+ * This is equivalent to Number.isFinite, but that function is incorrectly typed to only accept
+ * `number` in the latest TS version. See TypeScript/34932
  * @param value The value being checked.
  * @returns True, if the value is a finite number, otherwise false.
  */
@@ -364,7 +355,7 @@ function valueIsWithinBounds(value: number, minValue?: number, maxValue?: number
     if (isFiniteNumber(minValue) && isFiniteNumber(maxValue)) {
         return minValue <= value && value <= maxValue;
     } else if (isFiniteNumber(minValue)) {
-        return minValue >= value;
+        return minValue <= value;
     } else if (isFiniteNumber(maxValue)) {
         return value <= maxValue;
     } else {

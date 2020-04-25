@@ -317,11 +317,11 @@ export class Options {
 
     /**
      * Sets the value of a given option to its default value.
-     * @param declaration The option whoes value should be reset.
+     * @param declaration The option whose value should be reset.
      */
     private setOptionValueToDefault(declaration: Readonly<DeclarationOption>): void {
         if (declaration.scope !== ParameterScope.TypeScript) {
-            // No nead to convert the defaultValue for a map type as it has to be of a specific type
+            // No need to convert the defaultValue for a map type as it has to be of a specific type
             if (declaration.type === ParameterType.Map) {
                 this._values[declaration.name] = declaration.defaultValue;
             } else {

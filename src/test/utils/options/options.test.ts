@@ -63,6 +63,30 @@ describe('Options', () => {
         options.removeDeclarationByName(declaration.name);
     });
 
+    it('Throws if default value is lower than the min value', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            minValue: 1,
+            defaultValue: 0
+        };
+        throws(() => options.addDeclaration(declaration));
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Throws if default value is greater than the max value', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            maxValue: 1,
+            defaultValue: 2
+        };
+        throws(() => options.addDeclaration(declaration));
+        options.removeDeclarationByName(declaration.name);
+    });
+
     it('Does not error if a map declaration has a default value that is not part of the map of possible values', () => {
         logger.resetErrors();
         options.addDeclaration({
