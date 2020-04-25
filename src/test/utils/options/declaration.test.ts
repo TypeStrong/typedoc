@@ -37,7 +37,7 @@ describe('Options - Default convert function', () => {
             maxValue: 10,
             defaultValue: 1
         };
-        equal(convert(0, declaration), Result.Err('test must be >= 1'));
+        equal(convert(0, declaration), Result.Err('test must be between 1 and 10'));
     });
 
     it('Converts to number if value is the highest allowed value for a number option', () => {
@@ -61,7 +61,7 @@ describe('Options - Default convert function', () => {
             maxValue: 10,
             defaultValue: 1
         };
-        equal(convert(11, declaration), Result.Err('test must be <= 10'));
+        equal(convert(11, declaration), Result.Err('test must be between 1 and 10'));
     });
 
     it('Converts to strings', () => {
