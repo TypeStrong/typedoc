@@ -1,10 +1,14 @@
 import { Logger, Options, ParameterType, ParameterScope } from '../../../lib/utils';
 import { NumberDeclarationOption } from '../../../lib/utils/options';
-import { deepStrictEqual as equal, doesNotThrow, throws } from 'assert';
+import { deepStrictEqual as equal, throws } from 'assert';
+import { DeclarationOption } from '../../../lib/utils/options';
 
 describe('Options', () => {
     const logger = new Logger();
-    const options = new Options(logger);
+    const options = new Options(logger) as Options & {
+        addDeclaration(declaration: Readonly<DeclarationOption>): void;
+        getValue(name: string): unknown;
+    };
     options.addDefaultDeclarations();
 
     it('Errors on duplicate declarations', () => {
@@ -33,7 +37,7 @@ describe('Options', () => {
             type: ParameterType.Number,
             defaultValue: 1
         };
-        doesNotThrow(() => options.addDeclaration(declaration));
+        options.addDeclaration(declaration);
         options.removeDeclarationByName(declaration.name);
     });
 
@@ -46,7 +50,7 @@ describe('Options', () => {
             maxValue: 10,
             defaultValue: 5
         };
-        doesNotThrow(() => options.addDeclaration(declaration));
+        options.addDeclaration(declaration);
         options.removeDeclarationByName(declaration.name);
     });
 
@@ -128,7 +132,7 @@ describe('Options', () => {
     });
 
     it('Errors if converting a set value errors', () => {
-        throws(() => options.setValue('mode', 'nonsense').unwrap());
+        throws(() => options.setValue('mode', 'nonsense' as any));
     });
 
     it('Supports directly getting values', () => {

@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { CompilerOptions } from 'typescript';
-import { Result } from '../result';
 import { IgnoredTsOptionKeys } from './sources/typescript';
 
 /**
@@ -52,6 +51,7 @@ export interface TypeDocOptionMap {
     excludeNotExported: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
+    excludeNotDocumented: boolean;
     ignoreCompilerErrors: boolean;
     disableSources: boolean;
     includes: string;
@@ -249,49 +249,49 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> =
  * @param option The option for which the value should be converted.
  * @returns The result of the conversion. Might be the value or an error.
  */
-export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<DeclarationOptionToOptionType<T>, string>;
-export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<unknown, string> {
+export function convert<T extends DeclarationOption>(value: unknown, option: T): DeclarationOptionToOptionType<T>;
+export function convert<T extends DeclarationOption>(value: unknown, option: T): unknown {
     switch (option.type) {
         case undefined:
         case ParameterType.String:
-            return Result.Ok(value == null ? '' : String(value));
+            return value == null ? '' : String(value);
         case ParameterType.Number:
             const numberOption = option as NumberDeclarationOption;
             const numValue = parseInt(String(value), 10) || 0;
             if (!valueIsWithinBounds(numValue, numberOption.minValue, numberOption.maxValue)) {
-                return Result.Err(getBoundsError(numberOption.name, numberOption.minValue, numberOption.maxValue));
+                throw new Error(getBoundsError(numberOption.name, numberOption.minValue, numberOption.maxValue));
             }
-            return Result.Ok(numValue);
+            return numValue;
         case ParameterType.Boolean:
-            return Result.Ok(Boolean(value));
+            return Boolean(value);
         case ParameterType.Array:
             if (Array.isArray(value)) {
-                return Result.Ok(value.map(String));
+                return value.map(String);
             } else if (typeof value === 'string') {
-                return Result.Ok(value.split(','));
+                return value.split(',');
             }
-            return Result.Ok([]);
+            return [];
         case ParameterType.Map:
             const optionMap = option as MapDeclarationOption<unknown>;
             const key = String(value).toLowerCase();
             if (optionMap.map instanceof Map) {
                 if (optionMap.map.has(key)) {
-                    return Result.Ok(optionMap.map.get(key));
+                    return optionMap.map.get(key);
                 }
                 if ([...optionMap.map.values()].includes(value)) {
-                    return Result.Ok(value);
+                    return value;
                 }
             } else {
                 if (optionMap.map.hasOwnProperty(key)) {
-                    return Result.Ok(optionMap.map[key]);
+                    return optionMap.map[key];
                 }
                 if (Object.values(optionMap.map).includes(value)) {
-                    return Result.Ok(value);
+                    return value;
                 }
             }
-            return Result.Err(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
+            throw new Error(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
         case ParameterType.Mixed:
-            return Result.Ok(value);
+            return value;
     }
 }
 
