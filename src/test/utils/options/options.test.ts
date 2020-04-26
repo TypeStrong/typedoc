@@ -1,5 +1,5 @@
 import { Logger, Options, ParameterType, ParameterScope } from '../../../lib/utils';
-import { NumberDeclarationOption } from '../../../lib/utils/options';
+import { MapDeclarationOption, NumberDeclarationOption } from '../../../lib/utils/options';
 import { deepStrictEqual as equal, throws } from 'assert';
 import { DeclarationOption } from '../../../lib/utils/options';
 
@@ -91,9 +91,8 @@ describe('Options', () => {
         options.removeDeclarationByName(declaration.name);
     });
 
-    it('Does not error if a map declaration has a default value that is not part of the map of possible values', () => {
-        logger.resetErrors();
-        options.addDeclaration({
+    it('Does not throw if a map declaration has a default value that is not part of the map of possible values', () => {
+        const declaration: MapDeclarationOption<number> = {
             name: 'testMapDeclarationWithForeignDefaultValue',
             help: '',
             type: ParameterType.Map,
@@ -102,8 +101,9 @@ describe('Options', () => {
                 ['b', 2]
             ]),
             defaultValue: 0
-        });
-        equal(logger.hasErrors(), false);
+        };
+        options.addDeclaration(declaration);
+        options.removeDeclarationByName(declaration.name);
     });
 
     it('Supports removing a declaration by name', () => {
