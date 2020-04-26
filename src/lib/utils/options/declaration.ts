@@ -330,7 +330,7 @@ function getBoundsError(name: string, minValue?: number, maxValue?: number): str
     } else if (isFiniteNumber(maxValue)) {
         return `${name} must be <= ${maxValue}`;
     }
-    throw new Error('Unreachable')
+    throw new Error('Unreachable');
 }
 
 /**
