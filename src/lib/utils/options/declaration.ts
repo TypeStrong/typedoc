@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { CompilerOptions } from 'typescript';
-import { Result } from '../result';
 import { IgnoredTsOptionKeys } from './sources/typescript';
 
 /**
@@ -52,6 +51,7 @@ export interface TypeDocOptionMap {
     excludeNotExported: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
+    excludeNotDocumented: boolean;
     ignoreCompilerErrors: boolean;
     disableSources: boolean;
     includes: string;
@@ -249,50 +249,49 @@ export type DeclarationOptionToOptionType<T extends DeclarationOption> =
  * @param option The option for which the value should be converted.
  * @returns The result of the conversion. Might be the value or an error.
  */
-export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<DeclarationOptionToOptionType<T>, string>;
-export function convert<T extends DeclarationOption>(value: unknown, option: T): Result<unknown, string> {
+export function convert<T extends DeclarationOption>(value: unknown, option: T): DeclarationOptionToOptionType<T>;
+export function convert<T extends DeclarationOption>(value: unknown, option: T): unknown {
     switch (option.type) {
         case undefined:
         case ParameterType.String:
-            return Result.Ok(value == null ? '' : String(value));
+            return value == null ? '' : String(value);
         case ParameterType.Number:
             const numberOption = option as NumberDeclarationOption;
             const numValue = parseInt(String(value), 10) || 0;
-            if (hasBounds(numberOption) &&
-                !valueIsWithinBounds(numValue, numberOption.minValue, numberOption.maxValue)) {
-                return Result.Err(getBoundsError(numberOption.name, numberOption.minValue, numberOption.maxValue));
+            if (!valueIsWithinBounds(numValue, numberOption.minValue, numberOption.maxValue)) {
+                throw new Error(getBoundsError(numberOption.name, numberOption.minValue, numberOption.maxValue));
             }
-            return Result.Ok(numValue);
+            return numValue;
         case ParameterType.Boolean:
-            return Result.Ok(Boolean(value));
+            return Boolean(value);
         case ParameterType.Array:
             if (Array.isArray(value)) {
-                return Result.Ok(value.map(String));
+                return value.map(String);
             } else if (typeof value === 'string') {
-                return Result.Ok(value.split(','));
+                return value.split(',');
             }
-            return Result.Ok([]);
+            return [];
         case ParameterType.Map:
             const optionMap = option as MapDeclarationOption<unknown>;
             const key = String(value).toLowerCase();
             if (optionMap.map instanceof Map) {
                 if (optionMap.map.has(key)) {
-                    return Result.Ok(optionMap.map.get(key));
+                    return optionMap.map.get(key);
                 }
                 if ([...optionMap.map.values()].includes(value)) {
-                    return Result.Ok(value);
+                    return value;
                 }
             } else {
                 if (optionMap.map.hasOwnProperty(key)) {
-                    return Result.Ok(optionMap.map[key]);
+                    return optionMap.map[key];
                 }
                 if (Object.values(optionMap.map).includes(value)) {
-                    return Result.Ok(value);
+                    return value;
                 }
             }
-            return Result.Err(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
+            throw new Error(optionMap.mapError ?? getMapError(optionMap.map, optionMap.name));
         case ParameterType.Mixed:
-            return Result.Ok(value);
+            return value;
     }
 }
 
@@ -317,7 +316,7 @@ function getMapError(map: MapDeclarationOption<unknown>['map'], name: string): s
 }
 
 /**
- * Returns an error message for a value that is out ot bounds of the given min and/or max values.
+ * Returns an error message for a value that is out of bounds of the given min and/or max values.
  * @param name The name of the thing the value represents.
  * @param minValue The lower bound of the range of allowed values.
  * @param maxValue The upper bound of the range of allowed values.
@@ -330,22 +329,14 @@ function getBoundsError(name: string, minValue?: number, maxValue?: number): str
         return `${name} must be >= ${minValue}`;
     } else if (isFiniteNumber(maxValue)) {
         return `${name} must be <= ${maxValue}`;
-    } else {
-        return '';
     }
-}
-
-/**
- * Checks if the given number option has bounds specified.
- * @param numberOption The number option being checked.
- * @retursn True, if the given number option has bounds specified, otherwise false.
- */
-function hasBounds(numberOption: NumberDeclarationOption): boolean {
-    return isFiniteNumber(numberOption.minValue) || isFiniteNumber(numberOption.maxValue);
+    throw new Error('Unreachable');
 }
 
 /**
  * Checks if the given value is a finite number.
+ * This is equivalent to Number.isFinite, but that function is incorrectly typed to only accept
+ * `number` in the latest TS version. See TypeScript/34932
  * @param value The value being checked.
  * @returns True, if the value is a finite number, otherwise false.
  */
@@ -364,7 +355,7 @@ function valueIsWithinBounds(value: number, minValue?: number, maxValue?: number
     if (isFiniteNumber(minValue) && isFiniteNumber(maxValue)) {
         return minValue <= value && value <= maxValue;
     } else if (isFiniteNumber(minValue)) {
-        return minValue >= value;
+        return minValue <= value;
     } else if (isFiniteNumber(maxValue)) {
         return value <= maxValue;
     } else {
