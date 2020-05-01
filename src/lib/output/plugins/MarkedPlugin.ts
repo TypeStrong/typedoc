@@ -1,8 +1,9 @@
 import * as FS from 'fs-extra';
 import * as Path from 'path';
 import * as Marked from 'marked';
-import * as HighlightJS from 'highlight.js';
 import * as Handlebars from 'handlebars';
+import * as Prism from 'prismjs';
+import * as loadPrismLanguages from 'prismjs/components/';
 
 import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
@@ -104,11 +105,13 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     public getHighlighted(text: string, lang?: string): string {
         try {
-            if (lang) {
-                return HighlightJS.highlight(lang, text).value;
-            } else {
-                return HighlightJS.highlightAuto(text).value;
+            if (lang === undefined) {
+                return text;
             }
+
+            loadPrismLanguages([lang]);
+
+            return Prism.highlight(text, Prism.languages[lang], lang);
         } catch (error) {
             this.application.logger.warn(error.message);
             return text;

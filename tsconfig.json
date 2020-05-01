@@ -6,7 +6,8 @@
       "es2015.core",
       "es2015.collection",
       "es2015.iterable",
-      "es2016.array.include" // Supported by Node 6+
+      "es2016.array.include", // Supported by Node 6+
+      "dom"
     ],
     "target": "es2015",
     "noImplicitAny": false,

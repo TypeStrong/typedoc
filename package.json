@@ -22,11 +22,11 @@
   "dependencies": {
     "fs-extra": "^8.1.0",
     "handlebars": "^4.7.6",
-    "highlight.js": "^10.0.0",
     "lodash": "^4.17.15",
     "lunr": "^2.3.8",
     "marked": "1.0.0",
     "minimatch": "^3.0.0",
+    "prismjs": "^1.20.0",
     "progress": "^2.0.3",
     "shelljs": "^0.8.4",
     "typedoc-default-themes": "^0.10.1"
@@ -43,6 +43,7 @@
     "@types/mocha": "^7.0.2",
     "@types/mockery": "^1.4.29",
     "@types/node": "^13.13.2",
+    "@types/prismjs": "^1.16.0",
     "@types/shelljs": "^0.8.7",
     "mocha": "^7.1.1",
     "mockery": "^2.1.0",
