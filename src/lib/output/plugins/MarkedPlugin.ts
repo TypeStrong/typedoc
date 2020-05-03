@@ -6,7 +6,7 @@ import * as Handlebars from 'handlebars';
 import { Component, ContextAwareRendererComponent } from '../components';
 import { RendererEvent, MarkdownEvent } from '../events';
 import { BindOption, readFile } from '../../utils';
-import { getHighlighter } from "../../utils/highlighter"
+import { getHighlighter } from '../../utils/highlighter';
 
 const customMarkedRenderer = new Marked.Renderer();
 
@@ -111,7 +111,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
                 return highlighter.codeToHtml(text, lang);
             }
 
-            return text
+            return text;
         } catch (error) {
             this.application.logger.warn(error.message);
             return text;

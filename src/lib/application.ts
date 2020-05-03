@@ -25,7 +25,7 @@ import {
 } from './utils/component';
 import { Options, BindOption } from './utils';
 import { TypeDocAndTSOptions, TypeDocOptions } from './utils/options/declaration';
-import { loadHighlighter } from "./utils/highlighter"
+import { loadHighlighter } from './utils/highlighter';
 
 /**
  * The default TypeDoc main application class.
@@ -219,7 +219,7 @@ export class Application extends ChildableComponent<
         try {
             await loadHighlighter();
         } catch (error) {
-            console.error("Could not load highlighter");
+            console.error('Could not load highlighter');
         }
 
         const project = input instanceof ProjectReflection ? input : this.convert(input);
