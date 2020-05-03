@@ -25,6 +25,7 @@ import {
 } from './utils/component';
 import { Options, BindOption } from './utils';
 import { TypeDocAndTSOptions, TypeDocOptions } from './utils/options/declaration';
+import { loadHighlighter } from "./utils/highlighter"
 
 /**
  * The default TypeDoc main application class.
@@ -201,12 +202,12 @@ export class Application extends ChildableComponent<
     /**
      * @param src  A list of source files whose documentation should be generated.
      */
-    public generateDocs(src: string[], out: string): boolean;
+    public async generateDocs(src: string[], out: string): Promise<boolean>;
 
     /**
      * @param project  The project the documentation should be generated for.
      */
-    public generateDocs(project: ProjectReflection, out: string): boolean;
+    public async generateDocs(project: ProjectReflection, out: string): Promise<boolean>;
 
     /**
      * Run the documentation generator for the given set of files.
@@ -214,7 +215,13 @@ export class Application extends ChildableComponent<
      * @param out  The path the documentation should be written to.
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
-    public generateDocs(input: ProjectReflection | string[], out: string): boolean {
+    public async generateDocs(input: ProjectReflection | string[], out: string): Promise<boolean> {
+        try {
+            await loadHighlighter();
+        } catch (error) {
+            console.error("Could not load highlighter");
+        }
+
         const project = input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) {
             return false;

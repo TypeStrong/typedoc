@@ -79,9 +79,9 @@ describe('Renderer', function() {
         Assert(project instanceof ProjectReflection, 'Application.convert did not return a reflection');
     });
 
-    it('renders basic example', function() {
+    it('renders basic example', async function() {
         this.timeout(0);
-        const result = app.generateDocs(project!, out);
+        const result = await app.generateDocs(project!, out);
         Assert(result === true, 'Application.generateDocs returned errors');
 
         FS.removeSync(Path.join(out, 'assets'));
