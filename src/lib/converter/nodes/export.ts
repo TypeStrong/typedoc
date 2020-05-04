@@ -79,7 +79,8 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
         }
 
         if (node.exportClause) { // export { a, a as b }
-            node.exportClause.elements.forEach(specifier => {
+            const elements = (node.exportClause as ts.NamedExports).elements || [];
+            elements.forEach(specifier => {
                 const source = context.getSymbolAtLocation(specifier.name);
                 const target = context.resolveAliasedSymbol(context.getSymbolAtLocation(specifier.propertyName ?? specifier.name));
                 if (source && target) {
@@ -102,7 +103,6 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<ts.Export
                                 }
                             }
                         }
-
                     } else {
                         // If the original declaration is in this file, export {} was used with something
                         // defined in this file and we don't need to create a reference unless the name is different.

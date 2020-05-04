@@ -71,14 +71,14 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     // Test whether the node is exported
     let isExported: boolean;
-    if (kind === ReflectionKind.Module || kind === ReflectionKind.Global) {
+    if (kind === ReflectionKind.Global) {
         isExported = true;
-    } else if (container.kind === ReflectionKind.Global) {
+    } else if (!container || container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
     } else if (container.kindOf([ReflectionKind.Namespace, ReflectionKind.Module])) {
         const symbol = context.getSymbolAtLocation(node);
-        if (!symbol) {
+        if (!symbol || !node.parent) {
             isExported = false;
         } else {
             let parentNode = node.parent;
@@ -87,9 +87,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
             }
             const parentSymbol = context.getSymbolAtLocation(parentNode);
             if (!parentSymbol) {
-                // This is a file with no imports/exports, so everything is
-                // global and therefore exported.
-                isExported = true;
+                isExported = false;
             } else {
                 isExported = !!parentSymbol.exports?.get(symbol.escapedName);
             }

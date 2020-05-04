@@ -72,7 +72,11 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
                     result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
                     context.withScope(result, () => {
                         this.convertVisibleDeclarations(context, node);
-                        result!.setFlag(ReflectionFlag.Exported);
+
+                        // only mark as exported the input files
+                        if (isInputFile(node)) {
+                            result!.setFlag(ReflectionFlag.Exported);
+                        }
                     });
                 } else {
                     this.convertVisibleDeclarations(context, node);
@@ -129,8 +133,6 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
                     } else {
                         declarationReflection.flags.setFlag(ReflectionFlag.Exported, true);
                     }
-
-                    declarationReflection.flags.setFlag(ReflectionFlag.External, false);
                 }
             }
         }
