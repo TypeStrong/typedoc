@@ -25,7 +25,10 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
         name = checker.symbolToString(symbol.parent) + '.' + name;
     }
 
-    return new ReferenceType(name, context.getFullyQualifiedName(symbol));
+    const FQN = context.getFullyQualifiedName(symbol);
+    context.saveRemainingSymbolReflection(FQN, symbol);
+
+    return new ReferenceType(name, FQN);
 }
 
 export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection | undefined {
