@@ -307,7 +307,7 @@ export class Options {
                 // Don't use convert for number options to allow every possible number as a default value
                 this._values[declaration.name] = declaration.defaultValue || 0;
             } else {
-               this._values[declaration.name] = convert(declaration.defaultValue, declaration);
+                this._values[declaration.name] = convert(declaration.defaultValue, declaration);
             }
         }
     }
