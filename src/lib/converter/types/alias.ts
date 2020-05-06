@@ -77,6 +77,10 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
         const FQN = (resolved) ? context.getFullyQualifiedName(resolved) : ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME;
         result = new ReferenceType(name, FQN);
 
+        if (resolved) {
+            context.saveRemainingSymbolReflection(FQN, resolved);
+        }
+
         if (node.typeArguments) {
             result.typeArguments = this.owner.convertTypes(context, node.typeArguments);
         }

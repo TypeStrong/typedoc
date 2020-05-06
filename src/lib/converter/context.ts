@@ -3,10 +3,11 @@ import { IMinimatch } from 'minimatch';
 
 import { Logger } from '../utils/loggers';
 import { createMinimatch } from '../utils/paths';
-import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+import { Reflection, ProjectReflection, ContainerReflection, Type, ReflectionFlag, ReflectionKind } from '../models/index';
 
 import { createTypeParameter } from './factories/type-parameter';
 import { Converter } from './converter';
+import {createDeclaration} from './factories';
 
 /**
  * The context describes the current state the converter is in.
@@ -86,6 +87,11 @@ export class Context {
      * A list of parent nodes that have been passed to the visit function.
      */
     visitStack: ts.Node[];
+
+    /**
+     * A map of remaining symbols to process.
+     */
+    remainingSymbolReflections = new Map<string, ts.Symbol>();
 
     /**
      * The pattern that should be used to flag external source files.
@@ -179,7 +185,10 @@ export class Context {
      */
     registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
         if (symbol) {
-            this.project.registerReflection(reflection, this.getFullyQualifiedName(symbol));
+            const fqn = this.getFullyQualifiedName(symbol);
+            this.project.registerReflection(reflection, fqn);
+
+            this.removeRemainingSymbolReflection(fqn);
         } else {
             this.project.registerReflection(reflection);
         }
@@ -419,6 +428,54 @@ export class Context {
         }
 
         return fullyQualifiedName;
+    }
+
+    saveRemainingSymbolReflection(fqn: string, symbol: ts.Symbol) {
+        if (!this.remainingSymbolReflections.has(fqn) && !this.project.getReflectionFromFQN(fqn)) {
+            this.remainingSymbolReflections.set(fqn, symbol);
+        }
+    }
+
+    removeRemainingSymbolReflection(fqn: string) {
+        this.remainingSymbolReflections.delete(fqn);
+    }
+
+    hasRemainingSymbolReflections() {
+        return (this.remainingSymbolReflections.size > 0);
+    }
+
+    convertRemainingSymbolReflections() {
+        if (this.hasRemainingSymbolReflections()) {
+            this.remainingSymbolReflections.forEach((symbol, fqn) => {
+                const declaration = symbol.declarations?.[0];
+                if (declaration) {
+                    const sourceFile = declaration.getSourceFile();
+                    if (sourceFile.symbol) {
+                        const sourceFQN = this.getFullyQualifiedName(sourceFile.symbol);
+                        const sourceReflection = this.project.getReflectionFromFQN(sourceFQN);
+
+                        if (sourceReflection) {
+                            this.withScope(sourceReflection, () => {
+                                const reflection = this.converter.convertNode(this, declaration);
+                                reflection?.setFlag(ReflectionFlag.Exported, true);
+                            });
+                        } else {
+                            this.withSourceFile(sourceFile, () => {
+                                const containerReflection = createDeclaration(this, sourceFile, ReflectionKind.Module, sourceFile.fileName);
+                                containerReflection?.setFlag(ReflectionFlag.Exported, false);
+
+                                this.withScope(containerReflection, () => {
+                                    const reflection = this.converter.convertNode(this, declaration);
+                                    reflection?.setFlag(ReflectionFlag.Exported, true);
+                                });
+                            });
+                        }
+                    }
+
+                }
+            });
+            this.remainingSymbolReflections.clear();
+        }
     }
 }
 

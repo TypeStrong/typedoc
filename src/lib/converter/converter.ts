@@ -1,5 +1,4 @@
 import * as ts from 'typescript';
-import * as _ts from '../ts-internal';
 import * as _ from 'lodash';
 
 import { Application } from '../application';
@@ -382,6 +381,9 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
                 this.convertNode(context, sourceFile);
             });
         }
+
+        // convert all missing reflections
+        context.convertRemainingSymbolReflections();
 
         return [];
     }
