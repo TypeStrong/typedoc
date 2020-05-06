@@ -77,7 +77,17 @@ export class DynamicModulePlugin extends ConverterComponent {
      */
     private onBeginResolve(context: Context) {
         this.reflections.forEach((reflection) => {
-            let name = reflection.name.replace(/"/g, '');
+            let name = reflection.name;
+
+            // // for sub modules, remove the parent name prefix instead of the full name
+            if (reflection.parent) {
+                const commonString = this.getCommonString(reflection.parent.originalName, reflection.originalName);
+                if (commonString && commonString.endsWith('/')) {
+                    name = reflection.originalName.substring(commonString.length);
+                }
+            }
+
+            name = name.replace(/"/g, '');
 
             const currentExtension = Path.extname(name);
             const hiddenExtensions = (this.hiddenExtension.includes(currentExtension)) ?
@@ -101,5 +111,15 @@ export class DynamicModulePlugin extends ConverterComponent {
             const nodeModulesRegexp = new RegExp('^(.*)node_modules/');
             reflection.name = reflection.name.replace(nodeModulesRegexp, '');
         });
+    }
+
+    private getCommonString(string1: string, string2: string): string {
+        let i = 0;
+        const maxlength = Math.max(string1.length, string2.length);
+        while (i < maxlength && string1[i] === string2[i]) {
+            i++;
+        }
+
+        return string1.substring(0, i);
     }
 }
