@@ -88,8 +88,16 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
             const parentSymbol = context.getSymbolAtLocation(parentNode);
             if (!parentSymbol) {
                 isExported = false;
+            } else if (parentSymbol.exports) {
+                isExported = false;
+                parentSymbol.exports.forEach((exportSymbol) => {
+                    if (!isExported) {
+                        const realSymbol = context.resolveAliasedSymbol(exportSymbol);
+                        isExported = (realSymbol === symbol);
+                    }
+                });
             } else {
-                isExported = !!parentSymbol.exports?.get(symbol.escapedName);
+                isExported = false;
             }
         }
     } else {
