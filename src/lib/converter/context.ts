@@ -421,7 +421,15 @@ export class Context {
                 const node = symbol.declarations[0];
                 if (node) {
                     const sourceFile = node.getSourceFile();
-                    const filePath = sourceFile.fileName;
+                    let filePath = sourceFile.fileName;
+
+                    const hiddenExtensions = ['.d.ts', '.ts', '.js'];
+                    hiddenExtensions.forEach((hiddenExtension) => {
+                        if (filePath.endsWith(hiddenExtension)) {
+                            filePath = filePath.substr(0, filePath.length - hiddenExtension.length);
+                        }
+                    })
+
                     fullyQualifiedName = `"${filePath}".${fullyQualifiedName}`;
                 }
             }
@@ -450,8 +458,7 @@ export class Context {
                 const declaration = symbol.declarations?.[0];
 
                 if (declaration) {
-                    const declareRecursively = (node): Reflection | undefined => {
-                        let reflection: Reflection | undefined = undefined;
+                    const declareRecursively = (node: ts.Node): Reflection | undefined => {
                         let scope: Reflection | undefined = undefined;
                         const parentNode = node.parent;
                         if (parentNode) {
@@ -469,6 +476,7 @@ export class Context {
                             }
                         }
 
+                        let reflection: Reflection | undefined = undefined;
                         if (scope) {
                             this.withScope(scope, () => {
                                 reflection = this.converter.convertNode(this, node);
