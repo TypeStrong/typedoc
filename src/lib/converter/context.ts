@@ -448,30 +448,46 @@ export class Context {
         if (this.hasRemainingSymbolReflections()) {
             this.remainingSymbolReflections.forEach((symbol, fqn) => {
                 const declaration = symbol.declarations?.[0];
+
                 if (declaration) {
-                    const sourceFile = declaration.getSourceFile();
-                    if (sourceFile.symbol) {
-                        const sourceFQN = this.getFullyQualifiedName(sourceFile.symbol);
-                        const sourceReflection = this.project.getReflectionFromFQN(sourceFQN);
+                    const declareRecursively = (node): Reflection | undefined => {
+                        let reflection: Reflection | undefined = undefined;
+                        let scope: Reflection | undefined = undefined;
+                        const parentNode = node.parent;
+                        if (parentNode) {
+                            if (parentNode.symbol) {
+                                const parentFQN = this.getFullyQualifiedName(parentNode.symbol);
+                                const parentReflection = this.project.getReflectionFromFQN(parentFQN);
 
-                        if (sourceReflection) {
-                            this.withScope(sourceReflection, () => {
-                                const reflection = this.converter.convertNode(this, declaration);
-                                reflection?.setFlag(ReflectionFlag.Exported, true);
+                                if (parentReflection) {
+                                    scope = parentReflection;
+                                }
+                            }
+
+                            if (!scope) {
+                                scope = declareRecursively(parentNode);
+                            }
+                        }
+
+                        if (scope) {
+                            this.withScope(scope, () => {
+                                reflection = this.converter.convertNode(this, node);
                             });
-                        } else {
+                        } else if (node.kind === ts.SyntaxKind.SourceFile) {
+                            const sourceFile = node as ts.SourceFile;
                             this.withSourceFile(sourceFile, () => {
-                                const containerReflection = createDeclaration(this, sourceFile, ReflectionKind.Module, sourceFile.fileName);
-                                containerReflection?.setFlag(ReflectionFlag.Exported, false);
-
-                                this.withScope(containerReflection, () => {
-                                    const reflection = this.converter.convertNode(this, declaration);
-                                    reflection?.setFlag(ReflectionFlag.Exported, true);
-                                });
+                                reflection = createDeclaration(this, sourceFile, ReflectionKind.Module, sourceFile.fileName);
+                                reflection?.setFlag(ReflectionFlag.Exported, false);
                             });
                         }
-                    }
 
+                        return reflection;
+                    };
+
+                    const reflection = declareRecursively(declaration);
+                    if (reflection) {
+                        reflection.setFlag(ReflectionFlag.Exported, true);
+                    }
                 }
             });
             this.remainingSymbolReflections.clear();
