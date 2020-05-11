@@ -101,6 +101,13 @@
               "line": 21,
               "character": 17
             }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "id": 66,
+              "name": "Mixin1Class"
+            }
           ]
         },
         {
@@ -405,6 +412,7 @@
                       },
                       "type": {
                         "type": "reference",
+                        "id": 15,
                         "name": "Mixin2"
                       }
                     }
@@ -413,6 +421,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
+                      "id": 15,
                       "name": "Mixin2"
                     }
                   },
@@ -472,12 +481,14 @@
               "types": [
                 {
                   "type": "reference",
+                  "id": 15,
                   "typeArguments": [
                     {
                       "type": "intersection",
                       "types": [
                         {
                           "type": "reference",
+                          "id": 66,
                           "name": "Mixin1Class"
                         },
                         {
@@ -496,6 +507,7 @@
                 },
                 {
                   "type": "reference",
+                  "id": 66,
                   "typeArguments": [
                     {
                       "type": "reference",
@@ -737,6 +749,7 @@
               "types": [
                 {
                   "type": "reference",
+                  "id": 66,
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -1012,6 +1025,7 @@
                       },
                       "type": {
                         "type": "reference",
+                        "id": 15,
                         "name": "Mixin2"
                       }
                     }
@@ -1020,6 +1034,7 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
+                      "id": 15,
                       "name": "Mixin2"
                     }
                   },
@@ -1077,6 +1092,7 @@
               "types": [
                 {
                   "type": "reference",
+                  "id": 15,
                   "typeArguments": [
                     {
                       "type": "reflection",
@@ -1408,6 +1424,7 @@
                 "types": [
                   {
                     "type": "reference",
+                    "id": 66,
                     "name": "Mixin1Class"
                   },
                   {
@@ -1416,6 +1433,202 @@
                   }
                 ]
               }
+            }
+          ],
+          "children": [
+            {
+              "id": 66,
+              "name": "Mixin1Class",
+              "kind": 128,
+              "kindString": "Class",
+              "flags": {
+                "isExported": true
+              },
+              "comment": {
+                "shortText": "Internal class of the Mixin1"
+              },
+              "children": [
+                {
+                  "id": 71,
+                  "name": "baseProperty",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 22,
+                      "character": 16
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"init\"",
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 3,
+                    "name": "Base.baseProperty"
+                  }
+                },
+                {
+                  "id": 67,
+                  "name": "property1",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 38,
+                      "character": 13
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"init\""
+                },
+                {
+                  "id": 72,
+                  "name": "baseMethod",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 73,
+                      "name": "baseMethod",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      },
+                      "inheritedFrom": {
+                        "type": "reference",
+                        "id": 4,
+                        "name": "Base.baseMethod"
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 24,
+                      "character": 14
+                    }
+                  ],
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 4,
+                    "name": "Base.baseMethod"
+                  }
+                },
+                {
+                  "id": 68,
+                  "name": "method1",
+                  "kind": 2048,
+                  "kindString": "Method",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "signatures": [
+                    {
+                      "id": 69,
+                      "name": "method1",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "parameters": [
+                        {
+                          "id": 70,
+                          "name": "arg",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "type": {
+                            "type": "reference",
+                            "id": 6,
+                            "name": "Mixin1Type"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "id": 6,
+                          "name": "Mixin1Type"
+                        }
+                      }
+                    }
+                  ],
+                  "sources": [
+                    {
+                      "fileName": "mixin.ts",
+                      "line": 40,
+                      "character": 11
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    71,
+                    67
+                  ]
+                },
+                {
+                  "title": "Methods",
+                  "kind": 2048,
+                  "children": [
+                    72,
+                    68
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "mixin.ts",
+                  "line": 37,
+                  "character": 17
+                }
+              ],
+              "extendedTypes": [
+                {
+                  "type": "reference",
+                  "id": 2,
+                  "name": "Base"
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Classes",
+              "kind": 128,
+              "children": [
+                66
+              ]
             }
           ],
           "sources": [
@@ -1525,6 +1738,7 @@
                 "types": [
                   {
                     "type": "reference",
+                    "id": 15,
                     "name": "Mixin2"
                   },
                   {
@@ -1620,6 +1834,7 @@
                 "types": [
                   {
                     "type": "reference",
+                    "id": 61,
                     "name": "Mixin3"
                   },
                   {

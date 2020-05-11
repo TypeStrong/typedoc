@@ -19,36 +19,28 @@
           "name": "Demo",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 7,
               "name": "constructor",
               "kind": 512,
               "kindString": "Constructor",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 8,
                   "name": "new Demo",
                   "kind": 16384,
                   "kindString": "Constructor signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "parameters": [
                     {
                       "id": 9,
                       "name": "props",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
                         "id": 2,
@@ -77,8 +69,7 @@
               "kind": 1024,
               "kindString": "Property",
               "flags": {
-                "isPrivate": true,
-                "isExported": true
+                "isPrivate": true
               },
               "sources": [
                 {
@@ -97,18 +88,14 @@
               "name": "render",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 11,
                   "name": "render",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "any"
@@ -160,18 +147,14 @@
           "name": "DemoProps",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 4,
               "name": "age",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "sources": [
                 {
                   "fileName": "react.tsx",
@@ -189,9 +172,7 @@
               "name": "name",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "sources": [
                 {
                   "fileName": "react.tsx",
@@ -229,7 +210,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "sources": [

@@ -19,18 +19,14 @@
           "name": "Decl",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 3,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "sources": [
                 {
                   "fileName": "declaration.d.ts",
@@ -67,7 +63,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "sources": [

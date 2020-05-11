@@ -1,1301 +1,1297 @@
 {
-    "id": 0,
-    "name": "typedoc",
-    "kind": 0,
-    "flags": {},
-    "children": [
+  "id": 0,
+  "name": "typedoc",
+  "kind": 0,
+  "flags": {},
+  "children": [
+    {
+      "id": 10,
+      "name": "export",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "originalName": "%BASE%/exports/export.ts",
+      "children": [
         {
-            "id": 10,
-            "name": "export",
-            "kind": 1,
-            "kindString": "Module",
-            "flags": {
-                "isExported": true
-            },
-            "originalName": "%BASE%/exports/export.ts",
-            "children": [
-                {
-                    "id": 33,
-                    "name": "Mod",
-                    "kind": 16777216,
-                    "kindString": "Reference",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "target": 19
-                },
-                {
-                    "id": 19,
-                    "name": "mod",
-                    "kind": 1,
-                    "kindString": "Module",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "originalName": "%BASE%/exports/mod.ts",
-                    "children": [
-                        {
-                            "id": 25,
-                            "name": "Node",
-                            "kind": 256,
-                            "kindString": "Interface",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "children": [
-                                {
-                                    "id": 28,
-                                    "name": "decorators",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true,
-                                        "isOptional": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 499,
-                                            "character": 18
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "reference",
-                                        "typeArguments": [
-                                            {
-                                                "type": "reference",
-                                                "name": "Decorator"
-                                            }
-                                        ],
-                                        "name": "NodeArray"
-                                    }
-                                },
-                                {
-                                    "id": 32,
-                                    "name": "end",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 73,
-                                            "character": 11
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    },
-                                    "inheritedFrom": {
-                                        "type": "reference",
-                                        "id": 32,
-                                        "name": "TextRange.end"
-                                    }
-                                },
-                                {
-                                    "id": 27,
-                                    "name": "flags",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 498,
-                                            "character": 13
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "reference",
-                                        "name": "NodeFlags"
-                                    }
-                                },
-                                {
-                                    "id": 26,
-                                    "name": "kind",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 497,
-                                            "character": 12
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "reference",
-                                        "name": "SyntaxKind"
-                                    }
-                                },
-                                {
-                                    "id": 29,
-                                    "name": "modifiers",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true,
-                                        "isOptional": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 500,
-                                            "character": 17
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "reference",
-                                        "name": "ModifiersArray"
-                                    }
-                                },
-                                {
-                                    "id": 30,
-                                    "name": "parent",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 501,
-                                            "character": 14
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "reference",
-                                        "id": 25,
-                                        "name": "Node"
-                                    }
-                                },
-                                {
-                                    "id": 31,
-                                    "name": "pos",
-                                    "kind": 1024,
-                                    "kindString": "Property",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "sources": [
-                                        {
-                                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                            "line": 72,
-                                            "character": 11
-                                        }
-                                    ],
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    },
-                                    "inheritedFrom": {
-                                        "type": "reference",
-                                        "id": 31,
-                                        "name": "TextRange.pos"
-                                    }
-                                }
-                            ],
-                            "groups": [
-                                {
-                                    "title": "Properties",
-                                    "kind": 1024,
-                                    "children": [
-                                        28,
-                                        32,
-                                        27,
-                                        26,
-                                        29,
-                                        30,
-                                        31
-                                    ]
-                                }
-                            ],
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 496,
-                                    "character": 25
-                                }
-                            ],
-                            "extendedTypes": [
-                                {
-                                    "type": "reference",
-                                    "name": "TextRange"
-                                }
-                            ]
-                        },
-                        {
-                            "id": 22,
-                            "name": "b",
-                            "kind": 32,
-                            "kindString": "Variable",
-                            "flags": {
-                                "isExported": true,
-                                "isConst": true
-                            },
-                            "originalName": "a",
-                            "comment": {
-                                "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "dist/test/converter/exports/mod.ts",
-                                    "line": 4,
-                                    "character": 14
-                                },
-                                {
-                                    "fileName": "dist/test/converter/exports/mod.ts",
-                                    "line": 4,
-                                    "character": 14
-                                }
-                            ],
-                            "type": {
-                                "type": "unknown",
-                                "name": "1"
-                            },
-                            "defaultValue": "1"
-                        },
-                        {
-                            "id": 23,
-                            "name": "c",
-                            "kind": 32,
-                            "kindString": "Variable",
-                            "flags": {
-                                "isExported": true,
-                                "isConst": true
-                            },
-                            "originalName": "a",
-                            "comment": {
-                                "shortText": "A simple named export that will be exported from export.ts"
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "dist/test/converter/exports/mod.ts",
-                                    "line": 4,
-                                    "character": 14
-                                }
-                            ],
-                            "type": {
-                                "type": "unknown",
-                                "name": "1"
-                            },
-                            "defaultValue": "1"
-                        },
-                        {
-                            "id": 20,
-                            "name": "default",
-                            "kind": 64,
-                            "kindString": "Function",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "signatures": [
-                                {
-                                    "id": 21,
-                                    "name": "default",
-                                    "kind": 4096,
-                                    "kindString": "Call signature",
-                                    "flags": {},
-                                    "comment": {
-                                        "shortText": "Will not be re-exported from export.ts using export * from..."
-                                    },
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "void"
-                                    }
-                                }
-                            ],
-                            "sources": [
-                                {
-                                    "fileName": "dist/test/converter/exports/mod.ts",
-                                    "line": 14,
-                                    "character": 31
-                                }
-                            ]
-                        }
-                    ],
-                    "groups": [
-                        {
-                            "title": "Interfaces",
-                            "kind": 256,
-                            "children": [
-                                25
-                            ]
-                        },
-                        {
-                            "title": "Variables",
-                            "kind": 32,
-                            "children": [
-                                22,
-                                23
-                            ]
-                        },
-                        {
-                            "title": "Functions",
-                            "kind": 64,
-                            "children": [
-                                20
-                            ]
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 1,
-                            "character": 0
-                        }
-                    ]
-                },
-                {
-                    "id": 36,
-                    "name": "Node",
-                    "kind": 256,
-                    "kindString": "Interface",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "children": [
-                        {
-                            "id": 39,
-                            "name": "decorators",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true,
-                                "isOptional": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 499,
-                                    "character": 18
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "typeArguments": [
-                                    {
-                                        "type": "reference",
-                                        "name": "Decorator"
-                                    }
-                                ],
-                                "name": "NodeArray"
-                            }
-                        },
-                        {
-                            "id": 43,
-                            "name": "end",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 73,
-                                    "character": 11
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            },
-                            "inheritedFrom": {
-                                "type": "reference",
-                                "id": 32,
-                                "name": "TextRange.end"
-                            }
-                        },
-                        {
-                            "id": 38,
-                            "name": "flags",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 498,
-                                    "character": 13
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "NodeFlags"
-                            }
-                        },
-                        {
-                            "id": 37,
-                            "name": "kind",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 497,
-                                    "character": 12
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "SyntaxKind"
-                            }
-                        },
-                        {
-                            "id": 40,
-                            "name": "modifiers",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true,
-                                "isOptional": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 500,
-                                    "character": 17
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "ModifiersArray"
-                            }
-                        },
-                        {
-                            "id": 41,
-                            "name": "parent",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 501,
-                                    "character": 14
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "id": 25,
-                                "name": "Node"
-                            }
-                        },
-                        {
-                            "id": 42,
-                            "name": "pos",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 72,
-                                    "character": 11
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            },
-                            "inheritedFrom": {
-                                "type": "reference",
-                                "id": 31,
-                                "name": "TextRange.pos"
-                            }
-                        }
-                    ],
-                    "groups": [
-                        {
-                            "title": "Properties",
-                            "kind": 1024,
-                            "children": [
-                                39,
-                                43,
-                                38,
-                                37,
-                                40,
-                                41,
-                                42
-                            ]
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                            "line": 496,
-                            "character": 25
-                        }
-                    ],
-                    "extendedTypes": [
-                        {
-                            "type": "reference",
-                            "name": "TextRange"
-                        }
-                    ]
-                },
-                {
-                    "id": 34,
-                    "name": "b",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "originalName": "a",
-                    "comment": {
-                        "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
-                    },
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        },
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "1"
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "id": 14,
-                    "name": "c",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "originalName": "a",
-                    "comment": {
-                        "shortText": "A simple named export that will be exported from export.ts"
-                    },
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "1"
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "id": 11,
-                    "name": "ModDefault",
-                    "kind": 64,
-                    "kindString": "Function",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "originalName": "default",
-                    "comment": {
-                        "shortText": "Will not be re-exported from export.ts using export * from..."
-                    },
-                    "signatures": [
-                        {
-                            "id": 12,
-                            "name": "default",
-                            "kind": 4096,
-                            "kindString": "Call signature",
-                            "flags": {},
-                            "comment": {
-                                "shortText": "Will not be re-exported from export.ts using export * from..."
-                            },
-                            "parameters": [
-                                {
-                                    "id": 13,
-                                    "name": "a",
-                                    "kind": 32768,
-                                    "kindString": "Parameter",
-                                    "flags": {},
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "void"
-                            }
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/export.ts",
-                            "line": 9,
-                            "character": 1
-                        },
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 14,
-                            "character": 31
-                        }
-                    ]
-                },
-                {
-                    "id": 15,
-                    "name": "add",
-                    "kind": 64,
-                    "kindString": "Function",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "signatures": [
-                        {
-                            "id": 16,
-                            "name": "add",
-                            "kind": 4096,
-                            "kindString": "Call signature",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "parameters": [
-                                {
-                                    "id": 17,
-                                    "name": "x",
-                                    "kind": 32768,
-                                    "kindString": "Parameter",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                },
-                                {
-                                    "id": 18,
-                                    "name": "y",
-                                    "kind": 32768,
-                                    "kindString": "Parameter",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            }
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/export.ts",
-                            "line": 7,
-                            "character": 12
-                        }
-                    ]
-                }
-            ],
-            "groups": [
-                {
-                    "title": "References",
-                    "kind": 16777216,
-                    "children": [
-                        33
-                    ]
-                },
-                {
-                    "title": "Modules",
-                    "kind": 1,
-                    "children": [
-                        19
-                    ]
-                },
-                {
-                    "title": "Interfaces",
-                    "kind": 256,
-                    "children": [
-                        36
-                    ]
-                },
-                {
-                    "title": "Variables",
-                    "kind": 32,
-                    "children": [
-                        34,
-                        14
-                    ]
-                },
-                {
-                    "title": "Functions",
-                    "kind": 64,
-                    "children": [
-                        11,
-                        15
-                    ]
-                }
-            ],
-            "sources": [
-                {
-                    "fileName": "dist/test/converter/exports/export.ts",
-                    "line": 1,
-                    "character": 0
-                }
-            ]
+          "id": 33,
+          "name": "Mod",
+          "kind": 16777216,
+          "kindString": "Reference",
+          "flags": {
+            "isExported": true
+          },
+          "target": 19
         },
         {
-            "id": 1,
-            "name": "export-assignment",
-            "kind": 1,
-            "kindString": "Module",
-            "flags": {
+          "id": 19,
+          "name": "mod",
+          "kind": 1,
+          "kindString": "Module",
+          "flags": {},
+          "originalName": "%BASE%/exports/mod.ts",
+          "children": [
+            {
+              "id": 25,
+              "name": "Node",
+              "kind": 256,
+              "kindString": "Interface",
+              "flags": {
                 "isExported": true
-            },
-            "originalName": "%BASE%/exports/export-assignment.ts",
-            "sources": [
+              },
+              "children": [
                 {
-                    "fileName": "dist/test/converter/exports/export-assignment.ts",
-                    "line": 1,
-                    "character": 0
+                  "id": 28,
+                  "name": "decorators",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true,
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 503,
+                      "character": 18
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "typeArguments": [
+                      {
+                        "type": "reference",
+                        "name": "Decorator"
+                      }
+                    ],
+                    "name": "NodeArray"
+                  }
+                },
+                {
+                  "id": 32,
+                  "name": "end",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 71,
+                      "character": 11
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 32,
+                    "name": "TextRange.end"
+                  }
+                },
+                {
+                  "id": 27,
+                  "name": "flags",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 502,
+                      "character": 13
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "NodeFlags"
+                  }
+                },
+                {
+                  "id": 26,
+                  "name": "kind",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 501,
+                      "character": 12
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "SyntaxKind"
+                  }
+                },
+                {
+                  "id": 29,
+                  "name": "modifiers",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true,
+                    "isOptional": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 504,
+                      "character": 17
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "name": "ModifiersArray"
+                  }
+                },
+                {
+                  "id": 30,
+                  "name": "parent",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 505,
+                      "character": 14
+                    }
+                  ],
+                  "type": {
+                    "type": "reference",
+                    "id": 25,
+                    "name": "Node"
+                  }
+                },
+                {
+                  "id": 31,
+                  "name": "pos",
+                  "kind": 1024,
+                  "kindString": "Property",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "sources": [
+                    {
+                      "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                      "line": 70,
+                      "character": 11
+                    }
+                  ],
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 31,
+                    "name": "TextRange.pos"
+                  }
                 }
-            ]
+              ],
+              "groups": [
+                {
+                  "title": "Properties",
+                  "kind": 1024,
+                  "children": [
+                    28,
+                    32,
+                    27,
+                    26,
+                    29,
+                    30,
+                    31
+                  ]
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 500,
+                  "character": 25
+                }
+              ],
+              "extendedTypes": [
+                {
+                  "type": "reference",
+                  "name": "TextRange"
+                }
+              ]
+            },
+            {
+              "id": 22,
+              "name": "b",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isConst": true
+              },
+              "originalName": "a",
+              "comment": {
+                "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
+              },
+              "sources": [
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                },
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "1"
+              },
+              "defaultValue": "1"
+            },
+            {
+              "id": 23,
+              "name": "c",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {
+                "isExported": true,
+                "isConst": true
+              },
+              "originalName": "a",
+              "comment": {
+                "shortText": "A simple named export that will be exported from export.ts"
+              },
+              "sources": [
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 4,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "unknown",
+                "name": "1"
+              },
+              "defaultValue": "1"
+            },
+            {
+              "id": 20,
+              "name": "default",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 21,
+                  "name": "default",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "comment": {
+                    "shortText": "Will not be re-exported from export.ts using export * from..."
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "void"
+                  }
+                }
+              ],
+              "sources": [
+                {
+                  "fileName": "dist/test/converter/exports/mod.ts",
+                  "line": 14,
+                  "character": 31
+                }
+              ]
+            }
+          ],
+          "groups": [
+            {
+              "title": "Interfaces",
+              "kind": 256,
+              "children": [
+                25
+              ]
+            },
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                22,
+                23
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                20
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 1,
+              "character": 0
+            }
+          ]
         },
         {
-            "id": 2,
-            "name": "export-default",
-            "kind": 1,
-            "kindString": "Module",
-            "flags": {
-                "isExported": true
+          "id": 36,
+          "name": "Node",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 39,
+              "name": "decorators",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 503,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "typeArguments": [
+                  {
+                    "type": "reference",
+                    "name": "Decorator"
+                  }
+                ],
+                "name": "NodeArray"
+              }
             },
-            "originalName": "%BASE%/exports/export-default.ts",
-            "children": [
+            {
+              "id": 43,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
                 {
-                    "id": 3,
-                    "name": "default",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "originalName": "x",
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/export-default.ts",
-                            "line": 1,
-                            "character": 7
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "5"
-                    },
-                    "defaultValue": "5"
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 71,
+                  "character": 11
                 }
-            ],
-            "groups": [
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 32,
+                "name": "TextRange.end"
+              }
+            },
+            {
+              "id": 38,
+              "name": "flags",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
                 {
-                    "title": "Variables",
-                    "kind": 32,
-                    "children": [
-                        3
-                    ]
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 502,
+                  "character": 13
                 }
-            ],
-            "sources": [
+              ],
+              "type": {
+                "type": "reference",
+                "name": "NodeFlags"
+              }
+            },
+            {
+              "id": 37,
+              "name": "kind",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
                 {
-                    "fileName": "dist/test/converter/exports/export-default.ts",
-                    "line": 1,
-                    "character": 0
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 501,
+                  "character": 12
                 }
-            ]
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SyntaxKind"
+              }
+            },
+            {
+              "id": 40,
+              "name": "modifiers",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 504,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ModifiersArray"
+              }
+            },
+            {
+              "id": 41,
+              "name": "parent",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 505,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "id": 25,
+                "name": "Node"
+              }
+            },
+            {
+              "id": 42,
+              "name": "pos",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 70,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 31,
+                "name": "TextRange.pos"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                39,
+                43,
+                38,
+                37,
+                40,
+                41,
+                42
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 500,
+              "character": 25
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TextRange"
+            }
+          ]
         },
         {
-            "id": 4,
-            "name": "export-with-local",
-            "kind": 1,
-            "kindString": "Module",
-            "flags": {
-                "isExported": true
+          "id": 34,
+          "name": "b",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "originalName": "a",
+          "comment": {
+            "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
             },
-            "originalName": "%BASE%/exports/export-with-local.ts",
-            "children": [
-                {
-                    "id": 9,
-                    "name": "x",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/export-with-local.ts",
-                            "line": 1,
-                            "character": 14
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "5"
-                    },
-                    "defaultValue": "5"
-                },
-                {
-                    "id": 5,
-                    "name": "add",
-                    "kind": 64,
-                    "kindString": "Function",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "signatures": [
-                        {
-                            "id": 6,
-                            "name": "add",
-                            "kind": 4096,
-                            "kindString": "Call signature",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "parameters": [
-                                {
-                                    "id": 7,
-                                    "name": "x",
-                                    "kind": 32768,
-                                    "kindString": "Parameter",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                },
-                                {
-                                    "id": 8,
-                                    "name": "y",
-                                    "kind": 32768,
-                                    "kindString": "Parameter",
-                                    "flags": {
-                                        "isExported": true
-                                    },
-                                    "type": {
-                                        "type": "intrinsic",
-                                        "name": "number"
-                                    }
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            }
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/export-with-local.ts",
-                            "line": 3,
-                            "character": 19
-                        }
-                    ]
-                }
-            ],
-            "groups": [
-                {
-                    "title": "Variables",
-                    "kind": 32,
-                    "children": [
-                        9
-                    ]
-                },
-                {
-                    "title": "Functions",
-                    "kind": 64,
-                    "children": [
-                        5
-                    ]
-                }
-            ],
-            "sources": [
-                {
-                    "fileName": "dist/test/converter/exports/export-with-local.ts",
-                    "line": 1,
-                    "character": 0
-                }
-            ]
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
         },
         {
-            "id": 44,
-            "name": "mod",
-            "kind": 1,
-            "kindString": "Module",
-            "flags": {
-                "isExported": true
+          "id": 14,
+          "name": "c",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "originalName": "a",
+          "comment": {
+            "shortText": "A simple named export that will be exported from export.ts"
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 11,
+          "name": "ModDefault",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "originalName": "default",
+          "comment": {
+            "shortText": "Will not be re-exported from export.ts using export * from..."
+          },
+          "signatures": [
+            {
+              "id": 12,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Will not be re-exported from export.ts using export * from..."
+              },
+              "parameters": [
+                {
+                  "id": 13,
+                  "name": "a",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export.ts",
+              "line": 9,
+              "character": 1
             },
-            "originalName": "%BASE%/exports/mod.ts",
-            "children": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 14,
+              "character": 31
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 16,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "parameters": [
                 {
-                    "id": 50,
-                    "name": "Node",
-                    "kind": 256,
-                    "kindString": "Interface",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "children": [
-                        {
-                            "id": 53,
-                            "name": "decorators",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true,
-                                "isOptional": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 499,
-                                    "character": 18
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "typeArguments": [
-                                    {
-                                        "type": "reference",
-                                        "name": "Decorator"
-                                    }
-                                ],
-                                "name": "NodeArray"
-                            }
-                        },
-                        {
-                            "id": 57,
-                            "name": "end",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 73,
-                                    "character": 11
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            },
-                            "inheritedFrom": {
-                                "type": "reference",
-                                "id": 32,
-                                "name": "TextRange.end"
-                            }
-                        },
-                        {
-                            "id": 52,
-                            "name": "flags",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 498,
-                                    "character": 13
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "NodeFlags"
-                            }
-                        },
-                        {
-                            "id": 51,
-                            "name": "kind",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 497,
-                                    "character": 12
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "SyntaxKind"
-                            }
-                        },
-                        {
-                            "id": 54,
-                            "name": "modifiers",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true,
-                                "isOptional": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 500,
-                                    "character": 17
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "name": "ModifiersArray"
-                            }
-                        },
-                        {
-                            "id": 55,
-                            "name": "parent",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 501,
-                                    "character": 14
-                                }
-                            ],
-                            "type": {
-                                "type": "reference",
-                                "id": 25,
-                                "name": "Node"
-                            }
-                        },
-                        {
-                            "id": 56,
-                            "name": "pos",
-                            "kind": 1024,
-                            "kindString": "Property",
-                            "flags": {
-                                "isExported": true
-                            },
-                            "sources": [
-                                {
-                                    "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                                    "line": 72,
-                                    "character": 11
-                                }
-                            ],
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "number"
-                            },
-                            "inheritedFrom": {
-                                "type": "reference",
-                                "id": 31,
-                                "name": "TextRange.pos"
-                            }
-                        }
-                    ],
-                    "groups": [
-                        {
-                            "title": "Properties",
-                            "kind": 1024,
-                            "children": [
-                                53,
-                                57,
-                                52,
-                                51,
-                                54,
-                                55,
-                                56
-                            ]
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "node_modules/typescript/lib/typescript.d.ts",
-                            "line": 496,
-                            "character": 25
-                        }
-                    ],
-                    "extendedTypes": [
-                        {
-                            "type": "reference",
-                            "name": "TextRange"
-                        }
-                    ]
+                  "id": 17,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
                 },
                 {
-                    "id": 47,
-                    "name": "b",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "originalName": "a",
-                    "comment": {
-                        "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
-                    },
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        },
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "1"
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "id": 48,
-                    "name": "c",
-                    "kind": 32,
-                    "kindString": "Variable",
-                    "flags": {
-                        "isExported": true,
-                        "isConst": true
-                    },
-                    "originalName": "a",
-                    "comment": {
-                        "shortText": "A simple named export that will be exported from export.ts"
-                    },
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 4,
-                            "character": 14
-                        }
-                    ],
-                    "type": {
-                        "type": "unknown",
-                        "name": "1"
-                    },
-                    "defaultValue": "1"
-                },
-                {
-                    "id": 45,
-                    "name": "default",
-                    "kind": 64,
-                    "kindString": "Function",
-                    "flags": {
-                        "isExported": true
-                    },
-                    "signatures": [
-                        {
-                            "id": 46,
-                            "name": "default",
-                            "kind": 4096,
-                            "kindString": "Call signature",
-                            "flags": {},
-                            "comment": {
-                                "shortText": "Will not be re-exported from export.ts using export * from..."
-                            },
-                            "type": {
-                                "type": "intrinsic",
-                                "name": "void"
-                            }
-                        }
-                    ],
-                    "sources": [
-                        {
-                            "fileName": "dist/test/converter/exports/mod.ts",
-                            "line": 14,
-                            "character": 31
-                        }
-                    ]
+                  "id": 18,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
                 }
-            ],
-            "groups": [
-                {
-                    "title": "Interfaces",
-                    "kind": 256,
-                    "children": [
-                        50
-                    ]
-                },
-                {
-                    "title": "Variables",
-                    "kind": 32,
-                    "children": [
-                        47,
-                        48
-                    ]
-                },
-                {
-                    "title": "Functions",
-                    "kind": 64,
-                    "children": [
-                        45
-                    ]
-                }
-            ],
-            "sources": [
-                {
-                    "fileName": "dist/test/converter/exports/mod.ts",
-                    "line": 1,
-                    "character": 0
-                }
-            ]
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export.ts",
+              "line": 7,
+              "character": 12
+            }
+          ]
         }
-    ],
-    "groups": [
+      ],
+      "groups": [
         {
-            "title": "Modules",
-            "kind": 1,
-            "children": [
-                10,
-                1,
-                2,
-                4,
-                44
-            ]
+          "title": "References",
+          "kind": 16777216,
+          "children": [
+            33
+          ]
+        },
+        {
+          "title": "Modules",
+          "kind": 1,
+          "children": [
+            19
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            36
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            34,
+            14
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            11,
+            15
+          ]
         }
-    ]
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "export-assignment",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-assignment.ts",
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export-assignment.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "export-default",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-default.ts",
+      "children": [
+        {
+          "id": 3,
+          "name": "default",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "originalName": "x",
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-default.ts",
+              "line": 1,
+              "character": 7
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            3
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export-default.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "export-with-local",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/export-with-local.ts",
+      "children": [
+        {
+          "id": 9,
+          "name": "x",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-with-local.ts",
+              "line": 1,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "5"
+          },
+          "defaultValue": "5"
+        },
+        {
+          "id": 5,
+          "name": "add",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 6,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {
+                "isExported": true
+              },
+              "parameters": [
+                {
+                  "id": 7,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 8,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/export-with-local.ts",
+              "line": 3,
+              "character": 19
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            9
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            5
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/export-with-local.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "mod",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/exports/mod.ts",
+      "children": [
+        {
+          "id": 50,
+          "name": "Node",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 53,
+              "name": "decorators",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 503,
+                  "character": 18
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "typeArguments": [
+                  {
+                    "type": "reference",
+                    "name": "Decorator"
+                  }
+                ],
+                "name": "NodeArray"
+              }
+            },
+            {
+              "id": 57,
+              "name": "end",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 71,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 32,
+                "name": "TextRange.end"
+              }
+            },
+            {
+              "id": 52,
+              "name": "flags",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 502,
+                  "character": 13
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "NodeFlags"
+              }
+            },
+            {
+              "id": 51,
+              "name": "kind",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 501,
+                  "character": 12
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "SyntaxKind"
+              }
+            },
+            {
+              "id": 54,
+              "name": "modifiers",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true,
+                "isOptional": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 504,
+                  "character": 17
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "name": "ModifiersArray"
+              }
+            },
+            {
+              "id": 55,
+              "name": "parent",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 505,
+                  "character": 14
+                }
+              ],
+              "type": {
+                "type": "reference",
+                "id": 25,
+                "name": "Node"
+              }
+            },
+            {
+              "id": 56,
+              "name": "pos",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "sources": [
+                {
+                  "fileName": "node_modules/typescript/lib/typescript.d.ts",
+                  "line": 70,
+                  "character": 11
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 31,
+                "name": "TextRange.pos"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                53,
+                57,
+                52,
+                51,
+                54,
+                55,
+                56
+              ]
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "node_modules/typescript/lib/typescript.d.ts",
+              "line": 500,
+              "character": 25
+            }
+          ],
+          "extendedTypes": [
+            {
+              "type": "reference",
+              "name": "TextRange"
+            }
+          ]
+        },
+        {
+          "id": 47,
+          "name": "b",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "originalName": "a",
+          "comment": {
+            "shortText": "A simple named export that will be exported from export.ts\nA simple named export that will be exported from export.ts"
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            },
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 48,
+          "name": "c",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {
+            "isExported": true,
+            "isConst": true
+          },
+          "originalName": "a",
+          "comment": {
+            "shortText": "A simple named export that will be exported from export.ts"
+          },
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 4,
+              "character": 14
+            }
+          ],
+          "type": {
+            "type": "unknown",
+            "name": "1"
+          },
+          "defaultValue": "1"
+        },
+        {
+          "id": 45,
+          "name": "default",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {
+            "isExported": true
+          },
+          "signatures": [
+            {
+              "id": 46,
+              "name": "default",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "comment": {
+                "shortText": "Will not be re-exported from export.ts using export * from..."
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "void"
+              }
+            }
+          ],
+          "sources": [
+            {
+              "fileName": "dist/test/converter/exports/mod.ts",
+              "line": 14,
+              "character": 31
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            50
+          ]
+        },
+        {
+          "title": "Variables",
+          "kind": 32,
+          "children": [
+            47,
+            48
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            45
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "fileName": "dist/test/converter/exports/mod.ts",
+          "line": 1,
+          "character": 0
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "Modules",
+      "kind": 1,
+      "children": [
+        10,
+        1,
+        2,
+        4,
+        44
+      ]
+    }
+  ]
 }
