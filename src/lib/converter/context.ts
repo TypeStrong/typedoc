@@ -7,7 +7,7 @@ import { Reflection, ProjectReflection, ContainerReflection, Type, ReflectionFla
 
 import { createTypeParameter } from './factories/type-parameter';
 import { Converter } from './converter';
-import {createDeclaration} from './factories';
+import { createDeclaration } from './factories';
 
 /**
  * The context describes the current state the converter is in.
@@ -428,7 +428,7 @@ export class Context {
                         if (filePath.endsWith(hiddenExtension)) {
                             filePath = filePath.substr(0, filePath.length - hiddenExtension.length);
                         }
-                    })
+                    });
 
                     fullyQualifiedName = `"${filePath}".${fullyQualifiedName}`;
                 }
