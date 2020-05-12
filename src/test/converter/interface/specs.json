@@ -296,9 +296,11 @@
         {
           "id": 21,
           "name": "Forms",
-          "kind": 2,
-          "kindString": "Namespace",
-          "flags": {},
+          "kind": 1,
+          "kindString": "Module",
+          "flags": {
+            "isExported": true
+          },
           "children": [
             {
               "id": 64,
@@ -1345,8 +1347,8 @@
       ],
       "groups": [
         {
-          "title": "Namespaces",
-          "kind": 2,
+          "title": "Modules",
+          "kind": 1,
           "children": [
             21
           ]
