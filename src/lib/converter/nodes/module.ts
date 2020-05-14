@@ -24,7 +24,7 @@ export class ModuleConverter extends ConverterNodeComponent<ts.ModuleDeclaration
     convert(context: Context, node: ts.ModuleDeclaration): Reflection | undefined {
         const reflection = context.isInherit && context.inheritParent === node
             ? <DeclarationReflection> context.scope
-            : createDeclaration(context, node, node.name.kind === 10
+            : createDeclaration(context, node, node.name.kind === ts.SyntaxKind.StringLiteral
                 ? ReflectionKind.Module
                 : ReflectionKind.Namespace);
         context.withScope(reflection, () => {
