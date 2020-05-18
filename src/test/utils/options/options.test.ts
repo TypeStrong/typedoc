@@ -1,9 +1,14 @@
 import { Logger, Options, ParameterType, ParameterScope } from '../../../lib/utils';
+import { MapDeclarationOption, NumberDeclarationOption } from '../../../lib/utils/options';
 import { deepStrictEqual as equal, throws } from 'assert';
+import { DeclarationOption } from '../../../lib/utils/options';
 
 describe('Options', () => {
     const logger = new Logger();
-    const options = new Options(logger);
+    const options = new Options(logger) as Options & {
+        addDeclaration(declaration: Readonly<DeclarationOption>): void;
+        getValue(name: string): unknown;
+    };
     options.addDefaultDeclarations();
 
     it('Errors on duplicate declarations', () => {
@@ -25,9 +30,32 @@ describe('Options', () => {
         options.removeDeclarationByName(declaration.name);
     });
 
-    it('Does not error if a map declaration has a default value that is not part of the map of possible values', () => {
-        logger.resetErrors();
-        options.addDeclaration({
+    it('Does not throw if number declaration has no min and max values', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            defaultValue: 1
+        };
+        options.addDeclaration(declaration);
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Does not throw if default value is out of range for number declaration', () => {
+        const declaration: NumberDeclarationOption = {
+            name: 'test-number-declaration',
+            help: '',
+            type: ParameterType.Number,
+            minValue: 1,
+            maxValue: 10,
+            defaultValue: 0
+        };
+        options.addDeclaration(declaration);
+        options.removeDeclarationByName(declaration.name);
+    });
+
+    it('Does not throw if a map declaration has a default value that is not part of the map of possible values', () => {
+        const declaration: MapDeclarationOption<number> = {
             name: 'testMapDeclarationWithForeignDefaultValue',
             help: '',
             type: ParameterType.Map,
@@ -36,8 +64,9 @@ describe('Options', () => {
                 ['b', 2]
             ]),
             defaultValue: 0
-        });
-        equal(logger.hasErrors(), false);
+        };
+        options.addDeclaration(declaration);
+        options.removeDeclarationByName(declaration.name);
     });
 
     it('Supports removing a declaration by name', () => {
@@ -66,7 +95,7 @@ describe('Options', () => {
     });
 
     it('Errors if converting a set value errors', () => {
-        throws(() => options.setValue('mode', 'nonsense').unwrap());
+        throws(() => options.setValue('mode', 'nonsense' as any));
     });
 
     it('Supports directly getting values', () => {

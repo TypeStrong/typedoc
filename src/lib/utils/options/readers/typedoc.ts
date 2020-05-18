@@ -1,6 +1,6 @@
 import * as Path from 'path';
 import * as FS from 'fs';
-import * as _ from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { OptionsReader } from '..';
 import { Logger } from '../../loggers';
@@ -44,19 +44,22 @@ export class TypeDocReader implements OptionsReader {
      * @param container
      * @param logger
      */
-    private readFile(file: string, container: Options, logger: Logger, seen: Set<string>) {
+    private readFile(file: string, container: Options & { setValue(key: string, value: unknown): void }, logger: Logger, seen: Set<string>) {
         if (seen.has(file)) {
             logger.error(`Tried to load the options file ${file} multiple times.`);
             return;
         }
         seen.add(file);
 
-        const data: unknown = require(file);
+        const fileContent: unknown = require(file);
 
-        if (typeof data !== 'object' || !data) {
+        if (typeof fileContent !== 'object' || !fileContent) {
             logger.error(`The file ${file} is not an object.`);
             return;
         }
+
+        // clone option object to avoid of property changes in re-calling this file
+        const data: object = cloneDeep(fileContent);
 
         if ('extends' in data) {
             const extended: string[] = getStringArray(data['extends']);
@@ -74,14 +77,13 @@ export class TypeDocReader implements OptionsReader {
             delete data['src'];
         }
 
-        container.setValues(data).match({
-            ok() {},
-            err(errors) {
-                for (const err of errors) {
-                    logger.error(err.message);
-                }
+        for (const [key, val] of Object.entries(data)) {
+            try {
+                container.setValue(key, val);
+            } catch (error) {
+                logger.error(error.message);
             }
-        });
+        }
     }
 
     /**
