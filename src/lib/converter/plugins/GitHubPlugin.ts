@@ -133,13 +133,13 @@ export class Repository {
     static tryCreateRepository(path: string, gitRevision: string, gitRemote: string): Repository | undefined {
         ShellJS.pushd(path);
         const out = <ShellJS.ExecOutputReturnValue> ShellJS.exec('git rev-parse --show-toplevel', {silent: true});
+        const remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec(`git remote get-url ${gitRemote}`, {silent: true});
         ShellJS.popd();
 
-        if (!out || out.code !== 0) {
+        if (!out || out.code !== 0 || !remotesOutput || remotesOutput.code !== 0) {
             return;
         }
 
-        const remotesOutput = <ShellJS.ExecOutputReturnValue> ShellJS.exec(`git remote get-url ${gitRemote}`, {silent: true});
         let remotes: string[] = (remotesOutput.code === 0) ? remotesOutput.stdout.split('\n') : [];
 
         return new Repository(BasePath.normalize(out.stdout.replace('\n', '')), gitRevision, remotes);
