@@ -21,7 +21,8 @@ app.bootstrap({
     ],
     name: 'typedoc',
     excludeExternals: true,
-    disableSources: true
+    disableSources: true,
+    resolveJsonModule: true
 });
 
 // Note that this uses the test files in dist, not in src, this is important since

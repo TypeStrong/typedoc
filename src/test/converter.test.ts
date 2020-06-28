@@ -20,7 +20,8 @@ describe('Converter', function() {
         name: 'typedoc',
         ignoreCompilerErrors: true,
         excludeExternals: true,
-        disableSources: true
+        disableSources: true,
+        resolveJsonModule: true
     });
 
     const checks: [string, () => void, () => void][] = [

@@ -281,6 +281,7 @@ export class Application extends ChildableComponent<
             return exclude.some(mm => mm.match(fileName));
         }
 
+        const includeJson = this.options.getCompilerOptions().resolveJsonModule;
         const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
         function add(file: string, entryPoint: boolean) {
             let stats: FS.Stats;
@@ -304,6 +305,8 @@ export class Application extends ChildableComponent<
                     add(Path.join(file, next), false);
                 });
             } else if (supportedFileRegex.test(file)) {
+                files.push(file);
+            } else if (includeJson && file.endsWith('.json')) {
                 files.push(file);
             }
         }
