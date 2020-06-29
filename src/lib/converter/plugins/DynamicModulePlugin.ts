@@ -42,6 +42,9 @@ export class DynamicModulePlugin extends ConverterComponent {
     private onBegin(context: Context) {
         this.basePath.reset();
         this.reflections = [];
+        if (context.getCompilerOptions().baseUrl) {
+            this.basePath.add(context.getCompilerOptions().baseUrl as string + '/file');
+        }
     }
 
     /**
@@ -61,9 +64,6 @@ export class DynamicModulePlugin extends ConverterComponent {
             name = name.replace(/"/g, '');
             this.reflections.push(reflection);
             this.basePath.add(name);
-            if (context.getCompilerOptions().baseUrl) {
-                this.basePath.add(context.getCompilerOptions().baseUrl as string + '/file');
-            }
         }
     }
 
