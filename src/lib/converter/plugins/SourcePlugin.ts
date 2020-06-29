@@ -78,6 +78,9 @@ export class SourcePlugin extends ConverterComponent {
         }
         const fileName = node.fileName;
         this.basePath.add(fileName);
+        if (context.getCompilerOptions().baseUrl) {
+            this.basePath.add(context.getCompilerOptions().baseUrl as string + '/file');
+        }
         this.getSourceFile(fileName, context.project);
     }
 
