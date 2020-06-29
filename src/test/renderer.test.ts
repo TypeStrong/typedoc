@@ -7,6 +7,9 @@ import { ScriptTarget, ModuleKind } from 'typescript';
 function getFileIndex(base, dir: string = '', results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
     files.forEach(function(file) {
+        if (file === 'assets') {
+            return;
+        }
         file = Path.join(dir, file);
         if (FS.statSync(Path.join(base, file)).isDirectory()) {
             getFileIndex(base, file, results);
