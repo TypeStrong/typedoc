@@ -80,7 +80,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
     }
 
     supportsType(context: Context, type: ts.Type): boolean {
-        return Boolean(type.aliasSymbol)
+        return Boolean(type.aliasSymbol);
     }
 
     convertType(context: Context, type: ts.Type & { aliasSymbol: ts.Symbol }): ReferenceType {
