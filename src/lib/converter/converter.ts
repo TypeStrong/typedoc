@@ -250,7 +250,9 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param fileNames  Array of the file names that should be compiled.
      */
     convert(fileNames: string[]): ConverterResult {
-        const normalizedFiles = fileNames.map(normalizePath);
+        // JSON files should never result in extra members in the documentation, but need to be included so that TS
+        // can find them.
+        const normalizedFiles = fileNames.map(normalizePath).filter(path => !path.endsWith('.json'));
 
         const program = ts.createProgram(normalizedFiles, this.application.options.getCompilerOptions());
         const checker = program.getTypeChecker();

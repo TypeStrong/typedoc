@@ -26,6 +26,48 @@ const nonStaticMergeKinds = [
 
 const builtInSymbolRegExp = /^__@(\w+)$/;
 
+function hasCommentOnParentAxis (node: ts.Node): boolean {
+    let currentNode: ts.Node = node;
+
+    while (currentNode) {
+        if (Boolean(getRawComment(currentNode))) { return true; }
+
+        currentNode = currentNode.parent;
+    }
+
+    return false;
+}
+
+function shouldBeIgnoredAsNotDocumented (node: ts.Declaration, kind: ReflectionKind): boolean {
+    // never ignore modules, global, and enum members
+    if (kind === ReflectionKind.Module || kind === ReflectionKind.Global || kind === ReflectionKind.EnumMember) {
+        return false;
+    }
+
+    // do not ignore properties of the object types, that has comment themselves, for example
+    //
+    // /**
+    //  * has docs
+    //  */
+    //  export SomeType = { prop1 : string }
+    //
+    // same applies to the inline types for function arguments:
+    //
+    // function someFunc(arg1 : { prop1 : string, prop2 : number }) {...}
+    //
+    // The `prop1` from above should be included in the docs, even that it has no documentation
+    // Note, that this does not seem to apply to classes and interfaces - for those, even the class/interface
+    // has docs, we still want to exclude the undocumented properties
+    // Thankfully for object literals the kind of properties seems to be set to ReflectionKind.Variable
+    if (kind === ReflectionKind.Variable && hasCommentOnParentAxis(node)) {
+        return false;
+    }
+
+    const hasComment: boolean = Boolean(getRawComment(node));
+
+    return !hasComment;
+}
+
 /**
  * Create a declaration reflection from the given TypeScript node.
  *
@@ -70,12 +112,10 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     const modifiers = ts.getCombinedModifierFlags(node);
 
-    let hasComment: boolean = Boolean(getRawComment(node));
     // Test whether the node is exported
     let isExported: boolean;
     if (kind === ReflectionKind.Module || kind === ReflectionKind.Global) {
         isExported = true;
-        hasComment = true;
     } else if (container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
@@ -104,7 +144,7 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     if (
         (!isExported && context.converter.excludeNotExported)
         ||
-        (context.converter.excludeNotDocumented && kind !== ReflectionKind.EnumMember && !hasComment)
+        (context.converter.excludeNotDocumented && shouldBeIgnoredAsNotDocumented(node, kind))
     ) {
         return;
     }

@@ -1,11 +1,11 @@
 import * as ts from 'typescript';
 
 import { ReferenceType } from '../../models/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
+import { Component, ConverterTypeComponent, TypeConverter } from '../components';
 import { Context } from '../context';
 
 @Component({name: 'type:alias'})
-export class AliasConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
+export class AliasConverter extends ConverterTypeComponent implements TypeConverter<ts.Type, ts.TypeReferenceNode> {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
@@ -74,6 +74,20 @@ export class AliasConverter extends ConverterTypeComponent implements TypeNodeCo
 
         if (node.typeArguments) {
             result.typeArguments = this.owner.convertTypes(context, node.typeArguments);
+        }
+
+        return result;
+    }
+
+    supportsType(context: Context, type: ts.Type): boolean {
+        return Boolean(type.aliasSymbol);
+    }
+
+    convertType(context: Context, type: ts.Type & { aliasSymbol: ts.Symbol }): ReferenceType {
+        const result = new ReferenceType(type.aliasSymbol.name, ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME);
+
+        if (type.aliasTypeArguments) {
+            result.typeArguments = this.owner.convertTypes(context, undefined, type.aliasTypeArguments);
         }
 
         return result;

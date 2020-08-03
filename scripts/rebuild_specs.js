@@ -21,7 +21,8 @@ app.bootstrap({
     ],
     name: 'typedoc',
     excludeExternals: true,
-    disableSources: true
+    disableSources: true,
+    resolveJsonModule: true
 });
 
 // Note that this uses the test files in dist, not in src, this is important since
@@ -84,7 +85,6 @@ async function rebuildRendererTest() {
     app.options.setValue('excludeExternals', false);
     app.generateDocs(app.expandInputFiles([src]), out)
     app.options.setValue('excludeExternals', true);
-    await fs.remove(path.join(out, 'assets'))
 
     /**
      * Avoiding sync methods here is... difficult.
