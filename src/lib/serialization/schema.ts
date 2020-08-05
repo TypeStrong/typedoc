@@ -222,7 +222,7 @@ export interface TupleType extends Type, S<M.TupleType, 'type'> {
 export interface TypeOperatorType extends Type, S<M.TypeOperatorType, 'type' | 'operator' | 'target'> {
 }
 
-export interface TypeParameterType extends Type, S<M.TypeParameterType, 'type' | 'name' | 'constraint'> {
+export interface TypeParameterType extends Type, S<M.TypeParameterType, 'type' | 'name' | 'constraint' | 'defaultType'> {
 }
 
 export interface UnionType extends Type, S<M.UnionType, 'type' | 'types'> {
