@@ -113,12 +113,8 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
             for (let i = 0; i < typeParams.length; ++i) {
                 if (typeArguments && typeArguments[i]) {
                     typeArgumentsWithDefaults.push(typeArguments[i]);
-                } else {
-                    const defaultType = typeParams[i].default;
-
-                    if (defaultType) {
-                        typeArgumentsWithDefaults.push(defaultType);
-                    }
+                } else if (typeParams[i].default) {
+                    typeArgumentsWithDefaults.push(typeParams[i].default!);
                 }
             }
 
