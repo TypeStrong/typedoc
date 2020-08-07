@@ -6,11 +6,11 @@ import * as ts from 'typescript';
  * @returns The type parameters of the type.
  */
 export function getTypeParametersOfType(type: ts.Type): ts.NodeArray<ts.TypeParameterDeclaration> | undefined {
-    type.symbol?.declarations?.forEach((declaration) => {
+    for (const declaration of type.symbol.declarations) {
         if (ts.isClassDeclaration(declaration)) {
             return declaration.typeParameters;
         }
-    });
+    }
 
     return undefined;
 }
