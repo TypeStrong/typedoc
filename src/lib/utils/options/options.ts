@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'util';
 import * as _ from 'lodash';
 import * as ts from 'typescript';
 
@@ -219,14 +220,14 @@ export class Options {
     }
 
     /**
-     * Checks if the given option has a set value or if the value is the default value.
+     * Checks if the given option's value is deeply strict equal to the default.
      * @param name
      */
     isDefault(name: keyof TypeDocOptions): boolean;
     isDefault(name: NeverIfInternal<string>): boolean;
     isDefault(name: string): boolean {
         // getValue will throw if the declaration does not exist.
-        return this.getValue(name as keyof TypeDocOptions) === this.getDeclaration(name)!.defaultValue;
+        return isDeepStrictEqual(this.getValue(name as keyof TypeDocOptions), this.getDefaultOptionValue(this.getDeclaration(name)!));
     }
 
     /**
@@ -300,15 +301,17 @@ export class Options {
      */
     private setOptionValueToDefault(declaration: Readonly<DeclarationOption>): void {
         if (declaration.scope !== ParameterScope.TypeScript) {
-            // No need to convert the defaultValue for a map type as it has to be of a specific type
-            if (declaration.type === ParameterType.Map) {
-                this._values[declaration.name] = declaration.defaultValue;
-            } else if (declaration.type === ParameterType.Number) {
-                // Don't use convert for number options to allow every possible number as a default value
-                this._values[declaration.name] = declaration.defaultValue || 0;
-            } else {
-                this._values[declaration.name] = convert(declaration.defaultValue, declaration);
-            }
+            this._values[declaration.name] = this.getDefaultOptionValue(declaration);
+        }
+    }
+
+    private getDefaultOptionValue(declaration: Readonly<DeclarationOption>): unknown {
+        // No need to convert the defaultValue for a map type as it has to be of a specific type
+        // Also don't use convert for number options to allow every possible number as a default value.
+        if (declaration.type === ParameterType.Map || declaration.type === ParameterType.Number) {
+            return declaration.defaultValue;
+        } else {
+            return convert(declaration.defaultValue, declaration);
         }
     }
 }

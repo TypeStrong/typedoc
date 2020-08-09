@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { deepStrictEqual as equal } from 'assert';
 
 import { TSConfigReader } from '../../../../lib/utils/options/readers';
@@ -47,5 +47,20 @@ describe('Options - TSConfigReader', () => {
         options.read(logger);
         equal(options.getValue('help'), true);
         equal(options.getCompilerOptions().target, ScriptTarget.ESNext);
+    });
+
+    it('Sets inputFiles if they have not been set', () => {
+        options.reset();
+        options.setValue('tsconfig', join(__dirname, 'data/valid.tsconfig.json'));
+        options.read(new Logger());
+        equal(options.getValue('inputFiles').map(f => resolve(f)), [resolve(__dirname, './data/file.ts')]);
+    });
+
+    it('Does not set inputFiles if they have been set', () => {
+        options.reset();
+        options.setValue('tsconfig', join(__dirname, 'data/valid.tsconfig.json'));
+        options.setValue('inputFiles', ['foo.ts']);
+        options.read(new Logger());
+        equal(options.getValue('inputFiles'), ['foo.ts']);
     });
 });
