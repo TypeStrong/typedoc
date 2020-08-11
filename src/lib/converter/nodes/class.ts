@@ -69,7 +69,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                         const typeParams = getTypeParametersOfType(typeToInheritFrom);
                         const typeArguments = typeParams
                             ? getTypeArgumentsWithDefaults(typeParams, baseType.typeArguments)
-                            : baseType.typeArguments;
+                            : undefined;
 
                         // TODO: The TS declaration file claims that:
                         // 1. type.symbol is non-nullable

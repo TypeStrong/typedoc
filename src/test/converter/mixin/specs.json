@@ -1046,7 +1046,11 @@
                   ],
                   "type": {
                     "type": "typeParameter",
-                    "name": "A"
+                    "name": "A",
+                    "default": {
+                      "type": "intrinsic",
+                      "name": "any"
+                    }                  
                   }
                 }
               ]
