@@ -15,6 +15,6 @@ export class TypeParameterReflection extends Reflection implements TypeContainer
     constructor(type: TypeParameterType, parent?: Reflection) {
         super(type.name, ReflectionKind.TypeParameter, parent);
         this.type = type.constraint;
-        this.default = type.defaultType;
+        this.default = type.default;
     }
 }

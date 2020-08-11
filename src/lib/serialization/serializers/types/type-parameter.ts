@@ -17,8 +17,8 @@ export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypePar
         if (type.constraint) {
             result.constraint = this.owner.toObject(type.constraint);
         }
-        if (type.defaultType) {
-            result.defaultType = this.owner.toObject(type.defaultType);
+        if (type.default) {
+            result.default = this.owner.toObject(type.default);
         }
 
         return result;

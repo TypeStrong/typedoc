@@ -22,7 +22,7 @@ export class TypeParameterType extends Type {
      * class SomeClass<T = {}>
      * ```
      */
-    defaultType?: Type;
+    default?: Type;
 
     /**
      * The type name identifier.
@@ -42,7 +42,7 @@ export class TypeParameterType extends Type {
     clone(): Type {
         const clone = new TypeParameterType(this.name);
         clone.constraint = this.constraint;
-        clone.defaultType = this.defaultType;
+        clone.default = this.default;
         return clone;
     }
 
@@ -57,23 +57,23 @@ export class TypeParameterType extends Type {
             return false;
         }
 
-        let constraintEqual = false;
+        let constraintEquals = false;
 
         if (this.constraint && type.constraint) {
-            constraintEqual = type.constraint.equals(this.constraint);
+            constraintEquals = type.constraint.equals(this.constraint);
         } else if (!this.constraint && !type.constraint) {
-            constraintEqual = true;
+            constraintEquals = true;
         }
 
-        let defaultTypeEqual = false;
+        let defaultEquals = false;
 
-        if (this.defaultType && type.defaultType) {
-            defaultTypeEqual = type.defaultType.equals(this.defaultType);
-        } else if (!this.defaultType && !type.defaultType) {
-            defaultTypeEqual = true;
+        if (this.default && type.default) {
+            defaultEquals = type.default.equals(this.default);
+        } else if (!this.default && !type.default) {
+            defaultEquals = true;
         }
 
-        return constraintEqual && defaultTypeEqual;
+        return constraintEquals && defaultEquals;
     }
 
     /**
