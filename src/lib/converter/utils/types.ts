@@ -3,16 +3,16 @@ import * as ts from 'typescript';
 /**
  * Returns the type parameters of a given type.
  * @param type The type whos type parameters are wanted.
- * @returns The type parameters of the type.
+ * @returns The type parameters of the type. An empty array if the type has no type parameters.
  */
-export function getTypeParametersOfType(type: ts.Type): ts.NodeArray<ts.TypeParameterDeclaration> | undefined {
+export function getTypeParametersOfType(type: ts.Type): ts.TypeParameterDeclaration[] {
     for (const declaration of type.symbol.declarations) {
-        if (ts.isClassDeclaration(declaration)) {
-            return declaration.typeParameters;
+        if (ts.isClassDeclaration(declaration) && declaration.typeParameters) {
+            return declaration.typeParameters.map(tp => tp);
         }
     }
 
-    return undefined;
+    return [];
 }
 
 /**
@@ -23,7 +23,7 @@ export function getTypeParametersOfType(type: ts.Type): ts.NodeArray<ts.TypePara
  * @returns The complete list of type arguments with possible default values if type arguments are missing.
  */
 export function getTypeArgumentsWithDefaults(
-    typeParams: ts.NodeArray<ts.TypeParameterDeclaration>,
+    typeParams: ts.TypeParameterDeclaration[],
     typeArguments?: ts.NodeArray<ts.TypeNode>
 ): ts.NodeArray<ts.TypeNode> {
     if (!typeArguments || typeParams.length > typeArguments.length) {

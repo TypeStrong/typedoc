@@ -65,12 +65,17 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                 if (type) {
                     const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
 
-                    typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
-                        const typeParams = getTypeParametersOfType(typeToInheritFrom);
-                        const typeArguments = typeParams
-                            ? getTypeArgumentsWithDefaults(typeParams, baseType.typeArguments)
-                            : undefined;
+                    // Get type parameters of all types
+                    let typeParams: ts.TypeParameterDeclaration[] = [];
+                    for (const typeToInheritFrom of typesToInheritFrom) {
+                        typeParams = typeParams.concat(getTypeParametersOfType(typeToInheritFrom));
+                    }
 
+                    const typeArguments = typeParams.length > 0
+                        ? getTypeArgumentsWithDefaults(typeParams, baseType.typeArguments)
+                        : undefined;
+
+                    typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
                         // TODO: The TS declaration file claims that:
                         // 1. type.symbol is non-nullable
                         // 2. symbol.declarations is non-nullable
