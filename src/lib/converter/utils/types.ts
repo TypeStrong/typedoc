@@ -7,7 +7,8 @@ import * as ts from 'typescript';
  */
 export function getTypeParametersOfType(type: ts.Type): ts.TypeParameterDeclaration[] {
     for (const declaration of type.symbol.declarations) {
-        if (ts.isClassDeclaration(declaration) && declaration.typeParameters) {
+        if ((ts.isClassDeclaration(declaration) || ts.isInterfaceDeclaration(declaration)) &&
+             declaration.typeParameters) {
             return declaration.typeParameters.map(tp => tp);
         }
     }
