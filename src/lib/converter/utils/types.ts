@@ -5,11 +5,13 @@ import * as ts from 'typescript';
  * @param type The type whos type parameters are wanted.
  * @returns The type parameters of the type. An empty array if the type has no type parameters.
  */
-export function getTypeParametersOfType(type: ts.Type): ts.TypeParameterDeclaration[] {
-    for (const declaration of type.symbol.declarations) {
+export function getTypeParametersOfType(type: ts.Type): ReadonlyArray<ts.TypeParameterDeclaration> {
+    const declarations = type.getSymbol()?.getDeclarations() ?? [];
+
+    for (const declaration of declarations) {
         if ((ts.isClassDeclaration(declaration) || ts.isInterfaceDeclaration(declaration)) &&
              declaration.typeParameters) {
-            return declaration.typeParameters.map(tp => tp);
+            return declaration.typeParameters;
         }
     }
 
@@ -25,20 +27,24 @@ export function getTypeParametersOfType(type: ts.Type): ts.TypeParameterDeclarat
  */
 export function getTypeArgumentsWithDefaults(
     typeParams: ts.TypeParameterDeclaration[],
-    typeArguments?: ts.NodeArray<ts.TypeNode>
-): ts.NodeArray<ts.TypeNode> {
+    typeArguments?: ReadonlyArray<ts.TypeNode>
+): ReadonlyArray<ts.TypeNode> {
     if (!typeArguments || typeParams.length > typeArguments.length) {
         const typeArgumentsWithDefaults = new Array<ts.TypeNode>();
 
         for (let i = 0; i < typeParams.length; ++i) {
             if (typeArguments && typeArguments[i]) {
                 typeArgumentsWithDefaults.push(typeArguments[i]);
-            } else if (typeParams[i].default) {
-                typeArgumentsWithDefaults.push(typeParams[i].default!);
+            } else {
+                const defaultType = typeParams[i].default;
+
+                if (defaultType) {
+                    typeArgumentsWithDefaults.push(defaultType);
+                }
             }
         }
 
-        return ts.createNodeArray<ts.TypeNode>(typeArgumentsWithDefaults);
+        return typeArgumentsWithDefaults;
     }
 
     return typeArguments;
