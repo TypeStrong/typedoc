@@ -296,7 +296,7 @@ export class Context {
      * @param typeArguments  The type arguments that apply while inheriting the given node.
      * @return The resulting reflection / the current scope.
      */
-    inherit(baseNode: ts.Node, typeArguments?: ts.NodeArray<ts.TypeNode>): Reflection {
+    inherit(baseNode: ts.Node, typeArguments?: ReadonlyArray<ts.TypeNode>): Reflection {
         const wasInherit = this.isInherit;
         const oldInherited = this.inherited;
         const oldInheritParent = this.inheritParent;

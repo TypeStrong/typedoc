@@ -15,54 +15,54 @@
       "originalName": "%BASE%/alias/alias.ts",
       "children": [
         {
-          "id": 29,
+          "id": 30,
           "name": "GH1330",
           "kind": 2,
           "kindString": "Namespace",
           "flags": {},
           "children": [
             {
-              "id": 30,
+              "id": 31,
               "name": "Example",
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 31,
+                  "id": 32,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 32,
+                    "id": 33,
                     "name": "ExampleParam"
                   }
                 }
               ]
             },
             {
-              "id": 32,
+              "id": 33,
               "name": "ExampleParam",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 30,
+                "id": 31,
                 "name": "Example"
               }
             },
             {
-              "id": 41,
+              "id": 42,
               "name": "HasProp",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 42,
+                  "id": 43,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -72,14 +72,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 43,
+                  "id": 44,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 44,
+                      "id": 45,
                       "name": "key",
                       "kind": 32,
                       "kindString": "Variable",
@@ -95,7 +95,7 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        44
+                        45
                       ]
                     }
                   ]
@@ -103,7 +103,7 @@
               }
             },
             {
-              "id": 33,
+              "id": 34,
               "name": "makeExample",
               "kind": 32,
               "kindString": "Variable",
@@ -113,21 +113,21 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 34,
+                  "id": 35,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "signatures": [
                     {
-                      "id": 35,
+                      "id": 36,
                       "name": "__call",
                       "kind": 4096,
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 30,
+                        "id": 31,
                         "name": "Example"
                       }
                     }
@@ -136,7 +136,7 @@
               }
             },
             {
-              "id": 36,
+              "id": 37,
               "name": "makeExample2",
               "kind": 32,
               "kindString": "Variable",
@@ -146,21 +146,21 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 37,
+                  "id": 38,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "signatures": [
                     {
-                      "id": 38,
+                      "id": 39,
                       "name": "__call",
                       "kind": 4096,
                       "kindString": "Call signature",
                       "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 32,
+                        "id": 33,
                         "name": "ExampleParam"
                       }
                     }
@@ -169,7 +169,7 @@
               }
             },
             {
-              "id": 45,
+              "id": 46,
               "name": "makeProp",
               "kind": 32,
               "kindString": "Variable",
@@ -179,21 +179,21 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 46,
+                  "id": 47,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "signatures": [
                     {
-                      "id": 47,
+                      "id": 48,
                       "name": "__call",
                       "kind": 4096,
                       "kindString": "Call signature",
                       "flags": {},
                       "typeParameter": [
                         {
-                          "id": 48,
+                          "id": 49,
                           "name": "T",
                           "kind": 131072,
                           "kindString": "Type parameter",
@@ -202,7 +202,7 @@
                       ],
                       "parameters": [
                         {
-                          "id": 49,
+                          "id": 50,
                           "name": "x",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -215,7 +215,7 @@
                       ],
                       "type": {
                         "type": "reference",
-                        "id": 41,
+                        "id": 42,
                         "typeArguments": [
                           {
                             "type": "typeParameter",
@@ -230,7 +230,7 @@
               }
             },
             {
-              "id": 39,
+              "id": 40,
               "name": "testValue",
               "kind": 32,
               "kindString": "Variable",
@@ -240,11 +240,11 @@
               },
               "type": {
                 "type": "reference",
-                "id": 30,
+                "id": 31,
                 "typeArguments": [
                   {
                     "type": "reference",
-                    "id": 32,
+                    "id": 33,
                     "name": "ExampleParam"
                   }
                 ],
@@ -253,7 +253,7 @@
               "defaultValue": "makeExample()"
             },
             {
-              "id": 40,
+              "id": 41,
               "name": "testValue2",
               "kind": 32,
               "kindString": "Variable",
@@ -263,13 +263,13 @@
               },
               "type": {
                 "type": "reference",
-                "id": 32,
+                "id": 33,
                 "name": "ExampleParam"
               },
               "defaultValue": "makeExample2()"
             },
             {
-              "id": 50,
+              "id": 51,
               "name": "testValue3",
               "kind": 32,
               "kindString": "Variable",
@@ -279,7 +279,7 @@
               },
               "type": {
                 "type": "reference",
-                "id": 41,
+                "id": 42,
                 "typeArguments": [
                   {
                     "type": "intrinsic",
@@ -296,27 +296,27 @@
               "title": "Interfaces",
               "kind": 256,
               "children": [
-                30
+                31
               ]
             },
             {
               "title": "Type aliases",
               "kind": 4194304,
               "children": [
-                32,
-                41
+                33,
+                42
               ]
             },
             {
               "title": "Variables",
               "kind": 32,
               "children": [
-                33,
-                36,
-                45,
-                39,
+                34,
+                37,
+                46,
                 40,
-                50
+                41,
+                51
               ]
             }
           ]
@@ -350,7 +350,7 @@
               }
             },
             {
-              "id": 24,
+              "id": 25,
               "name": "R",
               "kind": 131072,
               "kindString": "Type parameter",
@@ -397,7 +397,7 @@
             "objectType": {
               "type": "reflection",
               "declaration": {
-                "id": 25,
+                "id": 26,
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
@@ -406,7 +406,7 @@
                 },
                 "children": [
                   {
-                    "id": 26,
+                    "id": 27,
                     "name": "0",
                     "kind": 32,
                     "kindString": "Variable",
@@ -414,12 +414,24 @@
                       "isExported": true
                     },
                     "type": {
+                      "default": {
+                          "declaration": {
+                            "flags": {
+                              "isExported": true
+                            },
+                            "id": 24,
+                            "kind": 65536,
+                            "kindString": "Type literal",
+                            "name": "__type"
+                          },
+                          "type": "reflection"
+                        },
                       "type": "typeParameter",
                       "name": "R"
                     }
                   },
                   {
-                    "id": 27,
+                    "id": 28,
                     "name": "1",
                     "kind": 32,
                     "kindString": "Variable",
@@ -451,7 +463,7 @@
                         {
                           "type": "reflection",
                           "declaration": {
-                            "id": 28,
+                            "id": 29,
                             "name": "__type",
                             "kind": 65536,
                             "kindString": "Type literal",
@@ -470,8 +482,8 @@
                     "title": "Variables",
                     "kind": 32,
                     "children": [
-                      26,
-                      27
+                      27,
+                      28
                     ]
                   }
                 ]
@@ -825,7 +837,7 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            29
+            30
           ]
         },
         {

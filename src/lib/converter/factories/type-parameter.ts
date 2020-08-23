@@ -20,6 +20,9 @@ export function createTypeParameter(context: Context, node: ts.TypeParameterDecl
     if (node.constraint) {
         typeParameter.constraint = context.converter.convertType(context, node.constraint);
     }
+    if (node.default) {
+        typeParameter.default = context.converter.convertType(context, node.default);
+    }
 
     const reflection = <TypeParameterContainer> context.scope;
     const typeParameterReflection = new TypeParameterReflection(typeParameter, reflection);

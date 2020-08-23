@@ -6,6 +6,7 @@ import { createDeclaration } from '../factories/index';
 import { Context } from '../context';
 import { Component, ConverterNodeComponent } from '../components';
 import { toArray } from 'lodash';
+import { getTypeArgumentsWithDefaults, getTypeParametersOfType } from '../utils/types';
 
 @Component({name: 'node:class'})
 export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> {
@@ -64,6 +65,16 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                 if (type) {
                     const typesToInheritFrom: ts.Type[] = type.isIntersection() ? type.types : [ type ];
 
+                    // Get type parameters of all types
+                    let typeParams: ts.TypeParameterDeclaration[] = [];
+                    for (const typeToInheritFrom of typesToInheritFrom) {
+                        typeParams = typeParams.concat(getTypeParametersOfType(typeToInheritFrom));
+                    }
+
+                    const typeArguments = typeParams.length > 0
+                        ? getTypeArgumentsWithDefaults(typeParams, baseType.typeArguments)
+                        : undefined;
+
                     typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
                         // TODO: The TS declaration file claims that:
                         // 1. type.symbol is non-nullable
@@ -71,7 +82,7 @@ export class ClassConverter extends ConverterNodeComponent<ts.ClassDeclaration> 
                         // These are both incorrect, GH#1207 for #2 and existing tests for #1.
                         // Figure out why this is the case and document.
                         typeToInheritFrom.symbol?.declarations?.forEach((declaration) => {
-                            context.inherit(declaration, baseType.typeArguments);
+                            context.inherit(declaration, typeArguments);
                         });
                     });
                 }
