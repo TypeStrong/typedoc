@@ -12,6 +12,17 @@ export class TypeOperatorConverter extends ConverterTypeComponent implements Typ
     priority = 50;
 
     /**
+     * add two more operators based on the references below:
+     * https://github.com/microsoft/TypeScript/blob/e83102134e5640abb78b0c62941b3b5003ab6c1a/src/compiler/types.ts#L1602
+     * https://github.com/TypeStrong/typedoc/blob/b7a5b2d5ea1ae088e9510783ede20e842b120d0f/src/lib/converter/types.ts#L375
+     */
+    private readonly supportedOperatorNames = {
+        [ts.SyntaxKind.KeyOfKeyword]: 'keyof',
+        [ts.SyntaxKind.UniqueKeyword]: 'unique',
+        [ts.SyntaxKind.ReadonlyKeyword]: 'readonly'
+    } as const;
+
+    /**
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(context: Context, node: ts.TypeOperatorNode, type: ts.Type): boolean {
@@ -28,7 +39,8 @@ export class TypeOperatorConverter extends ConverterTypeComponent implements Typ
     convertNode(context: Context, node: ts.TypeOperatorNode): TypeOperatorType | undefined {
         const target = this.owner.convertType(context, node.type);
         if (target) {
-            return new TypeOperatorType(target);
+            const operator = this.supportedOperatorNames[node.operator];
+            return new TypeOperatorType(target, operator);
         }
     }
 }
