@@ -1,4 +1,9 @@
-import { Application, resetReflectionID, normalizePath, ProjectReflection } from '..';
+import {
+    Application,
+    resetReflectionID,
+    normalizePath,
+    ProjectReflection
+} from '..';
 import * as FS from 'fs';
 import * as Path from 'path';
 import { deepStrictEqual as equal, ok } from 'assert';
@@ -7,7 +12,7 @@ import { ScriptTarget, ModuleKind, JsxEmit } from 'typescript';
 import json = require('./converter/class/specs.json');
 import { JSONOutput } from '../lib/serialization';
 
-describe('Converter', function() {
+describe('Converter', function () {
     const base = Path.join(__dirname, 'converter');
     const app = new Application();
     app.bootstrap({
@@ -25,18 +30,26 @@ describe('Converter', function() {
     });
 
     const checks: [string, () => void, () => void][] = [
-        ['specs', () => { }, () => { }],
-        ['specs.d',
+        ['specs', () => {}, () => {}],
+        [
+            'specs.d',
             () => app.options.setValue('includeDeclarations', true),
             () => app.options.setValue('includeDeclarations', false)
         ],
-        ['specs-without-exported',
+        [
+            'specs-without-exported',
             () => app.options.setValue('excludeNotExported', true),
             () => app.options.setValue('excludeNotExported', false)
         ],
-        ['specs-with-lump-categories',
+        [
+            'specs-with-lump-categories',
             () => app.options.setValue('categorizeByGroup', false),
             () => app.options.setValue('categorizeByGroup', true)
+        ],
+        [
+            'specs.nodoc',
+            () => app.options.setValue('excludeNotDocumented', true),
+            () => app.options.setValue('excludeNotDocumented', false)
         ]
     ];
 
@@ -46,7 +59,7 @@ describe('Converter', function() {
             return;
         }
 
-        describe(directory, function() {
+        describe(directory, function () {
             for (const [file, before, after] of checks) {
                 const specsFile = Path.join(path, `${file}.json`);
                 if (!FS.existsSync(specsFile)) {
@@ -55,17 +68,26 @@ describe('Converter', function() {
 
                 let result: ProjectReflection | undefined;
 
-                it(`[${file}] converts fixtures`, function() {
+                it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
                     result = app.convert(app.expandInputFiles([path]));
                     after();
-                    ok(result instanceof ProjectReflection, 'No reflection returned');
+                    ok(
+                        result instanceof ProjectReflection,
+                        'No reflection returned'
+                    );
                 });
 
-                it(`[${file}] matches specs`, function() {
-                    const specs = JSON.parse(FS.readFileSync(specsFile, 'utf-8'));
-                    let data = JSON.stringify(app.serializer.toObject(result), null, '  ');
+                it(`[${file}] matches specs`, function () {
+                    const specs = JSON.parse(
+                        FS.readFileSync(specsFile, 'utf-8')
+                    );
+                    let data = JSON.stringify(
+                        app.serializer.toObject(result),
+                        null,
+                        '  '
+                    );
                     data = data.split(normalizePath(base)).join('%BASE%');
 
                     equal(JSON.parse(data), specs);

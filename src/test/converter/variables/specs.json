@@ -404,15 +404,17 @@
                           "type": "union",
                           "types": [
                             {
-                              "type": "unknown",
-                              "name": "T"
+                              "type": "reference",
+                              "id": 4,
+                              "name": "Foo"
                             },
                             {
                               "type": "reference",
                               "typeArguments": [
                                 {
-                                  "type": "unknown",
-                                  "name": "T"
+                                  "type": "reference",
+                                  "id": 4,
+                                  "name": "Foo"
                                 }
                               ],
                               "name": "ConcatArray"
@@ -3996,10 +3998,6 @@
                 "type": "union",
                 "types": [
                   {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  {
                     "type": "array",
                     "elementType": {
                       "type": "union",
@@ -4027,6 +4025,10 @@
                         }
                       ]
                     }
+                  },
+                  {
+                    "type": "intrinsic",
+                    "name": "string"
                   }
                 ]
               }
