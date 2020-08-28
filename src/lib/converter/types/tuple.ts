@@ -1,15 +1,16 @@
 import * as ts from 'typescript';
 
 import { Type, TupleType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeConverter } from '../components';
+import { Component, ConverterTypeComponent, TypeConverter, TypeNodeConverter } from '../components';
 import { Context } from '../context';
+import { NamedTupleMember } from '../../models/types/tuple';
 
 @Component({name: 'type:tuple'})
 export class TupleConverter extends ConverterTypeComponent implements TypeConverter<ts.TypeReference, ts.TupleTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.TupleTypeNode): boolean {
+    supportsNode(_context: Context, node: ts.TupleTypeNode): boolean {
         return node.kind === ts.SyntaxKind.TupleType;
     }
 
@@ -46,7 +47,7 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * @returns The type reflection representing the given tuple type node.
      */
     convertNode(context: Context, node: ts.TupleTypeNode): TupleType {
-        const elements: Type[] = this.owner.convertTypes(context, node.elementTypes);
+        const elements: Type[] = this.owner.convertTypes(context, node.elements);
         return new TupleType(elements);
     }
 
@@ -64,7 +65,24 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * @returns The type reflection representing the given tuple type.
      */
     convertType(context: Context, type: ts.TypeReference): TupleType {
+        // TODO: We might be able to have named tuple elements here.
         const elements: Type[] = this.owner.convertTypes(context, undefined, type.typeArguments);
         return new TupleType(elements);
+    }
+}
+
+@Component({ name: 'type:named-tuple-member' })
+export class NamedTupleMemberConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.NamedTupleMember> {
+    supportsNode(_context: Context, node: ts.Node) {
+        return ts.isNamedTupleMember(node);
+    }
+
+    convertNode(context: Context, node: ts.NamedTupleMember): NamedTupleMember | undefined {
+        const innerType = this.owner.convertType(context, node.type);
+        if (!innerType) {
+            return;
+        }
+
+        return new NamedTupleMember(node.name.getText(), !!node.questionToken, innerType);
     }
 }

@@ -1,7 +1,11 @@
 import { TupleType } from '../../../models';
+import { NamedTupleMember } from '../../../models/types/tuple';
 
 import { TypeSerializerComponent } from '../../components';
-import { TupleType as JSONTupleType } from '../../schema';
+import {
+    TupleType as JSONTupleType,
+    NamedTupleMemberType as JSONNamedTupleMemberType
+} from '../../schema';
 
 export class TupleTypeSerializer extends TypeSerializerComponent<TupleType> {
     supports(t: unknown) {
@@ -16,5 +20,20 @@ export class TupleTypeSerializer extends TypeSerializerComponent<TupleType> {
         }
 
         return result;
+    }
+}
+
+export class NamedTupleMemberTypeSerializer extends TypeSerializerComponent<NamedTupleMember> {
+    supports(t: unknown) {
+        return t instanceof NamedTupleMember;
+    }
+
+    toObject(tuple: NamedTupleMember, obj: Pick<JSONNamedTupleMemberType, 'type'>): JSONNamedTupleMemberType {
+        return {
+            ...obj,
+            name: tuple.name,
+            isOptional: tuple.isOptional,
+            element: this.owner.toObject(tuple.element)
+        };
     }
 }
