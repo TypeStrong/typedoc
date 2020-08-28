@@ -70,7 +70,7 @@ export class NamedTupleMember extends Type {
         super();
     }
 
-        /**
+    /**
      * Clone this type.
      *
      * @return A clone of this type.
