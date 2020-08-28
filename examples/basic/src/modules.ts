@@ -83,3 +83,5 @@ let typeLiteral: {
     valueA?: number;
     valueB?: boolean;
 };
+
+export type NamedTuple = [name: string, optionalName?: number];

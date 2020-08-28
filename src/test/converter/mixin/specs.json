@@ -270,9 +270,12 @@
                         "isExported": true
                       },
                       "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Mixin1Type"
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "id": 6,
+                          "name": "Mixin1Type"
+                        }
                       }
                     }
                   ],
@@ -566,9 +569,12 @@
                         "isExported": true
                       },
                       "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Mixin1Type"
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "id": 6,
+                          "name": "Mixin1Type"
+                        }
                       }
                     }
                   ],
@@ -793,9 +799,12 @@
                         "isExported": true
                       },
                       "type": {
-                        "type": "reference",
-                        "id": 6,
-                        "name": "Mixin1Type"
+                        "type": "array",
+                        "elementType": {
+                          "type": "reference",
+                          "id": 6,
+                          "name": "Mixin1Type"
+                        }
                       }
                     }
                   ],
@@ -1050,7 +1059,7 @@
                     "default": {
                       "type": "intrinsic",
                       "name": "any"
-                    }                  
+                    }
                   }
                 }
               ]
