@@ -7,6 +7,7 @@ export { EnumConverter } from './enum';
 export { InferredConverter } from './inferred';
 export { IndexedAccessConverter } from './indexed-access';
 export { IntrinsicConverter } from './intrinsic';
+export { ParensConverter } from './parens';
 export { PredicateConverter } from './predicate';
 export { QueryConverter } from './query';
 export { StringLiteralConverter } from './string-literal';
