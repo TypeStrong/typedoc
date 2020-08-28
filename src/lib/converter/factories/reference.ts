@@ -35,7 +35,8 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
 
     // If any declaration is outside, the symbol should be considered outside. Some declarations may
     // be inside due to declaration merging.
-    if (target.declarations.some(d => context.isOutsideDocumentation(d.getSourceFile().fileName))) {
+    const declarations = target.getDeclarations();
+    if (!declarations || declarations.some(d => context.isOutsideDocumentation(d.getSourceFile().fileName))) {
         return;
     }
 
