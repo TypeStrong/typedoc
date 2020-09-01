@@ -74,7 +74,7 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
 @Component({ name: 'type:named-tuple-member' })
 export class NamedTupleMemberConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.NamedTupleMember> {
     supportsNode(_context: Context, node: ts.Node) {
-        return ts.isNamedTupleMember(node);
+        return ts.isNamedTupleMember && ts.isNamedTupleMember(node);
     }
 
     convertNode(context: Context, node: ts.NamedTupleMember): NamedTupleMember | undefined {
