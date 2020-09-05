@@ -47,7 +47,9 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
      * @returns The type reflection representing the given tuple type node.
      */
     convertNode(context: Context, node: ts.TupleTypeNode): TupleType {
-        const elements: Type[] = this.owner.convertTypes(context, node.elements);
+        // TS 3.9 support
+        const elementTypes = node.elements ?? (node as any).elementTypes;
+        const elements: Type[] = this.owner.convertTypes(context, elementTypes);
         return new TupleType(elements);
     }
 
@@ -74,7 +76,8 @@ export class TupleConverter extends ConverterTypeComponent implements TypeConver
 @Component({ name: 'type:named-tuple-member' })
 export class NamedTupleMemberConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.NamedTupleMember> {
     supportsNode(_context: Context, node: ts.Node) {
-        return ts.isNamedTupleMember(node);
+        // TS 3.9 support
+        return ts.isNamedTupleMember && ts.isNamedTupleMember(node);
     }
 
     convertNode(context: Context, node: ts.NamedTupleMember): NamedTupleMember | undefined {

@@ -9,6 +9,7 @@
 import * as Path from 'path';
 import * as FS from 'fs';
 import * as typescript from 'typescript';
+import * as semver from 'semver';
 
 import { Converter } from './converter/index';
 import { Renderer } from './output/renderer';
@@ -91,6 +92,11 @@ export class Application extends ChildableComponent<
      * The version number of TypeDoc.
      */
     static VERSION = '{{ VERSION }}';
+
+    /**
+     * The supported TypeScript version.
+     */
+    static SUPPORTED_TS_VERSION = '{{ SUPPORTED }}';
 
     /**
      * Create a new TypeDoc application instance.
@@ -183,6 +189,10 @@ export class Application extends ChildableComponent<
             this.getTypeScriptVersion(),
             this.getTypeScriptPath()
         );
+
+        if (!semver.satisfies(typescript.version, Application.SUPPORTED_TS_VERSION)) {
+            this.logger.warn(`You are running in an unsupported TypeScript version! TypeDoc supports ${Application.SUPPORTED_TS_VERSION}`);
+        }
 
         const result = this.converter.convert(src);
         if (result.errors && result.errors.length) {

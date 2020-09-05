@@ -28,11 +28,12 @@
     "marked": "^1.1.1",
     "minimatch": "^3.0.0",
     "progress": "^2.0.3",
+    "semver": "^7.3.2",
     "shelljs": "^0.8.4",
     "typedoc-default-themes": "^0.11.1"
   },
   "peerDependencies": {
-    "typescript": ">=4.0.2"
+    "typescript": "3.9.x || 4.0.x"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.1",
