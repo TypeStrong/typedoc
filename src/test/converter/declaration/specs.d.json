@@ -118,6 +118,97 @@
           ]
         }
       ]
+    },
+    {
+      "id": 8,
+      "name": "\"namespaces.d\"",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {
+        "isExported": true
+      },
+      "originalName": "%BASE%/declaration/namespaces.d.ts",
+      "children": [
+        {
+          "id": 11,
+          "name": "GH1366",
+          "kind": 2,
+          "kindString": "Namespace",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 12,
+              "name": "Foo",
+              "kind": 16777216,
+              "kindString": "Reference",
+              "flags": {
+                "isExported": true
+              },
+              "target": 9
+            }
+          ],
+          "groups": [
+            {
+              "title": "References",
+              "kind": 16777216,
+              "children": [
+                12
+              ]
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Foo",
+          "kind": 256,
+          "kindString": "Interface",
+          "flags": {
+            "isExported": true
+          },
+          "children": [
+            {
+              "id": 10,
+              "name": "prop",
+              "kind": 1024,
+              "kindString": "Property",
+              "flags": {
+                "isExported": true
+              },
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Properties",
+              "kind": 1024,
+              "children": [
+                10
+              ]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Namespaces",
+          "kind": 2,
+          "children": [
+            11
+          ]
+        },
+        {
+          "title": "Interfaces",
+          "kind": 256,
+          "children": [
+            9
+          ]
+        }
+      ]
     }
   ],
   "groups": [
@@ -126,7 +217,8 @@
       "kind": 1,
       "children": [
         1,
-        5
+        5,
+        8
       ]
     }
   ]
