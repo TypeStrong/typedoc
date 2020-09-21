@@ -1,31 +1,31 @@
-import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
+import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
-import { ReferenceType } from '../../models/types/index';
-import { Reflection, Decorator } from '../../models/reflections/index';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
+import { ReferenceType } from "../../models/types/index";
+import { Reflection, Decorator } from "../../models/reflections/index";
+import { Component, ConverterComponent } from "../components";
+import { Converter } from "../converter";
+import { Context } from "../context";
 
 /**
  * A plugin that detects decorators.
  */
-@Component({name: 'decorator'})
+@Component({ name: "decorator" })
 export class DecoratorPlugin extends ConverterComponent {
     /**
      * Defined in this.onBegin
      */
-    private usages!: {[fqn: number]: ReferenceType[]};
+    private usages!: { [fqn: number]: ReferenceType[] };
 
     /**
      * Create a new ImplementsPlugin instance.
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:              this.onBegin,
+            [Converter.EVENT_BEGIN]: this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_CREATE_PARAMETER]:   this.onDeclaration,
-            [Converter.EVENT_RESOLVE]:            this.onBeginResolve
+            [Converter.EVENT_CREATE_PARAMETER]: this.onDeclaration,
+            [Converter.EVENT_RESOLVE]: this.onBeginResolve,
         });
     }
 
@@ -36,17 +36,20 @@ export class DecoratorPlugin extends ConverterComponent {
      * @param signature  The signature definition of the decorator being used.
      * @returns An object describing the decorator parameters,
      */
-    private extractArguments(args: ts.NodeArray<ts.Expression>, signature: ts.Signature): { [name: string]: string | string[] } {
+    private extractArguments(
+        args: ts.NodeArray<ts.Expression>,
+        signature: ts.Signature
+    ): { [name: string]: string | string[] } {
         const result = {};
         args.forEach((arg: ts.Expression, index: number) => {
             if (index < signature.parameters.length) {
                 const parameter = signature.parameters[index];
                 result[parameter.name] = arg.getText();
             } else {
-                if (!result['...']) {
-                    result['...'] = [];
+                if (!result["..."]) {
+                    result["..."] = [];
                 }
-                result['...'].push(arg.getText());
+                result["..."].push(arg.getText());
             }
         });
 
@@ -69,7 +72,11 @@ export class DecoratorPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+    private onDeclaration(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.Node
+    ) {
         if (!node || !node.decorators) {
             return;
         }
@@ -82,7 +89,7 @@ export class DecoratorPlugin extends ConverterComponent {
                     identifier = decorator.expression;
                     break;
                 case ts.SyntaxKind.CallExpression:
-                    callExpression = <ts.CallExpression> decorator.expression;
+                    callExpression = <ts.CallExpression>decorator.expression;
                     identifier = callExpression.expression;
                     break;
                 default:
@@ -90,7 +97,7 @@ export class DecoratorPlugin extends ConverterComponent {
             }
 
             const info: Decorator = {
-                name: identifier.getText()
+                name: identifier.getText(),
             };
 
             const type = context.checker.getTypeAtLocation(identifier);
@@ -99,16 +106,27 @@ export class DecoratorPlugin extends ConverterComponent {
                 info.type = new ReferenceType(info.name, fqn);
 
                 if (callExpression && callExpression.arguments) {
-                    const signature = context.checker.getResolvedSignature(callExpression);
+                    const signature = context.checker.getResolvedSignature(
+                        callExpression
+                    );
                     if (signature) {
-                        info.arguments = this.extractArguments(callExpression.arguments, signature);
+                        info.arguments = this.extractArguments(
+                            callExpression.arguments,
+                            signature
+                        );
                     }
                 }
 
                 if (!this.usages[fqn]) {
                     this.usages[fqn] = [];
                 }
-                this.usages[fqn].push(new ReferenceType(reflection.name, ReferenceType.SYMBOL_FQN_RESOLVED, reflection));
+                this.usages[fqn].push(
+                    new ReferenceType(
+                        reflection.name,
+                        ReferenceType.SYMBOL_FQN_RESOLVED,
+                        reflection
+                    )
+                );
             }
 
             if (!reflection.decorators) {
@@ -125,11 +143,7 @@ export class DecoratorPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently resolved.
      */
     private onBeginResolve(context: Context) {
-        for (const fqn in this.usages) {
-            if (!this.usages.hasOwnProperty(fqn)) {
-                continue;
-            }
-
+        for (const fqn of Object.keys(this.usages)) {
             const reflection = context.project.getReflectionFromFQN(fqn);
             if (reflection) {
                 reflection.decorates = this.usages[fqn];

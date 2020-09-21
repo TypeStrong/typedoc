@@ -1,6 +1,12 @@
-export function splitUnquotedString(input: string, delimiter: string): string[] {
+export function splitUnquotedString(
+    input: string,
+    delimiter: string
+): string[] {
     if (input.startsWith(delimiter)) {
-        return splitUnquotedString(input.substring(delimiter.length), delimiter);
+        return splitUnquotedString(
+            input.substring(delimiter.length),
+            delimiter
+        );
     }
     if (input.startsWith('"')) {
         // the part inside the quotes should not be split, the rest should
@@ -14,7 +20,7 @@ export function splitUnquotedString(input: string, delimiter: string): string[] 
         } else {
             const remainder = input.substring(closingQuoteIndex + 1);
             const result = [input.substring(0, closingQuoteIndex + 1)];
-            result.push.apply(result, this.splitUnquotedString(remainder, delimiter));
+            result.push(...this.splitUnquotedString(remainder, delimiter));
             return result;
         }
     } else {

@@ -1,18 +1,20 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Reflection, ReflectionKind } from '../../models/index';
-import { createDeclaration, createSignature } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import { Reflection, ReflectionKind } from "../../models/index";
+import { createDeclaration, createSignature } from "../factories/index";
+import { Context } from "../context";
+import { Component, ConverterNodeComponent } from "../components";
 
-@Component({name: 'node:accessor'})
-export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclaration> {
+@Component({ name: "node:accessor" })
+export class AccessorConverter extends ConverterNodeComponent<
+    ts.SignatureDeclaration
+> {
     /**
      * List of supported TypeScript syntax kinds.
      */
     supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.GetAccessor,
-        ts.SyntaxKind.SetAccessor
+        ts.SyntaxKind.SetAccessor,
     ];
 
     /**
@@ -22,14 +24,31 @@ export class AccessorConverter extends ConverterNodeComponent<ts.SignatureDeclar
      * @param node     The signature declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.SignatureDeclaration): Reflection | undefined {
-        const accessor = createDeclaration(context, node, ReflectionKind.Accessor);
+    convert(
+        context: Context,
+        node: ts.SignatureDeclaration
+    ): Reflection | undefined {
+        const accessor = createDeclaration(
+            context,
+            node,
+            ReflectionKind.Accessor
+        );
 
         context.withScope(accessor, () => {
             if (node.kind === ts.SyntaxKind.GetAccessor) {
-                accessor!.getSignature = createSignature(context, node, '__get', ReflectionKind.GetSignature);
+                accessor!.getSignature = createSignature(
+                    context,
+                    node,
+                    "__get",
+                    ReflectionKind.GetSignature
+                );
             } else {
-                accessor!.setSignature = createSignature(context, node, '__set', ReflectionKind.SetSignature);
+                accessor!.setSignature = createSignature(
+                    context,
+                    node,
+                    "__set",
+                    ReflectionKind.SetSignature
+                );
             }
         });
 

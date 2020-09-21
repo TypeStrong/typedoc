@@ -20,7 +20,7 @@ interface Test {
      * @param event The name of the event to subscribe for.
      * @param handler A handler that will receive the error details
      */
-    on(event: 'error', handler: (e: any) => void): void;
+    on(event: "error", handler: (e: any) => void): void;
 
     /**
      * Subscribe for progress notifications.
@@ -29,7 +29,7 @@ interface Test {
      * @param event The name of the event to subscribe for.
      * @param handler A handler that will receive a progress event with the current and expected total bytes
      */
-    on(event: 'progress', handler: (e: any) => void): void;
+    on(event: "progress", handler: (e: any) => void): void;
 
     /**
      * Subscribe for success notification.
@@ -38,7 +38,7 @@ interface Test {
      * @param event The name of the event to subscribe for.
      * @param handler A function that will be called with general event data upon successful completion
      */
-    on(event: 'complete', handler: (e: any) => void): void;
+    on(event: "complete", handler: (e: any) => void): void;
 }
 
 export {};

@@ -1,12 +1,12 @@
-import * as Path from 'path';
-import * as FS from 'fs';
-import * as ts from 'typescript';
+import * as Path from "path";
+import * as FS from "fs";
+import * as ts from "typescript";
 
-import { Reflection } from '../../models/reflections/abstract';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
-import { BindOption, readFile } from '../../utils';
+import { Reflection } from "../../models/reflections/abstract";
+import { Component, ConverterComponent } from "../components";
+import { Converter } from "../converter";
+import { Context } from "../context";
+import { BindOption, readFile } from "../../utils";
 
 /**
  * A handler that tries to find the package.json and readme.md files of the
@@ -16,12 +16,12 @@ import { BindOption, readFile } from '../../utils';
  * and records the nearest package info files it can find. Within the resolve files, the
  * contents of the found files will be read and appended to the ProjectReflection.
  */
-@Component({name: 'package'})
+@Component({ name: "package" })
 export class PackagePlugin extends ConverterComponent {
-    @BindOption('readme')
+    @BindOption("readme")
     readme!: string;
 
-    @BindOption('includeVersion')
+    @BindOption("includeVersion")
     includeVersion!: boolean;
 
     /**
@@ -49,9 +49,9 @@ export class PackagePlugin extends ConverterComponent {
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:         this.onBegin,
-            [Converter.EVENT_FILE_BEGIN]:    this.onBeginDocument,
-            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve
+            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_FILE_BEGIN]: this.onBeginDocument,
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
         });
     }
 
@@ -66,7 +66,7 @@ export class PackagePlugin extends ConverterComponent {
         this.visited = [];
 
         let readme = this.readme;
-        this.noReadmeFile = (readme === 'none');
+        this.noReadmeFile = readme === "none";
         if (!this.noReadmeFile && readme) {
             readme = Path.resolve(readme);
             if (FS.existsSync(readme)) {
@@ -82,10 +82,16 @@ export class PackagePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onBeginDocument(context: Context, reflection: Reflection, node?: ts.SourceFile) {
-        const packageAndReadmeFound = () => (this.noReadmeFile || this.readmeFile) && this.packageFile;
-        const reachedTopDirectory = dirName => dirName === Path.resolve(Path.join(dirName, '..'));
-        const visitedDirBefore = dirName => this.visited.includes(dirName);
+    private onBeginDocument(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.SourceFile
+    ) {
+        const packageAndReadmeFound = () =>
+            (this.noReadmeFile || this.readmeFile) && this.packageFile;
+        const reachedTopDirectory = (dirName) =>
+            dirName === Path.resolve(Path.join(dirName, ".."));
+        const visitedDirBefore = (dirName) => this.visited.includes(dirName);
 
         if (!node) {
             return;
@@ -93,20 +99,28 @@ export class PackagePlugin extends ConverterComponent {
 
         const fileName = node.fileName;
         let dirName = Path.resolve(Path.dirname(fileName));
-        while (!packageAndReadmeFound() && !reachedTopDirectory(dirName) && !visitedDirBefore(dirName)) {
+        while (
+            !packageAndReadmeFound() &&
+            !reachedTopDirectory(dirName) &&
+            !visitedDirBefore(dirName)
+        ) {
             FS.readdirSync(dirName).forEach((file) => {
                 const lowercaseFileName = file.toLowerCase();
-                if (!this.noReadmeFile && !this.readmeFile && lowercaseFileName === 'readme.md') {
+                if (
+                    !this.noReadmeFile &&
+                    !this.readmeFile &&
+                    lowercaseFileName === "readme.md"
+                ) {
                     this.readmeFile = Path.join(dirName, file);
                 }
 
-                if (!this.packageFile && lowercaseFileName === 'package.json') {
+                if (!this.packageFile && lowercaseFileName === "package.json") {
                     this.packageFile = Path.join(dirName, file);
                 }
             });
 
             this.visited.push(dirName);
-            dirName = Path.resolve(Path.join(dirName, '..'));
+            dirName = Path.resolve(Path.join(dirName, ".."));
         }
     }
 

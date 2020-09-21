@@ -1,19 +1,19 @@
-import * as FS from 'fs-extra';
-import * as Path from 'path';
-import * as Marked from 'marked';
-import * as HighlightJS from 'highlight.js';
-import * as Handlebars from 'handlebars';
+import * as FS from "fs-extra";
+import * as Path from "path";
+import * as Marked from "marked";
+import * as HighlightJS from "highlight.js";
+import * as Handlebars from "handlebars";
 
-import { Component, ContextAwareRendererComponent } from '../components';
-import { RendererEvent, MarkdownEvent } from '../events';
-import { BindOption, readFile } from '../../utils';
+import { Component, ContextAwareRendererComponent } from "../components";
+import { RendererEvent, MarkdownEvent } from "../events";
+import { BindOption, readFile } from "../../utils";
 
 const customMarkedRenderer = new Marked.Renderer();
 
 customMarkedRenderer.heading = (text, level, _, slugger) => {
-  const slug = slugger.slug(text);
+    const slug = slugger.slug(text);
 
-  return `
+    return `
 <a href="#${slug}" id="${slug}" style="color: inherit; text-decoration: none;">
   <h${level}>${text}</h${level}>
 </a>
@@ -50,12 +50,12 @@ customMarkedRenderer.heading = (text, level, _, slugger) => {
  * {{#relativeURL url}}
  * ```
  */
-@Component({name: 'marked'})
+@Component({ name: "marked" })
 export class MarkedPlugin extends ContextAwareRendererComponent {
-    @BindOption('includes')
+    @BindOption("includes")
     includeSource!: string;
 
-    @BindOption('media')
+    @BindOption("media")
     mediaSource!: string;
 
     /**
@@ -71,12 +71,12 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
     /**
      * The pattern used to find references in markdown.
      */
-    private includePattern: RegExp = /\[\[include:([^\]]+?)\]\]/g;
+    private includePattern = /\[\[include:([^\]]+?)\]\]/g;
 
     /**
      * The pattern used to find media links.
      */
-    private mediaPattern: RegExp = /media:\/\/([^ "\)\]\}]+)/g;
+    private mediaPattern = /media:\/\/([^ ")\]}]+)/g;
 
     /**
      * Create a new MarkedPlugin instance.
@@ -85,13 +85,19 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         super.initialize();
         this.listenTo(this.owner, MarkdownEvent.PARSE, this.onParseMarkdown);
 
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
-        Handlebars.registerHelper('markdown', function(arg: any) { return that.parseMarkdown(arg.fn(this), this); });
-        Handlebars.registerHelper('relativeURL', (url: string) => url ? this.getRelativeUrl(url) : url);
+        Handlebars.registerHelper("markdown", function (arg: any) {
+            return that.parseMarkdown(arg.fn(this), this);
+        });
+        Handlebars.registerHelper("relativeURL", (url: string) =>
+            url ? this.getRelativeUrl(url) : url
+        );
 
         Marked.setOptions({
-            highlight: (text: any, lang: any) => this.getHighlighted(text, lang),
-            renderer: customMarkedRenderer
+            highlight: (text: any, lang: any) =>
+                this.getHighlighted(text, lang),
+            renderer: customMarkedRenderer,
         });
     }
 
@@ -124,34 +130,50 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     public parseMarkdown(text: string, context: any) {
         if (this.includes) {
-            text = text.replace(this.includePattern, (match: string, path: string) => {
-                path = Path.join(this.includes!, path.trim());
-                if (FS.existsSync(path) && FS.statSync(path).isFile()) {
-                    const contents = readFile(path);
-                    if (path.substr(-4).toLocaleLowerCase() === '.hbs') {
-                        const template = Handlebars.compile(contents);
-                        return template(context, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+            text = text.replace(
+                this.includePattern,
+                (match: string, path: string) => {
+                    path = Path.join(this.includes!, path.trim());
+                    if (FS.existsSync(path) && FS.statSync(path).isFile()) {
+                        const contents = readFile(path);
+                        if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
+                            const template = Handlebars.compile(contents);
+                            return template(context, {
+                                allowProtoMethodsByDefault: true,
+                                allowProtoPropertiesByDefault: true,
+                            });
+                        } else {
+                            return contents;
+                        }
                     } else {
-                        return contents;
+                        this.application.logger.warn(
+                            "Could not find file to include: " + path
+                        );
+                        return "";
                     }
-                } else {
-                    this.application.logger.warn('Could not find file to include: ' + path);
-                    return '';
                 }
-            });
+            );
         }
 
         if (this.mediaDirectory) {
-            text = text.replace(this.mediaPattern, (match: string, path: string) => {
-                const fileName = Path.join(this.mediaDirectory!, path);
+            text = text.replace(
+                this.mediaPattern,
+                (match: string, path: string) => {
+                    const fileName = Path.join(this.mediaDirectory!, path);
 
-                if (FS.existsSync(fileName) && FS.statSync(fileName).isFile()) {
-                    return this.getRelativeUrl('media') + '/' + path;
-                } else {
-                    this.application.logger.warn('Could not find media file: ' + fileName);
-                    return match;
+                    if (
+                        FS.existsSync(fileName) &&
+                        FS.statSync(fileName).isFile()
+                    ) {
+                        return this.getRelativeUrl("media") + "/" + path;
+                    } else {
+                        this.application.logger.warn(
+                            "Could not find media file: " + fileName
+                        );
+                        return match;
+                    }
                 }
-            });
+            );
         }
 
         const event = new MarkdownEvent(MarkdownEvent.PARSE, text, text);
@@ -171,21 +193,28 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
         delete this.includes;
         if (this.includeSource) {
             const includes = Path.resolve(this.includeSource);
-            if (FS.existsSync(includes) && FS.statSync(includes).isDirectory()) {
+            if (
+                FS.existsSync(includes) &&
+                FS.statSync(includes).isDirectory()
+            ) {
                 this.includes = includes;
             } else {
-                this.application.logger.warn('Could not find provided includes directory: ' + includes);
+                this.application.logger.warn(
+                    "Could not find provided includes directory: " + includes
+                );
             }
         }
 
         if (this.mediaSource) {
             const media = Path.resolve(this.mediaSource);
             if (FS.existsSync(media) && FS.statSync(media).isDirectory()) {
-                this.mediaDirectory = Path.join(event.outputDirectory, 'media');
+                this.mediaDirectory = Path.join(event.outputDirectory, "media");
                 FS.copySync(media, this.mediaDirectory);
             } else {
                 this.mediaDirectory = undefined;
-                this.application.logger.warn('Could not find provided media directory: ' + media);
+                this.application.logger.warn(
+                    "Could not find provided media directory: " + media
+                );
             }
         }
     }

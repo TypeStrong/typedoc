@@ -7,21 +7,21 @@
  * alter the generated output.
  */
 
-import * as Path from 'path';
-import * as FS from 'fs-extra';
-// tslint:disable-next-line:variable-name
-const ProgressBar = require('progress');
+import * as Path from "path";
+import * as FS from "fs-extra";
+// eslint-disable-next-line
+const ProgressBar = require("progress");
 
-import { Application } from '../application';
-import { Theme } from './theme';
-import { RendererEvent, PageEvent } from './events';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { writeFile } from '../utils/fs';
-import { DefaultTheme } from './themes/DefaultTheme';
-import { RendererComponent } from './components';
-import { Component, ChildableComponent } from '../utils/component';
-import { BindOption } from '../utils';
+import { Application } from "../application";
+import { Theme } from "./theme";
+import { RendererEvent, PageEvent } from "./events";
+import { ProjectReflection } from "../models/reflections/project";
+import { UrlMapping } from "./models/UrlMapping";
+import { writeFile } from "../utils/fs";
+import { DefaultTheme } from "./themes/DefaultTheme";
+import { RendererComponent } from "./components";
+import { Component, ChildableComponent } from "../utils/component";
+import { BindOption } from "../utils";
 
 /**
  * The renderer processes a [[ProjectReflection]] using a [[BaseTheme]] instance and writes
@@ -54,32 +54,35 @@ import { BindOption } from '../utils';
  *    Triggered after the renderer has written all documents. The listener receives
  *    an instance of [[RendererEvent]].
  */
-@Component({name: 'renderer', internal: true, childClass: RendererComponent})
-export class Renderer extends ChildableComponent<Application, RendererComponent> {
+@Component({ name: "renderer", internal: true, childClass: RendererComponent })
+export class Renderer extends ChildableComponent<
+    Application,
+    RendererComponent
+> {
     /**
      * The theme that is used to render the documentation.
      */
     theme?: Theme;
 
-    @BindOption('theme')
+    @BindOption("theme")
     themeName!: string;
 
-    @BindOption('disableOutputCheck')
+    @BindOption("disableOutputCheck")
     disableOutputCheck!: boolean;
 
-    @BindOption('gaID')
+    @BindOption("gaID")
     gaID!: string;
 
-    @BindOption('gaSite')
+    @BindOption("gaSite")
     gaSite!: string;
 
-    @BindOption('hideGenerator')
+    @BindOption("hideGenerator")
     hideGenerator!: boolean;
 
-    @BindOption('entryPoint')
+    @BindOption("entryPoint")
     entryPoint!: string;
 
-    @BindOption('toc')
+    @BindOption("toc")
     toc!: string[];
 
     /**
@@ -87,8 +90,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      *
      * @param application  The application this dispatcher is attached to.
      */
-    initialize() {
-    }
+    initialize() {}
 
     /**
      * Render the given project reflection to the specified output directory.
@@ -97,17 +99,24 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @param outputDirectory  The path of the directory the documentation should be rendered to.
      */
     render(project: ProjectReflection, outputDirectory: string) {
-        if (!this.prepareTheme() || !this.prepareOutputDirectory(outputDirectory)) {
+        if (
+            !this.prepareTheme() ||
+            !this.prepareOutputDirectory(outputDirectory)
+        ) {
             return;
         }
 
-        const output = new RendererEvent(RendererEvent.BEGIN, outputDirectory, project);
+        const output = new RendererEvent(
+            RendererEvent.BEGIN,
+            outputDirectory,
+            project
+        );
         output.settings = this.application.options.getRawValues();
         output.urls = this.theme!.getUrls(project);
 
-        const bar = new ProgressBar('Rendering [:bar] :percent', {
+        const bar = new ProgressBar("Rendering [:bar] :percent", {
             total: output.urls.length,
-            width: 40
+            width: 40,
         });
 
         this.trigger(output);
@@ -134,8 +143,15 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         }
 
         // Theme must be set as this is only called in render, and render ensures theme is set.
-        page.template = page.template || this.theme!.resources.templates.getResource(page.templateName)!.getTemplate();
-        page.contents = page.template(page, { allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true });
+        page.template =
+            page.template ||
+            this.theme!.resources.templates.getResource(
+                page.templateName
+            )!.getTemplate();
+        page.contents = page.template(page, {
+            allowProtoMethodsByDefault: true,
+            allowProtoPropertiesByDefault: true,
+        });
 
         this.trigger(PageEvent.END, page);
         if (page.isDefaultPrevented) {
@@ -145,7 +161,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
         try {
             writeFile(page.filename, page.contents, false);
         } catch (error) {
-            this.application.logger.error('Could not write %s', page.filename);
+            this.application.logger.error("Could not write %s", page.filename);
             return false;
         }
 
@@ -167,23 +183,37 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             if (!FS.existsSync(path)) {
                 path = Path.join(Renderer.getThemeDirectory(), themeName);
                 if (!FS.existsSync(path)) {
-                    this.application.logger.error('The theme %s could not be found.', themeName);
+                    this.application.logger.error(
+                        "The theme %s could not be found.",
+                        themeName
+                    );
                     return false;
                 }
             }
 
-            const filename = Path.join(path, 'theme.js');
+            const filename = Path.join(path, "theme.js");
             if (!FS.existsSync(filename)) {
-                this.theme = this.addComponent('theme', new DefaultTheme(this, path));
+                this.theme = this.addComponent(
+                    "theme",
+                    new DefaultTheme(this, path)
+                );
             } else {
                 try {
-                    const themeClass = typeof require(filename) === 'function' ? require(filename) : require(filename).default;
+                    /* eslint-disable */
+                    const themeClass =
+                        typeof require(filename) === "function"
+                            ? require(filename)
+                            : require(filename).default;
+                    /* eslint-enable */
 
-                    this.theme = this.addComponent('theme', new (themeClass)(this, path));
+                    this.theme = this.addComponent(
+                        "theme",
+                        new themeClass(this, path)
+                    );
                 } catch (err) {
                     throw new Error(
                         `Exception while loading "${filename}". You must export a \`new Theme(renderer, basePath)\` compatible class.\n` +
-                        err
+                            err
                     );
                 }
             }
@@ -205,7 +235,8 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             if (!FS.statSync(directory).isDirectory()) {
                 this.application.logger.error(
                     'The output target "%s" exists but it is not a directory.',
-                    directory);
+                    directory
+                );
                 return false;
             }
 
@@ -221,15 +252,18 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             if (!this.theme!.isOutputDirectory(directory)) {
                 this.application.logger.error(
                     'The output directory "%s" exists but does not seem to be a documentation generated by TypeDoc.\n' +
-                    'Make sure this is the right target directory, delete the folder and rerun TypeDoc.',
-                    directory);
+                        "Make sure this is the right target directory, delete the folder and rerun TypeDoc.",
+                    directory
+                );
                 return false;
             }
 
             try {
                 FS.removeSync(directory);
             } catch (error) {
-                this.application.logger.warn('Could not empty the output directory.');
+                this.application.logger.warn(
+                    "Could not empty the output directory."
+                );
             }
         }
 
@@ -237,7 +271,10 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
             try {
                 FS.mkdirpSync(directory);
             } catch (error) {
-                this.application.logger.error('Could not create output directory %s', directory);
+                this.application.logger.error(
+                    "Could not create output directory %s",
+                    directory
+                );
                 return false;
             }
         }
@@ -251,7 +288,7 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @returns The path to the theme directory.
      */
     static getThemeDirectory(): string {
-        return Path.dirname(require.resolve('typedoc-default-themes'));
+        return Path.dirname(require.resolve("typedoc-default-themes"));
     }
 
     /**
@@ -260,8 +297,8 @@ export class Renderer extends ChildableComponent<Application, RendererComponent>
      * @returns The path to the default theme.
      */
     static getDefaultTheme(): string {
-        return Path.join(Renderer.getThemeDirectory(), 'default');
+        return Path.join(Renderer.getThemeDirectory(), "default");
     }
 }
 
-import './plugins';
+import "./plugins";

@@ -1,20 +1,22 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Reflection, ReflectionFlag, ReflectionKind } from '../../models/index';
-import { createDeclaration, createSignature } from '../factories/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { Component, ConverterNodeComponent } from '../components';
+import { Reflection, ReflectionFlag, ReflectionKind } from "../../models/index";
+import { createDeclaration, createSignature } from "../factories/index";
+import { Context } from "../context";
+import { Converter } from "../converter";
+import { Component, ConverterNodeComponent } from "../components";
 
-@Component({name: 'node:function'})
-export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclaration|ts.MethodDeclaration> {
+@Component({ name: "node:function" })
+export class FunctionConverter extends ConverterNodeComponent<
+    ts.FunctionDeclaration | ts.MethodDeclaration
+> {
     /**
      * List of supported TypeScript syntax kinds.
      */
     supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.MethodSignature,
         ts.SyntaxKind.MethodDeclaration,
-        ts.SyntaxKind.FunctionDeclaration
+        ts.SyntaxKind.FunctionDeclaration,
     ];
 
     /**
@@ -24,28 +26,45 @@ export class FunctionConverter extends ConverterNodeComponent<ts.FunctionDeclara
      * @param node     The function declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.FunctionDeclaration|ts.MethodDeclaration): Reflection | undefined {
-        const scope   = context.scope;
-        const kind    = scope.kind & ReflectionKind.ClassOrInterface ? ReflectionKind.Method : ReflectionKind.Function;
+    convert(
+        context: Context,
+        node: ts.FunctionDeclaration | ts.MethodDeclaration
+    ): Reflection | undefined {
+        const scope = context.scope;
+        const kind =
+            scope.kind & ReflectionKind.ClassOrInterface
+                ? ReflectionKind.Method
+                : ReflectionKind.Function;
         const hasBody = !!node.body;
-        const method  = createDeclaration(context, node, kind);
+        const method = createDeclaration(context, node, kind);
 
-        if (method  // child inheriting will return null on createDeclaration
-            && kind & ReflectionKind.Method
-            && node.modifiers
-            && node.modifiers.some( m => m.kind === ts.SyntaxKind.AbstractKeyword )) {
-          method.setFlag(ReflectionFlag.Abstract, true);
+        if (
+            method && // child inheriting will return null on createDeclaration
+            kind & ReflectionKind.Method &&
+            node.modifiers &&
+            node.modifiers.some((m) => m.kind === ts.SyntaxKind.AbstractKeyword)
+        ) {
+            method.setFlag(ReflectionFlag.Abstract, true);
         }
 
         context.withScope(method, () => {
             if (!hasBody || !method!.signatures) {
-                const signature = createSignature(context, <ts.SignatureDeclaration> node, method!.name, ReflectionKind.CallSignature);
+                const signature = createSignature(
+                    context,
+                    <ts.SignatureDeclaration>node,
+                    method!.name,
+                    ReflectionKind.CallSignature
+                );
                 if (!method!.signatures) {
                     method!.signatures = [];
                 }
                 method!.signatures.push(signature);
             } else {
-                context.trigger(Converter.EVENT_FUNCTION_IMPLEMENTATION, method!, <ts.Node> node);
+                context.trigger(
+                    Converter.EVENT_FUNCTION_IMPLEMENTATION,
+                    method!,
+                    <ts.Node>node
+                );
             }
         });
 

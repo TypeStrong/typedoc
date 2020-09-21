@@ -1,11 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { TypeOperatorType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
+import { TypeOperatorType } from "../../models/types/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeNodeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({name: 'type:type-operator'})
-export class TypeOperatorConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeOperatorNode> {
+@Component({ name: "type:type-operator" })
+export class TypeOperatorConverter
+    extends ConverterTypeComponent
+    implements TypeNodeConverter<ts.Type, ts.TypeOperatorNode> {
     /**
      * we want to run before union
      */
@@ -17,15 +23,19 @@ export class TypeOperatorConverter extends ConverterTypeComponent implements Typ
      * https://github.com/TypeStrong/typedoc/blob/b7a5b2d5ea1ae088e9510783ede20e842b120d0f/src/lib/converter/types.ts#L375
      */
     private readonly supportedOperatorNames = {
-        [ts.SyntaxKind.KeyOfKeyword]: 'keyof',
-        [ts.SyntaxKind.UniqueKeyword]: 'unique',
-        [ts.SyntaxKind.ReadonlyKeyword]: 'readonly'
+        [ts.SyntaxKind.KeyOfKeyword]: "keyof",
+        [ts.SyntaxKind.UniqueKeyword]: "unique",
+        [ts.SyntaxKind.ReadonlyKeyword]: "readonly",
     } as const;
 
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.TypeOperatorNode, type: ts.Type): boolean {
+    supportsNode(
+        context: Context,
+        node: ts.TypeOperatorNode,
+        type: ts.Type
+    ): boolean {
         return !!(node.kind === ts.SyntaxKind.TypeOperator);
     }
 
@@ -36,7 +46,10 @@ export class TypeOperatorConverter extends ConverterTypeComponent implements Typ
      * @param node  The type operator node representing keys of a type.
      * @returns The type representing keys of a type.
      */
-    convertNode(context: Context, node: ts.TypeOperatorNode): TypeOperatorType | undefined {
+    convertNode(
+        context: Context,
+        node: ts.TypeOperatorNode
+    ): TypeOperatorType | undefined {
         const target = this.owner.convertType(context, node.type);
         if (target) {
             const operator = this.supportedOperatorNames[node.operator];

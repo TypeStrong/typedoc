@@ -1,10 +1,10 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { PredicateType } from '../../models/types/index';
-import { Component, ConverterTypeComponent } from '../components';
-import { Context } from '../context';
+import { PredicateType } from "../../models/types/index";
+import { Component, ConverterTypeComponent } from "../components";
+import { Context } from "../context";
 
-@Component({ name: 'type:predicate' })
+@Component({ name: "type:predicate" })
 export class PredicateConverter extends ConverterTypeComponent {
     /**
      * This must run before the base `Type` converter.
@@ -22,7 +22,9 @@ export class PredicateConverter extends ConverterTypeComponent {
      * Convert the given predicate type node to its type reflection.
      */
     convertNode(context: Context, node: ts.TypePredicateNode): PredicateType {
-        const name = ts.isThisTypeNode(node.parameterName) ? 'this' : node.parameterName.getText();
+        const name = ts.isThisTypeNode(node.parameterName)
+            ? "this"
+            : node.parameterName.getText();
         const asserts = !!node.assertsModifier;
         const targetType = this.owner.convertType(context, node.type);
         return new PredicateType(name, asserts, targetType);

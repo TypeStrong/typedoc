@@ -1,10 +1,15 @@
-import { ContainerReflection } from '../../../models';
+import { ContainerReflection } from "../../../models";
 
-import { ReflectionSerializerComponent } from '../../components';
-import { SourceReferenceWrapper } from '../models';
-import { ContainerReflection as JSONContainerReflection, Reflection as JSONReflection } from '../../schema';
+import { ReflectionSerializerComponent } from "../../components";
+import { SourceReferenceWrapper } from "../models";
+import {
+    ContainerReflection as JSONContainerReflection,
+    Reflection as JSONReflection,
+} from "../../schema";
 
-export class ContainerReflectionSerializer extends ReflectionSerializerComponent<ContainerReflection> {
+export class ContainerReflectionSerializer extends ReflectionSerializerComponent<
+    ContainerReflection
+> {
     supports(t: unknown) {
         return t instanceof ContainerReflection;
     }
@@ -14,26 +19,33 @@ export class ContainerReflectionSerializer extends ReflectionSerializerComponent
      * @param container
      * @param obj
      */
-    toObject(container: ContainerReflection, obj: JSONReflection): JSONContainerReflection {
+    toObject(
+        container: ContainerReflection,
+        obj: JSONReflection
+    ): JSONContainerReflection {
         const result: JSONContainerReflection = {
-            ...obj
+            ...obj,
         };
 
         if (container.groups && container.groups.length > 0) {
-            result.groups = container.groups.map(group => this.owner.toObject(group));
+            result.groups = container.groups.map((group) =>
+                this.owner.toObject(group)
+            );
         }
 
         if (container.categories && container.categories.length > 0) {
-            result.categories = container.categories.map(category => this.owner.toObject(category));
+            result.categories = container.categories.map((category) =>
+                this.owner.toObject(category)
+            );
         }
 
         if (container.sources && container.sources.length > 0) {
-            result.sources = container.sources.map(source =>
+            result.sources = container.sources.map((source) =>
                 this.owner.toObject(
                     new SourceReferenceWrapper({
                         fileName: source.fileName,
                         line: source.line,
-                        character: source.character
+                        character: source.character,
                     })
                 )
             );

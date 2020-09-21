@@ -1,22 +1,27 @@
-import { DeclarationReflection } from '../../../models';
+import { DeclarationReflection } from "../../../models";
 
-import { ReflectionSerializerComponent } from '../../components';
-import { ContainerReflectionSerializer } from './container';
+import { ReflectionSerializerComponent } from "../../components";
+import { ContainerReflectionSerializer } from "./container";
 import {
     DeclarationReflection as JSONDeclarationReflection,
-    ContainerReflection as JSONContainerReflection
-} from '../../schema';
+    ContainerReflection as JSONContainerReflection,
+} from "../../schema";
 
-export class DeclarationReflectionSerializer extends ReflectionSerializerComponent<DeclarationReflection> {
+export class DeclarationReflectionSerializer extends ReflectionSerializerComponent<
+    DeclarationReflection
+> {
     static PRIORITY = ContainerReflectionSerializer.PRIORITY - 1; // mimic inheritance, run after parent
 
     supports(t: unknown) {
         return t instanceof DeclarationReflection;
     }
 
-    toObject(declaration: DeclarationReflection, obj: JSONContainerReflection): JSONDeclarationReflection {
+    toObject(
+        declaration: DeclarationReflection,
+        obj: JSONContainerReflection
+    ): JSONDeclarationReflection {
         const result: JSONDeclarationReflection = {
-            ...obj
+            ...obj,
         };
 
         if (declaration.type) {
@@ -32,27 +37,39 @@ export class DeclarationReflectionSerializer extends ReflectionSerializerCompone
         }
 
         if (declaration.inheritedFrom) {
-            result.inheritedFrom = this.owner.toObject(declaration.inheritedFrom);
+            result.inheritedFrom = this.owner.toObject(
+                declaration.inheritedFrom
+            );
         }
 
         if (declaration.extendedTypes) {
-            result.extendedTypes = declaration.extendedTypes.map(t => this.owner.toObject(t));
+            result.extendedTypes = declaration.extendedTypes.map((t) =>
+                this.owner.toObject(t)
+            );
         }
 
         if (declaration.extendedBy) {
-            result.extendedBy = declaration.extendedBy.map(t => this.owner.toObject(t));
+            result.extendedBy = declaration.extendedBy.map((t) =>
+                this.owner.toObject(t)
+            );
         }
 
         if (declaration.implementedTypes) {
-            result.implementedTypes = declaration.implementedTypes.map(t => this.owner.toObject(t));
+            result.implementedTypes = declaration.implementedTypes.map((t) =>
+                this.owner.toObject(t)
+            );
         }
 
         if (declaration.implementedBy) {
-            result.implementedBy = declaration.implementedBy.map(t => this.owner.toObject(t));
+            result.implementedBy = declaration.implementedBy.map((t) =>
+                this.owner.toObject(t)
+            );
         }
 
         if (declaration.implementationOf) {
-            result.implementationOf = this.owner.toObject(declaration.implementationOf);
+            result.implementationOf = this.owner.toObject(
+                declaration.implementationOf
+            );
         }
 
         return result;

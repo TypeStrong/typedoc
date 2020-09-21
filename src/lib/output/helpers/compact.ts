@@ -5,10 +5,11 @@
  * @returns The string with all newlines stripped.
  */
 export function compact(options: any): string {
-    return options.fn(this)
-        .split('\n')
-        .map(line => line.trim())
-        .join('')
-        .replace(/&nbsp;/g, ' ')
+    return options
+        .fn(this)
+        .split("\n")
+        .map((line) => line.trim())
+        .join("")
+        .replace(/&nbsp;/g, " ")
         .trim();
 }

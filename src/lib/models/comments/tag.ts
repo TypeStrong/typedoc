@@ -24,7 +24,7 @@ export class CommentTag {
      */
     constructor(tagName: string, paramName?: string, text?: string) {
         this.tagName = tagName;
-        this.paramName = paramName || '';
-        this.text = text || '';
+        this.paramName = paramName || "";
+        this.text = text || "";
     }
 }

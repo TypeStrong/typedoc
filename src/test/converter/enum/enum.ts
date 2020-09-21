@@ -15,7 +15,7 @@ export enum SimpleEnum {
     /**
      * This is the third enum member.
      */
-    EnumValue3 = 4
+    EnumValue3 = 4,
 }
 
 /**
@@ -35,7 +35,7 @@ export enum ModuleEnum {
     /**
      * This is the third enum member.
      */
-    EnumValue3 = 4
+    EnumValue3 = 4,
 }
 
 /**
@@ -58,5 +58,5 @@ export module ModuleEnum {
  */
 export const enum ConstEnum {
     a = 1,
-    b = a + 1
+    b = a + 1,
 }

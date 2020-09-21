@@ -1,17 +1,17 @@
-import * as FS from 'fs';
-import * as Path from 'path';
+import * as FS from "fs";
+import * as Path from "path";
 
-import { Application } from '../application';
-import { AbstractComponent, Component } from './component';
-import { BindOption } from './options';
-import { readFile } from './fs';
+import { Application } from "../application";
+import { AbstractComponent, Component } from "./component";
+import { BindOption } from "./options";
+import { readFile } from "./fs";
 
 /**
  * Responsible for discovering and loading plugins.
  */
-@Component({ name: 'plugin-host', internal: true })
+@Component({ name: "plugin-host", internal: true })
 export class PluginHost extends AbstractComponent<Application> {
-    @BindOption('plugin')
+    @BindOption("plugin")
     plugins!: string[];
 
     /**
@@ -20,27 +20,33 @@ export class PluginHost extends AbstractComponent<Application> {
      */
     load(): boolean {
         const logger = this.application.logger;
-        const plugins = this.plugins.length ? this.resolvePluginPaths(this.plugins) : this.discoverNpmPlugins();
+        const plugins = this.plugins.length
+            ? this.resolvePluginPaths(this.plugins)
+            : this.discoverNpmPlugins();
 
-        if (plugins.some(plugin => plugin.toLowerCase() === 'none')) {
+        if (plugins.some((plugin) => plugin.toLowerCase() === "none")) {
             return true;
         }
 
         for (const plugin of plugins) {
             try {
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
                 const instance = require(plugin);
-                const initFunction = typeof instance.load === 'function'
-                    ? instance.load
-                    : instance                // support legacy plugins
-                    ;
-                if (typeof initFunction === 'function') {
+                const initFunction =
+                    typeof instance.load === "function"
+                        ? instance.load
+                        : instance; // support legacy plugins
+                if (typeof initFunction === "function") {
                     initFunction(this);
-                    logger.write('Loaded plugin %s', plugin);
+                    logger.write("Loaded plugin %s", plugin);
                 } else {
-                    logger.error('Invalid structure in plugin %s, no function found.', plugin);
+                    logger.error(
+                        "Invalid structure in plugin %s, no function found.",
+                        plugin
+                    );
                 }
             } catch (error) {
-                logger.error('The plugin %s could not be loaded.', plugin);
+                logger.error("The plugin %s could not be loaded.", plugin);
                 logger.writeln(error.stack);
                 return false;
             }
@@ -63,15 +69,19 @@ export class PluginHost extends AbstractComponent<Application> {
          * Find all parent folders containing a `node_modules` subdirectory.
          */
         function discover() {
-            let path = process.cwd(), previous: string;
+            let path = process.cwd(),
+                previous: string;
             do {
-                const modules = Path.join(path, 'node_modules');
-                if (FS.existsSync(modules) && FS.statSync(modules).isDirectory()) {
+                const modules = Path.join(path, "node_modules");
+                if (
+                    FS.existsSync(modules) &&
+                    FS.statSync(modules).isDirectory()
+                ) {
                     discoverModules(modules);
                 }
 
                 previous = path;
-                path = Path.resolve(Path.join(previous, '..'));
+                path = Path.resolve(Path.join(previous, ".."));
             } while (previous !== path);
         }
 
@@ -82,7 +92,7 @@ export class PluginHost extends AbstractComponent<Application> {
             const candidates: string[] = [];
             FS.readdirSync(basePath).forEach((name) => {
                 const dir = Path.join(basePath, name);
-                if (name.startsWith('@') && FS.statSync(dir).isDirectory()) {
+                if (name.startsWith("@") && FS.statSync(dir).isDirectory()) {
                     FS.readdirSync(dir).forEach((n) => {
                         candidates.push(Path.join(name, n));
                     });
@@ -90,7 +100,7 @@ export class PluginHost extends AbstractComponent<Application> {
                 candidates.push(name);
             });
             candidates.forEach((name) => {
-                const infoFile = Path.join(basePath, name, 'package.json');
+                const infoFile = Path.join(basePath, name, "package.json");
                 if (!FS.existsSync(infoFile)) {
                     return;
                 }
@@ -109,7 +119,7 @@ export class PluginHost extends AbstractComponent<Application> {
             try {
                 return JSON.parse(readFile(fileName));
             } catch (error) {
-                logger.error('Could not parse %s', fileName);
+                logger.error("Could not parse %s", fileName);
                 return {};
             }
         }
@@ -125,7 +135,10 @@ export class PluginHost extends AbstractComponent<Application> {
 
             for (let i = 0, c = keywords.length; i < c; i++) {
                 const keyword = keywords[i];
-                if (typeof keyword === 'string' && keyword.toLowerCase() === 'typedocplugin') {
+                if (
+                    typeof keyword === "string" &&
+                    keyword.toLowerCase() === "typedocplugin"
+                ) {
                     return true;
                 }
             }
@@ -150,9 +163,9 @@ export class PluginHost extends AbstractComponent<Application> {
      */
     private resolvePluginPaths(plugins: string[]) {
         const cwd = process.cwd();
-        return plugins.map(plugin => {
+        return plugins.map((plugin) => {
             // treat plugins that start with `.` as relative, requiring resolution
-            if (plugin.startsWith('.')) {
+            if (plugin.startsWith(".")) {
                 return Path.resolve(cwd, plugin);
             }
             return plugin;

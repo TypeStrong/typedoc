@@ -1,23 +1,20 @@
-import * as github from '../lib/converter/plugins/GitHubPlugin';
-import Assert = require('assert');
+import * as github from "../lib/converter/plugins/GitHubPlugin";
+import Assert = require("assert");
 
-describe('GitHubRepository', function() {
+describe("GitHubRepository", function () {
+    describe("constructor", function () {
+        it("must default to github.com hostname", function () {
+            const repository = new github.Repository("", "", []);
 
-    describe('constructor', function() {
-        it('must default to github.com hostname', function() {
-            let repository = new github.Repository('', '', []);
-
-            Assert.equal(repository.gitHubHostname, 'github.com');
+            Assert.equal(repository.gitHubHostname, "github.com");
         });
 
-        it('must correctly handle an enterprise github URL hostname', function() {
-            let mockRemotes = [
-                'git@github.acme.com:joebloggs/foobar.git'
-            ];
+        it("must correctly handle an enterprise github URL hostname", function () {
+            const mockRemotes = ["git@github.acme.com:joebloggs/foobar.git"];
 
-            let repository = new github.Repository('', '', mockRemotes);
+            const repository = new github.Repository("", "", mockRemotes);
 
-            Assert.equal(repository.gitHubHostname, 'github.acme.com');
+            Assert.equal(repository.gitHubHostname, "github.acme.com");
         });
     });
 });

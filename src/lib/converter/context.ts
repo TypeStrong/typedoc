@@ -1,12 +1,17 @@
-import * as ts from 'typescript';
-import { IMinimatch } from 'minimatch';
+import * as ts from "typescript";
+import { IMinimatch } from "minimatch";
 
-import { Logger } from '../utils/loggers';
-import { createMinimatch } from '../utils/paths';
-import { Reflection, ProjectReflection, ContainerReflection, Type } from '../models/index';
+import { Logger } from "../utils/loggers";
+import { createMinimatch } from "../utils/paths";
+import {
+    Reflection,
+    ProjectReflection,
+    ContainerReflection,
+    Type,
+} from "../models/index";
 
-import { createTypeParameter } from './factories/type-parameter';
-import { Converter } from './converter';
+import { createTypeParameter } from "./factories/type-parameter";
+import { Converter } from "./converter";
 
 /**
  * The context describes the current state the converter is in.
@@ -99,7 +104,12 @@ export class Context {
      * @param fileNames  A list of all files that have been passed to the TypeScript compiler.
      * @param checker  The TypeChecker instance returned by the TypeScript compiler.
      */
-    constructor(converter: Converter, fileNames: string[], checker: ts.TypeChecker, program: ts.Program) {
+    constructor(
+        converter: Converter,
+        fileNames: string[],
+        checker: ts.TypeChecker,
+        program: ts.Program
+    ) {
         this.converter = converter;
         this.fileNames = fileNames;
         this.checker = checker;
@@ -132,15 +142,24 @@ export class Context {
         let nodeType: ts.Type | undefined;
         try {
             nodeType = this.checker.getTypeAtLocation(node);
-        } catch (error) {
+        } catch {
+            // ignore
         }
         if (!nodeType) {
             if (node.symbol) {
                 nodeType = this.checker.getDeclaredTypeOfSymbol(node.symbol);
             } else if (node.parent && node.parent.symbol) {
-                nodeType = this.checker.getDeclaredTypeOfSymbol(node.parent.symbol);
-            } else if (node.parent && node.parent.parent && node.parent.parent.symbol) {
-                nodeType = this.checker.getDeclaredTypeOfSymbol(node.parent.parent.symbol);
+                nodeType = this.checker.getDeclaredTypeOfSymbol(
+                    node.parent.symbol
+                );
+            } else if (
+                node.parent &&
+                node.parent.parent &&
+                node.parent.parent.symbol
+            ) {
+                nodeType = this.checker.getDeclaredTypeOfSymbol(
+                    node.parent.parent.symbol
+                );
             }
         }
         return nodeType;
@@ -157,7 +176,11 @@ export class Context {
     expectSymbolAtLocation(node: ts.Node): ts.Symbol {
         const symbol = this.getSymbolAtLocation(node);
         if (!symbol) {
-            throw new Error(`Expected a symbol for node with kind ${ts.SyntaxKind[node.kind]}`);
+            throw new Error(
+                `Expected a symbol for node with kind ${
+                    ts.SyntaxKind[node.kind]
+                }`
+            );
         }
         return symbol;
     }
@@ -165,7 +188,9 @@ export class Context {
     resolveAliasedSymbol(symbol: ts.Symbol): ts.Symbol;
     resolveAliasedSymbol(symbol: ts.Symbol | undefined): ts.Symbol | undefined;
     resolveAliasedSymbol(symbol: ts.Symbol | undefined) {
-        return (symbol && ts.SymbolFlags.Alias & symbol.flags) ? this.checker.getAliasedSymbol(symbol) : symbol;
+        return symbol && ts.SymbolFlags.Alias & symbol.flags
+            ? this.checker.getAliasedSymbol(symbol)
+            : symbol;
     }
 
     /**
@@ -187,7 +212,10 @@ export class Context {
      */
     registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
         if (symbol) {
-            this.project.registerReflection(reflection, this.checker.getFullyQualifiedName(symbol));
+            this.project.registerReflection(
+                reflection,
+                this.checker.getFullyQualifiedName(symbol)
+            );
         } else {
             this.project.registerReflection(reflection);
         }
@@ -249,7 +277,8 @@ export class Context {
     public withScope(
         scope: Reflection | undefined,
         parameters: ts.NodeArray<ts.TypeParameterDeclaration> | undefined,
-        callback: () => void): void;
+        callback: () => void
+    ): void;
 
     /**
      * @param parameters  An array of type parameters that should be set on the context while the callback is invoked.
@@ -260,7 +289,8 @@ export class Context {
         scope: Reflection | undefined,
         parameters: ts.NodeArray<ts.TypeParameterDeclaration> | undefined,
         preserve: boolean,
-        callback: () => void): void;
+        callback: () => void
+    ): void;
 
     /**
      * Run the given callback with the scope of the context set to the given reflection.
@@ -279,7 +309,9 @@ export class Context {
         const oldTypeParameters = this.typeParameters;
 
         this.scope = scope;
-        this.typeParameters = parameters ? this.extractTypeParameters(parameters, args.length > 0) : this.typeParameters;
+        this.typeParameters = parameters
+            ? this.extractTypeParameters(parameters, args.length > 0)
+            : this.typeParameters;
         this.typeArguments = undefined;
 
         callback();
@@ -296,7 +328,10 @@ export class Context {
      * @param typeArguments  The type arguments that apply while inheriting the given node.
      * @return The resulting reflection / the current scope.
      */
-    inherit(baseNode: ts.Node, typeArguments?: ReadonlyArray<ts.TypeNode>): Reflection {
+    inherit(
+        baseNode: ts.Node,
+        typeArguments?: ReadonlyArray<ts.TypeNode>
+    ): Reflection {
         const wasInherit = this.isInherit;
         const oldInherited = this.inherited;
         const oldInheritParent = this.inheritParent;
@@ -306,9 +341,9 @@ export class Context {
         this.inheritParent = baseNode;
         this.inherited = [];
 
-        const target = <ContainerReflection> this.scope;
+        const target = <ContainerReflection>this.scope;
         if (!(target instanceof ContainerReflection)) {
-            throw new Error('Expected container reflection');
+            throw new Error("Expected container reflection");
         }
 
         if (baseNode.symbol) {
@@ -328,7 +363,10 @@ export class Context {
         }
 
         if (typeArguments) {
-            this.typeArguments = this.converter.convertTypes(this, typeArguments);
+            this.typeArguments = this.converter.convertTypes(
+                this,
+                typeArguments
+            );
         } else {
             this.typeArguments = undefined;
         }
@@ -355,7 +393,10 @@ export class Context {
      * @param fileName
      * @internal
      */
-    isOutsideDocumentation(fileName: string, isExternal = this.isExternalFile(fileName)) {
+    isOutsideDocumentation(
+        fileName: string,
+        isExternal = this.isExternalFile(fileName)
+    ) {
         return isExternal && this.converter.excludeExternals;
     }
 
@@ -368,7 +409,7 @@ export class Context {
     isExternalFile(fileName: string) {
         let isExternal = !this.fileNames.includes(fileName);
         if (!isExternal && this.externalPattern) {
-            isExternal = this.externalPattern.some(mm => mm.match(fileName));
+            isExternal = this.externalPattern.some((mm) => mm.match(fileName));
         }
         return isExternal;
     }
@@ -380,37 +421,47 @@ export class Context {
      * @param preserve  Should the currently set type parameters of the context be preserved?
      * @returns The resulting type mapping.
      */
-    private extractTypeParameters(parameters: ts.NodeArray<ts.TypeParameterDeclaration>, preserve?: boolean): ts.MapLike<Type> {
+    private extractTypeParameters(
+        parameters: ts.NodeArray<ts.TypeParameterDeclaration>,
+        preserve?: boolean
+    ): ts.MapLike<Type> {
         const typeParameters: ts.MapLike<Type> = {};
 
         if (preserve) {
-            Object.keys(this.typeParameters || {}).forEach(key => {
+            Object.keys(this.typeParameters || {}).forEach((key) => {
                 typeParameters[key] = this.typeParameters![key];
             });
         }
 
-        parameters.forEach((declaration: ts.TypeParameterDeclaration, index: number) => {
-            if (!declaration.symbol) {
-                return;
-            }
-            const name = declaration.symbol.name;
-            if (this.typeArguments && this.typeArguments[index]) {
-                typeParameters[name] = this.typeArguments[index];
-            } else {
-                const param = createTypeParameter(this, declaration);
-                if (param) {
-                    typeParameters[name] = param;
+        parameters.forEach(
+            (declaration: ts.TypeParameterDeclaration, index: number) => {
+                if (!declaration.symbol) {
+                    return;
+                }
+                const name = declaration.symbol.name;
+                if (this.typeArguments && this.typeArguments[index]) {
+                    typeParameters[name] = this.typeArguments[index];
+                } else {
+                    const param = createTypeParameter(this, declaration);
+                    if (param) {
+                        typeParameters[name] = param;
+                    }
                 }
             }
-        });
+        );
 
         return typeParameters;
     }
 }
 
-function isNamedNode(node: ts.Node): node is ts.Node & { name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName } {
-    return node['name'] && (
-        ts.isIdentifierOrPrivateIdentifier(node['name']) ||
-        ts.isComputedPropertyName(node['name'])
+function isNamedNode(
+    node: ts.Node
+): node is ts.Node & {
+    name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;
+} {
+    return (
+        node["name"] &&
+        (ts.isIdentifierOrPrivateIdentifier(node["name"]) ||
+            ts.isComputedPropertyName(node["name"]))
     );
 }

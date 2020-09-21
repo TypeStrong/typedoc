@@ -1,8 +1,16 @@
-import { Type, ReflectionType } from '../types/index';
-import { Reflection, DefaultValueContainer, TypeContainer, TraverseCallback, TraverseProperty } from './abstract';
-import { SignatureReflection } from './signature';
+import { Type, ReflectionType } from "../types/index";
+import {
+    Reflection,
+    DefaultValueContainer,
+    TypeContainer,
+    TraverseCallback,
+    TraverseProperty,
+} from "./abstract";
+import { SignatureReflection } from "./signature";
 
-export class ParameterReflection extends Reflection implements DefaultValueContainer, TypeContainer {
+export class ParameterReflection
+    extends Reflection
+    implements DefaultValueContainer, TypeContainer {
     parent?: SignatureReflection;
 
     defaultValue?: string;
@@ -19,7 +27,12 @@ export class ParameterReflection extends Reflection implements DefaultValueConta
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+            if (
+                callback(
+                    this.type.declaration,
+                    TraverseProperty.TypeLiteral
+                ) === false
+            ) {
                 return;
             }
         }
@@ -31,6 +44,6 @@ export class ParameterReflection extends Reflection implements DefaultValueConta
      * Return a string representation of this reflection.
      */
     toString() {
-        return super.toString() + (this.type ? ':' + this.type.toString() :  '');
+        return super.toString() + (this.type ? ":" + this.type.toString() : "");
     }
 }

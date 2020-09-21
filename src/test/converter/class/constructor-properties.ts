@@ -7,9 +7,7 @@ class Vector2 {
      * @param y  Y component of the Vector
      * @param name Vector name
      */
-    constructor(public x: number, public y: number,
-                readonly name: string) {
-    }
+    constructor(public x: number, public y: number, readonly name: string) {}
 }
 
 /**
@@ -22,8 +20,12 @@ class Vector3 extends Vector2 {
      * @param z  Z component of the Vector
      * @param name Vector name
      */
-    constructor(x: number, public y: number, public z: number,
-                readonly name: string) {
+    constructor(
+        x: number,
+        public y: number,
+        public z: number,
+        readonly name: string
+    ) {
         super(x, y, name);
     }
 }

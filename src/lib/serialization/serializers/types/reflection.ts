@@ -1,18 +1,23 @@
-import { DeclarationReflection, ReflectionType } from '../../../models';
+import { DeclarationReflection, ReflectionType } from "../../../models";
 
-import { TypeSerializerComponent } from '../../components';
-import { ReflectionType as JSONReflectionType } from '../../schema';
+import { TypeSerializerComponent } from "../../components";
+import { ReflectionType as JSONReflectionType } from "../../schema";
 
-export class ReflectionTypeSerializer extends TypeSerializerComponent<ReflectionType> {
+export class ReflectionTypeSerializer extends TypeSerializerComponent<
+    ReflectionType
+> {
     private visited = new Set<DeclarationReflection>();
 
     supports(t: unknown) {
         return t instanceof ReflectionType;
     }
 
-    toObject(reference: ReflectionType, obj: Pick<JSONReflectionType, 'type'>): JSONReflectionType {
+    toObject(
+        reference: ReflectionType,
+        obj: Pick<JSONReflectionType, "type">
+    ): JSONReflectionType {
         const result: JSONReflectionType = {
-            ...obj
+            ...obj,
         };
 
         // Because `DeclarationReflection` has reference to multiple types objectifying a declaration

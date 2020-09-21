@@ -1,7 +1,7 @@
-import { Comment } from '../../../models';
+import { Comment } from "../../../models";
 
-import { SerializerComponent } from '../../components';
-import { Comment as JSONComment } from '../../schema';
+import { SerializerComponent } from "../../components";
+import { Comment as JSONComment } from "../../schema";
 
 export class CommentSerializer extends SerializerComponent<Comment> {
     static PRIORITY = 1000;
@@ -28,7 +28,7 @@ export class CommentSerializer extends SerializerComponent<Comment> {
             obj.returns = comment.returns;
         }
         if (comment.tags && comment.tags.length) {
-            obj.tags = comment.tags.map(tag => this.owner.toObject(tag));
+            obj.tags = comment.tags.map((tag) => this.owner.toObject(tag));
         }
 
         return obj;

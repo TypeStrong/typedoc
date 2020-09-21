@@ -1,23 +1,42 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type, UnionType, IntersectionType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeConverter } from '../components';
-import { Context } from '../context';
+import { Type, UnionType, IntersectionType } from "../../models/types/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({name: 'type:union-or-intersection'})
-export class UnionOrIntersectionConverter extends ConverterTypeComponent implements TypeConverter<ts.UnionOrIntersectionType, ts.UnionOrIntersectionTypeNode> {
+@Component({ name: "type:union-or-intersection" })
+export class UnionOrIntersectionConverter
+    extends ConverterTypeComponent
+    implements
+        TypeConverter<
+            ts.UnionOrIntersectionType,
+            ts.UnionOrIntersectionTypeNode
+        > {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.UnionOrIntersectionTypeNode): boolean {
-        return node.kind === ts.SyntaxKind.UnionType || node.kind === ts.SyntaxKind.IntersectionType;
+    supportsNode(
+        context: Context,
+        node: ts.UnionOrIntersectionTypeNode
+    ): boolean {
+        return (
+            node.kind === ts.SyntaxKind.UnionType ||
+            node.kind === ts.SyntaxKind.IntersectionType
+        );
     }
 
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
     supportsType(context: Context, type: ts.UnionOrIntersectionType): boolean {
-        return !!(type.flags & ts.TypeFlags.UnionOrIntersection) && !(type.flags & ts.TypeFlags.EnumLiteral);
+        return (
+            !!(type.flags & ts.TypeFlags.UnionOrIntersection) &&
+            !(type.flags & ts.TypeFlags.EnumLiteral)
+        );
     }
 
     /**
@@ -33,10 +52,15 @@ export class UnionOrIntersectionConverter extends ConverterTypeComponent impleme
      * @param node  The union or intersection type node that should be converted.
      * @returns The type reflection representing the given union type node.
      */
-    convertNode(context: Context, node: ts.UnionOrIntersectionTypeNode): UnionType | IntersectionType {
+    convertNode(
+        context: Context,
+        node: ts.UnionOrIntersectionTypeNode
+    ): UnionType | IntersectionType {
         const types: Type[] = this.owner.convertTypes(context, node.types);
 
-        return ts.isIntersectionTypeNode(node) ? new IntersectionType(types) : new UnionType(types);
+        return ts.isIntersectionTypeNode(node)
+            ? new IntersectionType(types)
+            : new UnionType(types);
     }
 
     /**
@@ -52,8 +76,17 @@ export class UnionOrIntersectionConverter extends ConverterTypeComponent impleme
      * @param type  The union type that should be converted.
      * @returns The type reflection representing the given union type.
      */
-    convertType(context: Context, type: ts.UnionOrIntersectionType): UnionType | IntersectionType {
-        const types: Type[] = this.owner.convertTypes(context, undefined, type.types);
-        return type.flags & ts.TypeFlags.Intersection ? new IntersectionType(types) : new UnionType(types);
+    convertType(
+        context: Context,
+        type: ts.UnionOrIntersectionType
+    ): UnionType | IntersectionType {
+        const types: Type[] = this.owner.convertTypes(
+            context,
+            undefined,
+            type.types
+        );
+        return type.flags & ts.TypeFlags.Intersection
+            ? new IntersectionType(types)
+            : new UnionType(types);
     }
 }

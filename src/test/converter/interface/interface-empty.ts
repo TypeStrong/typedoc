@@ -1,8 +1,7 @@
 /**
  * An empty interface
  */
-interface EmptyInterface {
-}
+interface EmptyInterface {}
 
 /**
  * A class implementing an empty interface.

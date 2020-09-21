@@ -1,15 +1,25 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type, IntrinsicType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
+import { Type, IntrinsicType } from "../../models/types/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeNodeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({ name: 'type:this' })
-export class ThisConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.ThisTypeNode> {
+@Component({ name: "type:this" })
+export class ThisConverter
+    extends ConverterTypeComponent
+    implements TypeNodeConverter<ts.Type, ts.ThisTypeNode> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    public supportsNode(context: Context, node: ts.ThisTypeNode, type: ts.Type): boolean {
+    public supportsNode(
+        context: Context,
+        node: ts.ThisTypeNode,
+        type: ts.Type
+    ): boolean {
         return node.kind === ts.SyntaxKind.ThisType;
     }
 
@@ -28,7 +38,11 @@ export class ThisConverter extends ConverterTypeComponent implements TypeNodeCon
      * @param type  The type of the type reference node.
      * @returns The type reflection representing the given reference node.
      */
-    public convertNode(context: Context, node: ts.ThisTypeNode, type: ts.Type): Type {
-        return new IntrinsicType('this');
+    public convertNode(
+        context: Context,
+        node: ts.ThisTypeNode,
+        type: ts.Type
+    ): Type {
+        return new IntrinsicType("this");
     }
 }

@@ -1,9 +1,9 @@
-import { SourceReference } from '../sources/file';
-import { Type } from '../types/index';
-import { Comment } from '../comments/comment';
-import { TypeParameterReflection } from './type-parameter';
-import { splitUnquotedString } from './utils';
-import { ProjectReflection } from './project';
+import { SourceReference } from "../sources/file";
+import { Type } from "../types/index";
+import { Comment } from "../comments/comment";
+import { TypeParameterReflection } from "./type-parameter";
+import { splitUnquotedString } from "./utils";
+import { ProjectReflection } from "./project";
 
 /**
  * Holds all data models used by TypeDoc.
@@ -65,10 +65,14 @@ export enum ReflectionKind {
     VariableOrProperty = Variable | Property,
     FunctionOrMethod = ReflectionKind.Function | Method,
     ClassMember = Accessor | Constructor | Method | Property | Event,
-    SomeSignature = CallSignature | IndexSignature | ConstructorSignature | GetSignature | SetSignature,
+    SomeSignature = CallSignature |
+        IndexSignature |
+        ConstructorSignature |
+        GetSignature |
+        SetSignature,
     SomeModule = Namespace | Module,
     SomeType = Interface | TypeLiteral | TypeParameter | TypeAlias,
-    SomeValue = Variable | Function | ObjectLiteral
+    SomeValue = Variable | Function | ObjectLiteral,
 }
 
 export enum ReflectionFlag {
@@ -87,7 +91,7 @@ export enum ReflectionFlag {
     Abstract = 2048,
     Const = 4096,
     Let = 8192,
-    Readonly = 16384
+    Readonly = 16384,
 }
 
 const relevantFlags: ReflectionFlag[] = [
@@ -101,7 +105,7 @@ const relevantFlags: ReflectionFlag[] = [
     ReflectionFlag.Abstract,
     ReflectionFlag.Let,
     ReflectionFlag.Const,
-    ReflectionFlag.Readonly
+    ReflectionFlag.Readonly,
 ];
 
 /**
@@ -233,14 +237,21 @@ export class ReflectionFlags extends Array<string> {
             case ReflectionFlag.Const:
             case ReflectionFlag.Let:
                 this.setSingleFlag(flag, set);
-                this.setSingleFlag((ReflectionFlag.Let | ReflectionFlag.Const) ^ flag, !set);
+                this.setSingleFlag(
+                    (ReflectionFlag.Let | ReflectionFlag.Const) ^ flag,
+                    !set
+                );
+                break;
             default:
                 this.setSingleFlag(flag, set);
         }
     }
 
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
-        const name = ReflectionFlag[flag].replace(/(.)([A-Z])/g, (m, a, b) => a + ' ' + b.toLowerCase());
+        const name = ReflectionFlag[flag].replace(
+            /(.)([A-Z])/g,
+            (m, a, b) => a + " " + b.toLowerCase()
+        );
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
                 this.splice(this.indexOf(name), 1);
@@ -275,7 +286,7 @@ export enum TraverseProperty {
     Signatures,
     IndexSignature,
     GetSignature,
-    SetSignature
+    SetSignature,
 }
 
 export interface TraverseCallback {
@@ -411,11 +422,11 @@ export abstract class Reflection {
      * Create a new BaseReflection instance.
      */
     constructor(name: string, kind: ReflectionKind, parent?: Reflection) {
-        this.id     = REFLECTION_ID++;
+        this.id = REFLECTION_ID++;
         this.parent = parent;
-        this.name   = name;
+        this.name = name;
         this.originalName = name;
-        this.kind   = kind;
+        this.kind = kind;
     }
 
     /**
@@ -423,7 +434,7 @@ export abstract class Reflection {
      */
     kindOf(kind: ReflectionKind | ReflectionKind[]): boolean {
         const kindArray = Array.isArray(kind) ? kind : [kind];
-        return kindArray.some(kind => (this.kind & kind) !== 0);
+        return kindArray.some((kind) => (this.kind & kind) !== 0);
     }
 
     /**
@@ -434,7 +445,7 @@ export abstract class Reflection {
      * @param separator  Separator used to join the names of the reflections.
      * @returns The full name of this reflection.
      */
-    getFullName(separator: string = '.'): string {
+    getFullName(separator = "."): string {
         if (this.parent && !this.parent.isProject()) {
             return this.parent.getFullName(separator) + separator + this.name;
         } else {
@@ -445,7 +456,7 @@ export abstract class Reflection {
     /**
      * Set a flag on this reflection.
      */
-    setFlag(flag: ReflectionFlag, value: boolean = true) {
+    setFlag(flag: ReflectionFlag, value = true) {
         this.flags.setFlag(flag, value);
     }
 
@@ -454,22 +465,27 @@ export abstract class Reflection {
      */
     getAlias(): string {
         if (!this._alias) {
-            let alias = this.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            if (alias === '') {
-                alias = 'reflection-' + this.id;
+            let alias = this.name.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+            if (alias === "") {
+                alias = "reflection-" + this.id;
             }
 
-            let target = <Reflection> this;
-            while (target.parent && !target.parent.isProject() && !target.hasOwnDocument) {
+            let target = <Reflection>this;
+            while (
+                target.parent &&
+                !target.parent.isProject() &&
+                !target.hasOwnDocument
+            ) {
                 target = target.parent;
             }
 
             if (!target._aliases) {
                 target._aliases = [];
             }
-            let suffix = '', index = 0;
+            let suffix = "",
+                index = 0;
             while (target._aliases.includes(alias + suffix)) {
-                suffix = '-' + (++index).toString();
+                suffix = "-" + (++index).toString();
             }
 
             alias += suffix;
@@ -500,7 +516,9 @@ export abstract class Reflection {
      * @returns The found child or undefined.
      */
     getChildByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
+        const names: string[] = Array.isArray(arg)
+            ? arg
+            : splitUnquotedString(arg, ".");
         const name = names[0];
         let result: Reflection | undefined;
 
@@ -531,7 +549,9 @@ export abstract class Reflection {
      * @return The found reflection or null.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
+        const names: string[] = Array.isArray(arg)
+            ? arg
+            : splitUnquotedString(arg, ".");
 
         const reflection = this.getChildByName(names);
         if (reflection) {
@@ -549,13 +569,13 @@ export abstract class Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: TraverseCallback) { }
+    traverse(callback: TraverseCallback) {}
 
     /**
      * Return a string representation of this reflection.
      */
     toString(): string {
-        return ReflectionKind[this.kind] + ' ' + this.name;
+        return ReflectionKind[this.kind] + " " + this.name;
     }
 
     /**
@@ -563,14 +583,14 @@ export abstract class Reflection {
      *
      * @param indent  Used internally to indent child reflections.
      */
-    toStringHierarchy(indent: string = '') {
+    toStringHierarchy(indent = "") {
         const lines = [indent + this.toString()];
 
-        indent += '  ';
+        indent += "  ";
         this.traverse((child) => {
             lines.push(child.toStringHierarchy(indent));
         });
 
-        return lines.join('\n');
+        return lines.join("\n");
     }
 }

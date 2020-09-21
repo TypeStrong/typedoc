@@ -1,6 +1,6 @@
-import { Reflection } from '../reflections/abstract';
-import { ReflectionGroup } from '../ReflectionGroup';
-import { SourceFile } from './file';
+import { Reflection } from "../reflections/abstract";
+import { ReflectionGroup } from "../ReflectionGroup";
+import { SourceFile } from "./file";
 
 /**
  * Exposes information about a directory containing source files.
@@ -18,7 +18,7 @@ export class SourceDirectory {
     /**
      * A list of all subdirectories.
      */
-    directories: {[name: string]: SourceDirectory} = {};
+    directories: { [name: string]: SourceDirectory } = {};
 
     groups?: ReflectionGroup[];
 
@@ -50,9 +50,9 @@ export class SourceDirectory {
      */
     constructor(name?: string, parent?: SourceDirectory) {
         if (name && parent) {
-            this.name    = name;
-            this.dirName = (parent.dirName ? parent.dirName + '/' : '') + name;
-            this.parent  = parent;
+            this.name = name;
+            this.dirName = (parent.dirName ? parent.dirName + "/" : "") + name;
+            this.parent = parent;
         }
     }
 
@@ -62,18 +62,18 @@ export class SourceDirectory {
      * @param indent  Used internally for indention.
      * @returns A string representing this directory and all of its children.
      */
-    toString(indent: string = '') {
+    toString(indent = "") {
         let res = indent + this.name;
 
         for (const key in this.directories) {
-            if (!this.directories.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this.directories, key)) {
                 continue;
             }
-            res += '\n' + this.directories[key].toString(indent + '  ');
+            res += "\n" + this.directories[key].toString(indent + "  ");
         }
 
         this.files.forEach((file) => {
-            res += '\n' + indent + '  ' + file.fileName;
+            res += "\n" + indent + "  " + file.fileName;
         });
 
         return res;
@@ -88,7 +88,7 @@ export class SourceDirectory {
     getAllReflections(): Reflection[] {
         const reflections: Reflection[] = [];
         this.files.forEach((file) => {
-            reflections.push.apply(reflections, file.reflections);
+            reflections.push(...file.reflections);
         });
 
         // reflections.sort(Factories.GroupHandler.sortCallback);

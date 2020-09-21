@@ -1,9 +1,14 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { ReferenceType, ReferenceReflection, ContainerReflection, ReflectionFlag } from '../../models';
-import { Context } from '../context';
-import { ReferenceState } from '../../models/reflections/reference';
-import { Converter } from '../converter';
+import {
+    ReferenceType,
+    ReferenceReflection,
+    ContainerReflection,
+    ReflectionFlag,
+} from "../../models";
+import { Context } from "../context";
+import { ReferenceState } from "../../models/reflections/reference";
+import { Converter } from "../converter";
 
 /**
  * Create a new reference type pointing to the given symbol.
@@ -13,7 +18,11 @@ import { Converter } from '../converter';
  * @param includeParent  Should the name of the parent be provided within the fallback name?
  * @returns A new reference type instance pointing to the given symbol.
  */
-export function createReferenceType(context: Context, symbol: ts.Symbol | undefined, includeParent?: boolean): ReferenceType | undefined {
+export function createReferenceType(
+    context: Context,
+    symbol: ts.Symbol | undefined,
+    includeParent?: boolean
+): ReferenceType | undefined {
     if (!symbol) {
         return;
     }
@@ -22,25 +31,44 @@ export function createReferenceType(context: Context, symbol: ts.Symbol | undefi
     let name = checker.symbolToString(symbol);
 
     if (includeParent && symbol.parent) {
-        name = checker.symbolToString(symbol.parent) + '.' + name;
+        name = checker.symbolToString(symbol.parent) + "." + name;
     }
 
-    return new ReferenceType(name, context.checker.getFullyQualifiedName(symbol));
+    return new ReferenceType(
+        name,
+        context.checker.getFullyQualifiedName(symbol)
+    );
 }
 
-export function createReferenceReflection(context: Context, source: ts.Symbol, target: ts.Symbol): ReferenceReflection | undefined {
+export function createReferenceReflection(
+    context: Context,
+    source: ts.Symbol,
+    target: ts.Symbol
+): ReferenceReflection | undefined {
     if (!(context.scope instanceof ContainerReflection)) {
-        throw new Error('Cannot add reference to a non-container');
+        throw new Error("Cannot add reference to a non-container");
     }
 
     // If any declaration is outside, the symbol should be considered outside. Some declarations may
     // be inside due to declaration merging.
     const declarations = target.getDeclarations();
-    if (!declarations || declarations.some(d => context.isOutsideDocumentation(d.getSourceFile().fileName))) {
+    if (
+        !declarations ||
+        declarations.some((d) =>
+            context.isOutsideDocumentation(d.getSourceFile().fileName)
+        )
+    ) {
         return;
     }
 
-    const reflection = new ReferenceReflection(source.name, [ReferenceState.Unresolved, context.checker.getFullyQualifiedName(target)], context.scope);
+    const reflection = new ReferenceReflection(
+        source.name,
+        [
+            ReferenceState.Unresolved,
+            context.checker.getFullyQualifiedName(target),
+        ],
+        context.scope
+    );
     reflection.flags.setFlag(ReflectionFlag.Exported, true); // References are exported by necessity
     if (!context.scope.children) {
         context.scope.children = [];
@@ -49,7 +77,10 @@ export function createReferenceReflection(context: Context, source: ts.Symbol, t
 
     // target === source happens when doing export * from ...
     // and the original symbol is not renamed and exported from the imported module.
-    context.registerReflection(reflection, target === source ? undefined : source);
+    context.registerReflection(
+        reflection,
+        target === source ? undefined : source
+    );
     context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
 
     return reflection;

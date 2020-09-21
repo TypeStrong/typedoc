@@ -1,7 +1,7 @@
-import { CommentTag } from '../../../models';
+import { CommentTag } from "../../../models";
 
-import { SerializerComponent } from '../../components';
-import { CommentTag as JSONCommentTag } from '../../schema';
+import { SerializerComponent } from "../../components";
+import { CommentTag as JSONCommentTag } from "../../schema";
 
 export class CommentTagSerializer extends SerializerComponent<CommentTag> {
     static PRIORITY = 1000;
@@ -17,10 +17,13 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
         return true;
     }
 
-    toObject(tag: CommentTag, obj: Partial<JSONCommentTag> = {}): JSONCommentTag {
+    toObject(
+        tag: CommentTag,
+        obj: Partial<JSONCommentTag> = {}
+    ): JSONCommentTag {
         const result: JSONCommentTag = {
             tag: tag.tagName,
-            text: tag.text
+            text: tag.text,
         };
 
         if (tag.paramName) {

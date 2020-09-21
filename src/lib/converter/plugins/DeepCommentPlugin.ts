@@ -1,19 +1,29 @@
-import { Reflection, SignatureReflection, ProjectReflection, TypeParameterReflection } from '../../models/reflections/index';
-import { Comment, CommentTag } from '../../models/comments/index';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
+import {
+    Reflection,
+    SignatureReflection,
+    ProjectReflection,
+    TypeParameterReflection,
+} from "../../models/reflections/index";
+import { Comment, CommentTag } from "../../models/comments/index";
+import { Component, ConverterComponent } from "../components";
+import { Converter } from "../converter";
+import { Context } from "../context";
 
 /**
  * A handler that moves comments with dot syntax to their target.
  */
-@Component({name: 'deep-comment'})
+@Component({ name: "deep-comment" })
 export class DeepCommentPlugin extends ConverterComponent {
     /**
      * Create a new CommentHandler instance.
      */
     initialize() {
-        this.listenTo(this.owner, Converter.EVENT_RESOLVE_BEGIN, this.onBeginResolve, 512);
+        this.listenTo(
+            this.owner,
+            Converter.EVENT_RESOLVE_BEGIN,
+            this.onBeginResolve,
+            512
+        );
     }
 
     /**
@@ -33,17 +43,21 @@ export class DeepCommentPlugin extends ConverterComponent {
 
         function push(parent: Reflection) {
             let part = parent.originalName;
-            if (!part || part.substr(0, 2) === '__' || parent instanceof SignatureReflection) {
-                part = '';
+            if (
+                !part ||
+                part.substr(0, 2) === "__" ||
+                parent instanceof SignatureReflection
+            ) {
+                part = "";
             }
 
-            if (part && part !== '') {
-                name = (name === '' ? part : part + '.' + name);
+            if (part && part !== "") {
+                name = name === "" ? part : part + "." + name;
             }
         }
 
         function findDeepComment(reflection: Reflection) {
-            name = '';
+            name = "";
             push(reflection);
             let target = reflection.parent;
 
@@ -52,23 +66,35 @@ export class DeepCommentPlugin extends ConverterComponent {
                 if (target.comment) {
                     let tag: CommentTag | undefined;
                     if (reflection instanceof TypeParameterReflection) {
-                        tag = target.comment.getTag('typeparam', reflection.name);
+                        tag = target.comment.getTag(
+                            "typeparam",
+                            reflection.name
+                        );
                         if (!tag) {
-                            tag = target.comment.getTag('template', reflection.name);
+                            tag = target.comment.getTag(
+                                "template",
+                                reflection.name
+                            );
                         }
                         if (!tag) {
-                            tag = target.comment.getTag('param', '<' + reflection.name + '>');
+                            tag = target.comment.getTag(
+                                "param",
+                                "<" + reflection.name + ">"
+                            );
                         }
                     }
 
                     if (!tag) {
-                        tag = target.comment.getTag('param', name);
+                        tag = target.comment.getTag("param", name);
                     }
 
                     if (tag) {
                         // If we found a tag, comment.tags mus be set.
-                        target.comment.tags!.splice(target.comment.tags!.indexOf(tag), 1);
-                        reflection.comment = new Comment('', tag.text);
+                        target.comment.tags!.splice(
+                            target.comment.tags!.indexOf(tag),
+                            1
+                        );
+                        reflection.comment = new Comment("", tag.text);
                         break;
                     }
                 }

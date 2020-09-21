@@ -1,10 +1,10 @@
-import { Renderer } from './renderer';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { NavigationItem } from './models/NavigationItem';
-import { RendererComponent } from './components';
-import { Component } from '../utils/component';
-import { Resources } from './utils/resources';
+import { Renderer } from "./renderer";
+import { ProjectReflection } from "../models/reflections/project";
+import { UrlMapping } from "./models/UrlMapping";
+import { NavigationItem } from "./models/NavigationItem";
+import { RendererComponent } from "./components";
+import { Component } from "../utils/component";
+import { Resources } from "./utils/resources";
 
 /**
  * Base class of all themes.
@@ -49,7 +49,7 @@ import { Resources } from './utils/resources';
  *   of TypeDoc. If this file is not present, an instance of [[DefaultTheme]] will be used to render
  *   this theme.
  */
-@Component({name: 'theme', internal: true})
+@Component({ name: "theme", internal: true })
 export abstract class Theme extends RendererComponent {
     /**
      * The base path of this theme.
@@ -67,7 +67,7 @@ export abstract class Theme extends RendererComponent {
     constructor(renderer: Renderer, basePath: string) {
         super(renderer);
 
-        this.basePath  = basePath;
+        this.basePath = basePath;
         this.resources = new Resources(this);
     }
 

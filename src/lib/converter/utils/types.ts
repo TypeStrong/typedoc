@@ -1,16 +1,21 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
 /**
  * Returns the type parameters of a given type.
  * @param type The type whos type parameters are wanted.
  * @returns The type parameters of the type. An empty array if the type has no type parameters.
  */
-export function getTypeParametersOfType(type: ts.Type): ReadonlyArray<ts.TypeParameterDeclaration> {
+export function getTypeParametersOfType(
+    type: ts.Type
+): ReadonlyArray<ts.TypeParameterDeclaration> {
     const declarations = type.getSymbol()?.getDeclarations() ?? [];
 
     for (const declaration of declarations) {
-        if ((ts.isClassDeclaration(declaration) || ts.isInterfaceDeclaration(declaration)) &&
-             declaration.typeParameters) {
+        if (
+            (ts.isClassDeclaration(declaration) ||
+                ts.isInterfaceDeclaration(declaration)) &&
+            declaration.typeParameters
+        ) {
             return declaration.typeParameters;
         }
     }

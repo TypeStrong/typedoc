@@ -1,11 +1,11 @@
-import { ReflectionGroup } from '../../models/ReflectionGroup';
+import { ReflectionGroup } from "../../models/ReflectionGroup";
 
-import { SerializerComponent } from '../components';
-import {
-    ReflectionGroup as JSONReflectionGroup
-} from '../schema';
+import { SerializerComponent } from "../components";
+import { ReflectionGroup as JSONReflectionGroup } from "../schema";
 
-export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGroup> {
+export class ReflectionGroupSerializer extends SerializerComponent<
+    ReflectionGroup
+> {
     static PRIORITY = 1000;
 
     /**
@@ -19,19 +19,24 @@ export class ReflectionGroupSerializer extends SerializerComponent<ReflectionGro
         return true;
     }
 
-    toObject(group: ReflectionGroup, obj?: Partial<JSONReflectionGroup>): JSONReflectionGroup {
+    toObject(
+        group: ReflectionGroup,
+        obj?: Partial<JSONReflectionGroup>
+    ): JSONReflectionGroup {
         const result: JSONReflectionGroup = {
             ...obj,
             title: group.title,
-            kind: group.kind
+            kind: group.kind,
         };
 
         if (group.children && group.children.length > 0) {
-            result.children = group.children.map(child => child.id);
+            result.children = group.children.map((child) => child.id);
         }
 
         if (group.categories && group.categories.length > 0) {
-            result.categories = group.categories.map(category => this.owner.toObject(category));
+            result.categories = group.categories.map((category) =>
+                this.owner.toObject(category)
+            );
         }
 
         return result;

@@ -1,9 +1,15 @@
-import { DefaultValueContainer, TypeContainer, TypeParameterContainer, TraverseCallback, TraverseProperty } from './abstract';
-import { Type, ReflectionType } from '../types/index';
-import { ContainerReflection } from './container';
-import { SignatureReflection } from './signature';
-import { TypeParameterReflection } from './type-parameter';
-import { toArray } from 'lodash';
+import {
+    DefaultValueContainer,
+    TypeContainer,
+    TypeParameterContainer,
+    TraverseCallback,
+    TraverseProperty,
+} from "./abstract";
+import { Type, ReflectionType } from "../types/index";
+import { ContainerReflection } from "./container";
+import { SignatureReflection } from "./signature";
+import { TypeParameterReflection } from "./type-parameter";
+import { toArray } from "lodash";
 
 /**
  * Stores hierarchical type data.
@@ -33,7 +39,9 @@ export interface DeclarationHierarchy {
  * All parts of a project are represented by DeclarationReflection instances. The actual
  * kind of a reflection is stored in its ´kind´ member.
  */
-export class DeclarationReflection extends ContainerReflection implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
+export class DeclarationReflection
+    extends ContainerReflection
+    implements DefaultValueContainer, TypeContainer, TypeParameterContainer {
     /**
      * The type of the reflection.
      *
@@ -160,7 +168,12 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
         }
 
         if (this.type instanceof ReflectionType) {
-            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+            if (
+                callback(
+                    this.type.declaration,
+                    TraverseProperty.TypeLiteral
+                ) === false
+            ) {
                 return;
             }
         }
@@ -172,19 +185,30 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
         }
 
         if (this.indexSignature) {
-            if (callback(this.indexSignature, TraverseProperty.IndexSignature) === false) {
+            if (
+                callback(
+                    this.indexSignature,
+                    TraverseProperty.IndexSignature
+                ) === false
+            ) {
                 return;
             }
         }
 
         if (this.getSignature) {
-            if (callback(this.getSignature, TraverseProperty.GetSignature) === false) {
+            if (
+                callback(this.getSignature, TraverseProperty.GetSignature) ===
+                false
+            ) {
                 return;
             }
         }
 
         if (this.setSignature) {
-            if (callback(this.setSignature, TraverseProperty.SetSignature) === false) {
+            if (
+                callback(this.setSignature, TraverseProperty.SetSignature) ===
+                false
+            ) {
                 return;
             }
         }
@@ -203,11 +227,11 @@ export class DeclarationReflection extends ContainerReflection implements Defaul
             this.typeParameters.forEach((parameter) => {
                 parameters.push(parameter.name);
             });
-            result += '<' + parameters.join(', ') + '>';
+            result += "<" + parameters.join(", ") + ">";
         }
 
         if (this.type) {
-            result += ':' + this.type.toString();
+            result += ":" + this.type.toString();
         }
 
         return result;

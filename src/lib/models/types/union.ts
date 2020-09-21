@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents an union type.
@@ -16,7 +16,7 @@ export class UnionType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'union';
+    readonly type: string = "union";
 
     /**
      * Create a new TupleType instance.
@@ -59,6 +59,6 @@ export class UnionType extends Type {
             names.push(element.toString());
         });
 
-        return names.join(' | ');
+        return names.join(" | ");
     }
 }

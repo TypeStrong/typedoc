@@ -1,10 +1,10 @@
-import { Reflection, ReflectionKind, ReflectionFlag } from './abstract';
-import { ProjectReflection } from './project';
-import { DeclarationReflection } from './declaration';
+import { Reflection, ReflectionKind, ReflectionFlag } from "./abstract";
+import { ProjectReflection } from "./project";
+import { DeclarationReflection } from "./declaration";
 
 export enum ReferenceState {
     Unresolved,
-    Resolved
+    Resolved,
 }
 
 /**
@@ -21,7 +21,9 @@ export enum ReferenceState {
  * ```
  */
 export class ReferenceReflection extends DeclarationReflection {
-    private _state: [ReferenceState.Unresolved, string] | [ReferenceState.Resolved, number];
+    private _state:
+        | [ReferenceState.Unresolved, string]
+        | [ReferenceState.Resolved, number];
     private _project?: ProjectReflection;
 
     /**
@@ -32,7 +34,11 @@ export class ReferenceReflection extends DeclarationReflection {
      *
      * @internal
      */
-    constructor(name: string, state: ReferenceReflection['_state'], parent?: Reflection) {
+    constructor(
+        name: string,
+        state: ReferenceReflection["_state"],
+        parent?: Reflection
+    ) {
         super(name, ReflectionKind.Reference, parent);
         // References are only created for re-exported items, so they must be exported.
         this.flags.setFlag(ReflectionFlag.Exported, true);
@@ -53,7 +59,9 @@ export class ReferenceReflection extends DeclarationReflection {
     tryGetTargetReflection(): Reflection | undefined {
         this._ensureProject();
         this._ensureResolved(false);
-        return this._state[0] === ReferenceState.Resolved ? this._project!.getReflectionById(this._state[1]) : undefined;
+        return this._state[0] === ReferenceState.Resolved
+            ? this._project!.getReflectionById(this._state[1])
+            : undefined;
     }
 
     /**
@@ -96,7 +104,9 @@ export class ReferenceReflection extends DeclarationReflection {
             const target = this._project!.getReflectionFromFQN(this._state[1]);
             if (!target) {
                 if (throwIfFail) {
-                    throw new Error(`Tried to reference reflection for ${this.name} that does not exist.`);
+                    throw new Error(
+                        `Tried to reference reflection for ${this.name} that does not exist.`
+                    );
                 }
                 return;
             }
@@ -105,7 +115,9 @@ export class ReferenceReflection extends DeclarationReflection {
     }
 
     private _ensureProject() {
-        if (this._project) { return; }
+        if (this._project) {
+            return;
+        }
 
         let project = this.parent;
         while (project && !project.isProject()) {
@@ -114,7 +126,9 @@ export class ReferenceReflection extends DeclarationReflection {
         this._project = project;
 
         if (!this._project) {
-            throw new Error('Reference reflection has no project and is unable to resolve.');
+            throw new Error(
+                "Reference reflection has no project and is unable to resolve."
+            );
         }
     }
 }

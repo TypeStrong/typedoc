@@ -1,40 +1,49 @@
-import { Reflection, ContainerReflection, DeclarationReflection } from '../../models';
-import { ReflectionCategory } from '../../models/ReflectionCategory';
-import { Component, ConverterComponent } from '../components';
-import { Converter } from '../converter';
-import { Context } from '../context';
-import { BindOption } from '../../utils';
-import { Comment } from '../../models/comments/index';
+import {
+    Reflection,
+    ContainerReflection,
+    DeclarationReflection,
+} from "../../models";
+import { ReflectionCategory } from "../../models/ReflectionCategory";
+import { Component, ConverterComponent } from "../components";
+import { Converter } from "../converter";
+import { Context } from "../context";
+import { BindOption } from "../../utils";
+import { Comment } from "../../models/comments/index";
 
 /**
  * A handler that sorts and categorizes the found reflections in the resolving phase.
  *
  * The handler sets the ´category´ property of all reflections.
  */
-@Component({name: 'category'})
+@Component({ name: "category" })
 export class CategoryPlugin extends ConverterComponent {
-    @BindOption('defaultCategory')
+    @BindOption("defaultCategory")
     defaultCategory!: string;
 
-    @BindOption('categoryOrder')
+    @BindOption("categoryOrder")
     categoryOrder!: string[];
 
-    @BindOption('categorizeByGroup')
+    @BindOption("categorizeByGroup")
     categorizeByGroup!: boolean;
 
     // For use in static methods
-    static defaultCategory = 'Other';
+    static defaultCategory = "Other";
     static WEIGHTS: string[] = [];
 
     /**
      * Create a new CategoryPlugin instance.
      */
     initialize() {
-        this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:       this.onBegin,
-            [Converter.EVENT_RESOLVE]:     this.onResolve,
-            [Converter.EVENT_RESOLVE_END]: this.onEndResolve
-        }, undefined, -200);
+        this.listenTo(
+            this.owner,
+            {
+                [Converter.EVENT_BEGIN]: this.onBegin,
+                [Converter.EVENT_RESOLVE]: this.onResolve,
+                [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
+            },
+            undefined,
+            -200
+        );
     }
 
     /**
@@ -87,10 +96,15 @@ export class CategoryPlugin extends ConverterComponent {
             return;
         }
         obj.groups.forEach((group) => {
-            group.categories = CategoryPlugin.getReflectionCategories(group.children);
+            group.categories = CategoryPlugin.getReflectionCategories(
+                group.children
+            );
             if (group.categories && group.categories.length > 1) {
                 group.categories.sort(CategoryPlugin.sortCatCallback);
-            } else if (group.categories.length === 1 && group.categories[0].title === CategoryPlugin.defaultCategory) {
+            } else if (
+                group.categories.length === 1 &&
+                group.categories[0].title === CategoryPlugin.defaultCategory
+            ) {
                 // no categories if everything is uncategorized
                 group.categories = undefined;
             }
@@ -104,7 +118,10 @@ export class CategoryPlugin extends ConverterComponent {
         obj.categories = CategoryPlugin.getReflectionCategories(obj.children);
         if (obj.categories && obj.categories.length > 1) {
             obj.categories.sort(CategoryPlugin.sortCatCallback);
-        } else if (obj.categories.length === 1 && obj.categories[0].title === CategoryPlugin.defaultCategory) {
+        } else if (
+            obj.categories.length === 1 &&
+            obj.categories[0].title === CategoryPlugin.defaultCategory
+        ) {
             // no categories if everything is uncategorized
             obj.categories = undefined;
         }
@@ -116,23 +133,30 @@ export class CategoryPlugin extends ConverterComponent {
      * @param reflections  The reflections that should be categorized.
      * @returns An array containing all children of the given reflection categorized
      */
-    static getReflectionCategories(reflections: Reflection[]): ReflectionCategory[] {
+    static getReflectionCategories(
+        reflections: Reflection[]
+    ): ReflectionCategory[] {
         const categories: ReflectionCategory[] = [];
         let defaultCat: ReflectionCategory | undefined;
         reflections.forEach((child) => {
             const childCat = CategoryPlugin.getCategory(child);
-            if (childCat === '') {
+            if (childCat === "") {
                 if (!defaultCat) {
-                    defaultCat = categories.find(category => category.title === CategoryPlugin.defaultCategory);
+                    defaultCat = categories.find(
+                        (category) =>
+                            category.title === CategoryPlugin.defaultCategory
+                    );
                     if (!defaultCat) {
-                        defaultCat = new ReflectionCategory(CategoryPlugin.defaultCategory);
+                        defaultCat = new ReflectionCategory(
+                            CategoryPlugin.defaultCategory
+                        );
                         categories.push(defaultCat);
                     }
                 }
                 defaultCat.children.push(child);
                 return;
             }
-            let category = categories.find(cat => cat.title === childCat);
+            let category = categories.find((cat) => cat.title === childCat);
             if (category) {
                 category.children.push(child);
                 return;
@@ -154,23 +178,28 @@ export class CategoryPlugin extends ConverterComponent {
         function extractCategoryTag(comment: Comment) {
             const tags = comment.tags;
             if (tags) {
-                const tagIndex = tags.findIndex(tag => tag.tagName === 'category');
+                const tagIndex = tags.findIndex(
+                    (tag) => tag.tagName === "category"
+                );
                 if (tagIndex >= 0) {
                     const tag = tags[tagIndex].text;
                     tags.splice(tagIndex, 1);
                     return tag.trim();
                 }
             }
-            return '';
+            return "";
         }
 
-        let category = '';
+        let category = "";
         if (reflection.comment) {
             category = extractCategoryTag(reflection.comment);
-        } else if (reflection instanceof DeclarationReflection && reflection.signatures) {
+        } else if (
+            reflection instanceof DeclarationReflection &&
+            reflection.signatures
+        ) {
             // If a reflection has signatures, use the first category tag amongst them
-            reflection.signatures.forEach(sig => {
-                if (sig.comment && category === '') {
+            reflection.signatures.forEach((sig) => {
+                if (sig.comment && category === "") {
                     category = extractCategoryTag(sig.comment);
                 }
             });
@@ -185,14 +214,23 @@ export class CategoryPlugin extends ConverterComponent {
      * @param b The right reflection to sort.
      * @returns The sorting weight.
      */
-    static sortCatCallback(a: ReflectionCategory, b: ReflectionCategory): number {
+    static sortCatCallback(
+        a: ReflectionCategory,
+        b: ReflectionCategory
+    ): number {
         let aWeight = CategoryPlugin.WEIGHTS.indexOf(a.title);
         let bWeight = CategoryPlugin.WEIGHTS.indexOf(b.title);
         if (aWeight === -1 || bWeight === -1) {
-            let asteriskIndex = CategoryPlugin.WEIGHTS.indexOf('*');
-            if (asteriskIndex === -1) { asteriskIndex = CategoryPlugin.WEIGHTS.length; }
-            if (aWeight === -1) { aWeight = asteriskIndex; }
-            if (bWeight === -1) { bWeight = asteriskIndex; }
+            let asteriskIndex = CategoryPlugin.WEIGHTS.indexOf("*");
+            if (asteriskIndex === -1) {
+                asteriskIndex = CategoryPlugin.WEIGHTS.length;
+            }
+            if (aWeight === -1) {
+                aWeight = asteriskIndex;
+            }
+            if (bWeight === -1) {
+                bWeight = asteriskIndex;
+            }
         }
         if (aWeight === bWeight) {
             return a.title > b.title ? 1 : -1;

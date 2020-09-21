@@ -1,14 +1,22 @@
-import { SignatureReflection } from '../../../models';
+import { SignatureReflection } from "../../../models";
 
-import { ReflectionSerializerComponent } from '../../components';
-import { SignatureReflection as JSONSignatureReflection, Reflection as JSONReflection } from '../../schema';
+import { ReflectionSerializerComponent } from "../../components";
+import {
+    SignatureReflection as JSONSignatureReflection,
+    Reflection as JSONReflection,
+} from "../../schema";
 
-export class SignatureReflectionSerializer extends ReflectionSerializerComponent<SignatureReflection> {
+export class SignatureReflectionSerializer extends ReflectionSerializerComponent<
+    SignatureReflection
+> {
     supports(t: unknown) {
         return t instanceof SignatureReflection;
     }
 
-    toObject(signature: SignatureReflection, obj: JSONReflection): JSONSignatureReflection {
+    toObject(
+        signature: SignatureReflection,
+        obj: JSONReflection
+    ): JSONSignatureReflection {
         const result: JSONSignatureReflection = { ...obj };
 
         if (signature.type) {
@@ -24,7 +32,9 @@ export class SignatureReflectionSerializer extends ReflectionSerializerComponent
         }
 
         if (signature.implementationOf) {
-            result.implementationOf = this.owner.toObject(signature.implementationOf);
+            result.implementationOf = this.owner.toObject(
+                signature.implementationOf
+            );
         }
 
         return result;

@@ -4,8 +4,11 @@
  * @param arr modified by inserting item.
  * @param item
  */
-export function insertPrioritySorted<T extends { priority: number }>(arr: T[], item: T): T[] {
-    const index = binaryFindPartition(arr, v => v.priority >= item.priority);
+export function insertPrioritySorted<T extends { priority: number }>(
+    arr: T[],
+    item: T
+): T[] {
+    const index = binaryFindPartition(arr, (v) => v.priority >= item.priority);
     arr.splice(index === -1 ? arr.length : index, 0, item);
     return arr;
 }
@@ -17,15 +20,19 @@ export function insertPrioritySorted<T extends { priority: number }>(arr: T[], i
  * @param arr
  * @param partition should return true while less than the partition point.
  */
-export function binaryFindPartition<T>(arr: readonly T[], partition: (item: T) => boolean): number {
+export function binaryFindPartition<T>(
+    arr: readonly T[],
+    partition: (item: T) => boolean
+): number {
     if (arr.length === 0) {
         return -1;
     }
 
-    let low = 0, high = arr.length - 1;
+    let low = 0,
+        high = arr.length - 1;
 
     while (high > low) {
-        let mid = low + Math.floor((high - low) / 2);
+        const mid = low + Math.floor((high - low) / 2);
         if (partition(arr[mid])) {
             high = mid;
         } else {

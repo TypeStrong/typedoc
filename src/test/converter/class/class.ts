@@ -6,7 +6,6 @@
  * @see [[TestClass]] @ fixtures
  */
 export class TestClass {
-
     /**
      * publicProperty short text.
      */
@@ -25,7 +24,7 @@ export class TestClass {
     /**
      * Constructor short text.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * publicMethod short text.
@@ -88,7 +87,7 @@ export abstract class TestAbstractClass {
 export class TestAbstractClassImplementation extends TestAbstractClass {
     myAbstractProperty: string;
 
-    protected myAbstractMethod(): void { }
+    protected myAbstractMethod(): void {}
 }
 
 export interface TestSubClass {
@@ -102,7 +101,7 @@ export module TestSubClass {
     /**
      * staticMergedMethod short text.
      */
-    export function staticMergedMethod() { }
+    export function staticMergedMethod() {}
 }
 
 /**
@@ -117,12 +116,12 @@ abstract class NotExportedClass {
     }
 }
 
-const x = 'literal';
+const x = "literal";
 
 export class ComputedNames {
-    [Symbol.toStringTag] = 'computed';
+    [Symbol.toStringTag] = "computed";
     [x] = true;
-    ['literal2'] = true;
+    ["literal2"] = true;
     y = false;
 }
 

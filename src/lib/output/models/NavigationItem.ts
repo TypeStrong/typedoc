@@ -1,4 +1,4 @@
-import { Reflection } from '../../models/reflections/abstract';
+import { Reflection } from "../../models/reflections/abstract";
 
 /**
  * A hierarchical model holding the data of single node within the navigation.
@@ -77,11 +77,17 @@ export class NavigationItem {
      * @param cssClasses  A string containing the css classes of this node.
      * @param reflection  The source [Reflection] for this [NavigationItem]
      */
-    constructor(title?: string, url?: string, parent?: NavigationItem, cssClasses?: string, reflection?: Reflection) {
-        this.title = title || '';
-        this.url = url || '';
+    constructor(
+        title?: string,
+        url?: string,
+        parent?: NavigationItem,
+        cssClasses?: string,
+        reflection?: Reflection
+    ) {
+        this.title = title || "";
+        this.url = url || "";
         this.parent = parent;
-        this.cssClasses = cssClasses || '';
+        this.cssClasses = cssClasses || "";
         this.reflection = reflection;
 
         if (!url) {
@@ -103,7 +109,11 @@ export class NavigationItem {
      * @param parent         The parent navigation node.
      * @param useShortNames  Force this function to always use short names.
      */
-    static create(reflection: Reflection, parent?: NavigationItem, useShortNames?: boolean) {
+    static create(
+        reflection: Reflection,
+        parent?: NavigationItem,
+        useShortNames?: boolean
+    ) {
         let name: string;
         if (useShortNames || (parent && parent.parent)) {
             name = reflection.name;
@@ -112,10 +122,16 @@ export class NavigationItem {
         }
 
         name = name.trim();
-        if (name === '') {
+        if (name === "") {
             name = `<em>${reflection.kindString}</em>`;
         }
 
-        return new NavigationItem(name, reflection.url, parent, reflection.cssClasses, reflection);
+        return new NavigationItem(
+            name,
+            reflection.url,
+            parent,
+            reflection.cssClasses,
+            reflection
+        );
     }
 }

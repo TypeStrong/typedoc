@@ -1,4 +1,7 @@
-export interface BreakpointRange { start: number; end: number; }
+export interface BreakpointRange {
+    start: number;
+    end: number;
+}
 
 let _breakpoints: {
     small: BreakpointRange;
@@ -21,7 +24,7 @@ export function getBreakpoints() {
             medium: { start: medium, end: large },
             large: { start: large, end: xlarge },
             xlarge: { start: xlarge, end: xxlarge },
-            xxlarge: { start: xxlarge, end: 999999999 }
+            xxlarge: { start: xxlarge, end: 999999999 },
         };
     }
 

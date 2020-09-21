@@ -69,21 +69,32 @@ interface ABNumber extends AB<number> {}
  * @return The return value with type arguments.
  */
 function getGenericArray(): Array<string> {
-    return [''];
+    return [""];
 }
 
 /**
  * Conditional type with infer
  */
-type PopFront<T extends any[]> = ((...args: T) => any) extends ((a: any, ...r: infer R) => any) ? R : never;
+type PopFront<T extends any[]> = ((...args: T) => any) extends (
+    a: any,
+    ...r: infer R
+) => any
+    ? R
+    : never;
 
 /**
  * See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite
  * loop, which is undesirable.
  */
-type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<T extends any[], R = {}> = {
-    0: R,
-    1: HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<PopFront<T>, {
-        [K in keyof R | keyof T[0]]: K extends keyof R ? R[K] : T[0][K]
-    }>
-}[T['length'] extends 0 ? 0 : 1];
+type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
+    T extends any[],
+    R = {}
+> = {
+    0: R;
+    1: HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
+        PopFront<T>,
+        {
+            [K in keyof R | keyof T[0]]: K extends keyof R ? R[K] : T[0][K];
+        }
+    >;
+}[T["length"] extends 0 ? 0 : 1];

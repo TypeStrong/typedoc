@@ -2,14 +2,13 @@
  * A variable that is made private via comment.
  * @private
  */
-// tslint:disable-next-line:no-var-keyword
-export var fakePrivateVariable = 'test';
+export var fakePrivateVariable = "test";
 
 /**
  * A variable that is made protected via comment.
  * @protected
  */
-export let fakeProtectedVariable = 'test';
+export let fakeProtectedVariable = "test";
 
 /**
  * A function that is made private via comment.

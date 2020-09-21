@@ -7,15 +7,14 @@ This document includes a set of guidelines for contributing to TypeDoc. These ar
 ## Table of Contents
 
 1. [How Can I Contribute?](#how-can-i-contribute)
-   - [Bug Reports](#bug-reports)
-   - [Suggestions](#suggestions)
-   - [Documentation](#documentation)
-   - [Code](#code)
+    - [Bug Reports](#bug-reports)
+    - [Suggestions](#suggestions)
+    - [Documentation](#documentation)
+    - [Code](#code)
 1. [Setup - Git, GitHub, and Node](#setup---git-github-and-node)
 1. [Linting, Building, and Testing](#linting-building-and-testing)
 1. [Pull Requests](#pull-requests)
 1. [Updating Your Branch](#updating-your-branch)
-
 
 ## How Can I Contribute?
 
@@ -27,9 +26,9 @@ Before creating a bug report please check [this list][bugs] to see if it has alr
 
 When creating a bug report, explain the problem and include as much additional information as necessary to help maintainers to reproduce it. Ideally, provide an example project which highlights the problem.
 
-- **Use a clear and descriptive title** for the issue to identify the problem
-- **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be quickly fixed.
-- **Explain what you expected to see instead and why**
+-   **Use a clear and descriptive title** for the issue to identify the problem
+-   **Describe your project setup**. The easier it is for maintainers to reproduce your problem, the more likely it is to be quickly fixed.
+-   **Explain what you expected to see instead and why**
 
 ### Suggestions
 
@@ -39,18 +38,18 @@ Before creating a feature request, please check [this list][suggestions] to see 
 
 When creating an enhancement request, explain your use case and ultimate goal. This will make it possible for contributors to suggest existing alternatives which may already meet your requirements.
 
-- **Use a clear and descriptive title** for the issue to identify the suggestion.
-- **Provide an example where this enhancement would improve TypeDoc**
-- **If possible, list another documentation generator where this feature exists**
+-   **Use a clear and descriptive title** for the issue to identify the suggestion.
+-   **Provide an example where this enhancement would improve TypeDoc**
+-   **If possible, list another documentation generator where this feature exists**
 
 ### Documentation
 
 TypeDoc is documented in 4 primary areas.
 
-- This repo's [README.md](https://github.com/TypeStrong/typedoc/blob/master/README.md)
-- The website guides hosted at [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/)
-- Doc comments of source files which are rendered in the [api docs](https://typedoc.org/api/)
-- The [option descriptions](https://github.com/TypeStrong/typedoc/blob/ce0654295698e2bb2badf5f93d388bd977da3c46/src/lib/application.ts#L66) used by the `--help` command
+-   This repo's [README.md](https://github.com/TypeStrong/typedoc/blob/master/README.md)
+-   The website guides hosted at [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/)
+-   Doc comments of source files which are rendered in the [api docs](https://typedoc.org/api/)
+-   The [option descriptions](https://github.com/TypeStrong/typedoc/blob/ce0654295698e2bb2badf5f93d388bd977da3c46/src/lib/application.ts#L66) used by the `--help` command
 
 If you would like to improve the documentation in any of these areas, please open an issue if there isn't one already to discuss what you would like to improve. Then submit a [Pull Request](#pull-requests) to this repo, (or to [TypeStrong/typedoc-site](https://github.com/TypeStrong/typedoc-site/) in the case of guides).
 
@@ -73,18 +72,18 @@ If you don't already have [Git] installed, install it first. You will need it to
 1. Open a terminal, or "Git Bash" on Windows.
 1. Use `cd` to move to the directory that you want to work in.
 1. Clone your repository, replace USER with your GitHub username:
-   ```bash
-   git clone https://github.com/USER/typedoc
-   ```
+    ```bash
+    git clone https://github.com/USER/typedoc
+    ```
 1. Add the TypeDoc repo as a remote repository
-   ```bash
-   git remote add typedoc https://github.com/TypeStrong/typedoc
-   ```
+    ```bash
+    git remote add typedoc https://github.com/TypeStrong/typedoc
+    ```
 1. Install dependencies:
-   ```bash
-   npm install
-   ```
-1. Open the typedoc folder in your favorite editor. If you don't have one, try [Visual Studio Code][VSCode] or [Atom]
+    ```bash
+    npm install
+    ```
+1. Open the typedoc folder in your favorite editor. If you don't have one, try [Visual Studio Code][vscode] or [Atom]
 
 ## Linting, Building, and Testing
 
@@ -92,7 +91,7 @@ Once you have cloned TypeDoc, you can lint, build, and test the code from your t
 
 #### Linting
 
-To lint the TypeDoc code, run `npm run lint`. This will start tslint and check all files for stylistic problems. You can also install a tslint plugin for your editor to show most style problems as you type.
+To lint the TypeDoc code, run `npm run lint`. This will start eslint and check all files for stylistic problems. You can also install an eslint plugin for your editor to show most style problems as you type.
 
 You can automatically fix some style problems by running `npm run lint -- --fix`.
 
@@ -122,10 +121,9 @@ If the TypeDoc repository has changed since you originally forked it, you will n
 [suggestions]: https://github.com/TypeStrong/typedoc/labels/enhancement
 [good-first-issue]: https://github.com/TypeStrong/typedoc/labels/good%20first%20issue
 [help-wanted]: https://github.com/TypeStrong/typedoc/labels/help%20wanted
-
-[Gitter]: https://gitter.im/TypeStrong/typedoc
-[GitHub]: https://github.com
-[Git]: https://git-scm.com
-[Node]: https://nodejs.org/en/
-[VSCode]: https://code.visualstudio.com/
-[Atom]: https://atom.io/
+[gitter]: https://gitter.im/TypeStrong/typedoc
+[github]: https://github.com
+[git]: https://git-scm.com
+[node]: https://nodejs.org/en/
+[vscode]: https://code.visualstudio.com/
+[atom]: https://atom.io/

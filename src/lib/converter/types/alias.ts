@@ -1,11 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { ReferenceType } from '../../models/index';
-import { Component, ConverterTypeComponent, TypeConverter } from '../components';
-import { Context } from '../context';
+import { ReferenceType } from "../../models/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({name: 'type:alias'})
-export class AliasConverter extends ConverterTypeComponent implements TypeConverter<ts.Type, ts.TypeReferenceNode> {
+@Component({ name: "type:alias" })
+export class AliasConverter
+    extends ConverterTypeComponent
+    implements TypeConverter<ts.Type, ts.TypeReferenceNode> {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
@@ -24,7 +30,11 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
      * @param type  The type of the node that should be tested.
      * @returns TRUE when the given node and type look like a type alias, otherwise FALSE.
      */
-    supportsNode(context: Context, node: ts.TypeReferenceNode, type: ts.Type): boolean {
+    supportsNode(
+        context: Context,
+        node: ts.TypeReferenceNode,
+        type: ts.Type
+    ): boolean {
         if (!type || !node || !node.typeName) {
             return false;
         }
@@ -35,12 +45,12 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
         const checker = context.checker;
         const fqn = checker.getFullyQualifiedName(type.symbol);
 
-        let symbolName = fqn.replace(/".*"\./, '').split('.');
+        let symbolName = fqn.replace(/".*"\./, "").split(".");
         if (!symbolName.length) {
             return false;
         }
 
-        let nodeName = node.typeName.getText().split('.');
+        let nodeName = node.typeName.getText().split(".");
         if (!nodeName.length) {
             return false;
         }
@@ -49,7 +59,7 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
         symbolName = symbolName.slice(-common);
         nodeName = nodeName.slice(-common);
 
-        return nodeName.join('.') !== symbolName.join('.');
+        return nodeName.join(".") !== symbolName.join(".");
     }
 
     /**
@@ -70,10 +80,16 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
      */
     convertNode(context: Context, node: ts.TypeReferenceNode): ReferenceType {
         const name = node.typeName.getText();
-        const result = new ReferenceType(name, ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME);
+        const result = new ReferenceType(
+            name,
+            ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME
+        );
 
         if (node.typeArguments) {
-            result.typeArguments = this.owner.convertTypes(context, node.typeArguments);
+            result.typeArguments = this.owner.convertTypes(
+                context,
+                node.typeArguments
+            );
         }
 
         return result;
@@ -83,11 +99,21 @@ export class AliasConverter extends ConverterTypeComponent implements TypeConver
         return Boolean(type.aliasSymbol);
     }
 
-    convertType(context: Context, type: ts.Type & { aliasSymbol: ts.Symbol }): ReferenceType {
-        const result = new ReferenceType(type.aliasSymbol.name, ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME);
+    convertType(
+        context: Context,
+        type: ts.Type & { aliasSymbol: ts.Symbol }
+    ): ReferenceType {
+        const result = new ReferenceType(
+            type.aliasSymbol.name,
+            ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME
+        );
 
         if (type.aliasTypeArguments) {
-            result.typeArguments = this.owner.convertTypes(context, undefined, type.aliasTypeArguments);
+            result.typeArguments = this.owner.convertTypes(
+                context,
+                undefined,
+                type.aliasTypeArguments
+            );
         }
 
         return result;

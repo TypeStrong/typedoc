@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a type operator type.
@@ -12,9 +12,12 @@ export class TypeOperatorType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'typeOperator';
+    readonly type = "typeOperator";
 
-    constructor(public target: Type, public operator: 'keyof' | 'unique' | 'readonly') {
+    constructor(
+        public target: Type,
+        public operator: "keyof" | "unique" | "readonly"
+    ) {
         super();
     }
 
@@ -38,7 +41,11 @@ export class TypeOperatorType extends Type {
             return false;
         }
 
-        return type instanceof TypeOperatorType && type.operator === this.operator && type.target.equals(this.target);
+        return (
+            type instanceof TypeOperatorType &&
+            type.operator === this.operator &&
+            type.target.equals(this.target)
+        );
     }
 
     /**

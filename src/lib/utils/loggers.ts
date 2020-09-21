@@ -1,5 +1,5 @@
-import * as ts from 'typescript';
-import * as Util from 'util';
+import * as ts from "typescript";
+import * as Util from "util";
 
 /**
  * List of known log levels. Used to specify the urgency of a log message.
@@ -9,7 +9,7 @@ export enum LogLevel {
     Info,
     Warn,
     Error,
-    Success
+    Success,
 }
 
 /**
@@ -64,7 +64,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public write(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Info);
+        this.log(Util.format(text, ...args), LogLevel.Info);
     }
 
     /**
@@ -74,7 +74,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public writeln(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Info, true);
+        this.log(Util.format(text, ...args), LogLevel.Info, true);
     }
 
     /**
@@ -84,7 +84,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public success(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Success);
+        this.log(Util.format(text, ...args), LogLevel.Success);
     }
 
     /**
@@ -94,7 +94,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given message.
      */
     public verbose(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Verbose);
+        this.log(Util.format(text, ...args), LogLevel.Verbose);
     }
 
     /**
@@ -104,7 +104,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given warning.
      */
     public warn(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Warn);
+        this.log(Util.format(text, ...args), LogLevel.Warn);
     }
 
     /**
@@ -114,7 +114,7 @@ export class Logger {
      * @param args  The arguments that should be printed into the given error.
      */
     public error(text: string, ...args: string[]) {
-        this.log(Util.format.apply(this, arguments), LogLevel.Error);
+        this.log(Util.format(text, ...args), LogLevel.Error);
     }
 
     /**
@@ -124,7 +124,11 @@ export class Logger {
      * @param level  The urgency of the log message.
      * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
+    public log(
+        message: string,
+        level: LogLevel = LogLevel.Info,
+        newLine?: boolean
+    ) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -153,10 +157,25 @@ export class Logger {
         let output: string;
         if (diagnostic.file) {
             output = diagnostic.file.fileName;
-            output += '(' + ts.getLineAndCharacterOfPosition(diagnostic.file, diagnostic.start || 0).line + ')';
-            output += ts.sys.newLine + ' ' + ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
+            output +=
+                "(" +
+                ts.getLineAndCharacterOfPosition(
+                    diagnostic.file,
+                    diagnostic.start || 0
+                ).line +
+                ")";
+            output +=
+                ts.sys.newLine +
+                " " +
+                ts.flattenDiagnosticMessageText(
+                    diagnostic.messageText,
+                    ts.sys.newLine
+                );
         } else {
-            output = ts.flattenDiagnosticMessageText(diagnostic.messageText, ts.sys.newLine);
+            output = ts.flattenDiagnosticMessageText(
+                diagnostic.messageText,
+                ts.sys.newLine
+            );
         }
 
         switch (diagnostic.category) {
@@ -183,15 +202,19 @@ export class ConsoleLogger extends Logger {
      * @param level  The urgency of the log message.
      * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
+    public log(
+        message: string,
+        level: LogLevel = LogLevel.Info,
+        newLine?: boolean
+    ) {
         super.log(message, level, newLine);
 
-        let output = '';
+        let output = "";
         if (level === LogLevel.Error) {
-            output += 'Error: ';
+            output += "Error: ";
         }
         if (level === LogLevel.Warn) {
-            output += 'Warning: ';
+            output += "Warning: ";
         }
         output += message;
 
@@ -231,7 +254,11 @@ export class CallbackLogger extends Logger {
      * @param level  The urgency of the log message.
      * @param newLine  Should the logger print a trailing whitespace?
      */
-    public log(message: string, level: LogLevel = LogLevel.Info, newLine?: boolean) {
+    public log(
+        message: string,
+        level: LogLevel = LogLevel.Info,
+        newLine?: boolean
+    ) {
         super.log(message, level, newLine);
 
         this.callback(message, level, newLine);

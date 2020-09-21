@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents an inferred type, U in the example below.
@@ -11,7 +11,7 @@ export class InferredType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'inferred';
+    readonly type: string = "inferred";
 
     constructor(public name: string) {
         super();

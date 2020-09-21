@@ -1,5 +1,5 @@
-import { Type } from './abstract';
-import { ReferenceType } from './reference';
+import { Type } from "./abstract";
+import { ReferenceType } from "./reference";
 
 /**
  * Represents a type that is constructed by querying the type of a reflection.
@@ -11,7 +11,7 @@ import { ReferenceType } from './reference';
 export class QueryType extends Type {
     readonly queryType: ReferenceType;
 
-    readonly type = 'query';
+    readonly type = "query";
 
     constructor(reference: ReferenceType) {
         super();
@@ -23,7 +23,9 @@ export class QueryType extends Type {
     }
 
     equals(other: Type) {
-        return other instanceof QueryType && this.queryType.equals(other.queryType);
+        return (
+            other instanceof QueryType && this.queryType.equals(other.queryType)
+        );
     }
 
     toString() {

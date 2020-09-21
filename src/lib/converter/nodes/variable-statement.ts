@@ -1,17 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Reflection } from '../../models/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import { Reflection } from "../../models/index";
+import { Context } from "../context";
+import { Component, ConverterNodeComponent } from "../components";
 
-@Component({name: 'node:variable-statement'})
-export class VariableStatementConverter extends ConverterNodeComponent<ts.VariableStatement> {
+@Component({ name: "node:variable-statement" })
+export class VariableStatementConverter extends ConverterNodeComponent<
+    ts.VariableStatement
+> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
-        ts.SyntaxKind.VariableStatement
-    ];
+    supports: ts.SyntaxKind[] = [ts.SyntaxKind.VariableStatement];
 
     /**
      * Analyze the given variable statement node and create a suitable reflection.
@@ -23,8 +23,14 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
     convert(context: Context, node: ts.VariableStatement): Reflection {
         if (node.declarationList && node.declarationList.declarations) {
             node.declarationList.declarations.forEach((variableDeclaration) => {
-                if (ts.isArrayBindingPattern(variableDeclaration.name) || ts.isObjectBindingPattern(variableDeclaration.name)) {
-                    this.convertBindingPattern(context, variableDeclaration.name);
+                if (
+                    ts.isArrayBindingPattern(variableDeclaration.name) ||
+                    ts.isObjectBindingPattern(variableDeclaration.name)
+                ) {
+                    this.convertBindingPattern(
+                        context,
+                        variableDeclaration.name
+                    );
                 } else {
                     this.owner.convertNode(context, variableDeclaration);
                 }
@@ -48,7 +54,10 @@ export class VariableStatementConverter extends ConverterNodeComponent<ts.Variab
                 return;
             }
 
-            if (ts.isArrayBindingPattern(element.name) || ts.isObjectBindingPattern(element.name)) {
+            if (
+                ts.isArrayBindingPattern(element.name) ||
+                ts.isObjectBindingPattern(element.name)
+            ) {
                 this.convertBindingPattern(context, element.name);
             }
         });

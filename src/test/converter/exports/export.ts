@@ -1,6 +1,6 @@
-import ModDefault, { a as b } from './mod';
-import * as Mod from './mod';
-export * from './mod';
+import ModDefault, { a as b } from "./mod";
+import * as Mod from "./mod";
+export * from "./mod";
 
 export { b as c, add, Mod, ModDefault };
 
@@ -12,7 +12,7 @@ function add(x: number, y: number) {
 // export * from './mod2' does *not* re-export the default function.
 export default function (a: number) {}
 
-import * as x from './test.json';
+import * as x from "./test.json";
 
 /** @hidden */
 const x2: string = x.issue;

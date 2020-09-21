@@ -1,17 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
 import {
     Reflection,
     ReflectionFlag,
     DeclarationReflection,
-    ContainerReflection
-} from '../../models/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
-import { createReferenceReflection } from '../factories/reference';
-import { SourceFileMode } from '../../utils';
+    ContainerReflection,
+} from "../../models/index";
+import { Context } from "../context";
+import { Component, ConverterNodeComponent } from "../components";
+import { createReferenceReflection } from "../factories/reference";
+import { SourceFileMode } from "../../utils";
 
-@Component({ name: 'node:export' })
+@Component({ name: "node:export" })
 export class ExportConverter extends ConverterNodeComponent<
     ts.ExportAssignment
 > {
@@ -30,7 +30,7 @@ export class ExportConverter extends ConverterNodeComponent<
         ) {
             symbol = context.checker.getAliasedSymbol(node.symbol);
         } else {
-            let type = context.getTypeAtLocation(node.expression);
+            const type = context.getTypeAtLocation(node.expression);
             symbol = type ? type.symbol : undefined;
         }
         if (symbol && symbol.declarations) {
@@ -67,7 +67,7 @@ export class ExportConverter extends ConverterNodeComponent<
     }
 }
 
-@Component({ name: 'node:export-declaration' })
+@Component({ name: "node:export-declaration" })
 export class ExportDeclarationConverter extends ConverterNodeComponent<
     ts.ExportDeclaration
 > {
@@ -81,7 +81,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
 
         // It doesn't make sense to convert export declarations if we are pretending everything is global.
         if (
-            this.application.options.getValue('mode') === SourceFileMode.File &&
+            this.application.options.getValue("mode") === SourceFileMode.File &&
             !withinNamespace
         ) {
             return;
@@ -89,7 +89,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
 
         const scope = context.scope;
         if (!(scope instanceof ContainerReflection)) {
-            throw new Error('Expected to be within a container');
+            throw new Error("Expected to be within a container");
         }
 
         if (
@@ -126,7 +126,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
             );
             if (!node.moduleSpecifier) {
                 throw new Error(
-                    'Namespace export is missing a module specifier.'
+                    "Namespace export is missing a module specifier."
                 );
             }
             const target = context.resolveAliasedSymbol(
@@ -141,7 +141,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
             for (const symbol of context.checker.getExportsOfModule(
                 sourceFileSymbol
             )) {
-                if (symbol.name === 'default') {
+                if (symbol.name === "default") {
                     // Default exports are not re-exported with export *
                     continue;
                 }

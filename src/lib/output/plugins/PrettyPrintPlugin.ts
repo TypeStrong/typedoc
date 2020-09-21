@@ -1,5 +1,5 @@
-import { Component, RendererComponent } from '../components';
-import { PageEvent } from '../events';
+import { Component, RendererComponent } from "../components";
+import { PageEvent } from "../events";
 
 /**
  * List of states the parser of [[PrettyPrintPlugin]] can be in.
@@ -18,7 +18,7 @@ enum PrettyPrintState {
     /**
      * Pre state, the parser waits for the closing tag of the current pre block.
      */
-    Pre
+    Pre,
 }
 
 /**
@@ -31,37 +31,37 @@ enum PrettyPrintState {
  * At the point writing this the docs of TypeDoc took 97.8 MB  without and 66.4 MB with this
  * plugin enabled, so it reduced the size to 68% of the original output.
  */
-@Component({name: 'pretty-print'})
+@Component({ name: "pretty-print" })
 export class PrettyPrintPlugin extends RendererComponent {
     /**
      * Map of all tags that will be ignored.
      */
     static IGNORED_TAGS = {
-        area:    true,
-        base:    true,
-        br:      true,
-        wbr:     true,
-        col:     true,
+        area: true,
+        base: true,
+        br: true,
+        wbr: true,
+        col: true,
         command: true,
-        embed:   true,
-        hr:      true,
-        img:     true,
-        input:   true,
-        link:    true,
-        meta:    true,
-        param:   true,
-        source:  true
+        embed: true,
+        hr: true,
+        img: true,
+        input: true,
+        link: true,
+        meta: true,
+        param: true,
+        source: true,
     };
 
     /**
      * Map of all tags that prevent this plugin form modifying the following code.
      */
     static PRE_TAGS = {
-        pre:      true,
-        code:     true,
+        pre: true,
+        code: true,
         textarea: true,
-        script:   true,
-        style:    true
+        script: true,
+        style: true,
     };
 
     /**
@@ -84,15 +84,15 @@ export class PrettyPrintPlugin extends RendererComponent {
         let tagName: string;
         let preName: string | undefined;
 
-        let tagExp       = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
-        let emptyLineExp = /^[\s]*$/;
+        const tagExp = /<\s*(\w+)[^>]*>|<\/\s*(\w+)[^>]*>|<!--|-->/g;
+        const emptyLineExp = /^[\s]*$/;
         let minLineDepth = 1;
-        let state        = PrettyPrintState.Default;
+        let state = PrettyPrintState.Default;
         const stack: string[] = [];
 
-        const lines        = (event.contents || '').split(/\r\n?|\n/);
-        let index        = 0;
-        let count        = lines.length;
+        const lines = (event.contents || "").split(/\r\n?|\n/);
+        let index = 0;
+        let count = lines.length;
 
         while (index < count) {
             line = lines[index];
@@ -106,9 +106,9 @@ export class PrettyPrintPlugin extends RendererComponent {
                 lineState = state;
                 lineDepth = stack.length;
 
-                while (match = tagExp.exec(line)) {
+                while ((match = tagExp.exec(line))) {
                     if (state === PrettyPrintState.Comment) {
-                        if (match[0] === '-->') {
+                        if (match[0] === "-->") {
                             state = PrettyPrintState.Default;
                         }
                     } else if (state === PrettyPrintState.Pre) {
@@ -116,7 +116,7 @@ export class PrettyPrintPlugin extends RendererComponent {
                             state = PrettyPrintState.Default;
                         }
                     } else {
-                        if (match[0] === '<!--') {
+                        if (match[0] === "<!--") {
                             state = PrettyPrintState.Comment;
                         } else if (match[1]) {
                             tagName = match[1].toLowerCase();
@@ -127,7 +127,7 @@ export class PrettyPrintPlugin extends RendererComponent {
                                 state = PrettyPrintState.Pre;
                                 preName = tagName;
                             } else {
-                                if (tagName === 'body') {
+                                if (tagName === "body") {
                                     minLineDepth = 2;
                                 }
                                 stack.push(tagName);
@@ -148,9 +148,11 @@ export class PrettyPrintPlugin extends RendererComponent {
 
                 if (lineState === PrettyPrintState.Default) {
                     lineDepth = Math.min(lineDepth, stack.length);
-                    line = line.replace(/^\s+/, '').replace(/\s+$/, '');
+                    line = line.replace(/^\s+/, "").replace(/\s+$/, "");
                     if (lineDepth > minLineDepth) {
-                        line = Array(lineDepth - minLineDepth + 1).join('\t') + line;
+                        line =
+                            Array(lineDepth - minLineDepth + 1).join("\t") +
+                            line;
                     }
 
                     lines[index] = line;
@@ -160,6 +162,6 @@ export class PrettyPrintPlugin extends RendererComponent {
             index++;
         }
 
-        event.contents = lines.join('\n');
+        event.contents = lines.join("\n");
     }
 }

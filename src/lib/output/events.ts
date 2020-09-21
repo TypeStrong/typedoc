@@ -1,11 +1,11 @@
-import { TemplateDelegate } from 'handlebars';
-import * as Path from 'path';
+import { TemplateDelegate } from "handlebars";
+import * as Path from "path";
 
-import { Event } from '../utils/events';
-import { ProjectReflection } from '../models/reflections/project';
-import { UrlMapping } from './models/UrlMapping';
-import { NavigationItem } from './models/NavigationItem';
-import { LegendItem } from './plugins/LegendPlugin';
+import { Event } from "../utils/events";
+import { ProjectReflection } from "../models/reflections/project";
+import { UrlMapping } from "./models/UrlMapping";
+import { NavigationItem } from "./models/NavigationItem";
+import { LegendItem } from "./plugins/LegendPlugin";
 
 /**
  * An event emitted by the [[Renderer]] class at the very beginning and
@@ -41,15 +41,19 @@ export class RendererEvent extends Event {
      * Triggered before the renderer starts rendering a project.
      * @event
      */
-    static BEGIN = 'beginRender';
+    static BEGIN = "beginRender";
 
     /**
      * Triggered after the renderer has written all documents.
      * @event
      */
-    static END = 'endRender';
+    static END = "endRender";
 
-    constructor(name: string, outputDirectory: string, project: ProjectReflection) {
+    constructor(
+        name: string,
+        outputDirectory: string,
+        project: ProjectReflection
+    ) {
         super(name);
         this.outputDirectory = outputDirectory;
         this.project = project;
@@ -64,12 +68,12 @@ export class RendererEvent extends Event {
      */
     public createPageEvent(mapping: UrlMapping): PageEvent {
         const event = new PageEvent(PageEvent.BEGIN);
-        event.project      = this.project;
-        event.settings     = this.settings;
-        event.url          = mapping.url;
-        event.model        = mapping.model;
+        event.project = this.project;
+        event.settings = this.settings;
+        event.url = mapping.url;
+        event.model = mapping.model;
         event.templateName = mapping.template;
-        event.filename     = Path.join(this.outputDirectory, mapping.url);
+        event.filename = Path.join(this.outputDirectory, mapping.url);
         return event;
     }
 }
@@ -145,13 +149,13 @@ export class PageEvent extends Event {
      * Triggered before a document will be rendered.
      * @event
      */
-    static BEGIN = 'beginPage';
+    static BEGIN = "beginPage";
 
     /**
      * Triggered after a document has been rendered, just before it is written to disc.
      * @event
      */
-    static END = 'endPage';
+    static END = "endPage";
 }
 
 /**
@@ -175,7 +179,7 @@ export class MarkdownEvent extends Event {
      * Triggered on the renderer when this plugin parses a markdown string.
      * @event
      */
-    static PARSE = 'parseMarkdown';
+    static PARSE = "parseMarkdown";
 
     constructor(name: string, originalText: string, parsedText: string) {
         super(name);

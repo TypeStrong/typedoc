@@ -98,7 +98,7 @@ export abstract class BaseClass implements NameInterface {
     constructor(source: BaseClass);
     constructor() {
         if (arguments.length > 0) {
-            if (typeof arguments[0] === 'string') {
+            if (typeof arguments[0] === "string") {
                 this.name = arguments[0];
             } else if (arguments[0] instanceof BaseClass) {
                 this.name = arguments[0].name;
@@ -131,7 +131,7 @@ export abstract class BaseClass implements NameInterface {
      * @returns Return the name.
      */
     static getName(): string {
-        return 'A name';
+        return "A name";
     }
 
     /**
@@ -153,8 +153,7 @@ export abstract class BaseClass implements NameInterface {
      * @param param2 The second parameter needed by this function.
      * @see https://github.com/sebastian-lenz/typedoc/issues/37
      */
-    public arrowFunction = (param2: string, param1: number): void => {
-    }
+    public arrowFunction = (param2: string, param1: number): void => {};
 
     /**
      * This is a private function.
@@ -177,8 +176,13 @@ export abstract class BaseClass implements NameInterface {
     /**
      * @see https://github.com/sebastian-lenz/typedoc/issues/42
      */
-    public static caTest(originalValues: BaseClass, newRecord: any, fieldNames: string[], mandatoryFields: string[]): string {
-        let returnval = '';
+    public static caTest(
+        originalValues: BaseClass,
+        newRecord: any,
+        fieldNames: string[],
+        mandatoryFields: string[]
+    ): string {
+        let returnval = "";
         let updates: string[] = [];
         let allFields: string[] = fieldNames;
         for (let j = 0; j < allFields.length; j++) {
@@ -194,9 +198,7 @@ export abstract class BaseClass implements NameInterface {
  * This is an internal class, it is not exported.
  */
 class InternalClass<TTT extends keyof BaseClass> {
-    constructor(options: {name: string}) {
-
-    }
+    constructor(options: { name: string }) {}
 }
 
 /**
@@ -211,7 +213,7 @@ export class SubClassA extends BaseClass implements PrintNameInterface {
     /**
      * This is a simple interface function.
      */
-    public print(value: string): void { }
+    public print(value: string): void {}
 
     /**
      * @inheritdoc
@@ -258,9 +260,7 @@ export class SubClassA extends BaseClass implements PrintNameInterface {
         this.name = value;
     }
 
-    public abstractMethod(): void {
-
-    }
+    public abstractMethod(): void {}
 }
 
 /**
@@ -275,12 +275,9 @@ export class SubClassB extends BaseClass {
         super(name);
     }
 
-    abstractMethod(): void {
+    abstractMethod(): void {}
 
-    }
-
-    doSomething(value: [string, SubClassA, SubClassB]) {
-    }
+    doSomething(value: [string, SubClassA, SubClassB]) {}
 }
 
 /**
@@ -300,8 +297,13 @@ export class GenericClass<T extends BaseClass> {
      * @param p4 Public implicit any property
      * @param p5 Readonly property
      */
-    constructor(p1, protected p2: T, public p3: number, private p4: number, readonly p5: string) {
-    }
+    constructor(
+        p1,
+        protected p2: T,
+        public p3: number,
+        private p4: number,
+        readonly p5: string
+    ) {}
 
     /**
      * @param value [[getValue]] is the counterpart.
@@ -318,6 +320,4 @@ export class GenericClass<T extends BaseClass> {
 /**
  * This a non generic class derived from a [[GenericClass|generic class]].
  */
-export class NonGenericClass extends GenericClass<SubClassB> {
-
-}
+export class NonGenericClass extends GenericClass<SubClassB> {}

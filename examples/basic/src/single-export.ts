@@ -10,7 +10,7 @@ class NotExportedClass {
     /**
      * This is the constructor of the not exported class.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * Method of not exported class.
@@ -36,7 +36,7 @@ class SingleExportedClass {
     /**
      * This is the constructor of the exported class.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * Method of exported class.

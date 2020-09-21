@@ -1,7 +1,7 @@
-import { Reflection, Type } from '../models';
+import { Reflection, Type } from "../models";
 
-import { Serializer } from './serializer';
-import { ModelToObject } from './schema';
+import { Serializer } from "./serializer";
+import { ModelToObject } from "./schema";
 
 /**
  * Represents Serializer plugin component.
@@ -57,7 +57,7 @@ export abstract class SerializerComponent<T> {
      * A higher priority means the [[Serializer]] will be applied earlier.
      */
     get priority(): number {
-        return this.constructor['PRIORITY'] || SerializerComponent.PRIORITY;
+        return this.constructor["PRIORITY"] || SerializerComponent.PRIORITY;
     }
 
     abstract supports(item: unknown): boolean;
@@ -65,7 +65,9 @@ export abstract class SerializerComponent<T> {
     abstract toObject(item: T, obj?: object): Partial<ModelToObject<T>>;
 }
 
-export abstract class ReflectionSerializerComponent<T extends Reflection> extends SerializerComponent<T> {
+export abstract class ReflectionSerializerComponent<
+    T extends Reflection
+> extends SerializerComponent<T> {
     /**
      * Filter for instances of [[Reflection]]
      */
@@ -74,7 +76,9 @@ export abstract class ReflectionSerializerComponent<T extends Reflection> extend
     }
 }
 
-export abstract class TypeSerializerComponent<T extends Type> extends SerializerComponent<T> {
+export abstract class TypeSerializerComponent<
+    T extends Type
+> extends SerializerComponent<T> {
     /**
      * Filter for instances of [[Type]]
      */

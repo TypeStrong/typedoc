@@ -1,17 +1,17 @@
-import * as ts from 'typescript';
-import * as Path from 'path';
+import * as ts from "typescript";
+import * as Path from "path";
 
-import { Reflection, ReflectionKind } from '../../models/reflections/abstract';
-import { Component, ConverterComponent } from '../components';
-import { BasePath } from '../utils/base-path';
-import { Converter } from '../converter';
-import { Context } from '../context';
+import { Reflection, ReflectionKind } from "../../models/reflections/abstract";
+import { Component, ConverterComponent } from "../components";
+import { BasePath } from "../utils/base-path";
+import { Converter } from "../converter";
+import { Context } from "../context";
 
 /**
  * A handler that truncates the names of dynamic modules to not include the
  * project's base path.
  */
-@Component({name: 'dynamic-module'})
+@Component({ name: "dynamic-module" })
 export class DynamicModulePlugin extends ConverterComponent {
     /**
      * Helper class for determining the base path.
@@ -28,9 +28,9 @@ export class DynamicModulePlugin extends ConverterComponent {
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:              this.onBegin,
+            [Converter.EVENT_BEGIN]: this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_RESOLVE_BEGIN]:      this.onBeginResolve
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
         });
     }
 
@@ -43,7 +43,9 @@ export class DynamicModulePlugin extends ConverterComponent {
         this.basePath.reset();
         this.reflections = [];
         if (context.getCompilerOptions().baseUrl) {
-            this.basePath.add(context.getCompilerOptions().baseUrl as string + '/file');
+            this.basePath.add(
+                (context.getCompilerOptions().baseUrl as string) + "/file"
+            );
         }
     }
 
@@ -54,14 +56,18 @@ export class DynamicModulePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+    private onDeclaration(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.Node
+    ) {
         if (reflection.kindOf(ReflectionKind.Module)) {
             let name = reflection.name;
-            if (!name.includes('/')) {
+            if (!name.includes("/")) {
                 return;
             }
 
-            name = name.replace(/"/g, '');
+            name = name.replace(/"/g, "");
             this.reflections.push(reflection);
             this.basePath.add(name);
         }
@@ -74,7 +80,7 @@ export class DynamicModulePlugin extends ConverterComponent {
      */
     private onBeginResolve(context: Context) {
         this.reflections.forEach((reflection) => {
-            let name = reflection.name.replace(/"/g, '');
+            let name = reflection.name.replace(/"/g, "");
             name = name.substr(0, name.length - Path.extname(name).length);
             reflection.name = '"' + this.basePath.trim(name) + '"';
         });

@@ -1,7 +1,7 @@
-import { Type } from '../../../models';
+import { Type } from "../../../models";
 
-import { TypeSerializerComponent } from '../../components';
-import { Type as JSONType } from '../../schema';
+import { TypeSerializerComponent } from "../../components";
+import { Type as JSONType } from "../../schema";
 
 export class TypeSerializer extends TypeSerializerComponent<Type> {
     static PRIORITY = 1000;
@@ -13,7 +13,7 @@ export class TypeSerializer extends TypeSerializerComponent<Type> {
     toObject(type: Type, obj?: Partial<JSONType>): JSONType {
         return {
             ...obj,
-            type: type.type
+            type: type.type,
         };
     }
 }

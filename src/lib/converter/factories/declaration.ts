@@ -1,10 +1,15 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { ContainerReflection, DeclarationReflection, ReflectionFlag, ReflectionKind } from '../../models/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { getRawComment } from './comment.js';
-import { createReferenceType } from './reference';
+import {
+    ContainerReflection,
+    DeclarationReflection,
+    ReflectionFlag,
+    ReflectionKind,
+} from "../../models/index";
+import { Context } from "../context";
+import { Converter } from "../converter";
+import { getRawComment } from "./comment.js";
+import { createReferenceType } from "./reference";
 
 /**
  * List of reflection kinds that never should be static.
@@ -12,7 +17,7 @@ import { createReferenceType } from './reference';
 const nonStaticKinds = [
     ReflectionKind.Class,
     ReflectionKind.Interface,
-    ReflectionKind.Namespace
+    ReflectionKind.Namespace,
 ];
 
 /**
@@ -21,16 +26,18 @@ const nonStaticKinds = [
 const nonStaticMergeKinds = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.ClassExpression,
-    ts.SyntaxKind.InterfaceDeclaration
+    ts.SyntaxKind.InterfaceDeclaration,
 ];
 
 const builtInSymbolRegExp = /^__@(\w+)$/;
 
-function hasCommentOnParentAxis (node: ts.Node): boolean {
+function hasCommentOnParentAxis(node: ts.Node): boolean {
     let currentNode: ts.Node = node;
 
     while (currentNode) {
-        if (Boolean(getRawComment(currentNode))) { return true; }
+        if (getRawComment(currentNode)) {
+            return true;
+        }
 
         currentNode = currentNode.parent;
     }
@@ -38,9 +45,16 @@ function hasCommentOnParentAxis (node: ts.Node): boolean {
     return false;
 }
 
-function shouldBeIgnoredAsNotDocumented (node: ts.Declaration, kind: ReflectionKind): boolean {
+function shouldBeIgnoredAsNotDocumented(
+    node: ts.Declaration,
+    kind: ReflectionKind
+): boolean {
     // never ignore modules, global, and enum members
-    if (kind === ReflectionKind.Module || kind === ReflectionKind.Global || kind === ReflectionKind.EnumMember) {
+    if (
+        kind === ReflectionKind.Module ||
+        kind === ReflectionKind.Global ||
+        kind === ReflectionKind.EnumMember
+    ) {
         return false;
     }
 
@@ -63,7 +77,7 @@ function shouldBeIgnoredAsNotDocumented (node: ts.Declaration, kind: ReflectionK
         return false;
     }
 
-    const hasComment: boolean = Boolean(getRawComment(node));
+    const hasComment = Boolean(getRawComment(node));
 
     return !hasComment;
 }
@@ -78,9 +92,14 @@ function shouldBeIgnoredAsNotDocumented (node: ts.Declaration, kind: ReflectionK
  * @param name  The desired name of the reflection.
  * @returns The resulting reflection or undefined if an error is encountered.
  */
-export function createDeclaration(context: Context, node: ts.Declaration, kind: ReflectionKind, name?: string): DeclarationReflection | undefined {
+export function createDeclaration(
+    context: Context,
+    node: ts.Declaration,
+    kind: ReflectionKind,
+    name?: string
+): DeclarationReflection | undefined {
     if (!(context.scope instanceof ContainerReflection)) {
-        throw new Error('Expected container reflection.');
+        throw new Error("Expected container reflection.");
     }
     const container = context.scope;
 
@@ -98,12 +117,22 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         const match = builtInSymbolRegExp.exec(name);
         if (match) {
             name = `[Symbol.${match[1]}]`;
-        } else if (kind & (ReflectionKind.ClassMember | ReflectionKind.VariableOrProperty) && name === '__computed') {
+        } else if (
+            kind &
+                (ReflectionKind.ClassMember |
+                    ReflectionKind.VariableOrProperty) &&
+            name === "__computed"
+        ) {
             // rename computed properties
             const declName = ts.getNameOfDeclaration(node);
-            const symbol = declName && context.checker.getSymbolAtLocation(declName);
+            const symbol =
+                declName && context.checker.getSymbolAtLocation(declName);
             if (symbol) {
-                name = context.checker.symbolToString(symbol, /*enclosingDeclaration*/ undefined, ts.SymbolFlags.ClassMember);
+                name = context.checker.symbolToString(
+                    symbol,
+                    /*enclosingDeclaration*/ undefined,
+                    ts.SymbolFlags.ClassMember
+                );
             } else if (declName) {
                 name = declName.getText();
             }
@@ -119,13 +148,20 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     } else if (container.kind === ReflectionKind.Global) {
         // In file mode, everything is exported.
         isExported = true;
-    } else if (container.kindOf([ReflectionKind.Namespace, ReflectionKind.Module])) {
+    } else if (
+        container.kindOf([ReflectionKind.Namespace, ReflectionKind.Module])
+    ) {
         const symbol = context.getSymbolAtLocation(node);
         if (!symbol) {
             isExported = false;
         } else {
             let parentNode = node.parent;
-            while (![ts.SyntaxKind.SourceFile, ts.SyntaxKind.ModuleDeclaration].includes(parentNode.kind)) {
+            while (
+                ![
+                    ts.SyntaxKind.SourceFile,
+                    ts.SyntaxKind.ModuleDeclaration,
+                ].includes(parentNode.kind)
+            ) {
                 parentNode = parentNode.parent;
             }
             const parentSymbol = context.getSymbolAtLocation(parentNode);
@@ -142,9 +178,9 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
     }
 
     if (
-        (!isExported && context.converter.excludeNotExported)
-        ||
-        (context.converter.excludeNotDocumented && shouldBeIgnoredAsNotDocumented(node, kind))
+        (!isExported && context.converter.excludeNotExported) ||
+        (context.converter.excludeNotDocumented &&
+            shouldBeIgnoredAsNotDocumented(node, kind))
     ) {
         return;
     }
@@ -163,7 +199,10 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         if (container.kind === ReflectionKind.Class) {
             if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
-            } else if (!node.parent || !nonStaticMergeKinds.includes(node.parent.kind)) {
+            } else if (
+                !node.parent ||
+                !nonStaticMergeKinds.includes(node.parent.kind)
+            ) {
                 isStatic = true;
             }
         }
@@ -171,9 +210,13 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
 
     // Check if we already have a child of the same kind, with the same name and static flag
     let child: DeclarationReflection | undefined;
-    const children = container.children = container.children || [];
+    const children = (container.children = container.children || []);
     children.forEach((n: DeclarationReflection) => {
-        if (n.name === name && n.flags.isStatic === isStatic && canMergeReflectionsByKind(n.kind, kind)) {
+        if (
+            n.name === name &&
+            n.flags.isStatic === isStatic &&
+            canMergeReflectionsByKind(n.kind, kind)
+        ) {
             child = n;
         }
     });
@@ -183,13 +226,19 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
         child = new DeclarationReflection(name, kind, container);
         child.setFlag(ReflectionFlag.Static, isStatic);
         child.setFlag(ReflectionFlag.Private, isPrivate);
-        child.setFlag(ReflectionFlag.ConstructorProperty, isConstructorProperty);
-        child.setFlag(ReflectionFlag.Exported,  isExported);
+        child.setFlag(
+            ReflectionFlag.ConstructorProperty,
+            isConstructorProperty
+        );
+        child.setFlag(ReflectionFlag.Exported, isExported);
         child = setupDeclaration(context, child, node);
 
         if (child) {
             children.push(child);
-            context.registerReflection(child, context.getSymbolAtLocation(node) ?? node.symbol);
+            context.registerReflection(
+                child,
+                context.getSymbolAtLocation(node) ?? node.symbol
+            );
         }
     } else {
         // Merge the existent reflection with the given node
@@ -212,23 +261,45 @@ export function createDeclaration(context: Context, node: ts.Declaration, kind: 
  * @param node  The TypeScript node whose properties should be applies to the given reflection.
  * @returns The reflection populated with the values of the given node.
  */
-function setupDeclaration(context: Context, reflection: DeclarationReflection, node: ts.Declaration) {
+function setupDeclaration(
+    context: Context,
+    reflection: DeclarationReflection,
+    node: ts.Declaration
+) {
     const modifiers = ts.getCombinedModifierFlags(node);
 
-    reflection.setFlag(ReflectionFlag.External,  context.isExternal);
-    reflection.setFlag(ReflectionFlag.Protected, !!(modifiers & ts.ModifierFlags.Protected));
-    reflection.setFlag(ReflectionFlag.Public,    !!(modifiers & ts.ModifierFlags.Public));
-    reflection.setFlag(ReflectionFlag.Optional,  !!(node['questionToken']));
-    reflection.setFlag(ReflectionFlag.Readonly,  !!(modifiers & ts.ModifierFlags.Readonly));
+    reflection.setFlag(ReflectionFlag.External, context.isExternal);
+    reflection.setFlag(
+        ReflectionFlag.Protected,
+        !!(modifiers & ts.ModifierFlags.Protected)
+    );
+    reflection.setFlag(
+        ReflectionFlag.Public,
+        !!(modifiers & ts.ModifierFlags.Public)
+    );
+    reflection.setFlag(ReflectionFlag.Optional, !!node["questionToken"]);
+    reflection.setFlag(
+        ReflectionFlag.Readonly,
+        !!(modifiers & ts.ModifierFlags.Readonly)
+    );
 
     if (
         context.isInherit &&
-        (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
+        (node.parent === context.inheritParent ||
+            reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.inheritedFrom) {
-            reflection.inheritedFrom = createReferenceType(context, node.symbol, true);
+            reflection.inheritedFrom = createReferenceType(
+                context,
+                node.symbol,
+                true
+            );
             reflection.getAllSignatures().forEach((signature) => {
-                signature.inheritedFrom = createReferenceType(context, node.symbol, true);
+                signature.inheritedFrom = createReferenceType(
+                    context,
+                    node.symbol,
+                    true
+                );
             });
         }
     }
@@ -238,10 +309,12 @@ function setupDeclaration(context: Context, reflection: DeclarationReflection, n
 
 // we should not be merging type and value with the same name,
 // because TypeScript has different namespaces for these two categories
-function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind): boolean {
+function canMergeReflectionsByKind(
+    kind1: ReflectionKind,
+    kind2: ReflectionKind
+): boolean {
     if (
-        (kind1 & ReflectionKind.SomeType && kind2 & ReflectionKind.SomeValue)
-        ||
+        (kind1 & ReflectionKind.SomeType && kind2 & ReflectionKind.SomeValue) ||
         (kind2 & ReflectionKind.SomeType && kind1 & ReflectionKind.SomeValue)
     ) {
         return false;
@@ -259,9 +332,18 @@ function canMergeReflectionsByKind(kind1: ReflectionKind, kind2: ReflectionKind)
  * @param kind  The desired kind of the reflection.
  * @returns The reflection merged with the values of the given node or NULL if the merge is invalid.
  */
-function mergeDeclarations(context: Context, reflection: DeclarationReflection, node: ts.Node, kind: ReflectionKind) {
+function mergeDeclarations(
+    context: Context,
+    reflection: DeclarationReflection,
+    node: ts.Node,
+    kind: ReflectionKind
+) {
     if (reflection.kind !== kind) {
-        const weights = [ReflectionKind.Namespace, ReflectionKind.Enum, ReflectionKind.Class];
+        const weights = [
+            ReflectionKind.Namespace,
+            ReflectionKind.Enum,
+            ReflectionKind.Class,
+        ];
         const kindWeight = weights.indexOf(kind);
         const childKindWeight = weights.indexOf(reflection.kind);
         if (kindWeight > childKindWeight) {
@@ -272,12 +354,21 @@ function mergeDeclarations(context: Context, reflection: DeclarationReflection, 
     if (
         context.isInherit &&
         (context.inherited || []).includes(reflection.name) &&
-        (node.parent === context.inheritParent || reflection.flags.isConstructorProperty)
+        (node.parent === context.inheritParent ||
+            reflection.flags.isConstructorProperty)
     ) {
         if (!reflection.overwrites) {
-            reflection.overwrites = createReferenceType(context, node.symbol, true);
+            reflection.overwrites = createReferenceType(
+                context,
+                node.symbol,
+                true
+            );
             reflection.getAllSignatures().forEach((signature) => {
-                signature.overwrites = createReferenceType(context, node.symbol, true);
+                signature.overwrites = createReferenceType(
+                    context,
+                    node.symbol,
+                    true
+                );
             });
         }
         return;

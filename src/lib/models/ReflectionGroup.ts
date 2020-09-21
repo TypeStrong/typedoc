@@ -1,5 +1,5 @@
-import { Reflection, ReflectionKind } from './reflections/abstract';
-import { ReflectionCategory } from './ReflectionCategory';
+import { Reflection, ReflectionKind } from "./reflections/abstract";
+import { ReflectionCategory } from "./ReflectionCategory";
 
 /**
  * A group of reflections. All reflections in a group are of the same kind.
@@ -78,7 +78,8 @@ export class ReflectionGroup {
         this.title = title;
         this.kind = kind;
 
-        this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
+        this.allChildrenHaveOwnDocument = () =>
+            this.getAllChildrenHaveOwnDocument();
     }
 
     /**

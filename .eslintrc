@@ -1,0 +1,63 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "ignorePatterns": ["src/test/renderer/specs/**", "examples/**", "dist"],
+    "rules": {
+        // This rule is factually incorrect. Interfaces which extend some type alias can be used to introduce
+        // new type names. This is useful particularly when dealing with mixins.
+        "@typescript-eslint/no-empty-interface": 0,
+
+        // We still use `any` fairly frequently...
+        "@typescript-eslint/ban-types": 0,
+        "@typescript-eslint/no-explicit-any": 0,
+
+        // Declaration merging with a namespace is a necessary tool when working with enums.
+        "@typescript-eslint/no-namespace": 0,
+
+        // Feel free to turn one of these back on and submit a PR!
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/no-non-null-assertion": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "@typescript-eslint/no-unused-vars": 0
+    },
+    "overrides": [
+        {
+            "files": ["src/test/converter/**", "src/test/renderer/**"],
+            "rules": {
+                "prefer-rest-params": 0,
+                "no-inner-declarations": 0,
+                "no-var": 0,
+                "prefer-const": 0,
+                "@typescript-eslint/prefer-namespace-keyword": 0,
+                "@typescript-eslint/no-inferrable-types": 0,
+                "@typescript-eslint/explicit-module-boundary-types": 0,
+                "@typescript-eslint/no-empty-function": 0,
+                "@typescript-eslint/no-unused-vars": 0,
+                "@typescript-eslint/no-misused-new": 0
+            }
+        },
+        {
+            "files": ["scripts/**", "bin/typedoc.js"],
+            "rules": {
+                // We don't depend on a new enough version of node to use imports here...
+                "@typescript-eslint/no-var-requires": 0
+            }
+        },
+        {
+            "files": ["src/test/**"],
+            "env": {
+                "mocha": true
+            }
+        }
+    ]
+}

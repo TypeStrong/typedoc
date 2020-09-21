@@ -1,12 +1,24 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type, ReflectionKind, DeclarationReflection, ReflectionType, ReflectionFlag } from '../../models/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
-import { Converter } from '../converter';
+import {
+    Type,
+    ReflectionKind,
+    DeclarationReflection,
+    ReflectionType,
+    ReflectionFlag,
+} from "../../models/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeNodeConverter,
+} from "../components";
+import { Context } from "../context";
+import { Converter } from "../converter";
 
-@Component({name: 'type:binding-object'})
-export class BindingObjectConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.BindingPattern> {
+@Component({ name: "type:binding-object" })
+export class BindingObjectConverter
+    extends ConverterTypeComponent
+    implements TypeNodeConverter<ts.Type, ts.BindingPattern> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
@@ -22,15 +34,24 @@ export class BindingObjectConverter extends ConverterTypeComponent implements Ty
      * @returns The type reflection representing the given binding pattern.
      */
     convertNode(context: Context, node: ts.BindingPattern): Type {
-        const declaration = new DeclarationReflection('__type', ReflectionKind.TypeLiteral, context.scope);
-        declaration.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
+        const declaration = new DeclarationReflection(
+            "__type",
+            ReflectionKind.TypeLiteral,
+            context.scope
+        );
+        declaration.flags.setFlag(
+            ReflectionFlag.Exported,
+            context.scope.flags.isExported
+        );
 
         context.registerReflection(declaration);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
-            (node.elements as ts.NodeArray<ts.BindingElement>).forEach((element) => {
-                this.owner.convertNode(context, element);
-            });
+            (node.elements as ts.NodeArray<ts.BindingElement>).forEach(
+                (element) => {
+                    this.owner.convertNode(context, element);
+                }
+            );
         });
 
         return new ReflectionType(declaration);

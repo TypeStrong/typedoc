@@ -30,10 +30,7 @@
             "name": "Debug Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
-            "args": [
-                "--no-timeouts",
-                "dist/test/**/*.js"
-            ],
+            "args": ["--no-timeouts", "dist/test/**/*.js"],
             "outFiles": [
                 "${workspaceRoot}/lib/**/*.js",
                 "${workspaceRoot}/test/**/*.js"

@@ -1,31 +1,31 @@
-import * as typescript from 'typescript';
+import * as typescript from "typescript";
 
-import { Application } from './application';
-import { BindOption } from './utils/options';
-import { getOptionsHelp } from './utils/options/help';
-import { ArgumentsReader, TypeDocReader } from './utils/options/readers';
-import { TSConfigReader } from './utils/options/readers/tsconfig';
-import { TypeDocAndTSOptions } from './utils/options/declaration';
+import { Application } from "./application";
+import { BindOption } from "./utils/options";
+import { getOptionsHelp } from "./utils/options/help";
+import { ArgumentsReader, TypeDocReader } from "./utils/options/readers";
+import { TSConfigReader } from "./utils/options/readers/tsconfig";
+import { TypeDocAndTSOptions } from "./utils/options/declaration";
 
 export const enum ExitCode {
     OptionError = 1,
     NoInputFiles = 2,
     NoOutput = 3,
     CompileError = 4,
-    OutputError = 5
+    OutputError = 5,
 }
 
 export class CliApplication extends Application {
-    @BindOption('out')
+    @BindOption("out")
     out!: string;
 
-    @BindOption('json')
+    @BindOption("json")
     json!: string;
 
-    @BindOption('version')
+    @BindOption("version")
     version!: boolean;
 
-    @BindOption('help')
+    @BindOption("help")
     help!: boolean;
 
     /**
@@ -61,8 +61,10 @@ export class CliApplication extends Application {
                 }
                 if (!this.out && !this.json) {
                     this.logger.log("No 'out' or 'json' option has been set");
-                    this.logger.log("The './docs' directory has been set as the output location by default");
-                    this.generateDocs(project, './docs');
+                    this.logger.log(
+                        "The './docs' directory has been set as the output location by default"
+                    );
+                    this.generateDocs(project, "./docs");
                 }
                 if (this.logger.hasErrors()) {
                     process.exit(ExitCode.OutputError);

@@ -6,7 +6,7 @@ export function add(x: number, y: number) {
 
 // Add a local var/function to make sure typedoc won't choke
 // if excludeNotExported is true
-let localVar = 'local';
+let localVar = "local";
 
 function times(x: number, y: number) {
     return x * y;

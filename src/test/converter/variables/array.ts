@@ -1,8 +1,7 @@
 /**
  * A custom array interface.
  */
-export interface Array<T> {
-}
+export interface Array<T> {}
 
 /**
  * A const of a complex type.

@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a type parameter type.
@@ -27,7 +27,7 @@ export class TypeParameterType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'typeParameter';
+    readonly type: string = "typeParameter";
 
     constructor(name: string) {
         super();

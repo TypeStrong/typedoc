@@ -1,10 +1,10 @@
-import * as Path from 'path';
-import * as FS from 'fs';
-import { cloneDeep } from 'lodash';
+import * as Path from "path";
+import * as FS from "fs";
+import { cloneDeep } from "lodash";
 
-import { OptionsReader } from '..';
-import { Logger } from '../../loggers';
-import { Options } from '../options';
+import { OptionsReader } from "..";
+import { Logger } from "../../loggers";
+import { Options } from "../options";
 
 /**
  * Obtains option values from typedoc.json
@@ -16,7 +16,7 @@ export class TypeDocReader implements OptionsReader {
      */
     priority = 100;
 
-    name = 'typedoc-json';
+    name = "typedoc-json";
 
     /**
      * Read user configuration from a typedoc.json or typedoc.js configuration file.
@@ -24,12 +24,14 @@ export class TypeDocReader implements OptionsReader {
      * @param logger
      */
     read(container: Options, logger: Logger): void {
-        const path = container.getValue('options');
+        const path = container.getValue("options");
         const file = this.findTypedocFile(path);
 
         if (!file) {
-            if (!container.isDefault('options')) {
-                logger.error(`The options file could not be found with the given path ${path}`);
+            if (!container.isDefault("options")) {
+                logger.error(
+                    `The options file could not be found with the given path ${path}`
+                );
             }
             return;
         }
@@ -44,16 +46,24 @@ export class TypeDocReader implements OptionsReader {
      * @param container
      * @param logger
      */
-    private readFile(file: string, container: Options & { setValue(key: string, value: unknown): void }, logger: Logger, seen: Set<string>) {
+    private readFile(
+        file: string,
+        container: Options & { setValue(key: string, value: unknown): void },
+        logger: Logger,
+        seen: Set<string>
+    ) {
         if (seen.has(file)) {
-            logger.error(`Tried to load the options file ${file} multiple times.`);
+            logger.error(
+                `Tried to load the options file ${file} multiple times.`
+            );
             return;
         }
         seen.add(file);
 
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const fileContent: unknown = require(file);
 
-        if (typeof fileContent !== 'object' || !fileContent) {
+        if (typeof fileContent !== "object" || !fileContent) {
             logger.error(`The file ${file} is not an object.`);
             return;
         }
@@ -61,20 +71,27 @@ export class TypeDocReader implements OptionsReader {
         // clone option object to avoid of property changes in re-calling this file
         const data: object = cloneDeep(fileContent);
 
-        if ('extends' in data) {
-            const extended: string[] = getStringArray(data['extends']);
+        if ("extends" in data) {
+            const extended: string[] = getStringArray(data["extends"]);
             for (const extendedFile of extended) {
                 // Extends is relative to the file it appears in.
-                this.readFile(Path.resolve(Path.dirname(file), extendedFile), container, logger, seen);
+                this.readFile(
+                    Path.resolve(Path.dirname(file), extendedFile),
+                    container,
+                    logger,
+                    seen
+                );
             }
-            delete data['extends'];
+            delete data["extends"];
         }
 
         // deprecate: data.src is alias to inputFiles as of 0.16, warn in 0.17, remove in 0.19
-        if ('src' in data && !('inputFiles' in data)) {
-            logger.warn('The `src` configuration option has been deprecated in favor of `inputFiles` and will be removed in a future release.');
-            data['inputFiles'] = getStringArray(data['src']);
-            delete data['src'];
+        if ("src" in data && !("inputFiles" in data)) {
+            logger.warn(
+                "The `src` configuration option has been deprecated in favor of `inputFiles` and will be removed in a future release."
+            );
+            data["inputFiles"] = getStringArray(data["src"]);
+            delete data["src"];
         }
 
         for (const [key, val] of Object.entries(data)) {
@@ -99,9 +116,9 @@ export class TypeDocReader implements OptionsReader {
 
         return [
             path,
-            Path.join(path, 'typedoc.json'),
-            Path.join(path, 'typedoc.js')
-        ].find(path => FS.existsSync(path) && FS.statSync(path).isFile());
+            Path.join(path, "typedoc.json"),
+            Path.join(path, "typedoc.js"),
+        ].find((path) => FS.existsSync(path) && FS.statSync(path).isFile());
     }
 }
 

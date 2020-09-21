@@ -1,6 +1,6 @@
-import { Event } from '../utils/events';
-import { ProjectReflection } from '../models';
-import { ProjectReflection as JSONProjectReflection } from './schema';
+import { Event } from "../utils/events";
+import { ProjectReflection } from "../models";
+import { ProjectReflection as JSONProjectReflection } from "./schema";
 
 /**
  * Optional data associated with the [[SerializeEvent]].
@@ -35,7 +35,11 @@ export class SerializeEvent extends Event {
 
     output: Partial<JSONProjectReflection>;
 
-    constructor(name: string, project: ProjectReflection, output: Partial<JSONProjectReflection>) {
+    constructor(
+        name: string,
+        project: ProjectReflection,
+        output: Partial<JSONProjectReflection>
+    ) {
         super(name);
         this.project = project;
         this.output = output;

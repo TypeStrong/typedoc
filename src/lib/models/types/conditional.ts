@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a conditional type.
@@ -12,7 +12,7 @@ export class ConditionalType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type: string = 'conditional';
+    readonly type: string = "conditional";
 
     constructor(
         public checkType: Type,
@@ -29,7 +29,12 @@ export class ConditionalType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        return new ConditionalType(this.checkType, this.extendsType, this.trueType, this.falseType);
+        return new ConditionalType(
+            this.checkType,
+            this.extendsType,
+            this.trueType,
+            this.falseType
+        );
     }
 
     /**
@@ -42,16 +47,26 @@ export class ConditionalType extends Type {
         if (!(type instanceof ConditionalType)) {
             return false;
         }
-        return this.checkType.equals(type.checkType) &&
+        return (
+            this.checkType.equals(type.checkType) &&
             this.extendsType.equals(type.extendsType) &&
             this.trueType.equals(type.trueType) &&
-            this.falseType.equals(type.falseType);
+            this.falseType.equals(type.falseType)
+        );
     }
 
     /**
      * Return a string representation of this type.
      */
     toString() {
-        return this.checkType + ' extends ' + this.extendsType + ' ? ' + this.trueType + ' : ' + this.falseType;
+        return (
+            this.checkType +
+            " extends " +
+            this.extendsType +
+            " ? " +
+            this.trueType +
+            " : " +
+            this.falseType
+        );
     }
 }

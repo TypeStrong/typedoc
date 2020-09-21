@@ -1,21 +1,22 @@
-import * as Path from 'path';
-import * as Handlebars from 'handlebars';
+import * as Path from "path";
+import * as Handlebars from "handlebars";
 
-import { ResourceStack, Resource } from './stack';
+import { ResourceStack, Resource } from "./stack";
 
 export class Helper extends Resource {
     private helpers: any;
 
     getHelpers(): any {
         if (!this.helpers) {
+            // eslint-disable-next-line
             const file = require(this.fileName);
 
-            if (typeof file === 'object') {
+            if (typeof file === "object") {
                 this.helpers = file;
-            } else if (typeof file === 'function') {
+            } else if (typeof file === "function") {
                 this.helpers = file();
             } else {
-                throw new Error('Invalid helper.');
+                throw new Error("Invalid helper.");
             }
         }
 
@@ -40,10 +41,10 @@ export class HelperStack extends ResourceStack<Helper> {
         }
         const resources = this.getAllResources();
 
-        for (let resourceName in resources) {
+        for (const resourceName in resources) {
             const helpers = resources[resourceName].getHelpers();
 
-            for (let name in helpers) {
+            for (const name in helpers) {
                 if (this.registeredNames.includes(name)) {
                     continue;
                 }
@@ -61,7 +62,7 @@ export class HelperStack extends ResourceStack<Helper> {
             return false;
         }
 
-        for (let name of this.registeredNames) {
+        for (const name of this.registeredNames) {
             Handlebars.unregisterHelper(name);
         }
 
@@ -70,7 +71,7 @@ export class HelperStack extends ResourceStack<Helper> {
     }
 
     addCoreHelpers() {
-        this.addOrigin('core', Path.join(__dirname, '..', '..', 'helpers'));
+        this.addOrigin("core", Path.join(__dirname, "..", "..", "helpers"));
     }
 
     removeAllOrigins() {

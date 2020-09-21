@@ -1,8 +1,13 @@
-import { Reflection, ReflectionKind, TraverseCallback, TraverseProperty } from './abstract';
-import { ReflectionCategory } from '../ReflectionCategory';
-import { ReflectionGroup } from '../ReflectionGroup';
-import { DeclarationReflection } from './declaration';
-import { toArray } from 'lodash';
+import {
+    Reflection,
+    ReflectionKind,
+    TraverseCallback,
+    TraverseProperty,
+} from "./abstract";
+import { ReflectionCategory } from "../ReflectionCategory";
+import { ReflectionGroup } from "../ReflectionGroup";
+import { DeclarationReflection } from "./declaration";
+import { toArray } from "lodash";
 
 export class ContainerReflection extends Reflection {
     /**
@@ -27,7 +32,7 @@ export class ContainerReflection extends Reflection {
      * @returns     An array containing all children with the desired kind.
      */
     getChildrenByKind(kind: ReflectionKind): DeclarationReflection[] {
-        return (this.children || []).filter(child => child.kindOf(kind));
+        return (this.children || []).filter((child) => child.kindOf(kind));
     }
 
     /**

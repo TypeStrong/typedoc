@@ -1,11 +1,19 @@
-import { Type, ReflectionType } from '../types/index';
-import { Reflection, TypeContainer, TypeParameterContainer, TraverseProperty, TraverseCallback } from './abstract';
-import { ContainerReflection } from './container';
-import { ParameterReflection } from './parameter';
-import { TypeParameterReflection } from './type-parameter';
-import { toArray } from 'lodash';
+import { Type, ReflectionType } from "../types/index";
+import {
+    Reflection,
+    TypeContainer,
+    TypeParameterContainer,
+    TraverseProperty,
+    TraverseCallback,
+} from "./abstract";
+import { ContainerReflection } from "./container";
+import { ParameterReflection } from "./parameter";
+import { TypeParameterReflection } from "./type-parameter";
+import { toArray } from "lodash";
 
-export class SignatureReflection extends Reflection implements TypeContainer, TypeParameterContainer {
+export class SignatureReflection
+    extends Reflection
+    implements TypeContainer, TypeParameterContainer {
     parent?: ContainerReflection;
 
     parameters?: ParameterReflection[];
@@ -45,7 +53,9 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
         function notUndefined<T>(t: T | undefined): t is T {
             return !!t;
         }
-        return this.parameters.map(parameter => parameter.type).filter(notUndefined);
+        return this.parameters
+            .map((parameter) => parameter.type)
+            .filter(notUndefined);
     }
 
     /**
@@ -58,7 +68,12 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
      */
     traverse(callback: TraverseCallback) {
         if (this.type instanceof ReflectionType) {
-            if (callback(this.type.declaration, TraverseProperty.TypeLiteral) === false) {
+            if (
+                callback(
+                    this.type.declaration,
+                    TraverseProperty.TypeLiteral
+                ) === false
+            ) {
                 return;
             }
         }
@@ -86,12 +101,14 @@ export class SignatureReflection extends Reflection implements TypeContainer, Ty
 
         if (this.typeParameters) {
             const parameters: string[] = [];
-            this.typeParameters.forEach((parameter) => parameters.push(parameter.name));
-            result += '<' + parameters.join(', ') + '>';
+            this.typeParameters.forEach((parameter) =>
+                parameters.push(parameter.name)
+            );
+            result += "<" + parameters.join(", ") + ">";
         }
 
         if (this.type) {
-            result += ':' + this.type.toString();
+            result += ":" + this.type.toString();
         }
 
         return result;

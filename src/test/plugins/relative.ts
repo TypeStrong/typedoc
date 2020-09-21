@@ -1,4 +1,3 @@
-import { Application } from '../..';
+import { Application } from "../..";
 
-module.exports = (pluginHost: Application) => {
-};
+module.exports = (pluginHost: Application) => {};

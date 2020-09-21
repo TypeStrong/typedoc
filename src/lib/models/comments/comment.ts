@@ -1,4 +1,4 @@
-import { CommentTag } from './tag';
+import { CommentTag } from "./tag";
 
 /**
  * A model that represents a javadoc comment.
@@ -32,8 +32,8 @@ export class Comment {
      * Creates a new Comment instance.
      */
     constructor(shortText?: string, text?: string) {
-        this.shortText = shortText || '';
-        this.text = text || '';
+        this.shortText = shortText || "";
+        this.text = text || "";
     }
 
     /**
@@ -73,8 +73,11 @@ export class Comment {
      * @returns The found tag or undefined.
      */
     getTag(tagName: string, paramName?: string): CommentTag | undefined {
-        return (this.tags || []).find(tag => {
-            return tag.tagName === tagName && (paramName === void 0 || tag.paramName === paramName);
+        return (this.tags || []).find((tag) => {
+            return (
+                tag.tagName === tagName &&
+                (paramName === void 0 || tag.paramName === paramName)
+            );
         });
     }
 
@@ -87,7 +90,8 @@ export class Comment {
             return;
         }
 
-        let i = 0, c = this.tags.length ?? 0;
+        let i = 0,
+            c = this.tags.length ?? 0;
         while (i < c) {
             if (this.tags[i].tagName === tagName) {
                 this.tags.splice(i, 1);
@@ -107,6 +111,10 @@ export class Comment {
         this.shortText = comment.shortText;
         this.text = comment.text;
         this.returns = comment.returns;
-        this.tags = comment.tags ? comment.tags.map((tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)) : undefined;
+        this.tags = comment.tags
+            ? comment.tags.map(
+                  (tag) => new CommentTag(tag.tagName, tag.paramName, tag.text)
+              )
+            : undefined;
     }
 }

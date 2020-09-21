@@ -1,28 +1,31 @@
-import { EventDispatcher } from '../utils';
-import { ProjectReflection } from '../models';
+import { EventDispatcher } from "../utils";
+import { ProjectReflection } from "../models";
 
-import { SerializerComponent } from './components';
-import { SerializeEvent, SerializeEventData } from './events';
-import { ModelToObject } from './schema';
-import * as S from './serializers';
+import { SerializerComponent } from "./components";
+import { SerializeEvent, SerializeEventData } from "./events";
+import { ModelToObject } from "./schema";
+import * as S from "./serializers";
 
 export class Serializer extends EventDispatcher {
     /**
      * Triggered when the [[Serializer]] begins transforming a project.
      * @event EVENT_BEGIN
      */
-    static EVENT_BEGIN = 'begin';
+    static EVENT_BEGIN = "begin";
 
     /**
      * Triggered when the [[Serializer]] has finished transforming a project.
      * @event EVENT_END
      */
-    static EVENT_END = 'end';
+    static EVENT_END = "end";
 
     /**
      * Serializers, sorted by their `serializeGroup` function to enable higher performance.
      */
-    private serializers = new Map<(instance: unknown) => boolean, SerializerComponent<any>[]>();
+    private serializers = new Map<
+        (instance: unknown) => boolean,
+        SerializerComponent<any>[]
+    >();
 
     constructor() {
         super();
@@ -44,7 +47,10 @@ export class Serializer extends EventDispatcher {
         // Note: This type *could* potentially lie, if a serializer declares a partial type but fails to provide
         // the defined property, but the benefit of being mostly typed is probably worth it.
         // TypeScript errors out if init is correctly typed as `Partial<ModelToObject<T>>`
-        return this.findSerializers(value).reduce<any>((result, curr) => curr.toObject(value, result), init);
+        return this.findSerializers(value).reduce<any>(
+            (result, curr) => curr.toObject(value, result),
+            init
+        );
     }
 
     /**
@@ -56,7 +62,11 @@ export class Serializer extends EventDispatcher {
         value: ProjectReflection,
         eventData: { begin?: SerializeEventData; end?: SerializeEventData } = {}
     ): ModelToObject<ProjectReflection> {
-        const eventBegin = new SerializeEvent(Serializer.EVENT_BEGIN, value, {});
+        const eventBegin = new SerializeEvent(
+            Serializer.EVENT_BEGIN,
+            value,
+            {}
+        );
         if (eventData.begin) {
             eventBegin.outputDirectory = eventData.begin.outputDirectory;
             eventBegin.outputFile = eventData.begin.outputFile;
@@ -65,7 +75,11 @@ export class Serializer extends EventDispatcher {
 
         const project = this.toObject(value, eventBegin.output);
 
-        const eventEnd = new SerializeEvent(Serializer.EVENT_END, value, project);
+        const eventEnd = new SerializeEvent(
+            Serializer.EVENT_END,
+            value,
+            project
+        );
         if (eventData.end) {
             eventBegin.outputDirectory = eventData.end.outputDirectory;
             eventBegin.outputFile = eventData.end.outputFile;
@@ -92,7 +106,9 @@ export class Serializer extends EventDispatcher {
     }
 }
 
-const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>)[] = [
+const serializerComponents: (new (owner: Serializer) => SerializerComponent<
+    any
+>)[] = [
     S.CommentTagSerializer,
     S.CommentSerializer,
 
@@ -129,7 +145,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<any>
 
     S.DecoratorContainerSerializer,
     S.ReflectionCategorySerializer,
-    S.ReflectionGroupSerializer
+    S.ReflectionGroupSerializer,
 ];
 
 function addSerializers(owner: Serializer) {

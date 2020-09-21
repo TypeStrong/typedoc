@@ -17,7 +17,7 @@ class FlattenedClass {
         moreOptions?: {
             moreValues: number;
         };
-        emptyObject: {}
+        emptyObject: {};
     };
 
     /**
@@ -35,7 +35,7 @@ class FlattenedClass {
      * @param indexed.test   A property of the index signature instance.
      */
     indexed: {
-        [index: number]: {name: string; value?: number; };
+        [index: number]: { name: string; value?: number };
         test: string;
     };
 
@@ -82,7 +82,7 @@ class FlattenedClass {
         moreOptions?: {
             moreValues: number;
         };
-    }) { }
+    }) {}
 }
 
 /**
@@ -92,7 +92,9 @@ class FlattenedClass {
  * @param callback.param          A parameter of the typed function callback.
  * @param callback.optionalParam  An optional parameter of the typed function callback.
  */
-function flattenedCallback(callback: (param: number, optionalParam?: string) => string) { }
+function flattenedCallback(
+    callback: (param: number, optionalParam?: string) => string
+) {}
 
 /**
  * A function that accepts an option object defined inline.
@@ -110,7 +112,7 @@ function flattenedParameter(options: {
     moreOptions?: {
         moreValues: number;
     };
-}) { }
+}) {}
 
 /**
  * A function that accepts an index signature parameter.
@@ -120,6 +122,6 @@ function flattenedParameter(options: {
  * @param indexed.test   A property of the index signature instance.
  */
 function flattenedIndexSignature(indexed: {
-    [index: number]: {name: string; value?: number; };
+    [index: number]: { name: string; value?: number };
     test: string;
-}) { }
+}) {}

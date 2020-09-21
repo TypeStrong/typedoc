@@ -1,14 +1,14 @@
-import { SourceFile, SourceDirectory } from '../sources/index';
-import { Reflection, ReflectionKind, TraverseProperty } from './abstract';
-import { ContainerReflection } from './container';
-import { splitUnquotedString } from './utils';
-import { ReferenceReflection } from './reference';
-import { DeclarationReflection } from './declaration';
-import { SignatureReflection } from './signature';
-import { ParameterReflection } from './parameter';
-import { IntrinsicType } from '../types';
-import { TypeParameterReflection } from './type-parameter';
-import { removeIfPresent } from '../../utils';
+import { SourceFile, SourceDirectory } from "../sources/index";
+import { Reflection, ReflectionKind, TraverseProperty } from "./abstract";
+import { ContainerReflection } from "./container";
+import { splitUnquotedString } from "./utils";
+import { ReferenceReflection } from "./reference";
+import { DeclarationReflection } from "./declaration";
+import { SignatureReflection } from "./signature";
+import { ParameterReflection } from "./parameter";
+import { IntrinsicType } from "../types";
+import { TypeParameterReflection } from "./type-parameter";
+import { removeIfPresent } from "../../utils";
 
 /**
  * A reflection that represents the root of the project.
@@ -31,7 +31,7 @@ export class ProjectReflection extends ContainerReflection {
      * @deprecated use {@link getReflectionById}, this will eventually be removed.
      *   To iterate over all reflections, prefer {@link getReflectionsByKind}.
      */
-    reflections: {[id: number]: Reflection} = {};
+    reflections: { [id: number]: Reflection } = {};
 
     /**
      * The root directory of the project.
@@ -84,8 +84,9 @@ export class ProjectReflection extends ContainerReflection {
      * @returns     An array containing all reflections with the desired kind.
      */
     getReflectionsByKind(kind: ReflectionKind): Reflection[] {
-        return Object.values(this.reflections)
-            .filter(reflection => reflection.kindOf(kind));
+        return Object.values(this.reflections).filter((reflection) =>
+            reflection.kindOf(kind)
+        );
     }
 
     /**
@@ -95,7 +96,9 @@ export class ProjectReflection extends ContainerReflection {
      * @return The found reflection or undefined.
      */
     findReflectionByName(arg: string | string[]): Reflection | undefined {
-        const names: string[] = Array.isArray(arg) ? arg : splitUnquotedString(arg, '.');
+        const names: string[] = Array.isArray(arg)
+            ? arg
+            : splitUnquotedString(arg, ".");
         const name = names.pop();
 
         search: for (const key in this.reflections) {
@@ -162,7 +165,8 @@ export class ProjectReflection extends ContainerReflection {
      */
     removeReflection(reflection: Reflection, removeReferences = false) {
         if (removeReferences) {
-            for (const id of this.getReferenceGraph().get(reflection.id) ?? []) {
+            for (const id of this.getReferenceGraph().get(reflection.id) ??
+                []) {
                 const ref = this.getReflectionById(id);
                 if (ref) {
                     this.removeReflection(ref, true);
@@ -171,7 +175,9 @@ export class ProjectReflection extends ContainerReflection {
             this.getReferenceGraph().delete(reflection.id);
         }
 
-        reflection.traverse(child => this.removeReflection(child, removeReferences));
+        reflection.traverse((child) =>
+            this.removeReflection(child, removeReferences)
+        );
 
         const parent = reflection.parent as DeclarationReflection;
         parent?.traverse((child, property) => {
@@ -180,7 +186,10 @@ export class ProjectReflection extends ContainerReflection {
             }
 
             if (property === TraverseProperty.Children) {
-                removeIfPresent(parent.children, reflection as DeclarationReflection);
+                removeIfPresent(
+                    parent.children,
+                    reflection as DeclarationReflection
+                );
             } else if (property === TraverseProperty.GetSignature) {
                 delete parent.getSignature;
             } else if (property === TraverseProperty.IndexSignature) {
@@ -193,11 +202,17 @@ export class ProjectReflection extends ContainerReflection {
             } else if (property === TraverseProperty.SetSignature) {
                 delete parent.setSignature;
             } else if (property === TraverseProperty.Signatures) {
-                removeIfPresent(parent.signatures, reflection as SignatureReflection);
+                removeIfPresent(
+                    parent.signatures,
+                    reflection as SignatureReflection
+                );
             } else if (property === TraverseProperty.TypeLiteral) {
-                parent.type = new IntrinsicType('Object');
+                parent.type = new IntrinsicType("Object");
             } else if (property === TraverseProperty.TypeParameter) {
-                removeIfPresent(parent.typeParameters, reflection as TypeParameterReflection);
+                removeIfPresent(
+                    parent.typeParameters,
+                    reflection as TypeParameterReflection
+                );
             }
 
             return false; // Stop iteration
@@ -225,7 +240,7 @@ export class ProjectReflection extends ContainerReflection {
      */
     getReflectionFromFQN(fqn: string) {
         const id = this.fqnToReflectionIdMap.get(fqn);
-        if (typeof id === 'number') {
+        if (typeof id === "number") {
             return this.getReflectionById(id);
         }
     }

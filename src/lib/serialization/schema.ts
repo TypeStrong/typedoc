@@ -28,47 +28,76 @@
  */
 
 /** */
-import * as M from '../models';
-import { SourceReferenceWrapper, DecoratorWrapper } from './serializers';
+import * as M from "../models";
+import { SourceReferenceWrapper, DecoratorWrapper } from "./serializers";
 
 /**
  * Describes the mapping from Model types to the corresponding JSON output type.
  */
-export type ModelToObject<T> = T extends Array<infer U> ? _ModelToObject<U>[] : _ModelToObject<T>;
+export type ModelToObject<T> = T extends Array<infer U>
+    ? _ModelToObject<U>[]
+    : _ModelToObject<T>;
 
 // Order matters here. Some types are subtypes of other types.
 type _ModelToObject<T> =
     // Reflections
-    T extends M.ReflectionGroup ? ReflectionGroup :
-    T extends M.ReflectionCategory ? ReflectionCategory :
-    T extends M.SignatureReflection ? SignatureReflection :
-    T extends M.ParameterReflection ? ParameterReflection :
-    T extends M.DeclarationReflection ? DeclarationReflection | ReflectionPointer :
-    T extends M.TypeParameterReflection ? TypeParameterReflection :
-    T extends M.ProjectReflection ? ProjectReflection :
-    T extends M.ContainerReflection ? ContainerReflection :
-    T extends M.ReferenceReflection ? ReferenceReflection :
-    T extends M.Reflection ? Reflection :
-    // Types
-    T extends M.ArrayType ? ArrayType :
-    T extends M.ConditionalType ? ConditionalType :
-    T extends M.IndexedAccessType ? IndexedAccessType :
-    T extends M.InferredType ? InferredType :
-    T extends M.IntersectionType ? IntersectionType :
-    T extends M.IntrinsicType ? IntrinsicType :
-    T extends M.PredicateType ? PredicateType :
-    T extends M.ReferenceType ? ReferenceType :
-    T extends M.ReflectionType ? ReflectionType :
-    T extends M.StringLiteralType ? StringLiteralType :
-    T extends M.TupleType ? TupleType :
-    T extends M.UnknownType ? UnknownType :
-    T extends M.Type ? SomeType : // Technically AbstractType, but the union is more useful
-    // Miscellaneous
-    T extends M.Comment ? Comment :
-    T extends M.CommentTag ? CommentTag :
-    T extends DecoratorWrapper ? Decorator :
-    T extends SourceReferenceWrapper ? SourceReference :
-    never;
+    T extends M.ReflectionGroup
+        ? ReflectionGroup
+        : T extends M.ReflectionCategory
+        ? ReflectionCategory
+        : T extends M.SignatureReflection
+        ? SignatureReflection
+        : T extends M.ParameterReflection
+        ? ParameterReflection
+        : T extends M.DeclarationReflection
+        ? DeclarationReflection | ReflectionPointer
+        : T extends M.TypeParameterReflection
+        ? TypeParameterReflection
+        : T extends M.ProjectReflection
+        ? ProjectReflection
+        : T extends M.ContainerReflection
+        ? ContainerReflection
+        : T extends M.ReferenceReflection
+        ? ReferenceReflection
+        : T extends M.Reflection
+        ? Reflection
+        : // Types
+        T extends M.ArrayType
+        ? ArrayType
+        : T extends M.ConditionalType
+        ? ConditionalType
+        : T extends M.IndexedAccessType
+        ? IndexedAccessType
+        : T extends M.InferredType
+        ? InferredType
+        : T extends M.IntersectionType
+        ? IntersectionType
+        : T extends M.IntrinsicType
+        ? IntrinsicType
+        : T extends M.PredicateType
+        ? PredicateType
+        : T extends M.ReferenceType
+        ? ReferenceType
+        : T extends M.ReflectionType
+        ? ReflectionType
+        : T extends M.StringLiteralType
+        ? StringLiteralType
+        : T extends M.TupleType
+        ? TupleType
+        : T extends M.UnknownType
+        ? UnknownType
+        : T extends M.Type
+        ? SomeType // Technically AbstractType, but the union is more useful
+        : // Miscellaneous
+        T extends M.Comment
+        ? Comment
+        : T extends M.CommentTag
+        ? CommentTag
+        : T extends DecoratorWrapper
+        ? Decorator
+        : T extends SourceReferenceWrapper
+        ? SourceReference
+        : never;
 
 type Primitive = string | number | undefined | null | boolean;
 
@@ -79,20 +108,23 @@ type Primitive = string | number | undefined | null | boolean;
  * is a plain object that consumers may modify as they choose, TypeDoc doesn't care.
  */
 type S<T, K extends keyof T> = {
-    -readonly [K2 in K]: T[K2] extends Primitive ? T[K2] : ModelToObject<T[K2]>
+    -readonly [K2 in K]: T[K2] extends Primitive ? T[K2] : ModelToObject<T[K2]>;
 };
 
 // Reflections
 
-export interface ReflectionGroup extends S<M.ReflectionGroup, 'title' | 'kind' | 'categories'> {
-    children?: M.ReflectionGroup['children'][number]['id'][];
+export interface ReflectionGroup
+    extends S<M.ReflectionGroup, "title" | "kind" | "categories"> {
+    children?: M.ReflectionGroup["children"][number]["id"][];
 }
 
-export interface ReflectionCategory extends S<M.ReflectionCategory, 'title'> {
-    children?: M.ReflectionCategory['children'][number]['id'][];
+export interface ReflectionCategory extends S<M.ReflectionCategory, "title"> {
+    children?: M.ReflectionCategory["children"][number]["id"][];
 }
 
-export interface ReferenceReflection extends DeclarationReflection, S<M.ReferenceReflection, never> {
+export interface ReferenceReflection
+    extends DeclarationReflection,
+        S<M.ReferenceReflection, never> {
     /**
      * -1 if the reference refers to a symbol that does not exist in the documentation.
      * Otherwise, the reflection ID.
@@ -100,35 +132,42 @@ export interface ReferenceReflection extends DeclarationReflection, S<M.Referenc
     target: number;
 }
 
-export interface SignatureReflection extends Reflection, S<M.SignatureReflection,
-      'type'
-    | 'overwrites'
-    | 'inheritedFrom'
-    | 'implementationOf'> {
-}
+export interface SignatureReflection
+    extends Reflection,
+        S<
+            M.SignatureReflection,
+            "type" | "overwrites" | "inheritedFrom" | "implementationOf"
+        > {}
 
-export interface ParameterReflection extends Reflection, S<M.ParameterReflection, 'type' | 'defaultValue'> {
-}
+export interface ParameterReflection
+    extends Reflection,
+        S<M.ParameterReflection, "type" | "defaultValue"> {}
 
-export interface DeclarationReflection extends ContainerReflection, S<M.DeclarationReflection,
-      'type'
-    | 'defaultValue'
-    | 'overwrites'
-    | 'inheritedFrom'
-    | 'extendedTypes'
-    | 'extendedBy'
-    | 'implementedTypes'
-    | 'implementedBy'
-    | 'implementationOf'> {
-}
+export interface DeclarationReflection
+    extends ContainerReflection,
+        S<
+            M.DeclarationReflection,
+            | "type"
+            | "defaultValue"
+            | "overwrites"
+            | "inheritedFrom"
+            | "extendedTypes"
+            | "extendedBy"
+            | "implementedTypes"
+            | "implementedBy"
+            | "implementationOf"
+        > {}
 
-export interface TypeParameterReflection extends Reflection, S<M.TypeParameterReflection, 'type'> {
-}
+export interface TypeParameterReflection
+    extends Reflection,
+        S<M.TypeParameterReflection, "type"> {}
 
 // Nothing extra yet.
-export interface ProjectReflection extends ContainerReflection { }
+export interface ProjectReflection extends ContainerReflection {}
 
-export interface ContainerReflection extends Reflection, S<M.ContainerReflection, 'groups' | 'categories'> {
+export interface ContainerReflection
+    extends Reflection,
+        S<M.ContainerReflection, "groups" | "categories"> {
     sources?: ModelToObject<SourceReferenceWrapper[]>;
 }
 
@@ -136,17 +175,14 @@ export interface ContainerReflection extends Reflection, S<M.ContainerReflection
  * If a 3rd party serializer creates a loop when serializing, a pointer will be created
  * instead of re-serializing the [[DeclarationReflection]]
  */
-export interface ReflectionPointer extends S<M.Reflection, 'id'> {
-}
+export interface ReflectionPointer extends S<M.Reflection, "id"> {}
 
-export interface Reflection extends S<M.Reflection,
-      'id'
-    | 'name'
-    | 'kind'
-    | 'kindString'
-    | 'comment'
-    | 'decorates'> {
-    originalName?: M.Reflection['originalName'];
+export interface Reflection
+    extends S<
+        M.Reflection,
+        "id" | "name" | "kind" | "kindString" | "comment" | "decorates"
+    > {
+    originalName?: M.Reflection["originalName"];
     flags: ReflectionFlags;
     decorators?: ModelToObject<DecoratorWrapper[]>;
 
@@ -178,100 +214,115 @@ export type SomeType =
     | UnionType
     | UnknownType;
 
-export interface ArrayType extends Type, S<M.ArrayType, 'type' | 'elementType'> {
-}
+export interface ArrayType
+    extends Type,
+        S<M.ArrayType, "type" | "elementType"> {}
 
-export interface ConditionalType extends Type, S<M.ConditionalType,
-    'type' | 'checkType' | 'extendsType' | 'trueType' | 'falseType'> {
+export interface ConditionalType
+    extends Type,
+        S<
+            M.ConditionalType,
+            "type" | "checkType" | "extendsType" | "trueType" | "falseType"
+        > {}
 
-}
+export interface IndexedAccessType
+    extends Type,
+        S<M.IndexedAccessType, "type" | "indexType" | "objectType"> {}
 
-export interface IndexedAccessType extends Type, S<M.IndexedAccessType, 'type' | 'indexType' | 'objectType'> {
-}
+export interface InferredType
+    extends Type,
+        S<M.InferredType, "type" | "name"> {}
 
-export interface InferredType extends Type, S<M.InferredType, 'type' | 'name'> {
-}
+export interface IntersectionType
+    extends Type,
+        S<M.IntersectionType, "type" | "types"> {}
 
-export interface IntersectionType extends Type, S<M.IntersectionType, 'type' | 'types'> {
-}
+export interface IntrinsicType
+    extends Type,
+        S<M.IntrinsicType, "type" | "name"> {}
 
-export interface IntrinsicType extends Type, S<M.IntrinsicType, 'type' | 'name'> {
-}
+export interface QueryType extends Type, S<M.QueryType, "type" | "queryType"> {}
 
-export interface QueryType extends Type, S<M.QueryType, 'type' | 'queryType'> {
-}
+export interface PredicateType
+    extends Type,
+        S<M.PredicateType, "type" | "name" | "asserts" | "targetType"> {}
 
-export interface PredicateType extends Type, S<M.PredicateType, 'type' | 'name' | 'asserts' | 'targetType'> {
-}
-
-export interface ReferenceType extends Type, S<M.ReferenceType, 'type' | 'name' | 'typeArguments'> {
+export interface ReferenceType
+    extends Type,
+        S<M.ReferenceType, "type" | "name" | "typeArguments"> {
     id?: number;
 }
 
-export interface ReflectionType extends Type, S<M.ReflectionType, 'type'> {
-    declaration?: ModelToObject<M.ReflectionType['declaration']>;
+export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
+    declaration?: ModelToObject<M.ReflectionType["declaration"]>;
 }
 
-export interface StringLiteralType extends Type, S<M.StringLiteralType, 'type' | 'value'> {
+export interface StringLiteralType
+    extends Type,
+        S<M.StringLiteralType, "type" | "value"> {}
+
+export interface TupleType extends Type, S<M.TupleType, "type"> {
+    elements?: ModelToObject<M.TupleType["elements"]>;
 }
 
-export interface TupleType extends Type, S<M.TupleType, 'type'> {
-    elements?: ModelToObject<M.TupleType['elements']>;
-}
-
-export interface NamedTupleMemberType extends Type, S<M.NamedTupleMember, 'type'> {
+export interface NamedTupleMemberType
+    extends Type,
+        S<M.NamedTupleMember, "type"> {
     name: string;
     isOptional: boolean;
-    element: ModelToObject<M.NamedTupleMember['element']>;
+    element: ModelToObject<M.NamedTupleMember["element"]>;
 }
 
-export interface TypeOperatorType extends Type, S<M.TypeOperatorType, 'type' | 'operator' | 'target'> {
-}
+export interface TypeOperatorType
+    extends Type,
+        S<M.TypeOperatorType, "type" | "operator" | "target"> {}
 
-export interface TypeParameterType extends Type, S<M.TypeParameterType, 'type' | 'name' | 'constraint' | 'default'> {
-}
+export interface TypeParameterType
+    extends Type,
+        S<M.TypeParameterType, "type" | "name" | "constraint" | "default"> {}
 
-export interface UnionType extends Type, S<M.UnionType, 'type' | 'types'> {
-}
+export interface UnionType extends Type, S<M.UnionType, "type" | "types"> {}
 
-export interface UnknownType extends Type, S<M.UnknownType, 'type' | 'name'> {
-}
+export interface UnknownType extends Type, S<M.UnknownType, "type" | "name"> {}
 
 /**
  * Technically not correct, the `type` property will be set by the abstract serializer.
  * But to allow tagged literals, the `type` property is instead defined by each child type.
  */
-export interface Type {
-}
+export interface Type {}
 
 // Miscellaneous
 
-export interface ReflectionFlags extends Partial<S<M.ReflectionFlags,
-      'isPrivate'
-    | 'isProtected'
-    | 'isPublic'
-    | 'isStatic'
-    | 'isExported'
-    | 'isExternal'
-    | 'isOptional'
-    | 'isRest'
-    | 'hasExportAssignment'
-    | 'isConstructorProperty'
-    | 'isAbstract'
-    | 'isConst'
-    | 'isLet'>> {
+export interface ReflectionFlags
+    extends Partial<
+        S<
+            M.ReflectionFlags,
+            | "isPrivate"
+            | "isProtected"
+            | "isPublic"
+            | "isStatic"
+            | "isExported"
+            | "isExternal"
+            | "isOptional"
+            | "isRest"
+            | "hasExportAssignment"
+            | "isConstructorProperty"
+            | "isAbstract"
+            | "isConst"
+            | "isLet"
+        >
+    > {}
+
+export interface Comment
+    extends Partial<S<M.Comment, "shortText" | "text" | "returns" | "tags">> {}
+
+export interface CommentTag extends S<M.CommentTag, "text"> {
+    tag: M.CommentTag["tagName"];
+    param?: M.CommentTag["paramName"];
 }
 
-export interface Comment extends Partial<S<M.Comment, 'shortText' | 'text' | 'returns' | 'tags'>> {
-}
+export interface SourceReference
+    extends S<M.SourceReference, "fileName" | "line" | "character"> {}
 
-export interface CommentTag extends S<M.CommentTag, 'text'> {
-    tag: M.CommentTag['tagName'];
-    param?: M.CommentTag['paramName'];
-}
-
-export interface SourceReference extends S<M.SourceReference, 'fileName' | 'line' | 'character'> {
-}
-
-export interface Decorator extends S<M.Decorator, 'name' | 'type' | 'arguments'> {
-}
+export interface Decorator
+    extends S<M.Decorator, "name" | "type" | "arguments"> {}

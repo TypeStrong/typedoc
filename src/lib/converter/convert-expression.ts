@@ -1,5 +1,5 @@
-import * as ts from 'typescript';
-import * as _ts from '../ts-internal';
+import * as ts from "typescript";
+import * as _ts from "../ts-internal";
 
 /**
  * Return the default value of the given node.
@@ -8,7 +8,9 @@ import * as _ts from '../ts-internal';
  * @returns The default value as a string.
  */
 
-export function convertDefaultValue(node: ts.VariableDeclaration|ts.ParameterDeclaration|ts.EnumMember): string | undefined {
+export function convertDefaultValue(
+    node: ts.VariableDeclaration | ts.ParameterDeclaration | ts.EnumMember
+): string | undefined {
     if (node.initializer) {
         return convertExpression(node.initializer);
     } else {
@@ -19,15 +21,15 @@ export function convertDefaultValue(node: ts.VariableDeclaration|ts.ParameterDec
 export function convertExpression(expression: ts.Expression): string {
     switch (expression.kind) {
         case ts.SyntaxKind.StringLiteral:
-            return '"' + (<ts.LiteralExpression> expression).text + '"';
+            return '"' + (<ts.LiteralExpression>expression).text + '"';
         case ts.SyntaxKind.NumericLiteral:
-            return (<ts.LiteralExpression> expression).text;
+            return (<ts.LiteralExpression>expression).text;
         case ts.SyntaxKind.TrueKeyword:
-            return 'true';
+            return "true";
         case ts.SyntaxKind.FalseKeyword:
-            return 'false';
+            return "false";
         case ts.SyntaxKind.NullKeyword:
-            return 'null';
+            return "null";
         default:
             return expression.getText(expression.getSourceFile());
     }

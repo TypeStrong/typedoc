@@ -1,11 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type, TypeParameterType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeNodeConverter } from '../components';
-import { Context } from '../context';
+import { Type, TypeParameterType } from "../../models/types/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeNodeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({name: 'type:type-parameter'})
-export class TypeParameterConverter extends ConverterTypeComponent implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
+@Component({ name: "type:type-parameter" })
+export class TypeParameterConverter
+    extends ConverterTypeComponent
+    implements TypeNodeConverter<ts.Type, ts.TypeReferenceNode> {
     /**
      * The priority this converter should be executed with.
      * A higher priority means the converter will be applied earlier.
@@ -15,7 +21,11 @@ export class TypeParameterConverter extends ConverterTypeComponent implements Ty
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.TypeReferenceNode, type: ts.Type): boolean {
+    supportsNode(
+        context: Context,
+        node: ts.TypeReferenceNode,
+        type: ts.Type
+    ): boolean {
         return !!(type.flags & ts.TypeFlags.TypeParameter);
     }
 
@@ -34,7 +44,10 @@ export class TypeParameterConverter extends ConverterTypeComponent implements Ty
      * @param node  The type reference node representing a type parameter.
      * @returns The type reflection representing the given type parameter.
      */
-    convertNode(context: Context, node: ts.TypeReferenceNode): Type | undefined {
+    convertNode(
+        context: Context,
+        node: ts.TypeReferenceNode
+    ): Type | undefined {
         if (node.typeName) {
             const name = node.getText();
             if (context.typeParameters && context.typeParameters[name]) {

@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a tuple type.
@@ -16,7 +16,7 @@ export class TupleType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'tuple';
+    readonly type = "tuple";
 
     /**
      * Create a new TupleType instance.
@@ -59,14 +59,18 @@ export class TupleType extends Type {
             names.push(element.toString());
         });
 
-        return '[' + names.join(', ') + ']';
+        return "[" + names.join(", ") + "]";
     }
 }
 
 export class NamedTupleMember extends Type {
-    readonly type = 'named-tuple-member';
+    readonly type = "named-tuple-member";
 
-    constructor(public name: string, public isOptional: boolean, public element: Type) {
+    constructor(
+        public name: string,
+        public isOptional: boolean,
+        public element: Type
+    ) {
         super();
     }
 
@@ -76,7 +80,11 @@ export class NamedTupleMember extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        return new NamedTupleMember(this.name, this.isOptional, this.element.clone());
+        return new NamedTupleMember(
+            this.name,
+            this.isOptional,
+            this.element.clone()
+        );
     }
 
     /**
@@ -89,13 +97,16 @@ export class NamedTupleMember extends Type {
         if (!(type instanceof NamedTupleMember)) {
             return false;
         }
-        return this.isOptional === type.isOptional && this.element.equals(type.element);
+        return (
+            this.isOptional === type.isOptional &&
+            this.element.equals(type.element)
+        );
     }
 
     /**
      * Return a string representation of this type.
      */
     toString() {
-        return `${this.name}${this.isOptional ? '?' : ''}: ${this.element}`;
+        return `${this.name}${this.isOptional ? "?" : ""}: ${this.element}`;
     }
 }

@@ -6,26 +6,36 @@
  * in [[TypeDoc.Models]] and the final rendering is defined in [[TypeDoc.Output]].
  */
 
-import * as Path from 'path';
-import * as FS from 'fs';
-import * as typescript from 'typescript';
-import * as semver from 'semver';
+import * as Path from "path";
+import * as FS from "fs";
+import * as typescript from "typescript";
+import * as semver from "semver";
 
-import { Converter } from './converter/index';
-import { Renderer } from './output/renderer';
-import { Serializer } from './serialization';
-import { ProjectReflection } from './models/index';
-import { Logger, ConsoleLogger, CallbackLogger, PluginHost, writeFile, readFile } from './utils/index';
-import { createMinimatch } from './utils/paths';
+import { Converter } from "./converter/index";
+import { Renderer } from "./output/renderer";
+import { Serializer } from "./serialization";
+import { ProjectReflection } from "./models/index";
+import {
+    Logger,
+    ConsoleLogger,
+    CallbackLogger,
+    PluginHost,
+    writeFile,
+    readFile,
+} from "./utils/index";
+import { createMinimatch } from "./utils/paths";
 
 import {
     AbstractComponent,
     ChildableComponent,
     Component,
-    DUMMY_APPLICATION_OWNER
-} from './utils/component';
-import { Options, BindOption } from './utils';
-import { TypeDocAndTSOptions, TypeDocOptions } from './utils/options/declaration';
+    DUMMY_APPLICATION_OWNER,
+} from "./utils/component";
+import { Options, BindOption } from "./utils";
+import {
+    TypeDocAndTSOptions,
+    TypeDocOptions,
+} from "./utils/options/declaration";
 
 /**
  * The default TypeDoc main application class.
@@ -41,7 +51,7 @@ import { TypeDocAndTSOptions, TypeDocOptions } from './utils/options/declaration
  * and emit a series of events while processing the project. Subscribe to these Events
  * to control the application flow or alter the output.
  */
-@Component({ name: 'application', internal: true })
+@Component({ name: "application", internal: true })
 export class Application extends ChildableComponent<
     Application,
     AbstractComponent<Application>
@@ -70,33 +80,33 @@ export class Application extends ChildableComponent<
 
     plugins: PluginHost;
 
-    @BindOption('logger')
+    @BindOption("logger")
     loggerType!: string | Function;
 
-    @BindOption('ignoreCompilerErrors')
+    @BindOption("ignoreCompilerErrors")
     ignoreCompilerErrors!: boolean;
 
-    @BindOption('exclude')
+    @BindOption("exclude")
     exclude!: Array<string>;
 
-    @BindOption('inputFiles')
+    @BindOption("inputFiles")
     inputFiles!: string[];
 
-    @BindOption('options')
+    @BindOption("options")
     optionsFile!: string;
 
-    @BindOption('tsconfig')
+    @BindOption("tsconfig")
     project!: string;
 
     /**
      * The version number of TypeDoc.
      */
-    static VERSION = '{{ VERSION }}';
+    static VERSION = "{{ VERSION }}";
 
     /**
      * The supported TypeScript version.
      */
-    static SUPPORTED_TS_VERSION = '{{ SUPPORTED }}';
+    static SUPPORTED_TS_VERSION = "{{ SUPPORTED }}";
 
     /**
      * Create a new TypeDoc application instance.
@@ -110,9 +120,9 @@ export class Application extends ChildableComponent<
         this.options = new Options(this.logger);
         this.options.addDefaultDeclarations();
         this.serializer = new Serializer();
-        this.converter = this.addComponent<Converter>('converter', Converter);
-        this.renderer  = this.addComponent<Renderer>('renderer', Renderer);
-        this.plugins   = this.addComponent('plugins', PluginHost);
+        this.converter = this.addComponent<Converter>("converter", Converter);
+        this.renderer = this.addComponent<Renderer>("renderer", Renderer);
+        this.plugins = this.addComponent("plugins", PluginHost);
     }
 
     /**
@@ -120,7 +130,9 @@ export class Application extends ChildableComponent<
      *
      * @param options  The desired options to set.
      */
-    bootstrap(options: Partial<TypeDocAndTSOptions> = {}): { hasErrors: boolean, inputFiles: string[] } {
+    bootstrap(
+        options: Partial<TypeDocAndTSOptions> = {}
+    ): { hasErrors: boolean; inputFiles: string[] } {
         for (const [key, val] of Object.entries(options)) {
             try {
                 this.options.setValue(key as keyof TypeDocOptions, val);
@@ -131,10 +143,10 @@ export class Application extends ChildableComponent<
         this.options.read(new Logger());
 
         const logger = this.loggerType;
-        if (typeof logger === 'function') {
-            this.logger = new CallbackLogger(<any> logger);
+        if (typeof logger === "function") {
+            this.logger = new CallbackLogger(<any>logger);
             this.options.setLogger(this.logger);
-        } else if (logger === 'none') {
+        } else if (logger === "none") {
             this.logger = new Logger();
             this.options.setLogger(this.logger);
         }
@@ -153,7 +165,7 @@ export class Application extends ChildableComponent<
 
         return {
             hasErrors: this.logger.hasErrors(),
-            inputFiles: this.inputFiles
+            inputFiles: this.inputFiles,
         };
     }
 
@@ -168,12 +180,14 @@ export class Application extends ChildableComponent<
      * Return the path to the TypeScript compiler.
      */
     public getTypeScriptPath(): string {
-        return Path.dirname(require.resolve('typescript'));
+        return Path.dirname(require.resolve("typescript"));
     }
 
     public getTypeScriptVersion(): string {
         const tsPath = this.getTypeScriptPath();
-        const json = JSON.parse(readFile(Path.join(tsPath, '..', 'package.json')));
+        const json = JSON.parse(
+            readFile(Path.join(tsPath, "..", "package.json"))
+        );
         return json.version;
     }
 
@@ -185,13 +199,20 @@ export class Application extends ChildableComponent<
      */
     public convert(src: string[]): ProjectReflection | undefined {
         this.logger.writeln(
-            'Using TypeScript %s from %s',
+            "Using TypeScript %s from %s",
             this.getTypeScriptVersion(),
             this.getTypeScriptPath()
         );
 
-        if (!semver.satisfies(typescript.version, Application.SUPPORTED_TS_VERSION)) {
-            this.logger.warn(`You are running in an unsupported TypeScript version! TypeDoc supports ${Application.SUPPORTED_TS_VERSION}`);
+        if (
+            !semver.satisfies(
+                typescript.version,
+                Application.SUPPORTED_TS_VERSION
+            )
+        ) {
+            this.logger.warn(
+                `You are running in an unsupported TypeScript version! TypeDoc supports ${Application.SUPPORTED_TS_VERSION}`
+            );
         }
 
         const result = this.converter.convert(src);
@@ -224,8 +245,12 @@ export class Application extends ChildableComponent<
      * @param out  The path the documentation should be written to.
      * @returns TRUE if the documentation could be generated successfully, otherwise FALSE.
      */
-    public generateDocs(input: ProjectReflection | string[], out: string): boolean {
-        const project = input instanceof ProjectReflection ? input : this.convert(input);
+    public generateDocs(
+        input: ProjectReflection | string[],
+        out: string
+    ): boolean {
+        const project =
+            input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) {
             return false;
         }
@@ -233,9 +258,11 @@ export class Application extends ChildableComponent<
         out = Path.resolve(out);
         this.renderer.render(project, out);
         if (this.logger.hasErrors()) {
-            this.logger.error('Documentation could not be generated due to the errors above.');
+            this.logger.error(
+                "Documentation could not be generated due to the errors above."
+            );
         } else {
-            this.logger.success('Documentation generated at %s', out);
+            this.logger.success("Documentation generated at %s", out);
         }
 
         return true;
@@ -257,17 +284,27 @@ export class Application extends ChildableComponent<
      * @param out  The path and file name of the target file.
      * @returns TRUE if the json file could be written successfully, otherwise FALSE.
      */
-    public generateJson(input: ProjectReflection | string[], out: string): boolean {
-        const project = input instanceof ProjectReflection ? input : this.convert(input);
+    public generateJson(
+        input: ProjectReflection | string[],
+        out: string
+    ): boolean {
+        const project =
+            input instanceof ProjectReflection ? input : this.convert(input);
         if (!project) {
             return false;
         }
 
         out = Path.resolve(out);
-        const eventData = { outputDirectory: Path.dirname(out), outputFile: Path.basename(out) };
-        const ser = this.serializer.projectToObject(project, { begin: eventData, end: eventData });
-        writeFile(out, JSON.stringify(ser, null, '\t'), false);
-        this.logger.success('JSON written to %s', out);
+        const eventData = {
+            outputDirectory: Path.dirname(out),
+            outputFile: Path.basename(out),
+        };
+        const ser = this.serializer.projectToObject(project, {
+            begin: eventData,
+            end: eventData,
+        });
+        writeFile(out, JSON.stringify(ser, null, "\t"), false);
+        this.logger.success("JSON written to %s", out);
 
         return true;
     }
@@ -288,11 +325,13 @@ export class Application extends ChildableComponent<
         const exclude = this.exclude ? createMinimatch(this.exclude) : [];
 
         function isExcluded(fileName: string): boolean {
-            return exclude.some(mm => mm.match(fileName));
+            return exclude.some((mm) => mm.match(fileName));
         }
 
         const includeJson = this.options.getCompilerOptions().resolveJsonModule;
-        const supportedFileRegex = this.options.getCompilerOptions().allowJs ? /\.[tj]sx?$/ : /\.tsx?$/;
+        const supportedFileRegex = this.options.getCompilerOptions().allowJs
+            ? /\.[tj]sx?$/
+            : /\.tsx?$/;
         function add(file: string, entryPoint: boolean) {
             let stats: FS.Stats;
             try {
@@ -302,26 +341,29 @@ export class Application extends ChildableComponent<
                 return;
             }
             const fileIsDir = stats.isDirectory();
-            if (fileIsDir && !file.endsWith('/')) {
+            if (fileIsDir && !file.endsWith("/")) {
                 file = `${file}/`;
             }
 
-            if ((!fileIsDir || !entryPoint) && isExcluded(file.replace(/\\/g, '/'))) {
+            if (
+                (!fileIsDir || !entryPoint) &&
+                isExcluded(file.replace(/\\/g, "/"))
+            ) {
                 return;
             }
 
             if (fileIsDir) {
-                FS.readdirSync(file).forEach(next => {
+                FS.readdirSync(file).forEach((next) => {
                     add(Path.join(file, next), false);
                 });
             } else if (supportedFileRegex.test(file)) {
                 files.push(file);
-            } else if (includeJson && file.endsWith('.json')) {
+            } else if (includeJson && file.endsWith(".json")) {
                 files.push(file);
             }
         }
 
-        inputFiles.forEach(file => {
+        inputFiles.forEach((file) => {
             add(Path.resolve(file), true);
         });
 
@@ -333,10 +375,10 @@ export class Application extends ChildableComponent<
      */
     toString() {
         return [
-            '',
+            "",
             `TypeDoc ${Application.VERSION}`,
             `Using TypeScript ${this.getTypeScriptVersion()} from ${this.getTypeScriptPath()}`,
-            ''
+            "",
         ].join(typescript.sys.newLine);
     }
 }

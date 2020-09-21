@@ -1,19 +1,15 @@
-export { Options, OptionsReader, BindOption } from './options';
-export { ArgumentsReader, TypeDocReader, TSConfigReader } from './readers';
+export { Options, OptionsReader, BindOption } from "./options";
+export { ArgumentsReader, TypeDocReader, TSConfigReader } from "./readers";
 export {
     TypeDocOptions,
     TypeDocAndTSOptions,
     SourceFileMode,
-
     TypeDocOptionMap,
     KeyToDeclaration,
-
     ParameterType,
     ParameterHint,
     ParameterScope,
-
     DeclarationOption,
-
     DeclarationOptionBase,
     StringDeclarationOption,
     NumberDeclarationOption,
@@ -21,5 +17,5 @@ export {
     ArrayDeclarationOption,
     MixedDeclarationOption,
     MapDeclarationOption,
-    DeclarationOptionToOptionType
-} from './declaration';
+    DeclarationOptionToOptionType,
+} from "./declaration";

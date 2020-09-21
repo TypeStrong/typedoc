@@ -15,7 +15,7 @@ class NotExportedClassName {
     /**
      * This is the constructor of the NotExportedClassName class.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * Method of NotExportedClassName class.
@@ -41,7 +41,7 @@ export default class DefaultExportedClass {
     /**
      * This is the constructor of the default exported class.
      */
-    constructor() { }
+    constructor() {}
 
     /**
      * Method of default exported class.

@@ -1,5 +1,5 @@
-import { Reflection } from '../reflections/abstract';
-import { Type } from './abstract';
+import { Reflection } from "../reflections/abstract";
+import { Type } from "./abstract";
 
 /**
  * Represents a type that refers to another reflection like a class, interface or enum.
@@ -12,7 +12,7 @@ export class ReferenceType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'reference';
+    readonly type = "reference";
 
     /**
      * The name of the referenced type.
@@ -46,12 +46,12 @@ export class ReferenceType extends Type {
     /**
      * Special symbol FQN noting that the reference of a ReferenceType was known when creating the type.
      */
-    static SYMBOL_FQN_RESOLVED = '///resolved';
+    static SYMBOL_FQN_RESOLVED = "///resolved";
 
     /**
      * Special symbol ID noting that the reference should be resolved by the type name.
      */
-    static SYMBOL_FQN_RESOLVE_BY_NAME = '///resolve_by_name';
+    static SYMBOL_FQN_RESOLVE_BY_NAME = "///resolve_by_name";
 
     /**
      * Create a new instance of ReferenceType.
@@ -73,7 +73,11 @@ export class ReferenceType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new ReferenceType(this.name, this.symbolFullyQualifiedName, this.reflection);
+        const clone = new ReferenceType(
+            this.name,
+            this.symbolFullyQualifiedName,
+            this.reflection
+        );
         clone.typeArguments = this.typeArguments;
         return clone;
     }
@@ -85,7 +89,11 @@ export class ReferenceType extends Type {
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
     equals(other: ReferenceType): boolean {
-        return other instanceof ReferenceType && (other.symbolFullyQualifiedName === this.symbolFullyQualifiedName || other.reflection === this.reflection);
+        return (
+            other instanceof ReferenceType &&
+            (other.symbolFullyQualifiedName === this.symbolFullyQualifiedName ||
+                other.reflection === this.reflection)
+        );
     }
 
     /**
@@ -94,11 +102,13 @@ export class ReferenceType extends Type {
      */
     toString() {
         const name = this.reflection ? this.reflection.name : this.name;
-        let typeArgs = '';
+        let typeArgs = "";
         if (this.typeArguments) {
-            typeArgs += '<';
-            typeArgs += this.typeArguments.map(arg => arg.toString()).join(', ');
-            typeArgs += '>';
+            typeArgs += "<";
+            typeArgs += this.typeArguments
+                .map((arg) => arg.toString())
+                .join(", ");
+            typeArgs += ">";
         }
 
         return name + typeArgs;

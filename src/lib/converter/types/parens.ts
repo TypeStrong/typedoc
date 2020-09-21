@@ -1,14 +1,14 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type } from '../../models/index';
+import { Type } from "../../models/index";
 import {
     Component,
     ConverterTypeComponent,
-    TypeNodeConverter
-} from '../components';
-import { Context } from '../context';
+    TypeNodeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({ name: 'type:parens' })
+@Component({ name: "type:parens" })
 export class ParensConverter
     extends ConverterTypeComponent
     implements TypeNodeConverter<ts.Type, ts.ParenthesizedTypeNode> {

@@ -1,20 +1,22 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Reflection, ReflectionKind, ReflectionFlag } from '../../models/index';
-import { createDeclaration } from '../factories/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
-import { BindOption, SourceFileMode } from '../../utils';
+import { Reflection, ReflectionKind, ReflectionFlag } from "../../models/index";
+import { createDeclaration } from "../factories/index";
+import { Context } from "../context";
+import { Component, ConverterNodeComponent } from "../components";
+import { BindOption, SourceFileMode } from "../../utils";
 
 const preferred: ts.SyntaxKind[] = [
     ts.SyntaxKind.ClassDeclaration,
     ts.SyntaxKind.InterfaceDeclaration,
-    ts.SyntaxKind.EnumDeclaration
+    ts.SyntaxKind.EnumDeclaration,
 ];
 
-@Component({name: 'node:block'})
-export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Block|ts.ModuleBlock> {
-    @BindOption('mode')
+@Component({ name: "node:block" })
+export class BlockConverter extends ConverterNodeComponent<
+    ts.SourceFile | ts.Block | ts.ModuleBlock
+> {
+    @BindOption("mode")
     mode!: SourceFileMode;
 
     /**
@@ -23,7 +25,7 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
     supports: ts.SyntaxKind[] = [
         ts.SyntaxKind.Block,
         ts.SyntaxKind.ModuleBlock,
-        ts.SyntaxKind.SourceFile
+        ts.SyntaxKind.SourceFile,
     ];
 
     /**
@@ -33,7 +35,10 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @param node     The class declaration node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    convert(context: Context, node: ts.SourceFile|ts.Block|ts.ModuleBlock): Reflection {
+    convert(
+        context: Context,
+        node: ts.SourceFile | ts.Block | ts.ModuleBlock
+    ): Reflection {
         if (node.kind === ts.SyntaxKind.SourceFile) {
             this.convertSourceFile(context, node);
         } else {
@@ -50,12 +55,20 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
      * @param node     The source file node that should be analyzed.
      * @return The resulting reflection or NULL.
      */
-    private convertSourceFile(context: Context, node: ts.SourceFile): Reflection | undefined {
+    private convertSourceFile(
+        context: Context,
+        node: ts.SourceFile
+    ): Reflection | undefined {
         let result: Reflection | undefined = context.scope;
 
         context.withSourceFile(node, () => {
             if (this.mode === SourceFileMode.Modules) {
-                result = createDeclaration(context, node, ReflectionKind.Module, node.fileName);
+                result = createDeclaration(
+                    context,
+                    node,
+                    ReflectionKind.Module,
+                    node.fileName
+                );
                 context.withScope(result, () => {
                     this.convertStatements(context, node);
                     result!.setFlag(ReflectionFlag.Exported);
@@ -68,7 +81,10 @@ export class BlockConverter extends ConverterNodeComponent<ts.SourceFile|ts.Bloc
         return result;
     }
 
-    private convertStatements(context: Context, node: ts.SourceFile|ts.Block|ts.ModuleBlock) {
+    private convertStatements(
+        context: Context,
+        node: ts.SourceFile | ts.Block | ts.ModuleBlock
+    ) {
         if (node.statements) {
             const statements: ts.Statement[] = [];
 

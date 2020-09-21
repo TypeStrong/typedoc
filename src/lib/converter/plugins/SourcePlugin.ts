@@ -1,21 +1,25 @@
-import * as Path from 'path';
-import * as ts from 'typescript';
-import * as _ts from '../../ts-internal';
+import * as Path from "path";
+import * as ts from "typescript";
+import * as _ts from "../../ts-internal";
 
-import { Reflection, ProjectReflection, DeclarationReflection } from '../../models/reflections/index';
-import { SourceDirectory, SourceFile } from '../../models/sources/index';
-import { Component, ConverterComponent } from '../components';
-import { BasePath } from '../utils/base-path';
-import { Converter } from '../converter';
-import { Context } from '../context';
-import { BindOption } from '../../utils';
+import {
+    Reflection,
+    ProjectReflection,
+    DeclarationReflection,
+} from "../../models/reflections/index";
+import { SourceDirectory, SourceFile } from "../../models/sources/index";
+import { Component, ConverterComponent } from "../components";
+import { BasePath } from "../utils/base-path";
+import { Converter } from "../converter";
+import { Context } from "../context";
+import { BindOption } from "../../utils";
 
 /**
  * A handler that attaches source file information to reflections.
  */
-@Component({name: 'source'})
+@Component({ name: "source" })
 export class SourcePlugin extends ConverterComponent {
-    @BindOption('disableSources')
+    @BindOption("disableSources")
     readonly disableSources!: boolean;
 
     /**
@@ -26,24 +30,27 @@ export class SourcePlugin extends ConverterComponent {
     /**
      * A map of all generated [[SourceFile]] instances.
      */
-    private fileMappings: {[name: string]: SourceFile} = {};
+    private fileMappings: { [name: string]: SourceFile } = {};
 
     /**
      * Create a new SourceHandler instance.
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:              this.onBegin,
-            [Converter.EVENT_FILE_BEGIN]:         this.onBeginDocument,
+            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_FILE_BEGIN]: this.onBeginDocument,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]:   this.onDeclaration,
-            [Converter.EVENT_RESOLVE_BEGIN]:      this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]:            this.onResolve,
-            [Converter.EVENT_RESOLVE_END]:        this.onEndResolve
+            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]: this.onResolve,
+            [Converter.EVENT_RESOLVE_END]: this.onEndResolve,
         });
     }
 
-    private getSourceFile(fileName: string, project: ProjectReflection): SourceFile {
+    private getSourceFile(
+        fileName: string,
+        project: ProjectReflection
+    ): SourceFile {
         if (!this.fileMappings[fileName]) {
             const file = new SourceFile(fileName);
             this.fileMappings[fileName] = file;
@@ -72,14 +79,20 @@ export class SourcePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onBeginDocument(context: Context, reflection: Reflection, node?: ts.SourceFile) {
+    private onBeginDocument(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.SourceFile
+    ) {
         if (!node) {
             return;
         }
         const fileName = node.fileName;
         this.basePath.add(fileName);
         if (context.getCompilerOptions().baseUrl) {
-            this.basePath.add(context.getCompilerOptions().baseUrl as string + '/file');
+            this.basePath.add(
+                (context.getCompilerOptions().baseUrl as string) + "/file"
+            );
         }
         this.getSourceFile(fileName, context.project);
     }
@@ -93,7 +106,11 @@ export class SourcePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+    private onDeclaration(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.Node
+    ) {
         if (!node || this.disableSources) {
             return;
         }
@@ -103,8 +120,11 @@ export class SourcePlugin extends ConverterComponent {
         const file: SourceFile = this.getSourceFile(fileName, context.project);
 
         let position: ts.LineAndCharacter;
-        if (node['name'] && node['name'].end) {
-            position = ts.getLineAndCharacterOfPosition(sourceFile, node['name'].end);
+        if (node["name"] && node["name"].end) {
+            position = ts.getLineAndCharacterOfPosition(
+                sourceFile,
+                node["name"].end
+            );
         } else {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
         }
@@ -121,7 +141,7 @@ export class SourcePlugin extends ConverterComponent {
             file: file,
             fileName: fileName,
             line: position.line + 1,
-            character: position.character
+            character: position.character,
         });
     }
 
@@ -132,7 +152,9 @@ export class SourcePlugin extends ConverterComponent {
      */
     private onBeginResolve(context: Context) {
         context.project.files.forEach((file) => {
-            const fileName = file.fileName = this.basePath.trim(file.fileName);
+            const fileName = (file.fileName = this.basePath.trim(
+                file.fileName
+            ));
             this.fileMappings[fileName] = file;
         });
     }
@@ -168,10 +190,18 @@ export class SourcePlugin extends ConverterComponent {
 
             let directory = home;
             const path = Path.dirname(file.fileName);
-            if (path !== '.') {
-                path.split('/').forEach((pathPiece) => {
-                    if (!Object.prototype.hasOwnProperty.call(directory.directories, pathPiece)) {
-                        directory.directories[pathPiece] = new SourceDirectory(pathPiece, directory);
+            if (path !== ".") {
+                path.split("/").forEach((pathPiece) => {
+                    if (
+                        !Object.prototype.hasOwnProperty.call(
+                            directory.directories,
+                            pathPiece
+                        )
+                    ) {
+                        directory.directories[pathPiece] = new SourceDirectory(
+                            pathPiece,
+                            directory
+                        );
                     }
                     directory = directory.directories[pathPiece];
                 });

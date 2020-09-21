@@ -1,11 +1,11 @@
-import { resolve, dirname, basename } from 'path';
-import { existsSync, statSync } from 'fs';
+import { resolve, dirname, basename } from "path";
+import { existsSync, statSync } from "fs";
 
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { OptionsReader, Options } from '../options';
-import { Logger } from '../../loggers';
-import { IGNORED } from '../sources/typescript';
+import { OptionsReader, Options } from "../options";
+import { Logger } from "../../loggers";
+import { IGNORED } from "../sources/typescript";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
@@ -17,13 +17,13 @@ export class TSConfigReader implements OptionsReader {
      */
     priority = 200;
 
-    name = 'tsconfig-json';
+    name = "tsconfig-json";
 
     read(container: Options, logger: Logger): void {
-        const tsconfigOpt = container.getValue('tsconfig');
+        const tsconfigOpt = container.getValue("tsconfig");
         const projectOpt = container.getCompilerOptions().project;
 
-        if (!container.isDefault('tsconfig')) {
+        if (!container.isDefault("tsconfig")) {
             this._tryReadOptions(tsconfigOpt, container, logger);
             return;
         }
@@ -37,10 +37,20 @@ export class TSConfigReader implements OptionsReader {
         this._tryReadOptions(tsconfigOpt, container);
     }
 
-    private _tryReadOptions(file: string, container: Options & { setValue(name: string, value: unknown): void }, logger?: Logger): void {
+    private _tryReadOptions(
+        file: string,
+        container: Options & { setValue(name: string, value: unknown): void },
+        logger?: Logger
+    ): void {
         let fileToRead: string | undefined = file;
         if (!isFile(fileToRead)) {
-            fileToRead = ts.findConfigFile(file, isFile, file.toLowerCase().endsWith('.json') ? basename(file) : undefined);
+            fileToRead = ts.findConfigFile(
+                file,
+                isFile,
+                file.toLowerCase().endsWith(".json")
+                    ? basename(file)
+                    : undefined
+            );
         }
 
         if (!fileToRead || !isFile(fileToRead)) {
@@ -51,17 +61,23 @@ export class TSConfigReader implements OptionsReader {
         fileToRead = resolve(fileToRead);
 
         const { config } = ts.readConfigFile(fileToRead, ts.sys.readFile);
-        const { fileNames, errors, options, raw: { typedocOptions = {} }} = ts.parseJsonConfigFileContent(
+        const {
+            fileNames,
+            errors,
+            options,
+            raw: { typedocOptions = {} },
+        } = ts.parseJsonConfigFileContent(
             config,
             ts.sys,
             dirname(fileToRead),
             {},
-            fileToRead);
+            fileToRead
+        );
 
         logger?.diagnostics(errors);
 
-        if (container.isDefault('inputFiles')) {
-            container.setValue('inputFiles', fileNames);
+        if (container.isDefault("inputFiles")) {
+            container.setValue("inputFiles", fileNames);
         }
 
         for (const key of IGNORED) {
@@ -69,10 +85,12 @@ export class TSConfigReader implements OptionsReader {
         }
 
         if (typedocOptions.options) {
-            logger?.error([
-                'typedocOptions in tsconfig file specifies an option file to read but the option',
-                'file has already been read. This is likely a misconfiguration.'
-            ].join(' '));
+            logger?.error(
+                [
+                    "typedocOptions in tsconfig file specifies an option file to read but the option",
+                    "file has already been read. This is likely a misconfiguration.",
+                ].join(" ")
+            );
             delete typedocOptions.options;
         }
 
@@ -91,5 +109,4 @@ export class TSConfigReader implements OptionsReader {
             }
         }
     }
-
 }

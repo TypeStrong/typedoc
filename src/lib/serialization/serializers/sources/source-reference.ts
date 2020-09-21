@@ -1,8 +1,10 @@
-import { SerializerComponent } from '../../components';
-import { SourceReferenceWrapper } from '../models';
-import { SourceReference as JSONSourceReference } from '../../schema';
+import { SerializerComponent } from "../../components";
+import { SourceReferenceWrapper } from "../models";
+import { SourceReference as JSONSourceReference } from "../../schema";
 
-export class SourceReferenceContainerSerializer extends SerializerComponent<SourceReferenceWrapper> {
+export class SourceReferenceContainerSerializer extends SerializerComponent<
+    SourceReferenceWrapper
+> {
     static PRIORITY = 1000;
 
     serializeGroup(instance: unknown) {
@@ -21,7 +23,7 @@ export class SourceReferenceContainerSerializer extends SerializerComponent<Sour
             ...obj,
             fileName: ref.fileName,
             line: ref.line,
-            character: ref.character
+            character: ref.character,
         };
     }
 }

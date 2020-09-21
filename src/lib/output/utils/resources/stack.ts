@@ -1,6 +1,6 @@
-import * as FS from 'fs';
-import * as Path from 'path';
-import * as Util from 'util';
+import * as FS from "fs";
+import * as Path from "path";
+import * as Util from "util";
 
 export interface ResourceClass<T extends Resource> extends Function {
     new (origin: ResourceOrigin<T>, name: string, fileName: string): T;
@@ -14,7 +14,7 @@ export interface ResourceMap<T extends Resource> {
  * Normalize the given template name.
  */
 function normalizeName(name: string): string {
-    return name.replace('\\', '/').replace(/\.\w+$/, '');
+    return name.replace("\\", "/").replace(/\.\w+$/, "");
 }
 
 export abstract class Resource {
@@ -25,8 +25,8 @@ export abstract class Resource {
     protected fileName: string;
 
     constructor(origin: ResourceOrigin<any>, name: string, fileName: string) {
-        this.origin   = origin;
-        this.name     = name;
+        this.origin = origin;
+        this.name = name;
         this.fileName = fileName;
     }
 
@@ -46,15 +46,15 @@ export class ResourceOrigin<T extends Resource> {
 
     constructor(stack: ResourceStack<T>, name: string, path: string) {
         this.stack = stack;
-        this.name  = name;
-        this.path  = path;
+        this.name = name;
+        this.path = path;
 
         this.findResources();
     }
 
     mergeResources(target: ResourceMap<T>) {
         const resources = this.resources;
-        for (let name in resources) {
+        for (const name in resources) {
             if (name in target) {
                 continue;
             }
@@ -75,20 +75,22 @@ export class ResourceOrigin<T extends Resource> {
     }
 
     private findResources(dir?: string) {
-        const resourceClass   = this.stack.getResourceClass();
+        const resourceClass = this.stack.getResourceClass();
         const resourceRegExp = this.stack.getResourceRegExp();
         let path = this.path;
         if (dir) {
             path = Path.join(path, dir);
         }
 
-        for (let fileName of FS.readdirSync(path)) {
+        for (const fileName of FS.readdirSync(path)) {
             const fullName = Path.join(path, fileName);
 
             if (FS.statSync(fullName).isDirectory()) {
                 this.findResources(dir ? Path.join(dir, fileName) : fileName);
             } else if (resourceRegExp.test(fileName)) {
-                const name: string = normalizeName(dir ? Path.join(dir, fileName) : fileName);
+                const name: string = normalizeName(
+                    dir ? Path.join(dir, fileName) : fileName
+                );
                 this.resources[name] = new resourceClass(this, name, fullName);
             }
         }
@@ -108,7 +110,7 @@ export abstract class ResourceStack<T extends Resource> {
     private origins: ResourceOrigin<T>[] = [];
 
     constructor(resourceClass: ResourceClass<T>, resourceRegExp?: RegExp) {
-        this.resourceClass  = resourceClass;
+        this.resourceClass = resourceClass;
         this.resourceRegExp = resourceRegExp || /.*/;
     }
 
@@ -142,7 +144,7 @@ export abstract class ResourceStack<T extends Resource> {
             }
         }
 
-        throw new Error(Util.format('Cannot find resource `%s`.', name));
+        throw new Error(Util.format("Cannot find resource `%s`.", name));
     }
 
     getAllResources(): ResourceMap<T> {
@@ -165,7 +167,7 @@ export abstract class ResourceStack<T extends Resource> {
     }
 
     getOrigin(name: string): ResourceOrigin<T> | undefined {
-        for (let origin of this.origins) {
+        for (const origin of this.origins) {
             if (origin.getName() === name) {
                 return origin;
             }
@@ -181,24 +183,33 @@ export abstract class ResourceStack<T extends Resource> {
      */
     addOrigin(name: string, path: string, ignoreErrors?: boolean) {
         if (this.isActive) {
-            throw new Error('Cannot add origins while the resource is active.');
+            throw new Error("Cannot add origins while the resource is active.");
         }
 
         if (this.hasOrigin(name)) {
-            throw new Error(Util.format('The origin `%s` is already registered.', name));
+            throw new Error(
+                Util.format("The origin `%s` is already registered.", name)
+            );
         }
 
         path = Path.resolve(path);
         if (!FS.existsSync(path)) {
             if (!ignoreErrors) {
-                throw new Error(Util.format('The resource path `%s` does not exist.', path));
+                throw new Error(
+                    Util.format("The resource path `%s` does not exist.", path)
+                );
             }
             return;
         }
 
         if (!FS.statSync(path).isDirectory()) {
             if (!ignoreErrors) {
-                throw new Error(Util.format('The resource path `%s` is not a directory.', path));
+                throw new Error(
+                    Util.format(
+                        "The resource path `%s` is not a directory.",
+                        path
+                    )
+                );
             }
             return;
         }
@@ -208,10 +219,13 @@ export abstract class ResourceStack<T extends Resource> {
 
     removeOrigin(name: string) {
         if (this.isActive) {
-            throw new Error('Cannot remove origins while the resource is active.');
+            throw new Error(
+                "Cannot remove origins while the resource is active."
+            );
         }
 
-        let index = 0, count = this.origins.length;
+        let index = 0,
+            count = this.origins.length;
         while (index < count) {
             const origin = this.origins[index];
             if (origin.getName() === name) {
@@ -225,7 +239,9 @@ export abstract class ResourceStack<T extends Resource> {
 
     removeAllOrigins() {
         if (this.isActive) {
-            throw new Error('Cannot remove origins while the resource is active.');
+            throw new Error(
+                "Cannot remove origins while the resource is active."
+            );
         }
 
         this.origins = [];

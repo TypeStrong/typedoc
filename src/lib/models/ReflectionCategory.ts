@@ -1,4 +1,4 @@
-import { Reflection } from './reflections/abstract';
+import { Reflection } from "./reflections/abstract";
 
 /**
  * A category of reflections.
@@ -34,7 +34,8 @@ export class ReflectionCategory {
     constructor(title: string) {
         this.title = title;
 
-        this.allChildrenHaveOwnDocument = (() => this.getAllChildrenHaveOwnDocument());
+        this.allChildrenHaveOwnDocument = () =>
+            this.getAllChildrenHaveOwnDocument();
     }
 
     /**

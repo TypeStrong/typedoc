@@ -1,20 +1,24 @@
-const x = 'literal';
+const x = "literal";
 /**
  * An object literal.
  */
 const objectLiteral = {
-    valueZ: 'foo',
-    valueY: function() { return 'foo'; },
+    valueZ: "foo",
+    valueY: function () {
+        return "foo";
+    },
     valueX: {
-        valueZ: 'foo',
-        valueY: (z: string) => { return {a: 'test', b: z}; },
-        valueA: [100, 200, 300]
+        valueZ: "foo",
+        valueY: (z: string) => {
+            return { a: "test", b: z };
+        },
+        valueA: [100, 200, 300],
     },
     valueA: 100,
     valueB: true,
-    [Symbol.toStringTag]: 'computed',
+    [Symbol.toStringTag]: "computed",
     [x]: true,
-    ['literal2']: true,
+    ["literal2"]: true,
 };
 
 /**
@@ -22,19 +26,19 @@ const objectLiteral = {
  */
 let typeLiteral: {
     valueZ: string;
-    valueY: {(): string; };
+    valueY: { (): string };
     valueX: {
         valueZ: string;
-        valueY: {(z: string): {a: string; b: string}; };
+        valueY: { (z: string): { a: string; b: string } };
         valueA: number[];
     };
     valueA?: number;
     valueB?: boolean;
 };
 
-let onSuccess: any = function () { };
-let onError: any = function () { };
-let onFinally: any = function () { };
+let onSuccess: any = function () {};
+let onError: any = function () {};
+let onFinally: any = function () {};
 
 const callbackReturn = {
     success: (successCallback: () => any) => {
@@ -48,7 +52,7 @@ const callbackReturn = {
     finally: (finallyCallback: () => any) => {
         onFinally = finallyCallback;
         return callbackReturn;
-    }
+    },
 };
 
 export { objectLiteral };

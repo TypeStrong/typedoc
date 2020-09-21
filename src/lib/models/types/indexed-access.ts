@@ -1,4 +1,4 @@
-import { Type } from './index';
+import { Type } from "./index";
 
 /**
  * Represents an indexed access type.
@@ -7,7 +7,7 @@ export class IndexedAccessType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'indexedAccess';
+    readonly type = "indexedAccess";
 
     /**
      * Create a new TupleType instance.
@@ -37,7 +37,10 @@ export class IndexedAccessType extends Type {
         if (!(type instanceof IndexedAccessType)) {
             return false;
         }
-        return type.objectType.equals(this.objectType) && type.indexType.equals(this.indexType);
+        return (
+            type.objectType.equals(this.objectType) &&
+            type.indexType.equals(this.indexType)
+        );
     }
 
     /**

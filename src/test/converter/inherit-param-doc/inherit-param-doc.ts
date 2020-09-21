@@ -6,12 +6,12 @@ export interface Base {
     method1(a: number, b: string): void;
 }
 
-export class Class1 implements Base  {
+export class Class1 implements Base {
     /** @inheritDoc */
     method1(a: number, b: string): void {}
 }
 
-export class Class2 implements Base  {
+export class Class2 implements Base {
     /**
      * @inheritDoc
      *

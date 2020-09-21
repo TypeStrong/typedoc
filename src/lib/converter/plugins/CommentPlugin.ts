@@ -1,21 +1,21 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Comment, CommentTag } from '../../models/comments/index';
+import { Comment, CommentTag } from "../../models/comments/index";
 import {
     Reflection,
     ReflectionFlag,
     ReflectionKind,
     TypeParameterReflection,
     DeclarationReflection,
-    ProjectReflection
-} from '../../models/reflections/index';
-import { Component, ConverterComponent } from '../components';
-import { parseComment, getRawComment } from '../factories/comment';
-import { Converter } from '../converter';
-import { Context } from '../context';
-import { partition, uniq } from 'lodash';
-import { SourceReference } from '../../models';
-import { BindOption } from '../../utils';
+    ProjectReflection,
+} from "../../models/reflections/index";
+import { Component, ConverterComponent } from "../components";
+import { parseComment, getRawComment } from "../factories/comment";
+import { Converter } from "../converter";
+import { Context } from "../context";
+import { partition, uniq } from "lodash";
+import { SourceReference } from "../../models";
+import { BindOption } from "../../utils";
 
 /**
  * These tags are not useful to display in the generated documentation.
@@ -28,15 +28,15 @@ import { BindOption } from '../../utils';
  * provide useful information for documentation.
  */
 const TAG_BLACKLIST = [
-    'augments',
-    'callback',
-    'class',
-    'constructor',
-    'enum',
-    'extends',
-    'this',
-    'type',
-    'typedef'
+    "augments",
+    "callback",
+    "class",
+    "constructor",
+    "enum",
+    "extends",
+    "this",
+    "type",
+    "typedef",
 ];
 
 /**
@@ -63,48 +63,52 @@ interface ModuleComment {
  * A handler that parses TypeDoc comments and attaches [[Comment]] instances to
  * the generated reflections.
  */
-@Component({name: 'comment'})
+@Component({ name: "comment" })
 export class CommentPlugin extends ConverterComponent {
-    @BindOption('excludeTags')
+    @BindOption("excludeTags")
     excludeTags!: string[];
 
     /**
      * List of discovered module comments.
      * Defined in this.onBegin
      */
-    private comments!: {[id: number]: ModuleComment};
+    private comments!: { [id: number]: ModuleComment };
 
     /**
      * Create a new CommentPlugin instance.
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]:                   this.onBegin,
-            [Converter.EVENT_CREATE_DECLARATION]:      this.onDeclaration,
-            [Converter.EVENT_CREATE_SIGNATURE]:        this.onDeclaration,
-            [Converter.EVENT_CREATE_TYPE_PARAMETER]:   this.onCreateTypeParameter,
-            [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this.onFunctionImplementation,
-            [Converter.EVENT_RESOLVE_BEGIN]:           this.onBeginResolve,
-            [Converter.EVENT_RESOLVE]:                 this.onResolve
+            [Converter.EVENT_BEGIN]: this.onBegin,
+            [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
+            [Converter.EVENT_CREATE_SIGNATURE]: this.onDeclaration,
+            [Converter.EVENT_CREATE_TYPE_PARAMETER]: this.onCreateTypeParameter,
+            [Converter.EVENT_FUNCTION_IMPLEMENTATION]: this
+                .onFunctionImplementation,
+            [Converter.EVENT_RESOLVE_BEGIN]: this.onBeginResolve,
+            [Converter.EVENT_RESOLVE]: this.onResolve,
         });
     }
 
     private storeModuleComment(comment: string, reflection: Reflection) {
-        const isPreferred = (comment.toLowerCase().includes('@preferred'));
+        const isPreferred = comment.toLowerCase().includes("@preferred");
 
         if (this.comments[reflection.id]) {
             const info = this.comments[reflection.id];
-            if (!isPreferred && (info.isPreferred || info.fullText.length > comment.length)) {
+            if (
+                !isPreferred &&
+                (info.isPreferred || info.fullText.length > comment.length)
+            ) {
                 return;
             }
 
-            info.fullText    = comment;
+            info.fullText = comment;
             info.isPreferred = isPreferred;
         } else {
             this.comments[reflection.id] = {
-                reflection:  reflection,
-                fullText:    comment,
-                isPreferred: isPreferred
+                reflection: reflection,
+                fullText: comment,
+                isPreferred: isPreferred,
             };
         }
     }
@@ -116,29 +120,29 @@ export class CommentPlugin extends ConverterComponent {
      * @param comment  The comment that should be searched for modifiers.
      */
     private applyModifiers(reflection: Reflection, comment: Comment) {
-        if (comment.hasTag('private')) {
+        if (comment.hasTag("private")) {
             reflection.setFlag(ReflectionFlag.Private);
-            comment.removeTags('private');
+            comment.removeTags("private");
         }
 
-        if (comment.hasTag('protected')) {
+        if (comment.hasTag("protected")) {
             reflection.setFlag(ReflectionFlag.Protected);
-            comment.removeTags('protected');
+            comment.removeTags("protected");
         }
 
-        if (comment.hasTag('public')) {
+        if (comment.hasTag("public")) {
             reflection.setFlag(ReflectionFlag.Public);
-            comment.removeTags('public');
+            comment.removeTags("public");
         }
 
-        if (comment.hasTag('event')) {
+        if (comment.hasTag("event")) {
             reflection.kind = ReflectionKind.Event;
             // reflection.setFlag(ReflectionFlag.Event);
-            comment.removeTags('event');
+            comment.removeTags("event");
         }
 
         if (reflection.kindOf(ReflectionKind.Module)) {
-            comment.removeTags('packagedocumentation');
+            comment.removeTags("packagedocumentation");
         }
     }
 
@@ -158,18 +162,22 @@ export class CommentPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onCreateTypeParameter(context: Context, reflection: TypeParameterReflection, node?: ts.Node) {
+    private onCreateTypeParameter(
+        context: Context,
+        reflection: TypeParameterReflection,
+        node?: ts.Node
+    ) {
         const comment = reflection.parent && reflection.parent.comment;
         if (comment) {
-            let tag = comment.getTag('typeparam', reflection.name);
+            let tag = comment.getTag("typeparam", reflection.name);
             if (!tag) {
-                tag = comment.getTag('template', reflection.name);
+                tag = comment.getTag("template", reflection.name);
             }
             if (!tag) {
-                tag = comment.getTag('param', `<${reflection.name}>`);
+                tag = comment.getTag("param", `<${reflection.name}>`);
             }
             if (!tag) {
-                tag = comment.getTag('param', reflection.name);
+                tag = comment.getTag("param", reflection.name);
             }
 
             if (tag) {
@@ -189,7 +197,11 @@ export class CommentPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onDeclaration(context: Context, reflection: Reflection, node?: ts.Node) {
+    private onDeclaration(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.Node
+    ) {
         if (!node) {
             return;
         }
@@ -198,7 +210,11 @@ export class CommentPlugin extends ConverterComponent {
             return;
         }
 
-        if (reflection.kindOf(ReflectionKind.FunctionOrMethod) || (reflection.kindOf(ReflectionKind.Event) && reflection['signatures'])) {
+        if (
+            reflection.kindOf(ReflectionKind.FunctionOrMethod) ||
+            (reflection.kindOf(ReflectionKind.Event) &&
+                reflection["signatures"])
+        ) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);
             this.removeExcludedTags(comment);
@@ -219,7 +235,11 @@ export class CommentPlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently processed.
      * @param node  The node that is currently processed if available.
      */
-    private onFunctionImplementation(context: Context, reflection: Reflection, node?: ts.Node) {
+    private onFunctionImplementation(
+        context: Context,
+        reflection: Reflection,
+        node?: ts.Node
+    ) {
         if (!node) {
             return;
         }
@@ -236,22 +256,22 @@ export class CommentPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      */
     private onBeginResolve(context: Context) {
-        for (const id in this.comments) {
-            if (!this.comments.hasOwnProperty(id)) {
-                continue;
-            }
-
-            const info    = this.comments[id];
+        for (const info of Object.values(this.comments)) {
             const comment = parseComment(info.fullText);
-            comment.removeTags('preferred');
+            comment.removeTags("preferred");
 
             this.applyModifiers(info.reflection, comment);
             info.reflection.comment = comment;
         }
 
-        const stripInternal = !!this.application.options.getCompilerOptions().stripInternal;
-        const excludePrivate = this.application.options.getValue('excludePrivate');
-        const excludeProtected = this.application.options.getValue('excludeProtected');
+        const stripInternal = !!this.application.options.getCompilerOptions()
+            .stripInternal;
+        const excludePrivate = this.application.options.getValue(
+            "excludePrivate"
+        );
+        const excludeProtected = this.application.options.getValue(
+            "excludeProtected"
+        );
 
         const project = context.project;
         const reflections = Object.values(project.reflections);
@@ -260,18 +280,37 @@ export class CommentPlugin extends ConverterComponent {
         // TODO: This doesn't really belong here. Removing comments due to @hidden yes, but private/protected no.
         //   it needs to be here for now because users can use @public/@private/@protected to override visibility.
         //   the converter should probably have a post resolve step in which it handles the excludePrivate/protected options.
-        const hidden = reflections.filter(reflection => CommentPlugin.isHidden(reflection, stripInternal, excludePrivate, excludeProtected));
-        hidden.forEach(reflection => project.removeReflection(reflection, true));
+        const hidden = reflections.filter((reflection) =>
+            CommentPlugin.isHidden(
+                reflection,
+                stripInternal,
+                excludePrivate,
+                excludeProtected
+            )
+        );
+        hidden.forEach((reflection) =>
+            project.removeReflection(reflection, true)
+        );
 
         // remove functions with empty signatures after their signatures have been removed
-        const [ allRemoved, someRemoved ] = partition(
-            hidden.map(reflection => reflection.parent!)
-                .filter(method => method.kindOf(ReflectionKind.FunctionOrMethod)) as DeclarationReflection[],
-            method => method.signatures?.length === 0
+        const [allRemoved, someRemoved] = partition(
+            hidden
+                .map((reflection) => reflection.parent!)
+                .filter((method) =>
+                    method.kindOf(ReflectionKind.FunctionOrMethod)
+                ) as DeclarationReflection[],
+            (method) => method.signatures?.length === 0
         );
-        allRemoved.forEach(reflection => project.removeReflection(reflection, true));
-        someRemoved.forEach(reflection => {
-            reflection.sources = uniq(reflection.signatures!.reduce<SourceReference[]>((c, s) => c.concat(s.sources || []), []));
+        allRemoved.forEach((reflection) =>
+            project.removeReflection(reflection, true)
+        );
+        someRemoved.forEach((reflection) => {
+            reflection.sources = uniq(
+                reflection.signatures!.reduce<SourceReference[]>(
+                    (c, s) => c.concat(s.sources || []),
+                    []
+                )
+            );
         });
     }
 
@@ -295,16 +334,16 @@ export class CommentPlugin extends ConverterComponent {
         const signatures = reflection.getAllSignatures();
         if (signatures.length) {
             const comment = reflection.comment;
-            if (comment && comment.hasTag('returns')) {
-                comment.returns = comment.getTag('returns')!.text;
-                comment.removeTags('returns');
+            if (comment && comment.hasTag("returns")) {
+                comment.returns = comment.getTag("returns")!.text;
+                comment.removeTags("returns");
             }
 
             signatures.forEach((signature) => {
                 let childComment = signature.comment;
-                if (childComment && childComment.hasTag('returns')) {
-                    childComment.returns = childComment.getTag('returns')!.text;
-                    childComment.removeTags('returns');
+                if (childComment && childComment.hasTag("returns")) {
+                    childComment.returns = childComment.getTag("returns")!.text;
+                    childComment.removeTags("returns");
                 }
 
                 if (comment) {
@@ -312,20 +351,22 @@ export class CommentPlugin extends ConverterComponent {
                         childComment = signature.comment = new Comment();
                     }
 
-                    childComment.shortText = childComment.shortText || comment.shortText;
-                    childComment.text      = childComment.text      || comment.text;
-                    childComment.returns   = childComment.returns   || comment.returns;
-                    childComment.tags      = childComment.tags      || comment.tags;
+                    childComment.shortText =
+                        childComment.shortText || comment.shortText;
+                    childComment.text = childComment.text || comment.text;
+                    childComment.returns =
+                        childComment.returns || comment.returns;
+                    childComment.tags = childComment.tags || comment.tags;
                 }
 
                 if (signature.parameters) {
                     signature.parameters.forEach((parameter) => {
                         let tag: CommentTag | undefined;
                         if (childComment) {
-                            tag = childComment.getTag('param', parameter.name);
+                            tag = childComment.getTag("param", parameter.name);
                         }
                         if (comment && !tag) {
-                            tag = comment.getTag('param', parameter.name);
+                            tag = comment.getTag("param", parameter.name);
                         }
                         if (tag) {
                             parameter.comment = new Comment(tag.text);
@@ -333,10 +374,10 @@ export class CommentPlugin extends ConverterComponent {
                     });
                 }
 
-                childComment?.removeTags('param');
+                childComment?.removeTags("param");
             });
 
-            comment?.removeTags('param');
+            comment?.removeTags("param");
         }
     }
 
@@ -359,7 +400,9 @@ export class CommentPlugin extends ConverterComponent {
      */
     static removeTags(comment: Comment | undefined, tagName: string) {
         // Can't use a logger here, we don't have one.
-        console.warn('Using deprecated function removeTags. This function will be removed in the next minor release.');
+        console.warn(
+            "Using deprecated function removeTags. This function will be removed in the next minor release."
+        );
         comment?.removeTags(tagName);
     }
 
@@ -368,9 +411,14 @@ export class CommentPlugin extends ConverterComponent {
      * @deprecated use [[ProjectReflection.removeReflection]]
      * Warn in 0.17, remove in 0.18
      */
-    static removeReflections(project: ProjectReflection, reflections: Reflection[]) {
+    static removeReflections(
+        project: ProjectReflection,
+        reflections: Reflection[]
+    ) {
         // Can't use a logger here, we don't have one.
-        console.warn('Using deprecated function removeReflections. This function will be removed in the next minor release.');
+        console.warn(
+            "Using deprecated function removeReflections. This function will be removed in the next minor release."
+        );
         for (const reflection of reflections) {
             project.removeReflection(reflection, true);
         }
@@ -381,9 +429,14 @@ export class CommentPlugin extends ConverterComponent {
      * @deprecated use [[ProjectReflection.removeReflection]]
      * Warn in 0.17, remove in 0.18
      */
-    static removeReflection(project: ProjectReflection, reflection: Reflection) {
+    static removeReflection(
+        project: ProjectReflection,
+        reflection: Reflection
+    ) {
         // Can't use a logger here, we don't have one.
-        console.warn('Using deprecated function removeReflections. This function will be removed in the next minor release.');
+        console.warn(
+            "Using deprecated function removeReflections. This function will be removed in the next minor release."
+        );
         project.removeReflection(reflection, true);
     }
 
@@ -400,11 +453,17 @@ export class CommentPlugin extends ConverterComponent {
     ) {
         const comment = reflection.comment;
 
-        if (reflection.flags.hasFlag(ReflectionFlag.Private) && excludePrivate) {
+        if (
+            reflection.flags.hasFlag(ReflectionFlag.Private) &&
+            excludePrivate
+        ) {
             return true;
         }
 
-        if (reflection.flags.hasFlag(ReflectionFlag.Protected) && excludeProtected) {
+        if (
+            reflection.flags.hasFlag(ReflectionFlag.Protected) &&
+            excludeProtected
+        ) {
             return true;
         }
 
@@ -413,9 +472,9 @@ export class CommentPlugin extends ConverterComponent {
         }
 
         return (
-            comment.hasTag('hidden')
-            || comment.hasTag('ignore')
-            || (comment.hasTag('internal') && stripInternal)
+            comment.hasTag("hidden") ||
+            comment.hasTag("ignore") ||
+            (comment.hasTag("internal") && stripInternal)
         );
     }
 }

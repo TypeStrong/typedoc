@@ -1,7 +1,12 @@
-import { Reflection, ReflectionKind, ProjectReflection, DeclarationReflection } from '../../models/reflections/index';
-import { Component, RendererComponent } from '../components';
-import { PageEvent } from '../events';
-import { NavigationItem } from '../models/NavigationItem';
+import {
+    Reflection,
+    ReflectionKind,
+    ProjectReflection,
+    DeclarationReflection,
+} from "../../models/reflections/index";
+import { Component, RendererComponent } from "../components";
+import { PageEvent } from "../events";
+import { NavigationItem } from "../models/NavigationItem";
 
 /**
  * A plugin that generates a table of contents for the current page.
@@ -9,14 +14,14 @@ import { NavigationItem } from '../models/NavigationItem';
  * The table of contents will start at the nearest module or dynamic module. This plugin
  * sets the [[PageEvent.toc]] property.
  */
-@Component({name: 'toc'})
+@Component({ name: "toc" })
 export class TocPlugin extends RendererComponent {
     /**
      * Create a new TocPlugin instance.
      */
     initialize() {
         this.listenTo(this.owner, {
-            [PageEvent.BEGIN]: this.onRendererBeginPage
+            [PageEvent.BEGIN]: this.onRendererBeginPage,
         });
     }
 
@@ -32,7 +37,10 @@ export class TocPlugin extends RendererComponent {
         }
 
         const trail: Reflection[] = [];
-        while (!(model instanceof ProjectReflection) && !model.kindOf(ReflectionKind.SomeModule)) {
+        while (
+            !(model instanceof ProjectReflection) &&
+            !model.kindOf(ReflectionKind.SomeModule)
+        ) {
             trail.unshift(model);
             model = model.parent;
         }
@@ -50,20 +58,28 @@ export class TocPlugin extends RendererComponent {
      * @param parent  The parent [[NavigationItem]] the toc should be appended to.
      * @param restriction  The restricted table of contents.
      */
-    static buildToc(model: Reflection, trail: Reflection[], parent: NavigationItem, restriction?: string[]) {
+    static buildToc(
+        model: Reflection,
+        trail: Reflection[],
+        parent: NavigationItem,
+        restriction?: string[]
+    ) {
         const index = trail.indexOf(model);
-        const children = model['children'] || [];
+        const children = model["children"] || [];
 
         if (index < trail.length - 1 && children.length > 40) {
             const child = trail[index + 1];
             const item = NavigationItem.create(child, parent, true);
-            item.isInPath  = true;
+            item.isInPath = true;
             item.isCurrent = false;
             TocPlugin.buildToc(child, trail, item);
         } else {
             children.forEach((child: DeclarationReflection) => {
-
-                if (restriction && restriction.length > 0 && !restriction.includes(child.name)) {
+                if (
+                    restriction &&
+                    restriction.length > 0 &&
+                    !restriction.includes(child.name)
+                ) {
                     return;
                 }
 
@@ -73,8 +89,8 @@ export class TocPlugin extends RendererComponent {
 
                 const item = NavigationItem.create(child, parent, true);
                 if (trail.includes(child)) {
-                    item.isInPath  = true;
-                    item.isCurrent = (trail[trail.length - 1] === child);
+                    item.isInPath = true;
+                    item.isCurrent = trail[trail.length - 1] === child;
                     TocPlugin.buildToc(child, trail, item);
                 }
             });

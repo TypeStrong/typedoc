@@ -1,13 +1,22 @@
-import { isDeepStrictEqual } from 'util';
-import * as _ from 'lodash';
-import * as ts from 'typescript';
+import { isDeepStrictEqual } from "util";
+import * as _ from "lodash";
+import * as ts from "typescript";
 
-import { DeclarationOption, ParameterScope, ParameterType, convert, TypeDocOptions, KeyToDeclaration, TypeDocAndTSOptions, TypeDocOptionMap } from './declaration';
-import { Logger } from '../loggers';
-import { insertPrioritySorted } from '../array';
-import { addTSOptions, addTypeDocOptions } from './sources';
-import { Application } from '../../..';
-import { NeverIfInternal } from '..';
+import {
+    DeclarationOption,
+    ParameterScope,
+    ParameterType,
+    convert,
+    TypeDocOptions,
+    KeyToDeclaration,
+    TypeDocAndTSOptions,
+    TypeDocOptionMap,
+} from "./declaration";
+import { Logger } from "../loggers";
+import { insertPrioritySorted } from "../array";
+import { addTSOptions, addTypeDocOptions } from "./sources";
+import { Application } from "../../..";
+import { NeverIfInternal } from "..";
 
 /**
  * Describes an option reader that discovers user configuration and converts it to the
@@ -129,7 +138,7 @@ export class Options {
      * @param name
      */
     removeReaderByName(name: string): void {
-        this._readers = this._readers.filter(reader => reader.name !== name);
+        this._readers = this._readers.filter((reader) => reader.name !== name);
     }
 
     read(logger: Logger) {
@@ -143,13 +152,17 @@ export class Options {
      * the runtime type is consistent with the declared type.
      * @param declaration
      */
-    addDeclaration<K extends keyof TypeDocOptions>(declaration: { name: K } & KeyToDeclaration<K>): void;
+    addDeclaration<K extends keyof TypeDocOptions>(
+        declaration: { name: K } & KeyToDeclaration<K>
+    ): void;
 
     /**
      * Adds an option declaration to the container.
      * @param declaration
      */
-    addDeclaration(declaration: NeverIfInternal<Readonly<DeclarationOption>>): void;
+    addDeclaration(
+        declaration: NeverIfInternal<Readonly<DeclarationOption>>
+    ): void;
 
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
         const names = [declaration.name];
@@ -161,7 +174,9 @@ export class Options {
             // Check for registering the same declaration twice, should not be an error.
             const decl = this.getDeclaration(name);
             if (decl && decl !== declaration) {
-                this._logger.error(`The option ${name} has already been registered`);
+                this._logger.error(
+                    `The option ${name} has already been registered`
+                );
             } else {
                 this._declarations.set(name.toLowerCase(), declaration);
             }
@@ -215,8 +230,10 @@ export class Options {
      * @param scope
      */
     getDeclarationsByScope(scope: ParameterScope) {
-        return _.uniq(Array.from(this._declarations.values()))
-            .filter(declaration => (declaration.scope ?? ParameterScope.TypeDoc) === scope);
+        return _.uniq(Array.from(this._declarations.values())).filter(
+            (declaration) =>
+                (declaration.scope ?? ParameterScope.TypeDoc) === scope
+        );
     }
 
     /**
@@ -227,7 +244,10 @@ export class Options {
     isDefault(name: NeverIfInternal<string>): boolean;
     isDefault(name: string): boolean {
         // getValue will throw if the declaration does not exist.
-        return isDeepStrictEqual(this.getValue(name as keyof TypeDocOptions), this.getDefaultOptionValue(this.getDeclaration(name)!));
+        return isDeepStrictEqual(
+            this.getValue(name as keyof TypeDocOptions),
+            this.getDefaultOptionValue(this.getDeclaration(name)!)
+        );
     }
 
     /**
@@ -250,7 +270,9 @@ export class Options {
         }
 
         if (declaration.scope === ParameterScope.TypeScript) {
-            throw new Error('TypeScript options must be fetched with getCompilerOptions.');
+            throw new Error(
+                "TypeScript options must be fetched with getCompilerOptions."
+            );
         }
 
         return this._values[declaration.name];
@@ -268,18 +290,27 @@ export class Options {
      * @param name
      * @param value
      */
-    setValue<K extends keyof TypeDocAndTSOptions>(name: K, value: TypeDocAndTSOptions[K]): void;
-    setValue(name: NeverIfInternal<string>, value: NeverIfInternal<unknown>): void;
+    setValue<K extends keyof TypeDocAndTSOptions>(
+        name: K,
+        value: TypeDocAndTSOptions[K]
+    ): void;
+    setValue(
+        name: NeverIfInternal<string>,
+        value: NeverIfInternal<unknown>
+    ): void;
     setValue(name: string, value: unknown): void {
         const declaration = this.getDeclaration(name);
         if (!declaration) {
-            throw new Error(`Tried to set an option (${name}) that was not declared.`);
+            throw new Error(
+                `Tried to set an option (${name}) that was not declared.`
+            );
         }
 
         const converted = convert(value, declaration);
-        const bag = declaration.scope === ParameterScope.TypeScript
-            ? this._compilerOptions
-            : this._values;
+        const bag =
+            declaration.scope === ParameterScope.TypeScript
+                ? this._compilerOptions
+                : this._values;
         bag[declaration.name] = converted;
     }
 
@@ -289,7 +320,9 @@ export class Options {
      * @deprecated will be removed in 0.19. Use setValue in a loop instead.
      */
     setValues(obj: NeverIfInternal<Partial<TypeDocAndTSOptions>>): void {
-        this._logger.warn('Options.setValues is deprecated and will be removed in 0.19.');
+        this._logger.warn(
+            "Options.setValues is deprecated and will be removed in 0.19."
+        );
         for (const [name, value] of Object.entries(obj)) {
             this.setValue(name as keyof TypeDocOptions, value);
         }
@@ -299,16 +332,25 @@ export class Options {
      * Sets the value of a given option to its default value.
      * @param declaration The option whose value should be reset.
      */
-    private setOptionValueToDefault(declaration: Readonly<DeclarationOption>): void {
+    private setOptionValueToDefault(
+        declaration: Readonly<DeclarationOption>
+    ): void {
         if (declaration.scope !== ParameterScope.TypeScript) {
-            this._values[declaration.name] = this.getDefaultOptionValue(declaration);
+            this._values[declaration.name] = this.getDefaultOptionValue(
+                declaration
+            );
         }
     }
 
-    private getDefaultOptionValue(declaration: Readonly<DeclarationOption>): unknown {
+    private getDefaultOptionValue(
+        declaration: Readonly<DeclarationOption>
+    ): unknown {
         // No need to convert the defaultValue for a map type as it has to be of a specific type
         // Also don't use convert for number options to allow every possible number as a default value.
-        if (declaration.type === ParameterType.Map || declaration.type === ParameterType.Number) {
+        if (
+            declaration.type === ParameterType.Map ||
+            declaration.type === ParameterType.Number
+        ) {
             return declaration.defaultValue;
         } else {
             return convert(declaration.defaultValue, declaration);
@@ -321,11 +363,13 @@ export class Options {
  *
  * @since v0.16.3
  */
-export function BindOption<K extends keyof TypeDocOptionMap>(name: K):
-    <IK extends PropertyKey>(
-        target: ({ application: Application } | { options: Options }) & { [K2 in IK]: TypeDocOptions[K] },
-        key: IK
-    ) => void;
+export function BindOption<K extends keyof TypeDocOptionMap>(
+    name: K
+): <IK extends PropertyKey>(
+    target: ({ application: Application } | { options: Options }) &
+        { [K2 in IK]: TypeDocOptions[K] },
+    key: IK
+) => void;
 
 /**
  * Binds an option to the given property. Does not register the option.
@@ -334,21 +378,30 @@ export function BindOption<K extends keyof TypeDocOptionMap>(name: K):
  * @privateRemarks
  * This overload is intended for plugin use only with looser type checks. Do not use internally.
  */
-export function BindOption(name: NeverIfInternal<string>):
-    (target: { application: Application } | { options: Options }, key: PropertyKey) => void;
+export function BindOption(
+    name: NeverIfInternal<string>
+): (
+    target: { application: Application } | { options: Options },
+    key: PropertyKey
+) => void;
 
 export function BindOption(name: string) {
-    return function(target: { application: Application } | { options: Options }, key: PropertyKey) {
+    return function (
+        target: { application: Application } | { options: Options },
+        key: PropertyKey
+    ) {
         Object.defineProperty(target, key, {
             get(this: { application: Application } | { options: Options }) {
-                if ('options' in this) {
+                if ("options" in this) {
                     return this.options.getValue(name as keyof TypeDocOptions);
                 } else {
-                    return this.application.options.getValue(name as keyof TypeDocOptions);
+                    return this.application.options.getValue(
+                        name as keyof TypeDocOptions
+                    );
                 }
             },
             enumerable: true,
-            configurable: true
+            configurable: true,
         });
     };
 }

@@ -16,12 +16,12 @@ export module MyModule {
         /**
          * An object literal value.
          */
-        name: 'Test',
+        name: "Test",
 
         /**
          * An object literal function.
          */
-        print: function(value: string) { }
+        print: function (value: string) {},
     };
 
     /**
@@ -31,7 +31,7 @@ export module MyModule {
         let a: string;
     }
 
-    export let exportedModuleVariable = 'foo';
+    export let exportedModuleVariable = "foo";
 
     let moduleVariable = [100, 200];
 
@@ -49,35 +49,39 @@ export module MyModule.MySubmodule {
 /**
  * An exported global variable.
  */
-export let exportedGlobalVariable = 'foo';
+export let exportedGlobalVariable = "foo";
 
 /**
  * A non-exported global variable.
  */
-let globalVariable = 'foo';
+let globalVariable = "foo";
 
 /**
  * An object literal.
  */
 let objectLiteral = {
-    valueZ: 'foo',
-    valueY: function() { return 'foo'; },
+    valueZ: "foo",
+    valueY: function () {
+        return "foo";
+    },
     valueX: {
-        valueZ: 'foo',
-        valueY: (z: string) => { return {a: 'test', b: z}; },
-        valueA: [100, 200, 300]
+        valueZ: "foo",
+        valueY: (z: string) => {
+            return { a: "test", b: z };
+        },
+        valueA: [100, 200, 300],
     },
     valueA: 100,
-    valueB: true
+    valueB: true,
 };
 
 let typeLiteral: {
     (): string;
     valueZ: string;
-    valueY: {(): string; };
+    valueY: { (): string };
     valueX: {
         valueZ: string;
-        valueY: {(z: string): {a: string; b: string}; };
+        valueY: { (z: string): { a: string; b: string } };
         valueA: number[];
     };
     valueA?: number;

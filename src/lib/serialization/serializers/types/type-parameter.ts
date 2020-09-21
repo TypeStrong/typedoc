@@ -1,17 +1,22 @@
-import { TypeParameterType } from '../../../models';
+import { TypeParameterType } from "../../../models";
 
-import { TypeSerializerComponent } from '../../components';
-import { TypeParameterType as JSONTypeParameterType } from '../../schema';
+import { TypeSerializerComponent } from "../../components";
+import { TypeParameterType as JSONTypeParameterType } from "../../schema";
 
-export class TypeParameterTypeSerializer extends TypeSerializerComponent<TypeParameterType> {
+export class TypeParameterTypeSerializer extends TypeSerializerComponent<
+    TypeParameterType
+> {
     supports(t: unknown) {
         return t instanceof TypeParameterType;
     }
 
-    toObject(type: TypeParameterType, obj: Pick<JSONTypeParameterType, 'type'>): JSONTypeParameterType {
+    toObject(
+        type: TypeParameterType,
+        obj: Pick<JSONTypeParameterType, "type">
+    ): JSONTypeParameterType {
         const result: JSONTypeParameterType = {
             ...obj,
-            name: type.name
+            name: type.name,
         };
 
         if (type.constraint) {

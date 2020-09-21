@@ -1,11 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Type, StringLiteralType } from '../../models/types/index';
-import { Component, ConverterTypeComponent, TypeConverter } from '../components';
-import { Context } from '../context';
+import { Type, StringLiteralType } from "../../models/types/index";
+import {
+    Component,
+    ConverterTypeComponent,
+    TypeConverter,
+} from "../components";
+import { Context } from "../context";
 
-@Component({name: 'type:string-literal'})
-export class StringLiteralConverter extends ConverterTypeComponent implements TypeConverter<ts.LiteralType, ts.StringLiteral> {
+@Component({ name: "type:string-literal" })
+export class StringLiteralConverter
+    extends ConverterTypeComponent
+    implements TypeConverter<ts.LiteralType, ts.StringLiteral> {
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
@@ -49,6 +55,6 @@ export class StringLiteralConverter extends ConverterTypeComponent implements Ty
      * @returns The type reflection representing the given string literal type.
      */
     convertType(context: Context, type: ts.LiteralType): Type {
-        return new StringLiteralType(<string> type.value);
+        return new StringLiteralType(<string>type.value);
     }
 }

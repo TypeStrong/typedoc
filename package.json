@@ -45,10 +45,13 @@
     "@types/mockery": "^1.4.29",
     "@types/node": "^14.11.1",
     "@types/shelljs": "^0.8.8",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "eslint": "^7.9.0",
     "mocha": "^8.1.3",
     "mockery": "^2.1.0",
     "nyc": "^15.1.0",
-    "tslint": "^5.20.1",
+    "prettier": "^2.1.2",
     "typescript": "^4.0.3"
   },
   "files": [
@@ -66,7 +69,7 @@
     "build": "tsc --project .",
     "postbuild": "node scripts/replace_application_version.js",
     "build_and_test": "npm run build && npm run test",
-    "lint": "tslint --project .",
+    "lint": "eslint . && prettier --check .",
     "prepublishOnly": "node scripts/set_strict.js false && npm run lint && npm run build_and_test",
     "postpublish": "node scripts/set_strict.js true",
     "prepare": "npm run build",

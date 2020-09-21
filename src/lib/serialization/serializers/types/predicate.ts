@@ -1,7 +1,9 @@
-import { PredicateType } from '../../../models';
-import { TypeSerializerComponent } from '../../components';
+import { PredicateType } from "../../../models";
+import { TypeSerializerComponent } from "../../components";
 
-export class PredicateTypeSerializer extends TypeSerializerComponent<PredicateType> {
+export class PredicateTypeSerializer extends TypeSerializerComponent<
+    PredicateType
+> {
     supports(t: unknown) {
         return t instanceof PredicateType;
     }
@@ -11,7 +13,9 @@ export class PredicateTypeSerializer extends TypeSerializerComponent<PredicateTy
             ...obj,
             name: type.name,
             asserts: type.asserts,
-            targetType: type.targetType ? this.owner.toObject(type.targetType) : undefined
+            targetType: type.targetType
+                ? this.owner.toObject(type.targetType)
+                : undefined,
         };
     }
 }

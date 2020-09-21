@@ -1,4 +1,4 @@
-import { Type, UnionType, IntersectionType } from './index';
+import { Type, UnionType, IntersectionType } from "./index";
 
 /**
  * Represents an array type.
@@ -8,7 +8,6 @@ import { Type, UnionType, IntersectionType } from './index';
  * ~~~
  */
 export class ArrayType extends Type {
-
     /**
      * The type of the array elements.
      */
@@ -17,7 +16,7 @@ export class ArrayType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'array';
+    readonly type = "array";
 
     /**
      * Create a new TupleType instance.
@@ -56,10 +55,13 @@ export class ArrayType extends Type {
      */
     toString() {
         const elementTypeStr = this.elementType.toString();
-        if (this.elementType instanceof UnionType || this.elementType instanceof IntersectionType) {
-            return '(' + elementTypeStr + ')[]';
+        if (
+            this.elementType instanceof UnionType ||
+            this.elementType instanceof IntersectionType
+        ) {
+            return "(" + elementTypeStr + ")[]";
         } else {
-            return elementTypeStr + '[]';
+            return elementTypeStr + "[]";
         }
     }
 }

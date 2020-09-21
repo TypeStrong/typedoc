@@ -1,12 +1,16 @@
-import * as FS from 'fs';
-import * as Path from 'path';
+import * as FS from "fs";
+import * as Path from "path";
 
-import { DefaultTheme } from './DefaultTheme';
-import { Renderer } from '../renderer';
-import { UrlMapping } from '../models/UrlMapping';
-import { Reflection, DeclarationReflection, ProjectReflection } from '../../models/reflections/index';
-import { PageEvent } from '../events';
-import { NavigationItem } from '../models/NavigationItem';
+import { DefaultTheme } from "./DefaultTheme";
+import { Renderer } from "../renderer";
+import { UrlMapping } from "../models/UrlMapping";
+import {
+    Reflection,
+    DeclarationReflection,
+    ProjectReflection,
+} from "../../models/reflections/index";
+import { PageEvent } from "../events";
+import { NavigationItem } from "../models/NavigationItem";
 
 export class MinimalTheme extends DefaultTheme {
     /**
@@ -18,10 +22,10 @@ export class MinimalTheme extends DefaultTheme {
     constructor(renderer: Renderer, basePath: string) {
         super(renderer, basePath);
 
-        renderer.removeComponent('assets');
-        renderer.removeComponent('javascriptIndex');
-        renderer.removeComponent('navigation');
-        renderer.removeComponent('toc');
+        renderer.removeComponent("assets");
+        renderer.removeComponent("javascriptIndex");
+        renderer.removeComponent("navigation");
+        renderer.removeComponent("toc");
 
         this.listenTo(renderer, PageEvent.BEGIN, this.onRendererBeginPage);
     }
@@ -34,7 +38,7 @@ export class MinimalTheme extends DefaultTheme {
      *              otherwise FALSE.
      */
     isOutputDirectory(path: string): boolean {
-        if (!FS.existsSync(Path.join(path, 'index.html'))) {
+        if (!FS.existsSync(Path.join(path, "index.html"))) {
             return false;
         }
         return true;
@@ -49,9 +53,9 @@ export class MinimalTheme extends DefaultTheme {
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
-        urls.push(new UrlMapping('index.html', project, 'index.hbs'));
+        urls.push(new UrlMapping("index.html", project, "index.hbs"));
 
-        project.url = 'index.html';
+        project.url = "index.html";
         project.anchor = undefined;
         project.hasOwnDocument = true;
 

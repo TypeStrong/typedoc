@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import * as Path from "path";
 
 /**
  * Helper class that determines the common base path of a set of files.
@@ -18,12 +18,12 @@ export class BasePath {
      * @param fileName  The absolute filename that should be added to the base path.
      */
     add(fileName: string) {
-        const fileDir  = Path.dirname(BasePath.normalize(fileName));
-        const filePath = fileDir.split('/');
+        const fileDir = Path.dirname(BasePath.normalize(fileName));
+        const filePath = fileDir.split("/");
 
         basePaths: for (let n = 0, c = this.basePaths.length; n < c; n++) {
-            const basePath = this.basePaths[n].split('/');
-            const mMax     = Math.min(basePath.length, filePath.length);
+            const basePath = this.basePaths[n].split("/");
+            const mMax = Math.min(basePath.length, filePath.length);
             for (let m = 0; m < mMax; m++) {
                 if (basePath[m] === filePath[m]) {
                     continue;
@@ -35,14 +35,14 @@ export class BasePath {
                 } else {
                     // Partial match, trim the known base path
                     if (m < basePath.length) {
-                        this.basePaths[n] = basePath.slice(0, m).join('/');
+                        this.basePaths[n] = basePath.slice(0, m).join("/");
                     }
                     return;
                 }
             }
 
             // Complete match, exit
-            this.basePaths[n] = basePath.splice(0, mMax).join('/');
+            this.basePaths[n] = basePath.splice(0, mMax).join("/");
             return;
         }
 
@@ -83,12 +83,12 @@ export class BasePath {
      */
     static normalize(path: string): string {
         // Ensure forward slashes
-        path = path.replace(/\\/g, '/');
+        path = path.replace(/\\/g, "/");
 
         // Remove all surrounding quotes
-        path = path.replace(/^["']+|["']+$/g, '');
+        path = path.replace(/^["']+|["']+$/g, "");
 
         // Make Windows drive letters lower case
-        return path.replace(/^([^\:]+)\:\//, (m, m1) => m1.toUpperCase() + ':/');
+        return path.replace(/^([^:]+):\//, (m, m1) => m1.toUpperCase() + ":/");
     }
 }

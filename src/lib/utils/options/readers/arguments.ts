@@ -1,12 +1,12 @@
-import { OptionsReader, Options } from '..';
-import { Logger } from '../../loggers';
-import { ParameterType } from '../declaration';
+import { OptionsReader, Options } from "..";
+import { Logger } from "../../loggers";
+import { ParameterType } from "../declaration";
 
 /**
  * Obtains option values from command-line arguments
  */
 export class ArgumentsReader implements OptionsReader {
-    readonly name = 'arguments';
+    readonly name = "arguments";
     readonly priority: number;
     private args: string[];
 
@@ -34,18 +34,23 @@ export class ArgumentsReader implements OptionsReader {
 
         while (index < this.args.length) {
             const name = this.args[index];
-            const decl = name.startsWith('-')
-                ? (index++, options.getDeclaration(name.replace(/^--?/, '')))
-                : options.getDeclaration('inputFiles');
+            const decl = name.startsWith("-")
+                ? (index++, options.getDeclaration(name.replace(/^--?/, "")))
+                : options.getDeclaration("inputFiles");
 
             if (decl) {
                 if (seen.has(decl.name) && decl.type === ParameterType.Array) {
-                    trySet(decl.name, (options.getValue(decl.name) as string[]).concat(this.args[index]));
+                    trySet(
+                        decl.name,
+                        (options.getValue(decl.name) as string[]).concat(
+                            this.args[index]
+                        )
+                    );
                 } else if (decl.type === ParameterType.Boolean) {
                     const value = String(this.args[index]).toLowerCase();
 
-                    if (value === 'true' || value === 'false') {
-                        trySet(decl.name, value === 'true');
+                    if (value === "true" || value === "false") {
+                        trySet(decl.name, value === "true");
                     } else {
                         trySet(decl.name, true);
                         // Bool option didn't consume the next argument as expected.

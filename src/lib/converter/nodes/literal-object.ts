@@ -1,17 +1,17 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { Reflection } from '../../models/index';
-import { Context } from '../context';
-import { Component, ConverterNodeComponent } from '../components';
+import { Reflection } from "../../models/index";
+import { Context } from "../context";
+import { Component, ConverterNodeComponent } from "../components";
 
-@Component({name: 'node:literal-object'})
-export class ObjectLiteralConverter extends ConverterNodeComponent<ts.ObjectLiteralExpression> {
+@Component({ name: "node:literal-object" })
+export class ObjectLiteralConverter extends ConverterNodeComponent<
+    ts.ObjectLiteralExpression
+> {
     /**
      * List of supported TypeScript syntax kinds.
      */
-    supports: ts.SyntaxKind[] = [
-        ts.SyntaxKind.ObjectLiteralExpression
-    ];
+    supports: ts.SyntaxKind[] = [ts.SyntaxKind.ObjectLiteralExpression];
 
     /**
      * Analyze the given object literal node and create a suitable reflection.

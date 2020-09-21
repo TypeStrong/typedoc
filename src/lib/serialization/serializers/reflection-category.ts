@@ -1,11 +1,11 @@
-import { ReflectionCategory } from '../../models/ReflectionCategory';
+import { ReflectionCategory } from "../../models/ReflectionCategory";
 
-import { SerializerComponent } from '../components';
-import {
-    ReflectionCategory as JSONReflectionCategory
-} from '../schema';
+import { SerializerComponent } from "../components";
+import { ReflectionCategory as JSONReflectionCategory } from "../schema";
 
-export class ReflectionCategorySerializer extends SerializerComponent<ReflectionCategory> {
+export class ReflectionCategorySerializer extends SerializerComponent<
+    ReflectionCategory
+> {
     static PRIORITY = 1000;
 
     /**
@@ -19,14 +19,17 @@ export class ReflectionCategorySerializer extends SerializerComponent<Reflection
         return r instanceof ReflectionCategory;
     }
 
-    toObject(category: ReflectionCategory, obj?: Partial<JSONReflectionCategory>): JSONReflectionCategory {
+    toObject(
+        category: ReflectionCategory,
+        obj?: Partial<JSONReflectionCategory>
+    ): JSONReflectionCategory {
         const result: JSONReflectionCategory = {
             ...obj,
-            title: category.title
+            title: category.title,
         };
 
         if (category.children && category.children.length > 0) {
-            result.children = category.children.map(child => child.id);
+            result.children = category.children.map((child) => child.id);
         }
 
         return result;

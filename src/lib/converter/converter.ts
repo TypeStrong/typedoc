@@ -1,15 +1,25 @@
-import * as ts from 'typescript';
-import * as _ts from '../ts-internal';
-import * as _ from 'lodash';
+import * as ts from "typescript";
+import * as _ts from "../ts-internal";
+import * as _ from "lodash";
 
-import { Application } from '../application';
-import { Reflection, Type, ProjectReflection } from '../models/index';
-import { Context } from './context';
-import { ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, TypeTypeConverter, TypeNodeConverter } from './components';
-import { Component, ChildableComponent, ComponentClass } from '../utils/component';
-import { BindOption } from '../utils';
-import { normalizePath } from '../utils/fs';
-import { createMinimatch } from '../utils/paths';
+import { Application } from "../application";
+import { Reflection, Type, ProjectReflection } from "../models/index";
+import { Context } from "./context";
+import {
+    ConverterComponent,
+    ConverterNodeComponent,
+    ConverterTypeComponent,
+    TypeTypeConverter,
+    TypeNodeConverter,
+} from "./components";
+import {
+    Component,
+    ChildableComponent,
+    ComponentClass,
+} from "../utils/component";
+import { BindOption } from "../utils";
+import { normalizePath } from "../utils/fs";
+import { createMinimatch } from "../utils/paths";
 
 /**
  * Result structure of the [[Converter.convert]] method.
@@ -29,39 +39,48 @@ export interface ConverterResult {
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
  */
-@Component({name: 'converter', internal: true, childClass: ConverterComponent})
-export class Converter extends ChildableComponent<Application, ConverterComponent> {
+@Component({
+    name: "converter",
+    internal: true,
+    childClass: ConverterComponent,
+})
+export class Converter extends ChildableComponent<
+    Application,
+    ConverterComponent
+> {
     /**
      * The human readable name of the project. Used within the templates to set the title of the document.
      */
-    @BindOption('name')
+    @BindOption("name")
     name!: string;
 
-    @BindOption('externalPattern')
+    @BindOption("externalPattern")
     externalPattern!: Array<string>;
 
-    @BindOption('includeDeclarations')
+    @BindOption("includeDeclarations")
     includeDeclarations!: boolean;
 
-    @BindOption('excludeExternals')
+    @BindOption("excludeExternals")
     excludeExternals!: boolean;
 
-    @BindOption('excludeNotExported')
+    @BindOption("excludeNotExported")
     excludeNotExported!: boolean;
 
-    @BindOption('excludeNotDocumented')
+    @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
-    @BindOption('excludePrivate')
+    @BindOption("excludePrivate")
     excludePrivate!: boolean;
 
-    @BindOption('excludeProtected')
+    @BindOption("excludeProtected")
     excludeProtected!: boolean;
 
     /**
      * Defined in the initialize method
      */
-    private nodeConverters!: {[syntaxKind: number]: ConverterNodeComponent<ts.Node>};
+    private nodeConverters!: {
+        [syntaxKind: number]: ConverterNodeComponent<ts.Node>;
+    };
 
     /**
      * Defined in the initialize method
@@ -82,14 +101,14 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_BEGIN = 'begin';
+    static EVENT_BEGIN = "begin";
 
     /**
      * Triggered when the converter has finished converting a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_END = 'end';
+    static EVENT_END = "end";
 
     /**
      * Factory events
@@ -100,42 +119,42 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FILE_BEGIN = 'fileBegin';
+    static EVENT_FILE_BEGIN = "fileBegin";
 
     /**
      * Triggered when the converter has created a declaration reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_DECLARATION = 'createDeclaration';
+    static EVENT_CREATE_DECLARATION = "createDeclaration";
 
     /**
      * Triggered when the converter has created a signature reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_SIGNATURE = 'createSignature';
+    static EVENT_CREATE_SIGNATURE = "createSignature";
 
     /**
      * Triggered when the converter has created a parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_PARAMETER = 'createParameter';
+    static EVENT_CREATE_PARAMETER = "createParameter";
 
     /**
      * Triggered when the converter has created a type parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_TYPE_PARAMETER = 'createTypeParameter';
+    static EVENT_CREATE_TYPE_PARAMETER = "createTypeParameter";
 
     /**
      * Triggered when the converter has found a function implementation.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FUNCTION_IMPLEMENTATION = 'functionImplementation';
+    static EVENT_FUNCTION_IMPLEMENTATION = "functionImplementation";
 
     /**
      * Resolve events
@@ -146,21 +165,21 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_BEGIN = 'resolveBegin';
+    static EVENT_RESOLVE_BEGIN = "resolveBegin";
 
     /**
      * Triggered when the converter resolves a reflection.
      * The listener should implement [[IConverterResolveCallback]].
      * @event
      */
-    static EVENT_RESOLVE = 'resolveReflection';
+    static EVENT_RESOLVE = "resolveReflection";
 
     /**
      * Triggered when the converter has finished resolving a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_END = 'resolveEnd';
+    static EVENT_RESOLVE_END = "resolveEnd";
 
     /**
      * Create a new Converter instance.
@@ -174,7 +193,10 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.typeNodeConverters = [];
     }
 
-    addComponent<T extends ConverterComponent & Component>(name: string, componentClass: T | ComponentClass<T>): T {
+    addComponent<T extends ConverterComponent & Component>(
+        name: string,
+        componentClass: T | ComponentClass<T>
+    ): T {
         const component = super.addComponent(name, componentClass);
         if (component instanceof ConverterNodeComponent) {
             this.addNodeConverter(component);
@@ -192,13 +214,15 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private addTypeConverter(converter: ConverterTypeComponent) {
-        if ('supportsNode' in converter && 'convertNode' in converter) {
-            this.typeNodeConverters.push(<TypeNodeConverter<any, any>> converter);
+        if ("supportsNode" in converter && "convertNode" in converter) {
+            this.typeNodeConverters.push(
+                <TypeNodeConverter<any, any>>converter
+            );
             this.typeNodeConverters.sort((a, b) => b.priority - a.priority);
         }
 
-        if ('supportsType' in converter && 'convertType' in converter) {
-            this.typeTypeConverters.push(<TypeTypeConverter<any>> converter);
+        if ("supportsType" in converter && "convertType" in converter) {
+            this.typeTypeConverters.push(<TypeTypeConverter<any>>converter);
             this.typeTypeConverters.sort((a, b) => b.priority - a.priority);
         }
     }
@@ -225,12 +249,12 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     }
 
     private removeTypeConverter(converter: ConverterTypeComponent) {
-        const typeIndex = this.typeTypeConverters.indexOf(<any> converter);
+        const typeIndex = this.typeTypeConverters.indexOf(<any>converter);
         if (typeIndex !== -1) {
             this.typeTypeConverters.splice(typeIndex, 1);
         }
 
-        const nodeIndex = this.typeNodeConverters.indexOf(<any> converter);
+        const nodeIndex = this.typeNodeConverters.indexOf(<any>converter);
         if (nodeIndex !== -1) {
             this.typeNodeConverters.splice(nodeIndex, 1);
         }
@@ -252,9 +276,14 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     convert(fileNames: string[]): ConverterResult {
         // JSON files should never result in extra members in the documentation, but need to be included so that TS
         // can find them.
-        const normalizedFiles = fileNames.map(normalizePath).filter(path => !path.endsWith('.json'));
+        const normalizedFiles = fileNames
+            .map(normalizePath)
+            .filter((path) => !path.endsWith(".json"));
 
-        const program = ts.createProgram(normalizedFiles, this.application.options.getCompilerOptions());
+        const program = ts.createProgram(
+            normalizedFiles,
+            this.application.options.getCompilerOptions()
+        );
         const checker = program.getTypeChecker();
         const context = new Context(this, normalizedFiles, checker, program);
 
@@ -265,19 +294,21 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
 
         const dangling = project.getDanglingReferences();
         if (dangling.length) {
-            this.owner.logger.warn([
-                'Some names refer to reflections that do not exist.',
-                'This can be caused by exporting a reflection only under a different name than it is declared when excludeNotExported is set',
-                'or by a plugin removing reflections without removing references. The names that cannot be resolved are:',
-                ...dangling
-            ].join('\n'));
+            this.owner.logger.warn(
+                [
+                    "Some names refer to reflections that do not exist.",
+                    "This can be caused by exporting a reflection only under a different name than it is declared when excludeNotExported is set",
+                    "or by a plugin removing reflections without removing references. The names that cannot be resolved are:",
+                    ...dangling,
+                ].join("\n")
+            );
         }
 
         this.trigger(Converter.EVENT_END, context);
 
         return {
             errors: errors,
-            project: project
+            project: project,
         };
     }
 
@@ -316,7 +347,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param type  The type of the node if already known.
      * @returns The TypeDoc type reflection representing the given node and type.
      */
-    convertType(context: Context, node?: ts.Node, type?: ts.Type): Type | undefined {
+    convertType(
+        context: Context,
+        node?: ts.Node,
+        type?: ts.Type
+    ): Type | undefined {
         // Run all node based type conversions
         if (node) {
             type = type || context.getTypeAtLocation(node);
@@ -344,7 +379,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @param context
      * @param nodes
      */
-    convertTypes(context: Context, nodes: ReadonlyArray<ts.Node> = [], types: ReadonlyArray<ts.Type> = []): Type[] {
+    convertTypes(
+        context: Context,
+        nodes: ReadonlyArray<ts.Node> = [],
+        types: ReadonlyArray<ts.Type> = []
+    ): Type[] {
         const result: Type[] = [];
         _.zip(nodes, types).forEach(([node, type]) => {
             const converted = this.convertType(context, node, type);
@@ -364,9 +403,11 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     private compile(context: Context): ReadonlyArray<ts.Diagnostic> {
         const program = context.program;
         const exclude = createMinimatch(this.application.exclude || []);
-        const isExcluded = (file: ts.SourceFile) => exclude.some(mm => mm.match(file.fileName));
-        const includedSourceFiles = program.getSourceFiles()
-            .filter(file => !isExcluded(file));
+        const isExcluded = (file: ts.SourceFile) =>
+            exclude.some((mm) => mm.match(file.fileName));
+        const includedSourceFiles = program
+            .getSourceFiles()
+            .filter((file) => !isExcluded(file));
 
         const errors = this.getCompilerErrors(program, includedSourceFiles);
         if (errors.length) {
@@ -390,25 +431,28 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.trigger(Converter.EVENT_RESOLVE_BEGIN, context);
         const project = context.project;
 
-        for (const id in project.reflections) {
-            if (!project.reflections.hasOwnProperty(id)) {
-                continue;
-            }
-            this.trigger(Converter.EVENT_RESOLVE, context, project.reflections[id]);
+        for (const reflection of Object.values(project.reflections)) {
+            this.trigger(Converter.EVENT_RESOLVE, context, reflection);
         }
 
         this.trigger(Converter.EVENT_RESOLVE_END, context);
         return project;
     }
 
-    private getCompilerErrors(program: ts.Program, includedSourceFiles: readonly ts.SourceFile[]): ReadonlyArray<ts.Diagnostic> {
+    private getCompilerErrors(
+        program: ts.Program,
+        includedSourceFiles: readonly ts.SourceFile[]
+    ): ReadonlyArray<ts.Diagnostic> {
         if (this.application.ignoreCompilerErrors) {
             return [];
         }
 
-        const isRelevantError = ({ file }: ts.Diagnostic) => !file || includedSourceFiles.includes(file);
+        const isRelevantError = ({ file }: ts.Diagnostic) =>
+            !file || includedSourceFiles.includes(file);
 
-        let diagnostics = program.getOptionsDiagnostics().filter(isRelevantError);
+        let diagnostics = program
+            .getOptionsDiagnostics()
+            .filter(isRelevantError);
         if (diagnostics.length) {
             return diagnostics;
         }
@@ -437,6 +481,8 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
      * @returns The basename of the default library.
      */
     getDefaultLib(): string {
-        return ts.getDefaultLibFileName(this.application.options.getCompilerOptions());
+        return ts.getDefaultLibFileName(
+            this.application.options.getCompilerOptions()
+        );
     }
 }

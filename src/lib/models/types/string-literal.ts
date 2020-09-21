@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a string literal type.
@@ -16,7 +16,7 @@ export class StringLiteralType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'stringLiteral';
+    readonly type = "stringLiteral";
 
     /**
      * Create a new instance of StringLiteralType.
@@ -44,8 +44,7 @@ export class StringLiteralType extends Type {
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
     equals(type: StringLiteralType): boolean {
-        return type instanceof StringLiteralType &&
-            type.value === this.value;
+        return type instanceof StringLiteralType && type.value === this.value;
     }
 
     /**

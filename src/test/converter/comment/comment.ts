@@ -2,7 +2,7 @@
  * This is a module doc comment with legacy behavior.
  */
 /** dummy comment */
-import './comment2';
+import "./comment2";
 
 /**
  * A Comment for a class
@@ -31,56 +31,56 @@ import './comment2';
  * @type {Data<object>} will also be removed
  */
 export class CommentedClass {
-  /**
-   * The main prop
-   */
-  prop: string;
+    /**
+     * The main prop
+     */
+    prop: string;
 
-  /**
-   * @hidden
-   */
-  hiddenprop: string;
+    /**
+     * @hidden
+     */
+    hiddenprop: string;
 
-  /**
-   * Hidden function
-   * @hidden
-   */
-  hidden(...args: any[]): void {}
+    /**
+     * Hidden function
+     * @hidden
+     */
+    hidden(...args: any[]): void {}
 
-  /**
-   * Single hidden signature
-   * @hidden
-   */
-  hiddenWithImplementation(arg: any);
-  hiddenWithImplementation(...args: any[]): void {}
+    /**
+     * Single hidden signature
+     * @hidden
+     */
+    hiddenWithImplementation(arg: any);
+    hiddenWithImplementation(...args: any[]): void {}
 
-  /**
-   * Multiple hidden 1
-   * @hidden
-   */
-  multipleHidden(arg: any);
-  /**
-   * Multiple hidden 2
-   * @hidden
-   */
-  multipleHidden(arg1: any, arg2: any);
-  multipleHidden(...args: any[]): void {}
+    /**
+     * Multiple hidden 1
+     * @hidden
+     */
+    multipleHidden(arg: any);
+    /**
+     * Multiple hidden 2
+     * @hidden
+     */
+    multipleHidden(arg1: any, arg2: any);
+    multipleHidden(...args: any[]): void {}
 
-  /**
-   * Mixed hidden 1
-   * @hidden
-   */
-  mixedHidden(arg: any);
-  /**
-   * Mixed hidden 2
-   */
-  mixedHidden(arg1: any, arg2: any);
-  mixedHidden(...args: any[]): void {}
+    /**
+     * Mixed hidden 1
+     * @hidden
+     */
+    mixedHidden(arg: any);
+    /**
+     * Mixed hidden 2
+     */
+    mixedHidden(arg1: any, arg2: any);
+    mixedHidden(...args: any[]): void {}
 
-  /**
-   * @ignore
-   */
-  ignoredprop: string;
+    /**
+     * @ignore
+     */
+    ignoredprop: string;
 }
 
 /** Function description

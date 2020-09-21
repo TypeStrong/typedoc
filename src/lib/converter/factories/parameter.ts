@@ -1,9 +1,14 @@
-import * as ts from 'typescript';
+import * as ts from "typescript";
 
-import { ReflectionFlag, ReflectionKind, ParameterReflection, SignatureReflection } from '../../models/reflections/index';
-import { Context } from '../context';
-import { Converter } from '../converter';
-import { convertDefaultValue } from '../convert-expression';
+import {
+    ReflectionFlag,
+    ReflectionKind,
+    ParameterReflection,
+    SignatureReflection,
+} from "../../models/reflections/index";
+import { Context } from "../context";
+import { Converter } from "../converter";
+import { convertDefaultValue } from "../convert-expression";
 
 /**
  * Create a parameter reflection for the given node.
@@ -12,9 +17,12 @@ import { convertDefaultValue } from '../convert-expression';
  * @param node  The parameter node that should be reflected.
  * @returns The newly created parameter reflection.
  */
-export function createParameter(context: Context, node: ts.ParameterDeclaration): ParameterReflection | undefined {
+export function createParameter(
+    context: Context,
+    node: ts.ParameterDeclaration
+): ParameterReflection | undefined {
     if (!(context.scope instanceof SignatureReflection)) {
-        throw new Error('Expected signature reflection.');
+        throw new Error("Expected signature reflection.");
     }
     const signature = context.scope;
 
@@ -22,21 +30,38 @@ export function createParameter(context: Context, node: ts.ParameterDeclaration)
         return;
     }
 
-    const parameter = new ParameterReflection(node.symbol.name, ReflectionKind.Parameter, signature);
-    parameter.flags.setFlag(ReflectionFlag.Exported, context.scope.flags.isExported);
+    const parameter = new ParameterReflection(
+        node.symbol.name,
+        ReflectionKind.Parameter,
+        signature
+    );
+    parameter.flags.setFlag(
+        ReflectionFlag.Exported,
+        context.scope.flags.isExported
+    );
     context.registerReflection(parameter);
     context.withScope(parameter, () => {
-        if (ts.isArrayBindingPattern(node.name) || ts.isObjectBindingPattern(node.name)) {
+        if (
+            ts.isArrayBindingPattern(node.name) ||
+            ts.isObjectBindingPattern(node.name)
+        ) {
             parameter.type = context.converter.convertType(context, node.name);
-            parameter.name = '__namedParameters';
+            parameter.name = "__namedParameters";
         } else {
-            parameter.type = context.converter.convertType(context, node.type, context.getTypeAtLocation(node));
+            parameter.type = context.converter.convertType(
+                context,
+                node.type,
+                context.getTypeAtLocation(node)
+            );
         }
 
         parameter.defaultValue = convertDefaultValue(node);
         parameter.setFlag(ReflectionFlag.Optional, !!node.questionToken);
         parameter.setFlag(ReflectionFlag.Rest, !!node.dotDotDotToken);
-        parameter.setFlag(ReflectionFlag.DefaultValue, !!parameter.defaultValue);
+        parameter.setFlag(
+            ReflectionFlag.DefaultValue,
+            !!parameter.defaultValue
+        );
 
         if (!signature.parameters) {
             signature.parameters = [];

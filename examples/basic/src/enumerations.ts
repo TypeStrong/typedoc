@@ -30,7 +30,7 @@ export enum Directions {
     /**
      * A composite enum member.
      */
-    TopRight = Top | Right
+    TopRight = Top | Right,
 }
 
 /**
@@ -52,7 +52,7 @@ export enum Size {
     /**
      * A simple enum member.
      */
-    Large
+    Large,
 }
 
 /**

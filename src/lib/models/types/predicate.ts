@@ -1,4 +1,4 @@
-import { Type } from './abstract';
+import { Type } from "./abstract";
 
 /**
  * Represents a type predicate.
@@ -30,7 +30,7 @@ export class PredicateType extends Type {
     /**
      * The type name identifier.
      */
-    readonly type = 'predicate';
+    readonly type = "predicate";
 
     /**
      * Create a new PredicateType instance.
@@ -69,20 +69,22 @@ export class PredicateType extends Type {
             return false;
         }
 
-        return this.name === type.name
-            && this.asserts === type.asserts
-            && (this.targetType?.equals(type.targetType!) ?? true);
+        return (
+            this.name === type.name &&
+            this.asserts === type.asserts &&
+            (this.targetType?.equals(type.targetType!) ?? true)
+        );
     }
 
     /**
      * Return a string representation of this type.
      */
     toString() {
-        const out = this.asserts ? ['asserts', this.name] : [this.name];
+        const out = this.asserts ? ["asserts", this.name] : [this.name];
         if (this.targetType) {
-            out.push('is', this.targetType.toString());
+            out.push("is", this.targetType.toString());
         }
 
-        return out.join(' ');
+        return out.join(" ");
     }
 }

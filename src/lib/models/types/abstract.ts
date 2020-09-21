@@ -4,11 +4,10 @@
  * Instances of this class are also used to represent the type `void`.
  */
 export abstract class Type {
-
     /**
      * The type name identifier.
      */
-    readonly type: string = 'void';
+    readonly type: string = "void";
 
     /**
      * Clone this type.
@@ -31,7 +30,7 @@ export abstract class Type {
      * Return a string representation of this type.
      */
     toString(): string {
-        return 'void';
+        return "void";
     }
 
     /**
