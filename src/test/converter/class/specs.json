@@ -1949,7 +1949,7 @@
                 "name": "decoratorWithOptions"
               },
               "arguments": {
-                "options": "{\n    name: 'Name of class'\n}"
+                "options": "{\n    name: \"Name of class\",\n}"
               }
             }
           ],

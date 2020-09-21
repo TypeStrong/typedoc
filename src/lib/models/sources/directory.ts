@@ -65,11 +65,8 @@ export class SourceDirectory {
     toString(indent = "") {
         let res = indent + this.name;
 
-        for (const key in this.directories) {
-            if (!Object.prototype.hasOwnProperty.call(this.directories, key)) {
-                continue;
-            }
-            res += "\n" + this.directories[key].toString(indent + "  ");
+        for (const dir of Object.values(this.directories)) {
+            res += "\n" + dir.toString(indent + "  ");
         }
 
         this.files.forEach((file) => {

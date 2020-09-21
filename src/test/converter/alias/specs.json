@@ -414,20 +414,20 @@
                       "isExported": true
                     },
                     "type": {
-                      "default": {
-                          "declaration": {
-                            "flags": {
-                              "isExported": true
-                            },
-                            "id": 24,
-                            "kind": 65536,
-                            "kindString": "Type literal",
-                            "name": "__type"
-                          },
-                          "type": "reflection"
-                        },
                       "type": "typeParameter",
-                      "name": "R"
+                      "name": "R",
+                      "default": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 24,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          }
+                        }
+                      }
                     }
                   },
                   {

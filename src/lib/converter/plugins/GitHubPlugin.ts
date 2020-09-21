@@ -231,12 +231,7 @@ export class GitHubPlugin extends ConverterComponent {
         }
 
         // Check for known repositories
-        for (const path in this.repositories) {
-            if (
-                !Object.prototype.hasOwnProperty.apply(this.repositories, path)
-            ) {
-                continue;
-            }
+        for (const path of Object.keys(this.repositories)) {
             if (fileName.substr(0, path.length).toLowerCase() === path) {
                 return this.repositories[path];
             }
