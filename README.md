@@ -57,8 +57,6 @@ For a complete list of the command line arguments run `typedoc --help` or visit 
     Specify a json option file that should be loaded. If not specified TypeDoc will look for 'typedoc.json' in the current directory.
 -   `--json <path/to/output.json>`<br>
     Specifies the location and file name a json file describing the project is written to. When specified no documentation will be generated.
--   `--ignoreCompilerErrors`<br>
-    Allows TypeDoc to still generate documentation pages even after the compiler has returned errors.
 
 #### Source file handling
 
