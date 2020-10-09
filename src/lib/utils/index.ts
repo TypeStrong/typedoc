@@ -36,7 +36,6 @@ export {
     ParameterHint,
     ParameterScope,
     BindOption,
-    SourceFileMode,
 } from "./options";
 export { insertPrioritySorted, removeIfPresent } from "./array";
 export { Component, AbstractComponent, ChildableComponent } from "./component";

@@ -9,7 +9,6 @@ import {
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
 import { createReferenceReflection } from "../factories/reference";
-import { SourceFileMode } from "../../utils";
 
 @Component({ name: "node:export" })
 export class ExportConverter extends ConverterNodeComponent<
@@ -78,14 +77,6 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
         node: ts.ExportDeclaration
     ): Reflection | undefined {
         const withinNamespace = node.parent.kind === ts.SyntaxKind.ModuleBlock;
-
-        // It doesn't make sense to convert export declarations if we are pretending everything is global.
-        if (
-            this.application.options.getValue("mode") === SourceFileMode.File &&
-            !withinNamespace
-        ) {
-            return;
-        }
 
         const scope = context.scope;
         if (!(scope instanceof ContainerReflection)) {

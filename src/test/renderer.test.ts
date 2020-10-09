@@ -65,7 +65,6 @@ describe("Renderer", function () {
     it("constructs", function () {
         app = new Application();
         app.bootstrap({
-            mode: "modules",
             logger: "console",
             target: ScriptTarget.ES5,
             readme: Path.join(src, "..", "README.md"),

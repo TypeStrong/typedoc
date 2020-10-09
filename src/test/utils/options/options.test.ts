@@ -18,6 +18,13 @@ describe("Options", () => {
         getValue(name: string): unknown;
     };
     options.addDefaultDeclarations();
+    options.addDeclaration({
+        name: "mapped",
+        type: ParameterType.Map,
+        map: { a: 1 },
+        defaultValue: 2,
+        help: "",
+    });
 
     it("Errors on duplicate declarations", () => {
         logger.resetErrors();
@@ -103,7 +110,7 @@ describe("Options", () => {
     });
 
     it("Errors if converting a set value errors", () => {
-        throws(() => options.setValue("mode", "nonsense" as any));
+        throws(() => options.setValue("mapped" as any, "nonsense" as any));
     });
 
     it("Supports directly getting values", () => {
