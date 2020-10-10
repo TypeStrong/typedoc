@@ -126,7 +126,7 @@ describe("Events", function () {
         Assert.equal(obj.counter, 5);
     });
 
-    it("binding and trigger with event maps context", function () {
+    it("binding and trigger with event maps context", function (this: any) {
         const obj = new Events();
         obj.counter = 0;
         const context = {};
@@ -147,7 +147,7 @@ describe("Events", function () {
         obj.off()
             .on(
                 {
-                    a: function () {
+                    a: function (this: any) {
                         Assert.strictEqual(
                             this,
                             context,
@@ -461,7 +461,7 @@ describe("Events", function () {
         let b = false;
         const obj = new Events();
         obj.counter = 0;
-        obj.on("all", function (event) {
+        obj.on("all", function (event: string) {
             obj.counter++;
             if (event === "a") {
                 a = true;
@@ -888,7 +888,7 @@ describe("Events", function () {
         const one = new Events();
         const two = new Events();
         let count = 1;
-        one.listenToOnce(two, "x y", function (n) {
+        one.listenToOnce(two, "x y", function (n: number) {
             Assert(n === count++);
         });
         two.trigger("x", 1);
@@ -903,7 +903,7 @@ describe("Events (customized)", function () {
         let count = 0;
         const events = new Events();
         const event = new Event("myEvent");
-        events.on("myEvent", function (e) {
+        events.on("myEvent", function (e: Event) {
             Assert(e instanceof Event);
             count += 1;
         });
@@ -915,7 +915,7 @@ describe("Events (customized)", function () {
         let count = 0;
         const events = new Events();
         const event = new Event("myEvent");
-        events.on("myEvent", function (e) {
+        events.on("myEvent", function (e: Event) {
             count++;
             e.stopPropagation();
         });

@@ -15,7 +15,7 @@ export class DecoratorPlugin extends ConverterComponent {
     /**
      * Defined in this.onBegin
      */
-    private usages!: { [fqn: number]: ReferenceType[] };
+    private usages!: { [fqn: string]: ReferenceType[] };
 
     /**
      * Create a new ImplementsPlugin instance.
@@ -40,7 +40,7 @@ export class DecoratorPlugin extends ConverterComponent {
         args: ts.NodeArray<ts.Expression>,
         signature: ts.Signature
     ): { [name: string]: string | string[] } {
-        const result = {};
+        const result: any = {};
         args.forEach((arg: ts.Expression, index: number) => {
             if (index < signature.parameters.length) {
                 const parameter = signature.parameters[index];

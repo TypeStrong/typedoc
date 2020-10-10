@@ -9,7 +9,6 @@
         "experimentalDecorators": true,
 
         "strict": true,
-        "noImplicitAny": false,
         "alwaysStrict": true,
 
         // For tests

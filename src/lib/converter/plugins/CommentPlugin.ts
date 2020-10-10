@@ -212,7 +212,7 @@ export class CommentPlugin extends ConverterComponent {
         if (
             reflection.kindOf(ReflectionKind.FunctionOrMethod) ||
             (reflection.kindOf(ReflectionKind.Event) &&
-                reflection["signatures"])
+                "signatures" in reflection)
         ) {
             const comment = parseComment(rawComment, reflection.comment);
             this.applyModifiers(reflection, comment);

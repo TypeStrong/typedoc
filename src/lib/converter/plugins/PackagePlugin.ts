@@ -89,9 +89,10 @@ export class PackagePlugin extends ConverterComponent {
     ) {
         const packageAndReadmeFound = () =>
             (this.noReadmeFile || this.readmeFile) && this.packageFile;
-        const reachedTopDirectory = (dirName) =>
+        const reachedTopDirectory = (dirName: string) =>
             dirName === Path.resolve(Path.join(dirName, ".."));
-        const visitedDirBefore = (dirName) => this.visited.includes(dirName);
+        const visitedDirBefore = (dirName: string) =>
+            this.visited.includes(dirName);
 
         if (!node) {
             return;

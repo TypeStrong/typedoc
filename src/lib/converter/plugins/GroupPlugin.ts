@@ -52,25 +52,21 @@ export class GroupPlugin extends ConverterComponent {
     /**
      * Define the singular name of individual reflection kinds.
      */
-    static SINGULARS = (function () {
-        const singulars = {};
-        singulars[ReflectionKind.Enum] = "Enumeration";
-        singulars[ReflectionKind.EnumMember] = "Enumeration member";
-        return singulars;
-    })();
+    static SINGULARS = {
+        [ReflectionKind.Enum]: "Enumeration",
+        [ReflectionKind.EnumMember]: "Enumeration member",
+    };
 
     /**
      * Define the plural name of individual reflection kinds.
      */
-    static PLURALS = (function () {
-        const plurals = {};
-        plurals[ReflectionKind.Class] = "Classes";
-        plurals[ReflectionKind.Property] = "Properties";
-        plurals[ReflectionKind.Enum] = "Enumerations";
-        plurals[ReflectionKind.EnumMember] = "Enumeration members";
-        plurals[ReflectionKind.TypeAlias] = "Type aliases";
-        return plurals;
-    })();
+    static PLURALS = {
+        [ReflectionKind.Class]: "Classes",
+        [ReflectionKind.Property]: "Properties",
+        [ReflectionKind.Enum]: "Enumerations",
+        [ReflectionKind.EnumMember]: "Enumeration members",
+        [ReflectionKind.TypeAlias]: "Type aliases",
+    };
 
     /**
      * Create a new GroupPlugin instance.

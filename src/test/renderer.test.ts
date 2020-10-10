@@ -3,7 +3,7 @@ import * as FS from "fs-extra";
 import * as Path from "path";
 import Assert = require("assert");
 
-function getFileIndex(base, dir = "", results: string[] = []) {
+function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
     files.forEach(function (file) {
         if (file === "assets") {
@@ -20,10 +20,10 @@ function getFileIndex(base, dir = "", results: string[] = []) {
     return results.sort();
 }
 
-function compareDirectories(a, b) {
+function compareDirectories(a: string, b: string) {
     const aFiles = getFileIndex(a);
     const bFiles = getFileIndex(b);
-    Assert.deepEqual(
+    Assert.deepStrictEqual(
         aFiles,
         bFiles,
         `Generated files differ. between "${a}" and "${b}"`

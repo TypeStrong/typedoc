@@ -293,25 +293,12 @@ export interface Type {}
 
 // Miscellaneous
 
+type BoolKeys<T> = {
+    [K in keyof T]-?: T[K] extends boolean ? K : never;
+}[keyof T];
+
 export interface ReflectionFlags
-    extends Partial<
-        S<
-            M.ReflectionFlags,
-            | "isPrivate"
-            | "isProtected"
-            | "isPublic"
-            | "isStatic"
-            | "isExported"
-            | "isExternal"
-            | "isOptional"
-            | "isRest"
-            | "hasExportAssignment"
-            | "isConstructorProperty"
-            | "isAbstract"
-            | "isConst"
-            | "isLet"
-        >
-    > {}
+    extends Partial<S<M.ReflectionFlags, BoolKeys<M.ReflectionFlags>>> {}
 
 export interface Comment
     extends Partial<S<M.Comment, "shortText" | "text" | "returns" | "tags">> {}

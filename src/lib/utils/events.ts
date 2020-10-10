@@ -15,14 +15,14 @@ export interface EventCallback extends Function {
 
 interface EventListener {
     obj: any;
-    objId: number;
-    id: number;
+    objId: string;
+    id: string;
     listeningTo: EventListeners;
     count: number;
 }
 
 interface EventListeners {
-    [id: number]: EventListener;
+    [id: string]: EventListener;
 }
 
 interface EventHandler {
@@ -79,14 +79,16 @@ function eventsApi<T, U>(
     let i = 0,
         names: string[];
 
+    const anyOptions = options as any;
+
     if (name && typeof name === "object") {
         // Handle event maps.
         if (
             callback !== void 0 &&
             "context" in options &&
-            options["context"] === void 0
+            anyOptions["context"] === void 0
         ) {
-            options["context"] = callback;
+            anyOptions["context"] = callback;
         }
 
         for (names = _.keys(name); i < names.length; i++) {
@@ -405,14 +407,19 @@ export class EventDispatcher {
      * Bind an event to a `callback` function. Passing `"all"` will bind
      * the callback to all events fired.
      */
-    on(eventMap: EventMap, context?: any);
+    on(eventMap: EventMap, context?: any): this;
     on(
         eventMap: EventMap,
         callback?: EventCallback,
         context?: any,
         priority?: number
-    );
-    on(name: string, callback: EventCallback, context?: any, priority?: number);
+    ): this;
+    on(
+        name: string,
+        callback: EventCallback,
+        context?: any,
+        priority?: number
+    ): this;
     on(
         nameOrMap: EventMap | string,
         callback: EventCallback,
@@ -458,8 +465,13 @@ export class EventDispatcher {
      * are passed in using the space-separated syntax, the handler will fire
      * once for each event, not once for a combination of all events.
      */
-    once(eventMap: EventMap, context?: any);
-    once(name: string, callback: EventCallback, context?: any, priority?: any);
+    once(eventMap: EventMap, context?: any): this;
+    once(
+        name: string,
+        callback: EventCallback,
+        context?: any,
+        priority?: any
+    ): this;
     once(
         name: EventMap | string,
         callback?: EventCallback,
@@ -483,9 +495,13 @@ export class EventDispatcher {
      * callbacks for the event. If `name` is null, removes all bound
      * callbacks for all events.
      */
-    off();
-    off(eventMap: EventMap | undefined, context?: any);
-    off(name: string | undefined, callback?: EventCallback, context?: any);
+    off(): this;
+    off(eventMap: EventMap | undefined, context?: any): this;
+    off(
+        name: string | undefined,
+        callback?: EventCallback,
+        context?: any
+    ): this;
     off(name?: EventMap | string, callback?: EventCallback, context?: any) {
         if (!this._events) {
             return this;
@@ -538,13 +554,13 @@ export class EventDispatcher {
     /**
      * Inversion-of-control versions of `once`.
      */
-    listenToOnce(obj: EventDispatcher, eventMap: EventMap);
+    listenToOnce(obj: EventDispatcher, eventMap: EventMap): this;
     listenToOnce(
         obj: EventDispatcher,
         name: string,
         callback: EventCallback,
         priority?: number
-    );
+    ): this;
     listenToOnce(
         obj: EventDispatcher,
         name: EventMap | string,

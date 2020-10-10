@@ -2,7 +2,6 @@ import { Reflection, TraverseProperty } from "../../../models";
 
 import { ReflectionSerializerComponent } from "../../components";
 import { DecoratorWrapper } from "../models";
-import { ReflectionFlags } from "../../../models/reflections/abstract";
 import { Reflection as JSONReflection } from "../../schema";
 
 export class ReflectionSerializer extends ReflectionSerializerComponent<
@@ -35,9 +34,24 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<
             result.comment = this.owner.toObject(reflection.comment);
         }
 
-        for (const key of Object.getOwnPropertyNames(
-            ReflectionFlags.prototype
-        )) {
+        const flags = [
+            "isPrivate",
+            "isProtected",
+            "isPublic",
+            "isStatic",
+            "isExported",
+            "isExternal",
+            "isOptional",
+            "isRest",
+            "hasExportAssignment",
+            "isConstructorProperty",
+            "isAbstract",
+            "isConst",
+            "isLet",
+            "isReadonly",
+        ] as const;
+
+        for (const key of flags) {
             if (reflection.flags[key] === true) {
                 result.flags[key] = true;
             }
@@ -61,10 +75,10 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<
             }
             let name = TraverseProperty[property];
             name = name[0].toLowerCase() + name.substr(1);
-            if (!result[name]) {
-                result[name] = [];
+            if (!(result as any)[name]) {
+                (result as any)[name] = [];
             }
-            result[name].push(this.owner.toObject(child));
+            (result as any)[name].push(this.owner.toObject(child));
         });
 
         return result;

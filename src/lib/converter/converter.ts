@@ -64,7 +64,7 @@ export class Converter extends ChildableComponent<
      * Defined in the initialize method
      */
     private nodeConverters!: {
-        [syntaxKind: number]: ConverterNodeComponent<ts.Node>;
+        [syntaxKind: string]: ConverterNodeComponent<ts.Node>;
     };
 
     /**

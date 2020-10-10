@@ -175,7 +175,7 @@ export class TypePlugin extends ConverterComponent {
     private onResolveEnd(_context: Context) {
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
-                reflection.implementedBy.sort((a: Type, b: Type): number => {
+                reflection.implementedBy.sort((a: any, b: any) => {
                     if (a["name"] === b["name"]) {
                         return 0;
                     }

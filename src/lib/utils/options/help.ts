@@ -17,7 +17,7 @@ function hasHint(
 ): parameter is StringDeclarationOption & { hint: ParameterHint } {
     return (
         (parameter.type ?? ParameterType.String) === ParameterType.String &&
-        typeof parameter["hint"] !== "undefined"
+        "hint" in parameter
     );
 }
 

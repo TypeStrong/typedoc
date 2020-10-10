@@ -4,6 +4,7 @@ import { Builder, trimmer } from "lunr";
 import {
     DeclarationReflection,
     ProjectReflection,
+    ReflectionKind,
 } from "../../models/reflections/index";
 import { GroupPlugin } from "../../converter/plugins/GroupPlugin";
 import { Component, RendererComponent } from "../components";
@@ -31,7 +32,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
      */
     private onRendererBegin(event: RendererEvent) {
         const rows: any[] = [];
-        const kinds = {};
+        const kinds: Record<ReflectionKind, string | undefined> = {};
 
         for (const key in event.project.reflections) {
             const reflection: DeclarationReflection = <DeclarationReflection>(

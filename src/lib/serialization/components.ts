@@ -57,7 +57,10 @@ export abstract class SerializerComponent<T> {
      * A higher priority means the [[Serializer]] will be applied earlier.
      */
     get priority(): number {
-        return this.constructor["PRIORITY"] || SerializerComponent.PRIORITY;
+        return (
+            (this.constructor as typeof SerializerComponent)["PRIORITY"] ||
+            SerializerComponent.PRIORITY
+        );
     }
 
     abstract supports(item: unknown): boolean;

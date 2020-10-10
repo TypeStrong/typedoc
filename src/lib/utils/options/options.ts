@@ -76,7 +76,7 @@ export interface OptionsReader {
 export class Options {
     private _readers: OptionsReader[] = [];
     private _declarations = new Map<string, Readonly<DeclarationOption>>();
-    private _values: Partial<TypeDocOptions> = {};
+    private _values: Record<string, unknown> = {};
     private _compilerOptions: ts.CompilerOptions = {};
     private _fileNames: string[] = [];
     private _logger: Logger;

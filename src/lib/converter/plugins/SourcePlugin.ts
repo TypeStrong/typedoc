@@ -13,6 +13,7 @@ import { BasePath } from "../utils/base-path";
 import { Converter } from "../converter";
 import { Context } from "../context";
 import { BindOption } from "../../utils";
+import { isNamedNode } from "../utils/nodes";
 
 /**
  * A handler that attaches source file information to reflections.
@@ -120,10 +121,10 @@ export class SourcePlugin extends ConverterComponent {
         const file: SourceFile = this.getSourceFile(fileName, context.project);
 
         let position: ts.LineAndCharacter;
-        if (node["name"] && node["name"].end) {
+        if (isNamedNode(node)) {
             position = ts.getLineAndCharacterOfPosition(
                 sourceFile,
-                node["name"].end
+                node.name.end
             );
         } else {
             position = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);

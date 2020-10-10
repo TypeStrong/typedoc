@@ -277,7 +277,7 @@ function setupDeclaration(
         ReflectionFlag.Public,
         !!(modifiers & ts.ModifierFlags.Public)
     );
-    reflection.setFlag(ReflectionFlag.Optional, !!node["questionToken"]);
+    reflection.setFlag(ReflectionFlag.Optional, "questionToken" in node);
     reflection.setFlag(
         ReflectionFlag.Readonly,
         !!(modifiers & ts.ModifierFlags.Readonly)

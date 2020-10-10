@@ -3,6 +3,7 @@ import {
     ReflectionKind,
     ProjectReflection,
     DeclarationReflection,
+    ContainerReflection,
 } from "../../models/reflections/index";
 import { Component, RendererComponent } from "../components";
 import { PageEvent } from "../events";
@@ -65,7 +66,8 @@ export class TocPlugin extends RendererComponent {
         restriction?: string[]
     ) {
         const index = trail.indexOf(model);
-        const children = model["children"] || [];
+        const children =
+            (model instanceof ContainerReflection && model.children) || [];
 
         if (index < trail.length - 1 && children.length > 40) {
             const child = trail[index + 1];

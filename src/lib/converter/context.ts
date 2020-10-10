@@ -12,6 +12,7 @@ import {
 
 import { createTypeParameter } from "./factories/type-parameter";
 import { Converter } from "./converter";
+import { isNamedNode } from "./utils/nodes";
 
 /**
  * The context describes the current state the converter is in.
@@ -452,16 +453,4 @@ export class Context {
 
         return typeParameters;
     }
-}
-
-function isNamedNode(
-    node: ts.Node
-): node is ts.Node & {
-    name: ts.Identifier | ts.PrivateIdentifier | ts.ComputedPropertyName;
-} {
-    return (
-        node["name"] &&
-        (ts.isIdentifierOrPrivateIdentifier(node["name"]) ||
-            ts.isComputedPropertyName(node["name"]))
-    );
 }

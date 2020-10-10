@@ -9,7 +9,7 @@ import * as Handlebars from "handlebars";
  * @return The original string containing ``<wbr>`` tags where possible.
  */
 export function wbr(this: any, options: any): Handlebars.SafeString {
-    let str = typeof options === "string" ? options : options.fn(this);
+    let str: string = typeof options === "string" ? options : options.fn(this);
     str = Handlebars.escapeExpression(str);
 
     str = str.replace(/&#x3D;/g, "&#61;"); // because 3D would be converted to 3<wbr>D, use decimal format instead

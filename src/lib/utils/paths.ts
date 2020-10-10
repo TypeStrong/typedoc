@@ -3,7 +3,7 @@ import { Minimatch, IMinimatch } from "minimatch";
 
 const unix = Path.sep === "/";
 
-function normalize(pattern: string) {
+function normalize(pattern: string): string {
     if (pattern.startsWith("!") || pattern.startsWith("#")) {
         return pattern[0] + normalize(pattern.substr(1));
     }
