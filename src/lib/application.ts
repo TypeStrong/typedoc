@@ -191,7 +191,7 @@ export class Application extends ChildableComponent<
      * @param src  A list of source that should be compiled and converted.
      * @returns An instance of ProjectReflection on success, undefined otherwise.
      */
-    public convert(src: string[]): ProjectReflection | undefined {
+    public convert(): ProjectReflection | undefined {
         this.logger.writeln(
             "Using TypeScript %s from %s",
             this.getTypeScriptVersion(),
@@ -209,7 +209,7 @@ export class Application extends ChildableComponent<
             );
         }
 
-        const result = this.converter.convert(src);
+        const result = this.converter.convert();
 
         if (result instanceof ProjectReflection) {
             return result;
@@ -239,7 +239,7 @@ export class Application extends ChildableComponent<
         out: string
     ): boolean {
         const project =
-            input instanceof ProjectReflection ? input : this.convert(input);
+            input instanceof ProjectReflection ? input : this.convert();
         if (!project) {
             return false;
         }
@@ -278,7 +278,7 @@ export class Application extends ChildableComponent<
         out: string
     ): boolean {
         const project =
-            input instanceof ProjectReflection ? input : this.convert(input);
+            input instanceof ProjectReflection ? input : this.convert();
         if (!project) {
             return false;
         }

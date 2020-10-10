@@ -1600,6 +1600,328 @@
               }
             },
             {
+              "id": 226,
+              "name": "flat",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 227,
+                  "name": "flat",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "shortText": "Returns a new array with all sub-array elements concatenated into it recursively up to the\nspecified depth."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 228,
+                      "name": "A",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      }
+                    },
+                    {
+                      "id": 229,
+                      "name": "D",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "intrinsic",
+                        "name": "number"
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 230,
+                      "name": "this",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "A"
+                      }
+                    },
+                    {
+                      "id": 231,
+                      "name": "depth",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "The maximum recursion depth\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "D",
+                        "constraint": {
+                          "type": "intrinsic",
+                          "name": "number"
+                        },
+                        "default": {
+                          "type": "unknown",
+                          "name": "1"
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "reference",
+                      "typeArguments": [
+                        {
+                          "type": "typeParameter",
+                          "name": "A"
+                        },
+                        {
+                          "type": "typeParameter",
+                          "name": "D",
+                          "constraint": {
+                            "type": "intrinsic",
+                            "name": "number"
+                          },
+                          "default": {
+                            "type": "unknown",
+                            "name": "1"
+                          }
+                        }
+                      ],
+                      "name": "FlatArray"
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 226,
+                    "name": "Array.flat"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 226,
+                "name": "Array.flat"
+              }
+            },
+            {
+              "id": 214,
+              "name": "flatMap",
+              "kind": 2048,
+              "kindString": "Method",
+              "flags": {
+                "isExported": true
+              },
+              "signatures": [
+                {
+                  "id": 215,
+                  "name": "flatMap",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {
+                    "isExported": true
+                  },
+                  "comment": {
+                    "shortText": "Calls a defined callback function on each element of an array. Then, flattens the result into\na new array.\nThis is identical to a map followed by flat with depth 1."
+                  },
+                  "typeParameter": [
+                    {
+                      "id": 216,
+                      "name": "U",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      }
+                    },
+                    {
+                      "id": 217,
+                      "name": "This",
+                      "kind": 131072,
+                      "kindString": "Type parameter",
+                      "flags": {
+                        "isExported": true
+                      }
+                    }
+                  ],
+                  "parameters": [
+                    {
+                      "id": 218,
+                      "name": "callback",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true
+                      },
+                      "comment": {
+                        "text": "A function that accepts up to three arguments. The flatMap method calls the\ncallback function one time for each element in the array."
+                      },
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 219,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {
+                            "isExported": true
+                          },
+                          "signatures": [
+                            {
+                              "id": 220,
+                              "name": "__call",
+                              "kind": 4096,
+                              "kindString": "Call signature",
+                              "flags": {
+                                "isExported": true
+                              },
+                              "parameters": [
+                                {
+                                  "id": 221,
+                                  "name": "this",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "typeParameter",
+                                    "name": "This",
+                                    "default": {
+                                      "type": "intrinsic",
+                                      "name": "undefined"
+                                    }
+                                  }
+                                },
+                                {
+                                  "id": 222,
+                                  "name": "value",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "reference",
+                                    "id": 4,
+                                    "name": "Foo"
+                                  }
+                                },
+                                {
+                                  "id": 223,
+                                  "name": "index",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 224,
+                                  "name": "array",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {
+                                    "isExported": true
+                                  },
+                                  "type": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "reference",
+                                      "id": 4,
+                                      "name": "Foo"
+                                    }
+                                  }
+                                }
+                              ],
+                              "type": {
+                                "type": "union",
+                                "types": [
+                                  {
+                                    "type": "typeParameter",
+                                    "name": "U"
+                                  },
+                                  {
+                                    "type": "reference",
+                                    "typeArguments": [
+                                      {
+                                        "type": "typeParameter",
+                                        "name": "U"
+                                      }
+                                    ],
+                                    "name": "ReadonlyArray"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": 225,
+                      "name": "thisArg",
+                      "kind": 32768,
+                      "kindString": "Parameter",
+                      "flags": {
+                        "isExported": true,
+                        "isOptional": true
+                      },
+                      "comment": {
+                        "text": "An object to which the this keyword can refer in the callback function. If\nthisArg is omitted, undefined is used as the this value.\n"
+                      },
+                      "type": {
+                        "type": "typeParameter",
+                        "name": "This",
+                        "default": {
+                          "type": "intrinsic",
+                          "name": "undefined"
+                        }
+                      }
+                    }
+                  ],
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "typeParameter",
+                      "name": "U"
+                    }
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 214,
+                    "name": "Array.flatMap"
+                  }
+                }
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 214,
+                "name": "Array.flatMap"
+              }
+            },
+            {
               "id": 85,
               "name": "forEach",
               "kind": 2048,
@@ -3668,6 +3990,8 @@
                 104,
                 162,
                 173,
+                226,
+                214,
                 85,
                 210,
                 50,
@@ -3730,7 +4054,7 @@
           ]
         },
         {
-          "id": 214,
+          "id": 232,
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
@@ -3788,7 +4112,7 @@
           "defaultValue": "[]"
         },
         {
-          "id": 215,
+          "id": 233,
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
@@ -3832,14 +4156,14 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            214,
-            215
+            232,
+            233
           ]
         }
       ]
     },
     {
-      "id": 216,
+      "id": 234,
       "name": "\"destructuring\"",
       "kind": 1,
       "kindString": "Module",
@@ -3849,7 +4173,7 @@
       "originalName": "%BASE%/variables/destructuring.ts",
       "children": [
         {
-          "id": 220,
+          "id": 238,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
@@ -3860,7 +4184,7 @@
           }
         },
         {
-          "id": 221,
+          "id": 239,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
@@ -3871,7 +4195,7 @@
           }
         },
         {
-          "id": 222,
+          "id": 240,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
@@ -3892,7 +4216,7 @@
           "defaultValue": "10"
         },
         {
-          "id": 226,
+          "id": 244,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
@@ -3903,7 +4227,7 @@
           }
         },
         {
-          "id": 227,
+          "id": 245,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
@@ -3923,7 +4247,7 @@
           }
         },
         {
-          "id": 225,
+          "id": 243,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
@@ -3943,7 +4267,7 @@
           }
         },
         {
-          "id": 223,
+          "id": 241,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
@@ -3954,7 +4278,7 @@
           }
         },
         {
-          "id": 224,
+          "id": 242,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
@@ -3965,7 +4289,7 @@
           }
         },
         {
-          "id": 217,
+          "id": 235,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
@@ -3976,7 +4300,7 @@
           }
         },
         {
-          "id": 218,
+          "id": 236,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
@@ -3987,7 +4311,7 @@
           }
         },
         {
-          "id": 219,
+          "id": 237,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
@@ -3998,14 +4322,14 @@
           }
         },
         {
-          "id": 228,
+          "id": 246,
           "name": "drawText",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 229,
+              "id": 247,
               "name": "drawText",
               "kind": 4096,
               "kindString": "Call signature",
@@ -4015,7 +4339,7 @@
               },
               "parameters": [
                 {
-                  "id": 230,
+                  "id": 248,
                   "name": "__namedParameters",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -4024,14 +4348,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 231,
+                      "id": 249,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 234,
+                          "id": 252,
                           "name": "bold",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4043,7 +4367,7 @@
                           "defaultValue": "false"
                         },
                         {
-                          "id": 233,
+                          "id": 251,
                           "name": "location",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4064,7 +4388,7 @@
                           "defaultValue": "[0, 0]"
                         },
                         {
-                          "id": 232,
+                          "id": 250,
                           "name": "text",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4081,9 +4405,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            234,
-                            233,
-                            232
+                            252,
+                            251,
+                            250
                           ]
                         }
                       ]
@@ -4104,30 +4428,30 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            220,
-            221,
-            222,
-            226,
-            227,
-            225,
-            223,
-            224,
-            217,
-            218,
-            219
+            238,
+            239,
+            240,
+            244,
+            245,
+            243,
+            241,
+            242,
+            235,
+            236,
+            237
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            228
+            246
           ]
         }
       ]
     },
     {
-      "id": 235,
+      "id": 253,
       "name": "\"literal\"",
       "kind": 1,
       "kindString": "Module",
@@ -4137,7 +4461,7 @@
       "originalName": "%BASE%/variables/literal.ts",
       "children": [
         {
-          "id": 254,
+          "id": 272,
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -4150,14 +4474,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 255,
+              "id": 273,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 271,
+                  "id": 289,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4170,7 +4494,7 @@
                   }
                 },
                 {
-                  "id": 272,
+                  "id": 290,
                   "name": "valueB",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4183,7 +4507,7 @@
                   }
                 },
                 {
-                  "id": 260,
+                  "id": 278,
                   "name": "valueX",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4191,14 +4515,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 261,
+                      "id": 279,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 270,
+                          "id": 288,
                           "name": "valueA",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4212,7 +4536,7 @@
                           }
                         },
                         {
-                          "id": 263,
+                          "id": 281,
                           "name": "valueY",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4220,21 +4544,21 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 264,
+                              "id": 282,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
-                                  "id": 265,
+                                  "id": 283,
                                   "name": "__call",
                                   "kind": 4096,
                                   "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
-                                      "id": 266,
+                                      "id": 284,
                                       "name": "z",
                                       "kind": 32768,
                                       "kindString": "Parameter",
@@ -4248,14 +4572,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 267,
+                                      "id": 285,
                                       "name": "__type",
                                       "kind": 65536,
                                       "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 268,
+                                          "id": 286,
                                           "name": "a",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4266,7 +4590,7 @@
                                           }
                                         },
                                         {
-                                          "id": 269,
+                                          "id": 287,
                                           "name": "b",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4282,8 +4606,8 @@
                                           "title": "Variables",
                                           "kind": 32,
                                           "children": [
-                                            268,
-                                            269
+                                            286,
+                                            287
                                           ]
                                         }
                                       ]
@@ -4295,7 +4619,7 @@
                           }
                         },
                         {
-                          "id": 262,
+                          "id": 280,
                           "name": "valueZ",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4311,9 +4635,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            270,
-                            263,
-                            262
+                            288,
+                            281,
+                            280
                           ]
                         }
                       ]
@@ -4321,7 +4645,7 @@
                   }
                 },
                 {
-                  "id": 257,
+                  "id": 275,
                   "name": "valueY",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4329,14 +4653,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 258,
+                      "id": 276,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 259,
+                          "id": 277,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
@@ -4351,7 +4675,7 @@
                   }
                 },
                 {
-                  "id": 256,
+                  "id": 274,
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4367,11 +4691,11 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    271,
-                    272,
-                    260,
-                    257,
-                    256
+                    289,
+                    290,
+                    278,
+                    275,
+                    274
                   ]
                 }
               ]
@@ -4379,7 +4703,7 @@
           }
         },
         {
-          "id": 236,
+          "id": 254,
           "name": "objectLiteral",
           "kind": 2097152,
           "kindString": "Object literal",
@@ -4392,7 +4716,7 @@
           },
           "children": [
             {
-              "id": 251,
+              "id": 269,
               "name": "[Symbol.toStringTag]",
               "kind": 32,
               "kindString": "Variable",
@@ -4406,7 +4730,7 @@
               "defaultValue": "\"computed\""
             },
             {
-              "id": 252,
+              "id": 270,
               "name": "[x]",
               "kind": 32,
               "kindString": "Variable",
@@ -4420,7 +4744,7 @@
               "defaultValue": "true"
             },
             {
-              "id": 253,
+              "id": 271,
               "name": "literal2",
               "kind": 32,
               "kindString": "Variable",
@@ -4434,7 +4758,7 @@
               "defaultValue": "true"
             },
             {
-              "id": 249,
+              "id": 267,
               "name": "valueA",
               "kind": 32,
               "kindString": "Variable",
@@ -4448,7 +4772,7 @@
               "defaultValue": "100"
             },
             {
-              "id": 250,
+              "id": 268,
               "name": "valueB",
               "kind": 32,
               "kindString": "Variable",
@@ -4462,7 +4786,7 @@
               "defaultValue": "true"
             },
             {
-              "id": 237,
+              "id": 255,
               "name": "valueZ",
               "kind": 32,
               "kindString": "Variable",
@@ -4476,7 +4800,7 @@
               "defaultValue": "\"foo\""
             },
             {
-              "id": 238,
+              "id": 256,
               "name": "valueY",
               "kind": 64,
               "kindString": "Function",
@@ -4485,7 +4809,7 @@
               },
               "signatures": [
                 {
-                  "id": 239,
+                  "id": 257,
                   "name": "valueY",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -4500,7 +4824,7 @@
               ]
             },
             {
-              "id": 240,
+              "id": 258,
               "name": "valueX",
               "kind": 2097152,
               "kindString": "Object literal",
@@ -4509,7 +4833,7 @@
               },
               "children": [
                 {
-                  "id": 248,
+                  "id": 266,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4526,7 +4850,7 @@
                   "defaultValue": "[100, 200, 300]"
                 },
                 {
-                  "id": 241,
+                  "id": 259,
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4540,7 +4864,7 @@
                   "defaultValue": "\"foo\""
                 },
                 {
-                  "id": 242,
+                  "id": 260,
                   "name": "valueY",
                   "kind": 64,
                   "kindString": "Function",
@@ -4549,7 +4873,7 @@
                   },
                   "signatures": [
                     {
-                      "id": 243,
+                      "id": 261,
                       "name": "valueY",
                       "kind": 4096,
                       "kindString": "Call signature",
@@ -4558,7 +4882,7 @@
                       },
                       "parameters": [
                         {
-                          "id": 244,
+                          "id": 262,
                           "name": "z",
                           "kind": 32768,
                           "kindString": "Parameter",
@@ -4574,7 +4898,7 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 245,
+                          "id": 263,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
@@ -4583,7 +4907,7 @@
                           },
                           "children": [
                             {
-                              "id": 246,
+                              "id": 264,
                               "name": "a",
                               "kind": 32,
                               "kindString": "Variable",
@@ -4597,7 +4921,7 @@
                               "defaultValue": "\"test\""
                             },
                             {
-                              "id": 247,
+                              "id": 265,
                               "name": "b",
                               "kind": 32,
                               "kindString": "Variable",
@@ -4616,8 +4940,8 @@
                               "title": "Variables",
                               "kind": 32,
                               "children": [
-                                246,
-                                247
+                                264,
+                                265
                               ]
                             }
                           ]
@@ -4632,15 +4956,15 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    248,
-                    241
+                    266,
+                    259
                   ]
                 },
                 {
                   "title": "Functions",
                   "kind": 64,
                   "children": [
-                    242
+                    260
                   ]
                 }
               ],
@@ -4655,26 +4979,26 @@
               "title": "Variables",
               "kind": 32,
               "children": [
-                251,
-                252,
-                253,
-                249,
-                250,
-                237
+                269,
+                270,
+                271,
+                267,
+                268,
+                255
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                238
+                256
               ]
             },
             {
               "title": "Object literals",
               "kind": 2097152,
               "children": [
-                240
+                258
               ]
             }
           ],
@@ -4689,20 +5013,20 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            254
+            272
           ]
         },
         {
           "title": "Object literals",
           "kind": 2097152,
           "children": [
-            236
+            254
           ]
         }
       ]
     },
     {
-      "id": 273,
+      "id": 291,
       "name": "\"variable\"",
       "kind": 1,
       "kindString": "Module",
@@ -4718,9 +5042,9 @@
       "kind": 1,
       "children": [
         1,
-        216,
-        235,
-        273
+        234,
+        253,
+        291
       ]
     }
   ]

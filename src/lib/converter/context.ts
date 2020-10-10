@@ -26,7 +26,7 @@ export class Context {
     /**
      * A list of all files that have been passed to the TypeScript compiler.
      */
-    fileNames: string[];
+    fileNames: readonly string[];
 
     /**
      * The TypeChecker instance returned by the TypeScript compiler.
@@ -107,7 +107,7 @@ export class Context {
      */
     constructor(
         converter: Converter,
-        fileNames: string[],
+        fileNames: readonly string[],
         checker: ts.TypeChecker,
         program: ts.Program
     ) {

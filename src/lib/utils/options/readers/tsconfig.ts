@@ -20,15 +20,9 @@ export class TSConfigReader implements OptionsReader {
 
     read(container: Options, logger: Logger): void {
         const tsconfigOpt = container.getValue("tsconfig");
-        const projectOpt = container.getCompilerOptions().project;
 
         if (!container.isDefault("tsconfig")) {
             this._tryReadOptions(tsconfigOpt, container, logger);
-            return;
-        }
-
-        if (projectOpt) {
-            this._tryReadOptions(projectOpt, container, logger);
             return;
         }
 

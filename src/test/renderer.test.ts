@@ -2,6 +2,7 @@ import { Application, ProjectReflection } from "..";
 import * as FS from "fs-extra";
 import * as Path from "path";
 import Assert = require("assert");
+import { TSConfigReader } from "../lib/utils/options";
 
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
@@ -63,19 +64,21 @@ describe("Renderer", function () {
 
     it("constructs", function () {
         app = new Application();
+        app.options.addReader(new TSConfigReader());
         app.bootstrap({
             logger: "console",
             readme: Path.join(src, "..", "README.md"),
             gaSite: "foo.com", // verify theme option without modifying output
             name: "typedoc",
             disableSources: true,
+            tsconfig: Path.join(src, "..", "tsconfig.json"),
         });
+        app.options.setValue("entryPoints", app.expandInputFiles([src]));
     });
 
     it("converts basic example", function () {
         this.timeout(0);
-        const input = app.expandInputFiles([src]);
-        project = app.convert(input);
+        project = app.convert();
 
         Assert(
             app.logger.errorCount === 0,

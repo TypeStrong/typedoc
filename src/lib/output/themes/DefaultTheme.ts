@@ -280,10 +280,7 @@ export class DefaultTheme extends Theme {
      */
     static applyAnchorUrl(reflection: Reflection, container: Reflection) {
         if (!reflection.url || !DefaultTheme.URL_PREFIX.test(reflection.url)) {
-            let anchor = DefaultTheme.getUrl(reflection, container, ".");
-            if (reflection.flags.isStatic) {
-                anchor = "static-" + anchor;
-            }
+            const anchor = DefaultTheme.getUrl(reflection, container, ".");
 
             reflection.url = container.url + "#" + anchor;
             reflection.anchor = anchor;

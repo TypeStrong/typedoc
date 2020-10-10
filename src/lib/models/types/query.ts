@@ -22,7 +22,7 @@ export class QueryType extends Type {
         return new QueryType(this.queryType);
     }
 
-    equals(other: Type) {
+    equals(other: Type): boolean {
         return (
             other instanceof QueryType && this.queryType.equals(other.queryType)
         );

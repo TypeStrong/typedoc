@@ -1,27 +1,23 @@
 // @ts-check
 
-const assert = require("assert");
 const fs = require("fs-extra");
 const path = require("path");
 const TypeDoc = require("..");
-const ts = require("typescript");
 
 const app = new TypeDoc.Application();
+app.options.addReader(new TypeDoc.TSConfigReader());
 app.bootstrap({
-    target: ts.ScriptTarget.ES2016,
-    module: ts.ModuleKind.CommonJS,
-    experimentalDecorators: true,
-    jsx: ts.JsxEmit.React,
-    lib: [
-        "lib.dom.d.ts",
-        "lib.es5.d.ts",
-        "lib.es2015.iterable.d.ts",
-        "lib.es2015.collection.d.ts",
-    ],
     name: "typedoc",
     excludeExternals: true,
     disableSources: true,
-    resolveJsonModule: true,
+    tsconfig: path.join(
+        __dirname,
+        "..",
+        "dist",
+        "test",
+        "converter",
+        "tsconfig.json"
+    ),
 });
 
 // Note that this uses the test files in dist, not in src, this is important since
@@ -68,7 +64,8 @@ function rebuildConverterTests(dirs) {
                     if (fs.existsSync(out)) {
                         TypeDoc.resetReflectionID();
                         before();
-                        const result = app.convert(src);
+                        app.options.setValue("entryPoints", src);
+                        const result = app.convert();
                         const serialized = app.serializer.toObject(result);
 
                         const data = JSON.stringify(serialized, null, "  ")
@@ -87,11 +84,19 @@ async function rebuildRendererTest() {
     await fs.remove(path.join(__dirname, "../src/test/renderer/specs"));
     const src = path.join(__dirname, "../examples/basic/src");
     const out = path.join(__dirname, "../src/test/renderer/specs");
-
     await fs.remove(out);
-    app.options.setValue("excludeExternals", false);
-    app.generateDocs(app.expandInputFiles([src]), out);
-    app.options.setValue("excludeExternals", true);
+
+    const app = new TypeDoc.Application();
+    app.options.addReader(new TypeDoc.TSConfigReader());
+    app.bootstrap({
+        name: "typedoc",
+        excludeExternals: false,
+        disableSources: true,
+        tsconfig: path.join(src, "..", "tsconfig.json"),
+    });
+
+    app.options.setValue("entryPoints", app.expandInputFiles([src]));
+    app.generateDocs([], out);
 
     /**
      * Avoiding sync methods here is... difficult.

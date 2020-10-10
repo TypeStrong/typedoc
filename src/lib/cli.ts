@@ -49,8 +49,7 @@ export class CliApplication extends Application {
             typescript.sys.write(getOptionsHelp(this.options));
             process.exit(ExitCode.NoInputFiles);
         } else {
-            const src = this.expandInputFiles(result.inputFiles);
-            const project = this.convert(src);
+            const project = this.convert();
             if (project) {
                 if (this.out) {
                     this.generateDocs(project, this.out);

@@ -18,8 +18,6 @@ import {
     ComponentClass,
 } from "../utils/component";
 import { BindOption, removeIfPresent } from "../utils";
-import { normalizePath } from "../utils/fs";
-import { createMinimatch } from "../utils/paths";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -251,19 +249,18 @@ export class Converter extends ChildableComponent<
      *
      * @param fileNames  Array of the file names that should be compiled.
      */
-    convert(fileNames: string[]): ProjectReflection | readonly ts.Diagnostic[] {
-        // JSON files should never result in extra members in the documentation, but need to be included so that TS
-        // can find them.
-        const normalizedFiles = fileNames
-            .map(normalizePath)
-            .filter((path) => !path.endsWith(".json"));
-
+    convert(): ProjectReflection | readonly ts.Diagnostic[] {
         const program = ts.createProgram(
-            normalizedFiles,
+            this.application.options.getFileNames(),
             this.application.options.getCompilerOptions()
         );
         const checker = program.getTypeChecker();
-        const context = new Context(this, normalizedFiles, checker, program);
+        const context = new Context(
+            this,
+            program.getRootFileNames(),
+            checker,
+            program
+        );
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
@@ -385,16 +382,20 @@ export class Converter extends ChildableComponent<
             return errors;
         }
 
-        const exclude = createMinimatch(this.application.exclude || []);
-        const isExcluded = (file: ts.SourceFile) =>
-            exclude.some((mm) => mm.match(file.fileName));
-        const includedSourceFiles = context.program
-            .getSourceFiles()
-            .filter((file) => !isExcluded(file));
+        for (const entry of this.application.entryPoints) {
+            if (entry.endsWith(".json")) continue;
+            const sourceFile = context.program.getSourceFile(
+                entry.replace(/\\/g, "/")
+            );
+            if (!sourceFile) {
+                this.application.logger.warn(
+                    `Unable to locate entry point: ${entry}`
+                );
+                continue;
+            }
 
-        includedSourceFiles.forEach((sourceFile) => {
             this.convertNode(context, sourceFile);
-        });
+        }
 
         return [];
     }

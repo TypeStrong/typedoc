@@ -5,7 +5,7 @@
   "flags": {},
   "children": [
     {
-      "id": 3,
+      "id": 1,
       "name": "\"function\"",
       "kind": 1,
       "kindString": "Module",
@@ -15,7 +15,7 @@
       "originalName": "%BASE%/dots.in.path/function.ts",
       "children": [
         {
-          "id": 4,
+          "id": 2,
           "name": "exportedFunction",
           "kind": 64,
           "kindString": "Function",
@@ -24,7 +24,7 @@
           },
           "signatures": [
             {
-              "id": 5,
+              "id": 3,
               "name": "exportedFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -36,7 +36,7 @@
               },
               "parameters": [
                 {
-                  "id": 6,
+                  "id": 4,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -45,7 +45,7 @@
                   },
                   "type": {
                     "type": "reference",
-                    "id": 2,
+                    "id": 6,
                     "name": "EmptyInterface"
                   }
                 }
@@ -63,13 +63,13 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            4
+            2
           ]
         }
       ]
     },
     {
-      "id": 1,
+      "id": 5,
       "name": "\"interface-empty\"",
       "kind": 1,
       "kindString": "Module",
@@ -79,7 +79,7 @@
       "originalName": "%BASE%/dots.in.path/interface-empty.ts",
       "children": [
         {
-          "id": 2,
+          "id": 6,
           "name": "EmptyInterface",
           "kind": 256,
           "kindString": "Interface",
@@ -96,7 +96,7 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            2
+            6
           ]
         }
       ]
@@ -107,8 +107,8 @@
       "title": "Modules",
       "kind": 1,
       "children": [
-        3,
-        1
+        1,
+        5
       ]
     }
   ]

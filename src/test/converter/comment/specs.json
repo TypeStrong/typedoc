@@ -5,7 +5,7 @@
   "flags": {},
   "children": [
     {
-      "id": 6,
+      "id": 1,
       "name": "\"comment\"",
       "kind": 1,
       "kindString": "Module",
@@ -18,7 +18,7 @@
       },
       "children": [
         {
-          "id": 7,
+          "id": 2,
           "name": "CommentedClass",
           "kind": 128,
           "kindString": "Class",
@@ -41,7 +41,7 @@
           },
           "children": [
             {
-              "id": 8,
+              "id": 3,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
@@ -57,7 +57,7 @@
               }
             },
             {
-              "id": 22,
+              "id": 17,
               "name": "mixedHidden",
               "kind": 2048,
               "kindString": "Method",
@@ -66,7 +66,7 @@
               },
               "signatures": [
                 {
-                  "id": 25,
+                  "id": 20,
                   "name": "mixedHidden",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -78,7 +78,7 @@
                   },
                   "parameters": [
                     {
-                      "id": 26,
+                      "id": 21,
                       "name": "arg1",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -91,7 +91,7 @@
                       }
                     },
                     {
-                      "id": 27,
+                      "id": 22,
                       "name": "arg2",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -117,20 +117,20 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                8
+                3
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                22
+                17
               ]
             }
           ]
         },
         {
-          "id": 29,
+          "id": 24,
           "name": "gh1164",
           "kind": 64,
           "kindString": "Function",
@@ -139,7 +139,7 @@
           },
           "signatures": [
             {
-              "id": 30,
+              "id": 25,
               "name": "gh1164",
               "kind": 4096,
               "kindString": "Call signature",
@@ -152,7 +152,7 @@
               },
               "parameters": [
                 {
-                  "id": 31,
+                  "id": 26,
                   "name": "scope",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -181,20 +181,20 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            7
+            2
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            29
+            24
           ]
         }
       ]
     },
     {
-      "id": 1,
+      "id": 27,
       "name": "\"comment2\"",
       "kind": 1,
       "kindString": "Module",
@@ -207,7 +207,7 @@
       },
       "children": [
         {
-          "id": 2,
+          "id": 28,
           "name": "multiply",
           "kind": 64,
           "kindString": "Function",
@@ -216,7 +216,7 @@
           },
           "signatures": [
             {
-              "id": 3,
+              "id": 29,
               "name": "multiply",
               "kind": 4096,
               "kindString": "Call signature",
@@ -225,7 +225,7 @@
               },
               "parameters": [
                 {
-                  "id": 4,
+                  "id": 30,
                   "name": "a",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -238,7 +238,7 @@
                   }
                 },
                 {
-                  "id": 5,
+                  "id": 31,
                   "name": "b",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -264,7 +264,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            2
+            28
           ]
         }
       ]
@@ -275,8 +275,8 @@
       "title": "Modules",
       "kind": 1,
       "children": [
-        6,
-        1
+        1,
+        27
       ]
     }
   ]

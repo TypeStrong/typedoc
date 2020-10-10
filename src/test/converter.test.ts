@@ -7,18 +7,18 @@ import {
 import * as FS from "fs";
 import * as Path from "path";
 import { deepStrictEqual as equal, ok } from "assert";
-
-import json = require("./converter/class/specs.json");
-import { JSONOutput } from "../lib/serialization";
+import { TSConfigReader } from "../lib/utils/options";
 
 describe("Converter", function () {
     const base = Path.join(__dirname, "converter");
     const app = new Application();
+    app.options.addReader(new TSConfigReader());
     app.bootstrap({
         logger: "none",
         name: "typedoc",
         excludeExternals: true,
         disableSources: true,
+        tsconfig: Path.join(base, "tsconfig.json"),
     });
 
     const checks: [string, () => void, () => void][] = [
@@ -63,7 +63,11 @@ describe("Converter", function () {
                 it(`[${file}] converts fixtures`, function () {
                     before();
                     resetReflectionID();
-                    result = app.convert(app.expandInputFiles([path]));
+                    app.options.setValue(
+                        "entryPoints",
+                        app.expandInputFiles([path])
+                    );
+                    result = app.convert();
                     after();
                     ok(
                         result instanceof ProjectReflection,
@@ -86,13 +90,6 @@ describe("Converter", function () {
                 });
             }
         });
-    });
-});
-
-describe("Serializer", () => {
-    it("Type checks", () => {
-        const typed: JSONOutput.ProjectReflection = json;
-        equal(json, typed);
     });
 });
 
