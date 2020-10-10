@@ -172,7 +172,7 @@ export class TypePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onResolveEnd(context: Context) {
+    private onResolveEnd(_context: Context) {
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
                 reflection.implementedBy.sort((a: Type, b: Type): number => {

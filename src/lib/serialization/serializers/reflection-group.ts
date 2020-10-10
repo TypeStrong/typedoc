@@ -15,7 +15,7 @@ export class ReflectionGroupSerializer extends SerializerComponent<
         return instance instanceof ReflectionGroup;
     }
 
-    supports(r: unknown) {
+    supports(_r: unknown) {
         return true;
     }
 

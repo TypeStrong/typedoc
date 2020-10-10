@@ -21,7 +21,7 @@ export class UnknownConverter
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.Type): boolean {
+    supportsType(_context: Context, _type: ts.Type): boolean {
         return true;
     }
 

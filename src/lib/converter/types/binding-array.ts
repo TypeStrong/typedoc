@@ -15,7 +15,7 @@ export class BindingArrayConverter
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.BindingPattern): boolean {
+    supportsNode(_context: Context, node: ts.BindingPattern): boolean {
         return node.kind === ts.SyntaxKind.ArrayBindingPattern;
     }
 

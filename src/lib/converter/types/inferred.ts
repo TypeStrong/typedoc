@@ -29,7 +29,7 @@ export class InferredConverter
      * @returns The type reflection representing the given conditional type node.
      */
     convertNode(
-        context: Context,
+        _context: Context,
         node: ts.InferTypeNode
     ): InferredType | undefined {
         return new InferredType(node.typeParameter.getText());

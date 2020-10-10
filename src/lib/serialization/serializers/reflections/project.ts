@@ -17,7 +17,7 @@ export class ProjectReflectionSerializer extends ReflectionSerializerComponent<
     }
 
     toObject(
-        container: ProjectReflection,
+        _container: ProjectReflection,
         obj: JSONContainerReflection
     ): JSONProjectReflection {
         return obj;

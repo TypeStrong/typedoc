@@ -15,7 +15,7 @@ export class IndexedAccessConverter
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.TypeNode) {
+    supportsNode(_context: Context, node: ts.TypeNode) {
         return ts.isIndexedAccessTypeNode(node);
     }
 

@@ -60,7 +60,7 @@ export class PackagePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin(_context: Context) {
         this.readmeFile = undefined;
         this.packageFile = undefined;
         this.visited = [];
@@ -83,8 +83,8 @@ export class PackagePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onBeginDocument(
-        context: Context,
-        reflection: Reflection,
+        _context: Context,
+        _reflection: Reflection,
         node?: ts.SourceFile
     ) {
         const packageAndReadmeFound = () =>

@@ -227,7 +227,10 @@ function onceMap(
     offer: Function
 ): EventMap {
     if (callback) {
-        const once = (map[name] = <EventCallback>_.once(function (...args) {
+        const once = (map[name] = <EventCallback>_.once(function (
+            this: any,
+            ...args
+        ) {
             offer(name, once);
             callback.apply(this, args);
         }));
@@ -244,7 +247,7 @@ function onceMap(
 function triggerApi(
     objEvents: EventHandlers,
     name: string,
-    callback: Function | undefined,
+    _callback: Function | undefined,
     args: any[],
     triggerer: EventTriggerer = triggerEvents
 ): EventHandlers {

@@ -81,7 +81,7 @@ export class SourcePlugin extends ConverterComponent {
      */
     private onBeginDocument(
         context: Context,
-        reflection: Reflection,
+        _reflection: Reflection,
         node?: ts.SourceFile
     ) {
         if (!node) {
@@ -165,7 +165,7 @@ export class SourcePlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context: Context, reflection: Reflection) {
+    private onResolve(_context: Context, reflection: Reflection) {
         if (!reflection.sources) {
             return;
         }

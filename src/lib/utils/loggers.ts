@@ -120,14 +120,14 @@ export class Logger {
     /**
      * Print a log message.
      *
-     * @param message  The message itself.
+     * @param _message  The message itself.
      * @param level  The urgency of the log message.
-     * @param newLine  Should the logger print a trailing whitespace?
+     * @param _newLine  Should the logger print a trailing whitespace?
      */
     public log(
-        message: string,
+        _message: string,
         level: LogLevel = LogLevel.Info,
-        newLine?: boolean
+        _newLine?: boolean
     ) {
         if (level === LogLevel.Error) {
             this.errorCount += 1;

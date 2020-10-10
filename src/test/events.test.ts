@@ -65,7 +65,7 @@ describe("Events", function () {
         const obj = new Events();
         obj.counter = 0;
 
-        const increment = function () {
+        const increment = function (this: Events) {
             this.counter += 1;
         };
 
@@ -102,7 +102,7 @@ describe("Events", function () {
         const obj = new Events();
         obj.counter = 0;
 
-        const increment = function () {
+        const increment = function (this: Events) {
             this.counter += 1;
         };
 
@@ -439,7 +439,7 @@ describe("Events", function () {
         const a = new Events();
         const b = new Events();
         a.listenToOnce(b, {
-            one: function () {
+            one: function (this: Events) {
                 Assert(this === a);
             },
             two: function () {
@@ -572,7 +572,7 @@ describe("Events", function () {
         const obj = new Events();
         obj.on(
             "event",
-            function () {
+            function (this: TestClass) {
                 this.assertTrue();
             },
             new TestClass()
@@ -767,7 +767,7 @@ describe("Events", function () {
         const obj = new Events();
         obj.counter = 0;
 
-        const increment = function () {
+        const increment = function (this: Events) {
             this.counter += 1;
         };
 
@@ -831,7 +831,7 @@ describe("Events", function () {
     it("Off during iteration with once.", function () {
         let count = 0;
         const obj = new Events();
-        const f = function () {
+        const f = function (this: Events) {
             this.off("event", f);
         };
         obj.on("event", f);
@@ -919,7 +919,7 @@ describe("Events (customized)", function () {
             count++;
             e.stopPropagation();
         });
-        events.on("myEvent", function (e) {
+        events.on("myEvent", function () {
             count++;
             Assert(false);
         });
@@ -932,7 +932,7 @@ describe("Events (customized)", function () {
         const events = new Events();
         events.on(
             "myEvent",
-            function (e) {
+            function () {
                 Assert.equal(count, 1);
                 count++;
             },
@@ -941,7 +941,7 @@ describe("Events (customized)", function () {
         );
         events.on(
             "myEvent",
-            function (e) {
+            function () {
                 Assert.equal(count, 0);
                 count++;
             },

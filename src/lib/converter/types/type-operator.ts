@@ -32,9 +32,9 @@ export class TypeOperatorConverter
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(
-        context: Context,
+        _context: Context,
         node: ts.TypeOperatorNode,
-        type: ts.Type
+        _type: ts.Type
     ): boolean {
         return !!(node.kind === ts.SyntaxKind.TypeOperator);
     }

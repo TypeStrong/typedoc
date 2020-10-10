@@ -8,7 +8,13 @@
  * @param this   The current handlebars this.
  * @returns {*}
  */
-export function ifCond(v1: any, operator: any, v2: any, options: any) {
+export function ifCond(
+    this: any,
+    v1: any,
+    operator: any,
+    v2: any,
+    options: any
+) {
     switch (operator) {
         case "==":
             return v1 == v2 ? options.fn(this) : options.inverse(this);

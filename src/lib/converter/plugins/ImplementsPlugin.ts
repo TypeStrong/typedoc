@@ -31,7 +31,7 @@ export class ImplementsPlugin extends ConverterComponent {
      * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
     private analyzeClass(
-        context: Context,
+        _context: Context,
         classReflection: DeclarationReflection,
         interfaceReflection: DeclarationReflection
     ) {

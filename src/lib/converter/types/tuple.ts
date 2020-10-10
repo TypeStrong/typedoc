@@ -24,7 +24,7 @@ export class TupleConverter
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.TypeReference): boolean {
+    supportsType(_context: Context, type: ts.TypeReference): boolean {
         // If this type is a tuple
         if (type.objectFlags & ts.ObjectFlags.Tuple) {
             return true;

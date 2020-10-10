@@ -88,7 +88,7 @@ export class GroupPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context: Context, reflection: Reflection) {
+    private onResolve(_context: Context, reflection: Reflection) {
         reflection.kindString = GroupPlugin.getKindSingular(reflection.kind);
 
         if (reflection instanceof ContainerReflection) {
@@ -199,7 +199,7 @@ export class GroupPlugin extends ConverterComponent {
         let str = ReflectionKind[kind];
         str = str.replace(
             /(.)([A-Z])/g,
-            (m, a, b) => a + " " + b.toLowerCase()
+            (_m, a, b) => a + " " + b.toLowerCase()
         );
         return str;
     }

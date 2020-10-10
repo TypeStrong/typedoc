@@ -57,9 +57,9 @@ export class DynamicModulePlugin extends ConverterComponent {
      * @param node  The node that is currently processed if available.
      */
     private onDeclaration(
-        context: Context,
+        _context: Context,
         reflection: Reflection,
-        node?: ts.Node
+        _node?: ts.Node
     ) {
         if (reflection.kindOf(ReflectionKind.Module)) {
             let name = reflection.name;
@@ -78,7 +78,7 @@ export class DynamicModulePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBeginResolve(context: Context) {
+    private onBeginResolve(_context: Context) {
         this.reflections.forEach((reflection) => {
             let name = reflection.name.replace(/"/g, "");
             name = name.substr(0, name.length - Path.extname(name).length);

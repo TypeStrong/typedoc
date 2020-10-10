@@ -13,7 +13,7 @@ export class CommentTagSerializer extends SerializerComponent<CommentTag> {
         return instance instanceof CommentTag;
     }
 
-    supports(t: unknown) {
+    supports(_t: unknown) {
         return true;
     }
 

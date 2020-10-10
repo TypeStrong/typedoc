@@ -20,7 +20,7 @@ export class UnionOrIntersectionConverter
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(
-        context: Context,
+        _context: Context,
         node: ts.UnionOrIntersectionTypeNode
     ): boolean {
         return (
@@ -32,7 +32,7 @@ export class UnionOrIntersectionConverter
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.UnionOrIntersectionType): boolean {
+    supportsType(_context: Context, type: ts.UnionOrIntersectionType): boolean {
         return (
             !!(type.flags & ts.TypeFlags.UnionOrIntersection) &&
             !(type.flags & ts.TypeFlags.EnumLiteral)

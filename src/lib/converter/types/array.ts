@@ -15,14 +15,14 @@ export class ArrayConverter
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.ArrayTypeNode): boolean {
+    supportsNode(_context: Context, node: ts.ArrayTypeNode): boolean {
         return node.kind === ts.SyntaxKind.ArrayType;
     }
 
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.TypeReference): boolean {
+    supportsType(_context: Context, type: ts.TypeReference): boolean {
         // Is there a better way to detect the {"type":"reference","name":"Array","typeArguments":{...}} types that are in fact arrays?
         return (
             !!(type.flags & ts.TypeFlags.Object) &&

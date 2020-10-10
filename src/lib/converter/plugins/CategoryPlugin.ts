@@ -51,7 +51,7 @@ export class CategoryPlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin(_context: Context) {
         // Set up static properties
         if (this.defaultCategory) {
             CategoryPlugin.defaultCategory = this.defaultCategory;
@@ -67,7 +67,7 @@ export class CategoryPlugin extends ConverterComponent {
      * @param context  The context object describing the current state the converter is in.
      * @param reflection  The reflection that is currently resolved.
      */
-    private onResolve(context: Context, reflection: Reflection) {
+    private onResolve(_context: Context, reflection: Reflection) {
         if (reflection instanceof ContainerReflection) {
             this.categorize(reflection);
         }

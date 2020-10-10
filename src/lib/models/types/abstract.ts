@@ -22,7 +22,7 @@ export abstract class Type {
      * @param type  The type that should be checked for equality.
      * @returns TRUE if the given type equals this type, FALSE otherwise.
      */
-    equals(type: Type): boolean {
+    equals(_type: Type): boolean {
         return false;
     }
 

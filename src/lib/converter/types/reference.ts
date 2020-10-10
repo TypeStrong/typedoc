@@ -29,8 +29,8 @@ export class ReferenceConverter
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(
-        context: Context,
-        node: ts.TypeReferenceNode,
+        _context: Context,
+        _node: ts.TypeReferenceNode,
         type: ts.TypeReference
     ): boolean {
         return !!(type.flags & ts.TypeFlags.Object);
@@ -39,7 +39,7 @@ export class ReferenceConverter
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.TypeReference): boolean {
+    supportsType(_context: Context, type: ts.TypeReference): boolean {
         return !!(type.flags & ts.TypeFlags.Object);
     }
 

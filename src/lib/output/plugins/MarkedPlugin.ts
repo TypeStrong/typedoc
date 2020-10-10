@@ -87,7 +87,7 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
 
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
-        Handlebars.registerHelper("markdown", function (arg: any) {
+        Handlebars.registerHelper("markdown", function (this: any, arg: any) {
             return that.parseMarkdown(arg.fn(this), this);
         });
         Handlebars.registerHelper("relativeURL", (url: string) =>
@@ -130,29 +130,26 @@ export class MarkedPlugin extends ContextAwareRendererComponent {
      */
     public parseMarkdown(text: string, context: any) {
         if (this.includes) {
-            text = text.replace(
-                this.includePattern,
-                (match: string, path: string) => {
-                    path = Path.join(this.includes!, path.trim());
-                    if (FS.existsSync(path) && FS.statSync(path).isFile()) {
-                        const contents = readFile(path);
-                        if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
-                            const template = Handlebars.compile(contents);
-                            return template(context, {
-                                allowProtoMethodsByDefault: true,
-                                allowProtoPropertiesByDefault: true,
-                            });
-                        } else {
-                            return contents;
-                        }
+            text = text.replace(this.includePattern, (_match, path) => {
+                path = Path.join(this.includes!, path.trim());
+                if (FS.existsSync(path) && FS.statSync(path).isFile()) {
+                    const contents = readFile(path);
+                    if (path.substr(-4).toLocaleLowerCase() === ".hbs") {
+                        const template = Handlebars.compile(contents);
+                        return template(context, {
+                            allowProtoMethodsByDefault: true,
+                            allowProtoPropertiesByDefault: true,
+                        });
                     } else {
-                        this.application.logger.warn(
-                            "Could not find file to include: " + path
-                        );
-                        return "";
+                        return contents;
                     }
+                } else {
+                    this.application.logger.warn(
+                        "Could not find file to include: " + path
+                    );
+                    return "";
                 }
-            );
+            });
         }
 
         if (this.mediaDirectory) {

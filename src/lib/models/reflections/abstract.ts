@@ -250,7 +250,7 @@ export class ReflectionFlags extends Array<string> {
     private setSingleFlag(flag: ReflectionFlag, set: boolean) {
         const name = ReflectionFlag[flag].replace(
             /(.)([A-Z])/g,
-            (m, a, b) => a + " " + b.toLowerCase()
+            (_m, a, b) => a + " " + b.toLowerCase()
         );
         if (!set && this.hasFlag(flag)) {
             if (relevantFlags.includes(flag)) {
@@ -569,7 +569,7 @@ export abstract class Reflection {
      *
      * @param callback  The callback function that should be applied for each child reflection.
      */
-    traverse(callback: TraverseCallback) {}
+    traverse(_callback: TraverseCallback) {}
 
     /**
      * Return a string representation of this reflection.

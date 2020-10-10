@@ -20,7 +20,7 @@ export function splitUnquotedString(
         } else {
             const remainder = input.substring(closingQuoteIndex + 1);
             const result = [input.substring(0, closingQuoteIndex + 1)];
-            result.push(...this.splitUnquotedString(remainder, delimiter));
+            result.push(...splitUnquotedString(remainder, delimiter));
             return result;
         }
     } else {

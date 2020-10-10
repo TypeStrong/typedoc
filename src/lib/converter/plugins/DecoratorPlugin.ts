@@ -61,7 +61,7 @@ export class DecoratorPlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onBegin(context: Context) {
+    private onBegin(_context: Context) {
         this.usages = {};
     }
 

@@ -15,14 +15,14 @@ export class ConditionalConverter
     /**
      * Test whether this converter can handle the given TypeScript node.
      */
-    supportsNode(context: Context, node: ts.ConditionalTypeNode): boolean {
+    supportsNode(_context: Context, node: ts.ConditionalTypeNode): boolean {
         return node.kind === ts.SyntaxKind.ConditionalType;
     }
 
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.ConditionalType): boolean {
+    supportsType(_context: Context, type: ts.ConditionalType): boolean {
         return !!(type.flags & ts.TypeFlags.Conditional);
     }
 

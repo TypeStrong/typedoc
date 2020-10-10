@@ -22,8 +22,8 @@ export class TypeParameterConverter
      * Test whether this converter can handle the given TypeScript node.
      */
     supportsNode(
-        context: Context,
-        node: ts.TypeReferenceNode,
+        _context: Context,
+        _node: ts.TypeReferenceNode,
         type: ts.Type
     ): boolean {
         return !!(type.flags & ts.TypeFlags.TypeParameter);

@@ -23,7 +23,7 @@ export class IntrinsicConverter
     /**
      * Test whether this converter can handle the given TypeScript type.
      */
-    supportsType(context: Context, type: ts.Type): boolean {
+    supportsType(_context: Context, type: ts.Type): boolean {
         return !!(type.flags & IntrinsicTypeFlags);
     }
 

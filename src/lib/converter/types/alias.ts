@@ -95,7 +95,7 @@ export class AliasConverter
         return result;
     }
 
-    supportsType(context: Context, type: ts.Type): boolean {
+    supportsType(_context: Context, type: ts.Type): boolean {
         return Boolean(type.aliasSymbol);
     }
 

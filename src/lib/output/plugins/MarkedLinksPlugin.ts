@@ -163,7 +163,7 @@ export class MarkedLinksPlugin extends ContextAwareRendererComponent {
     /**
      * Triggered when [[Renderer]] is finished
      */
-    onEndRenderer(event: RendererEvent) {
+    onEndRenderer(_event: RendererEvent) {
         if (this.listInvalidSymbolLinks && this.warnings.length > 0) {
             this.application.logger.write("");
             this.application.logger.warn(
