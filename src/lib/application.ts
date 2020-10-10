@@ -32,10 +32,7 @@ import {
     DUMMY_APPLICATION_OWNER,
 } from "./utils/component";
 import { Options, BindOption } from "./utils";
-import {
-    TypeDocAndTSOptions,
-    TypeDocOptions,
-} from "./utils/options/declaration";
+import { TypeDocOptions } from "./utils/options/declaration";
 
 /**
  * The default TypeDoc main application class.
@@ -86,8 +83,8 @@ export class Application extends ChildableComponent<
     @BindOption("exclude")
     exclude!: Array<string>;
 
-    @BindOption("inputFiles")
-    inputFiles!: string[];
+    @BindOption("entryPoints")
+    entryPoints!: string[];
 
     @BindOption("options")
     optionsFile!: string;
@@ -128,7 +125,7 @@ export class Application extends ChildableComponent<
      * @param options  The desired options to set.
      */
     bootstrap(
-        options: Partial<TypeDocAndTSOptions> = {}
+        options: Partial<TypeDocOptions> = {}
     ): { hasErrors: boolean; inputFiles: string[] } {
         for (const [key, val] of Object.entries(options)) {
             try {
@@ -162,7 +159,7 @@ export class Application extends ChildableComponent<
 
         return {
             hasErrors: this.logger.hasErrors(),
-            inputFiles: this.inputFiles,
+            inputFiles: this.entryPoints,
         };
     }
 

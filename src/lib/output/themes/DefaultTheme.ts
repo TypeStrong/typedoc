@@ -129,60 +129,25 @@ export class DefaultTheme extends Theme {
      */
     getUrls(project: ProjectReflection): UrlMapping[] {
         const urls: UrlMapping[] = [];
-        const entryPoint = this.getEntryPoint(project);
 
         if (this.application.options.getValue("readme") === "none") {
-            entryPoint.url = "index.html";
-            urls.push(
-                new UrlMapping("index.html", entryPoint, "reflection.hbs")
-            );
+            project.url = "index.html";
+            urls.push(new UrlMapping("index.html", project, "reflection.hbs"));
         } else {
-            entryPoint.url = "globals.html";
+            project.url = "globals.html";
             urls.push(
-                new UrlMapping("globals.html", entryPoint, "reflection.hbs")
+                new UrlMapping("globals.html", project, "reflection.hbs")
             );
             urls.push(new UrlMapping("index.html", project, "index.hbs"));
         }
 
-        if (entryPoint.children) {
-            entryPoint.children.forEach((child: Reflection) => {
-                if (child instanceof DeclarationReflection) {
-                    DefaultTheme.buildUrls(child, urls);
-                }
-            });
-        }
+        project.children?.forEach((child: Reflection) => {
+            if (child instanceof DeclarationReflection) {
+                DefaultTheme.buildUrls(child, urls);
+            }
+        });
 
         return urls;
-    }
-
-    /**
-     * Return the entry point of the documentation.
-     *
-     * @param project  The current project.
-     * @returns The reflection that should be used as the entry point.
-     */
-    getEntryPoint(project: ProjectReflection): ContainerReflection {
-        const entryPoint = this.owner.entryPoint;
-        if (entryPoint) {
-            const reflection = project.getChildByName(entryPoint);
-            if (reflection) {
-                if (reflection instanceof ContainerReflection) {
-                    return reflection;
-                } else {
-                    this.application.logger.warn(
-                        "The given entry point `%s` is not a container.",
-                        entryPoint
-                    );
-                }
-            } else {
-                this.application.logger.warn(
-                    "The entry point `%s` could not be found.",
-                    entryPoint
-                );
-            }
-        }
-
-        return project;
     }
 
     /**
@@ -192,8 +157,7 @@ export class DefaultTheme extends Theme {
      * @returns        The root navigation item.
      */
     getNavigation(project: ProjectReflection): NavigationItem {
-        const entryPoint = this.getEntryPoint(project);
-        const builder = new NavigationBuilder(project, entryPoint);
+        const builder = new NavigationBuilder(project, project);
         return builder.build(
             this.application.options.getValue("readme") !== "none"
         );

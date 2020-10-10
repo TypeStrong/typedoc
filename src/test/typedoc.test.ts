@@ -2,7 +2,6 @@ import { Application } from "..";
 import * as Path from "path";
 import Assert = require("assert");
 import { Converter, Context } from "../lib/converter";
-import { ModuleKind } from "typescript";
 
 describe("TypeDoc", function () {
     let application: Application;
@@ -90,7 +89,6 @@ describe("TypeDoc", function () {
         });
         it("Honors the exclude option even if a module is imported", () => {
             application.options.setValue("exclude", ["**/b.ts"]);
-            application.options.setValue("module", ModuleKind.CommonJS);
 
             function handler(context: Context) {
                 Assert.deepStrictEqual(context.fileNames, [

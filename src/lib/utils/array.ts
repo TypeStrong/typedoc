@@ -58,3 +58,22 @@ export function removeIfPresent<T>(arr: T[] | undefined, item: T) {
         arr.splice(index, 1);
     }
 }
+
+/**
+ * Filters out duplicate values from the given iterable.
+ * @param arr
+ */
+export function unique<T>(arr: Iterable<T> | undefined): T[] {
+    return Array.from(new Set(arr));
+}
+
+/**
+ * Ensures the given item is an array.
+ * @param item
+ */
+export function toArray<T>(item: T | readonly T[] | undefined): T[] {
+    if (item === void 0) {
+        return [];
+    }
+    return Array.isArray(item) ? [...item] : [item];
+}

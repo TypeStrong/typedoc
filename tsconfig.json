@@ -1,14 +1,10 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "CommonJS",
         "lib": [
-            "es5",
-            "es2015.core",
-            "es2015.collection",
-            "es2015.iterable",
-            "es2016.array.include" // Supported by Node 6+
+            "ES2018"
         ],
-        "target": "es2015",
+        "target": "ES2018",
         "noImplicitAny": false,
         "downlevelIteration": true,
         "strictFunctionTypes": true,

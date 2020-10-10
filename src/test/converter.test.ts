@@ -7,7 +7,6 @@ import {
 import * as FS from "fs";
 import * as Path from "path";
 import { deepStrictEqual as equal, ok } from "assert";
-import { ScriptTarget, ModuleKind, JsxEmit } from "typescript";
 
 import json = require("./converter/class/specs.json");
 import { JSONOutput } from "../lib/serialization";
@@ -17,14 +16,9 @@ describe("Converter", function () {
     const app = new Application();
     app.bootstrap({
         logger: "none",
-        target: ScriptTarget.ES2016,
-        module: ModuleKind.CommonJS,
-        experimentalDecorators: true,
-        jsx: JsxEmit.React,
         name: "typedoc",
         excludeExternals: true,
         disableSources: true,
-        resolveJsonModule: true,
     });
 
     const checks: [string, () => void, () => void][] = [

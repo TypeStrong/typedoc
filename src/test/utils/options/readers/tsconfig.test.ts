@@ -3,7 +3,6 @@ import { deepStrictEqual as equal } from "assert";
 
 import { TSConfigReader } from "../../../../lib/utils/options/readers";
 import { Logger, Options } from "../../../../lib/utils";
-import { ScriptTarget } from "typescript";
 
 describe("Options - TSConfigReader", () => {
     const options = new Options(new Logger());
@@ -55,19 +54,7 @@ describe("Options - TSConfigReader", () => {
         equal(logger.hasErrors(), false);
     });
 
-    it("Also reads files according to --project", () => {
-        options.reset();
-        options.setValue(
-            "project",
-            join(__dirname, "data/valid.tsconfig.json")
-        );
-        const logger = new Logger();
-        options.read(logger);
-        equal(options.getValue("help"), true);
-        equal(options.getCompilerOptions().target, ScriptTarget.ESNext);
-    });
-
-    it("Sets inputFiles if they have not been set", () => {
+    it("Sets files for the program", () => {
         options.reset();
         options.setValue(
             "tsconfig",
@@ -75,19 +62,8 @@ describe("Options - TSConfigReader", () => {
         );
         options.read(new Logger());
         equal(
-            options.getValue("inputFiles").map((f) => resolve(f)),
+            options.getFileNames().map((f) => resolve(f)),
             [resolve(__dirname, "./data/file.ts")]
         );
-    });
-
-    it("Does not set inputFiles if they have been set", () => {
-        options.reset();
-        options.setValue(
-            "tsconfig",
-            join(__dirname, "data/valid.tsconfig.json")
-        );
-        options.setValue("inputFiles", ["foo.ts"]);
-        options.read(new Logger());
-        equal(options.getValue("inputFiles"), ["foo.ts"]);
     });
 });

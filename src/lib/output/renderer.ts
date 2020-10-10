@@ -79,9 +79,6 @@ export class Renderer extends ChildableComponent<
     @BindOption("hideGenerator")
     hideGenerator!: boolean;
 
-    @BindOption("entryPoint")
-    entryPoint!: string;
-
     @BindOption("toc")
     toc!: string[];
 

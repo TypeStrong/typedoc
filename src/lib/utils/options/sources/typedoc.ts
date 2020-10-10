@@ -18,8 +18,9 @@ export function addTypeDocOptions(options: Options) {
     });
 
     options.addDeclaration({
-        name: "inputFiles",
-        help: "The initial input files to expand and then pass to TS.",
+        name: "entryPoints",
+        help:
+            "The entry points of your library, which files should be documented as available to consumers.",
         type: ParameterType.Array,
     });
 
@@ -27,12 +28,6 @@ export function addTypeDocOptions(options: Options) {
         name: "includeDeclarations",
         help: "Turn on parsing of .d.ts declaration files.",
         type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
-        name: "entryPoint",
-        help:
-            "Specifies the fully qualified name of the root symbol. Defaults to global namespace.",
-        type: ParameterType.String,
     });
     options.addDeclaration({
         name: "exclude",
@@ -189,13 +184,11 @@ export function addTypeDocOptions(options: Options) {
 
     options.addDeclaration({
         name: "help",
-        short: "h",
         help: "Print this message.",
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
         name: "version",
-        short: "v",
         help: "Print TypeDoc's version.",
         type: ParameterType.Boolean,
     });

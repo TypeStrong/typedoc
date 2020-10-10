@@ -4,17 +4,15 @@ import * as ts from "typescript";
 
 import {
     DeclarationOption,
-    ParameterScope,
     ParameterType,
     convert,
     TypeDocOptions,
     KeyToDeclaration,
-    TypeDocAndTSOptions,
     TypeDocOptionMap,
 } from "./declaration";
 import { Logger } from "../loggers";
-import { insertPrioritySorted } from "../array";
-import { addTSOptions, addTypeDocOptions } from "./sources";
+import { insertPrioritySorted, unique } from "../array";
+import { addTypeDocOptions } from "./sources";
 import { Application } from "../../..";
 import { NeverIfInternal } from "..";
 
@@ -60,18 +58,6 @@ export interface OptionsReader {
  * and TypeScript options. Ensures options are of the correct type for calling
  * code.
  *
- * ### Case Sensitivity
- * All option keys are case insensitive. The following lines will each get the same value.
- * ```ts
- * const x = options.getValue('name');
- * const y = options.getValue('NAME');
- * const z = options.tryGetValue('NaMe').unwrap();
- * ```
- *
- * **WARNING**: This case insensitivity is primarily intended to ease command line use and for
- * backward compatibility. It may change in a future release. Any code using TypeDoc options
- * programmatically should conform to the case indicated in the [[TypeDocOptions]] interface.
- *
  * ### Option Discovery
  *
  * Since plugins commonly add custom options, and TypeDoc does not permit options which have
@@ -92,6 +78,7 @@ export class Options {
     private _declarations = new Map<string, Readonly<DeclarationOption>>();
     private _values: Partial<TypeDocOptions> = {};
     private _compilerOptions: ts.CompilerOptions = {};
+    private _fileNames: string[] = [];
     private _logger: Logger;
 
     constructor(logger: Logger) {
@@ -110,7 +97,6 @@ export class Options {
      * Adds the option declarations declared by the TypeDoc and all supported TypeScript declarations.
      */
     addDefaultDeclarations() {
-        addTSOptions(this);
         addTypeDocOptions(this);
     }
 
@@ -118,10 +104,11 @@ export class Options {
      * Resets the option bag to all default values.
      */
     reset() {
-        for (const declaration of this._declarations.values()) {
+        for (const declaration of this.getDeclarations()) {
             this.setOptionValueToDefault(declaration);
         }
         this._compilerOptions = {};
+        this._fileNames = [];
     }
 
     /**
@@ -165,21 +152,13 @@ export class Options {
     ): void;
 
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
-        const names = [declaration.name];
-        if (declaration.short) {
-            names.push(declaration.short);
-        }
-
-        for (const name of names) {
-            // Check for registering the same declaration twice, should not be an error.
-            const decl = this.getDeclaration(name);
-            if (decl && decl !== declaration) {
-                this._logger.error(
-                    `The option ${name} has already been registered`
-                );
-            } else {
-                this._declarations.set(name.toLowerCase(), declaration);
-            }
+        const decl = this.getDeclaration(declaration.name);
+        if (decl) {
+            this._logger.error(
+                `The option ${declaration.name} has already been registered`
+            );
+        } else {
+            this._declarations.set(declaration.name, declaration);
         }
 
         this.setOptionValueToDefault(declaration);
@@ -209,31 +188,24 @@ export class Options {
     removeDeclarationByName(name: string): void {
         const declaration = this.getDeclaration(name);
         if (declaration) {
-            this._declarations.delete(declaration.name.toLowerCase());
-            if (declaration.short) {
-                this._declarations.delete(declaration.short.toLowerCase());
-            }
+            this._declarations.delete(declaration.name);
             delete this._values[declaration.name];
         }
     }
 
     /**
-     * Gets a declaration by either its name or short name.
+     * Gets a declaration by one of its names.
      * @param name
      */
     getDeclaration(name: string): Readonly<DeclarationOption> | undefined {
-        return this._declarations.get(name.toLowerCase());
+        return this._declarations.get(name);
     }
 
     /**
-     * Gets all declarations in the options with a given scope.
-     * @param scope
+     * Gets all declared options.
      */
-    getDeclarationsByScope(scope: ParameterScope) {
-        return _.uniq(Array.from(this._declarations.values())).filter(
-            (declaration) =>
-                (declaration.scope ?? ParameterScope.TypeDoc) === scope
-        );
+    getDeclarations(): Readonly<DeclarationOption>[] {
+        return unique(this._declarations.values());
     }
 
     /**
@@ -269,20 +241,7 @@ export class Options {
             throw new Error(`Unknown option '${name}'`);
         }
 
-        if (declaration.scope === ParameterScope.TypeScript) {
-            throw new Error(
-                "TypeScript options must be fetched with getCompilerOptions."
-            );
-        }
-
         return this._values[declaration.name];
-    }
-
-    /**
-     * Gets the set compiler options.
-     */
-    getCompilerOptions(): ts.CompilerOptions {
-        return _.cloneDeep(this._compilerOptions);
     }
 
     /**
@@ -290,9 +249,9 @@ export class Options {
      * @param name
      * @param value
      */
-    setValue<K extends keyof TypeDocAndTSOptions>(
+    setValue<K extends keyof TypeDocOptions>(
         name: K,
-        value: TypeDocAndTSOptions[K]
+        value: TypeDocOptions[K]
     ): void;
     setValue(
         name: NeverIfInternal<string>,
@@ -307,25 +266,32 @@ export class Options {
         }
 
         const converted = convert(value, declaration);
-        const bag =
-            declaration.scope === ParameterScope.TypeScript
-                ? this._compilerOptions
-                : this._values;
-        bag[declaration.name] = converted;
+        this._values[declaration.name] = converted;
     }
 
     /**
-     * Sets all the given option values, throws if any value fails to be set.
-     * @param obj
-     * @deprecated will be removed in 0.19. Use setValue in a loop instead.
+     * Gets the set compiler options.
      */
-    setValues(obj: NeverIfInternal<Partial<TypeDocAndTSOptions>>): void {
-        this._logger.warn(
-            "Options.setValues is deprecated and will be removed in 0.19."
-        );
-        for (const [name, value] of Object.entries(obj)) {
-            this.setValue(name as keyof TypeDocOptions, value);
-        }
+    getCompilerOptions(): ts.CompilerOptions {
+        return _.cloneDeep(this._compilerOptions);
+    }
+
+    /**
+     * Gets the file names discovered through reading a tsconfig file.
+     */
+    getFileNames(): readonly string[] {
+        return this._fileNames;
+    }
+
+    /**
+     * Sets the compiler options that will be used to get a TS program.
+     */
+    setCompilerOptions(
+        fileNames: readonly string[],
+        options: ts.CompilerOptions
+    ) {
+        this._fileNames = fileNames.slice();
+        this._compilerOptions = _.cloneDeep(options);
     }
 
     /**
@@ -335,11 +301,9 @@ export class Options {
     private setOptionValueToDefault(
         declaration: Readonly<DeclarationOption>
     ): void {
-        if (declaration.scope !== ParameterScope.TypeScript) {
-            this._values[declaration.name] = this.getDefaultOptionValue(
-                declaration
-            );
-        }
+        this._values[declaration.name] = this.getDefaultOptionValue(
+            declaration
+        );
     }
 
     private getDefaultOptionValue(

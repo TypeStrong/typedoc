@@ -7,7 +7,6 @@ import {
     ReflectionKind,
     TypeParameterReflection,
     DeclarationReflection,
-    ProjectReflection,
 } from "../../models/reflections/index";
 import { Component, ConverterComponent } from "../components";
 import { parseComment, getRawComment } from "../factories/comment";
@@ -388,56 +387,6 @@ export class CommentPlugin extends ConverterComponent {
         for (const tag of this.excludeTags) {
             comment.removeTags(tag);
         }
-    }
-
-    /**
-     * Remove all tags with the given name from the given comment instance.
-     * @deprecated Use [[Comment.removeTags]] instead.
-     * Warn in 0.17, remove in 0.18.
-     *
-     * @param comment  The comment that should be modified.
-     * @param tagName  The name of the that that should be removed.
-     */
-    static removeTags(comment: Comment | undefined, tagName: string) {
-        // Can't use a logger here, we don't have one.
-        console.warn(
-            "Using deprecated function removeTags. This function will be removed in the next minor release."
-        );
-        comment?.removeTags(tagName);
-    }
-
-    /**
-     * Remove the specified reflections from the project.
-     * @deprecated use [[ProjectReflection.removeReflection]]
-     * Warn in 0.17, remove in 0.18
-     */
-    static removeReflections(
-        project: ProjectReflection,
-        reflections: Reflection[]
-    ) {
-        // Can't use a logger here, we don't have one.
-        console.warn(
-            "Using deprecated function removeReflections. This function will be removed in the next minor release."
-        );
-        for (const reflection of reflections) {
-            project.removeReflection(reflection, true);
-        }
-    }
-
-    /**
-     * Remove the given reflection from the project.
-     * @deprecated use [[ProjectReflection.removeReflection]]
-     * Warn in 0.17, remove in 0.18
-     */
-    static removeReflection(
-        project: ProjectReflection,
-        reflection: Reflection
-    ) {
-        // Can't use a logger here, we don't have one.
-        console.warn(
-            "Using deprecated function removeReflections. This function will be removed in the next minor release."
-        );
-        project.removeReflection(reflection, true);
     }
 
     /**

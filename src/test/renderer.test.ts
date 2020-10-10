@@ -2,7 +2,6 @@ import { Application, ProjectReflection } from "..";
 import * as FS from "fs-extra";
 import * as Path from "path";
 import Assert = require("assert");
-import { ScriptTarget, ModuleKind } from "typescript";
 
 function getFileIndex(base, dir = "", results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
@@ -66,9 +65,7 @@ describe("Renderer", function () {
         app = new Application();
         app.bootstrap({
             logger: "console",
-            target: ScriptTarget.ES5,
             readme: Path.join(src, "..", "README.md"),
-            module: ModuleKind.CommonJS,
             gaSite: "foo.com", // verify theme option without modifying output
             name: "typedoc",
             disableSources: true,

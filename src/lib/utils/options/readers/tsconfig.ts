@@ -5,7 +5,6 @@ import * as ts from "typescript";
 
 import { OptionsReader, Options } from "../options";
 import { Logger } from "../../loggers";
-import { IGNORED } from "../sources/typescript";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();
@@ -76,14 +75,6 @@ export class TSConfigReader implements OptionsReader {
 
         logger?.diagnostics(errors);
 
-        if (container.isDefault("inputFiles")) {
-            container.setValue("inputFiles", fileNames);
-        }
-
-        for (const key of IGNORED) {
-            delete options[key];
-        }
-
         if (typedocOptions.options) {
             logger?.error(
                 [
@@ -93,14 +84,14 @@ export class TSConfigReader implements OptionsReader {
             );
             delete typedocOptions.options;
         }
-
-        for (const [key, val] of Object.entries(options)) {
-            try {
-                container.setValue(key, val);
-            } catch (error) {
-                logger?.error(error.message);
-            }
+        if (typedocOptions.tsconfig) {
+            logger?.error(
+                "typedocOptions in tsconfig file may not specify a tsconfig file to read"
+            );
+            delete typedocOptions.tsconfig;
         }
+
+        container.setCompilerOptions(fileNames, options);
         for (const [key, val] of Object.entries(typedocOptions || {})) {
             try {
                 container.setValue(key, val);

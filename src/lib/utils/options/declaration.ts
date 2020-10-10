@@ -1,6 +1,4 @@
 import * as _ from "lodash";
-import { CompilerOptions } from "typescript";
-import { IgnoredTsOptionKeys } from "./sources/typescript";
 
 /**
  * An interface describing all TypeDoc specific options options. Generated from a
@@ -17,37 +15,15 @@ export type TypeDocOptions = {
 };
 
 /**
- * The CompilerOptions interface includes an index signature to avoid errors when unknown
- * options are passed. TypeDoc's option parsing is stricter, so we need to remove it.
- *
- * @see https://github.com/Microsoft/TypeScript/issues/25987#issuecomment-408339599
- */
-type KnownKeys<T> = {
-    [K in keyof T]: string extends K ? never : number extends K ? never : K;
-} extends { [_ in keyof T]: infer U }
-    ? U
-    : never;
-
-/**
- * All supported options, includes both TypeDoc and TypeScript options.
- */
-export type TypeDocAndTSOptions = TypeDocOptions &
-    Pick<
-        CompilerOptions,
-        Exclude<KnownKeys<CompilerOptions>, IgnoredTsOptionKeys>
-    >;
-
-/**
  * Describes all TypeDoc options. Used internally to provide better types when fetching options.
- * External consumers should likely use either [[TypeDocAndTSOptions]] or [[TypeDocOptions]].
+ * External consumers should likely use [[TypeDocOptions]] instead.
  */
 export interface TypeDocOptionMap {
     options: string;
     tsconfig: string;
 
-    inputFiles: string[];
+    entryPoints: string[];
     includeDeclarations: boolean;
-    entryPoint: string;
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;
@@ -116,11 +92,7 @@ export enum ParameterType {
     Map,
     Mixed,
     Array,
-}
-
-export enum ParameterScope {
-    TypeDoc,
-    TypeScript,
+    Path,
 }
 
 export interface DeclarationOptionBase {
@@ -128,11 +100,6 @@ export interface DeclarationOptionBase {
      * The option name.
      */
     name: string;
-
-    /**
-     * An optional short name for the option.
-     */
-    short?: string;
 
     /**
      * The help text to be displayed to the user when --help is passed.
@@ -144,12 +111,6 @@ export interface DeclarationOptionBase {
      * If not set, the type will be a string.
      */
     type?: ParameterType;
-
-    /**
-     * Whether the option belongs to TypeDoc or TypeScript.
-     * If not specified will be defaulted to TypeDoc.
-     */
-    scope?: ParameterScope;
 }
 
 export interface StringDeclarationOption extends DeclarationOptionBase {
@@ -384,13 +345,11 @@ function getBoundsError(
 
 /**
  * Checks if the given value is a finite number.
- * This is equivalent to Number.isFinite, but that function is incorrectly typed to only accept
- * `number` in the latest TS version. See TypeScript/34932
  * @param value The value being checked.
  * @returns True, if the value is a finite number, otherwise false.
  */
-function isFiniteNumber(value?: unknown): value is number {
-    return typeof value === "number" && isFinite(value);
+function isFiniteNumber(value: unknown): value is number {
+    return Number.isFinite(value);
 }
 
 /**

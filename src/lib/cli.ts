@@ -1,11 +1,10 @@
 import * as typescript from "typescript";
 
 import { Application } from "./application";
-import { BindOption } from "./utils/options";
+import { BindOption, TypeDocOptions } from "./utils/options";
 import { getOptionsHelp } from "./utils/options/help";
 import { ArgumentsReader, TypeDocReader } from "./utils/options/readers";
 import { TSConfigReader } from "./utils/options/readers/tsconfig";
-import { TypeDocAndTSOptions } from "./utils/options/declaration";
 
 export const enum ExitCode {
     OptionError = 1,
@@ -31,7 +30,7 @@ export class CliApplication extends Application {
     /**
      * Run TypeDoc from the command line.
      */
-    bootstrap(options?: Partial<TypeDocAndTSOptions>) {
+    bootstrap(options?: Partial<TypeDocOptions>) {
         this.options.addReader(new ArgumentsReader(0));
         this.options.addReader(new TypeDocReader());
         this.options.addReader(new TSConfigReader());

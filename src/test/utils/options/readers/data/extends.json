@@ -1,4 +1,4 @@
 {
-    "extends": "./src.json",
+    "extends": "./valid.json",
     "name": "extends"
 }
