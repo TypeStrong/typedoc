@@ -49,6 +49,13 @@ export class Context {
     scope: Reflection;
 
     /**
+     * Conversion is done in two passes to properly handle symbols exported from
+     * more than one entry point. This is used by the SourceFile converter to check
+     * if re-exports should be documented.
+     */
+    inFirstPass?: boolean;
+
+    /**
      * Is the current source file marked as being external?
      */
     isExternal?: boolean;

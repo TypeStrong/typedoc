@@ -9,9 +9,7 @@
       "name": "\"inherit-param-doc\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/inherit-param-doc/inherit-param-doc.ts",
       "children": [
         {
@@ -19,27 +17,21 @@
           "name": "Class1",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 8,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 9,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {},
                   "parameters": [
                     {
@@ -47,9 +39,7 @@
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter A."
                       },
@@ -63,9 +53,7 @@
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter B.\n"
                       },
@@ -115,27 +103,21 @@
           "name": "Class2",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 13,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 14,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {},
                   "parameters": [
                     {
@@ -143,9 +125,7 @@
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Custom parameter A doc.\n"
                       },
@@ -159,9 +139,7 @@
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter B.\n"
                       },
@@ -211,27 +189,21 @@
           "name": "Class3",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 18,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 19,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {},
                   "parameters": [
                     {
@@ -239,9 +211,7 @@
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter A."
                       },
@@ -255,9 +225,7 @@
                       "name": "c",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Custom second parameter doc with name change.\n"
                       },
@@ -307,27 +275,21 @@
           "name": "Base",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 3,
               "name": "method1",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 4,
                   "name": "method1",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {},
                   "parameters": [
                     {
@@ -335,9 +297,7 @@
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter A."
                       },
@@ -351,9 +311,7 @@
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "Parameter B.\n"
                       },

@@ -9,9 +9,7 @@
       "name": "\"alias\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/alias/alias.ts",
       "children": [
         {
@@ -22,47 +20,47 @@
           "flags": {},
           "children": [
             {
-              "id": 31,
+              "id": 32,
               "name": "Example",
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 32,
+                  "id": 33,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 33,
+                    "id": 31,
                     "name": "ExampleParam"
                   }
                 }
               ]
             },
             {
-              "id": 33,
+              "id": 31,
               "name": "ExampleParam",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 31,
+                "id": 32,
                 "name": "Example"
               }
             },
             {
-              "id": 42,
+              "id": 36,
               "name": "HasProp",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 43,
+                  "id": 37,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -72,14 +70,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 44,
+                  "id": 38,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 45,
+                      "id": 39,
                       "name": "key",
                       "kind": 32,
                       "kindString": "Variable",
@@ -95,7 +93,7 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        45
+                        39
                       ]
                     }
                   ]
@@ -104,147 +102,19 @@
             },
             {
               "id": 34,
-              "name": "makeExample",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isConst": true
-              },
-              "type": {
-                "type": "reflection",
-                "declaration": {
-                  "id": 35,
-                  "name": "__type",
-                  "kind": 65536,
-                  "kindString": "Type literal",
-                  "flags": {},
-                  "signatures": [
-                    {
-                      "id": 36,
-                      "name": "__call",
-                      "kind": 4096,
-                      "kindString": "Call signature",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 31,
-                        "name": "Example"
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "id": 37,
-              "name": "makeExample2",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isConst": true
-              },
-              "type": {
-                "type": "reflection",
-                "declaration": {
-                  "id": 38,
-                  "name": "__type",
-                  "kind": 65536,
-                  "kindString": "Type literal",
-                  "flags": {},
-                  "signatures": [
-                    {
-                      "id": 39,
-                      "name": "__call",
-                      "kind": 4096,
-                      "kindString": "Call signature",
-                      "flags": {},
-                      "type": {
-                        "type": "reference",
-                        "id": 33,
-                        "name": "ExampleParam"
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "id": 46,
-              "name": "makeProp",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isConst": true
-              },
-              "type": {
-                "type": "reflection",
-                "declaration": {
-                  "id": 47,
-                  "name": "__type",
-                  "kind": 65536,
-                  "kindString": "Type literal",
-                  "flags": {},
-                  "signatures": [
-                    {
-                      "id": 48,
-                      "name": "__call",
-                      "kind": 4096,
-                      "kindString": "Call signature",
-                      "flags": {},
-                      "typeParameter": [
-                        {
-                          "id": 49,
-                          "name": "T",
-                          "kind": 131072,
-                          "kindString": "Type parameter",
-                          "flags": {}
-                        }
-                      ],
-                      "parameters": [
-                        {
-                          "id": 50,
-                          "name": "x",
-                          "kind": 32768,
-                          "kindString": "Parameter",
-                          "flags": {},
-                          "type": {
-                            "type": "typeParameter",
-                            "name": "T"
-                          }
-                        }
-                      ],
-                      "type": {
-                        "type": "reference",
-                        "id": 42,
-                        "typeArguments": [
-                          {
-                            "type": "typeParameter",
-                            "name": "T"
-                          }
-                        ],
-                        "name": "HasProp"
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "id": 40,
               "name": "testValue",
               "kind": 32,
               "kindString": "Variable",
               "flags": {
-                "isExported": true,
                 "isConst": true
               },
               "type": {
                 "type": "reference",
-                "id": 31,
+                "id": 32,
                 "typeArguments": [
                   {
                     "type": "reference",
-                    "id": 33,
+                    "id": 31,
                     "name": "ExampleParam"
                   }
                 ],
@@ -253,33 +123,31 @@
               "defaultValue": "makeExample()"
             },
             {
-              "id": 41,
+              "id": 35,
               "name": "testValue2",
               "kind": 32,
               "kindString": "Variable",
               "flags": {
-                "isExported": true,
                 "isConst": true
               },
               "type": {
                 "type": "reference",
-                "id": 33,
+                "id": 31,
                 "name": "ExampleParam"
               },
               "defaultValue": "makeExample2()"
             },
             {
-              "id": 51,
+              "id": 40,
               "name": "testValue3",
               "kind": 32,
               "kindString": "Variable",
               "flags": {
-                "isExported": true,
                 "isConst": true
               },
               "type": {
                 "type": "reference",
-                "id": 42,
+                "id": 36,
                 "typeArguments": [
                   {
                     "type": "intrinsic",
@@ -296,15 +164,15 @@
               "title": "Interfaces",
               "kind": 256,
               "children": [
-                31
+                32
               ]
             },
             {
               "title": "Type aliases",
               "kind": 4194304,
               "children": [
-                33,
-                42
+                31,
+                36
               ]
             },
             {
@@ -312,11 +180,8 @@
               "kind": 32,
               "children": [
                 34,
-                37,
-                46,
-                40,
-                41,
-                51
+                35,
+                40
               ]
             }
           ]
@@ -326,9 +191,7 @@
           "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "See GH#1150. Calling typeChecker.typeToString on this type will send TS into an infinite\nloop, which is undesirable."
           },
@@ -338,9 +201,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "array",
                 "elementType": {
@@ -354,9 +215,7 @@
               "name": "R",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              }
+              "flags": {}
             }
           ],
           "type": {
@@ -401,18 +260,14 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {
-                  "isExported": true
-                },
+                "flags": {},
                 "children": [
                   {
                     "id": 27,
                     "name": "0",
                     "kind": 32,
                     "kindString": "Variable",
-                    "flags": {
-                      "isExported": true
-                    },
+                    "flags": {},
                     "type": {
                       "type": "typeParameter",
                       "name": "R",
@@ -423,9 +278,7 @@
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          }
+                          "flags": {}
                         }
                       }
                     }
@@ -435,9 +288,7 @@
                     "name": "1",
                     "kind": 32,
                     "kindString": "Variable",
-                    "flags": {
-                      "isExported": true
-                    },
+                    "flags": {},
                     "type": {
                       "type": "reference",
                       "id": 22,
@@ -467,9 +318,7 @@
                             "name": "__type",
                             "kind": 65536,
                             "kindString": "Type literal",
-                            "flags": {
-                              "isExported": true
-                            }
+                            "flags": {}
                           }
                         }
                       ],
@@ -496,9 +345,7 @@
           "name": "IsString",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Conditional types from TS2.8"
           },
@@ -508,9 +355,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              }
+              "flags": {}
             }
           ],
           "type": {
@@ -538,9 +383,7 @@
           "name": "PopFront",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Conditional type with infer"
           },
@@ -550,9 +393,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "array",
                 "elementType": {
@@ -571,18 +412,14 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {
-                  "isExported": true
-                },
+                "flags": {},
                 "signatures": [
                   {
                     "id": 16,
                     "name": "__call",
                     "kind": 4096,
                     "kindString": "Call signature",
-                    "flags": {
-                      "isExported": true
-                    },
+                    "flags": {},
                     "parameters": [
                       {
                         "id": 17,
@@ -590,7 +427,6 @@
                         "kind": 32768,
                         "kindString": "Parameter",
                         "flags": {
-                          "isExported": true,
                           "isRest": true
                         },
                         "type": {
@@ -621,27 +457,21 @@
                 "name": "__type",
                 "kind": 65536,
                 "kindString": "Type literal",
-                "flags": {
-                  "isExported": true
-                },
+                "flags": {},
                 "signatures": [
                   {
                     "id": 19,
                     "name": "__call",
                     "kind": 4096,
                     "kindString": "Call signature",
-                    "flags": {
-                      "isExported": true
-                    },
+                    "flags": {},
                     "parameters": [
                       {
                         "id": 20,
                         "name": "a",
                         "kind": 32768,
                         "kindString": "Parameter",
-                        "flags": {
-                          "isExported": true
-                        },
+                        "flags": {},
                         "type": {
                           "type": "intrinsic",
                           "name": "any"
@@ -653,7 +483,6 @@
                         "kind": 32768,
                         "kindString": "Parameter",
                         "flags": {
-                          "isExported": true,
                           "isRest": true
                         },
                         "type": {
@@ -685,9 +514,7 @@
           "name": "PromiseType",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Extracts the type of a promise."
           },
@@ -697,9 +524,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              }
+              "flags": {}
             }
           ],
           "type": {
@@ -733,9 +558,7 @@
           "name": "TCompareFunction",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A type that describes a compare function, e.g. for array.sort()."
           },
@@ -745,9 +568,7 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              }
+              "flags": {}
             }
           ],
           "type": {
@@ -757,27 +578,21 @@
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
                   "id": 5,
                   "name": "__call",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "parameters": [
                     {
                       "id": 6,
                       "name": "a",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "typeParameter",
                         "name": "T"
@@ -788,9 +603,7 @@
                       "name": "b",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "typeParameter",
                         "name": "T"
@@ -811,9 +624,7 @@
           "name": "TId",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A type for IDs."
           },

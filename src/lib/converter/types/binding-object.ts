@@ -5,7 +5,6 @@ import {
     ReflectionKind,
     DeclarationReflection,
     ReflectionType,
-    ReflectionFlag,
 } from "../../models/index";
 import {
     Component,
@@ -38,10 +37,6 @@ export class BindingObjectConverter
             "__type",
             ReflectionKind.TypeLiteral,
             context.scope
-        );
-        declaration.flags.setFlag(
-            ReflectionFlag.Exported,
-            context.scope.flags.isExported
         );
 
         context.registerReflection(declaration);

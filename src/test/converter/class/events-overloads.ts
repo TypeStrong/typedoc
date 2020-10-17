@@ -3,7 +3,7 @@
  *
  * @see https://github.com/sebastian-lenz/typedoc/issues/136
  */
-interface Test {
+export interface Test {
     /**
      * Subscribe for a general event by name.
      *
@@ -40,5 +40,3 @@ interface Test {
      */
     on(event: "complete", handler: (e: any) => void): void;
 }
-
-export {};

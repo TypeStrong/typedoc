@@ -287,9 +287,7 @@ export class CommentPlugin extends ConverterComponent {
                 excludeProtected
             )
         );
-        hidden.forEach((reflection) =>
-            project.removeReflection(reflection, true)
-        );
+        hidden.forEach((reflection) => project.removeReflection(reflection));
 
         // remove functions with empty signatures after their signatures have been removed
         const [allRemoved, someRemoved] = partition(
@@ -301,7 +299,7 @@ export class CommentPlugin extends ConverterComponent {
             (method) => method.signatures?.length === 0
         );
         allRemoved.forEach((reflection) =>
-            project.removeReflection(reflection, true)
+            project.removeReflection(reflection)
         );
         someRemoved.forEach((reflection) => {
             reflection.sources = uniq(

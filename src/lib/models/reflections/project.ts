@@ -127,16 +127,18 @@ export class ProjectReflection extends ContainerReflection {
      * there will be a reference which points to the symbol, but the symbol will not be converted
      * and the rename will point to nothing. Warn the user if this happens.
      */
-    getDanglingReferences() {
-        const dangling = new Set<string>();
+    removeDanglingReferences() {
+        const dangling = new Set<ReferenceReflection>();
         for (const ref of Object.values(this.reflections)) {
             if (ref instanceof ReferenceReflection) {
                 if (!ref.tryGetTargetReflection()) {
-                    dangling.add(ref.name);
+                    dangling.add(ref);
                 }
             }
         }
-        return [...dangling];
+        for (const refl of dangling) {
+            this.removeReflection(refl);
+        }
     }
 
     /**
@@ -163,21 +165,16 @@ export class ProjectReflection extends ContainerReflection {
      * will be removed. If a reference is later created pointing to the removed reflection,
      * it will not be removed and will still produce a broken reference.
      */
-    removeReflection(reflection: Reflection, removeReferences = false) {
-        if (removeReferences) {
-            for (const id of this.getReferenceGraph().get(reflection.id) ??
-                []) {
-                const ref = this.getReflectionById(id);
-                if (ref) {
-                    this.removeReflection(ref, true);
-                }
+    removeReflection(reflection: Reflection) {
+        for (const id of this.getReferenceGraph().get(reflection.id) ?? []) {
+            const ref = this.getReflectionById(id);
+            if (ref) {
+                this.removeReflection(ref);
             }
-            this.getReferenceGraph().delete(reflection.id);
         }
+        this.getReferenceGraph().delete(reflection.id);
 
-        reflection.traverse((child) =>
-            this.removeReflection(child, removeReferences)
-        );
+        reflection.traverse((child) => this.removeReflection(child));
 
         const parent = reflection.parent as DeclarationReflection;
         parent?.traverse((child, property) => {

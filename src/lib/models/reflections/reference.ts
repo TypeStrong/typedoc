@@ -1,4 +1,4 @@
-import { Reflection, ReflectionKind, ReflectionFlag } from "./abstract";
+import { Reflection, ReflectionKind } from "./abstract";
 import { ProjectReflection } from "./project";
 import { DeclarationReflection } from "./declaration";
 
@@ -40,8 +40,6 @@ export class ReferenceReflection extends DeclarationReflection {
         parent?: Reflection
     ) {
         super(name, ReflectionKind.Reference, parent);
-        // References are only created for re-exported items, so they must be exported.
-        this.flags.setFlag(ReflectionFlag.Exported, true);
         this._state = state;
     }
 

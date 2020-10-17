@@ -4,7 +4,6 @@ import { Type, IntrinsicType, ReflectionType } from "../../models/types/index";
 import {
     ReflectionKind,
     DeclarationReflection,
-    ReflectionFlag,
 } from "../../models/reflections/index";
 import { createReferenceType } from "../factories/index";
 import {
@@ -167,10 +166,6 @@ export class ReferenceConverter
             "__type",
             ReflectionKind.TypeLiteral,
             context.scope
-        );
-        declaration.flags.setFlag(
-            ReflectionFlag.Exported,
-            context.scope.flags.isExported
         );
 
         context.registerReflection(declaration, symbol);

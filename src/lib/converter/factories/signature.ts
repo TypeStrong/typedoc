@@ -6,7 +6,6 @@ import {
     ContainerReflection,
     DeclarationReflection,
     Type,
-    ReflectionFlag,
 } from "../../models/index";
 import { Context } from "../context";
 import { Converter } from "../converter";
@@ -33,10 +32,6 @@ export function createSignature(
     }
 
     const signature = new SignatureReflection(name, kind, container);
-    signature.flags.setFlag(
-        ReflectionFlag.Exported,
-        container.flags.isExported
-    );
     context.registerReflection(signature);
     context.withScope(signature, node.typeParameters, true, () => {
         node.parameters.forEach((parameter: ts.ParameterDeclaration) => {

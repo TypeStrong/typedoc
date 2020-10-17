@@ -4,7 +4,7 @@
 @decoratorWithOptions({
     name: "Name of class",
 })
-class DecoratedClass {
+export class DecoratedClass {
     /**
      * A decorated method.
      */
@@ -16,7 +16,7 @@ class DecoratedClass {
 /**
  * A decorator with no options.
  */
-function decoratorAtom(
+export function decoratorAtom(
     target: Object,
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<any>
@@ -29,7 +29,7 @@ function decoratorAtom(
  *
  * @param value  The parameter of this decorator.
  */
-function decoratorWithParam(value: boolean): MethodDecorator {
+export function decoratorWithParam(value: boolean): MethodDecorator {
     return function (
         target: Object,
         propertyKey: string | symbol,
@@ -45,10 +45,10 @@ function decoratorWithParam(value: boolean): MethodDecorator {
  * @param options  The options object of this decorator.
  * @param options.name  A property on the options object of this decorator.
  */
-function decoratorWithOptions(options: { name: string }): ClassDecorator {
+export function decoratorWithOptions(options: {
+    name: string;
+}): ClassDecorator {
     return function (target) {
         (target as any).options = options;
     };
 }
-
-export {};

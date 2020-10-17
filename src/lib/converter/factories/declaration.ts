@@ -141,46 +141,9 @@ export function createDeclaration(
 
     const modifiers = ts.getCombinedModifierFlags(node);
 
-    // Test whether the node is exported
-    let isExported: boolean;
-    if (kind === ReflectionKind.Module || kind === ReflectionKind.Global) {
-        isExported = true;
-    } else if (container.kind === ReflectionKind.Global) {
-        // In file mode, everything is exported.
-        isExported = true;
-    } else if (
-        container.kindOf([ReflectionKind.Namespace, ReflectionKind.Module])
-    ) {
-        const symbol = context.getSymbolAtLocation(node);
-        if (!symbol) {
-            isExported = false;
-        } else {
-            let parentNode = node.parent;
-            while (
-                ![
-                    ts.SyntaxKind.SourceFile,
-                    ts.SyntaxKind.ModuleDeclaration,
-                ].includes(parentNode.kind)
-            ) {
-                parentNode = parentNode.parent;
-            }
-            const parentSymbol = context.getSymbolAtLocation(parentNode);
-            if (!parentSymbol) {
-                // This is a file with no imports/exports, so everything is
-                // global and therefore exported.
-                isExported = true;
-            } else {
-                isExported = !!parentSymbol.exports?.get(symbol.escapedName);
-            }
-        }
-    } else {
-        isExported = container.flags.isExported;
-    }
-
     if (
-        (!isExported && context.converter.excludeNotExported) ||
-        (context.converter.excludeNotDocumented &&
-            shouldBeIgnoredAsNotDocumented(node, kind))
+        context.converter.excludeNotDocumented &&
+        shouldBeIgnoredAsNotDocumented(node, kind)
     ) {
         return;
     }
@@ -230,7 +193,6 @@ export function createDeclaration(
             ReflectionFlag.ConstructorProperty,
             isConstructorProperty
         );
-        child.setFlag(ReflectionFlag.Exported, isExported);
         child = setupDeclaration(context, child, node);
 
         if (child) {

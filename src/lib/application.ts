@@ -209,6 +209,12 @@ export class Application extends ChildableComponent<
             );
         }
 
+        if (Object.keys(this.options.getCompilerOptions()).length === 0) {
+            this.logger.warn(
+                `No compiler options set. This likely means that TypeDoc did not find your tsconfig.json. Generated documentation will probably be empty.`
+            );
+        }
+
         const result = this.converter.convert();
 
         if (result instanceof ProjectReflection) {

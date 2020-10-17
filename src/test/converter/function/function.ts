@@ -1,9 +1,4 @@
 /**
- * This is an internal function.
- */
-function internalFunction(): void {}
-
-/**
  * This is a simple exported function.
  */
 export function exportedFunction(): void {}
@@ -168,15 +163,15 @@ export module moduleFunction {
     /**
      * This variable is appended to a function.
      */
-    let functionVariable: string;
+    export let functionVariable: string;
 
     /**
      * This function is appended to another function.
      */
-    function append() {}
+    export function append() {}
 
     /**
      * This function is appended to another function.
      */
-    function prepend() {}
+    export function prepend() {}
 }

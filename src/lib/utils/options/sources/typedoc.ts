@@ -47,11 +47,6 @@ export function addTypeDocOptions(options: Options) {
         type: ParameterType.Boolean,
     });
     options.addDeclaration({
-        name: "excludeNotExported",
-        help: "Prevent symbols that are not exported from being documented.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
         name: "excludeNotDocumented",
         help:
             "Prevent symbols that are not explicitly documented from appearing in the results.",

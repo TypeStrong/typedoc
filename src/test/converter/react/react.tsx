@@ -1,11 +1,11 @@
 declare const React: unknown;
 
-interface DemoProps {
+export interface DemoProps {
     name: string;
     age: number;
 }
 
-class Demo {
+export class Demo {
     private foo: number;
 
     constructor(props: DemoProps) {

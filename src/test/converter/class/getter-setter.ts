@@ -1,4 +1,4 @@
-class GetterSetter {
+export class GetterSetter {
     private _name: string;
 
     get name(): string {

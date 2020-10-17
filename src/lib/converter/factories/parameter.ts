@@ -35,10 +35,6 @@ export function createParameter(
         ReflectionKind.Parameter,
         signature
     );
-    parameter.flags.setFlag(
-        ReflectionFlag.Exported,
-        context.scope.flags.isExported
-    );
     context.registerReflection(parameter);
     context.withScope(parameter, () => {
         if (

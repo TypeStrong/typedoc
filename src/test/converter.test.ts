@@ -29,11 +29,6 @@ describe("Converter", function () {
             () => app.options.setValue("includeDeclarations", false),
         ],
         [
-            "specs-without-exported",
-            () => app.options.setValue("excludeNotExported", true),
-            () => app.options.setValue("excludeNotExported", false),
-        ],
-        [
             "specs-with-lump-categories",
             () => app.options.setValue("categorizeByGroup", false),
             () => app.options.setValue("categorizeByGroup", true),

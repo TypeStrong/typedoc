@@ -27,7 +27,6 @@ export interface TypeDocOptionMap {
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;
-    excludeNotExported: boolean;
     excludePrivate: boolean;
     excludeProtected: boolean;
     excludeNotDocumented: boolean;

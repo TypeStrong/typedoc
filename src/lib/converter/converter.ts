@@ -46,9 +46,6 @@ export class Converter extends ChildableComponent<
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
 
-    @BindOption("excludeNotExported")
-    excludeNotExported!: boolean;
-
     @BindOption("excludeNotDocumented")
     excludeNotDocumented!: boolean;
 
@@ -270,18 +267,7 @@ export class Converter extends ChildableComponent<
         }
 
         const project = this.resolve(context);
-
-        const dangling = project.getDanglingReferences();
-        if (dangling.length) {
-            this.owner.logger.warn(
-                [
-                    "Some names refer to reflections that do not exist.",
-                    "This can be caused by exporting a reflection only under a different name than it is declared when excludeNotExported is set",
-                    "or by a plugin removing reflections without removing references. The names that cannot be resolved are:",
-                    ...dangling,
-                ].join("\n")
-            );
-        }
+        project.removeDanglingReferences();
 
         this.trigger(Converter.EVENT_END, context);
 
@@ -302,13 +288,18 @@ export class Converter extends ChildableComponent<
             return;
         }
 
-        const oldVisitStack = context.visitStack;
-        context.visitStack = oldVisitStack.slice();
+        const oldVisitStack = context.visitStack.slice();
         context.visitStack.push(node);
 
         let result: Reflection | undefined;
         if (node.kind in this.nodeConverters) {
             result = this.nodeConverters[node.kind].convert(context, node);
+        } else {
+            this.application.logger.warn(
+                `Missing converter for node having kind ${
+                    ts.SyntaxKind[node.kind]
+                }`
+            );
         }
 
         context.visitStack = oldVisitStack;
@@ -382,6 +373,8 @@ export class Converter extends ChildableComponent<
             return errors;
         }
 
+        const needsSecondPass: ts.SourceFile[] = [];
+        context.inFirstPass = true;
         for (const entry of this.application.entryPoints) {
             if (entry.endsWith(".json")) continue;
             const sourceFile = context.program.getSourceFile(
@@ -394,7 +387,13 @@ export class Converter extends ChildableComponent<
                 continue;
             }
 
+            needsSecondPass.push(sourceFile);
             this.convertNode(context, sourceFile);
+        }
+
+        context.inFirstPass = false;
+        for (const file of needsSecondPass) {
+            this.convertNode(context, file);
         }
 
         return [];

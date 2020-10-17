@@ -45,9 +45,9 @@ export type HorribleRecursiveTypeThatShouldNotBeUsedByAnyone<
     >;
 }[T["length"] extends 0 ? 0 : 1];
 
-namespace GH1330 {
-    type ExampleParam = Example;
-    interface Example<T extends ExampleParam = ExampleParam> {}
+export namespace GH1330 {
+    export type ExampleParam = Example;
+    export interface Example<T extends ExampleParam = ExampleParam> {}
 
     declare const makeExample: () => Example;
     declare const makeExample2: () => ExampleParam;
@@ -56,7 +56,7 @@ namespace GH1330 {
     export const testValue = makeExample();
     export const testValue2 = makeExample2();
 
-    type HasProp<T> = { key: T };
+    export type HasProp<T> = { key: T };
 
     declare const makeProp: <T>(x: T) => HasProp<T>;
     export const testValue3 = makeProp(1);

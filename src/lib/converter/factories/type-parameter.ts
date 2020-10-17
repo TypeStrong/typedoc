@@ -4,7 +4,6 @@ import {
     TypeParameterContainer,
     TypeParameterReflection,
     TypeParameterType,
-    ReflectionFlag,
 } from "../../models/index";
 import { Context } from "../context";
 import { Converter } from "../converter";
@@ -42,10 +41,6 @@ export function createTypeParameter(
     const typeParameterReflection = new TypeParameterReflection(
         typeParameter,
         reflection
-    );
-    typeParameterReflection.flags.setFlag(
-        ReflectionFlag.Exported,
-        reflection.flags.isExported
     );
 
     if (!reflection.typeParameters) {

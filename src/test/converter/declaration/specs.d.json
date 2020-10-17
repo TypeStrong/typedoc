@@ -9,9 +9,7 @@
       "name": "\"declaration.d\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/declaration/declaration.d.ts",
       "children": [
         {
@@ -19,18 +17,14 @@
           "name": "Decl",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 3,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -53,7 +47,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "type": {
@@ -84,9 +77,7 @@
       "name": "\"export-declaration.d\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/declaration/export-declaration.d.ts",
       "children": [
         {
@@ -94,18 +85,14 @@
           "name": "Exported",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          }
+          "flags": {}
         },
         {
           "id": 7,
           "name": "NotExported",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          }
+          "flags": {}
         }
       ],
       "groups": [
@@ -124,9 +111,7 @@
       "name": "\"namespaces.d\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/declaration/namespaces.d.ts",
       "children": [
         {
@@ -134,18 +119,14 @@
           "name": "GH1366",
           "kind": 2,
           "kindString": "Namespace",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 12,
               "name": "Foo",
               "kind": 16777216,
               "kindString": "Reference",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "target": 9
             }
           ],
@@ -164,18 +145,14 @@
           "name": "Foo",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
               "id": 10,
               "name": "prop",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "intrinsic",
                 "name": "number"

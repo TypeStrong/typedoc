@@ -9,9 +9,7 @@
       "name": "\"constructor-type\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/interface/constructor-type.ts",
       "children": [
         {
@@ -173,9 +171,7 @@
       "name": "\"interface-empty\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/interface/interface-empty.ts",
       "children": [
         {
@@ -288,9 +284,7 @@
       "name": "\"interface-implementation\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/interface/interface-implementation.ts",
       "children": [
         {
@@ -305,9 +299,7 @@
               "name": "EventDispatcher",
               "kind": 128,
               "kindString": "Class",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Implementation of IEventDispatcher",
                 "tags": [
@@ -323,9 +315,7 @@
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {
-                    "isExported": true
-                  }
+                  "flags": {}
                 }
               ],
               "children": [
@@ -335,8 +325,7 @@
                   "kind": 1024,
                   "kindString": "Property",
                   "flags": {
-                    "isPrivate": true,
-                    "isExported": true
+                    "isPrivate": true
                   },
                   "type": {
                     "type": "array",
@@ -358,27 +347,21 @@
                   "name": "add",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 68,
                       "name": "add",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 69,
                           "name": "listener",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "reference",
                             "id": 22,
@@ -396,9 +379,7 @@
                           "name": "filter",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "any"
@@ -410,9 +391,7 @@
                           "name": "priority",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "number"
@@ -449,18 +428,14 @@
                   "name": "clear",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 79,
                       "name": "clear",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -483,27 +458,21 @@
                   "name": "dispatch",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 76,
                       "name": "dispatch",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 77,
                           "name": "event",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "typeParameter",
                             "name": "T"
@@ -532,18 +501,14 @@
                   "name": "hasListeners",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 81,
                       "name": "hasListeners",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -566,27 +531,21 @@
                   "name": "remove",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 73,
                       "name": "remove",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 74,
                           "name": "subscription",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "reference",
                             "id": 26,
@@ -910,9 +869,7 @@
               "name": "EventDispatcherInt",
               "kind": 256,
               "kindString": "Interface",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "The main interface of the event system.\nAn IEventDispatcher is an object that keeps a list of listeners, and sends dispatches events of a certain type to them.\nThis might otherwise be known as a Signal."
               },
@@ -922,9 +879,7 @@
                   "name": "U",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {
-                    "isExported": true
-                  }
+                  "flags": {}
                 }
               ],
               "children": [
@@ -933,27 +888,21 @@
                   "name": "add",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 50,
                       "name": "add",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 51,
                           "name": "listener",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "reference",
                             "id": 22,
@@ -972,7 +921,6 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
-                            "isExported": true,
                             "isOptional": true
                           },
                           "type": {
@@ -986,7 +934,6 @@
                           "kind": 32768,
                           "kindString": "Parameter",
                           "flags": {
-                            "isExported": true,
                             "isOptional": true
                           },
                           "type": {
@@ -1014,18 +961,14 @@
                   "name": "clear",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 61,
                       "name": "clear",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "void"
@@ -1038,27 +981,21 @@
                   "name": "dispatch",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 58,
                       "name": "dispatch",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 59,
                           "name": "parameter",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "typeParameter",
                             "name": "U"
@@ -1077,18 +1014,14 @@
                   "name": "hasListeners",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 63,
                       "name": "hasListeners",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "boolean"
@@ -1101,27 +1034,21 @@
                   "name": "remove",
                   "kind": 2048,
                   "kindString": "Method",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "signatures": [
                     {
                       "id": 55,
                       "name": "remove",
                       "kind": 4096,
                       "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "parameters": [
                         {
                           "id": 56,
                           "name": "subscription",
                           "kind": 32768,
                           "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "reference",
                             "id": 26,

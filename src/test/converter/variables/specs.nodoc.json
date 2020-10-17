@@ -9,55 +9,45 @@
       "name": "\"array\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/variables/array.ts",
       "children": [
         {
-          "id": 4,
+          "id": 6,
           "name": "Foo",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Class array class item"
           }
         },
         {
-          "id": 5,
+          "id": 7,
           "name": "FooList",
           "kind": 128,
           "kindString": "Class",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Custom list class"
           },
           "indexSignature": [
             {
-              "id": 160,
+              "id": 162,
               "name": "__index",
               "kind": 8192,
               "kindString": "Index signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Custom list class"
               },
               "parameters": [
                 {
-                  "id": 161,
+                  "id": 163,
                   "name": "n",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -66,20 +56,18 @@
               ],
               "type": {
                 "type": "reference",
-                "id": 4,
+                "id": 6,
                 "name": "Foo"
               }
             }
           ],
           "children": [
             {
-              "id": 6,
+              "id": 8,
               "name": "length",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Gets or sets the length of the array. This is a number one higher than the highest element defined in an array."
               },
@@ -89,27 +77,23 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 6,
+                "id": 8,
                 "name": "Array.length"
               }
             },
             {
-              "id": 192,
+              "id": 194,
               "name": "[Symbol.iterator]",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 193,
+                  "id": 195,
                   "name": "[Symbol.iterator]",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Iterator"
                   },
@@ -118,7 +102,7 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     ],
@@ -126,82 +110,48 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 192,
+                    "id": 194,
                     "name": "Array.[Symbol.iterator]"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 192,
+                "id": 194,
                 "name": "Array.[Symbol.iterator]"
               }
             },
             {
-              "id": 200,
+              "id": 202,
               "name": "[Symbol.unscopables]",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 201,
+                  "id": 203,
                   "name": "[Symbol.unscopables]",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns an object whose properties have the value 'true'\nwhen they will be absent when used in a 'with' statement."
                   },
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 202,
+                      "id": 204,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "children": [
                         {
-                          "id": 203,
+                          "id": 205,
                           "name": "copyWithin",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 204,
-                          "name": "entries",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          }
-                        },
-                        {
-                          "id": 205,
-                          "name": "fill",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "boolean"
@@ -209,12 +159,10 @@
                         },
                         {
                           "id": 206,
-                          "name": "find",
+                          "name": "entries",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "boolean"
@@ -222,12 +170,10 @@
                         },
                         {
                           "id": 207,
-                          "name": "findIndex",
+                          "name": "fill",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "boolean"
@@ -235,12 +181,10 @@
                         },
                         {
                           "id": 208,
-                          "name": "keys",
+                          "name": "find",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "boolean"
@@ -248,12 +192,32 @@
                         },
                         {
                           "id": 209,
+                          "name": "findIndex",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 210,
+                          "name": "keys",
+                          "kind": 32,
+                          "kindString": "Variable",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "boolean"
+                          }
+                        },
+                        {
+                          "id": 211,
                           "name": "values",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "type": {
                             "type": "intrinsic",
                             "name": "boolean"
@@ -265,13 +229,13 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            203,
-                            204,
                             205,
                             206,
                             207,
                             208,
-                            209
+                            209,
+                            210,
+                            211
                           ]
                         }
                       ]
@@ -279,45 +243,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 200,
+                    "id": 202,
                     "name": "Array.[Symbol.unscopables]"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 200,
+                "id": 202,
                 "name": "Array.[Symbol.unscopables]"
               }
             },
             {
-              "id": 16,
+              "id": 18,
               "name": "concat",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 17,
+                  "id": 19,
                   "name": "concat",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Combines two or more arrays."
                   },
                   "parameters": [
                     {
-                      "id": 18,
+                      "id": 20,
                       "name": "items",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isRest": true
                       },
                       "comment": {
@@ -330,7 +289,7 @@
                           "typeArguments": [
                             {
                               "type": "reference",
-                              "id": 4,
+                              "id": 6,
                               "name": "Foo"
                             }
                           ],
@@ -343,35 +302,32 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 16,
+                    "id": 18,
                     "name": "Array.concat"
                   }
                 },
                 {
-                  "id": 19,
+                  "id": 21,
                   "name": "concat",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Combines two or more arrays."
                   },
                   "parameters": [
                     {
-                      "id": 20,
+                      "id": 22,
                       "name": "items",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isRest": true
                       },
                       "comment": {
@@ -384,7 +340,7 @@
                           "types": [
                             {
                               "type": "reference",
-                              "id": 4,
+                              "id": 6,
                               "name": "Foo"
                             },
                             {
@@ -392,7 +348,7 @@
                               "typeArguments": [
                                 {
                                   "type": "reference",
-                                  "id": 4,
+                                  "id": 6,
                                   "name": "Foo"
                                 }
                               ],
@@ -407,52 +363,46 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 16,
+                    "id": 18,
                     "name": "Array.concat"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 16,
+                "id": 18,
                 "name": "Array.concat"
               }
             },
             {
-              "id": 187,
+              "id": 189,
               "name": "copyWithin",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 188,
+                  "id": 190,
                   "name": "copyWithin",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the this object after copying a section of the array identified by start and end\nto the same array starting at position target"
                   },
                   "parameters": [
                     {
-                      "id": 189,
+                      "id": 191,
                       "name": "target",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "If target is negative, it is treated as length+target where length is the\nlength of the array."
                       },
@@ -462,13 +412,11 @@
                       }
                     },
                     {
-                      "id": 190,
+                      "id": 192,
                       "name": "start",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "If start is negative, it is treated as length+start. If end is negative, it\nis treated as length+end."
                       },
@@ -478,12 +426,11 @@
                       }
                     },
                     {
-                      "id": 191,
+                      "id": 193,
                       "name": "end",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -501,34 +448,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 187,
+                    "id": 189,
                     "name": "Array.copyWithin"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 187,
+                "id": 189,
                 "name": "Array.copyWithin"
               }
             },
             {
-              "id": 194,
+              "id": 196,
               "name": "entries",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 195,
+                  "id": 197,
                   "name": "entries",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns an iterable of key, value pairs for every entry in the array"
                   },
@@ -544,7 +487,7 @@
                           },
                           {
                             "type": "reference",
-                            "id": 4,
+                            "id": 6,
                             "name": "Foo"
                           }
                         ]
@@ -554,125 +497,107 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 194,
+                    "id": 196,
                     "name": "Array.entries"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 194,
+                "id": 196,
                 "name": "Array.entries"
               }
             },
             {
-              "id": 58,
+              "id": 60,
               "name": "every",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 59,
+                  "id": 61,
                   "name": "every",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Determines whether all the members of an array satisfy the specified test."
                   },
                   "typeParameter": [
                     {
-                      "id": 60,
+                      "id": 62,
                       "name": "S",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 61,
+                      "id": 63,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The every method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value false, or until the end of the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 62,
+                          "id": 64,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 63,
+                              "id": 65,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 64,
+                                  "id": 66,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 65,
+                                  "id": 67,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 66,
+                                  "id": 68,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -687,7 +612,7 @@
                                   "name": "S",
                                   "constraint": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 }
@@ -698,12 +623,11 @@
                       }
                     },
                     {
-                      "id": 67,
+                      "id": 69,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -726,7 +650,7 @@
                         "name": "S",
                         "constraint": {
                           "type": "reference",
-                          "id": 4,
+                          "id": 6,
                           "name": "Foo"
                         }
                       }
@@ -734,93 +658,79 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 58,
+                    "id": 60,
                     "name": "Array.every"
                   }
                 },
                 {
-                  "id": 68,
+                  "id": 70,
                   "name": "every",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Determines whether all the members of an array satisfy the specified test."
                   },
                   "parameters": [
                     {
-                      "id": 69,
+                      "id": 71,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The every method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value false, or until the end of the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 70,
+                          "id": 72,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 71,
+                              "id": 73,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 72,
+                                  "id": 74,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 73,
+                                  "id": 75,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 74,
+                                  "id": 76,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -836,12 +746,11 @@
                       }
                     },
                     {
-                      "id": 75,
+                      "id": 77,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -859,62 +768,55 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 58,
+                    "id": 60,
                     "name": "Array.every"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 58,
+                "id": 60,
                 "name": "Array.every"
               }
             },
             {
-              "id": 182,
+              "id": 184,
               "name": "fill",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 183,
+                  "id": 185,
                   "name": "fill",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the this object after filling the section identified by start and end with value"
                   },
                   "parameters": [
                     {
-                      "id": 184,
+                      "id": 186,
                       "name": "value",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "value to fill array section with"
                       },
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     },
                     {
-                      "id": 185,
+                      "id": 187,
                       "name": "start",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -926,12 +828,11 @@
                       }
                     },
                     {
-                      "id": 186,
+                      "id": 188,
                       "name": "end",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -949,125 +850,107 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 182,
+                    "id": 184,
                     "name": "Array.fill"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 182,
+                "id": 184,
                 "name": "Array.fill"
               }
             },
             {
-              "id": 104,
+              "id": 106,
               "name": "filter",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 105,
+                  "id": 107,
                   "name": "filter",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
                   },
                   "typeParameter": [
                     {
-                      "id": 106,
+                      "id": 108,
                       "name": "S",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 107,
+                      "id": 109,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 108,
+                          "id": 110,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 109,
+                              "id": 111,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 110,
+                                  "id": 112,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 111,
+                                  "id": 113,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 112,
+                                  "id": 114,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -1082,7 +965,7 @@
                                   "name": "S",
                                   "constraint": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 }
@@ -1093,12 +976,11 @@
                       }
                     },
                     {
-                      "id": 113,
+                      "id": 115,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1117,100 +999,86 @@
                       "name": "S",
                       "constraint": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 104,
+                    "id": 106,
                     "name": "Array.filter"
                   }
                 },
                 {
-                  "id": 114,
+                  "id": 116,
                   "name": "filter",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the elements of an array that meet the condition specified in a callback function."
                   },
                   "parameters": [
                     {
-                      "id": 115,
+                      "id": 117,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 116,
+                          "id": 118,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 117,
+                              "id": 119,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 118,
+                                  "id": 120,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 119,
+                                  "id": 121,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 120,
+                                  "id": 122,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -1226,12 +1094,11 @@
                       }
                     },
                     {
-                      "id": 121,
+                      "id": 123,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1247,144 +1114,124 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 104,
+                    "id": 106,
                     "name": "Array.filter"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 104,
+                "id": 106,
                 "name": "Array.filter"
               }
             },
             {
-              "id": 162,
+              "id": 164,
               "name": "find",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 163,
+                  "id": 165,
                   "name": "find",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the value of the first element in the array where predicate is true, and undefined\notherwise."
                   },
                   "typeParameter": [
                     {
-                      "id": 164,
+                      "id": 166,
                       "name": "S",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 165,
+                      "id": 167,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found, find\nimmediately returns that element value. Otherwise, find returns undefined."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 166,
+                          "id": 168,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 167,
+                              "id": 169,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 168,
+                                  "id": 170,
                                   "name": "this",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "void"
                                   }
                                 },
                                 {
-                                  "id": 169,
+                                  "id": 171,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 170,
+                                  "id": 172,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 171,
+                                  "id": 173,
                                   "name": "obj",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -1399,7 +1246,7 @@
                                   "name": "S",
                                   "constraint": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 }
@@ -1410,12 +1257,11 @@
                       }
                     },
                     {
-                      "id": 172,
+                      "id": 174,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1435,7 +1281,7 @@
                         "name": "S",
                         "constraint": {
                           "type": "reference",
-                          "id": 4,
+                          "id": 6,
                           "name": "Foo"
                         }
                       },
@@ -1447,109 +1293,93 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 162,
+                    "id": 164,
                     "name": "Array.find"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 162,
+                "id": 164,
                 "name": "Array.find"
               }
             },
             {
-              "id": 173,
+              "id": 175,
               "name": "findIndex",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 174,
+                  "id": 176,
                   "name": "findIndex",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the index of the first element in the array where predicate is true, and -1\notherwise."
                   },
                   "parameters": [
                     {
-                      "id": 175,
+                      "id": 177,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "find calls predicate once for each element of the array, in ascending\norder, until it finds one where predicate returns true. If such an element is found,\nfindIndex immediately returns that element index. Otherwise, findIndex returns -1."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 176,
+                          "id": 178,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 177,
+                              "id": 179,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 178,
+                                  "id": 180,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 179,
+                                  "id": 181,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 180,
+                                  "id": 182,
                                   "name": "obj",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -1565,12 +1395,11 @@
                       }
                     },
                     {
-                      "id": 181,
+                      "id": 183,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1588,55 +1417,47 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 173,
+                    "id": 175,
                     "name": "Array.findIndex"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 173,
+                "id": 175,
                 "name": "Array.findIndex"
               }
             },
             {
-              "id": 226,
+              "id": 228,
               "name": "flat",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 227,
+                  "id": 229,
                   "name": "flat",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns a new array with all sub-array elements concatenated into it recursively up to the\nspecified depth."
                   },
                   "typeParameter": [
                     {
-                      "id": 228,
+                      "id": 230,
                       "name": "A",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     },
                     {
-                      "id": 229,
+                      "id": 231,
                       "name": "D",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
@@ -1645,25 +1466,22 @@
                   ],
                   "parameters": [
                     {
-                      "id": 230,
+                      "id": 232,
                       "name": "this",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "typeParameter",
                         "name": "A"
                       }
                     },
                     {
-                      "id": 231,
+                      "id": 233,
                       "name": "depth",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1710,97 +1528,81 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 226,
+                    "id": 228,
                     "name": "Array.flat"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 226,
+                "id": 228,
                 "name": "Array.flat"
               }
             },
             {
-              "id": 214,
+              "id": 216,
               "name": "flatMap",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 215,
+                  "id": 217,
                   "name": "flatMap",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls a defined callback function on each element of an array. Then, flattens the result into\na new array.\nThis is identical to a map followed by flat with depth 1."
                   },
                   "typeParameter": [
                     {
-                      "id": 216,
+                      "id": 218,
                       "name": "U",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     },
                     {
-                      "id": 217,
+                      "id": 219,
                       "name": "This",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 218,
+                      "id": 220,
                       "name": "callback",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The flatMap method calls the\ncallback function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 219,
+                          "id": 221,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 220,
+                              "id": 222,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 221,
+                                  "id": 223,
                                   "name": "this",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "typeParameter",
                                     "name": "This",
@@ -1811,45 +1613,39 @@
                                   }
                                 },
                                 {
-                                  "id": 222,
+                                  "id": 224,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 223,
+                                  "id": 225,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 224,
+                                  "id": 226,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -1880,12 +1676,11 @@
                       }
                     },
                     {
-                      "id": 225,
+                      "id": 227,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -1910,109 +1705,93 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 214,
+                    "id": 216,
                     "name": "Array.flatMap"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 214,
+                "id": 216,
                 "name": "Array.flatMap"
               }
             },
             {
-              "id": 85,
+              "id": 87,
               "name": "forEach",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 86,
+                  "id": 88,
                   "name": "forEach",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Performs the specified action for each element in an array."
                   },
                   "parameters": [
                     {
-                      "id": 87,
+                      "id": 89,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 88,
+                          "id": 90,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 89,
+                              "id": 91,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 90,
+                                  "id": 92,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 91,
+                                  "id": 93,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 92,
+                                  "id": 94,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -2028,12 +1807,11 @@
                       }
                     },
                     {
-                      "id": 93,
+                      "id": 95,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2051,62 +1829,55 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 85,
+                    "id": 87,
                     "name": "Array.forEach"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 85,
+                "id": 87,
                 "name": "Array.forEach"
               }
             },
             {
-              "id": 210,
+              "id": 212,
               "name": "includes",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 211,
+                  "id": 213,
                   "name": "includes",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Determines whether an array includes a certain element, returning true or false as appropriate."
                   },
                   "parameters": [
                     {
-                      "id": 212,
+                      "id": 214,
                       "name": "searchElement",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The element to search for."
                       },
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     },
                     {
-                      "id": 213,
+                      "id": 215,
                       "name": "fromIndex",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2124,62 +1895,55 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 210,
+                    "id": 212,
                     "name": "Array.includes"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 210,
+                "id": 212,
                 "name": "Array.includes"
               }
             },
             {
-              "id": 50,
+              "id": 52,
               "name": "indexOf",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 51,
+                  "id": 53,
                   "name": "indexOf",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the index of the first occurrence of a value in an array."
                   },
                   "parameters": [
                     {
-                      "id": 52,
+                      "id": 54,
                       "name": "searchElement",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The value to locate in the array."
                       },
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     },
                     {
-                      "id": 53,
+                      "id": 55,
                       "name": "fromIndex",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2197,45 +1961,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 50,
+                    "id": 52,
                     "name": "Array.indexOf"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 50,
+                "id": 52,
                 "name": "Array.indexOf"
               }
             },
             {
-              "id": 21,
+              "id": 23,
               "name": "join",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 22,
+                  "id": 24,
                   "name": "join",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Adds all the elements of an array separated by the specified separator string."
                   },
                   "parameters": [
                     {
-                      "id": 23,
+                      "id": 25,
                       "name": "separator",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2253,34 +2012,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 21,
+                    "id": 23,
                     "name": "Array.join"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 21,
+                "id": 23,
                 "name": "Array.join"
               }
             },
             {
-              "id": 196,
+              "id": 198,
               "name": "keys",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 197,
+                  "id": 199,
                   "name": "keys",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns an iterable of keys in the array"
                   },
@@ -2296,62 +2051,55 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 196,
+                    "id": 198,
                     "name": "Array.keys"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 196,
+                "id": 198,
                 "name": "Array.keys"
               }
             },
             {
-              "id": 54,
+              "id": 56,
               "name": "lastIndexOf",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 55,
+                  "id": 57,
                   "name": "lastIndexOf",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns the index of the last occurrence of a specified value in an array."
                   },
                   "parameters": [
                     {
-                      "id": 56,
+                      "id": 58,
                       "name": "searchElement",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The value to locate in the array."
                       },
                       "type": {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     },
                     {
-                      "id": 57,
+                      "id": 59,
                       "name": "fromIndex",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2369,120 +2117,102 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 54,
+                    "id": 56,
                     "name": "Array.lastIndexOf"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 54,
+                "id": 56,
                 "name": "Array.lastIndexOf"
               }
             },
             {
-              "id": 94,
+              "id": 96,
               "name": "map",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 95,
+                  "id": 97,
                   "name": "map",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls a defined callback function on each element of an array, and returns an array that contains the results."
                   },
                   "typeParameter": [
                     {
-                      "id": 96,
+                      "id": 98,
                       "name": "U",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 97,
+                      "id": 99,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 98,
+                          "id": 100,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 99,
+                              "id": 101,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 100,
+                                  "id": 102,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 101,
+                                  "id": 103,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 102,
+                                  "id": 104,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -2498,12 +2228,11 @@
                       }
                     },
                     {
-                      "id": 103,
+                      "id": 105,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -2524,34 +2253,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 94,
+                    "id": 96,
                     "name": "Array.map"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 94,
+                "id": 96,
                 "name": "Array.map"
               }
             },
             {
-              "id": 11,
+              "id": 13,
               "name": "pop",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 12,
+                  "id": 14,
                   "name": "pop",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Removes the last element from an array and returns it."
                   },
@@ -2560,7 +2285,7 @@
                     "types": [
                       {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       },
                       {
@@ -2571,45 +2296,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 11,
+                    "id": 13,
                     "name": "Array.pop"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 11,
+                "id": 13,
                 "name": "Array.pop"
               }
             },
             {
-              "id": 13,
+              "id": 15,
               "name": "push",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 14,
+                  "id": 16,
                   "name": "push",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Appends new elements to an array, and returns the new length of the array."
                   },
                   "parameters": [
                     {
-                      "id": 15,
+                      "id": 17,
                       "name": "items",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isRest": true
                       },
                       "comment": {
@@ -2619,7 +2339,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 4,
+                          "id": 6,
                           "name": "Foo"
                         }
                       }
@@ -2631,123 +2351,105 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 13,
+                    "id": 15,
                     "name": "Array.push"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 13,
+                "id": 15,
                 "name": "Array.push"
               }
             },
             {
-              "id": 122,
+              "id": 124,
               "name": "reduce",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 123,
+                  "id": 125,
                   "name": "reduce",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
                   },
                   "parameters": [
                     {
-                      "id": 124,
+                      "id": 126,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 125,
+                          "id": 127,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 126,
+                              "id": 128,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 127,
+                                  "id": 129,
                                   "name": "previousValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 128,
-                                  "name": "currentValue",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
-                                  "type": {
-                                    "type": "reference",
-                                    "id": 4,
-                                    "name": "Foo"
-                                  }
-                                },
-                                {
-                                  "id": 129,
-                                  "name": "currentIndex",
-                                  "kind": 32768,
-                                  "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
-                                  "type": {
-                                    "type": "intrinsic",
-                                    "name": "number"
                                   }
                                 },
                                 {
                                   "id": 130,
+                                  "name": "currentValue",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "reference",
+                                    "id": 6,
+                                    "name": "Foo"
+                                  }
+                                },
+                                {
+                                  "id": 131,
+                                  "name": "currentIndex",
+                                  "kind": 32768,
+                                  "kindString": "Parameter",
+                                  "flags": {},
+                                  "type": {
+                                    "type": "intrinsic",
+                                    "name": "number"
+                                  }
+                                },
+                                {
+                                  "id": 132,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -2755,7 +2457,7 @@
                               ],
                               "type": {
                                 "type": "reference",
-                                "id": 4,
+                                "id": 6,
                                 "name": "Foo"
                               }
                             }
@@ -2766,122 +2468,104 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 6,
                     "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 122,
+                    "id": 124,
                     "name": "Array.reduce"
                   }
                 },
                 {
-                  "id": 131,
+                  "id": 133,
                   "name": "reduce",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
                   },
                   "typeParameter": [
                     {
-                      "id": 132,
+                      "id": 134,
                       "name": "U",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 133,
+                      "id": 135,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 134,
+                          "id": 136,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 135,
+                              "id": 137,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 136,
+                                  "id": 138,
                                   "name": "previousValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "typeParameter",
                                     "name": "U"
                                   }
                                 },
                                 {
-                                  "id": 137,
+                                  "id": 139,
                                   "name": "currentValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 138,
+                                  "id": 140,
                                   "name": "currentIndex",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 139,
+                                  "id": 141,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -2897,13 +2581,11 @@
                       }
                     },
                     {
-                      "id": 140,
+                      "id": 142,
                       "name": "initialValue",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
                       },
@@ -2919,123 +2601,105 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 122,
+                    "id": 124,
                     "name": "Array.reduce"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 122,
+                "id": 124,
                 "name": "Array.reduce"
               }
             },
             {
-              "id": 141,
+              "id": 143,
               "name": "reduceRight",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 142,
+                  "id": 144,
                   "name": "reduceRight",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
                   },
                   "parameters": [
                     {
-                      "id": 143,
+                      "id": 145,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 144,
+                          "id": 146,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 145,
+                              "id": 147,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 146,
+                                  "id": 148,
                                   "name": "previousValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 147,
+                                  "id": 149,
                                   "name": "currentValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 148,
+                                  "id": 150,
                                   "name": "currentIndex",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 149,
+                                  "id": 151,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -3043,7 +2707,7 @@
                               ],
                               "type": {
                                 "type": "reference",
-                                "id": 4,
+                                "id": 6,
                                 "name": "Foo"
                               }
                             }
@@ -3054,122 +2718,104 @@
                   ],
                   "type": {
                     "type": "reference",
-                    "id": 4,
+                    "id": 6,
                     "name": "Foo"
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 141,
+                    "id": 143,
                     "name": "Array.reduceRight"
                   }
                 },
                 {
-                  "id": 150,
+                  "id": 152,
                   "name": "reduceRight",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function."
                   },
                   "typeParameter": [
                     {
-                      "id": 151,
+                      "id": 153,
                       "name": "U",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {
-                        "isExported": true
-                      }
+                      "flags": {}
                     }
                   ],
                   "parameters": [
                     {
-                      "id": 152,
+                      "id": 154,
                       "name": "callbackfn",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 153,
+                          "id": 155,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 154,
+                              "id": 156,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 155,
+                                  "id": 157,
                                   "name": "previousValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "typeParameter",
                                     "name": "U"
                                   }
                                 },
                                 {
-                                  "id": 156,
+                                  "id": 158,
                                   "name": "currentValue",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 157,
+                                  "id": 159,
                                   "name": "currentIndex",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 158,
+                                  "id": 160,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -3185,13 +2831,11 @@
                       }
                     },
                     {
-                      "id": 159,
+                      "id": 161,
                       "name": "initialValue",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value.\n"
                       },
@@ -3207,34 +2851,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 141,
+                    "id": 143,
                     "name": "Array.reduceRight"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 141,
+                "id": 143,
                 "name": "Array.reduceRight"
               }
             },
             {
-              "id": 24,
+              "id": 26,
               "name": "reverse",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 25,
+                  "id": 27,
                   "name": "reverse",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Reverses the elements in an Array."
                   },
@@ -3242,40 +2882,36 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 24,
+                    "id": 26,
                     "name": "Array.reverse"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 24,
+                "id": 26,
                 "name": "Array.reverse"
               }
             },
             {
-              "id": 26,
+              "id": 28,
               "name": "shift",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 27,
+                  "id": 29,
                   "name": "shift",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Removes the first element from an array and returns it."
                   },
@@ -3284,7 +2920,7 @@
                     "types": [
                       {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       },
                       {
@@ -3295,45 +2931,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 26,
+                    "id": 28,
                     "name": "Array.shift"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 26,
+                "id": 28,
                 "name": "Array.shift"
               }
             },
             {
-              "id": 28,
+              "id": 30,
               "name": "slice",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 29,
+                  "id": 31,
                   "name": "slice",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns a section of an array."
                   },
                   "parameters": [
                     {
-                      "id": 30,
+                      "id": 32,
                       "name": "start",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -3345,12 +2976,11 @@
                       }
                     },
                     {
-                      "id": 31,
+                      "id": 33,
                       "name": "end",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -3366,115 +2996,99 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 28,
+                    "id": 30,
                     "name": "Array.slice"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 28,
+                "id": 30,
                 "name": "Array.slice"
               }
             },
             {
-              "id": 76,
+              "id": 78,
               "name": "some",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 77,
+                  "id": 79,
                   "name": "some",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Determines whether the specified callback function returns true for any element of an array."
                   },
                   "parameters": [
                     {
-                      "id": 78,
+                      "id": 80,
                       "name": "predicate",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "A function that accepts up to three arguments. The some method calls\nthe predicate function for each element in the array until the predicate returns a value\nwhich is coercible to the Boolean value true, or until the end of the array."
                       },
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 79,
+                          "id": 81,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 80,
+                              "id": 82,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 81,
+                                  "id": 83,
                                   "name": "value",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 82,
+                                  "id": 84,
                                   "name": "index",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "intrinsic",
                                     "name": "number"
                                   }
                                 },
                                 {
-                                  "id": 83,
+                                  "id": 85,
                                   "name": "array",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "array",
                                     "elementType": {
                                       "type": "reference",
-                                      "id": 4,
+                                      "id": 6,
                                       "name": "Foo"
                                     }
                                   }
@@ -3490,12 +3104,11 @@
                       }
                     },
                     {
-                      "id": 84,
+                      "id": 86,
                       "name": "thisArg",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -3513,45 +3126,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 76,
+                    "id": 78,
                     "name": "Array.some"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 76,
+                "id": 78,
                 "name": "Array.some"
               }
             },
             {
-              "id": 32,
+              "id": 34,
               "name": "sort",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 33,
+                  "id": 35,
                   "name": "sort",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Sorts an array."
                   },
                   "parameters": [
                     {
-                      "id": 34,
+                      "id": 36,
                       "name": "compareFn",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -3560,48 +3168,40 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 35,
+                          "id": 37,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "signatures": [
                             {
-                              "id": 36,
+                              "id": 38,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
-                              "flags": {
-                                "isExported": true
-                              },
+                              "flags": {},
                               "parameters": [
                                 {
-                                  "id": 37,
+                                  "id": 39,
                                   "name": "a",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 },
                                 {
-                                  "id": 38,
+                                  "id": 40,
                                   "name": "b",
                                   "kind": 32768,
                                   "kindString": "Parameter",
-                                  "flags": {
-                                    "isExported": true
-                                  },
+                                  "flags": {},
                                   "type": {
                                     "type": "reference",
-                                    "id": 4,
+                                    "id": 6,
                                     "name": "Foo"
                                   }
                                 }
@@ -3622,46 +3222,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 32,
+                    "id": 34,
                     "name": "Array.sort"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 32,
+                "id": 34,
                 "name": "Array.sort"
               }
             },
             {
-              "id": 39,
+              "id": 41,
               "name": "splice",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 40,
+                  "id": 42,
                   "name": "splice",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
                   },
                   "parameters": [
                     {
-                      "id": 41,
+                      "id": 43,
                       "name": "start",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The zero-based location in the array from which to start removing elements."
                       },
@@ -3671,12 +3265,11 @@
                       }
                     },
                     {
-                      "id": 42,
+                      "id": 44,
                       "name": "deleteCount",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isOptional": true
                       },
                       "comment": {
@@ -3692,36 +3285,32 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 39,
+                    "id": 41,
                     "name": "Array.splice"
                   }
                 },
                 {
-                  "id": 43,
+                  "id": 45,
                   "name": "splice",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements."
                   },
                   "parameters": [
                     {
-                      "id": 44,
+                      "id": 46,
                       "name": "start",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The zero-based location in the array from which to start removing elements."
                       },
@@ -3731,13 +3320,11 @@
                       }
                     },
                     {
-                      "id": 45,
+                      "id": 47,
                       "name": "deleteCount",
                       "kind": 32768,
                       "kindString": "Parameter",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "comment": {
                         "text": "The number of elements to remove."
                       },
@@ -3747,12 +3334,11 @@
                       }
                     },
                     {
-                      "id": 46,
+                      "id": 48,
                       "name": "items",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isRest": true
                       },
                       "comment": {
@@ -3762,7 +3348,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 4,
+                          "id": 6,
                           "name": "Foo"
                         }
                       }
@@ -3772,40 +3358,36 @@
                     "type": "array",
                     "elementType": {
                       "type": "reference",
-                      "id": 4,
+                      "id": 6,
                       "name": "Foo"
                     }
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 39,
+                    "id": 41,
                     "name": "Array.splice"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 39,
+                "id": 41,
                 "name": "Array.splice"
               }
             },
             {
-              "id": 9,
+              "id": 11,
               "name": "toLocaleString",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 10,
+                  "id": 12,
                   "name": "toLocaleString",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns a string representation of an array. The elements are converted to string using their toLocalString methods."
                   },
@@ -3815,34 +3397,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 9,
+                    "id": 11,
                     "name": "Array.toLocaleString"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 9,
+                "id": 11,
                 "name": "Array.toLocaleString"
               }
             },
             {
-              "id": 7,
+              "id": 9,
               "name": "toString",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 8,
+                  "id": 10,
                   "name": "toString",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns a string representation of an array."
                   },
@@ -3852,45 +3430,40 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 7,
+                    "id": 9,
                     "name": "Array.toString"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 7,
+                "id": 9,
                 "name": "Array.toString"
               }
             },
             {
-              "id": 47,
+              "id": 49,
               "name": "unshift",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 48,
+                  "id": 50,
                   "name": "unshift",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Inserts new elements at the start of an array."
                   },
                   "parameters": [
                     {
-                      "id": 49,
+                      "id": 51,
                       "name": "items",
                       "kind": 32768,
                       "kindString": "Parameter",
                       "flags": {
-                        "isExported": true,
                         "isRest": true
                       },
                       "comment": {
@@ -3900,7 +3473,7 @@
                         "type": "array",
                         "elementType": {
                           "type": "reference",
-                          "id": 4,
+                          "id": 6,
                           "name": "Foo"
                         }
                       }
@@ -3912,34 +3485,30 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 47,
+                    "id": 49,
                     "name": "Array.unshift"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 47,
+                "id": 49,
                 "name": "Array.unshift"
               }
             },
             {
-              "id": 198,
+              "id": 200,
               "name": "values",
               "kind": 2048,
               "kindString": "Method",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "signatures": [
                 {
-                  "id": 199,
+                  "id": 201,
                   "name": "values",
                   "kind": 4096,
                   "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "Returns an iterable of values in the array"
                   },
@@ -3948,7 +3517,7 @@
                     "typeArguments": [
                       {
                         "type": "reference",
-                        "id": 4,
+                        "id": 6,
                         "name": "Foo"
                       }
                     ],
@@ -3956,14 +3525,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 198,
+                    "id": 200,
                     "name": "Array.values"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 198,
+                "id": 200,
                 "name": "Array.values"
               }
             }
@@ -3973,46 +3542,46 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                6
+                8
               ]
             },
             {
               "title": "Methods",
               "kind": 2048,
               "children": [
-                192,
-                200,
-                16,
-                187,
                 194,
-                58,
-                182,
-                104,
-                162,
-                173,
-                226,
-                214,
-                85,
-                210,
-                50,
-                21,
+                202,
+                18,
+                189,
                 196,
-                54,
-                94,
-                11,
+                60,
+                184,
+                106,
+                164,
+                175,
+                228,
+                216,
+                87,
+                212,
+                52,
+                23,
+                198,
+                56,
+                96,
                 13,
-                122,
-                141,
-                24,
+                15,
+                124,
+                143,
                 26,
                 28,
-                76,
-                32,
-                39,
+                30,
+                78,
+                34,
+                41,
+                11,
                 9,
-                7,
-                47,
-                198
+                49,
+                200
               ]
             }
           ],
@@ -4022,7 +3591,7 @@
               "typeArguments": [
                 {
                   "type": "reference",
-                  "id": 4,
+                  "id": 6,
                   "name": "Foo"
                 }
               ],
@@ -4035,9 +3604,7 @@
           "name": "Array",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "A custom array interface."
           },
@@ -4047,19 +3614,16 @@
               "name": "T",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {
-                "isExported": true
-              }
+              "flags": {}
             }
           ]
         },
         {
-          "id": 232,
+          "id": 4,
           "name": "complex",
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "comment": {
@@ -4112,12 +3676,11 @@
           "defaultValue": "[]"
         },
         {
-          "id": 233,
+          "id": 5,
           "name": "custom",
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "comment": {
@@ -4141,8 +3704,8 @@
           "title": "Classes",
           "kind": 128,
           "children": [
-            4,
-            5
+            6,
+            7
           ]
         },
         {
@@ -4156,8 +3719,8 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            232,
-            233
+            4,
+            5
           ]
         }
       ]
@@ -4167,13 +3730,11 @@
       "name": "\"destructuring\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/variables/destructuring.ts",
       "children": [
         {
-          "id": 238,
+          "id": 245,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
@@ -4184,7 +3745,7 @@
           }
         },
         {
-          "id": 239,
+          "id": 246,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
@@ -4195,7 +3756,7 @@
           }
         },
         {
-          "id": 240,
+          "id": 247,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
@@ -4216,7 +3777,7 @@
           "defaultValue": "10"
         },
         {
-          "id": 244,
+          "id": 251,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
@@ -4227,7 +3788,7 @@
           }
         },
         {
-          "id": 245,
+          "id": 252,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
@@ -4247,7 +3808,7 @@
           }
         },
         {
-          "id": 243,
+          "id": 250,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
@@ -4267,7 +3828,7 @@
           }
         },
         {
-          "id": 241,
+          "id": 248,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
@@ -4278,7 +3839,7 @@
           }
         },
         {
-          "id": 242,
+          "id": 249,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
@@ -4289,7 +3850,7 @@
           }
         },
         {
-          "id": 235,
+          "id": 242,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
@@ -4300,7 +3861,7 @@
           }
         },
         {
-          "id": 236,
+          "id": 243,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
@@ -4311,7 +3872,7 @@
           }
         },
         {
-          "id": 237,
+          "id": 244,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
@@ -4322,14 +3883,14 @@
           }
         },
         {
-          "id": 246,
+          "id": 235,
           "name": "drawText",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 247,
+              "id": 236,
               "name": "drawText",
               "kind": 4096,
               "kindString": "Call signature",
@@ -4339,7 +3900,7 @@
               },
               "parameters": [
                 {
-                  "id": 248,
+                  "id": 237,
                   "name": "__namedParameters",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -4348,14 +3909,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 249,
+                      "id": 238,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 252,
+                          "id": 241,
                           "name": "bold",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4367,7 +3928,7 @@
                           "defaultValue": "false"
                         },
                         {
-                          "id": 251,
+                          "id": 240,
                           "name": "location",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4388,7 +3949,7 @@
                           "defaultValue": "[0, 0]"
                         },
                         {
-                          "id": 250,
+                          "id": 239,
                           "name": "text",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4405,9 +3966,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            252,
-                            251,
-                            250
+                            241,
+                            240,
+                            239
                           ]
                         }
                       ]
@@ -4428,24 +3989,24 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            238,
-            239,
-            240,
-            244,
             245,
-            243,
-            241,
+            246,
+            247,
+            251,
+            252,
+            250,
+            248,
+            249,
             242,
-            235,
-            236,
-            237
+            243,
+            244
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            246
+            235
           ]
         }
       ]
@@ -4455,13 +4016,11 @@
       "name": "\"literal\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/variables/literal.ts",
       "children": [
         {
-          "id": 272,
+          "id": 254,
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -4474,14 +4033,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 273,
+              "id": 255,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 289,
+                  "id": 271,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4494,7 +4053,7 @@
                   }
                 },
                 {
-                  "id": 290,
+                  "id": 272,
                   "name": "valueB",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4507,7 +4066,7 @@
                   }
                 },
                 {
-                  "id": 278,
+                  "id": 260,
                   "name": "valueX",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4515,14 +4074,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 279,
+                      "id": 261,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 288,
+                          "id": 270,
                           "name": "valueA",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4536,7 +4095,7 @@
                           }
                         },
                         {
-                          "id": 281,
+                          "id": 263,
                           "name": "valueY",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4544,21 +4103,21 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 282,
+                              "id": 264,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
-                                  "id": 283,
+                                  "id": 265,
                                   "name": "__call",
                                   "kind": 4096,
                                   "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
-                                      "id": 284,
+                                      "id": 266,
                                       "name": "z",
                                       "kind": 32768,
                                       "kindString": "Parameter",
@@ -4572,14 +4131,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 285,
+                                      "id": 267,
                                       "name": "__type",
                                       "kind": 65536,
                                       "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 286,
+                                          "id": 268,
                                           "name": "a",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4590,7 +4149,7 @@
                                           }
                                         },
                                         {
-                                          "id": 287,
+                                          "id": 269,
                                           "name": "b",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4606,8 +4165,8 @@
                                           "title": "Variables",
                                           "kind": 32,
                                           "children": [
-                                            286,
-                                            287
+                                            268,
+                                            269
                                           ]
                                         }
                                       ]
@@ -4619,7 +4178,7 @@
                           }
                         },
                         {
-                          "id": 280,
+                          "id": 262,
                           "name": "valueZ",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4635,9 +4194,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            288,
-                            281,
-                            280
+                            270,
+                            263,
+                            262
                           ]
                         }
                       ]
@@ -4645,7 +4204,7 @@
                   }
                 },
                 {
-                  "id": 275,
+                  "id": 257,
                   "name": "valueY",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4653,14 +4212,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 276,
+                      "id": 258,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 277,
+                          "id": 259,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
@@ -4675,7 +4234,7 @@
                   }
                 },
                 {
-                  "id": 274,
+                  "id": 256,
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4691,320 +4250,15 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    289,
-                    290,
-                    278,
-                    275,
-                    274
+                    271,
+                    272,
+                    260,
+                    257,
+                    256
                   ]
                 }
               ]
             }
-          }
-        },
-        {
-          "id": 254,
-          "name": "objectLiteral",
-          "kind": 2097152,
-          "kindString": "Object literal",
-          "flags": {
-            "isExported": true,
-            "isConst": true
-          },
-          "comment": {
-            "shortText": "An object literal."
-          },
-          "children": [
-            {
-              "id": 269,
-              "name": "[Symbol.toStringTag]",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              },
-              "defaultValue": "\"computed\""
-            },
-            {
-              "id": 270,
-              "name": "[x]",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 271,
-              "name": "literal2",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 267,
-              "name": "valueA",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "number"
-              },
-              "defaultValue": "100"
-            },
-            {
-              "id": 268,
-              "name": "valueB",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "boolean"
-              },
-              "defaultValue": "true"
-            },
-            {
-              "id": 255,
-              "name": "valueZ",
-              "kind": 32,
-              "kindString": "Variable",
-              "flags": {
-                "isExported": true
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              },
-              "defaultValue": "\"foo\""
-            },
-            {
-              "id": 256,
-              "name": "valueY",
-              "kind": 64,
-              "kindString": "Function",
-              "flags": {
-                "isExported": true
-              },
-              "signatures": [
-                {
-                  "id": 257,
-                  "name": "valueY",
-                  "kind": 4096,
-                  "kindString": "Call signature",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "id": 258,
-              "name": "valueX",
-              "kind": 2097152,
-              "kindString": "Object literal",
-              "flags": {
-                "isExported": true
-              },
-              "children": [
-                {
-                  "id": 266,
-                  "name": "valueA",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "number"
-                    }
-                  },
-                  "defaultValue": "[100, 200, 300]"
-                },
-                {
-                  "id": 259,
-                  "name": "valueZ",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "type": {
-                    "type": "intrinsic",
-                    "name": "string"
-                  },
-                  "defaultValue": "\"foo\""
-                },
-                {
-                  "id": 260,
-                  "name": "valueY",
-                  "kind": 64,
-                  "kindString": "Function",
-                  "flags": {
-                    "isExported": true
-                  },
-                  "signatures": [
-                    {
-                      "id": 261,
-                      "name": "valueY",
-                      "kind": 4096,
-                      "kindString": "Call signature",
-                      "flags": {
-                        "isExported": true
-                      },
-                      "parameters": [
-                        {
-                          "id": 262,
-                          "name": "z",
-                          "kind": 32768,
-                          "kindString": "Parameter",
-                          "flags": {
-                            "isExported": true
-                          },
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "string"
-                          }
-                        }
-                      ],
-                      "type": {
-                        "type": "reflection",
-                        "declaration": {
-                          "id": 263,
-                          "name": "__type",
-                          "kind": 65536,
-                          "kindString": "Type literal",
-                          "flags": {
-                            "isExported": true
-                          },
-                          "children": [
-                            {
-                              "id": 264,
-                              "name": "a",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExported": true
-                              },
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "\"test\""
-                            },
-                            {
-                              "id": 265,
-                              "name": "b",
-                              "kind": 32,
-                              "kindString": "Variable",
-                              "flags": {
-                                "isExported": true
-                              },
-                              "type": {
-                                "type": "intrinsic",
-                                "name": "string"
-                              },
-                              "defaultValue": "z"
-                            }
-                          ],
-                          "groups": [
-                            {
-                              "title": "Variables",
-                              "kind": 32,
-                              "children": [
-                                264,
-                                265
-                              ]
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Variables",
-                  "kind": 32,
-                  "children": [
-                    266,
-                    259
-                  ]
-                },
-                {
-                  "title": "Functions",
-                  "kind": 64,
-                  "children": [
-                    260
-                  ]
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "object"
-              }
-            }
-          ],
-          "groups": [
-            {
-              "title": "Variables",
-              "kind": 32,
-              "children": [
-                269,
-                270,
-                271,
-                267,
-                268,
-                255
-              ]
-            },
-            {
-              "title": "Functions",
-              "kind": 64,
-              "children": [
-                256
-              ]
-            },
-            {
-              "title": "Object literals",
-              "kind": 2097152,
-              "children": [
-                258
-              ]
-            }
-          ],
-          "type": {
-            "type": "intrinsic",
-            "name": "object"
           }
         }
       ],
@@ -5013,26 +4267,17 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            272
-          ]
-        },
-        {
-          "title": "Object literals",
-          "kind": 2097152,
-          "children": [
             254
           ]
         }
       ]
     },
     {
-      "id": 291,
+      "id": 273,
       "name": "\"variable\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/variables/variable.ts"
     }
   ],
@@ -5044,7 +4289,7 @@
         1,
         234,
         253,
-        291
+        273
       ]
     }
   ]

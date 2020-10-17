@@ -9,43 +9,35 @@
       "name": "\"function\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/function/function.ts",
       "children": [
         {
-          "id": 35,
+          "id": 27,
           "name": "moduleFunction",
           "kind": 2,
           "kindString": "Namespace",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "This is the module extending the function moduleFunction()."
           },
           "signatures": [
             {
-              "id": 36,
+              "id": 28,
               "name": "moduleFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a function that is extended by a module."
               },
               "parameters": [
                 {
-                  "id": 37,
+                  "id": 29,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "An argument.\n"
                   },
@@ -63,7 +55,7 @@
           ],
           "children": [
             {
-              "id": 52,
+              "id": 34,
               "name": "functionVariable",
               "kind": 32,
               "kindString": "Variable",
@@ -79,14 +71,14 @@
               }
             },
             {
-              "id": 53,
+              "id": 30,
               "name": "append",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 54,
+                  "id": 31,
                   "name": "append",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -102,14 +94,14 @@
               ]
             },
             {
-              "id": 55,
+              "id": 32,
               "name": "prepend",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 56,
+                  "id": 33,
                   "name": "prepend",
                   "kind": 4096,
                   "kindString": "Call signature",
@@ -130,59 +122,51 @@
               "title": "Variables",
               "kind": 32,
               "children": [
-                52
+                34
               ]
             },
             {
               "title": "Functions",
               "kind": 64,
               "children": [
-                53,
-                55
+                30,
+                32
               ]
             }
           ]
         },
         {
-          "id": 44,
+          "id": 41,
           "name": "assertIsNonNull",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 45,
+              "id": 42,
               "name": "assertIsNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Asserts that an argument is not null."
               },
               "typeParameter": [
                 {
-                  "id": 46,
+                  "id": 43,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {
-                    "isExported": true
-                  }
+                  "flags": {}
                 }
               ],
               "parameters": [
                 {
-                  "id": 47,
+                  "id": 44,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "\n"
                   },
@@ -218,34 +202,28 @@
           ]
         },
         {
-          "id": 38,
+          "id": 35,
           "name": "assertionFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 39,
+              "id": 36,
               "name": "assertionFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is an assertion function."
               },
               "parameters": [
                 {
-                  "id": 40,
+                  "id": 37,
                   "name": "condition",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "The condition that is asserted to be true when this function returns.\n"
                   },
@@ -264,34 +242,28 @@
           ]
         },
         {
-          "id": 41,
+          "id": 38,
           "name": "checkerFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 42,
+              "id": 39,
               "name": "checkerFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Assertion function with a type."
               },
               "parameters": [
                 {
-                  "id": 43,
+                  "id": 40,
                   "name": "anything",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "\n"
                   },
@@ -314,22 +286,18 @@
           ]
         },
         {
-          "id": 4,
+          "id": 2,
           "name": "exportedFunction",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 5,
+              "id": 3,
               "name": "exportedFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a simple exported function."
               },
@@ -341,35 +309,29 @@
           ]
         },
         {
-          "id": 18,
+          "id": 13,
           "name": "functionWithDefaults",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 19,
+              "id": 14,
               "name": "functionWithDefaults",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a function with a parameter that has a default value.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
-                  "id": 20,
+                  "id": 15,
                   "name": "valueA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default string value."
                   },
@@ -380,13 +342,11 @@
                   "defaultValue": "\"defaultValue\""
                 },
                 {
-                  "id": 21,
+                  "id": 16,
                   "name": "valueB",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default numeric value."
                   },
@@ -397,13 +357,11 @@
                   "defaultValue": "100"
                 },
                 {
-                  "id": 22,
+                  "id": 17,
                   "name": "valueC",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default NaN value."
                   },
@@ -414,13 +372,11 @@
                   "defaultValue": "Number.NaN"
                 },
                 {
-                  "id": 23,
+                  "id": 18,
                   "name": "valueD",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default boolean value."
                   },
@@ -431,13 +387,11 @@
                   "defaultValue": "true"
                 },
                 {
-                  "id": 24,
+                  "id": 19,
                   "name": "valueE",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A parameter with a default null value."
                   },
@@ -456,34 +410,28 @@
           ]
         },
         {
-          "id": 14,
+          "id": 9,
           "name": "functionWithOptionalValue",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 15,
+              "id": 10,
               "name": "functionWithOptionalValue",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a function with a parameter that is optional."
               },
               "parameters": [
                 {
-                  "id": 16,
+                  "id": 11,
                   "name": "requiredParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "A normal parameter."
                   },
@@ -493,12 +441,11 @@
                   }
                 },
                 {
-                  "id": 17,
+                  "id": 12,
                   "name": "optionalParam",
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {
-                    "isExported": true,
                     "isOptional": true
                   },
                   "comment": {
@@ -518,35 +465,29 @@
           ]
         },
         {
-          "id": 6,
+          "id": 4,
           "name": "functionWithParameters",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 7,
+              "id": 5,
               "name": "functionWithParameters",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a function with multiple arguments and a return value.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
-                  "id": 8,
+                  "id": 6,
                   "name": "paramZ",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "This is a string parameter."
                   },
@@ -556,13 +497,11 @@
                   }
                 },
                 {
-                  "id": 9,
+                  "id": 7,
                   "name": "paramG",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "This is a parameter flagged with any.\n    This sentence is placed in the next line.\n"
                   },
@@ -572,13 +511,11 @@
                   }
                 },
                 {
-                  "id": 10,
+                  "id": 8,
                   "name": "paramA",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "\n  This is a **parameter** pointing to an interface.\n\n  ~~~\n  const value:BaseClass = new BaseClass('test');\n  functionWithArguments('arg', 0, value);\n  ~~~\n"
                   },
@@ -596,113 +533,37 @@
           ]
         },
         {
-          "id": 25,
-          "name": "functionWithRest",
-          "kind": 64,
-          "kindString": "Function",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 26,
-              "name": "functionWithRest",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "comment": {
-                "shortText": "This is a function with rest parameter.",
-                "returns": "This is the return value of the function.\n"
-              },
-              "parameters": [
-                {
-                  "id": 27,
-                  "name": "rest",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {
-                    "isRest": true
-                  },
-                  "comment": {
-                    "text": "The rest parameter."
-                  },
-                  "type": {
-                    "type": "array",
-                    "elementType": {
-                      "type": "intrinsic",
-                      "name": "string"
-                    }
-                  }
-                }
-              ],
-              "type": {
-                "type": "intrinsic",
-                "name": "string"
-              }
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "name": "internalFunction",
-          "kind": 64,
-          "kindString": "Function",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 3,
-              "name": "internalFunction",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "comment": {
-                "shortText": "This is an internal function."
-              },
-              "type": {
-                "type": "intrinsic",
-                "name": "void"
-              }
-            }
-          ]
-        },
-        {
-          "id": 48,
+          "id": 45,
           "name": "isNonNull",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 49,
+              "id": 46,
               "name": "isNonNull",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Checks that an argument is not null."
               },
               "typeParameter": [
                 {
-                  "id": 50,
+                  "id": 47,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
-                  "flags": {
-                    "isExported": true
-                  }
+                  "flags": {}
                 }
               ],
               "parameters": [
                 {
-                  "id": 51,
+                  "id": 48,
                   "name": "arg",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "\n"
                   },
@@ -738,39 +599,33 @@
           ]
         },
         {
-          "id": 28,
+          "id": 20,
           "name": "multipleSignatures",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "This is the actual implementation, this comment will not be visible\nin the generated documentation.",
             "returns": "This is the return value of the function.\n"
           },
           "signatures": [
             {
-              "id": 29,
+              "id": 21,
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is the first signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
-                  "id": 30,
+                  "id": 22,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "The name value.\n"
                   },
@@ -786,48 +641,40 @@
               }
             },
             {
-              "id": 31,
+              "id": 23,
               "name": "multipleSignatures",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is the second signature of a function with multiple signatures.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
-                  "id": 32,
+                  "id": 24,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "text": "An object containing the name value."
                   },
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 33,
+                      "id": 25,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "children": [
                         {
-                          "id": 34,
+                          "id": 26,
                           "name": "name",
                           "kind": 32,
                           "kindString": "Variable",
-                          "flags": {
-                            "isExported": true
-                          },
+                          "flags": {},
                           "comment": {
                             "text": "A value of the object.\n"
                           },
@@ -842,7 +689,7 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            34
+                            26
                           ]
                         }
                       ]
@@ -858,12 +705,11 @@
           ]
         },
         {
-          "id": 11,
+          "id": 49,
           "name": "variableFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "comment": {
@@ -872,26 +718,22 @@
           },
           "signatures": [
             {
-              "id": 12,
+              "id": 50,
               "name": "variableFunction",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "This is a function that is assigned to a variable.",
                 "returns": "This is the return value of the function.\n"
               },
               "parameters": [
                 {
-                  "id": 13,
+                  "id": 51,
                   "name": "someParam",
                   "kind": 32768,
                   "kindString": "Parameter",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "comment": {
                     "shortText": "This is some numeric parameter."
                   },
@@ -914,48 +756,44 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            35
+            27
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            44,
-            38,
             41,
-            4,
-            18,
-            14,
-            6,
-            25,
+            35,
+            38,
             2,
-            48,
-            28,
-            11
+            13,
+            9,
+            4,
+            45,
+            20,
+            49
           ]
         }
       ]
     },
     {
-      "id": 57,
+      "id": 52,
       "name": "\"generic-function\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/function/generic-function.ts",
       "children": [
         {
-          "id": 62,
+          "id": 57,
           "name": "functionWithGenericArrayParameter",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 63,
+              "id": 58,
               "name": "functionWithGenericArrayParameter",
               "kind": 4096,
               "kindString": "Call signature",
@@ -966,7 +804,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 64,
+                  "id": 59,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -975,7 +813,7 @@
               ],
               "parameters": [
                 {
-                  "id": 65,
+                  "id": 60,
                   "name": "param",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -989,7 +827,7 @@
                   }
                 },
                 {
-                  "id": 66,
+                  "id": 61,
                   "name": "params",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -1017,14 +855,14 @@
           ]
         },
         {
-          "id": 67,
+          "id": 62,
           "name": "functionWithTemplate",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 68,
+              "id": 63,
               "name": "functionWithTemplate",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1032,7 +870,7 @@
               "comment": {},
               "typeParameter": [
                 {
-                  "id": 69,
+                  "id": 64,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -1044,7 +882,7 @@
               ],
               "parameters": [
                 {
-                  "id": 70,
+                  "id": 65,
                   "name": "param",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -1066,14 +904,14 @@
           ]
         },
         {
-          "id": 58,
+          "id": 53,
           "name": "genericFunction",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 59,
+              "id": 54,
               "name": "genericFunction",
               "kind": 4096,
               "kindString": "Call signature",
@@ -1084,7 +922,7 @@
               },
               "typeParameter": [
                 {
-                  "id": 60,
+                  "id": 55,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -1100,7 +938,7 @@
               ],
               "parameters": [
                 {
-                  "id": 61,
+                  "id": 56,
                   "name": "value",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -1135,53 +973,45 @@
           "title": "Functions",
           "kind": 64,
           "children": [
+            57,
             62,
-            67,
-            58
+            53
           ]
         }
       ]
     },
     {
-      "id": 71,
+      "id": 66,
       "name": "\"implicit-types\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/function/implicit-types.ts",
       "children": [
         {
-          "id": 72,
+          "id": 75,
           "name": "BreakpointRange",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "children": [
             {
-              "id": 74,
+              "id": 77,
               "name": "end",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "intrinsic",
                 "name": "number"
               }
             },
             {
-              "id": 73,
+              "id": 76,
               "name": "start",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "intrinsic",
                 "name": "number"
@@ -1193,201 +1023,91 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                74,
-                73
+                77,
+                76
               ]
             }
           ]
         },
         {
-          "id": 75,
-          "name": "_breakpoints",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {
-            "isLet": true
-          },
-          "type": {
-            "type": "reflection",
-            "declaration": {
-              "id": 76,
-              "name": "__type",
-              "kind": 65536,
-              "kindString": "Type literal",
-              "flags": {},
-              "children": [
-                {
-                  "id": 79,
-                  "name": "large",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 72,
-                    "name": "BreakpointRange"
-                  }
-                },
-                {
-                  "id": 78,
-                  "name": "medium",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 72,
-                    "name": "BreakpointRange"
-                  }
-                },
-                {
-                  "id": 77,
-                  "name": "small",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 72,
-                    "name": "BreakpointRange"
-                  }
-                },
-                {
-                  "id": 80,
-                  "name": "xlarge",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 72,
-                    "name": "BreakpointRange"
-                  }
-                },
-                {
-                  "id": 81,
-                  "name": "xxlarge",
-                  "kind": 32,
-                  "kindString": "Variable",
-                  "flags": {},
-                  "type": {
-                    "type": "reference",
-                    "id": 72,
-                    "name": "BreakpointRange"
-                  }
-                }
-              ],
-              "groups": [
-                {
-                  "title": "Variables",
-                  "kind": 32,
-                  "children": [
-                    79,
-                    78,
-                    77,
-                    80,
-                    81
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          "id": 82,
+          "id": 67,
           "name": "getBreakpoints",
           "kind": 64,
           "kindString": "Function",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "signatures": [
             {
-              "id": 83,
+              "id": 68,
               "name": "getBreakpoints",
               "kind": 4096,
               "kindString": "Call signature",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 84,
+                  "id": 69,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "children": [
                     {
-                      "id": 87,
+                      "id": 72,
                       "name": "large",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 72,
+                        "id": 75,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 86,
+                      "id": 71,
                       "name": "medium",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 72,
+                        "id": 75,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 85,
+                      "id": 70,
                       "name": "small",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 72,
+                        "id": 75,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 88,
+                      "id": 73,
                       "name": "xlarge",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 72,
+                        "id": 75,
                         "name": "BreakpointRange"
                       }
                     },
                     {
-                      "id": 89,
+                      "id": 74,
                       "name": "xxlarge",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "reference",
-                        "id": 72,
+                        "id": 75,
                         "name": "BreakpointRange"
                       }
                     }
@@ -1397,11 +1117,11 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        87,
-                        86,
-                        85,
-                        88,
-                        89
+                        72,
+                        71,
+                        70,
+                        73,
+                        74
                       ]
                     }
                   ]
@@ -1416,13 +1136,6 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            72
-          ]
-        },
-        {
-          "title": "Variables",
-          "kind": 32,
-          "children": [
             75
           ]
         },
@@ -1430,7 +1143,7 @@
           "title": "Functions",
           "kind": 64,
           "children": [
-            82
+            67
           ]
         }
       ]
@@ -1442,8 +1155,8 @@
       "kind": 1,
       "children": [
         1,
-        57,
-        71
+        52,
+        66
       ]
     }
   ]

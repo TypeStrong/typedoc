@@ -4,11 +4,13 @@ import {
     ReferenceType,
     ReferenceReflection,
     ContainerReflection,
-    ReflectionFlag,
+    DeclarationReflection,
+    ReflectionKind,
 } from "../../models";
 import { Context } from "../context";
 import { ReferenceState } from "../../models/reflections/reference";
 import { Converter } from "../converter";
+import { createDeclaration } from "./declaration";
 
 /**
  * Create a new reference type pointing to the given symbol.
@@ -40,11 +42,11 @@ export function createReferenceType(
     );
 }
 
-export function createReferenceReflection(
+export function createReferenceOrDeclarationReflection(
     context: Context,
     source: ts.Symbol,
     target: ts.Symbol
-): ReferenceReflection | undefined {
+): DeclarationReflection | undefined {
     if (!(context.scope instanceof ContainerReflection)) {
         throw new Error("Cannot add reference to a non-container");
     }
@@ -61,27 +63,35 @@ export function createReferenceReflection(
         return;
     }
 
-    const reflection = new ReferenceReflection(
-        source.name,
-        [
-            ReferenceState.Unresolved,
-            context.checker.getFullyQualifiedName(target),
-        ],
-        context.scope
-    );
-    reflection.flags.setFlag(ReflectionFlag.Exported, true); // References are exported by necessity
-    if (!context.scope.children) {
-        context.scope.children = [];
-    }
-    context.scope.children.push(reflection);
+    const targetFqn = context.checker.getFullyQualifiedName(target);
+    let reflection: DeclarationReflection | undefined;
+    if (context.project.getReflectionFromFQN(targetFqn)) {
+        reflection = new ReferenceReflection(
+            source.name,
+            [
+                ReferenceState.Unresolved,
+                context.checker.getFullyQualifiedName(target),
+            ],
+            context.scope
+        );
 
-    // target === source happens when doing export * from ...
-    // and the original symbol is not renamed and exported from the imported module.
-    context.registerReflection(
-        reflection,
-        target === source ? undefined : source
-    );
-    context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
+        // target === source happens when doing export * from ...
+        // and the original symbol is not renamed and exported from the imported module.
+        context.registerReflection(
+            reflection,
+            target === source ? undefined : source
+        );
+        context.scope.children ??= [];
+        context.scope.children.push(reflection);
+        context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
+    } else {
+        reflection = createDeclaration(
+            context,
+            target.valueDeclaration,
+            ReflectionKind.Variable,
+            source.name
+        );
+    }
 
     return reflection;
 }

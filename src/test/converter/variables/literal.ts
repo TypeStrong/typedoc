@@ -24,7 +24,7 @@ const objectLiteral = {
 /**
  * A typed literal without an initializer.
  */
-let typeLiteral: {
+export let typeLiteral: {
     valueZ: string;
     valueY: { (): string };
     valueX: {
@@ -40,7 +40,7 @@ let onSuccess: any = function () {};
 let onError: any = function () {};
 let onFinally: any = function () {};
 
-const callbackReturn = {
+export const callbackReturn = {
     success: (successCallback: () => any) => {
         onSuccess = successCallback;
         return callbackReturn;

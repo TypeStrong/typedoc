@@ -8,7 +8,7 @@ import {
 } from "../../models/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
-import { createReferenceReflection } from "../factories/reference";
+import { createReferenceOrDeclarationReflection } from "../factories/reference";
 
 @Component({ name: "node:export" })
 export class ExportConverter extends ConverterNodeComponent<
@@ -48,18 +48,7 @@ export class ExportConverter extends ConverterNodeComponent<
                 ) {
                     reflection.setFlag(ReflectionFlag.ExportAssignment, true);
                 }
-                if (reflection) {
-                    markAsExported(reflection);
-                }
             });
-        }
-
-        function markAsExported(reflection: Reflection) {
-            if (reflection instanceof DeclarationReflection) {
-                reflection.setFlag(ReflectionFlag.Exported, true);
-            }
-
-            reflection.traverse(markAsExported);
         }
 
         return context.scope;
@@ -105,7 +94,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
                     return;
                 }
 
-                createReferenceReflection(context, source, target);
+                createReferenceOrDeclarationReflection(context, source, target);
             });
         } else if (
             node.exportClause &&
@@ -123,7 +112,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
             const target = context.resolveAliasedSymbol(
                 context.expectSymbolAtLocation(node.moduleSpecifier)
             );
-            createReferenceReflection(context, source, target);
+            createReferenceOrDeclarationReflection(context, source, target);
         } else if (node.moduleSpecifier) {
             // export * from ...
             const sourceFileSymbol = context.expectSymbolAtLocation(
@@ -136,7 +125,7 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
                     // Default exports are not re-exported with export *
                     continue;
                 }
-                createReferenceReflection(
+                createReferenceOrDeclarationReflection(
                     context,
                     symbol,
                     context.resolveAliasedSymbol(symbol)
@@ -145,5 +134,41 @@ export class ExportDeclarationConverter extends ConverterNodeComponent<
         }
 
         return context.scope;
+    }
+}
+
+@Component({ name: "node:export-specifier" })
+export class ExportSpecifierConverter extends ConverterNodeComponent<
+    ts.ExportSpecifier
+> {
+    supports = [ts.SyntaxKind.ExportSpecifier];
+
+    convert(
+        context: Context,
+        node: ts.ExportSpecifier
+    ): Reflection | undefined {
+        const source = context.expectSymbolAtLocation(node.name);
+        const target = context.resolveAliasedSymbol(
+            context.expectSymbolAtLocation(node.propertyName ?? node.name)
+        );
+
+        return createReferenceOrDeclarationReflection(context, source, target);
+    }
+}
+
+@Component({ name: "node:namespace-export" })
+export class NamespaceExportConverter extends ConverterNodeComponent<
+    ts.NamespaceExport
+> {
+    supports = [ts.SyntaxKind.NamespaceExport];
+
+    convert(
+        context: Context,
+        node: ts.NamespaceExport
+    ): Reflection | undefined {
+        const source = context.expectSymbolAtLocation(node.name);
+        const target = context.resolveAliasedSymbol(source);
+
+        return createReferenceOrDeclarationReflection(context, source, target);
     }
 }

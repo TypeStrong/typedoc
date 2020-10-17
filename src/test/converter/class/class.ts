@@ -104,18 +104,6 @@ export module TestSubClass {
     export function staticMergedMethod() {}
 }
 
-/**
- * This class will not appear when `excludeNotExported=true`
- */
-abstract class NotExportedClass {
-    /**
-     * Adds two numbers
-     */
-    add(a: number, b: number) {
-        a + b;
-    }
-}
-
 const x = "literal";
 
 export class ComputedNames {

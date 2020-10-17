@@ -9,9 +9,7 @@
       "name": "\"parens\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/types/parens.ts",
       "children": [
         {
@@ -19,9 +17,7 @@
           "name": "ZZ",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "intersection",
             "types": [
@@ -36,18 +32,14 @@
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "children": [
                     {
                       "id": 4,
                       "name": "a",
                       "kind": 32,
                       "kindString": "Variable",
-                      "flags": {
-                        "isExported": true
-                      },
+                      "flags": {},
                       "type": {
                         "type": "intrinsic",
                         "name": "string"
@@ -84,9 +76,7 @@
       "name": "\"query\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/types/query.ts",
       "children": [
         {
@@ -94,9 +84,7 @@
           "name": "TypeOfX",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "query",
             "queryType": {
@@ -112,7 +100,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "type": {
@@ -144,9 +131,7 @@
       "name": "\"tuple\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/types/tuple.ts",
       "children": [
         {
@@ -154,9 +139,7 @@
           "name": "NamedTuple",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "tuple",
             "elements": [
@@ -187,7 +170,6 @@
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "type": {
@@ -204,41 +186,6 @@
             ]
           },
           "defaultValue": "returnMapped<NamedTuple>()"
-        },
-        {
-          "id": 11,
-          "name": "returnMapped",
-          "kind": 64,
-          "kindString": "Function",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 12,
-              "name": "returnMapped",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "typeParameter": [
-                {
-                  "id": 13,
-                  "name": "T",
-                  "kind": 131072,
-                  "kindString": "Type parameter",
-                  "flags": {}
-                }
-              ],
-              "type": {
-                "type": "reflection",
-                "declaration": {
-                  "id": 14,
-                  "name": "__type",
-                  "kind": 65536,
-                  "kindString": "Type literal",
-                  "flags": {}
-                }
-              }
-            }
-          ]
         }
       ],
       "groups": [
@@ -255,34 +202,23 @@
           "children": [
             10
           ]
-        },
-        {
-          "title": "Functions",
-          "kind": 64,
-          "children": [
-            11
-          ]
         }
       ]
     },
     {
-      "id": 15,
+      "id": 11,
       "name": "\"type-operator\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/types/type-operator.ts",
       "children": [
         {
-          "id": 17,
+          "id": 13,
           "name": "B",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "typeOperator",
             "operator": "readonly",
@@ -296,45 +232,37 @@
           }
         },
         {
-          "id": 18,
+          "id": 14,
           "name": "C",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 19,
+              "id": 15,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "children": [
                 {
-                  "id": 20,
+                  "id": 16,
                   "name": "prop1",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "string"
                   }
                 },
                 {
-                  "id": 21,
+                  "id": 17,
                   "name": "prop2",
                   "kind": 32,
                   "kindString": "Variable",
-                  "flags": {
-                    "isExported": true
-                  },
+                  "flags": {},
                   "type": {
                     "type": "intrinsic",
                     "name": "number"
@@ -346,8 +274,8 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    20,
-                    21
+                    16,
+                    17
                   ]
                 }
               ]
@@ -355,30 +283,27 @@
           }
         },
         {
-          "id": 22,
+          "id": 18,
           "name": "D",
           "kind": 4194304,
           "kindString": "Type alias",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "type": {
             "type": "typeOperator",
             "operator": "keyof",
             "target": {
               "type": "reference",
-              "id": 18,
+              "id": 14,
               "name": "C"
             }
           }
         },
         {
-          "id": 16,
+          "id": 12,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
           "flags": {
-            "isExported": true,
             "isConst": true
           },
           "type": {
@@ -397,50 +322,44 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            17,
-            18,
-            22
+            13,
+            14,
+            18
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            16
+            12
           ]
         }
       ]
     },
     {
-      "id": 23,
+      "id": 19,
       "name": "\"union-or-intersection\"",
       "kind": 1,
       "kindString": "Module",
-      "flags": {
-        "isExported": true
-      },
+      "flags": {},
       "originalName": "%BASE%/types/union-or-intersection.ts",
       "children": [
         {
-          "id": 24,
+          "id": 20,
           "name": "FirstType",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "First type for union or intersection type tests."
           },
           "children": [
             {
-              "id": 25,
+              "id": 21,
               "name": "firstProperty",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Property of first type."
               },
@@ -455,31 +374,27 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                25
+                21
               ]
             }
           ]
         },
         {
-          "id": 26,
+          "id": 22,
           "name": "SecondType",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Second type for union or intersection type tests."
           },
           "children": [
             {
-              "id": 27,
+              "id": 23,
               "name": "secondProperty",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Property of second type."
               },
@@ -494,31 +409,27 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                27
+                23
               ]
             }
           ]
         },
         {
-          "id": 28,
+          "id": 24,
           "name": "ThirdType",
           "kind": 256,
           "kindString": "Interface",
-          "flags": {
-            "isExported": true
-          },
+          "flags": {},
           "comment": {
             "shortText": "Third type for union or intersection type tests."
           },
           "children": [
             {
-              "id": 31,
+              "id": 27,
               "name": "thirdComplexProperty",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Complex Property of third type."
               },
@@ -534,12 +445,12 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 24,
+                            "id": 20,
                             "name": "FirstType"
                           },
                           {
                             "type": "reference",
-                            "id": 26,
+                            "id": 22,
                             "name": "SecondType"
                           }
                         ]
@@ -554,13 +465,11 @@
               }
             },
             {
-              "id": 30,
+              "id": 26,
               "name": "thirdIntersectionProperty",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Intersection Property of third type."
               },
@@ -569,25 +478,23 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 24,
+                    "id": 20,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 28,
+                    "id": 24,
                     "name": "ThirdType"
                   }
                 ]
               }
             },
             {
-              "id": 29,
+              "id": 25,
               "name": "thirdUnionProperty",
               "kind": 1024,
               "kindString": "Property",
-              "flags": {
-                "isExported": true
-              },
+              "flags": {},
               "comment": {
                 "shortText": "Union Property of third type."
               },
@@ -596,12 +503,12 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 24,
+                    "id": 20,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 26,
+                    "id": 22,
                     "name": "SecondType"
                   }
                 ]
@@ -613,9 +520,9 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                31,
-                30,
-                29
+                27,
+                26,
+                25
               ]
             }
           ]
@@ -626,9 +533,9 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            24,
-            26,
-            28
+            20,
+            22,
+            24
           ]
         }
       ]
@@ -642,8 +549,8 @@
         1,
         5,
         8,
-        15,
-        23
+        11,
+        19
       ]
     }
   ]

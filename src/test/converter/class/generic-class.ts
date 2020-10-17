@@ -2,7 +2,7 @@
  * GenericClass short text.
  * @param T  Generic parameter.
  */
-class GenericClass<T> {
+export class GenericClass<T> {
     /**
      * Generic property.
      */
@@ -33,6 +33,4 @@ class GenericClass<T> {
 /**
  * NonGenericClass short text.
  */
-class NonGenericClass extends GenericClass<string> {}
-
-export {};
+export class NonGenericClass extends GenericClass<string> {}

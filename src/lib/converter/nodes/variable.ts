@@ -90,7 +90,7 @@ export class VariableConverter extends ConverterNodeComponent<
                 : ReflectionKind.Variable;
         const variable = createDeclaration(context, node, kind, name);
 
-        // The variable can be null if `excludeNotExported` is `true`
+        // The variable can be null if `excludeNotDocumented` is `true`
         if (variable) {
             switch (kind) {
                 case ReflectionKind.Variable:
