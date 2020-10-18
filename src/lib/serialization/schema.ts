@@ -80,8 +80,8 @@ type _ModelToObject<T> =
         ? ReferenceType
         : T extends M.ReflectionType
         ? ReflectionType
-        : T extends M.StringLiteralType
-        ? StringLiteralType
+        : T extends M.LiteralType
+        ? LiteralType
         : T extends M.TupleType
         ? TupleType
         : T extends M.UnknownType
@@ -160,7 +160,7 @@ export interface DeclarationReflection
 
 export interface TypeParameterReflection
     extends Reflection,
-        S<M.TypeParameterReflection, "type"> {}
+        S<M.TypeParameterReflection, "type" | "default"> {}
 
 // Nothing extra yet.
 export interface ProjectReflection extends ContainerReflection {}
@@ -204,10 +204,10 @@ export type SomeType =
     | InferredType
     | IntersectionType
     | IntrinsicType
+    | LiteralType
     | PredicateType
     | ReferenceType
     | ReflectionType
-    | StringLiteralType
     | TupleType
     | TypeOperatorType
     | TypeParameterType
@@ -257,9 +257,7 @@ export interface ReflectionType extends Type, S<M.ReflectionType, "type"> {
     declaration?: ModelToObject<M.ReflectionType["declaration"]>;
 }
 
-export interface StringLiteralType
-    extends Type,
-        S<M.StringLiteralType, "type" | "value"> {}
+export interface LiteralType extends Type, S<M.LiteralType, "type" | "value"> {}
 
 export interface TupleType extends Type, S<M.TupleType, "type"> {
     elements?: ModelToObject<M.TupleType["elements"]>;

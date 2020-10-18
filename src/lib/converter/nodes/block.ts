@@ -55,11 +55,6 @@ export class BlockConverter extends ConverterNodeComponent<
         let result: Reflection | undefined = context.scope;
 
         context.withSourceFile(node, () => {
-            console.log(
-                node.fileName,
-                this.getExports(context, node).map((n) => n.name)
-            );
-
             if (context.inFirstPass) {
                 result = createDeclaration(
                     context,
@@ -75,9 +70,7 @@ export class BlockConverter extends ConverterNodeComponent<
                     context.checker.getSymbolAtLocation(node) ?? node.symbol;
 
                 if (symbol) {
-                    result = context.project.getReflectionFromFQN(
-                        context.checker.getFullyQualifiedName(symbol)
-                    );
+                    result = context.project.getReflectionFromSymbol(symbol);
 
                     context.withScope(result, () => {
                         this.convertReExports(context, node);
@@ -98,7 +91,6 @@ export class BlockConverter extends ConverterNodeComponent<
         for (const exp of this.getExports(context, node).filter(
             (exp) => context.resolveAliasedSymbol(exp) === exp
         )) {
-            console.log("\tEXP", exp.name);
             for (const decl of exp.getDeclarations() ?? []) {
                 this.owner.convertNode(context, decl);
             }
@@ -112,11 +104,6 @@ export class BlockConverter extends ConverterNodeComponent<
         for (const exp of this.getExports(context, node).filter(
             (exp) => context.resolveAliasedSymbol(exp) !== exp
         )) {
-            console.log(
-                "\tREEXP",
-                exp.name,
-                exp.getDeclarations()?.map((d) => ts.SyntaxKind[d.kind])
-            );
             for (const decl of exp.getDeclarations() ?? []) {
                 this.owner.convertNode(context, decl);
             }

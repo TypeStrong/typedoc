@@ -1,6 +1,7 @@
+import type * as ts from "typescript";
 import { Reflection, ReflectionKind } from "./abstract";
-import { ProjectReflection } from "./project";
 import { DeclarationReflection } from "./declaration";
+import { ProjectReflection } from "./project";
 
 export enum ReferenceState {
     Unresolved,
@@ -22,7 +23,7 @@ export enum ReferenceState {
  */
 export class ReferenceReflection extends DeclarationReflection {
     private _state:
-        | [ReferenceState.Unresolved, string]
+        | [ReferenceState.Unresolved, ts.Symbol]
         | [ReferenceState.Resolved, number];
     private _project?: ProjectReflection;
 
@@ -99,7 +100,9 @@ export class ReferenceReflection extends DeclarationReflection {
 
     private _ensureResolved(throwIfFail: boolean) {
         if (this._state[0] === ReferenceState.Unresolved) {
-            const target = this._project!.getReflectionFromFQN(this._state[1]);
+            const target = this._project!.getReflectionFromSymbol(
+                this._state[1]
+            );
             if (!target) {
                 if (throwIfFail) {
                     throw new Error(

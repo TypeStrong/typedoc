@@ -68,8 +68,8 @@ export class ConstructorConverter extends ConverterNodeComponent<
                 if (!node.type) {
                     signature.type = new ReferenceType(
                         parent.name,
-                        ReferenceType.SYMBOL_FQN_RESOLVED,
-                        parent
+                        parent,
+                        context.project
                     );
                 }
                 method!.signatures = method!.signatures || [];
@@ -121,8 +121,7 @@ export class ConstructorConverter extends ConverterNodeComponent<
         property.setFlag(ReflectionFlag.Static, false);
         property.type = this.owner.convertType(
             context,
-            parameter.type,
-            context.getTypeAtLocation(parameter)
+            parameter.type ?? context.getTypeAtLocation(parameter)
         );
 
         if (comment) {

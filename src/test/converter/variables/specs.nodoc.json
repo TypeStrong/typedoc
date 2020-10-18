@@ -1461,6 +1461,10 @@
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
+                      },
+                      "default": {
+                        "type": "literal",
+                        "value": 1
                       }
                     }
                   ],
@@ -1495,8 +1499,8 @@
                           "name": "number"
                         },
                         "default": {
-                          "type": "unknown",
-                          "name": "1"
+                          "type": "literal",
+                          "value": 1
                         }
                       }
                     }
@@ -1518,8 +1522,8 @@
                             "name": "number"
                           },
                           "default": {
-                            "type": "unknown",
-                            "name": "1"
+                            "type": "literal",
+                            "value": 1
                           }
                         }
                       ],
@@ -1568,7 +1572,11 @@
                       "name": "This",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {}
+                      "flags": {},
+                      "default": {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
                     }
                   ],
                   "parameters": [
@@ -3588,6 +3596,7 @@
           "extendedTypes": [
             {
               "type": "reference",
+              "id": 2,
               "typeArguments": [
                 {
                   "type": "reference",
@@ -3615,6 +3624,13 @@
               "kind": 131072,
               "kindString": "Type parameter",
               "flags": {}
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "id": 7,
+              "name": "FooList"
             }
           ]
         },
@@ -3734,7 +3750,7 @@
       "originalName": "%BASE%/variables/destructuring.ts",
       "children": [
         {
-          "id": 245,
+          "id": 241,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
@@ -3745,7 +3761,7 @@
           }
         },
         {
-          "id": 246,
+          "id": 242,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
@@ -3756,7 +3772,7 @@
           }
         },
         {
-          "id": 247,
+          "id": 243,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
@@ -3765,19 +3781,19 @@
             "type": "union",
             "types": [
               {
-                "type": "unknown",
-                "name": "0"
+                "type": "literal",
+                "value": 0
               },
               {
-                "type": "unknown",
-                "name": "10"
+                "type": "literal",
+                "value": 10
               }
             ]
           },
           "defaultValue": "10"
         },
         {
-          "id": 251,
+          "id": 247,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
@@ -3788,7 +3804,7 @@
           }
         },
         {
-          "id": 252,
+          "id": 248,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
@@ -3808,7 +3824,7 @@
           }
         },
         {
-          "id": 250,
+          "id": 246,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
@@ -3828,7 +3844,7 @@
           }
         },
         {
-          "id": 248,
+          "id": 244,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
@@ -3839,7 +3855,7 @@
           }
         },
         {
-          "id": 249,
+          "id": 245,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
@@ -3850,7 +3866,7 @@
           }
         },
         {
-          "id": 242,
+          "id": 238,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
@@ -3861,7 +3877,7 @@
           }
         },
         {
-          "id": 243,
+          "id": 239,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
@@ -3872,7 +3888,7 @@
           }
         },
         {
-          "id": 244,
+          "id": 240,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
@@ -3907,72 +3923,8 @@
                   "flags": {},
                   "originalName": "__0",
                   "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 238,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 241,
-                          "name": "bold",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          },
-                          "defaultValue": "false"
-                        },
-                        {
-                          "id": 240,
-                          "name": "location",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "tuple",
-                            "elements": [
-                              {
-                                "type": "intrinsic",
-                                "name": "number"
-                              },
-                              {
-                                "type": "intrinsic",
-                                "name": "number"
-                              }
-                            ]
-                          },
-                          "defaultValue": "[0, 0]"
-                        },
-                        {
-                          "id": 239,
-                          "name": "text",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "string"
-                          },
-                          "defaultValue": "\"\""
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Variables",
-                          "kind": 32,
-                          "children": [
-                            241,
-                            240,
-                            239
-                          ]
-                        }
-                      ]
-                    }
+                    "type": "intrinsic",
+                    "name": "Object"
                   }
                 }
               ],
@@ -3989,17 +3941,17 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            245,
-            246,
-            247,
-            251,
-            252,
-            250,
-            248,
-            249,
+            241,
             242,
             243,
-            244
+            247,
+            248,
+            246,
+            244,
+            245,
+            238,
+            239,
+            240
           ]
         },
         {
@@ -4012,7 +3964,7 @@
       ]
     },
     {
-      "id": 253,
+      "id": 249,
       "name": "\"literal\"",
       "kind": 1,
       "kindString": "Module",
@@ -4020,7 +3972,17 @@
       "originalName": "%BASE%/variables/literal.ts",
       "children": [
         {
-          "id": 254,
+          "id": 270,
+          "name": "objectLiteral",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "comment": {
+            "shortText": "An object literal."
+          }
+        },
+        {
+          "id": 250,
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -4033,14 +3995,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 255,
+              "id": 251,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 271,
+                  "id": 267,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4053,7 +4015,7 @@
                   }
                 },
                 {
-                  "id": 272,
+                  "id": 268,
                   "name": "valueB",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4066,7 +4028,7 @@
                   }
                 },
                 {
-                  "id": 260,
+                  "id": 256,
                   "name": "valueX",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4074,14 +4036,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 261,
+                      "id": 257,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 270,
+                          "id": 266,
                           "name": "valueA",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4095,7 +4057,7 @@
                           }
                         },
                         {
-                          "id": 263,
+                          "id": 259,
                           "name": "valueY",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4103,21 +4065,21 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 264,
+                              "id": 260,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
-                                  "id": 265,
+                                  "id": 261,
                                   "name": "__call",
                                   "kind": 4096,
                                   "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
-                                      "id": 266,
+                                      "id": 262,
                                       "name": "z",
                                       "kind": 32768,
                                       "kindString": "Parameter",
@@ -4131,14 +4093,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 267,
+                                      "id": 263,
                                       "name": "__type",
                                       "kind": 65536,
                                       "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 268,
+                                          "id": 264,
                                           "name": "a",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4149,7 +4111,7 @@
                                           }
                                         },
                                         {
-                                          "id": 269,
+                                          "id": 265,
                                           "name": "b",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4165,8 +4127,8 @@
                                           "title": "Variables",
                                           "kind": 32,
                                           "children": [
-                                            268,
-                                            269
+                                            264,
+                                            265
                                           ]
                                         }
                                       ]
@@ -4178,7 +4140,7 @@
                           }
                         },
                         {
-                          "id": 262,
+                          "id": 258,
                           "name": "valueZ",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4194,9 +4156,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            270,
-                            263,
-                            262
+                            266,
+                            259,
+                            258
                           ]
                         }
                       ]
@@ -4204,7 +4166,7 @@
                   }
                 },
                 {
-                  "id": 257,
+                  "id": 253,
                   "name": "valueY",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4212,14 +4174,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 258,
+                      "id": 254,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 259,
+                          "id": 255,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
@@ -4234,7 +4196,7 @@
                   }
                 },
                 {
-                  "id": 256,
+                  "id": 252,
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4250,11 +4212,11 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    271,
-                    272,
-                    260,
-                    257,
-                    256
+                    267,
+                    268,
+                    256,
+                    253,
+                    252
                   ]
                 }
               ]
@@ -4267,13 +4229,14 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            254
+            270,
+            250
           ]
         }
       ]
     },
     {
-      "id": 273,
+      "id": 269,
       "name": "\"variable\"",
       "kind": 1,
       "kindString": "Module",
@@ -4288,8 +4251,8 @@
       "children": [
         1,
         234,
-        253,
-        273
+        249,
+        269
       ]
     }
   ]

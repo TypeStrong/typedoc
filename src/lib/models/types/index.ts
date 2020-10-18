@@ -9,7 +9,7 @@ export { QueryType } from "./query";
 export { PredicateType } from "./predicate";
 export { ReferenceType } from "./reference";
 export { ReflectionType } from "./reflection";
-export { StringLiteralType } from "./string-literal";
+export { LiteralType } from "./literal";
 export { TupleType, NamedTupleMember } from "./tuple";
 export { TypeOperatorType } from "./type-operator";
 export { TypeParameterType } from "./type-parameter";

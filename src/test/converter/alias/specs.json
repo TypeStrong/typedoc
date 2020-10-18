@@ -13,54 +13,59 @@
       "originalName": "%BASE%/alias/alias.ts",
       "children": [
         {
-          "id": 30,
+          "id": 29,
           "name": "GH1330",
           "kind": 2,
           "kindString": "Namespace",
           "flags": {},
           "children": [
             {
-              "id": 32,
+              "id": 31,
               "name": "Example",
               "kind": 256,
               "kindString": "Interface",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 33,
+                  "id": 32,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
                   "flags": {},
                   "type": {
                     "type": "reference",
-                    "id": 31,
+                    "id": 30,
+                    "name": "ExampleParam"
+                  },
+                  "default": {
+                    "type": "reference",
+                    "id": 30,
                     "name": "ExampleParam"
                   }
                 }
               ]
             },
             {
-              "id": 31,
+              "id": 30,
               "name": "ExampleParam",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "type": {
                 "type": "reference",
-                "id": 32,
+                "id": 31,
                 "name": "Example"
               }
             },
             {
-              "id": 36,
+              "id": 35,
               "name": "HasProp",
               "kind": 4194304,
               "kindString": "Type alias",
               "flags": {},
               "typeParameter": [
                 {
-                  "id": 37,
+                  "id": 36,
                   "name": "T",
                   "kind": 131072,
                   "kindString": "Type parameter",
@@ -70,14 +75,14 @@
               "type": {
                 "type": "reflection",
                 "declaration": {
-                  "id": 38,
+                  "id": 37,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 39,
+                      "id": 38,
                       "name": "key",
                       "kind": 32,
                       "kindString": "Variable",
@@ -93,7 +98,7 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        39
+                        38
                       ]
                     }
                   ]
@@ -101,7 +106,7 @@
               }
             },
             {
-              "id": 34,
+              "id": 33,
               "name": "testValue",
               "kind": 32,
               "kindString": "Variable",
@@ -110,20 +115,13 @@
               },
               "type": {
                 "type": "reference",
-                "id": 32,
-                "typeArguments": [
-                  {
-                    "type": "reference",
-                    "id": 31,
-                    "name": "ExampleParam"
-                  }
-                ],
+                "id": 31,
                 "name": "Example"
               },
               "defaultValue": "makeExample()"
             },
             {
-              "id": 35,
+              "id": 34,
               "name": "testValue2",
               "kind": 32,
               "kindString": "Variable",
@@ -132,13 +130,13 @@
               },
               "type": {
                 "type": "reference",
-                "id": 31,
+                "id": 30,
                 "name": "ExampleParam"
               },
               "defaultValue": "makeExample2()"
             },
             {
-              "id": 40,
+              "id": 39,
               "name": "testValue3",
               "kind": 32,
               "kindString": "Variable",
@@ -147,7 +145,7 @@
               },
               "type": {
                 "type": "reference",
-                "id": 36,
+                "id": 35,
                 "typeArguments": [
                   {
                     "type": "intrinsic",
@@ -164,24 +162,24 @@
               "title": "Interfaces",
               "kind": 256,
               "children": [
-                32
+                31
               ]
             },
             {
               "title": "Type aliases",
               "kind": 4194304,
               "children": [
-                31,
-                36
+                30,
+                35
               ]
             },
             {
               "title": "Variables",
               "kind": 32,
               "children": [
+                33,
                 34,
-                35,
-                40
+                39
               ]
             }
           ]
@@ -215,7 +213,17 @@
               "name": "R",
               "kind": 131072,
               "kindString": "Type parameter",
-              "flags": {}
+              "flags": {},
+              "default": {
+                "type": "reflection",
+                "declaration": {
+                  "id": 24,
+                  "name": "__type",
+                  "kind": 65536,
+                  "kindString": "Type literal",
+                  "flags": {}
+                }
+              }
             }
           ],
           "type": {
@@ -225,7 +233,7 @@
               "checkType": {
                 "type": "indexedAccess",
                 "indexType": {
-                  "type": "stringLiteral",
+                  "type": "literal",
                   "value": "length"
                 },
                 "objectType": {
@@ -241,16 +249,16 @@
                 }
               },
               "extendsType": {
-                "type": "unknown",
-                "name": "0"
+                "type": "literal",
+                "value": 0
               },
               "trueType": {
-                "type": "unknown",
-                "name": "0"
+                "type": "literal",
+                "value": 0
               },
               "falseType": {
-                "type": "unknown",
-                "name": "1"
+                "type": "literal",
+                "value": 1
               }
             },
             "objectType": {
@@ -312,14 +320,8 @@
                           "name": "PopFront"
                         },
                         {
-                          "type": "reflection",
-                          "declaration": {
-                            "id": 29,
-                            "name": "__type",
-                            "kind": 65536,
-                            "kindString": "Type literal",
-                            "flags": {}
-                          }
+                          "type": "unknown",
+                          "name": "{\n            [K in keyof R | keyof T[0]]: K extends keyof R ? R[K] : T[0][K];\n        }"
                         }
                       ],
                       "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone"
@@ -369,11 +371,11 @@
               "name": "string"
             },
             "trueType": {
-              "type": "stringLiteral",
+              "type": "literal",
               "value": "string"
             },
             "falseType": {
-              "type": "stringLiteral",
+              "type": "literal",
               "value": "not string"
             }
           }
@@ -500,7 +502,7 @@
               }
             },
             "trueType": {
-              "type": "typeParameter",
+              "type": "reference",
               "name": "R"
             },
             "falseType": {
@@ -544,7 +546,7 @@
               "name": "PromiseLike"
             },
             "trueType": {
-              "type": "typeParameter",
+              "type": "reference",
               "name": "U"
             },
             "falseType": {
@@ -648,7 +650,7 @@
           "title": "Namespaces",
           "kind": 2,
           "children": [
-            30
+            29
           ]
         },
         {

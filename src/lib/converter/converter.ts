@@ -18,6 +18,7 @@ import {
     ComponentClass,
 } from "../utils/component";
 import { BindOption, removeIfPresent } from "../utils";
+import { convertType } from "./types";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -316,28 +317,9 @@ export class Converter extends ChildableComponent<
      */
     convertType(
         context: Context,
-        node?: ts.Node,
-        type?: ts.Type
-    ): Type | undefined {
-        // Run all node based type conversions
-        if (node) {
-            type = type || context.getTypeAtLocation(node);
-
-            for (const converter of this.typeNodeConverters) {
-                if (converter.supportsNode(context, node, type)) {
-                    return converter.convertNode(context, node, type);
-                }
-            }
-        }
-
-        // Run all type based type conversions
-        if (type) {
-            for (const converter of this.typeTypeConverters) {
-                if (converter.supportsType(context, type)) {
-                    return converter.convertType(context, type);
-                }
-            }
-        }
+        node: ts.TypeNode | ts.Type | undefined
+    ): Type {
+        return convertType(context, node);
     }
 
     /**
@@ -348,12 +330,12 @@ export class Converter extends ChildableComponent<
      */
     convertTypes(
         context: Context,
-        nodes: ReadonlyArray<ts.Node> = [],
+        nodes: ReadonlyArray<ts.TypeNode> = [],
         types: ReadonlyArray<ts.Type> = []
     ): Type[] {
         const result: Type[] = [];
         _.zip(nodes, types).forEach(([node, type]) => {
-            const converted = this.convertType(context, node, type);
+            const converted = this.convertType(context, node ?? type!);
             if (converted) {
                 result.push(converted);
             }

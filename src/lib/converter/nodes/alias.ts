@@ -34,8 +34,7 @@ export class AliasConverter extends ConverterNodeComponent<
         context.withScope(alias, node.typeParameters, () => {
             alias!.type = this.owner.convertType(
                 context,
-                node.type,
-                context.getTypeAtLocation(node.type)
+                node.type ?? context.getTypeAtLocation(node.type)
             );
         });
 

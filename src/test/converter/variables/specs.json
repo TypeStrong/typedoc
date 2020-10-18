@@ -92,14 +92,7 @@
               "type": {
                 "type": "reference",
                 "name": "ArrayConstructor"
-              },
-              "extendedBy": [
-                {
-                  "type": "reference",
-                  "id": 7,
-                  "name": "FooList"
-                }
-              ]
+              }
             },
             {
               "id": 221,
@@ -1592,6 +1585,10 @@
                       "type": {
                         "type": "intrinsic",
                         "name": "number"
+                      },
+                      "default": {
+                        "type": "literal",
+                        "value": 1
                       }
                     }
                   ],
@@ -1626,8 +1623,8 @@
                           "name": "number"
                         },
                         "default": {
-                          "type": "unknown",
-                          "name": "1"
+                          "type": "literal",
+                          "value": 1
                         }
                       }
                     }
@@ -1649,8 +1646,8 @@
                             "name": "number"
                           },
                           "default": {
-                            "type": "unknown",
-                            "name": "1"
+                            "type": "literal",
+                            "value": 1
                           }
                         }
                       ],
@@ -1699,7 +1696,11 @@
                       "name": "This",
                       "kind": 131072,
                       "kindString": "Type parameter",
-                      "flags": {}
+                      "flags": {},
+                      "default": {
+                        "type": "intrinsic",
+                        "name": "undefined"
+                      }
                     }
                   ],
                   "parameters": [
@@ -3948,7 +3949,7 @@
           "extendedTypes": [
             {
               "type": "reference",
-              "id": 182,
+              "id": 2,
               "typeArguments": [
                 {
                   "type": "reference",
@@ -3976,6 +3977,13 @@
               "kind": 131072,
               "kindString": "Type parameter",
               "flags": {}
+            }
+          ],
+          "extendedBy": [
+            {
+              "type": "reference",
+              "id": 7,
+              "name": "FooList"
             }
           ]
         },
@@ -4095,7 +4103,7 @@
       "originalName": "%BASE%/variables/destructuring.ts",
       "children": [
         {
-          "id": 272,
+          "id": 268,
           "name": "destructArrayA",
           "kind": 32,
           "kindString": "Variable",
@@ -4106,7 +4114,7 @@
           }
         },
         {
-          "id": 273,
+          "id": 269,
           "name": "destructArrayB",
           "kind": 32,
           "kindString": "Variable",
@@ -4117,7 +4125,7 @@
           }
         },
         {
-          "id": 274,
+          "id": 270,
           "name": "destructArrayC",
           "kind": 32,
           "kindString": "Variable",
@@ -4126,19 +4134,19 @@
             "type": "union",
             "types": [
               {
-                "type": "unknown",
-                "name": "0"
+                "type": "literal",
+                "value": 0
               },
               {
-                "type": "unknown",
-                "name": "10"
+                "type": "literal",
+                "value": 10
               }
             ]
           },
           "defaultValue": "10"
         },
         {
-          "id": 278,
+          "id": 274,
           "name": "destructArrayWithIgnoresA",
           "kind": 32,
           "kindString": "Variable",
@@ -4149,7 +4157,7 @@
           }
         },
         {
-          "id": 279,
+          "id": 275,
           "name": "destructArrayWithIgnoresRest",
           "kind": 32,
           "kindString": "Variable",
@@ -4169,7 +4177,7 @@
           }
         },
         {
-          "id": 277,
+          "id": 273,
           "name": "destructArrayWithRest",
           "kind": 32,
           "kindString": "Variable",
@@ -4189,7 +4197,7 @@
           }
         },
         {
-          "id": 275,
+          "id": 271,
           "name": "destructArrayWithRestA",
           "kind": 32,
           "kindString": "Variable",
@@ -4200,7 +4208,7 @@
           }
         },
         {
-          "id": 276,
+          "id": 272,
           "name": "destructArrayWithRestB",
           "kind": 32,
           "kindString": "Variable",
@@ -4211,7 +4219,7 @@
           }
         },
         {
-          "id": 269,
+          "id": 265,
           "name": "destructObjectA",
           "kind": 32,
           "kindString": "Variable",
@@ -4222,7 +4230,7 @@
           }
         },
         {
-          "id": 270,
+          "id": 266,
           "name": "destructObjectB",
           "kind": 32,
           "kindString": "Variable",
@@ -4233,7 +4241,7 @@
           }
         },
         {
-          "id": 271,
+          "id": 267,
           "name": "destructObjectC",
           "kind": 32,
           "kindString": "Variable",
@@ -4268,72 +4276,8 @@
                   "flags": {},
                   "originalName": "__0",
                   "type": {
-                    "type": "reflection",
-                    "declaration": {
-                      "id": 265,
-                      "name": "__type",
-                      "kind": 65536,
-                      "kindString": "Type literal",
-                      "flags": {},
-                      "children": [
-                        {
-                          "id": 268,
-                          "name": "bold",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "boolean"
-                          },
-                          "defaultValue": "false"
-                        },
-                        {
-                          "id": 267,
-                          "name": "location",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "tuple",
-                            "elements": [
-                              {
-                                "type": "intrinsic",
-                                "name": "number"
-                              },
-                              {
-                                "type": "intrinsic",
-                                "name": "number"
-                              }
-                            ]
-                          },
-                          "defaultValue": "[0, 0]"
-                        },
-                        {
-                          "id": 266,
-                          "name": "text",
-                          "kind": 32,
-                          "kindString": "Variable",
-                          "flags": {},
-                          "type": {
-                            "type": "intrinsic",
-                            "name": "string"
-                          },
-                          "defaultValue": "\"\""
-                        }
-                      ],
-                      "groups": [
-                        {
-                          "title": "Variables",
-                          "kind": 32,
-                          "children": [
-                            268,
-                            267,
-                            266
-                          ]
-                        }
-                      ]
-                    }
+                    "type": "intrinsic",
+                    "name": "Object"
                   }
                 }
               ],
@@ -4350,17 +4294,17 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            272,
-            273,
-            274,
-            278,
-            279,
-            277,
-            275,
-            276,
+            268,
             269,
             270,
-            271
+            274,
+            275,
+            273,
+            271,
+            272,
+            265,
+            266,
+            267
           ]
         },
         {
@@ -4373,7 +4317,7 @@
       ]
     },
     {
-      "id": 280,
+      "id": 276,
       "name": "\"literal\"",
       "kind": 1,
       "kindString": "Module",
@@ -4381,7 +4325,17 @@
       "originalName": "%BASE%/variables/literal.ts",
       "children": [
         {
-          "id": 281,
+          "id": 322,
+          "name": "objectLiteral",
+          "kind": 32,
+          "kindString": "Variable",
+          "flags": {},
+          "comment": {
+            "shortText": "An object literal."
+          }
+        },
+        {
+          "id": 277,
           "name": "typeLiteral",
           "kind": 32,
           "kindString": "Variable",
@@ -4394,14 +4348,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 282,
+              "id": 278,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 298,
+                  "id": 294,
                   "name": "valueA",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4414,7 +4368,7 @@
                   }
                 },
                 {
-                  "id": 299,
+                  "id": 295,
                   "name": "valueB",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4427,7 +4381,7 @@
                   }
                 },
                 {
-                  "id": 287,
+                  "id": 283,
                   "name": "valueX",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4435,14 +4389,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 288,
+                      "id": 284,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "children": [
                         {
-                          "id": 297,
+                          "id": 293,
                           "name": "valueA",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4456,7 +4410,7 @@
                           }
                         },
                         {
-                          "id": 290,
+                          "id": 286,
                           "name": "valueY",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4464,21 +4418,21 @@
                           "type": {
                             "type": "reflection",
                             "declaration": {
-                              "id": 291,
+                              "id": 287,
                               "name": "__type",
                               "kind": 65536,
                               "kindString": "Type literal",
                               "flags": {},
                               "signatures": [
                                 {
-                                  "id": 292,
+                                  "id": 288,
                                   "name": "__call",
                                   "kind": 4096,
                                   "kindString": "Call signature",
                                   "flags": {},
                                   "parameters": [
                                     {
-                                      "id": 293,
+                                      "id": 289,
                                       "name": "z",
                                       "kind": 32768,
                                       "kindString": "Parameter",
@@ -4492,14 +4446,14 @@
                                   "type": {
                                     "type": "reflection",
                                     "declaration": {
-                                      "id": 294,
+                                      "id": 290,
                                       "name": "__type",
                                       "kind": 65536,
                                       "kindString": "Type literal",
                                       "flags": {},
                                       "children": [
                                         {
-                                          "id": 295,
+                                          "id": 291,
                                           "name": "a",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4510,7 +4464,7 @@
                                           }
                                         },
                                         {
-                                          "id": 296,
+                                          "id": 292,
                                           "name": "b",
                                           "kind": 32,
                                           "kindString": "Variable",
@@ -4526,8 +4480,8 @@
                                           "title": "Variables",
                                           "kind": 32,
                                           "children": [
-                                            295,
-                                            296
+                                            291,
+                                            292
                                           ]
                                         }
                                       ]
@@ -4539,7 +4493,7 @@
                           }
                         },
                         {
-                          "id": 289,
+                          "id": 285,
                           "name": "valueZ",
                           "kind": 32,
                           "kindString": "Variable",
@@ -4555,9 +4509,9 @@
                           "title": "Variables",
                           "kind": 32,
                           "children": [
-                            297,
-                            290,
-                            289
+                            293,
+                            286,
+                            285
                           ]
                         }
                       ]
@@ -4565,7 +4519,7 @@
                   }
                 },
                 {
-                  "id": 284,
+                  "id": 280,
                   "name": "valueY",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4573,14 +4527,14 @@
                   "type": {
                     "type": "reflection",
                     "declaration": {
-                      "id": 285,
+                      "id": 281,
                       "name": "__type",
                       "kind": 65536,
                       "kindString": "Type literal",
                       "flags": {},
                       "signatures": [
                         {
-                          "id": 286,
+                          "id": 282,
                           "name": "__call",
                           "kind": 4096,
                           "kindString": "Call signature",
@@ -4595,7 +4549,7 @@
                   }
                 },
                 {
-                  "id": 283,
+                  "id": 279,
                   "name": "valueZ",
                   "kind": 32,
                   "kindString": "Variable",
@@ -4611,11 +4565,11 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    298,
-                    299,
-                    287,
-                    284,
-                    283
+                    294,
+                    295,
+                    283,
+                    280,
+                    279
                   ]
                 }
               ]
@@ -4623,7 +4577,7 @@
           }
         },
         {
-          "id": 300,
+          "id": 296,
           "name": "callbackReturn",
           "kind": 2097152,
           "kindString": "Object literal",
@@ -4632,21 +4586,21 @@
           },
           "children": [
             {
-              "id": 306,
+              "id": 303,
               "name": "error",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 307,
+                  "id": 304,
                   "name": "error",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 308,
+                      "id": 305,
                       "name": "errorCallback",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4654,14 +4608,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 309,
+                          "id": 306,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 310,
+                              "id": 307,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -4677,29 +4631,34 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "id": 300,
-                    "name": "callbackReturn"
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 308,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {}
+                    }
                   }
                 }
               ]
             },
             {
-              "id": 311,
+              "id": 309,
               "name": "finally",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 312,
+                  "id": 310,
                   "name": "finally",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 313,
+                      "id": 311,
                       "name": "finallyCallback",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4707,14 +4666,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 314,
+                          "id": 312,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 315,
+                              "id": 313,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -4730,29 +4689,34 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "id": 300,
-                    "name": "callbackReturn"
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 314,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {}
+                    }
                   }
                 }
               ]
             },
             {
-              "id": 301,
+              "id": 297,
               "name": "success",
               "kind": 64,
               "kindString": "Function",
               "flags": {},
               "signatures": [
                 {
-                  "id": 302,
+                  "id": 298,
                   "name": "success",
                   "kind": 4096,
                   "kindString": "Call signature",
                   "flags": {},
                   "parameters": [
                     {
-                      "id": 303,
+                      "id": 299,
                       "name": "successCallback",
                       "kind": 32768,
                       "kindString": "Parameter",
@@ -4760,14 +4724,14 @@
                       "type": {
                         "type": "reflection",
                         "declaration": {
-                          "id": 304,
+                          "id": 300,
                           "name": "__type",
                           "kind": 65536,
                           "kindString": "Type literal",
                           "flags": {},
                           "signatures": [
                             {
-                              "id": 305,
+                              "id": 301,
                               "name": "__call",
                               "kind": 4096,
                               "kindString": "Call signature",
@@ -4783,9 +4747,14 @@
                     }
                   ],
                   "type": {
-                    "type": "reference",
-                    "id": 300,
-                    "name": "callbackReturn"
+                    "type": "reflection",
+                    "declaration": {
+                      "id": 302,
+                      "name": "__type",
+                      "kind": 65536,
+                      "kindString": "Type literal",
+                      "flags": {}
+                    }
                   }
                 }
               ]
@@ -4796,9 +4765,9 @@
               "title": "Functions",
               "kind": 64,
               "children": [
-                306,
-                311,
-                301
+                303,
+                309,
+                297
               ]
             }
           ],
@@ -4813,20 +4782,21 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            281
+            322,
+            277
           ]
         },
         {
           "title": "Object literals",
           "kind": 2097152,
           "children": [
-            300
+            296
           ]
         }
       ]
     },
     {
-      "id": 316,
+      "id": 315,
       "name": "\"variable\"",
       "kind": 1,
       "kindString": "Module",
@@ -4834,7 +4804,7 @@
       "originalName": "%BASE%/variables/variable.ts",
       "children": [
         {
-          "id": 317,
+          "id": 316,
           "name": "myConst",
           "kind": 32,
           "kindString": "Variable",
@@ -4842,13 +4812,13 @@
             "isConst": true
           },
           "type": {
-            "type": "unknown",
-            "name": "15"
+            "type": "literal",
+            "value": 15
           },
           "defaultValue": "15"
         },
         {
-          "id": 318,
+          "id": 317,
           "name": "myLet",
           "kind": 32,
           "kindString": "Variable",
@@ -4862,7 +4832,7 @@
           "defaultValue": "15"
         },
         {
-          "id": 319,
+          "id": 318,
           "name": "myVar",
           "kind": 32,
           "kindString": "Variable",
@@ -4874,7 +4844,7 @@
           "defaultValue": "15"
         },
         {
-          "id": 320,
+          "id": 319,
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
@@ -4887,7 +4857,7 @@
           }
         },
         {
-          "id": 321,
+          "id": 320,
           "name": "y",
           "kind": 32,
           "kindString": "Variable",
@@ -4906,7 +4876,7 @@
           }
         },
         {
-          "id": 322,
+          "id": 321,
           "name": "z",
           "kind": 32,
           "kindString": "Variable",
@@ -4930,12 +4900,12 @@
           "title": "Variables",
           "kind": 32,
           "children": [
+            316,
             317,
             318,
             319,
             320,
-            321,
-            322
+            321
           ]
         }
       ]
@@ -4948,8 +4918,8 @@
       "children": [
         1,
         261,
-        280,
-        316
+        276,
+        315
       ]
     }
   ]

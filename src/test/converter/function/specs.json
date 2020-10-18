@@ -178,7 +178,7 @@
                         "name": "T"
                       },
                       {
-                        "type": "intrinsic",
+                        "type": "unknown",
                         "name": "null"
                       },
                       {
@@ -575,7 +575,7 @@
                         "name": "T"
                       },
                       {
-                        "type": "intrinsic",
+                        "type": "unknown",
                         "name": "null"
                       },
                       {

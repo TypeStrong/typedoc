@@ -83,8 +83,7 @@ export class ClassConverter extends ConverterNodeComponent<
                     }
                     const convertedType = this.owner.convertType(
                         context,
-                        baseType,
-                        type
+                        baseType ?? type
                     );
                     if (convertedType) {
                         reflection!.extendedTypes.push(convertedType);
@@ -113,16 +112,12 @@ export class ClassConverter extends ConverterNodeComponent<
                             : undefined;
 
                     typesToInheritFrom.forEach((typeToInheritFrom: ts.Type) => {
-                        // TODO: The TS declaration file claims that:
-                        // 1. type.symbol is non-nullable
-                        // 2. symbol.declarations is non-nullable
-                        // These are both incorrect, GH#1207 for #2 and existing tests for #1.
-                        // Figure out why this is the case and document.
-                        typeToInheritFrom.symbol?.declarations?.forEach(
-                            (declaration) => {
+                        typeToInheritFrom
+                            .getSymbol()
+                            ?.getDeclarations()
+                            ?.forEach((declaration) => {
                                 context.inherit(declaration, typeArguments);
-                            }
-                        );
+                            });
                     });
                 }
             }

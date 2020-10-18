@@ -9,7 +9,7 @@ export * from "./predicate";
 export * from "./query";
 export * from "./reference";
 export * from "./reflection";
-export * from "./string-literal";
+export * from "./literal";
 export * from "./tuple";
 export * from "./type-operator";
 export * from "./type-parameter";

@@ -70,14 +70,12 @@ export class VariableConverter extends ConverterNodeComponent<
         }
 
         let name: string | undefined;
-        let isBindingPattern: boolean;
         if (
             ts.isArrayBindingPattern(node.name) ||
             ts.isObjectBindingPattern(node.name)
         ) {
             if (ts.isBindingElement(node) && node.propertyName) {
                 name = node.propertyName.getText();
-                isBindingPattern = true;
             } else {
                 return;
             }
@@ -146,15 +144,11 @@ export class VariableConverter extends ConverterNodeComponent<
                 variable!.kind === kind ||
                 variable!.kind === ReflectionKind.Event
             ) {
-                if (isBindingPattern) {
-                    variable!.type = this.owner.convertType(context, node.name);
-                } else {
-                    variable!.type = this.owner.convertType(
-                        context,
-                        (node as ts.VariableDeclaration).type,
-                        context.getTypeAtLocation(node)
-                    );
-                }
+                variable!.type = this.owner.convertType(
+                    context,
+                    (node as ts.VariableDeclaration).type ??
+                        context.checker.getTypeAtLocation(node)
+                );
             }
         });
 

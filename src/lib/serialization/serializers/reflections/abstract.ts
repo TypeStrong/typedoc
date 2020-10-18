@@ -39,7 +39,6 @@ export class ReflectionSerializer extends ReflectionSerializerComponent<
             "isProtected",
             "isPublic",
             "isStatic",
-            "isExported",
             "isExternal",
             "isOptional",
             "isRest",

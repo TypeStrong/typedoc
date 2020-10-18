@@ -22,8 +22,8 @@
             "type": "intersection",
             "types": [
               {
-                "type": "unknown",
-                "name": "1"
+                "type": "literal",
+                "value": 1
               },
               {
                 "type": "reflection",
@@ -103,8 +103,8 @@
             "isConst": true
           },
           "type": {
-            "type": "unknown",
-            "name": "1"
+            "type": "literal",
+            "value": 1
           },
           "defaultValue": "1"
         }

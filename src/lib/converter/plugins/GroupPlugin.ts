@@ -155,13 +155,12 @@ export class GroupPlugin extends ConverterComponent {
         });
 
         groups.forEach((group) => {
-            let someExported = false,
-                allInherited = true,
-                allPrivate = true,
-                allProtected = true,
-                allExternal = true;
+            let allInherited = true;
+            let allPrivate = true;
+            let allProtected = true;
+            let allExternal = true;
+
             group.children.forEach((child) => {
-                someExported = child.flags.isExported || someExported;
                 allPrivate = child.flags.isPrivate && allPrivate;
                 allProtected =
                     (child.flags.isPrivate || child.flags.isProtected) &&
@@ -175,7 +174,6 @@ export class GroupPlugin extends ConverterComponent {
                 }
             });
 
-            group.someChildrenAreExported = someExported;
             group.allChildrenAreInherited = allInherited;
             group.allChildrenArePrivate = allPrivate;
             group.allChildrenAreProtectedOrPrivate = allProtected;

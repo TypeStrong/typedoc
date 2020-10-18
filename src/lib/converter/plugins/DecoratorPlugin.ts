@@ -15,17 +15,17 @@ export class DecoratorPlugin extends ConverterComponent {
     /**
      * Defined in this.onBegin
      */
-    private usages!: { [fqn: string]: ReferenceType[] };
+    private readonly usages = new Map<ts.Symbol, ReferenceType[]>();
 
     /**
      * Create a new ImplementsPlugin instance.
      */
     initialize() {
         this.listenTo(this.owner, {
-            [Converter.EVENT_BEGIN]: this.onBegin,
             [Converter.EVENT_CREATE_DECLARATION]: this.onDeclaration,
             [Converter.EVENT_CREATE_PARAMETER]: this.onDeclaration,
             [Converter.EVENT_RESOLVE]: this.onBeginResolve,
+            [Converter.EVENT_END]: () => this.usages.clear(),
         });
     }
 
@@ -57,15 +57,6 @@ export class DecoratorPlugin extends ConverterComponent {
     }
 
     /**
-     * Triggered when the converter begins converting a project.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     */
-    private onBegin(_context: Context) {
-        this.usages = {};
-    }
-
-    /**
      * Triggered when the converter has created a declaration or signature reflection.
      *
      * @param context  The context object describing the current state the converter is in.
@@ -77,10 +68,7 @@ export class DecoratorPlugin extends ConverterComponent {
         reflection: Reflection,
         node?: ts.Node
     ) {
-        if (!node || !node.decorators) {
-            return;
-        }
-        node.decorators.forEach((decorator: ts.Decorator) => {
+        node?.decorators?.forEach((decorator) => {
             let callExpression: ts.CallExpression | undefined;
             let identifier: ts.Expression;
 
@@ -102,8 +90,11 @@ export class DecoratorPlugin extends ConverterComponent {
 
             const type = context.checker.getTypeAtLocation(identifier);
             if (type && type.symbol) {
-                const fqn = context.checker.getFullyQualifiedName(type.symbol);
-                info.type = new ReferenceType(info.name, fqn);
+                info.type = new ReferenceType(
+                    info.name,
+                    type.symbol,
+                    context.project
+                );
 
                 if (callExpression && callExpression.arguments) {
                     const signature = context.checker.getResolvedSignature(
@@ -117,36 +108,27 @@ export class DecoratorPlugin extends ConverterComponent {
                     }
                 }
 
-                if (!this.usages[fqn]) {
-                    this.usages[fqn] = [];
-                }
-                this.usages[fqn].push(
+                const usages = this.usages.get(type.symbol) ?? [];
+                usages.push(
                     new ReferenceType(
                         reflection.name,
-                        ReferenceType.SYMBOL_FQN_RESOLVED,
-                        reflection
+                        reflection,
+                        context.project
                     )
                 );
+                this.usages.set(type.symbol, usages);
             }
 
-            if (!reflection.decorators) {
-                reflection.decorators = [];
-            }
+            reflection.decorators ??= [];
             reflection.decorators.push(info);
         });
     }
 
-    /**
-     * Triggered when the converter resolves a reflection.
-     *
-     * @param context  The context object describing the current state the converter is in.
-     * @param reflection  The reflection that is currently resolved.
-     */
     private onBeginResolve(context: Context) {
-        for (const fqn of Object.keys(this.usages)) {
-            const reflection = context.project.getReflectionFromFQN(fqn);
+        for (const [symbol, ref] of this.usages) {
+            const reflection = context.project.getReflectionFromSymbol(symbol);
             if (reflection) {
-                reflection.decorates = this.usages[fqn];
+                reflection.decorates = ref;
             }
         }
     }

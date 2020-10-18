@@ -143,7 +143,7 @@
             "shortText": "A variable that is made private via comment."
           },
           "type": {
-            "type": "stringLiteral",
+            "type": "literal",
             "value": "test"
           },
           "defaultValue": "\"test\""
@@ -161,7 +161,7 @@
             "shortText": "A variable that is made protected via comment."
           },
           "type": {
-            "type": "stringLiteral",
+            "type": "literal",
             "value": "test"
           },
           "defaultValue": "\"test\""
@@ -921,7 +921,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 17,
+                "id": 46,
                 "name": "TestClass.publicProperty"
               }
             },
@@ -943,7 +943,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 19,
+                "id": 47,
                 "name": "TestClass.staticProperty"
               }
             },
@@ -972,14 +972,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 30,
+                    "id": 50,
                     "name": "TestClass.arrowMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 30,
+                "id": 50,
                 "name": "TestClass.arrowMethod"
               }
             },
@@ -1125,14 +1125,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 28,
+                    "id": 48,
                     "name": "TestClass.staticMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 28,
+                "id": 48,
                 "name": "TestClass.staticMethod"
               }
             }
@@ -1252,8 +1252,8 @@
                 "isStatic": true
               },
               "type": {
-                "type": "unknown",
-                "name": "1"
+                "type": "literal",
+                "value": 1
               },
               "defaultValue": "1"
             }
@@ -1291,8 +1291,8 @@
                 "isStatic": true
               },
               "type": {
-                "type": "unknown",
-                "name": "1"
+                "type": "literal",
+                "value": 1
               },
               "defaultValue": "1"
             }
@@ -1630,7 +1630,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 79,
+                "id": 96,
                 "name": "Vector2.x"
               }
             },
@@ -2203,7 +2203,7 @@
                         "text": "The name of the event to subscribe for."
                       },
                       "type": {
-                        "type": "stringLiteral",
+                        "type": "literal",
                         "value": "error"
                       }
                     },
@@ -2279,7 +2279,7 @@
                         "text": "The name of the event to subscribe for."
                       },
                       "type": {
-                        "type": "stringLiteral",
+                        "type": "literal",
                         "value": "progress"
                       }
                     },
@@ -2355,7 +2355,7 @@
                         "text": "The name of the event to subscribe for."
                       },
                       "type": {
-                        "type": "stringLiteral",
+                        "type": "literal",
                         "value": "complete"
                       }
                     },
@@ -2652,14 +2652,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 149,
+                    "id": 157,
                     "name": "GenericClass.__constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 149,
+                "id": 157,
                 "name": "GenericClass.__constructor"
               }
             },
@@ -2680,7 +2680,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 147,
+                "id": 155,
                 "name": "GenericClass.value"
               }
             },
@@ -2704,7 +2704,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 148,
+                "id": 156,
                 "name": "GenericClass.values"
               }
             },
@@ -2731,14 +2731,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 152,
+                    "id": 160,
                     "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 152,
+                "id": 160,
                 "name": "GenericClass.getValue"
               }
             }

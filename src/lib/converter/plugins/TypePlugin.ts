@@ -1,20 +1,9 @@
 import {
-    Reflection,
     ReflectionKind,
-    Decorator,
     DeclarationReflection,
     DeclarationHierarchy,
 } from "../../models/reflections/index";
-import {
-    Type,
-    ReferenceType,
-    TupleType,
-    UnionType,
-    IntersectionType,
-    ArrayType,
-    TypeOperatorType,
-    QueryType,
-} from "../../models/types/index";
+import { Type, ReferenceType } from "../../models/types/index";
 import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
@@ -43,23 +32,6 @@ export class TypePlugin extends ConverterComponent {
      * @param reflection  The reflection that is currently resolved.
      */
     private onResolve(context: Context, reflection: DeclarationReflection) {
-        const project = context.project;
-
-        resolveType(reflection, <ReferenceType>reflection.type);
-        resolveType(reflection, <ReferenceType>reflection.inheritedFrom);
-        resolveType(reflection, <ReferenceType>reflection.overwrites);
-        resolveTypes(reflection, reflection.extendedTypes);
-        resolveTypes(reflection, reflection.extendedBy);
-        resolveTypes(reflection, reflection.implementedTypes);
-
-        if (reflection.decorators) {
-            reflection.decorators.forEach((decorator: Decorator) => {
-                if (decorator.type) {
-                    resolveType(reflection, decorator.type);
-                }
-            });
-        }
-
         if (reflection.kindOf(ReflectionKind.ClassOrInterface)) {
             this.postpone(reflection);
 
@@ -71,8 +43,8 @@ export class TypePlugin extends ConverterComponent {
                 target.implementedBy.push(
                     new ReferenceType(
                         reflection.name,
-                        ReferenceType.SYMBOL_FQN_RESOLVED,
-                        reflection
+                        reflection,
+                        context.project
                     )
                 );
             });
@@ -85,8 +57,8 @@ export class TypePlugin extends ConverterComponent {
                 target.extendedBy.push(
                     new ReferenceType(
                         reflection.name,
-                        ReferenceType.SYMBOL_FQN_RESOLVED,
-                        reflection
+                        reflection,
+                        context.project
                     )
                 );
             });
@@ -112,53 +84,6 @@ export class TypePlugin extends ConverterComponent {
                 callback(type.reflection);
             });
         }
-
-        function resolveTypes(reflection: Reflection, types?: Type[]) {
-            if (!types) {
-                return;
-            }
-            for (let i = 0, c = types.length; i < c; i++) {
-                resolveType(reflection, <ReferenceType>types[i]);
-            }
-        }
-
-        function resolveType(reflection: Reflection, type: Type) {
-            if (type instanceof ReferenceType) {
-                if (
-                    type.symbolFullyQualifiedName ===
-                    ReferenceType.SYMBOL_FQN_RESOLVE_BY_NAME
-                ) {
-                    type.reflection = reflection.findReflectionByName(
-                        type.name
-                    );
-                } else if (
-                    !type.reflection &&
-                    type.symbolFullyQualifiedName !==
-                        ReferenceType.SYMBOL_FQN_RESOLVED
-                ) {
-                    type.reflection = project.getReflectionFromFQN(
-                        type.symbolFullyQualifiedName
-                    );
-                }
-
-                if (type.typeArguments) {
-                    resolveTypes(reflection, type.typeArguments);
-                }
-            } else if (type instanceof TupleType) {
-                resolveTypes(reflection, type.elements);
-            } else if (
-                type instanceof UnionType ||
-                type instanceof IntersectionType
-            ) {
-                resolveTypes(reflection, type.types);
-            } else if (type instanceof ArrayType) {
-                resolveType(reflection, type.elementType);
-            } else if (type instanceof TypeOperatorType) {
-                resolveType(reflection, type.target);
-            } else if (type instanceof QueryType) {
-                resolveType(reflection, type.queryType);
-            }
-        }
     }
 
     private postpone(reflection: DeclarationReflection) {
@@ -172,7 +97,7 @@ export class TypePlugin extends ConverterComponent {
      *
      * @param context  The context object describing the current state the converter is in.
      */
-    private onResolveEnd(_context: Context) {
+    private onResolveEnd(context: Context) {
         this.reflections.forEach((reflection) => {
             if (reflection.implementedBy) {
                 reflection.implementedBy.sort((a: any, b: any) => {
@@ -200,11 +125,7 @@ export class TypePlugin extends ConverterComponent {
             }
 
             push([
-                new ReferenceType(
-                    reflection.name,
-                    ReferenceType.SYMBOL_FQN_RESOLVED,
-                    reflection
-                ),
+                new ReferenceType(reflection.name, reflection, context.project),
             ]);
             hierarchy.isTarget = true;
 

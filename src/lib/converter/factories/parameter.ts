@@ -1,14 +1,13 @@
 import * as ts from "typescript";
-
 import {
+    ParameterReflection,
     ReflectionFlag,
     ReflectionKind,
-    ParameterReflection,
     SignatureReflection,
-} from "../../models/reflections/index";
+} from "../../models";
 import { Context } from "../context";
-import { Converter } from "../converter";
 import { convertDefaultValue } from "../convert-expression";
+import { Converter } from "../converter";
 
 /**
  * Create a parameter reflection for the given node.
@@ -37,18 +36,16 @@ export function createParameter(
     );
     context.registerReflection(parameter);
     context.withScope(parameter, () => {
+        parameter.type = context.converter.convertType(
+            context,
+            node.type ?? context.getTypeAtLocation(node)
+        );
+
         if (
             ts.isArrayBindingPattern(node.name) ||
             ts.isObjectBindingPattern(node.name)
         ) {
-            parameter.type = context.converter.convertType(context, node.name);
             parameter.name = "__namedParameters";
-        } else {
-            parameter.type = context.converter.convertType(
-                context,
-                node.type,
-                context.getTypeAtLocation(node)
-            );
         }
 
         parameter.defaultValue = convertDefaultValue(node);

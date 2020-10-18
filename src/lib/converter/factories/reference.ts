@@ -36,10 +36,7 @@ export function createReferenceType(
         name = checker.symbolToString(symbol.parent) + "." + name;
     }
 
-    return new ReferenceType(
-        name,
-        context.checker.getFullyQualifiedName(symbol)
-    );
+    return new ReferenceType(name, symbol, context.project);
 }
 
 export function createReferenceOrDeclarationReflection(
@@ -63,15 +60,11 @@ export function createReferenceOrDeclarationReflection(
         return;
     }
 
-    const targetFqn = context.checker.getFullyQualifiedName(target);
     let reflection: DeclarationReflection | undefined;
-    if (context.project.getReflectionFromFQN(targetFqn)) {
+    if (context.project.getReflectionFromSymbol(target)) {
         reflection = new ReferenceReflection(
             source.name,
-            [
-                ReferenceState.Unresolved,
-                context.checker.getFullyQualifiedName(target),
-            ],
+            [ReferenceState.Unresolved, target],
             context.scope
         );
 

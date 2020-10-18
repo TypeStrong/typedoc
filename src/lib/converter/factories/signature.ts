@@ -73,13 +73,12 @@ function extractSignatureType(
             }
             return context.converter.convertType(
                 context,
-                node.type,
-                checker.getReturnTypeOfSignature(signature)
+                node.type ?? checker.getReturnTypeOfSignature(signature)
             );
         } catch (error) {
             // ignore
         }
     }
 
-    return context.converter.convertType(context, node.type || node);
+    return context.converter.convertType(context, node.type);
 }

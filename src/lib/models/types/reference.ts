@@ -1,3 +1,5 @@
+import type * as ts from "typescript";
+import type { ProjectReflection } from "../reflections";
 import { Reflection } from "../reflections/abstract";
 import { Type } from "./abstract";
 
@@ -28,43 +30,34 @@ export class ReferenceType extends Type {
     typeArguments?: Type[];
 
     /**
-     * The fully qualified name of the referenced type as returned from the TypeScript compiler.
-     *
-     * After the all reflections have been generated this is can be used to lookup the
-     * relevant reflection with [[ProjectReflection.getSymbolFromFQN]]. This property used to be
-     * the internal ts.Symbol.id, but symbol IDs are not stable when dealing with imports.
-     */
-    symbolFullyQualifiedName: string;
-
-    /**
      * The resolved reflection.
      *
      * The [[TypePlugin]] will try to set this property in the resolving phase.
      */
-    reflection?: Reflection;
+    get reflection() {
+        if (this._target instanceof Reflection) {
+            return this._target;
+        }
+        const resolved = this._project.getReflectionFromSymbol(this._target);
+        if (resolved) this._target = resolved;
+        return resolved;
+    }
 
-    /**
-     * Special symbol FQN noting that the reference of a ReferenceType was known when creating the type.
-     */
-    static SYMBOL_FQN_RESOLVED = "///resolved";
-
-    /**
-     * Special symbol ID noting that the reference should be resolved by the type name.
-     */
-    static SYMBOL_FQN_RESOLVE_BY_NAME = "///resolve_by_name";
+    private _target: ts.Symbol | Reflection;
+    private _project: ProjectReflection;
 
     /**
      * Create a new instance of ReferenceType.
-     *
-     * @param name        The name of the referenced type.
-     * @param symbolID    The symbol id of the referenced type as returned from the TypeScript compiler.
-     * @param reflection  The resolved reflection if already known.
      */
-    constructor(name: string, symbolFQN: string, reflection?: Reflection) {
+    constructor(
+        name: string,
+        target: ts.Symbol | Reflection,
+        project: ProjectReflection
+    ) {
         super();
         this.name = name;
-        this.symbolFullyQualifiedName = symbolFQN;
-        this.reflection = reflection;
+        this._target = target;
+        this._project = project;
     }
 
     /**
@@ -73,11 +66,7 @@ export class ReferenceType extends Type {
      * @return A clone of this type.
      */
     clone(): Type {
-        const clone = new ReferenceType(
-            this.name,
-            this.symbolFullyQualifiedName,
-            this.reflection
-        );
+        const clone = new ReferenceType(this.name, this._target, this._project);
         clone.typeArguments = this.typeArguments;
         return clone;
     }
@@ -91,8 +80,7 @@ export class ReferenceType extends Type {
     equals(other: ReferenceType): boolean {
         return (
             other instanceof ReferenceType &&
-            (other.symbolFullyQualifiedName === this.symbolFullyQualifiedName ||
-                other.reflection === this.reflection)
+            other.reflection === this.reflection
         );
     }
 

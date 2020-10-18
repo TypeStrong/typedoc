@@ -39,8 +39,8 @@ export class ExportConverter extends ConverterNodeComponent<
                     return;
                 }
 
-                const reflection = project.getReflectionFromFQN(
-                    context.checker.getFullyQualifiedName(declaration.symbol)
+                const reflection = project.getReflectionFromSymbol(
+                    declaration.symbol
                 );
                 if (
                     node.isExportEquals &&

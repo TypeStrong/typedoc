@@ -42,7 +42,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 18
         },
         {
           "id": 20,
@@ -50,7 +50,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 18
         },
         {
           "id": 13,
@@ -64,8 +64,8 @@
             "shortText": "A simple named export that will be exported from export.ts"
           },
           "type": {
-            "type": "unknown",
-            "name": "1"
+            "type": "literal",
+            "value": 1
           },
           "defaultValue": "1"
         },
@@ -172,8 +172,8 @@
             "isConst": true
           },
           "type": {
-            "type": "unknown",
-            "name": "5"
+            "type": "literal",
+            "value": 5
           },
           "defaultValue": "5"
         },
@@ -261,7 +261,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 18
         },
         {
           "id": 27,
@@ -269,7 +269,7 @@
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 18
         },
         {
           "id": 18,
@@ -283,8 +283,8 @@
             "shortText": "A simple named export that will be exported from export.ts"
           },
           "type": {
-            "type": "unknown",
-            "name": "1"
+            "type": "literal",
+            "value": 1
           },
           "defaultValue": "1"
         },

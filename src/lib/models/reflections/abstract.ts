@@ -81,6 +81,7 @@ export enum ReflectionFlag {
     Protected = 2,
     Public = 4,
     Static = 8,
+    /** @deprecated */
     Exported = 16,
     ExportAssignment = 32,
     External = 64,
@@ -144,24 +145,6 @@ export class ReflectionFlags extends Array<string> {
      */
     get isStatic(): boolean {
         return this.hasFlag(ReflectionFlag.Static);
-    }
-
-    /**
-     * True if the reflection is exported from its containing declaration. Note that if a file
-     * has no imports or exports, then TS assumes that the file is in a global scope and *all*
-     * declarations are exported.
-     * ```ts
-     * // a.ts
-     * namespace A { // isExported = false
-     *   export const b = 1 // isExported = true, even though the container is false.
-     * }
-     * export const b = 2 // isExported = true
-     * // b.ts
-     * const c = 1 // isExported = true, no imports/exports
-     * ```
-     */
-    get isExported(): boolean {
-        return this.hasFlag(ReflectionFlag.Exported);
     }
 
     /**

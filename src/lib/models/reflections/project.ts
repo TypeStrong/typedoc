@@ -9,6 +9,7 @@ import { ParameterReflection } from "./parameter";
 import { IntrinsicType } from "../types";
 import { TypeParameterReflection } from "./type-parameter";
 import { removeIfPresent } from "../../utils";
+import type * as ts from "typescript";
 
 /**
  * A reflection that represents the root of the project.
@@ -17,11 +18,10 @@ import { removeIfPresent } from "../../utils";
  * and source files of the processed project through this reflection.
  */
 export class ProjectReflection extends ContainerReflection {
-    private reflectionToSymbolIdMap = new WeakMap<Reflection, number[]>();
-    // The inverse of reflectionToSymbolIdMap
-    private symbolIdToReflectionIdMap = new Map<number, number>();
     // Used to resolve references.
-    private fqnToReflectionIdMap = new Map<string, number>();
+    private symbolToReflectionIdMap = new WeakMap<ts.Symbol, number>();
+
+    private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
     // Maps a reflection ID to all references eventually referring to it.
     private referenceGraph?: Map<number, number[]>;
@@ -145,14 +145,13 @@ export class ProjectReflection extends ContainerReflection {
      * Registers the given reflection so that it can be quickly looked up by helper methods.
      * Should be called for *every* reflection added to the project.
      */
-    registerReflection(reflection: Reflection, fqn?: string) {
+    registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
         this.referenceGraph = undefined;
         this.reflections[reflection.id] = reflection;
 
-        if (fqn) {
-            if (!this.fqnToReflectionIdMap.has(fqn)) {
-                this.fqnToReflectionIdMap.set(fqn, reflection.id);
-            }
+        if (symbol) {
+            this.symbolToReflectionIdMap.set(symbol, reflection.id);
+            this.reflectionIdToSymbolMap.set(reflection.id, symbol);
         }
     }
 
@@ -160,12 +159,9 @@ export class ProjectReflection extends ContainerReflection {
      * Removes a reflection from the documentation. Can be used by plugins to filter reflections
      * out of the generated documentation. Has no effect if the reflection is not present in the
      * project.
-     *
-     * Note: If `removeReferences` is set to true, only references which have been created
-     * will be removed. If a reference is later created pointing to the removed reflection,
-     * it will not be removed and will still produce a broken reference.
      */
     removeReflection(reflection: Reflection) {
+        // Remove references
         for (const id of this.getReferenceGraph().get(reflection.id) ?? []) {
             const ref = this.getReflectionById(id);
             if (ref) {
@@ -215,9 +211,9 @@ export class ProjectReflection extends ContainerReflection {
             return false; // Stop iteration
         });
 
-        const ids = this.reflectionToSymbolIdMap.get(reflection);
-        for (const id of ids ?? []) {
-            this.symbolIdToReflectionIdMap.delete(id);
+        const symbol = this.reflectionIdToSymbolMap.get(reflection.id);
+        if (symbol) {
+            this.symbolToReflectionIdMap.delete(symbol);
         }
 
         delete this.reflections[reflection.id];
@@ -233,10 +229,9 @@ export class ProjectReflection extends ContainerReflection {
 
     /**
      * Gets the reflection associated with the given symbol, if it exists.
-     * @param fqn the fully qualified name of a symbol.
      */
-    getReflectionFromFQN(fqn: string) {
-        const id = this.fqnToReflectionIdMap.get(fqn);
+    getReflectionFromSymbol(symbol: ts.Symbol) {
+        const id = this.symbolToReflectionIdMap.get(symbol);
         if (typeof id === "number") {
             return this.getReflectionById(id);
         }

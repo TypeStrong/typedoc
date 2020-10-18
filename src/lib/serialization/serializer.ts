@@ -135,7 +135,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<
     S.ReferenceTypeSerializer,
     S.ReferenceTypeSerializer,
     S.ReflectionTypeSerializer,
-    S.StringLiteralTypeSerializer,
+    S.LiteralTypeSerializer,
     S.TupleTypeSerializer,
     S.NamedTupleMemberTypeSerializer,
     S.TypeOperatorTypeSerializer,

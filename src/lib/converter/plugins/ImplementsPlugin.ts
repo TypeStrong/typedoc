@@ -31,7 +31,7 @@ export class ImplementsPlugin extends ConverterComponent {
      * @param interfaceReflection  The reflection of the interfaceReflection interface.
      */
     private analyzeClass(
-        _context: Context,
+        context: Context,
         classReflection: DeclarationReflection,
         interfaceReflection: DeclarationReflection
     ) {
@@ -78,8 +78,8 @@ export class ImplementsPlugin extends ConverterComponent {
                     interfaceReflection.name + "." + interfaceMember.name;
                 classMember.implementationOf = new ReferenceType(
                     interfaceMemberName,
-                    ReferenceType.SYMBOL_FQN_RESOLVED,
-                    interfaceMember
+                    interfaceMember,
+                    context.project
                 );
                 this.copyComment(classMember, interfaceMember);
 
@@ -101,8 +101,8 @@ export class ImplementsPlugin extends ConverterComponent {
                                     ) {
                                         classSignature.implementationOf = new ReferenceType(
                                             interfaceMemberName,
-                                            ReferenceType.SYMBOL_FQN_RESOLVED,
-                                            interfaceSignature
+                                            interfaceSignature,
+                                            context.project
                                         );
                                         this.copyComment(
                                             classSignature,

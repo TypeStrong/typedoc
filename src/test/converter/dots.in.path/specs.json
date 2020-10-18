@@ -38,7 +38,7 @@
                   "type": {
                     "type": "reference",
                     "id": 6,
-                    "name": "EmptyInterface"
+                    "name": "types.EmptyInterface"
                   }
                 }
               ],

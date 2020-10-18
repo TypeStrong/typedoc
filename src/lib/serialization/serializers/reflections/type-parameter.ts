@@ -22,6 +22,9 @@ export class TypeParameterReflectionSerializer extends ReflectionSerializerCompo
         if (typeParameter.type) {
             result.type = this.owner.toObject(typeParameter.type);
         }
+        if (typeParameter.default) {
+            result.default = this.owner.toObject(typeParameter.default);
+        }
 
         return result;
     }

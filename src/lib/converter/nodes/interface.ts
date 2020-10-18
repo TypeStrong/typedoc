@@ -61,8 +61,7 @@ export class InterfaceConverter extends ConverterNodeComponent<
                         }
                         const convertedType = this.owner.convertType(
                             context,
-                            baseType,
-                            type
+                            baseType
                         );
                         if (convertedType) {
                             reflection!.extendedTypes.push(convertedType);
@@ -76,15 +75,15 @@ export class InterfaceConverter extends ConverterNodeComponent<
 
                         typesToInheritFrom.forEach(
                             (typeToInheritFrom: ts.Type) => {
-                                typeToInheritFrom.symbol &&
-                                    typeToInheritFrom.symbol.declarations.forEach(
-                                        (declaration) => {
-                                            context.inherit(
-                                                declaration,
-                                                baseType.typeArguments
-                                            );
-                                        }
-                                    );
+                                typeToInheritFrom
+                                    .getSymbol()
+                                    ?.getDeclarations()
+                                    ?.forEach((declaration) => {
+                                        context.inherit(
+                                            declaration,
+                                            baseType.typeArguments
+                                        );
+                                    });
                             }
                         );
                     }

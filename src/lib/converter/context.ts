@@ -68,7 +68,7 @@ export class Context {
     /**
      * The currently set type parameters.
      */
-    typeParameters?: ts.MapLike<Type>;
+    typeParameters?: Record<string, Type | undefined>;
 
     /**
      * The currently set type arguments.
@@ -131,6 +131,11 @@ export class Context {
         if (converter.externalPattern) {
             this.externalPattern = createMinimatch(converter.externalPattern);
         }
+    }
+
+    /** @internal */
+    get logger() {
+        return this.converter.application.logger;
     }
 
     /**
@@ -215,18 +220,10 @@ export class Context {
      * passed to this method to ensure that the project helper functions work correctly.
      *
      * @param reflection  The reflection that should be registered.
-     * @param node  The node the given reflection was resolved from.
      * @param symbol  The symbol the given reflection was resolved from.
      */
     registerReflection(reflection: Reflection, symbol?: ts.Symbol) {
-        if (symbol) {
-            this.project.registerReflection(
-                reflection,
-                this.checker.getFullyQualifiedName(symbol)
-            );
-        } else {
-            this.project.registerReflection(reflection);
-        }
+        this.project.registerReflection(reflection, symbol);
     }
 
     /**
@@ -436,27 +433,22 @@ export class Context {
         const typeParameters: ts.MapLike<Type> = {};
 
         if (preserve) {
-            Object.keys(this.typeParameters || {}).forEach((key) => {
-                typeParameters[key] = this.typeParameters![key];
-            });
+            Object.assign(typeParameters, this.typeParameters);
         }
 
-        parameters.forEach(
-            (declaration: ts.TypeParameterDeclaration, index: number) => {
-                if (!declaration.symbol) {
-                    return;
-                }
-                const name = declaration.symbol.name;
-                if (this.typeArguments && this.typeArguments[index]) {
-                    typeParameters[name] = this.typeArguments[index];
-                } else {
-                    const param = createTypeParameter(this, declaration);
-                    if (param) {
-                        typeParameters[name] = param;
-                    }
+        let index = 0;
+        for (const declaration of parameters) {
+            const name = declaration.name.text;
+            if (this.typeArguments && this.typeArguments[index]) {
+                typeParameters[name] = this.typeArguments[index];
+            } else {
+                const param = createTypeParameter(this, declaration);
+                if (param) {
+                    typeParameters[name] = param;
                 }
             }
-        );
+            ++index;
+        }
 
         return typeParameters;
     }
