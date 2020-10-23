@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"access\"",
+      "name": "access",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/access.ts",
       "children": [
         {
           "id": 8,
@@ -249,11 +248,10 @@
     },
     {
       "id": 15,
-      "name": "\"class\"",
+      "name": "class",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/class.ts",
       "children": [
         {
           "id": 64,
@@ -1230,11 +1228,10 @@
     },
     {
       "id": 71,
-      "name": "\"clodule-with-subclass\"",
+      "name": "clodule-with-subclass",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/clodule-with-subclass.ts",
       "children": [
         {
           "id": 74,
@@ -1328,11 +1325,10 @@
     },
     {
       "id": 76,
-      "name": "\"constructor-properties\"",
+      "name": "constructor-properties",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/constructor-properties.ts",
       "children": [
         {
           "id": 77,
@@ -1715,11 +1711,10 @@
     },
     {
       "id": 97,
-      "name": "\"decorators\"",
+      "name": "decorators",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/decorators.ts",
       "children": [
         {
           "id": 111,
@@ -2024,11 +2019,10 @@
     },
     {
       "id": 141,
-      "name": "\"events\"",
+      "name": "events",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/events.ts",
       "children": [
         {
           "id": 142,
@@ -2078,11 +2072,10 @@
     },
     {
       "id": 114,
-      "name": "\"events-overloads\"",
+      "name": "events-overloads",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/events-overloads.ts",
       "children": [
         {
           "id": 115,
@@ -2437,11 +2430,10 @@
     },
     {
       "id": 144,
-      "name": "\"generic-class\"",
+      "name": "generic-class",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/generic-class.ts",
       "children": [
         {
           "id": 145,
@@ -2795,11 +2787,10 @@
     },
     {
       "id": 162,
-      "name": "\"getter-setter\"",
+      "name": "getter-setter",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/getter-setter.ts",
       "children": [
         {
           "id": 163,
@@ -2953,11 +2944,10 @@
     },
     {
       "id": 174,
-      "name": "\"this\"",
+      "name": "this",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/this.ts",
       "children": [
         {
           "id": 175,
@@ -3019,11 +3009,10 @@
     },
     {
       "id": 178,
-      "name": "\"type-operator\"",
+      "name": "type-operator",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/class/type-operator.ts",
       "children": [
         {
           "id": 182,

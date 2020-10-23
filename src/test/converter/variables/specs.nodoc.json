@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"array\"",
+      "name": "array",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/variables/array.ts",
       "children": [
         {
           "id": 6,
@@ -3743,11 +3742,10 @@
     },
     {
       "id": 234,
-      "name": "\"destructuring\"",
+      "name": "destructuring",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/variables/destructuring.ts",
       "children": [
         {
           "id": 241,
@@ -3965,22 +3963,11 @@
     },
     {
       "id": 249,
-      "name": "\"literal\"",
+      "name": "literal",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/variables/literal.ts",
       "children": [
-        {
-          "id": 270,
-          "name": "objectLiteral",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {},
-          "comment": {
-            "shortText": "An object literal."
-          }
-        },
         {
           "id": 250,
           "name": "typeLiteral",
@@ -4222,6 +4209,276 @@
               ]
             }
           }
+        },
+        {
+          "id": 269,
+          "name": "objectLiteral",
+          "kind": 2097152,
+          "kindString": "Object literal",
+          "flags": {
+            "isConst": true
+          },
+          "comment": {
+            "shortText": "An object literal."
+          },
+          "children": [
+            {
+              "id": 284,
+              "name": "[Symbol.toStringTag]",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "defaultValue": "\"computed\""
+            },
+            {
+              "id": 285,
+              "name": "[x]",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 286,
+              "name": "literal2",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 282,
+              "name": "valueA",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              },
+              "defaultValue": "100"
+            },
+            {
+              "id": 283,
+              "name": "valueB",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "boolean"
+              },
+              "defaultValue": "true"
+            },
+            {
+              "id": 270,
+              "name": "valueZ",
+              "kind": 32,
+              "kindString": "Variable",
+              "flags": {},
+              "type": {
+                "type": "intrinsic",
+                "name": "string"
+              },
+              "defaultValue": "\"foo\""
+            },
+            {
+              "id": 271,
+              "name": "valueY",
+              "kind": 64,
+              "kindString": "Function",
+              "flags": {},
+              "signatures": [
+                {
+                  "id": 272,
+                  "name": "valueY",
+                  "kind": 4096,
+                  "kindString": "Call signature",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 273,
+              "name": "valueX",
+              "kind": 2097152,
+              "kindString": "Object literal",
+              "flags": {},
+              "children": [
+                {
+                  "id": 281,
+                  "name": "valueA",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "array",
+                    "elementType": {
+                      "type": "unknown",
+                      "name": "number[]"
+                    }
+                  },
+                  "defaultValue": "[100, 200, 300]"
+                },
+                {
+                  "id": 274,
+                  "name": "valueZ",
+                  "kind": 32,
+                  "kindString": "Variable",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "string"
+                  },
+                  "defaultValue": "\"foo\""
+                },
+                {
+                  "id": 275,
+                  "name": "valueY",
+                  "kind": 64,
+                  "kindString": "Function",
+                  "flags": {},
+                  "signatures": [
+                    {
+                      "id": 276,
+                      "name": "valueY",
+                      "kind": 4096,
+                      "kindString": "Call signature",
+                      "flags": {},
+                      "parameters": [
+                        {
+                          "id": 277,
+                          "name": "z",
+                          "kind": 32768,
+                          "kindString": "Parameter",
+                          "flags": {},
+                          "type": {
+                            "type": "intrinsic",
+                            "name": "string"
+                          }
+                        }
+                      ],
+                      "type": {
+                        "type": "reflection",
+                        "declaration": {
+                          "id": 278,
+                          "name": "__type",
+                          "kind": 65536,
+                          "kindString": "Type literal",
+                          "flags": {},
+                          "children": [
+                            {
+                              "id": 279,
+                              "name": "a",
+                              "kind": 32,
+                              "kindString": "Variable",
+                              "flags": {},
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                              },
+                              "defaultValue": "\"test\""
+                            },
+                            {
+                              "id": 280,
+                              "name": "b",
+                              "kind": 32,
+                              "kindString": "Variable",
+                              "flags": {},
+                              "type": {
+                                "type": "intrinsic",
+                                "name": "string"
+                              },
+                              "defaultValue": "z"
+                            }
+                          ],
+                          "groups": [
+                            {
+                              "title": "Variables",
+                              "kind": 32,
+                              "children": [
+                                279,
+                                280
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "groups": [
+                {
+                  "title": "Variables",
+                  "kind": 32,
+                  "children": [
+                    281,
+                    274
+                  ]
+                },
+                {
+                  "title": "Functions",
+                  "kind": 64,
+                  "children": [
+                    275
+                  ]
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "object"
+              }
+            }
+          ],
+          "groups": [
+            {
+              "title": "Variables",
+              "kind": 32,
+              "children": [
+                284,
+                285,
+                286,
+                282,
+                283,
+                270
+              ]
+            },
+            {
+              "title": "Functions",
+              "kind": 64,
+              "children": [
+                271
+              ]
+            },
+            {
+              "title": "Object literals",
+              "kind": 2097152,
+              "children": [
+                273
+              ]
+            }
+          ],
+          "type": {
+            "type": "intrinsic",
+            "name": "object"
+          }
         }
       ],
       "groups": [
@@ -4229,19 +4486,24 @@
           "title": "Variables",
           "kind": 32,
           "children": [
-            270,
             250
+          ]
+        },
+        {
+          "title": "Object literals",
+          "kind": 2097152,
+          "children": [
+            269
           ]
         }
       ]
     },
     {
-      "id": 269,
-      "name": "\"variable\"",
+      "id": 287,
+      "name": "variable",
       "kind": 1,
       "kindString": "Module",
-      "flags": {},
-      "originalName": "%BASE%/variables/variable.ts"
+      "flags": {}
     }
   ],
   "groups": [
@@ -4252,7 +4514,7 @@
         1,
         234,
         249,
-        269
+        287
       ]
     }
   ]

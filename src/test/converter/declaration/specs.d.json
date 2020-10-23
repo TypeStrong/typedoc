@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"declaration.d\"",
+      "name": "declaration",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/declaration/declaration.d.ts",
       "children": [
         {
           "id": 2,
@@ -74,11 +73,10 @@
     },
     {
       "id": 5,
-      "name": "\"export-declaration.d\"",
+      "name": "export-declaration",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/declaration/export-declaration.d.ts",
       "children": [
         {
           "id": 6,
@@ -108,11 +106,10 @@
     },
     {
       "id": 8,
-      "name": "\"namespaces.d\"",
+      "name": "namespaces",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/declaration/namespaces.d.ts",
       "children": [
         {
           "id": 11,

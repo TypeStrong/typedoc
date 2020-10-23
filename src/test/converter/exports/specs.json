@@ -6,54 +6,53 @@
   "children": [
     {
       "id": 9,
-      "name": "\"export\"",
+      "name": "export",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/exports/export.ts",
       "children": [
         {
-          "id": 22,
+          "id": 26,
           "name": "Mod",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 15
+          "target": 17
         },
         {
-          "id": 23,
+          "id": 27,
           "name": "ModDefault",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 16
+          "target": 18
         },
         {
-          "id": 25,
+          "id": 31,
           "name": "ThisModule",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 15
+          "target": 17
         },
         {
-          "id": 24,
+          "id": 29,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 20
         },
         {
-          "id": 20,
+          "id": 25,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 20
         },
         {
-          "id": 13,
+          "id": 28,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -70,11 +69,48 @@
           "defaultValue": "1"
         },
         {
-          "id": 21,
+          "id": 13,
           "name": "add",
-          "kind": 32,
-          "kindString": "Variable",
-          "flags": {}
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 14,
+              "name": "add",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "parameters": [
+                {
+                  "id": 15,
+                  "name": "x",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                },
+                {
+                  "id": 16,
+                  "name": "y",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "intrinsic",
+                    "name": "number"
+                  }
+                }
+              ],
+              "type": {
+                "type": "intrinsic",
+                "name": "number"
+              }
+            }
+          ]
         },
         {
           "id": 10,
@@ -115,25 +151,25 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            22,
-            23,
-            25,
-            24,
-            20
+            26,
+            27,
+            31,
+            29,
+            25
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            13,
-            21
+            28
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
+            13,
             10
           ]
         }
@@ -141,27 +177,24 @@
     },
     {
       "id": 1,
-      "name": "\"export-assignment\"",
+      "name": "export-assignment",
       "kind": 1,
       "kindString": "Module",
-      "flags": {},
-      "originalName": "%BASE%/exports/export-assignment.ts"
+      "flags": {}
     },
     {
       "id": 2,
-      "name": "\"export-default\"",
+      "name": "export-default",
       "kind": 1,
       "kindString": "Module",
-      "flags": {},
-      "originalName": "%BASE%/exports/export-default.ts"
+      "flags": {}
     },
     {
       "id": 3,
-      "name": "\"export-with-local\"",
+      "name": "export-with-local",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/exports/export-with-local.ts",
       "children": [
         {
           "id": 8,
@@ -240,39 +273,38 @@
       ]
     },
     {
-      "id": 15,
-      "name": "\"mod\"",
+      "id": 17,
+      "name": "mod",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/exports/mod.ts",
       "children": [
         {
-          "id": 28,
+          "id": 24,
           "name": "ThisModule",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 15
+          "target": 17
         },
         {
-          "id": 26,
+          "id": 21,
           "name": "b",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 20
         },
         {
-          "id": 27,
+          "id": 22,
           "name": "c",
           "kind": 16777216,
           "kindString": "Reference",
           "flags": {},
-          "target": 13
+          "target": 20
         },
         {
-          "id": 18,
+          "id": 20,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -289,14 +321,14 @@
           "defaultValue": "1"
         },
         {
-          "id": 16,
+          "id": 18,
           "name": "default",
           "kind": 64,
           "kindString": "Function",
           "flags": {},
           "signatures": [
             {
-              "id": 17,
+              "id": 19,
               "name": "default",
               "kind": 4096,
               "kindString": "Call signature",
@@ -317,23 +349,23 @@
           "title": "References",
           "kind": 16777216,
           "children": [
-            28,
-            26,
-            27
+            24,
+            21,
+            22
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            18
+            20
           ]
         },
         {
           "title": "Functions",
           "kind": 64,
           "children": [
-            16
+            18
           ]
         }
       ]
@@ -348,7 +380,7 @@
         1,
         2,
         3,
-        15
+        17
       ]
     }
   ]

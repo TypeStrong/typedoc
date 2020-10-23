@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"function\"",
+      "name": "function",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/function/function.ts",
       "children": [
         {
           "id": 27,
@@ -779,11 +778,10 @@
     },
     {
       "id": 52,
-      "name": "\"generic-function\"",
+      "name": "generic-function",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/function/generic-function.ts",
       "children": [
         {
           "id": 57,
@@ -982,11 +980,10 @@
     },
     {
       "id": 66,
-      "name": "\"implicit-types\"",
+      "name": "implicit-types",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/function/implicit-types.ts",
       "children": [
         {
           "id": 75,

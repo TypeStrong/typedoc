@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"react\"",
+      "name": "react",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/react/react.tsx",
       "children": [
         {
           "id": 5,

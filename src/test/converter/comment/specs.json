@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"comment\"",
+      "name": "comment",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/comment/comment.ts",
       "comment": {
         "shortText": "This is a module doc comment with legacy behavior."
       },
@@ -175,11 +174,10 @@
     },
     {
       "id": 27,
-      "name": "\"comment2\"",
+      "name": "comment2",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/comment/comment2.ts",
       "comment": {
         "shortText": "This is a module doc with the packageDocumentation tag to mark it as documentation\nfor the whole module. It is *not* documentation for the `multiply` function."
       },

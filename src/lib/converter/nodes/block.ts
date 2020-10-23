@@ -175,7 +175,7 @@ export class BlockConverter extends ConverterNodeComponent<
 
     private getModuleName(fileName: string) {
         return this.normalizeFileName(relative(this.baseDir, fileName)).replace(
-            /\.[tj]sx?$/,
+            /(\.d)?\.[tj]sx?$/,
             ""
         );
     }

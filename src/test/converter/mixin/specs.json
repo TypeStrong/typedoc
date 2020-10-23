@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"mixin\"",
+      "name": "mixin",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/mixin/mixin.ts",
       "children": [
         {
           "id": 11,

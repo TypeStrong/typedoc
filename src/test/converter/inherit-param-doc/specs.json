@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"inherit-param-doc\"",
+      "name": "inherit-param-doc",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/inherit-param-doc/inherit-param-doc.ts",
       "children": [
         {
           "id": 7,

@@ -6,11 +6,10 @@
   "children": [
     {
       "id": 1,
-      "name": "\"function\"",
+      "name": "function",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/dots.in.path/function.ts",
       "children": [
         {
           "id": 2,
@@ -62,11 +61,10 @@
     },
     {
       "id": 5,
-      "name": "\"interface-empty\"",
+      "name": "interface-empty",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
-      "originalName": "%BASE%/dots.in.path/interface-empty.ts",
       "children": [
         {
           "id": 6,
