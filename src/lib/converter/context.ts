@@ -245,7 +245,7 @@ export class Context {
      * @param node  The TypeScript node containing the source file declaration.
      * @param callback  The callback that should be executed.
      */
-    withSourceFile(node: ts.SourceFile, callback: Function) {
+    withSourceFile(node: ts.SourceFile, callback: () => void) {
         const isExternal = this.isExternalFile(node.fileName);
         if (this.isOutsideDocumentation(node.fileName, isExternal)) {
             return;

@@ -49,10 +49,10 @@ function shouldBeIgnoredAsNotDocumented(
     node: ts.Declaration,
     kind: ReflectionKind
 ): boolean {
-    // never ignore modules, global, and enum members
+    // never ignore modules, the project, or enum members
     if (
         kind === ReflectionKind.Module ||
-        kind === ReflectionKind.Global ||
+        kind === ReflectionKind.Project ||
         kind === ReflectionKind.EnumMember
     ) {
         return false;

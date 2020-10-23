@@ -46,7 +46,7 @@ export class NavigationPlugin extends RendererComponent {
         (function updateItem(item: NavigationItem) {
             item.isCurrent = false;
             item.isInPath = false;
-            item.isVisible = item.isGlobals;
+            item.isVisible = item.isModules;
 
             if (
                 item.url === page.url ||
@@ -63,7 +63,7 @@ export class NavigationPlugin extends RendererComponent {
         currentItems.forEach((item: NavigationItem | undefined) => {
             item!.isCurrent = true;
 
-            let depth = item!.isGlobals ? -1 : 0;
+            let depth = item!.isModules ? -1 : 0;
             let count = 1;
             while (item) {
                 item.isInPath = true;

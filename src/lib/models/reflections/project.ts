@@ -67,7 +67,7 @@ export class ProjectReflection extends ContainerReflection {
      * @param name  The name of the project.
      */
     constructor(name: string) {
-        super(name, ReflectionKind.Global);
+        super(name, ReflectionKind.Project);
     }
 
     /**

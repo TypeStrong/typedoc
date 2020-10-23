@@ -134,9 +134,9 @@ export class DefaultTheme extends Theme {
             project.url = "index.html";
             urls.push(new UrlMapping("index.html", project, "reflection.hbs"));
         } else {
-            project.url = "globals.html";
+            project.url = "modules.html";
             urls.push(
-                new UrlMapping("globals.html", project, "reflection.hbs")
+                new UrlMapping("modules.html", project, "reflection.hbs")
             );
             urls.push(new UrlMapping("index.html", project, "index.hbs"));
         }
@@ -399,19 +399,19 @@ export class NavigationBuilder {
     /**
      * Build the navigation structure.
      *
-     * @param hasSeparateGlobals  Has the project a separated globals.html file?
-     * @return                    The root node of the generated navigation structure.
+     * @param hasReadmeFile True if the project has a readme
+     * @returns The root node of the generated navigation structure.
      */
-    build(hasSeparateGlobals: boolean): NavigationItem {
+    build(hasReadmeFile: boolean): NavigationItem {
         const root = new NavigationItem("Index", "index.html");
 
         if (this.entryPoint === this.project) {
-            const globals = new NavigationItem(
-                "Globals",
-                hasSeparateGlobals ? "globals.html" : "index.html",
+            const modules = new NavigationItem(
+                "Modules",
+                hasReadmeFile ? "modules.html" : "index.html",
                 root
             );
-            globals.isGlobals = true;
+            modules.isModules = true;
         }
 
         const modules: DeclarationReflection[] = [];

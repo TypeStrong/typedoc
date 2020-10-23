@@ -5,11 +5,9 @@ import {
     ReferenceReflection,
     ContainerReflection,
     DeclarationReflection,
-    ReflectionKind,
 } from "../../models";
 import { Context } from "../context";
 import { Converter } from "../converter";
-import { createDeclaration } from "./declaration";
 
 /**
  * Create a new reference type pointing to the given symbol.
@@ -59,7 +57,7 @@ export function createReferenceOrDeclarationReflection(
         return;
     }
 
-    let reflection: DeclarationReflection | undefined;
+    let reflection: DeclarationReflection | undefined = undefined;
     if (context.project.getReflectionFromSymbol(target)) {
         reflection = new ReferenceReflection(
             source.name,
@@ -67,22 +65,19 @@ export function createReferenceOrDeclarationReflection(
             context.scope
         );
 
-        // target === source happens when doing export * from ...
-        // and the original symbol is not renamed and exported from the imported module.
-        context.registerReflection(
-            reflection,
-            target === source ? undefined : source
-        );
+        context.registerReflection(reflection, source);
         context.scope.children ??= [];
         context.scope.children.push(reflection);
         context.trigger(Converter.EVENT_CREATE_DECLARATION, reflection);
-    } else {
-        reflection = createDeclaration(
+    } else if (target.getDeclarations()?.[0]) {
+        const refl = context.converter.convertNode(
             context,
-            target.valueDeclaration,
-            ReflectionKind.Variable,
-            source.name
+            target.declarations[0]
         );
+        if (refl instanceof DeclarationReflection) {
+            refl.name = source.name;
+            reflection = refl;
+        }
     }
 
     return reflection;

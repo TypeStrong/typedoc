@@ -225,6 +225,7 @@ export class Converter extends ChildableComponent<
         }
 
         const project = this.resolve(context);
+        // This should only do anything if a plugin does something bad.
         project.removeDanglingReferences();
 
         this.trigger(Converter.EVENT_END, context);
@@ -254,7 +255,7 @@ export class Converter extends ChildableComponent<
             result = this.nodeConverters[node.kind].convert(context, node);
         } else {
             this.application.logger.warn(
-                `Missing converter for node having kind ${
+                `Missing converter for node with kind ${
                     ts.SyntaxKind[node.kind]
                 }`
             );

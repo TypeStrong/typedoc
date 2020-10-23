@@ -3,6 +3,28 @@ import * as FS from "fs";
 import { dirname } from "path";
 
 /**
+ * Get the longest directory path common to all files.
+ */
+export function getCommonDirectory(files: readonly string[]): string {
+    if (!files.length) {
+        return "";
+    }
+
+    const roots = files.map((f) => f.split(/\\|\//));
+    if (roots.length === 1) {
+        return roots[0].slice(0, -1).join("/");
+    }
+
+    let i = 0;
+
+    while (new Set(roots.map((part) => part[i])).size === 1) {
+        i++;
+    }
+
+    return roots[0].slice(0, i).join("/");
+}
+
+/**
  * List of known existent directories. Used to speed up [[directoryExists]].
  */
 const existingDirectories = new Set<string>();

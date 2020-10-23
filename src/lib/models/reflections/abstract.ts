@@ -35,7 +35,7 @@ export function resetReflectionID() {
  * Defines the available reflection kinds.
  */
 export enum ReflectionKind {
-    Global = 0,
+    Project = 0,
     Module = 1 << 0,
     Namespace = 1 << 1,
     Enum = 1 << 2,

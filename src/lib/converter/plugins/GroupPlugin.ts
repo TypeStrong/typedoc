@@ -21,7 +21,7 @@ export class GroupPlugin extends ConverterComponent {
      * Define the sort order of reflections.
      */
     static WEIGHTS = [
-        ReflectionKind.Global,
+        ReflectionKind.Project,
         ReflectionKind.Module,
         ReflectionKind.Namespace,
         ReflectionKind.Enum,

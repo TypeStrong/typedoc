@@ -54,9 +54,9 @@ export class NavigationItem {
     isCurrent?: boolean;
 
     /**
-     * Is this the navigation node for the globals page?
+     * Is this the navigation node for the modules page?
      */
-    isGlobals?: boolean;
+    isModules?: boolean;
 
     /**
      * Is this navigation node one of the parents of the current page?

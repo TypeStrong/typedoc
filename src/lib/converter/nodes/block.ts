@@ -4,6 +4,9 @@ import { Reflection, ReflectionKind } from "../../models/index";
 import { createDeclaration } from "../factories/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
+import { Converter } from "..";
+import { getCommonDirectory } from "../../utils/fs";
+import { relative, resolve } from "path";
 
 @Component({ name: "node:block" })
 export class BlockConverter extends ConverterNodeComponent<
@@ -17,6 +20,20 @@ export class BlockConverter extends ConverterNodeComponent<
         ts.SyntaxKind.SourceFile,
     ];
 
+    // Created in initialize
+    private entryPoints!: string[];
+    private baseDir!: string;
+
+    initialize() {
+        super.initialize();
+        this.owner.on(Converter.EVENT_BEGIN, () => {
+            this.entryPoints = this.application.options
+                .getValue("entryPoints")
+                .map((path) => this.normalizeFileName(resolve(path)));
+            this.baseDir = getCommonDirectory(this.entryPoints);
+        });
+    }
+
     /**
      * Analyze the given class declaration node and create a suitable reflection.
      *
@@ -27,9 +44,9 @@ export class BlockConverter extends ConverterNodeComponent<
     convert(
         context: Context,
         node: ts.SourceFile | ts.ModuleBlock
-    ): Reflection {
+    ): Reflection | undefined {
         if (node.kind === ts.SyntaxKind.SourceFile) {
-            this.convertSourceFile(context, node);
+            return this.convertSourceFile(context, node);
         } else {
             for (const exp of this.getExports(context, node)) {
                 for (const decl of exp.getDeclarations() ?? []) {
@@ -55,27 +72,42 @@ export class BlockConverter extends ConverterNodeComponent<
         let result: Reflection | undefined = context.scope;
 
         context.withSourceFile(node, () => {
-            if (context.inFirstPass) {
-                result = createDeclaration(
-                    context,
-                    node,
-                    ReflectionKind.Module,
-                    node.fileName
-                );
-                context.withScope(result, () => {
-                    this.convertExports(context, node);
-                });
-            } else {
+            if (this.isEntryPoint(node.fileName)) {
                 const symbol =
                     context.checker.getSymbolAtLocation(node) ?? node.symbol;
 
-                if (symbol) {
+                if (context.inFirstPass) {
+                    if (this.entryPoints.length === 1) {
+                        result = context.project;
+                        context.project.registerReflection(result, symbol);
+                    } else {
+                        result = createDeclaration(
+                            context,
+                            node,
+                            ReflectionKind.Module,
+                            this.getModuleName(node.fileName)
+                        );
+                    }
+                    context.withScope(result, () => {
+                        this.convertExports(context, node);
+                    });
+                } else if (symbol) {
                     result = context.project.getReflectionFromSymbol(symbol);
 
                     context.withScope(result, () => {
                         this.convertReExports(context, node);
                     });
                 }
+            } else {
+                result = createDeclaration(
+                    context,
+                    node,
+                    ReflectionKind.Module,
+                    this.getModuleName(node.fileName)
+                );
+                context.withScope(result, () => {
+                    this.convertExports(context, node);
+                });
             }
         });
 
@@ -88,8 +120,11 @@ export class BlockConverter extends ConverterNodeComponent<
     ) {
         // We really need to rebuild the converters to work on a symbol basis rather than a node
         // basis... this relies on us getting declaration merging right, which is dangerous at best
-        for (const exp of this.getExports(context, node).filter(
-            (exp) => context.resolveAliasedSymbol(exp) === exp
+        for (const exp of this.getExports(context, node).filter((exp) =>
+            context
+                .resolveAliasedSymbol(exp)
+                .getDeclarations()
+                ?.every((d) => d.getSourceFile() === node.getSourceFile())
         )) {
             for (const decl of exp.getDeclarations() ?? []) {
                 this.owner.convertNode(context, decl);
@@ -101,8 +136,11 @@ export class BlockConverter extends ConverterNodeComponent<
         context: Context,
         node: ts.SourceFile | ts.ModuleBlock
     ) {
-        for (const exp of this.getExports(context, node).filter(
-            (exp) => context.resolveAliasedSymbol(exp) !== exp
+        for (const exp of this.getExports(context, node).filter((exp) =>
+            context
+                .resolveAliasedSymbol(exp)
+                .getDeclarations()
+                ?.some((d) => d.getSourceFile() !== node.getSourceFile())
         )) {
             for (const decl of exp.getDeclarations() ?? []) {
                 this.owner.convertNode(context, decl);
@@ -133,5 +171,20 @@ export class BlockConverter extends ConverterNodeComponent<
                     .getDeclarations()
                     ?.some((d) => d.getSourceFile() === sourceFile)
             );
+    }
+
+    private getModuleName(fileName: string) {
+        return this.normalizeFileName(relative(this.baseDir, fileName)).replace(
+            /\.[tj]sx?$/,
+            ""
+        );
+    }
+
+    private isEntryPoint(fileName: string) {
+        return this.entryPoints.includes(fileName);
+    }
+
+    private normalizeFileName(fileName: string) {
+        return fileName.replace(/\\/g, "/");
     }
 }
