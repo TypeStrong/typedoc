@@ -31,8 +31,6 @@ export class ReferenceType extends Type {
 
     /**
      * The resolved reflection.
-     *
-     * The [[TypePlugin]] will try to set this property in the resolving phase.
      */
     get reflection() {
         if (this._target instanceof Reflection) {
@@ -42,6 +40,12 @@ export class ReferenceType extends Type {
         if (resolved) this._target = resolved;
         return resolved;
     }
+
+    /**
+     * Horrible hacky solution to get around Handlebars messing with `this` in bad ways.
+     * Don't use this if possible, it will go away once we use something besides handlebars for themes.
+     */
+    getReflection = () => this.reflection;
 
     private _target: ts.Symbol | Reflection;
     private _project: ProjectReflection;

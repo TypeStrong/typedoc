@@ -32,10 +32,6 @@ export module MyModule {
     }
 
     export let exportedModuleVariable = "foo";
-
-    let moduleVariable = [100, 200];
-
-    let moduleVariable2: number[];
 }
 
 /**
@@ -52,14 +48,9 @@ export module MyModule.MySubmodule {
 export let exportedGlobalVariable = "foo";
 
 /**
- * A non-exported global variable.
- */
-let globalVariable = "foo";
-
-/**
  * An object literal.
  */
-let objectLiteral = {
+export let objectLiteral = {
     valueZ: "foo",
     valueY: function () {
         return "foo";
@@ -75,7 +66,7 @@ let objectLiteral = {
     valueB: true,
 };
 
-let typeLiteral: {
+export let typeLiteral: {
     (): string;
     valueZ: string;
     valueY: { (): string };

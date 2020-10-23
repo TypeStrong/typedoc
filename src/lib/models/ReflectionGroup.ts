@@ -36,7 +36,7 @@ export class ReflectionGroup {
      * A bound representation of the ´ReflectionGroup.getAllChildrenHaveOwnDocument´
      * that can be used within templates.
      */
-    allChildrenHaveOwnDocument: Function;
+    allChildrenHaveOwnDocument = () => this.getAllChildrenHaveOwnDocument();
 
     /**
      * Are all children inherited members?
@@ -59,11 +59,6 @@ export class ReflectionGroup {
     allChildrenAreExternal?: boolean;
 
     /**
-     * Are any children exported declarations?
-     */
-    someChildrenAreExported?: boolean;
-
-    /**
      * Categories contained within this group.
      */
     categories?: ReflectionCategory[];
@@ -77,20 +72,12 @@ export class ReflectionGroup {
     constructor(title: string, kind: ReflectionKind) {
         this.title = title;
         this.kind = kind;
-
-        this.allChildrenHaveOwnDocument = () =>
-            this.getAllChildrenHaveOwnDocument();
     }
 
     /**
      * Do all children of this group have a separate document?
      */
     private getAllChildrenHaveOwnDocument(): boolean {
-        let onlyOwnDocuments = true;
-        this.children.forEach((child) => {
-            onlyOwnDocuments = onlyOwnDocuments && !!child.hasOwnDocument;
-        });
-
-        return onlyOwnDocuments;
+        return this.children.every((child) => child.hasOwnDocument);
     }
 }

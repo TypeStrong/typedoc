@@ -25,7 +25,7 @@ export function exportedFunction(): void {}
  * ~~~
  *
  */
-let variableFunction = function (
+export let variableFunction = function (
     paramZ: string,
     paramG: any,
     paramA: classes.NameInterface
@@ -89,7 +89,7 @@ export function functionWithDefaults(
  * @param rest  Multiple strings.
  * @returns The combined string.
  */
-function functionWithRest(...rest: string[]): string {
+export function functionWithRest(...rest: string[]): string {
     return rest.join(", ");
 }
 
@@ -151,17 +151,17 @@ export module moduleFunction {
     /**
      * This variable is appended to a function.
      */
-    let functionVariable: string;
+    export let functionVariable: string;
 
     /**
      * This function is appended to another function.
      */
-    function append() {}
+    export function append() {}
 
     /**
      * This function is appended to another function.
      */
-    function prepend() {}
+    export function prepend() {}
 }
 
 /**

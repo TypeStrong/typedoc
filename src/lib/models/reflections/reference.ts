@@ -3,11 +3,6 @@ import { Reflection, ReflectionKind } from "./abstract";
 import { DeclarationReflection } from "./declaration";
 import { ProjectReflection } from "./project";
 
-export enum ReferenceState {
-    Unresolved,
-    Resolved,
-}
-
 /**
  * Describes a reflection which does not exist at this location, but is referenced. Used for imported reflections.
  *
@@ -22,9 +17,7 @@ export enum ReferenceState {
  * ```
  */
 export class ReferenceReflection extends DeclarationReflection {
-    private _state:
-        | [ReferenceState.Unresolved, ts.Symbol]
-        | [ReferenceState.Resolved, number];
+    private _target: Reflection | ts.Symbol;
     private _project?: ProjectReflection;
 
     /**
@@ -37,11 +30,11 @@ export class ReferenceReflection extends DeclarationReflection {
      */
     constructor(
         name: string,
-        state: ReferenceReflection["_state"],
+        state: ReferenceReflection["_target"],
         parent?: Reflection
     ) {
         super(name, ReflectionKind.Reference, parent);
-        this._state = state;
+        this._target = state;
     }
 
     /**
@@ -57,10 +50,12 @@ export class ReferenceReflection extends DeclarationReflection {
      */
     tryGetTargetReflection(): Reflection | undefined {
         this._ensureProject();
-        this._ensureResolved(false);
-        return this._state[0] === ReferenceState.Resolved
-            ? this._project!.getReflectionById(this._state[1])
-            : undefined;
+        if (this._target instanceof Reflection) {
+            return this._target;
+        }
+        const target = this._project!.getReflectionFromSymbol(this._target);
+        if (target) this._target = target;
+        return target;
     }
 
     /**
@@ -81,9 +76,12 @@ export class ReferenceReflection extends DeclarationReflection {
      */
     getTargetReflection(): Reflection {
         this._ensureProject();
-        this._ensureResolved(true);
 
-        return this._project!.getReflectionById(this._state[1] as number)!;
+        const target = this.tryGetTargetReflection();
+        if (!target) {
+            throw new Error("Reference was unresolved.");
+        }
+        return target;
     }
 
     /**
@@ -96,23 +94,6 @@ export class ReferenceReflection extends DeclarationReflection {
             result = result.getTargetReflection();
         }
         return result;
-    }
-
-    private _ensureResolved(throwIfFail: boolean) {
-        if (this._state[0] === ReferenceState.Unresolved) {
-            const target = this._project!.getReflectionFromSymbol(
-                this._state[1]
-            );
-            if (!target) {
-                if (throwIfFail) {
-                    throw new Error(
-                        `Tried to reference reflection for ${this.name} that does not exist.`
-                    );
-                }
-                return;
-            }
-            this._state = [ReferenceState.Resolved, target.id];
-        }
     }
 
     private _ensureProject() {

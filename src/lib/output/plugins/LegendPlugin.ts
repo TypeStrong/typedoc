@@ -18,11 +18,7 @@ export interface LegendItem {
     classes: string[];
 }
 
-const ignoredClasses = new Set([
-    "tsd-parent-kind-module",
-    "tsd-is-not-exported",
-    "tsd-is-overwrite",
-]);
+const ignoredClasses = new Set(["tsd-parent-kind-module", "tsd-is-overwrite"]);
 
 const completeLegend: LegendItem[][] = [
     [

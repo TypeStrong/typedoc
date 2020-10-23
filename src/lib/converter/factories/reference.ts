@@ -8,7 +8,6 @@ import {
     ReflectionKind,
 } from "../../models";
 import { Context } from "../context";
-import { ReferenceState } from "../../models/reflections/reference";
 import { Converter } from "../converter";
 import { createDeclaration } from "./declaration";
 
@@ -64,7 +63,7 @@ export function createReferenceOrDeclarationReflection(
     if (context.project.getReflectionFromSymbol(target)) {
         reflection = new ReferenceReflection(
             source.name,
-            [ReferenceState.Unresolved, target],
+            target,
             context.scope
         );
 

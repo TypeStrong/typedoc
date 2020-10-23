@@ -62,7 +62,7 @@ export module Size {
     /**
      * A variable that is attached to an enumeration.
      */
-    let defaultSize: Size = Size.Medium;
+    export let defaultSize: Size = Size.Medium;
 
     /**
      * A function that is attached to an enumeration.
@@ -70,7 +70,7 @@ export module Size {
      * @param value The value that should be tested.
      * @returns TRUE when the given value equals Size.Small.
      */
-    function isSmall(value: Size): boolean {
+    export function isSmall(value: Size): boolean {
         return value === Size.Small;
     }
 }

@@ -3,3 +3,4 @@ coverage
 .nyc_output
 src/test/renderer/specs
 src/test/**/specs*.json
+package-lock.json

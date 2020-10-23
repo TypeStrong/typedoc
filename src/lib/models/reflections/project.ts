@@ -19,7 +19,7 @@ import type * as ts from "typescript";
  */
 export class ProjectReflection extends ContainerReflection {
     // Used to resolve references.
-    private symbolToReflectionIdMap = new WeakMap<ts.Symbol, number>();
+    private symbolToReflectionIdMap = new Map<ts.Symbol, number>();
 
     private reflectionIdToSymbolMap = new Map<number, ts.Symbol>();
 
@@ -150,7 +150,10 @@ export class ProjectReflection extends ContainerReflection {
         this.reflections[reflection.id] = reflection;
 
         if (symbol) {
-            this.symbolToReflectionIdMap.set(symbol, reflection.id);
+            this.symbolToReflectionIdMap.set(
+                symbol,
+                this.symbolToReflectionIdMap.get(symbol) ?? reflection.id
+            );
             this.reflectionIdToSymbolMap.set(reflection.id, symbol);
         }
     }

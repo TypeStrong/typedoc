@@ -7,7 +7,7 @@ import { TSConfigReader } from "../lib/utils/options";
 function getFileIndex(base: string, dir = "", results: string[] = []) {
     const files = FS.readdirSync(Path.join(base, dir));
     files.forEach(function (file) {
-        if (file === "assets") {
+        if (file === "assets" || file === "specs.json") {
             return;
         }
         file = Path.join(dir, file);

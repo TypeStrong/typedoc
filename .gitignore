@@ -17,3 +17,4 @@ typedoc*.tgz
 tmp
 
 src/test/renderer/specs/assets/*
+src/test/renderer/specs/specs.json

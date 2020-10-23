@@ -30,7 +30,7 @@
     "progress": "^2.0.3",
     "semver": "^7.3.2",
     "shelljs": "^0.8.4",
-    "typedoc-default-themes": "^0.11.4"
+    "typedoc-default-themes": "beta"
   },
   "peerDependencies": {
     "typescript": "3.9.x || 4.0.x"

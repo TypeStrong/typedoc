@@ -375,9 +375,6 @@ export class DefaultTheme extends Theme {
         if (group.allChildrenAreExternal) {
             classes.push("tsd-is-external");
         }
-        if (!group.someChildrenAreExported) {
-            classes.push("tsd-is-not-exported");
-        }
 
         group.cssClasses = classes.join(" ");
     }
