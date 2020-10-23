@@ -921,7 +921,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 46,
+                "id": 17,
                 "name": "TestClass.publicProperty"
               }
             },
@@ -943,7 +943,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 47,
+                "id": 19,
                 "name": "TestClass.staticProperty"
               }
             },
@@ -972,14 +972,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 50,
+                    "id": 30,
                     "name": "TestClass.arrowMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 50,
+                "id": 30,
                 "name": "TestClass.arrowMethod"
               }
             },
@@ -1125,14 +1125,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 48,
+                    "id": 28,
                     "name": "TestClass.staticMethod"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 48,
+                "id": 28,
                 "name": "TestClass.staticMethod"
               }
             }
@@ -1630,7 +1630,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 96,
+                "id": 79,
                 "name": "Vector2.x"
               }
             },
@@ -2652,14 +2652,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 157,
+                    "id": 149,
                     "name": "GenericClass.__constructor"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 157,
+                "id": 149,
                 "name": "GenericClass.__constructor"
               }
             },
@@ -2680,7 +2680,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 155,
+                "id": 147,
                 "name": "GenericClass.value"
               }
             },
@@ -2704,7 +2704,7 @@
               },
               "inheritedFrom": {
                 "type": "reference",
-                "id": 156,
+                "id": 148,
                 "name": "GenericClass.values"
               }
             },
@@ -2731,14 +2731,14 @@
                   },
                   "inheritedFrom": {
                     "type": "reference",
-                    "id": 160,
+                    "id": 152,
                     "name": "GenericClass.getValue"
                   }
                 }
               ],
               "inheritedFrom": {
                 "type": "reference",
-                "id": 160,
+                "id": 152,
                 "name": "GenericClass.getValue"
               }
             }
