@@ -271,6 +271,18 @@ export interface NamedTupleMemberType
     element: ModelToObject<M.NamedTupleMember["element"]>;
 }
 
+export interface MappedType
+    extends Type,
+        S<
+            M.MappedType,
+            | "type"
+            | "parameter"
+            | "parameterType"
+            | "templateType"
+            | "readonlyModifier"
+            | "optionalModifier"
+        > {}
+
 export interface TypeOperatorType
     extends Type,
         S<M.TypeOperatorType, "type" | "operator" | "target"> {}

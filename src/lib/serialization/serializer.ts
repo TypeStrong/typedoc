@@ -138,6 +138,7 @@ const serializerComponents: (new (owner: Serializer) => SerializerComponent<
     S.LiteralTypeSerializer,
     S.TupleTypeSerializer,
     S.NamedTupleMemberTypeSerializer,
+    S.MappedTypeSerializer,
     S.TypeOperatorTypeSerializer,
     S.TypeParameterTypeSerializer,
     S.UnionTypeSerializer,

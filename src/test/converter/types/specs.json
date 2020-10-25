@@ -6,13 +6,142 @@
   "children": [
     {
       "id": 1,
+      "name": "mapped",
+      "kind": 1,
+      "kindString": "Module",
+      "flags": {},
+      "children": [
+        {
+          "id": 6,
+          "name": "Mappy",
+          "kind": 4194304,
+          "kindString": "Type alias",
+          "flags": {},
+          "typeParameter": [
+            {
+              "id": 7,
+              "name": "T",
+              "kind": 131072,
+              "kindString": "Type parameter",
+              "flags": {}
+            }
+          ],
+          "type": {
+            "type": "mapped",
+            "parameter": "K",
+            "parameterType": {
+              "type": "typeOperator",
+              "operator": "keyof",
+              "target": {
+                "type": "typeParameter",
+                "name": "T"
+              }
+            },
+            "templateType": {
+              "type": "indexedAccess",
+              "indexType": {
+                "type": "reference",
+                "name": "K"
+              },
+              "objectType": {
+                "type": "typeParameter",
+                "name": "T"
+              }
+            }
+          }
+        },
+        {
+          "id": 2,
+          "name": "mapped",
+          "kind": 64,
+          "kindString": "Function",
+          "flags": {},
+          "signatures": [
+            {
+              "id": 3,
+              "name": "mapped",
+              "kind": 4096,
+              "kindString": "Call signature",
+              "flags": {},
+              "typeParameter": [
+                {
+                  "id": 4,
+                  "name": "T",
+                  "kind": 131072,
+                  "kindString": "Type parameter",
+                  "flags": {}
+                }
+              ],
+              "parameters": [
+                {
+                  "id": 5,
+                  "name": "arg",
+                  "kind": 32768,
+                  "kindString": "Parameter",
+                  "flags": {},
+                  "type": {
+                    "type": "typeParameter",
+                    "name": "T"
+                  }
+                }
+              ],
+              "type": {
+                "type": "mapped",
+                "parameter": "K",
+                "parameterType": {
+                  "type": "union",
+                  "types": [
+                    {
+                      "type": "intrinsic",
+                      "name": "string"
+                    },
+                    {
+                      "type": "intrinsic",
+                      "name": "number"
+                    },
+                    {
+                      "type": "intrinsic",
+                      "name": "symbol"
+                    }
+                  ]
+                },
+                "templateType": {
+                  "type": "intrinsic",
+                  "name": "string"
+                },
+                "readonlyModifier": "-",
+                "optionalModifier": "+"
+              }
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "title": "Type aliases",
+          "kind": 4194304,
+          "children": [
+            6
+          ]
+        },
+        {
+          "title": "Functions",
+          "kind": 64,
+          "children": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
       "name": "parens",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 2,
+          "id": 9,
           "name": "ZZ",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -27,14 +156,14 @@
               {
                 "type": "reflection",
                 "declaration": {
-                  "id": 3,
+                  "id": 10,
                   "name": "__type",
                   "kind": 65536,
                   "kindString": "Type literal",
                   "flags": {},
                   "children": [
                     {
-                      "id": 4,
+                      "id": 11,
                       "name": "a",
                       "kind": 32,
                       "kindString": "Variable",
@@ -50,7 +179,7 @@
                       "title": "Variables",
                       "kind": 32,
                       "children": [
-                        4
+                        11
                       ]
                     }
                   ]
@@ -65,20 +194,20 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            2
+            9
           ]
         }
       ]
     },
     {
-      "id": 5,
+      "id": 12,
       "name": "query",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 7,
+          "id": 14,
           "name": "TypeOfX",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -87,13 +216,13 @@
             "type": "query",
             "queryType": {
               "type": "reference",
-              "id": 6,
+              "id": 13,
               "name": "x"
             }
           }
         },
         {
-          "id": 6,
+          "id": 13,
           "name": "x",
           "kind": 32,
           "kindString": "Variable",
@@ -112,27 +241,27 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            7
+            14
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            6
+            13
           ]
         }
       ]
     },
     {
-      "id": 8,
+      "id": 15,
       "name": "tuple",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 9,
+          "id": 16,
           "name": "NamedTuple",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -162,7 +291,7 @@
           }
         },
         {
-          "id": 10,
+          "id": 17,
           "name": "namedTuple",
           "kind": 32,
           "kindString": "Variable",
@@ -190,27 +319,27 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            9
+            16
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            10
+            17
           ]
         }
       ]
     },
     {
-      "id": 11,
+      "id": 18,
       "name": "type-operator",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 13,
+          "id": 20,
           "name": "B",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -228,7 +357,7 @@
           }
         },
         {
-          "id": 14,
+          "id": 21,
           "name": "C",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -236,14 +365,14 @@
           "type": {
             "type": "reflection",
             "declaration": {
-              "id": 15,
+              "id": 22,
               "name": "__type",
               "kind": 65536,
               "kindString": "Type literal",
               "flags": {},
               "children": [
                 {
-                  "id": 16,
+                  "id": 23,
                   "name": "prop1",
                   "kind": 32,
                   "kindString": "Variable",
@@ -254,7 +383,7 @@
                   }
                 },
                 {
-                  "id": 17,
+                  "id": 24,
                   "name": "prop2",
                   "kind": 32,
                   "kindString": "Variable",
@@ -270,8 +399,8 @@
                   "title": "Variables",
                   "kind": 32,
                   "children": [
-                    16,
-                    17
+                    23,
+                    24
                   ]
                 }
               ]
@@ -279,7 +408,7 @@
           }
         },
         {
-          "id": 18,
+          "id": 25,
           "name": "D",
           "kind": 4194304,
           "kindString": "Type alias",
@@ -289,13 +418,13 @@
             "operator": "keyof",
             "target": {
               "type": "reference",
-              "id": 14,
+              "id": 21,
               "name": "C"
             }
           }
         },
         {
-          "id": 12,
+          "id": 19,
           "name": "a",
           "kind": 32,
           "kindString": "Variable",
@@ -318,29 +447,29 @@
           "title": "Type aliases",
           "kind": 4194304,
           "children": [
-            13,
-            14,
-            18
+            20,
+            21,
+            25
           ]
         },
         {
           "title": "Variables",
           "kind": 32,
           "children": [
-            12
+            19
           ]
         }
       ]
     },
     {
-      "id": 19,
+      "id": 26,
       "name": "union-or-intersection",
       "kind": 1,
       "kindString": "Module",
       "flags": {},
       "children": [
         {
-          "id": 20,
+          "id": 27,
           "name": "FirstType",
           "kind": 256,
           "kindString": "Interface",
@@ -350,7 +479,7 @@
           },
           "children": [
             {
-              "id": 21,
+              "id": 28,
               "name": "firstProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -369,13 +498,13 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                21
+                28
               ]
             }
           ]
         },
         {
-          "id": 22,
+          "id": 29,
           "name": "SecondType",
           "kind": 256,
           "kindString": "Interface",
@@ -385,7 +514,7 @@
           },
           "children": [
             {
-              "id": 23,
+              "id": 30,
               "name": "secondProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -404,13 +533,13 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                23
+                30
               ]
             }
           ]
         },
         {
-          "id": 24,
+          "id": 31,
           "name": "ThirdType",
           "kind": 256,
           "kindString": "Interface",
@@ -420,7 +549,7 @@
           },
           "children": [
             {
-              "id": 27,
+              "id": 34,
               "name": "thirdComplexProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -440,12 +569,12 @@
                         "types": [
                           {
                             "type": "reference",
-                            "id": 20,
+                            "id": 27,
                             "name": "FirstType"
                           },
                           {
                             "type": "reference",
-                            "id": 22,
+                            "id": 29,
                             "name": "SecondType"
                           }
                         ]
@@ -460,7 +589,7 @@
               }
             },
             {
-              "id": 26,
+              "id": 33,
               "name": "thirdIntersectionProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -473,19 +602,19 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 20,
+                    "id": 27,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 24,
+                    "id": 31,
                     "name": "ThirdType"
                   }
                 ]
               }
             },
             {
-              "id": 25,
+              "id": 32,
               "name": "thirdUnionProperty",
               "kind": 1024,
               "kindString": "Property",
@@ -498,12 +627,12 @@
                 "types": [
                   {
                     "type": "reference",
-                    "id": 20,
+                    "id": 27,
                     "name": "FirstType"
                   },
                   {
                     "type": "reference",
-                    "id": 22,
+                    "id": 29,
                     "name": "SecondType"
                   }
                 ]
@@ -515,9 +644,9 @@
               "title": "Properties",
               "kind": 1024,
               "children": [
-                27,
-                26,
-                25
+                34,
+                33,
+                32
               ]
             }
           ]
@@ -528,9 +657,9 @@
           "title": "Interfaces",
           "kind": 256,
           "children": [
-            20,
-            22,
-            24
+            27,
+            29,
+            31
           ]
         }
       ]
@@ -542,10 +671,11 @@
       "kind": 1,
       "children": [
         1,
-        5,
         8,
-        11,
-        19
+        12,
+        15,
+        18,
+        26
       ]
     }
   ]

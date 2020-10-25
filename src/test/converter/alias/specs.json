@@ -319,8 +319,124 @@
                           "name": "PopFront"
                         },
                         {
-                          "type": "unknown",
-                          "name": "{\n            [K in keyof R | keyof T[0]]: K extends keyof R ? R[K] : T[0][K];\n        }"
+                          "type": "mapped",
+                          "parameter": "K",
+                          "parameterType": {
+                            "type": "union",
+                            "types": [
+                              {
+                                "type": "typeOperator",
+                                "operator": "keyof",
+                                "target": {
+                                  "type": "typeParameter",
+                                  "name": "R",
+                                  "default": {
+                                    "type": "reflection",
+                                    "declaration": {
+                                      "id": 24,
+                                      "name": "__type",
+                                      "kind": 65536,
+                                      "kindString": "Type literal",
+                                      "flags": {}
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "type": "typeOperator",
+                                "operator": "keyof",
+                                "target": {
+                                  "type": "indexedAccess",
+                                  "indexType": {
+                                    "type": "literal",
+                                    "value": 0
+                                  },
+                                  "objectType": {
+                                    "type": "typeParameter",
+                                    "name": "T",
+                                    "constraint": {
+                                      "type": "array",
+                                      "elementType": {
+                                        "type": "intrinsic",
+                                        "name": "any"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "templateType": {
+                            "type": "conditional",
+                            "checkType": {
+                              "type": "reference",
+                              "name": "K"
+                            },
+                            "extendsType": {
+                              "type": "typeOperator",
+                              "operator": "keyof",
+                              "target": {
+                                "type": "typeParameter",
+                                "name": "R",
+                                "default": {
+                                  "type": "reflection",
+                                  "declaration": {
+                                    "id": 24,
+                                    "name": "__type",
+                                    "kind": 65536,
+                                    "kindString": "Type literal",
+                                    "flags": {}
+                                  }
+                                }
+                              }
+                            },
+                            "trueType": {
+                              "type": "indexedAccess",
+                              "indexType": {
+                                "type": "reference",
+                                "name": "K"
+                              },
+                              "objectType": {
+                                "type": "typeParameter",
+                                "name": "R",
+                                "default": {
+                                  "type": "reflection",
+                                  "declaration": {
+                                    "id": 24,
+                                    "name": "__type",
+                                    "kind": 65536,
+                                    "kindString": "Type literal",
+                                    "flags": {}
+                                  }
+                                }
+                              }
+                            },
+                            "falseType": {
+                              "type": "indexedAccess",
+                              "indexType": {
+                                "type": "reference",
+                                "name": "K"
+                              },
+                              "objectType": {
+                                "type": "indexedAccess",
+                                "indexType": {
+                                  "type": "literal",
+                                  "value": 0
+                                },
+                                "objectType": {
+                                  "type": "typeParameter",
+                                  "name": "T",
+                                  "constraint": {
+                                    "type": "array",
+                                    "elementType": {
+                                      "type": "intrinsic",
+                                      "name": "any"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
                         }
                       ],
                       "name": "HorribleRecursiveTypeThatShouldNotBeUsedByAnyone"

@@ -20,6 +20,7 @@ import {
     TypeOperatorType,
     UnionType,
     UnknownType,
+    MappedType,
 } from "../models";
 import { Context } from "./context";
 import { Converter } from "./converter";
@@ -54,6 +55,7 @@ export function loadConverters() {
         typeLiteralConverter,
         referenceConverter,
         namedTupleMemberConverter,
+        mappedConverter,
         literalTypeConverter,
         thisConverter,
         tupleConverter,
@@ -444,6 +446,53 @@ const namedTupleMemberConverter: TypeConverter<ts.NamedTupleMember> = {
     convertType: requestBugReport,
 };
 
+// { -readonly [K in string]-?: number}
+//   ^ readonlyToken
+//              ^ typeParameter
+//                   ^^^^^^ typeParameter.constraint
+//                          ^ questionToken
+//                              ^^^^^^ type
+const mappedConverter: TypeConverter<
+    ts.MappedTypeNode,
+    ts.Type & {
+        // Beware! Internal TS API here.
+        templateType: ts.Type;
+        typeParameter: ts.TypeParameter;
+        constraintType: ts.Type;
+    }
+> = {
+    kind: [ts.SyntaxKind.MappedType],
+    convert(context, node) {
+        const optionalModifier = kindToModifier(node.questionToken?.kind);
+        const templateType = convertType(context, node.type);
+
+        return new MappedType(
+            node.typeParameter.name.text,
+            convertType(context, node.typeParameter.constraint),
+            optionalModifier === "+"
+                ? removeUndefined(templateType)
+                : templateType,
+            kindToModifier(node.readonlyToken?.kind),
+            optionalModifier
+        );
+    },
+    convertType(context, type, node) {
+        // This can happen if a generic function does not have a return type annotated.
+        const optionalModifier = kindToModifier(node.questionToken?.kind);
+        const templateType = convertType(context, type.templateType);
+
+        return new MappedType(
+            type.typeParameter.symbol?.name,
+            convertType(context, type.typeParameter.getConstraint()),
+            optionalModifier === "+"
+                ? removeUndefined(templateType)
+                : templateType,
+            kindToModifier(node.readonlyToken?.kind),
+            optionalModifier
+        );
+    },
+};
+
 const literalTypeConverter: TypeConverter<
     ts.LiteralTypeNode,
     ts.LiteralType
@@ -590,4 +639,38 @@ function requestBugReport(context: Context, nodeOrType: ts.Node | ts.Type) {
 
 function isObjectType(type: ts.Type): type is ts.ObjectType {
     return typeof (type as any).objectFlags === "number";
+}
+
+function kindToModifier(
+    kind:
+        | ts.SyntaxKind.PlusToken
+        | ts.SyntaxKind.MinusToken
+        | ts.SyntaxKind.ReadonlyKeyword
+        | ts.SyntaxKind.QuestionToken
+        | undefined
+): "+" | "-" | undefined {
+    switch (kind) {
+        case ts.SyntaxKind.ReadonlyKeyword:
+        case ts.SyntaxKind.QuestionToken:
+        case ts.SyntaxKind.PlusToken:
+            return "+";
+        case ts.SyntaxKind.MinusToken:
+            return "-";
+        default:
+            return undefined;
+    }
+}
+
+function removeUndefined(type: Type) {
+    if (type instanceof UnionType) {
+        const types = type.types.filter(
+            (t) => !t.equals(new IntrinsicType("undefined"))
+        );
+        if (types.length === 1) {
+            return types[0];
+        }
+        type.types = types;
+        return type;
+    }
+    return type;
 }
