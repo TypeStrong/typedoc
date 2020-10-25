@@ -28,11 +28,6 @@ const base = path.join(__dirname, "../dist/test/converter");
 const conversions = [
     ["specs", () => {}, () => {}],
     [
-        "specs.d",
-        () => app.options.setValue("includeDeclarations", true),
-        () => app.options.setValue("includeDeclarations", false),
-    ],
-    [
         "specs-with-lump-categories",
         () => app.options.setValue("categorizeByGroup", false),
         () => app.options.setValue("categorizeByGroup", true),

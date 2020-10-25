@@ -23,7 +23,6 @@ export interface TypeDocOptionMap {
     tsconfig: string;
 
     entryPoints: string[];
-    includeDeclarations: boolean;
     exclude: string[];
     externalPattern: string[];
     excludeExternals: boolean;

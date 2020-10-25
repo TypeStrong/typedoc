@@ -35,9 +35,6 @@ export class Converter extends ChildableComponent<
     @BindOption("externalPattern")
     externalPattern!: Array<string>;
 
-    @BindOption("includeDeclarations")
-    includeDeclarations!: boolean;
-
     @BindOption("excludeExternals")
     excludeExternals!: boolean;
 

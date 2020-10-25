@@ -255,7 +255,7 @@ export class Context {
         if (isDeclaration) {
             const lib = this.converter.getDefaultLib();
             const isLib = node.fileName.substr(-lib.length) === lib;
-            if (!this.converter.includeDeclarations || isLib) {
+            if (isLib) {
                 return;
             }
         }

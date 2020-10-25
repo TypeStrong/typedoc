@@ -25,11 +25,6 @@ export function addTypeDocOptions(options: Options) {
     });
 
     options.addDeclaration({
-        name: "includeDeclarations",
-        help: "Turn on parsing of .d.ts declaration files.",
-        type: ParameterType.Boolean,
-    });
-    options.addDeclaration({
         name: "exclude",
         help: "Define patterns for excluded files when specifying paths.",
         type: ParameterType.Array,
