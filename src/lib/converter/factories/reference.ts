@@ -33,7 +33,11 @@ export function createReferenceType(
         name = checker.symbolToString(symbol.parent) + "." + name;
     }
 
-    return new ReferenceType(name, symbol, context.project);
+    return new ReferenceType(
+        name,
+        context.resolveAliasedSymbol(symbol),
+        context.project
+    );
 }
 
 export function createReferenceOrDeclarationReflection(

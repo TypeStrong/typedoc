@@ -92,7 +92,7 @@ export class DecoratorPlugin extends ConverterComponent {
             if (type && type.symbol) {
                 info.type = new ReferenceType(
                     info.name,
-                    type.symbol,
+                    context.resolveAliasedSymbol(type.symbol),
                     context.project
                 );
 

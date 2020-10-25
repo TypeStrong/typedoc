@@ -184,7 +184,7 @@ const exprWithTypeArgsConverter: TypeConverter<
             node.typeArguments?.map((type) => convertType(context, type)) ?? [];
         const ref = new ReferenceType(
             targetSymbol.name,
-            targetSymbol,
+            context.resolveAliasedSymbol(targetSymbol),
             context.project
         );
         ref.typeArguments = parameters;
@@ -358,7 +358,7 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
         return new QueryType(
             new ReferenceType(
                 node.exprName.getText(),
-                querySymbol,
+                context.resolveAliasedSymbol(querySymbol),
                 context.project
             )
         );
@@ -372,7 +372,11 @@ const queryConverter: TypeConverter<ts.TypeQueryNode> = {
             )}. This is a bug.`
         );
         return new QueryType(
-            new ReferenceType(symbol.name, symbol, context.project)
+            new ReferenceType(
+                symbol.name,
+                context.resolveAliasedSymbol(symbol),
+                context.project
+            )
         );
     },
 };
@@ -395,7 +399,11 @@ const referenceConverter: TypeConverter<
             }
         }
 
-        const type = new ReferenceType(name, symbol, context.project);
+        const type = new ReferenceType(
+            name,
+            context.resolveAliasedSymbol(symbol),
+            context.project
+        );
         type.typeArguments = node.typeArguments?.map((type) =>
             convertType(context, type)
         );
@@ -410,7 +418,11 @@ const referenceConverter: TypeConverter<
             return broken;
         }
 
-        const ref = new ReferenceType(symbol.name, symbol, context.project);
+        const ref = new ReferenceType(
+            symbol.name,
+            context.resolveAliasedSymbol(symbol),
+            context.project
+        );
         ref.typeArguments = type.aliasTypeArguments?.map((ref) =>
             convertType(context, ref)
         );
