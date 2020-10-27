@@ -92,7 +92,9 @@ export class ReferenceType extends Type {
         return (
             other instanceof ReferenceType &&
             (other.symbolFullyQualifiedName === this.symbolFullyQualifiedName ||
-                other.reflection === this.reflection)
+                (other.reflection === this.reflection &&
+                    other.reflection != null &&
+                    this.reflection != null))
         );
     }
 
