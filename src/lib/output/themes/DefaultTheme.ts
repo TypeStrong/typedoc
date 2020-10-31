@@ -157,7 +157,11 @@ export class DefaultTheme extends Theme {
      * @returns        The root navigation item.
      */
     getNavigation(project: ProjectReflection): NavigationItem {
-        const builder = new NavigationBuilder(project, project);
+        const builder = new NavigationBuilder(
+            project,
+            project,
+            this.application.options.getValue("entryPoints").length > 1
+        );
         return builder.build(
             this.application.options.getValue("readme") !== "none"
         );
@@ -393,7 +397,8 @@ export class DefaultTheme extends Theme {
 export class NavigationBuilder {
     constructor(
         private project: ProjectReflection,
-        private entryPoint: ContainerReflection
+        private entryPoint: ContainerReflection,
+        private multipleEntryPoints: boolean
     ) {}
 
     /**
@@ -404,15 +409,12 @@ export class NavigationBuilder {
      */
     build(hasReadmeFile: boolean): NavigationItem {
         const root = new NavigationItem("Index", "index.html");
-
-        if (this.entryPoint === this.project) {
-            const modules = new NavigationItem(
-                "Modules",
-                hasReadmeFile ? "modules.html" : "index.html",
-                root
-            );
-            modules.isModules = true;
-        }
+        const sidebarRoot = new NavigationItem(
+            this.multipleEntryPoints ? "Modules" : "Exports",
+            hasReadmeFile ? "modules.html" : "index.html",
+            root
+        );
+        sidebarRoot.isModules = true;
 
         const modules: DeclarationReflection[] = [];
         this.project

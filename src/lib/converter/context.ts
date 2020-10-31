@@ -189,10 +189,14 @@ export class Context {
     expectSymbolAtLocation(node: ts.Node): ts.Symbol {
         const symbol = this.getSymbolAtLocation(node);
         if (!symbol) {
+            const { line } = ts.getLineAndCharacterOfPosition(
+                node.getSourceFile(),
+                node.pos
+            );
             throw new Error(
                 `Expected a symbol for node with kind ${
                     ts.SyntaxKind[node.kind]
-                }`
+                } at ${node.getSourceFile().fileName}:${line + 1}`
             );
         }
         return symbol;

@@ -102,7 +102,7 @@ export class BlockConverter extends ConverterNodeComponent<
                 result = createDeclaration(
                     context,
                     node,
-                    ReflectionKind.Module,
+                    ReflectionKind.Namespace,
                     this.getModuleName(node.fileName)
                 );
                 context.withScope(result, () => {
@@ -156,6 +156,14 @@ export class BlockConverter extends ConverterNodeComponent<
         if (!symbol && ts.isModuleBlock(node)) {
             symbol = context.checker.getSymbolAtLocation(node.parent.name);
         }
+
+        // The generated docs aren't great, but you really ought not be using
+        // this in the first place... so it's better than nothing.
+        const exportEq = symbol?.exports?.get("export=" as ts.__String);
+        if (exportEq) {
+            return [exportEq];
+        }
+
         if (symbol) {
             return context.checker.getExportsOfModule(symbol);
         }

@@ -1,56 +1,65 @@
 import * as ts from "typescript";
+import * as assert from "assert";
 
 import {
-    Reflection,
-    ReflectionFlag,
+    ContainerReflection,
     DeclarationReflection,
+    Reflection,
+    ReflectionKind,
 } from "../../models/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
 import { createReferenceOrDeclarationReflection } from "../factories/reference";
 
-@Component({ name: "node:export" })
+// Either a default export or export=
+@Component({ name: "node:export-assignment" })
 export class ExportConverter extends ConverterNodeComponent<
     ts.ExportAssignment
 > {
-    /**
-     * List of supported TypeScript syntax kinds.
-     */
     supports: ts.SyntaxKind[] = [ts.SyntaxKind.ExportAssignment];
 
-    convert(context: Context, node: ts.ExportAssignment): Reflection {
-        let symbol: ts.Symbol | undefined;
+    convert(
+        context: Context,
+        node: ts.ExportAssignment
+    ): Reflection | undefined {
+        assert(context.scope instanceof ContainerReflection);
+        const name = node.isExportEquals ? "export =" : "default";
 
-        // default export
-        if (
-            node.symbol &&
-            (node.symbol.flags & ts.SymbolFlags.Alias) === ts.SymbolFlags.Alias
-        ) {
-            symbol = context.checker.getAliasedSymbol(node.symbol);
+        // We might not have a symbol if someone does `export default 1`
+        const expressionSymbol = context.getSymbolAtLocation(node.expression);
+
+        if (expressionSymbol) {
+            const reflection = createReferenceOrDeclarationReflection(
+                context,
+                expressionSymbol,
+                context.resolveAliasedSymbol(expressionSymbol)
+            );
+
+            if (reflection) {
+                reflection.name = name;
+            }
+
+            return reflection;
         } else {
-            const type = context.getTypeAtLocation(node.expression);
-            symbol = type ? type.symbol : undefined;
-        }
-        if (symbol && symbol.declarations) {
-            const project = context.project;
-            symbol.declarations.forEach((declaration) => {
-                if (!declaration.symbol) {
-                    return;
-                }
+            // We can't use createDeclaration because it expects a ts.Declaration, which we don't have.
+            const reflection = new DeclarationReflection(
+                name,
+                ReflectionKind.Variable,
+                context.scope
+            );
 
-                const reflection = project.getReflectionFromSymbol(
-                    declaration.symbol
-                );
-                if (
-                    node.isExportEquals &&
-                    reflection instanceof DeclarationReflection
-                ) {
-                    reflection.setFlag(ReflectionFlag.ExportAssignment, true);
-                }
-            });
-        }
+            const exportSymbol =
+                node.symbol ?? context.expectSymbolAtLocation(node);
+            reflection.type = this.owner.convertType(
+                context,
+                context.checker.getTypeOfSymbolAtLocation(exportSymbol, node)
+            );
 
-        return context.scope;
+            context.scope.children ??= [];
+            context.scope.children.push(reflection);
+
+            return reflection;
+        }
     }
 }
 

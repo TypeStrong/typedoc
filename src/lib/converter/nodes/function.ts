@@ -36,7 +36,14 @@ export class FunctionConverter extends ConverterNodeComponent<
                 ? ReflectionKind.Method
                 : ReflectionKind.Function;
         const hasBody = !!node.body;
-        const method = createDeclaration(context, node, kind);
+        const method = createDeclaration(
+            context,
+            node,
+            kind,
+            node.modifiers?.some((m) => m.kind === ts.SyntaxKind.DefaultKeyword)
+                ? "default"
+                : void 0
+        );
 
         if (
             method && // child inheriting will return null on createDeclaration
