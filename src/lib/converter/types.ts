@@ -141,7 +141,7 @@ const arrayConverter: TypeConverter<ts.ArrayTypeNode, ts.TypeReference> = {
     convertType(context, type) {
         const params = context.checker.getTypeArguments(type);
         assert(params.length === 1);
-        return new ArrayType(convertType(context, type));
+        return new ArrayType(convertType(context, params[0]));
     },
 };
 

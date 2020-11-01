@@ -4883,8 +4883,8 @@
                   "type": {
                     "type": "array",
                     "elementType": {
-                      "type": "unknown",
-                      "name": "number[]"
+                      "type": "intrinsic",
+                      "name": "number"
                     }
                   },
                   "defaultValue": "[100, 200, 300]"
