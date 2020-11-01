@@ -59,3 +59,5 @@ export class PrivateClass {
 export module PrivateModule {
     export function functionInsidePrivateModule() {}
 }
+
+export type BigIntLiteral = -123n;

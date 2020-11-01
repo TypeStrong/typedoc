@@ -49,7 +49,9 @@ export class BlockConverter extends ConverterNodeComponent<
             return this.convertSourceFile(context, node);
         } else {
             for (const exp of this.getExports(context, node)) {
-                for (const decl of exp.getDeclarations() ?? []) {
+                for (const decl of (exp.getDeclarations() ?? []).filter((d) =>
+                    hasParent(d, node)
+                )) {
                     this.owner.convertNode(context, decl);
                 }
             }
@@ -195,4 +197,14 @@ export class BlockConverter extends ConverterNodeComponent<
     private normalizeFileName(fileName: string) {
         return fileName.replace(/\\/g, "/");
     }
+}
+
+function hasParent(node: ts.Node, parent: ts.Node) {
+    while (node.parent) {
+        if (node.parent === parent) {
+            return true;
+        }
+        node = node.parent;
+    }
+    return false;
 }

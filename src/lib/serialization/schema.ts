@@ -101,6 +101,13 @@ type _ModelToObject<T> =
 
 type Primitive = string | number | undefined | null | boolean;
 
+// Separate helper so that we can trigger distribution.
+type ToSerialized<T> = T extends Primitive
+    ? T
+    : T extends bigint
+    ? { value: string; negative: boolean }
+    : ModelToObject<T>;
+
 /**
  * Helper to describe a set of serialized properties. Primitive types are returned
  * directly, while other models are first passed through ModelToObject.
@@ -108,7 +115,7 @@ type Primitive = string | number | undefined | null | boolean;
  * is a plain object that consumers may modify as they choose, TypeDoc doesn't care.
  */
 type S<T, K extends keyof T> = {
-    -readonly [K2 in K]: T[K2] extends Primitive ? T[K2] : ModelToObject<T[K2]>;
+    -readonly [K2 in K]: ToSerialized<T[K2]>;
 };
 
 // Reflections

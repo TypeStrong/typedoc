@@ -277,8 +277,6 @@ const keywordConverter: TypeConverter<ts.KeywordTypeNode> = {
     },
 };
 
-// literal
-
 const parensConverter: TypeConverter<ts.ParenthesizedTypeNode> = {
     kind: [ts.SyntaxKind.ParenthesizedType],
     convert(context, node) {
@@ -499,12 +497,38 @@ const literalTypeConverter: TypeConverter<
 > = {
     kind: [ts.SyntaxKind.LiteralType],
     convert(context, node) {
-        if (node.literal.kind === ts.SyntaxKind.StringLiteral) {
-            return new LiteralType(node.literal.text);
-        } else if (node.literal.kind === ts.SyntaxKind.NumericLiteral) {
-            return new LiteralType(+node.literal.text);
+        switch (node.literal.kind) {
+            case ts.SyntaxKind.TrueKeyword:
+            case ts.SyntaxKind.FalseKeyword:
+                return new LiteralType(
+                    node.literal.kind === ts.SyntaxKind.TrueKeyword
+                );
+            case ts.SyntaxKind.StringLiteral:
+                return new LiteralType(node.literal.text);
+            case ts.SyntaxKind.NumericLiteral:
+                return new LiteralType(Number(node.literal.text));
+            case ts.SyntaxKind.NullKeyword:
+                return new LiteralType(null);
+            case ts.SyntaxKind.PrefixUnaryExpression: {
+                const operand = (node.literal as ts.PrefixUnaryExpression)
+                    .operand;
+                switch (operand.kind) {
+                    case ts.SyntaxKind.NumericLiteral:
+                        return new LiteralType(Number(node.literal.getText()));
+                    case ts.SyntaxKind.BigIntLiteral:
+                        return new LiteralType(
+                            BigInt(node.literal.getText().replace("n", ""))
+                        );
+                    default:
+                        return requestBugReport(context, node.literal);
+                }
+            }
+            case ts.SyntaxKind.BigIntLiteral:
+                return new LiteralType(
+                    BigInt(node.literal.getText().replace("n", ""))
+                );
         }
-        // There's quite a few literal types to do here... skipping for now.
+
         return requestBugReport(context, node.literal);
     },
     convertType(context, type, node) {
@@ -518,11 +542,18 @@ const literalTypeConverter: TypeConverter<
                 return new LiteralType(
                     node.literal.kind === ts.SyntaxKind.TrueKeyword
                 );
+            case ts.SyntaxKind.NullKeyword:
+                return new LiteralType(null);
         }
 
-        // There's quite a few literal types to do here... skipping for now.
-        // Be aware of https://github.com/microsoft/TypeScript/issues/40203
-        // and also https://github.com/microsoft/TypeScript/issues/26075
+        if (typeof type.value === "object") {
+            return new LiteralType(
+                BigInt(
+                    `${type.value.negative ? "-" : ""}${type.value.base10Value}`
+                )
+            );
+        }
+
         return requestBugReport(context, type);
     },
 };

@@ -14,6 +14,16 @@ export class LiteralTypeSerializer extends TypeSerializerComponent<
         type: LiteralType,
         obj: Pick<JSONLiteralType, "type">
     ): JSONLiteralType {
+        if (typeof type.value === "bigint") {
+            return {
+                ...obj,
+                value: {
+                    value: type.value.toString().replace("-", ""),
+                    negative: type.value < 0n,
+                },
+            };
+        }
+
         return {
             ...obj,
             value: type.value,

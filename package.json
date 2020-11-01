@@ -17,7 +17,7 @@
     "url": "https://github.com/TypeStrong/TypeDoc/issues"
   },
   "engines": {
-    "node": ">= 10.0.0"
+    "node": ">= 10.8.0"
   },
   "dependencies": {
     "fs-extra": "^9.0.1",
@@ -30,7 +30,7 @@
     "progress": "^2.0.3",
     "semver": "^7.3.2",
     "shelljs": "^0.8.4",
-    "typedoc-default-themes": "beta"
+    "typedoc-default-themes": "0.12.0-beta.5"
   },
   "peerDependencies": {
     "typescript": "3.9.x || 4.0.x"

@@ -9,14 +9,14 @@ import { Type } from "./abstract";
  * ```
  */
 export class LiteralType extends Type {
-    value: string | number | boolean;
+    value: string | number | boolean | null | bigint;
 
     /**
      * The type name identifier.
      */
     readonly type = "literal";
 
-    constructor(value: string | number | boolean) {
+    constructor(value: LiteralType["value"]) {
         super();
         this.value = value;
     }
@@ -44,6 +44,9 @@ export class LiteralType extends Type {
      * Return a string representation of this type.
      */
     toString(): string {
+        if (typeof this.value === "bigint") {
+            return this.value.toString();
+        }
         return JSON.stringify(this.value);
     }
 }
