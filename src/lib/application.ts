@@ -34,6 +34,12 @@ import {
 import { Options, BindOption } from "./utils";
 import { TypeDocOptions } from "./utils/options/declaration";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const packageInfo = require("../../package.json") as {
+    version: string;
+    peerDependencies: { typescript: string };
+};
+
 /**
  * The default TypeDoc main application class.
  *
@@ -95,12 +101,7 @@ export class Application extends ChildableComponent<
     /**
      * The version number of TypeDoc.
      */
-    static VERSION = "{{ VERSION }}";
-
-    /**
-     * The supported TypeScript version.
-     */
-    static SUPPORTED_TS_VERSION = "{{ SUPPORTED }}";
+    static VERSION = packageInfo.version;
 
     /**
      * Create a new TypeDoc application instance.
@@ -201,11 +202,11 @@ export class Application extends ChildableComponent<
         if (
             !semver.satisfies(
                 typescript.version,
-                Application.SUPPORTED_TS_VERSION
+                packageInfo.peerDependencies.typescript
             )
         ) {
             this.logger.warn(
-                `You are running in an unsupported TypeScript version! TypeDoc supports ${Application.SUPPORTED_TS_VERSION}`
+                `You are running in an unsupported TypeScript version! TypeDoc supports ${packageInfo.peerDependencies.typescript}`
             );
         }
 

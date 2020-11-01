@@ -8,3 +8,5 @@ export const NegativeBigIntLiteralType = makeValue<-1n>();
 
 export type NumArray = number[];
 export const numArray = makeValue<number[]>();
+
+export type BigIntAlias = bigint;

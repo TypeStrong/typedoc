@@ -68,7 +68,6 @@
     "prerebuild_specs": "npm run pretest",
     "rebuild_specs": "node scripts/rebuild_specs.js",
     "build": "tsc --project .",
-    "postbuild": "node scripts/replace_application_version.js",
     "build_and_test": "npm run build && npm run test",
     "lint": "eslint . && prettier --check .",
     "prepublishOnly": "node scripts/set_strict.js false && npm run lint && npm run build_and_test",
