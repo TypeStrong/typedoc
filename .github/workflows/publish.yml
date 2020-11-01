@@ -14,11 +14,11 @@ jobs:
               uses: EndBug/version-check@v1
               with:
                   diff-search: true
-            - name: Set up Node.js
+            - name: Set up Node
               if: steps.check.outputs.changed == 'true'
               uses: actions/setup-node@v1
               with:
-                  node-version: "12"
+                  node-version: "14"
             - name: Install
               if: steps.check.outputs.changed == 'true'
               run: npm i

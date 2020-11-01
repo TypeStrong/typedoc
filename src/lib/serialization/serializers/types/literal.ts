@@ -19,7 +19,7 @@ export class LiteralTypeSerializer extends TypeSerializerComponent<
                 ...obj,
                 value: {
                     value: type.value.toString().replace("-", ""),
-                    negative: type.value < 0n,
+                    negative: type.value < BigInt("0"),
                 },
             };
         }
