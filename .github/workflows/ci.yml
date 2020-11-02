@@ -22,3 +22,7 @@ jobs:
               run: npm test
             - name: Lint
               run: npm run lint
+            - name: Circular dependency check
+              uses: gerrit0/circular-dependency-check@v1
+              with:
+                entry: dist/index.js
