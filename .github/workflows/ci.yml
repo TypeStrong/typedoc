@@ -25,4 +25,4 @@ jobs:
             - name: Circular dependency check
               uses: gerrit0/circular-dependency-check@v1.1
               with:
-                entry: dist/index.js
+                  entry: dist/index.js
