@@ -34,10 +34,9 @@ export class JavascriptIndexPlugin extends RendererComponent {
         const rows: any[] = [];
         const kinds: Record<ReflectionKind, string | undefined> = {};
 
-        for (const key in event.project.reflections) {
-            const reflection: DeclarationReflection = <DeclarationReflection>(
-                event.project.reflections[key]
-            );
+        for (const reflection of event.project.getReflectionsByKind(
+            ReflectionKind.All
+        )) {
             if (!(reflection instanceof DeclarationReflection)) {
                 continue;
             }
@@ -92,7 +91,7 @@ export class JavascriptIndexPlugin extends RendererComponent {
             event.outputDirectory,
             "assets",
             "js",
-            "search.json"
+            "search.js"
         );
         const jsonData = JSON.stringify({
             kinds,
@@ -100,6 +99,6 @@ export class JavascriptIndexPlugin extends RendererComponent {
             index,
         });
 
-        writeFile(jsonFileName, jsonData, false);
+        writeFile(jsonFileName, `window.searchData = ${jsonData}`, false);
     }
 }

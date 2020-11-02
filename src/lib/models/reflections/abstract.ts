@@ -61,6 +61,8 @@ export enum ReflectionKind {
     Event = 1 << 23,
     Reference = 1 << 24,
 
+    All = Reference * 2 - 1,
+
     ClassOrInterface = Class | Interface,
     VariableOrProperty = Variable | Property,
     FunctionOrMethod = ReflectionKind.Function | Method,
