@@ -4,7 +4,7 @@ import { Reflection, ReflectionKind } from "../../models/index";
 import { createDeclaration } from "../factories/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
-import { convertDefaultValue } from "../index";
+import { convertDefaultValue } from "../convert-expression";
 
 @Component({ name: "node:enum" })
 export class EnumConverter extends ConverterNodeComponent<ts.EnumDeclaration> {

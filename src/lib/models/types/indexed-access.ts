@@ -1,4 +1,4 @@
-import { Type } from "./index";
+import { Type } from "./abstract";
 
 /**
  * Represents an indexed access type.

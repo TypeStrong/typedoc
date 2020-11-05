@@ -1,4 +1,4 @@
-import { TypeSerializerComponent } from "../..";
+import { TypeSerializerComponent } from "../../components";
 import { MappedType } from "../../../models";
 import { MappedType as JSONMappedType } from "../../schema";
 

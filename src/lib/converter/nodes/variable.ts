@@ -10,7 +10,7 @@ import {
 import { createDeclaration, createComment } from "../factories/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
-import { convertDefaultValue } from "../index";
+import { convertDefaultValue } from "../convert-expression";
 
 type VarNodeType =
     | ts.PropertySignature

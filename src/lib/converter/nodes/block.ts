@@ -4,7 +4,7 @@ import { Reflection, ReflectionKind } from "../../models/index";
 import { createDeclaration } from "../factories/index";
 import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
-import { Converter } from "..";
+import { Converter } from "../converter";
 import { getCommonDirectory } from "../../utils/fs";
 import { relative, resolve } from "path";
 
