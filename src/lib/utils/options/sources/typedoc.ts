@@ -1,7 +1,7 @@
 import { Options } from "..";
 import { ParameterType, ParameterHint } from "../declaration";
 
-export function addTypeDocOptions(options: Options) {
+export function addTypeDocOptions(options: Pick<Options, "addDeclaration">) {
     options.addDeclaration({
         name: "options",
         help:

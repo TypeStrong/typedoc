@@ -90,7 +90,6 @@ export enum ParameterType {
     Map,
     Mixed,
     Array,
-    Path,
 }
 
 export interface DeclarationOptionBase {
