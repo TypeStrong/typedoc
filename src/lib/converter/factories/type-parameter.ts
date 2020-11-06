@@ -6,7 +6,7 @@ import {
     TypeParameterType,
 } from "../../models/index";
 import { Context } from "../context";
-import { Converter } from "../converter";
+import { ConverterEvents } from "../converter-events";
 
 /**
  * Create a type parameter reflection for the given node.
@@ -50,7 +50,7 @@ export function createTypeParameter(
 
     context.registerReflection(typeParameterReflection);
     context.trigger(
-        Converter.EVENT_CREATE_TYPE_PARAMETER,
+        ConverterEvents.CREATE_TYPE_PARAMETER,
         typeParameterReflection,
         node
     );

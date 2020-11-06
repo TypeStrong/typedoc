@@ -11,8 +11,9 @@ import {
 } from "../models/index";
 
 import { createTypeParameter } from "./factories/type-parameter";
-import { Converter } from "./converter";
+import type { Converter } from "./converter";
 import { isNamedNode } from "./utils/nodes";
+import { ConverterEvents } from "./converter-events";
 
 /**
  * The context describes the current state the converter is in.
@@ -267,7 +268,7 @@ export class Context {
         this.isExternal = isExternal;
         this.isDeclaration = isDeclaration;
 
-        this.trigger(Converter.EVENT_FILE_BEGIN, this.project, node);
+        this.trigger(ConverterEvents.FILE_BEGIN, this.project, node);
         callback();
 
         this.isExternal = false;

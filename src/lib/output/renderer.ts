@@ -279,6 +279,14 @@ export class Renderer extends ChildableComponent<
         return true;
     }
 
+    // This exists so that the resources can get the directory
+    // without importing this file. Normally, I'd just directly
+    // get the path, but typedoc-plugin-markdown overrides the
+    // static version, and I don't need to break that yet...
+    getDefaultTheme() {
+        return Renderer.getDefaultTheme();
+    }
+
     /**
      * Return the path containing the themes shipped with TypeDoc.
      *

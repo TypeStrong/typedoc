@@ -3,7 +3,6 @@ import * as FS from "fs-extra";
 
 import { Component, RendererComponent } from "../components";
 import { RendererEvent } from "../events";
-import { Renderer } from "../renderer";
 
 /**
  * A plugin that copies the subdirectory ´assets´ from the current themes
@@ -32,7 +31,7 @@ export class AssetsPlugin extends RendererComponent {
      */
     private onRendererBegin(event: RendererEvent) {
         let fromDefault: string | undefined = Path.join(
-            Renderer.getDefaultTheme(),
+            this.owner.getDefaultTheme(),
             "assets"
         );
         const to = Path.join(event.outputDirectory, "assets");

@@ -23,7 +23,7 @@ import {
     MappedType,
 } from "../models";
 import { Context } from "./context";
-import { Converter } from "./converter";
+import { ConverterEvents } from "./converter-events";
 
 export interface TypeConverter<
     TNode extends ts.TypeNode = ts.TypeNode,
@@ -319,7 +319,7 @@ const typeLiteralConverter: TypeConverter<
         );
 
         context.registerReflection(declaration, symbol);
-        context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration, node);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, declaration, node);
         context.withScope(declaration, () => {
             (symbol.declarations ?? []).forEach((node) => {
                 context.converter.convertNode(context, node);
@@ -340,7 +340,7 @@ const typeLiteralConverter: TypeConverter<
         );
 
         context.registerReflection(declaration, type.symbol);
-        context.trigger(Converter.EVENT_CREATE_DECLARATION, declaration);
+        context.trigger(ConverterEvents.CREATE_DECLARATION, declaration);
         context.withScope(declaration, () => {
             type.symbol.getDeclarations()?.forEach((node) => {
                 context.converter.convertNode(context, node);

@@ -13,6 +13,7 @@ import {
 } from "../utils/component";
 import { BindOption } from "../utils";
 import { convertType } from "./types";
+import { ConverterEvents } from "./converter-events";
 
 /**
  * Compiles source files using TypeScript and converts compiler symbols to reflections.
@@ -63,14 +64,14 @@ export class Converter extends ChildableComponent<
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_BEGIN = "begin";
+    static readonly EVENT_BEGIN = ConverterEvents.BEGIN;
 
     /**
      * Triggered when the converter has finished converting a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_END = "end";
+    static readonly EVENT_END = ConverterEvents.END;
 
     /**
      * Factory events
@@ -81,42 +82,45 @@ export class Converter extends ChildableComponent<
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FILE_BEGIN = "fileBegin";
+    static readonly EVENT_FILE_BEGIN = ConverterEvents.FILE_BEGIN;
 
     /**
      * Triggered when the converter has created a declaration reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_DECLARATION = "createDeclaration";
+    static readonly EVENT_CREATE_DECLARATION =
+        ConverterEvents.CREATE_DECLARATION;
 
     /**
      * Triggered when the converter has created a signature reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_SIGNATURE = "createSignature";
+    static readonly EVENT_CREATE_SIGNATURE = ConverterEvents.CREATE_SIGNATURE;
 
     /**
      * Triggered when the converter has created a parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_PARAMETER = "createParameter";
+    static readonly EVENT_CREATE_PARAMETER = ConverterEvents.CREATE_PARAMETER;
 
     /**
      * Triggered when the converter has created a type parameter reflection.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_CREATE_TYPE_PARAMETER = "createTypeParameter";
+    static readonly EVENT_CREATE_TYPE_PARAMETER =
+        ConverterEvents.CREATE_TYPE_PARAMETER;
 
     /**
      * Triggered when the converter has found a function implementation.
      * The listener should implement [[IConverterNodeCallback]].
      * @event
      */
-    static EVENT_FUNCTION_IMPLEMENTATION = "functionImplementation";
+    static readonly EVENT_FUNCTION_IMPLEMENTATION =
+        ConverterEvents.FUNCTION_IMPLEMENTATION;
 
     /**
      * Resolve events
@@ -127,21 +131,21 @@ export class Converter extends ChildableComponent<
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_BEGIN = "resolveBegin";
+    static readonly EVENT_RESOLVE_BEGIN = ConverterEvents.RESOLVE_BEGIN;
 
     /**
      * Triggered when the converter resolves a reflection.
      * The listener should implement [[IConverterResolveCallback]].
      * @event
      */
-    static EVENT_RESOLVE = "resolveReflection";
+    static readonly EVENT_RESOLVE = ConverterEvents.RESOLVE;
 
     /**
      * Triggered when the converter has finished resolving a project.
      * The listener should implement [[IConverterCallback]].
      * @event
      */
-    static EVENT_RESOLVE_END = "resolveEnd";
+    static readonly EVENT_RESOLVE_END = ConverterEvents.RESOLVE_END;
 
     /**
      * Create a new Converter instance.
