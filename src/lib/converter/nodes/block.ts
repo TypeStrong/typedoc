@@ -6,7 +6,7 @@ import { Context } from "../context";
 import { Component, ConverterNodeComponent } from "../components";
 import { Converter } from "../converter";
 import { getCommonDirectory } from "../../utils/fs";
-import { relative, resolve } from "path";
+import { relative } from "path";
 
 @Component({ name: "node:block" })
 export class BlockConverter extends ConverterNodeComponent<
@@ -21,16 +21,12 @@ export class BlockConverter extends ConverterNodeComponent<
     ];
 
     // Created in initialize
-    private entryPoints!: string[];
     private baseDir!: string;
 
     initialize() {
         super.initialize();
-        this.owner.on(Converter.EVENT_BEGIN, () => {
-            this.entryPoints = this.application.options
-                .getValue("entryPoints")
-                .map((path) => this.normalizeFileName(resolve(path)));
-            this.baseDir = getCommonDirectory(this.entryPoints);
+        this.owner.on(Converter.EVENT_BEGIN, (context: Context) => {
+            this.baseDir = getCommonDirectory(context.entryPoints);
         });
     }
 
@@ -74,12 +70,12 @@ export class BlockConverter extends ConverterNodeComponent<
         let result: Reflection | undefined = context.scope;
 
         context.withSourceFile(node, () => {
-            if (this.isEntryPoint(node.fileName)) {
+            if (context.entryPoints.includes(node.fileName)) {
                 const symbol =
                     context.checker.getSymbolAtLocation(node) ?? node.symbol;
 
                 if (context.inFirstPass) {
-                    if (this.entryPoints.length === 1) {
+                    if (context.entryPoints.length === 1) {
                         result = context.project;
                         context.project.registerReflection(result, symbol);
                     } else {
@@ -188,10 +184,6 @@ export class BlockConverter extends ConverterNodeComponent<
             /(\.d)?\.[tj]sx?$/,
             ""
         );
-    }
-
-    private isEntryPoint(fileName: string) {
-        return this.entryPoints.includes(fileName);
     }
 
     private normalizeFileName(fileName: string) {

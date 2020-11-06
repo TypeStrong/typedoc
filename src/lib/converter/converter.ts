@@ -205,18 +205,15 @@ export class Converter extends ChildableComponent<
      *
      * @param fileNames  Array of the file names that should be compiled.
      */
-    convert(): ProjectReflection | readonly ts.Diagnostic[] {
+    convert(
+        entryPoints: string[]
+    ): ProjectReflection | readonly ts.Diagnostic[] {
         const program = ts.createProgram(
             this.application.options.getFileNames(),
             this.application.options.getCompilerOptions()
         );
         const checker = program.getTypeChecker();
-        const context = new Context(
-            this,
-            program.getRootFileNames(),
-            checker,
-            program
-        );
+        const context = new Context(this, entryPoints, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 
@@ -316,7 +313,8 @@ export class Converter extends ChildableComponent<
 
         const needsSecondPass: ts.SourceFile[] = [];
         context.inFirstPass = true;
-        for (const entry of this.application.entryPoints) {
+
+        for (const entry of context.entryPoints) {
             if (entry.endsWith(".json")) continue;
             const sourceFile = context.program.getSourceFile(
                 entry.replace(/\\/g, "/")

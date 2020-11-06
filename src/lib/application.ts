@@ -22,6 +22,7 @@ import {
     PluginHost,
     writeFile,
     readFile,
+    normalizePath,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
 
@@ -216,7 +217,9 @@ export class Application extends ChildableComponent<
             );
         }
 
-        const result = this.converter.convert();
+        const result = this.converter.convert(
+            this.expandInputFiles(this.entryPoints)
+        );
 
         if (result instanceof ProjectReflection) {
             return result;
@@ -353,9 +356,9 @@ export class Application extends ChildableComponent<
                     add(Path.join(file, next), false);
                 });
             } else if (supportedFileRegex.test(file)) {
-                files.push(file);
+                files.push(normalizePath(file));
             } else if (includeJson && file.endsWith(".json")) {
-                files.push(file);
+                files.push(normalizePath(file));
             }
         }
 

@@ -27,7 +27,7 @@ export class Context {
     /**
      * A list of all files that have been passed to the TypeScript compiler.
      */
-    fileNames: readonly string[];
+    entryPoints: readonly string[];
 
     /**
      * The TypeChecker instance returned by the TypeScript compiler.
@@ -120,7 +120,7 @@ export class Context {
         program: ts.Program
     ) {
         this.converter = converter;
-        this.fileNames = fileNames;
+        this.entryPoints = fileNames;
         this.checker = checker;
         this.program = program;
         this.visitStack = [];
@@ -417,7 +417,7 @@ export class Context {
      * @internal
      */
     isExternalFile(fileName: string) {
-        let isExternal = !this.fileNames.includes(fileName);
+        let isExternal = !this.entryPoints.includes(fileName);
         if (!isExternal && this.externalPattern) {
             isExternal = this.externalPattern.some((mm) => mm.match(fileName));
         }
