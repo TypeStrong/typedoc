@@ -21,7 +21,6 @@ import {
     CallbackLogger,
     PluginHost,
     writeFile,
-    readFile,
     normalizePath,
 } from "./utils/index";
 import { createMinimatch } from "./utils/paths";
@@ -180,11 +179,7 @@ export class Application extends ChildableComponent<
     }
 
     public getTypeScriptVersion(): string {
-        const tsPath = this.getTypeScriptPath();
-        const json = JSON.parse(
-            readFile(Path.join(tsPath, "..", "package.json"))
-        );
-        return json.version;
+        return typescript.version;
     }
 
     /**
