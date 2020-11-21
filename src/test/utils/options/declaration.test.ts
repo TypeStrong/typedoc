@@ -1,9 +1,13 @@
 import {
     convert,
+    ArrayDeclarationOption,
+    BooleanDeclarationOption,
     DeclarationOption,
     ParameterType,
     MapDeclarationOption,
+    MixedDeclarationOption,
     NumberDeclarationOption,
+    StringDeclarationOption,
 } from "../../../lib/utils/options/declaration";
 import { deepStrictEqual as equal, throws } from "assert";
 
@@ -76,6 +80,36 @@ describe("Options - Default convert function", () => {
         );
     });
 
+    it("Generates no error for a number option if the validation function doesn't throw one", () => {
+        const declaration: NumberDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Number,
+            validate: (value: number) => {
+                if (value % 2 !== 0) {
+                    throw new Error("test must be even");
+                }
+            },
+        };
+        equal(convert(0, declaration), 0);
+        equal(convert(2, declaration), 2);
+        equal(convert(4, declaration), 4);
+    });
+
+    it("Generates an error for a number option if the validation function throws one", () => {
+        const declaration: NumberDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Number,
+            validate: (value: number) => {
+                if (value % 2 !== 0) {
+                    throw new Error("test must be even");
+                }
+            },
+        };
+        throws(() => convert(1, declaration), new Error("test must be even"));
+    });
+
     it("Converts to strings", () => {
         equal(convert("123", optionWithType(ParameterType.String)), "123");
         equal(convert(123, optionWithType(ParameterType.String)), "123");
@@ -84,10 +118,72 @@ describe("Options - Default convert function", () => {
         equal(convert(void 0, optionWithType(ParameterType.String)), "");
     });
 
+    it("Generates no error for a string option if the validation function doesn't throw one", () => {
+        const declaration: StringDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.String,
+            validate: (value: string) => {
+                if (value !== value.toUpperCase()) {
+                    throw new Error("test must be upper case");
+                }
+            },
+        };
+        equal(convert("TOASTY", declaration), "TOASTY");
+    });
+
+    it("Generates an error for a string option if the validation function throws one", () => {
+        const declaration: StringDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.String,
+            validate: (value: string) => {
+                if (value !== value.toUpperCase()) {
+                    throw new Error("test must be upper case");
+                }
+            },
+        };
+        throws(
+            () => convert("toasty", declaration),
+            new Error("test must be upper case")
+        );
+    });
+
     it("Converts to booleans", () => {
         equal(convert("a", optionWithType(ParameterType.Boolean)), true);
         equal(convert([1], optionWithType(ParameterType.Boolean)), true);
         equal(convert(false, optionWithType(ParameterType.Boolean)), false);
+    });
+
+    it("Generates no error for a boolean option if the validation function doesn't throw one", () => {
+        const declaration: BooleanDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Boolean,
+            validate: (value: boolean) => {
+                if (!value) {
+                    throw new Error("test must be true");
+                }
+            },
+        };
+        equal(convert(true, declaration), true);
+    });
+
+    it("Generates an error for a boolean option if the validation function throws one", () => {
+        const declaration: BooleanDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Boolean,
+            validate: (value: boolean) => {
+                if (!value) {
+                    throw new Error("test must be true");
+                }
+            },
+        };
+        throws(
+            () => convert(false, declaration),
+            new Error("test must be true")
+        );
     });
 
     it("Converts to arrays", () => {
@@ -97,6 +193,38 @@ describe("Options - Default convert function", () => {
         ]);
         equal(convert(["12,3"], optionWithType(ParameterType.Array)), ["12,3"]);
         equal(convert(true, optionWithType(ParameterType.Array)), []);
+    });
+
+    it("Generates no error for an array option if the validation function doesn't throw one", () => {
+        const declaration: ArrayDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Array,
+            validate: (value: string[]) => {
+                if (value.length === 0) {
+                    throw new Error("test must not be empty");
+                }
+            },
+        };
+        equal(convert(["1"], declaration), ["1"]);
+        equal(convert(["1", "2"], declaration), ["1", "2"]);
+    });
+
+    it("Generates an error for an array option if the validation function throws one", () => {
+        const declaration: ArrayDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Array,
+            validate: (value: string[]) => {
+                if (value.length === 0) {
+                    throw new Error("test must not be empty");
+                }
+            },
+        };
+        throws(
+            () => convert([], declaration),
+            new Error("test must not be empty")
+        );
     });
 
     it("Converts to mapped types", () => {
@@ -181,8 +309,82 @@ describe("Options - Default convert function", () => {
         );
     });
 
+    it("Generates no error for a mapped option if the validation function doesn't throw one", () => {
+        const declaration: MapDeclarationOption<number> = {
+            name: "test",
+            help: "",
+            type: ParameterType.Map,
+            map: new Map([
+                ["a", 1],
+                ["b", 2],
+            ]),
+            defaultValue: 1,
+            validate: (value: number) => {
+                if (value === 2) {
+                    throw new Error("test must not be b");
+                }
+            },
+        };
+        equal(convert("a", declaration), 1);
+    });
+
+    it("Generates an error for a mapped option if the validation function throws one", () => {
+        const declaration: MapDeclarationOption<number> = {
+            name: "test",
+            help: "",
+            type: ParameterType.Map,
+            map: new Map([
+                ["a", 1],
+                ["b", 2],
+            ]),
+            defaultValue: 1,
+            validate: (value: number) => {
+                if (value === 2) {
+                    throw new Error("test must not be b");
+                }
+            },
+        };
+        throws(
+            () => convert("b", declaration),
+            new Error("test must not be b")
+        );
+    });
+
     it("Passes through mixed", () => {
         const data = Symbol();
         equal(convert(data, optionWithType(ParameterType.Mixed)), data);
+    });
+
+    it("Generates no error for a mixed option if the validation function doesn't throw one", () => {
+        const declaration: MixedDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Mixed,
+            defaultValue: "default",
+            validate: (value: unknown) => {
+                if (typeof value === "number") {
+                    throw new Error("test must not be a number");
+                }
+            },
+        };
+        equal(convert("text", declaration), "text");
+    });
+
+    it("Generates an error for a mixed option if the validation function throws one", () => {
+        const declaration: MixedDeclarationOption = {
+            name: "test",
+            help: "",
+            type: ParameterType.Mixed,
+            defaultValue: "default",
+            validate: (value: unknown) => {
+                if (typeof value === "number") {
+                    throw new Error("test must not be a number");
+                }
+            },
+        };
+        throws(
+            () => convert(1, declaration),
+            new Error("test must not be a number")
+        );
     });
 });

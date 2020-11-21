@@ -3,14 +3,15 @@ import * as _ from "lodash";
 import * as ts from "typescript";
 
 import {
+    convert,
     DeclarationOption,
+    KeyToDeclaration,
+    MapDeclarationOption,
     ParameterScope,
     ParameterType,
-    convert,
-    TypeDocOptions,
-    KeyToDeclaration,
     TypeDocAndTSOptions,
     TypeDocOptionMap,
+    TypeDocOptions,
 } from "./declaration";
 import { Logger } from "../loggers";
 import { insertPrioritySorted } from "../array";
@@ -162,6 +163,10 @@ export class Options {
      */
     addDeclaration(
         declaration: NeverIfInternal<Readonly<DeclarationOption>>
+    ): void;
+
+    addDeclaration<T>(
+        declaration: Readonly<MapDeclarationOption<T>>
     ): void;
 
     addDeclaration(declaration: Readonly<DeclarationOption>): void {

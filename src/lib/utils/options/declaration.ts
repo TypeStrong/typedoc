@@ -268,7 +268,7 @@ export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     /**
      * An optional validation function that validates a potential value of this option.
      */
-    validate?: (value: unknown) => void;
+    validate?: (value: T) => void;
 }
 
 export type DeclarationOption =
