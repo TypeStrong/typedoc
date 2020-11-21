@@ -171,6 +171,11 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
      * An optional hint for the type of input expected, will be displayed in the help output.
      */
     hint?: ParameterHint;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: string) => void;
 }
 
 export interface NumberDeclarationOption extends DeclarationOptionBase {
@@ -190,6 +195,11 @@ export interface NumberDeclarationOption extends DeclarationOptionBase {
      * If not specified defaults to 0.
      */
     defaultValue?: number;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: number) => void;
 }
 
 export interface BooleanDeclarationOption extends DeclarationOptionBase {
@@ -199,6 +209,11 @@ export interface BooleanDeclarationOption extends DeclarationOptionBase {
      * If not specified defaults to false.
      */
     defaultValue?: boolean;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: boolean) => void;
 }
 
 export interface ArrayDeclarationOption extends DeclarationOptionBase {
@@ -208,6 +223,11 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
      * If not specified defaults to an empty array.
      */
     defaultValue?: string[];
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: string[]) => void;
 }
 
 export interface MixedDeclarationOption extends DeclarationOptionBase {
@@ -217,10 +237,16 @@ export interface MixedDeclarationOption extends DeclarationOptionBase {
      * If not specified defaults to undefined.
      */
     defaultValue?: unknown;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: unknown) => void;
 }
 
 export interface MapDeclarationOption<T> extends DeclarationOptionBase {
     type: ParameterType.Map;
+
     /**
      * Maps a given value to the option type. The map type may be a TypeScript enum.
      * In that case, when generating an error message for a mismatched key, the numeric
@@ -238,6 +264,11 @@ export interface MapDeclarationOption<T> extends DeclarationOptionBase {
      * Optional override for the error reported when an invalid key is provided.
      */
     mapError?: string;
+
+    /**
+     * An optional validation function that validates a potential value of this option.
+     */
+    validate?: (value: unknown) => void;
 }
 
 export type DeclarationOption =
@@ -276,66 +307,86 @@ export function convert<T extends DeclarationOption>(
     value: unknown,
     option: T
 ): DeclarationOptionToOptionType<T>;
-export function convert<T extends DeclarationOption>(
-    value: unknown,
-    option: T
-): unknown {
+export function convert<T>(value: unknown, option: MapDeclarationOption<T>): T;
+export function convert(value: unknown, option: DeclarationOption): unknown {
     switch (option.type) {
         case undefined:
-        case ParameterType.String:
-            return value == null ? "" : String(value);
+        case ParameterType.String: {
+            const stringValue = value == null ? "" : String(value);
+            if (option.validate) {
+                option.validate(stringValue);
+            }
+            return stringValue;
+        }
         case ParameterType.Number: {
-            const numberOption = option as NumberDeclarationOption;
             const numValue = parseInt(String(value), 10) || 0;
             if (
-                !valueIsWithinBounds(
-                    numValue,
-                    numberOption.minValue,
-                    numberOption.maxValue
-                )
+                !valueIsWithinBounds(numValue, option.minValue, option.maxValue)
             ) {
                 throw new Error(
                     getBoundsError(
-                        numberOption.name,
-                        numberOption.minValue,
-                        numberOption.maxValue
+                        option.name,
+                        option.minValue,
+                        option.maxValue
                     )
                 );
             }
+            if (option.validate) {
+                option.validate(numValue);
+            }
             return numValue;
         }
-        case ParameterType.Boolean:
-            return Boolean(value);
-        case ParameterType.Array:
-            if (Array.isArray(value)) {
-                return value.map(String);
-            } else if (typeof value === "string") {
-                return value.split(",");
+        case ParameterType.Boolean: {
+            const boolValue = Boolean(value);
+            if (option.validate) {
+                option.validate(boolValue);
             }
-            return [];
+            return boolValue;
+        }
+        case ParameterType.Array: {
+            let strArrValue = new Array<string>();
+            if (Array.isArray(value)) {
+                strArrValue = value.map(String);
+            } else if (typeof value === "string") {
+                strArrValue = value.split(",");
+            }
+            if (option.validate) {
+                option.validate(strArrValue);
+            }
+            return strArrValue;
+        }
         case ParameterType.Map: {
-            const optionMap = option as MapDeclarationOption<unknown>;
             const key = String(value).toLowerCase();
-            if (optionMap.map instanceof Map) {
-                if (optionMap.map.has(key)) {
-                    return optionMap.map.get(key);
+            let mapValue;
+            if (option.map instanceof Map) {
+                if (option.map.has(key)) {
+                    mapValue = option.map.get(key);
                 }
-                if ([...optionMap.map.values()].includes(value)) {
-                    return value;
+                if ([...option.map.values()].includes(value)) {
+                    mapValue = value;
                 }
             } else {
-                if (key in optionMap.map) {
-                    return optionMap.map[key];
+                if (key in option.map) {
+                    mapValue = option.map[key];
                 }
-                if (Object.values(optionMap.map).includes(value)) {
-                    return value;
+                if (Object.values(option.map).includes(value)) {
+                    mapValue = value;
                 }
             }
-            throw new Error(
-                optionMap.mapError ?? getMapError(optionMap.map, optionMap.name)
-            );
+            if (mapValue == undefined) {
+                throw new Error(
+                    option.mapError ?? getMapError(option.map, option.name)
+                );
+            }
+            if (option.validate) {
+                option.validate(mapValue);
+            }
+            return mapValue;
         }
         case ParameterType.Mixed:
+            if (option.validate) {
+                option.validate(value);
+            }
             return value;
     }
 }
