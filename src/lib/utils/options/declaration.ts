@@ -174,6 +174,7 @@ export interface StringDeclarationOption extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: string) => void;
 }
@@ -198,6 +199,7 @@ export interface NumberDeclarationOption extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: number) => void;
 }
@@ -212,6 +214,7 @@ export interface BooleanDeclarationOption extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: boolean) => void;
 }
@@ -226,6 +229,7 @@ export interface ArrayDeclarationOption extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: string[]) => void;
 }
@@ -240,6 +244,7 @@ export interface MixedDeclarationOption extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: unknown) => void;
 }
@@ -267,6 +272,7 @@ export interface MapDeclarationOption<T> extends DeclarationOptionBase {
 
     /**
      * An optional validation function that validates a potential value of this option.
+     * The function must throw an Error if the validation fails and should do nothing otherwise.
      */
     validate?: (value: T) => void;
 }
