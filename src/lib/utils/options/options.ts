@@ -165,9 +165,7 @@ export class Options {
         declaration: NeverIfInternal<Readonly<DeclarationOption>>
     ): void;
 
-    addDeclaration<T>(
-        declaration: Readonly<MapDeclarationOption<T>>
-    ): void;
+    addDeclaration<T>(declaration: Readonly<MapDeclarationOption<T>>): void;
 
     addDeclaration(declaration: Readonly<DeclarationOption>): void {
         const names = [declaration.name];
