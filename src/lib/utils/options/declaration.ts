@@ -363,23 +363,24 @@ export function convert(value: unknown, option: DeclarationOption): unknown {
         }
         case ParameterType.Map: {
             const key = String(value).toLowerCase();
-            let mapValue;
+            let mapValue: unknown;
+            let mapIncludesValue = false;
             if (option.map instanceof Map) {
                 if (option.map.has(key)) {
                     mapValue = option.map.get(key);
-                }
-                if ([...option.map.values()].includes(value)) {
+                    mapIncludesValue = true;
+                } else if ([...option.map.values()].includes(value)) {
                     mapValue = value;
+                    mapIncludesValue = true;
                 }
-            } else {
-                if (key in option.map) {
-                    mapValue = option.map[key];
-                }
-                if (Object.values(option.map).includes(value)) {
-                    mapValue = value;
-                }
+            } else if (key in option.map) {
+                mapValue = option.map[key];
+                mapIncludesValue = true;
+            } else if (Object.values(option.map).includes(value)) {
+                mapValue = value;
+                mapIncludesValue = true;
             }
-            if (mapValue == undefined) {
+            if (!mapIncludesValue) {
                 throw new Error(
                     option.mapError ?? getMapError(option.map, option.name)
                 );
