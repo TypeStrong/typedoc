@@ -80,15 +80,6 @@ export class Converter extends ChildableComponent<
      * Factory events
      */
 
-    // TODO: FILE_BEGIN is never emitted
-    /**
-     * Triggered when the converter begins converting a source file.
-     * The listener should implement [[IConverterNodeCallback]].
-     * @event
-     * @deprecated
-     */
-    static readonly EVENT_FILE_BEGIN = ConverterEvents.FILE_BEGIN;
-
     /**
      * Triggered when the converter has created a declaration reflection.
      * The listener should implement [[IConverterNodeCallback]].
@@ -167,7 +158,7 @@ export class Converter extends ChildableComponent<
             this.application.options.getCompilerOptions()
         );
         const checker = program.getTypeChecker();
-        const context = new Context(this, checker);
+        const context = new Context(this, checker, program);
 
         this.trigger(Converter.EVENT_BEGIN, context);
 

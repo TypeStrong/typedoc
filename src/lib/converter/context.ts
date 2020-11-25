@@ -28,6 +28,11 @@ export class Context {
     readonly checker: ts.TypeChecker;
 
     /**
+     * The program being converted.
+     */
+    readonly program: ts.Program;
+
+    /**
      * The project that is currently processed.
      */
     readonly project: ProjectReflection;
@@ -48,11 +53,13 @@ export class Context {
     constructor(
         converter: Converter,
         checker: ts.TypeChecker,
+        program: ts.Program,
         project = new ProjectReflection(converter.name),
         scope: Context["scope"] = project
     ) {
         this.converter = converter;
         this.checker = checker;
+        this.program = program;
 
         this.project = project;
         this.scope = scope;
@@ -198,6 +205,7 @@ export class Context {
         const context = new Context(
             this.converter,
             this.checker,
+            this.program,
             this.project,
             scope
         );
