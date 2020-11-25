@@ -296,7 +296,6 @@ export class Converter extends ChildableComponent<
         baseDir: string
     ) {
         const symbol = context.checker.getSymbolAtLocation(node) ?? node.symbol;
-        if (!symbol) return;
         let moduleContext: Context;
 
         if (entryPoints.length === 1) {
@@ -304,13 +303,18 @@ export class Converter extends ChildableComponent<
             // create modules for each entry. Register the project as this module.
             context.project.registerReflection(context.project, symbol);
             moduleContext = context;
-        } else {
+        } else if (symbol) {
             const reflection = context.createDeclarationReflection(
                 ReflectionKind.Module,
                 symbol,
                 getModuleName(node.fileName, baseDir)
             );
             moduleContext = context.withScope(reflection);
+        } else {
+            this.application.logger.warn(
+                `If specifying a global file as an entry point, only one entry point may be specified. (${node.fileName})`
+            );
+            return;
         }
 
         for (const exp of getExports(context, node).filter((exp) =>
@@ -427,7 +431,7 @@ function getExports(
     // "globals" file, but this is uncommon enough that I'm skipping it for now.
     const sourceFile = node.getSourceFile();
     return context.checker
-        .getSymbolsInScope(node, ts.SymbolFlags.Type | ts.SymbolFlags.Value)
+        .getSymbolsInScope(node, ts.SymbolFlags.ModuleMember)
         .filter((s) =>
             s.getDeclarations()?.some((d) => d.getSourceFile() === sourceFile)
         );
