@@ -90,6 +90,12 @@ export class DeclarationReflection
     overwrites?: Type;
 
     /**
+     * Flag to determine if this reflection ought to be documented as overwriting another reflection
+     * or inheriting from it.
+     */
+    private _overwrites = false;
+
+    /**
      * A type that points to the reflection this reflection has been inherited from.
      *
      * Applies to interface and class members.
@@ -235,5 +241,15 @@ export class DeclarationReflection
         }
 
         return result;
+    }
+
+    /** @internal */
+    setOverwrites() {
+        this._overwrites = true;
+    }
+
+    /** @internal */
+    getOverwrites() {
+        return this._overwrites;
     }
 }

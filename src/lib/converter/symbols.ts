@@ -241,14 +241,28 @@ function convertFunctionOrMethod(
         symbol.flags &
         (ts.SymbolFlags.Property | ts.SymbolFlags.Method)
     );
+
+    const allDeclarations =
+        symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
+
+    // Don't do anything if we inherited this method and it is private.
+    if (
+        isMethod &&
+        isInherited(context, symbol) &&
+        allDeclarations.length > 0 &&
+        hasFlag(
+            ts.getCombinedModifierFlags(allDeclarations[0]),
+            ts.ModifierFlags.Private
+        )
+    ) {
+        return;
+    }
+
     const reflection = context.createDeclarationReflection(
         isMethod ? ReflectionKind.Method : ReflectionKind.Function,
         symbol,
         nameOverride
     );
-
-    const allDeclarations =
-        symbol.getDeclarations()?.filter(ts.isFunctionLike) ?? [];
 
     // Note: We have to filter unique declarations here because TS might give us
     // the same declaration twice in mixins. This happens to method1 in the mixin
@@ -258,6 +272,21 @@ function convertFunctionOrMethod(
     if (declarations.length && isMethod) {
         // All method signatures must have the same modifier flags.
         setModifiers(declarations[0], reflection);
+
+        const parentSymbol = context.project.getSymbolFromReflection(
+            context.scope
+        );
+        assert(
+            parentSymbol,
+            "Tried to convert an arrow method without a parent."
+        );
+        if (
+            parentSymbol
+                .getDeclarations()
+                ?.some((d) => d === declarations[0].parent)
+        ) {
+            reflection.setOverwrites();
+        }
     }
 
     const signatures = filterMap(declarations, (decl) => {
@@ -275,14 +304,13 @@ function convertFunctionOrMethod(
     const scope = context.withScope(reflection);
     reflection.signatures ??= [];
     for (const [signature, declaration] of zip(signatures, declarations)) {
-        reflection.signatures.push(
-            createSignature(
-                scope,
-                ReflectionKind.CallSignature,
-                signature,
-                declaration
-            )
+        const converted = createSignature(
+            scope,
+            ReflectionKind.CallSignature,
+            signature,
+            declaration
         );
+        reflection.signatures.push(converted);
     }
 }
 
@@ -440,6 +468,20 @@ function convertProperty(
     nameOverride?: string
 ) {
     const declarations = symbol.getDeclarations() ?? [];
+    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
+    assert(parentSymbol);
+
+    // Don't do anything if we inherited this property and it is private.
+    if (
+        isInherited(context, symbol) &&
+        declarations.length > 0 &&
+        hasFlag(
+            ts.getCombinedModifierFlags(declarations[0]),
+            ts.ModifierFlags.Private
+        )
+    ) {
+        return;
+    }
 
     // Special case: We pretend properties are methods if they look like methods.
     // This happens with mixins / weird inheritance.
@@ -486,6 +528,17 @@ function convertProperty(
     ) {
         parameterType = declaration.type;
         setModifiers(declaration, reflection);
+        const parentSymbol = context.project.getSymbolFromReflection(
+            context.scope
+        );
+        assert(parentSymbol, "Tried to convert a property without a parent.");
+        if (
+            parentSymbol
+                .getDeclarations()
+                ?.some((d) => d === declaration.parent)
+        ) {
+            reflection.setOverwrites();
+        }
         if (ts.isPrivateIdentifier(declaration.name)) {
             reflection.setFlag(ReflectionFlag.Private);
         }
@@ -519,6 +572,12 @@ function convertArrowAsMethod(
 
     const signature = context.checker.getSignatureFromDeclaration(arrow);
     assert(signature);
+
+    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
+    assert(parentSymbol, "Tried to convert an arrow method without a parent.");
+    if (parentSymbol.getDeclarations()?.some((d) => d === arrow.parent)) {
+        reflection.setOverwrites();
+    }
 
     reflection.signatures = [
         createSignature(rc, ReflectionKind.CallSignature, signature, arrow),
@@ -764,6 +823,18 @@ function convertAccessor(
             );
         }
     }
+}
+
+function isInherited(context: Context, symbol: ts.Symbol) {
+    const parentSymbol = context.project.getSymbolFromReflection(context.scope);
+    assert(parentSymbol);
+    return (
+        parentSymbol
+            .getDeclarations()
+            ?.some((d) =>
+                symbol.getDeclarations()?.some((d2) => d2.parent === d)
+            ) === false
+    );
 }
 
 function setModifiers(declaration: ts.Declaration, reflection: Reflection) {

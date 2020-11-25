@@ -241,6 +241,11 @@ export class ProjectReflection extends ContainerReflection {
         }
     }
 
+    /** @internal */
+    getSymbolFromReflection(reflection: Reflection) {
+        return this.reflectionIdToSymbolMap.get(reflection.id);
+    }
+
     private getReferenceGraph(): Map<number, number[]> {
         if (!this.referenceGraph) {
             this.referenceGraph = new Map();

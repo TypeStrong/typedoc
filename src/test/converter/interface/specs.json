@@ -1444,6 +1444,11 @@
               "type": {
                 "type": "literal",
                 "value": 1
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 90,
+                "name": "Base.base"
               }
             },
             {
@@ -1455,6 +1460,11 @@
               "type": {
                 "type": "literal",
                 "value": 2
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 92,
+                "name": "Base2.base2"
               }
             },
             {
@@ -1528,6 +1538,11 @@
               "type": {
                 "type": "literal",
                 "value": 1
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 90,
+                "name": "Base.base"
               }
             },
             {
@@ -1539,6 +1554,11 @@
               "type": {
                 "type": "literal",
                 "value": 2
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 97,
+                "name": "Child.base2"
               }
             },
             {
@@ -1550,6 +1570,11 @@
               "type": {
                 "type": "literal",
                 "value": 1
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 94,
+                "name": "Child.child"
               }
             },
             {
@@ -1572,6 +1597,11 @@
               "type": {
                 "type": "literal",
                 "value": 2
+              },
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 95,
+                "name": "Child.child3"
               }
             }
           ],

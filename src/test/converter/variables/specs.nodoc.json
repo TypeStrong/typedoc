@@ -147,9 +147,19 @@
                     "type": "reference",
                     "id": 12,
                     "name": "FooList"
+                  },
+                  "inheritedFrom": {
+                    "type": "reference",
+                    "id": 4,
+                    "name": "Array.constructor"
                   }
                 }
-              ]
+              ],
+              "inheritedFrom": {
+                "type": "reference",
+                "id": 3,
+                "name": "Array.constructor"
+              }
             }
           ],
           "groups": [

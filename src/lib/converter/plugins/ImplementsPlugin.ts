@@ -9,6 +9,7 @@ import { Component, ConverterComponent } from "../components";
 import { Converter } from "../converter";
 import { Context } from "../context";
 import { Comment } from "../../models/comments/comment";
+import { zip } from "../../utils/array";
 
 /**
  * A plugin that detects interface implementations of functions and
@@ -158,6 +159,54 @@ export class ImplementsPlugin extends ConverterComponent {
         }
     }
 
+    private analyzeInheritance(
+        context: Context,
+        reflection: DeclarationReflection
+    ) {
+        const extendedTypes = (reflection.extendedTypes?.filter((type) => {
+            return (
+                type instanceof ReferenceType &&
+                type.reflection instanceof DeclarationReflection
+            );
+        }) ?? []) as Array<
+            ReferenceType & { reflection: DeclarationReflection }
+        >;
+
+        for (const parent of extendedTypes) {
+            for (const parentMember of parent.reflection.children ?? []) {
+                const child = reflection.children?.find(
+                    (child) =>
+                        child.name == parentMember.name &&
+                        child.flags.isStatic === parentMember.flags.isStatic
+                );
+
+                if (child) {
+                    const key = child.getOverwrites()
+                        ? "overwrites"
+                        : "inheritedFrom";
+
+                    for (const [childSig, parentSig] of zip(
+                        child.signatures ?? [],
+                        parentMember.signatures ?? []
+                    )) {
+                        childSig[key] = new ReferenceType(
+                            `${parent.name}.${parentMember.name}`,
+                            parentSig,
+                            context.project
+                        );
+                    }
+
+                    child[key] = new ReferenceType(
+                        `${parent.name}.${parentMember.name}`,
+                        parentMember,
+                        context.project
+                    );
+                    this.copyComment(child, parentMember);
+                }
+            }
+        }
+    }
+
     /**
      * Triggered when the converter resolves a reflection.
      *
@@ -185,6 +234,16 @@ export class ImplementsPlugin extends ConverterComponent {
                     );
                 }
             });
+        }
+
+        if (
+            reflection.kindOf([
+                ReflectionKind.Class,
+                ReflectionKind.Interface,
+            ]) &&
+            reflection.extendedTypes
+        ) {
+            this.analyzeInheritance(context, reflection);
         }
     }
 }
