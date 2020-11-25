@@ -5,7 +5,7 @@ import * as ts from "typescript";
 
 import { OptionsReader, Options } from "../options";
 import { Logger } from "../../loggers";
-import { normalizePath } from "../..";
+import { normalizePath } from "../../fs";
 
 function isFile(file: string) {
     return existsSync(file) && statSync(file).isFile();

@@ -11,7 +11,7 @@ import {
 } from "../../models";
 import { Context } from "../context";
 import { ConverterEvents } from "../converter-events";
-import { convertDefaultValue } from "..";
+import { convertDefaultValue } from "../convert-expression";
 
 export function createSignature(
     context: Context,
