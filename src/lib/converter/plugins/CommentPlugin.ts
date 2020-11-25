@@ -140,7 +140,9 @@ export class CommentPlugin extends ConverterComponent {
             comment.removeTags("event");
         }
 
-        if (reflection.kindOf(ReflectionKind.Module)) {
+        if (
+            reflection.kindOf(ReflectionKind.Module | ReflectionKind.Namespace)
+        ) {
             comment.removeTags("packagedocumentation");
         }
     }
@@ -274,10 +276,7 @@ export class CommentPlugin extends ConverterComponent {
         const project = context.project;
         const reflections = Object.values(project.reflections);
 
-        // remove signatures
-        // TODO: This doesn't really belong here. Removing comments due to @hidden yes, but private/protected no.
-        //   it needs to be here for now because users can use @public/@private/@protected to override visibility.
-        //   the converter should probably have a post resolve step in which it handles the excludePrivate/protected options.
+        // Remove hidden reflections
         const hidden = reflections.filter((reflection) =>
             CommentPlugin.isHidden(
                 reflection,

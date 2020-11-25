@@ -195,7 +195,10 @@ export class Converter extends ChildableComponent<
         const wantedKinds: ts.SyntaxKind[] = {
             [ReflectionKind.Project]: [ts.SyntaxKind.SourceFile],
             [ReflectionKind.Module]: [ts.SyntaxKind.SourceFile],
-            [ReflectionKind.Namespace]: [ts.SyntaxKind.ModuleDeclaration],
+            [ReflectionKind.Namespace]: [
+                ts.SyntaxKind.ModuleDeclaration,
+                ts.SyntaxKind.SourceFile,
+            ],
             [ReflectionKind.Enum]: [ts.SyntaxKind.EnumDeclaration],
             [ReflectionKind.EnumMember]: [ts.SyntaxKind.EnumMember],
             [ReflectionKind.Variable]: [ts.SyntaxKind.VariableDeclaration],
